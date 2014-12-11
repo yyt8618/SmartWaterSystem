@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FCE87823-4C94-4B67-9665-82479F23DDD1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NoiseAnalysisSystem</RootNamespace>
+    <AssemblyName>NoiseAnalysisSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>gc.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.BonusSkins.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Images.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v14.1.UI, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v14.1.Wizard, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraNavBar.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="netchartdir_cp, Version=5.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\netchartdir_cp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\NoiseDataHandler.cs" />
+    <Compile Include="FrmCalcParamSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCalcParamSet.Designer.cs">
+      <DependentUpon>FrmCalcParamSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDataAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDataAnalysis.Designer.cs">
+      <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\NoiseDataBaseHelper.cs" />
+    <Compile Include="Entity\DistanceController.cs" />
+    <Compile Include="Entity\NoiseData.cs" />
+    <Compile Include="Entity\NoiseRecorder.cs" />
+    <Compile Include="Entity\NoiseResult.cs" />
+    <Compile Include="FrmSerialComSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSerialComSet.Designer.cs">
+      <DependentUpon>FrmSerialComSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSystem.Designer.cs">
+      <DependentUpon>FrmSystem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTemplateSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTemplateSet.Designer.cs">
+      <DependentUpon>FrmTemplateSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTest.Designer.cs">
+      <DependentUpon>FrmTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmParamViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmParamViewer.designer.cs">
+      <DependentUpon>FrmParamViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalValue.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Entity\NoiseRecorderGroup.cs" />
+    <Compile Include="FrmSysVoiceSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSysVoiceSet.Designer.cs">
+      <DependentUpon>FrmSysVoiceSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDataCompare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDataCompare.Designer.cs">
+      <DependentUpon>FrmDataCompare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UcDataMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcDataMgr.Designer.cs">
+      <DependentUpon>UcDataMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UcGroupMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcGroupMgr.Designer.cs">
+      <DependentUpon>UcGroupMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UcRecMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcRecMgr.Designer.cs">
+      <DependentUpon>UcRecMgr.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmCalcParamSet.resx">
+      <DependentUpon>FrmCalcParamSet.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDataAnalysis.resx">
+      <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSerialComSet.resx">
+      <DependentUpon>FrmSerialComSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSystem.resx">
+      <DependentUpon>FrmSystem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTemplateSet.resx">
+      <DependentUpon>FrmTemplateSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTest.resx">
+      <DependentUpon>FrmTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmParamViewer.resx">
+      <DependentUpon>FrmParamViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="FrmSysVoiceSet.resx">
+      <DependentUpon>FrmSysVoiceSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDataCompare.resx">
+      <DependentUpon>FrmDataCompare.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcDataMgr.resx">
+      <DependentUpon>UcDataMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcGroupMgr.resx">
+      <DependentUpon>UcGroupMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcRecMgr.resx">
+      <DependentUpon>UcRecMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{BB39153E-4B1E-48B3-8790-F4461D4B238B}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBUtility\Utility.csproj">
+      <Project>{3BB68F7C-6C07-4890-9851-C73CE00C17F5}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Protocol\Protocol.csproj">
+      <Project>{CBDF6FF1-FDC4-42BE-A21A-A5559DC20F6F}</Project>
+      <Name>Protocol</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gc.ico" />
+    <None Include="Resources\wait.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
