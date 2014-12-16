@@ -114,7 +114,7 @@
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageSys});
-            this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
+            this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2013;
             this.ribbonControl1.Size = new System.Drawing.Size(999, 149);
             this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
             // 
@@ -390,7 +390,7 @@
             // 
             // FrmSystem
             // 
-            this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.False;
+            this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.True;
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -405,7 +405,6 @@
             this.MaximizeBox = false;
             this.Name = "FrmSystem";
             this.Ribbon = this.ribbonControl1;
-            this.RibbonVisibility = DevExpress.XtraBars.Ribbon.RibbonVisibility.Visible;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.StatusBar = this.ribbonStatusBar1;
             this.Text = "自来水管道噪声分析系统";

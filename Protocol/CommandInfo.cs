@@ -145,7 +145,7 @@ namespace Protocol
     }
 
     /// <summary>
-    /// 巡视仪命令参数
+    /// 巡视仪命令参数(Test->Form1)
     /// </summary>
     public enum NOISE_TOUR_COMMAND
     {

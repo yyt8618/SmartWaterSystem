@@ -26,7 +26,7 @@ namespace NoiseAnalysisSystem
                     return ConfigurationManager.AppSettings[strKey];
                 }
             }
-            return null;
+            return "";
         }
 
         /// <summary>

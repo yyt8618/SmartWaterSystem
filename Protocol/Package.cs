@@ -370,11 +370,8 @@ namespace Protocol
                 return false;
             }
 
-
-
             return true;
         }
-
 
         /// <summary>
         ///  获得校验码
@@ -391,7 +388,7 @@ namespace Protocol
             int sum =  PackageDefine.BeginByte;
             sum = sum + package.ID3 + package.ID2 + package.ID1 + package.ID0;
             sum = sum + PackageDefine.BeginFrame;
-            sum = sum + PackageDefine.BeginByte;
+            //sum = sum + PackageDefine.BeginByte;
             sum = sum + package.C0 + package.C1;
             sum = sum + package.L0 + package.L1;
             if (package.data != null)
@@ -408,10 +405,6 @@ namespace Protocol
 
         public static bool IsEndByte(byte[] bytes, out string error)
         {
-
-
-
-
             error = "";
             if (bytes == null || bytes.Length == 0)
             {
@@ -422,8 +415,6 @@ namespace Protocol
             {
                 error = "数据帧不完整";
             }
-
-
 
             int start = 0;
 

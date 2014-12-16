@@ -237,7 +237,6 @@ namespace Protocol
                 serialPort.Close();
                 AppendBufLine("串口\"{0}\"已关闭！", serialPort.PortName);
                 isComClosing = false;
-
             }
         }
 
@@ -274,10 +273,9 @@ namespace Protocol
             }
         }
 
-        System.Threading.CancellationTokenSource CancellSource = new CancellationTokenSource();//取消任务
+        //System.Threading.CancellationTokenSource CancellSource = new CancellationTokenSource();//取消任务
         public Package SendCommand(byte[] sendData, int timeout = 5)
         {
-
             try
             {
                 serialPort.DiscardInBuffer();   //清空接收缓冲区     
@@ -359,7 +357,7 @@ namespace Protocol
                 Package result = SendCommand(package.ToArray(), timeout);
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 times--;
                 if (times > 0)
@@ -372,9 +370,7 @@ namespace Protocol
                     AppendBufLine("错误:{0}", "等待超时...");
                     throw;
                 }
-
             }
-
         }
 
         public void Send(Package package)
@@ -395,7 +391,6 @@ namespace Protocol
         {
             try
             {
-
                 serialPort.DiscardInBuffer();   //清空接收缓冲区    
 
                 Package package = new Package();
@@ -406,7 +401,6 @@ namespace Protocol
                 package.C1 = (byte)NOISE_LOG_COMMAND.CTRL_START_READ;
                 package.DataLength = 0;
                 package.CS = package.CreateCS();
-
 
                 AppendBufLine("开始获取设备{0}数据...", id);
                 Send(package);
@@ -699,7 +693,6 @@ namespace Protocol
             { lstSerials = null; }
         }
         #endregion
-
     }
 
     /// <summary>

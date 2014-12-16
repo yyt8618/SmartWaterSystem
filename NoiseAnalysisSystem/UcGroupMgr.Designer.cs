@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.simpleButtonUnSelect = new DevExpress.XtraEditors.SimpleButton();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
@@ -75,6 +76,7 @@
             this.listBoxRec = new DevExpress.XtraEditors.ListBoxControl();
             this.btnDelRecFromGroup = new DevExpress.XtraEditors.SimpleButton();
             this.btnImportRec = new DevExpress.XtraEditors.SimpleButton();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
@@ -430,11 +432,12 @@
             this.dateTimePicker.CustomFormat = "HH:mm:ss";
             this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker.Location = new System.Drawing.Point(114, 45);
+            this.dateTimePicker.MinDate = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.ShowUpDown = true;
             this.dateTimePicker.Size = new System.Drawing.Size(86, 22);
             this.dateTimePicker.TabIndex = 97;
-            this.dateTimePicker.Value = new System.DateTime(2013, 9, 12, 0, 0, 0, 0);
+            this.dateTimePicker.Value = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
             // 
             // label16
             // 
@@ -599,6 +602,7 @@
             this.Controls.Add(this.groupControl1);
             this.Name = "UcGroupMgr";
             this.Size = new System.Drawing.Size(797, 494);
+            this.Load += new System.EventHandler(this.UcGroupMgr_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
@@ -675,5 +679,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label45;
         private DevExpress.XtraEditors.ListBoxControl listBoxRec;
+        private System.Windows.Forms.Timer timer1;
     }
 }

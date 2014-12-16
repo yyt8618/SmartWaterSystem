@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace NoiseAnalysisSystem
 {
@@ -261,6 +262,91 @@ namespace NoiseAnalysisSystem
             catch (Exception)
             {
                 return -1;
+            }
+        }
+
+        /// <summary>
+        /// 保存启动时获取的32个数据(用于漏点确定)
+        /// </summary>
+        /// <param name="rec"></param>
+        /// <returns></returns>
+        public static int SaveStandData(int GroupID,int RecorderID,short[] OriginalData)
+        {
+            try
+            {
+                if (OriginalData != null && OriginalData.Length == 32)
+                {
+                    string SQL = string.Empty;
+                    SQL = string.Format(@"DELETE FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
+                    DbForAccess.ExcuteSql(SQL);
+
+                    string strDa = string.Empty;
+                    for (int i = 0; i < OriginalData.Length; i++)
+                    {
+                        if (i == OriginalData.Length - 1)
+                            strDa += OriginalData[i];
+                        else
+                            strDa += OriginalData[i] + ",";
+                    }
+
+                    SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
+                          GroupID, RecorderID, strDa);
+                    DbForAccess.ExcuteSql(SQL);
+
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+        /// <summary>
+        ///  获取记录仪的标准数据
+        /// </summary>
+        /// <param name="GroupID"></param>
+        /// <param name="RecorderID"></param>
+        /// <returns></returns>
+        public static short[] GetStandData(int GroupID, int RecorderID)
+        {
+            try
+            {
+                string SQL = string.Format("SELECT Data FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
+
+                string str_data = string.Empty;
+                using (System.Data.OleDb.OleDbDataReader reader = DbForAccess.GetDataReader(SQL))
+                {
+                    if (reader.Read())
+                    {
+                        str_data = reader["Data"] != DBNull.Value ? reader["Data"].ToString() : "";
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(str_data))
+                {
+                    List<short> lstData = new List<short>();
+                    string[] str_datas = str_data.Split(',');
+                    if (str_datas != null && str_datas.Length == 32)
+                    {
+                        foreach (string tmp in str_datas)
+                        {
+                            if (Regex.IsMatch(tmp, @"^\d+$"))
+                                lstData.Add(Convert.ToInt16(tmp));
+                        }
+                    }
+                    return lstData.ToArray();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

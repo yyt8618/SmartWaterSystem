@@ -15,6 +15,9 @@ namespace NoiseAnalysisSystem
 		public FrmCalcParamSet()
 		{
 			InitializeComponent();
+
+            cbArith.Items.Add("直接平均法");
+            cbArith.Items.Add("去最值平均法");
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)
@@ -24,13 +27,12 @@ namespace NoiseAnalysisSystem
 			AppConfigHelper.SetAppSettingValue("Min1", txtMin1.Text);
 			AppConfigHelper.SetAppSettingValue("Min2", txtMin2.Text);
 			AppConfigHelper.SetAppSettingValue("LeakHZ_Template", txtLeakHZ.Text);
+            AppConfigHelper.SetAppSettingValue("StandardAMP", txtStandardAMP.Text);
 
-			if(comboBox.SelectedIndex==0)
+			if(cbArith.SelectedIndex==0)
 				AppConfigHelper.SetAppSettingValue("Calc", (1).ToString());
-			else if (comboBox.SelectedIndex == 1)
+			else if (cbArith.SelectedIndex == 1)
 				AppConfigHelper.SetAppSettingValue("Calc", (2).ToString());
-            else if (comboBox.SelectedIndex == 2)
-                AppConfigHelper.SetAppSettingValue("Calc", (3).ToString());
 
             XtraMessageBox.Show("保存成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 			this.Close();
@@ -43,11 +45,12 @@ namespace NoiseAnalysisSystem
 			txtMin1.Text = AppConfigHelper.GetAppSettingValue("Min1");
 			txtMin2.Text = AppConfigHelper.GetAppSettingValue("Min2");
 			txtLeakHZ.Text = AppConfigHelper.GetAppSettingValue("LeakHZ_Template");
+            txtStandardAMP.Text = AppConfigHelper.GetAppSettingValue("StandardAMP");
 
 			if (AppConfigHelper.GetAppSettingValue("Calc") == (1).ToString())
-				comboBox.SelectedIndex = 0;
+				cbArith.SelectedIndex = 0;
 			else if (AppConfigHelper.GetAppSettingValue("Calc") == (2).ToString())
-				comboBox.SelectedIndex = 1;
+				cbArith.SelectedIndex = 1;
 		}
 
         private void simpleButton1_Click(object sender, EventArgs e)

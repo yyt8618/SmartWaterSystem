@@ -43,12 +43,24 @@
             this.txtLeakHZ = new DevExpress.XtraEditors.TextEdit();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox3 = new DevExpress.XtraEditors.GroupControl();
-            this.comboBox = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbArith = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtStandardAMP = new DevExpress.XtraEditors.TextEdit();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMin1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMax1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox2)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMin2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMax2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLeakHZ.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -59,7 +71,7 @@
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Location = new System.Drawing.Point(15, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(217, 117);
+            this.groupBox1.Size = new System.Drawing.Size(217, 101);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.Text = "低频段傅里叶数据区间";
             // 
@@ -68,7 +80,7 @@
             this.txtMin1.Location = new System.Drawing.Point(76, 66);
             this.txtMin1.Name = "txtMin1";
             this.txtMin1.Size = new System.Drawing.Size(113, 20);
-            this.txtMin1.TabIndex = 58;
+            this.txtMin1.TabIndex = 1;
             // 
             // label2
             // 
@@ -84,7 +96,7 @@
             this.txtMax1.Location = new System.Drawing.Point(76, 28);
             this.txtMax1.Name = "txtMax1";
             this.txtMax1.Size = new System.Drawing.Size(113, 20);
-            this.txtMax1.TabIndex = 56;
+            this.txtMax1.TabIndex = 0;
             // 
             // label12
             // 
@@ -101,7 +113,7 @@
             this.groupBox2.Controls.Add(this.txtMax2);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(14, 139);
+            this.groupBox2.Location = new System.Drawing.Point(14, 121);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(218, 106);
             this.groupBox2.TabIndex = 1;
@@ -112,14 +124,14 @@
             this.txtMin2.Location = new System.Drawing.Point(77, 63);
             this.txtMin2.Name = "txtMin2";
             this.txtMin2.Size = new System.Drawing.Size(113, 20);
-            this.txtMin2.TabIndex = 60;
+            this.txtMin2.TabIndex = 1;
             // 
             // txtMax2
             // 
             this.txtMax2.Location = new System.Drawing.Point(77, 27);
             this.txtMax2.Name = "txtMax2";
             this.txtMax2.Size = new System.Drawing.Size(113, 20);
-            this.txtMax2.TabIndex = 58;
+            this.txtMax2.TabIndex = 0;
             // 
             // label3
             // 
@@ -141,10 +153,10 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(17, 365);
+            this.btnSave.Location = new System.Drawing.Point(14, 357);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(66, 23);
-            this.btnSave.TabIndex = 2;
+            this.btnSave.TabIndex = 0;
             this.btnSave.Text = "确定";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -162,7 +174,7 @@
             this.txtLeakHZ.Location = new System.Drawing.Point(104, 27);
             this.txtLeakHZ.Name = "txtLeakHZ";
             this.txtLeakHZ.Size = new System.Drawing.Size(65, 20);
-            this.txtLeakHZ.TabIndex = 83;
+            this.txtLeakHZ.TabIndex = 0;
             // 
             // label5
             // 
@@ -175,39 +187,68 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.comboBox);
+            this.groupBox3.Controls.Add(this.cbArith);
+            this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.txtStandardAMP);
             this.groupBox3.Controls.Add(this.txtLeakHZ);
-            this.groupBox3.Location = new System.Drawing.Point(16, 252);
+            this.groupBox3.Location = new System.Drawing.Point(16, 231);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(217, 107);
+            this.groupBox3.Size = new System.Drawing.Size(217, 111);
             this.groupBox3.TabIndex = 85;
             this.groupBox3.Text = "计算参数";
             // 
-            // comboBox
+            // cbArith
             // 
-            this.comboBox.Location = new System.Drawing.Point(90, 65);
-            this.comboBox.Name = "comboBox";
-            this.comboBox.Size = new System.Drawing.Size(106, 20);
-            this.comboBox.TabIndex = 86;
+            this.cbArith.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbArith.Location = new System.Drawing.Point(90, 53);
+            this.cbArith.Name = "cbArith";
+            this.cbArith.Size = new System.Drawing.Size(106, 22);
+            this.cbArith.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(5, 87);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(115, 14);
+            this.label7.TabIndex = 85;
+            this.label7.Text = "静态漏水标准幅度值";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(21, 70);
+            this.label6.Location = new System.Drawing.Point(21, 58);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(55, 14);
             this.label6.TabIndex = 85;
             this.label6.Text = "分析算法";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(195, 90);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(19, 14);
+            this.label8.TabIndex = 84;
+            this.label8.Text = "%";
+            // 
+            // txtStandardAMP
+            // 
+            this.txtStandardAMP.Location = new System.Drawing.Point(123, 84);
+            this.txtStandardAMP.Name = "txtStandardAMP";
+            this.txtStandardAMP.Size = new System.Drawing.Size(65, 20);
+            this.txtStandardAMP.TabIndex = 2;
+            // 
             // simpleButton1
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(167, 365);
+            this.simpleButton1.Location = new System.Drawing.Point(164, 357);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(66, 23);
-            this.simpleButton1.TabIndex = 86;
+            this.simpleButton1.TabIndex = 1;
             this.simpleButton1.Text = "取消";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
@@ -215,7 +256,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(247, 399);
+            this.ClientSize = new System.Drawing.Size(246, 386);
             this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnSave);
@@ -228,8 +269,20 @@
             this.Text = "计算参数设置";
             this.Load += new System.EventHandler(this.FrmCalcParamSet_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMin1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMax1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox2)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMin2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMax2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLeakHZ.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -251,8 +304,11 @@
 		private DevExpress.XtraEditors.TextEdit txtLeakHZ;
 		private System.Windows.Forms.Label label5;
 		private DevExpress.XtraEditors.GroupControl groupBox3;
-		private DevExpress.XtraEditors.ComboBoxEdit comboBox;
+		private System.Windows.Forms.ComboBox cbArith;
 		private System.Windows.Forms.Label label6;
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private DevExpress.XtraEditors.TextEdit txtStandardAMP;
 	}
 }

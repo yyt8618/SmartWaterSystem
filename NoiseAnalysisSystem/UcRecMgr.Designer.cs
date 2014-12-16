@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnUpdate = new DevExpress.XtraEditors.SimpleButton();
             this.txtRecNote = new DevExpress.XtraEditors.MemoEdit();
@@ -87,6 +88,7 @@
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNote.Properties)).BeginInit();
@@ -136,7 +138,7 @@
             this.btnUpdate.Location = new System.Drawing.Point(124, 193);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(89, 23);
-            this.btnUpdate.TabIndex = 84;
+            this.btnUpdate.TabIndex = 4;
             this.btnUpdate.Text = "更新信息";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
@@ -146,7 +148,7 @@
             this.txtRecNote.Name = "txtRecNote";
             this.txtRecNote.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtRecNote.Size = new System.Drawing.Size(108, 81);
-            this.txtRecNote.TabIndex = 83;
+            this.txtRecNote.TabIndex = 3;
             // 
             // label18
             // 
@@ -164,7 +166,7 @@
             this.txtLeakValue.Properties.Mask.EditMask = "f0";
             this.txtLeakValue.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtLeakValue.Size = new System.Drawing.Size(45, 20);
-            this.txtLeakValue.TabIndex = 79;
+            this.txtLeakValue.TabIndex = 2;
             // 
             // label2
             // 
@@ -182,7 +184,7 @@
             this.txtRecID.Properties.Mask.EditMask = "f0";
             this.txtRecID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtRecID.Size = new System.Drawing.Size(45, 20);
-            this.txtRecID.TabIndex = 74;
+            this.txtRecID.TabIndex = 0;
             // 
             // label13
             // 
@@ -208,7 +210,7 @@
             this.btnGetRecID.Location = new System.Drawing.Point(156, 32);
             this.btnGetRecID.Name = "btnGetRecID";
             this.btnGetRecID.Size = new System.Drawing.Size(59, 23);
-            this.btnGetRecID.TabIndex = 80;
+            this.btnGetRecID.TabIndex = 1;
             this.btnGetRecID.Text = "读取编号";
             this.btnGetRecID.Click += new System.EventHandler(this.btnGetRecID_Click);
             // 
@@ -217,7 +219,7 @@
             this.btnDeleteRec.Location = new System.Drawing.Point(105, 237);
             this.btnDeleteRec.Name = "btnDeleteRec";
             this.btnDeleteRec.Size = new System.Drawing.Size(89, 23);
-            this.btnDeleteRec.TabIndex = 60;
+            this.btnDeleteRec.TabIndex = 1;
             this.btnDeleteRec.Text = "删除记录仪";
             this.btnDeleteRec.Click += new System.EventHandler(this.btnDeleteRec_Click);
             // 
@@ -226,19 +228,18 @@
             this.btnAddRec.Location = new System.Drawing.Point(10, 237);
             this.btnAddRec.Name = "btnAddRec";
             this.btnAddRec.Size = new System.Drawing.Size(89, 23);
-            this.btnAddRec.TabIndex = 61;
+            this.btnAddRec.TabIndex = 0;
             this.btnAddRec.Text = "添加记录仪";
             this.btnAddRec.Click += new System.EventHandler(this.btnAddRec_Click);
             // 
             // lblRecState
             // 
             this.lblRecState.AutoSize = true;
-            this.lblRecState.Location = new System.Drawing.Point(44, 201);
+            this.lblRecState.Location = new System.Drawing.Point(36, 201);
             this.lblRecState.Name = "lblRecState";
             this.lblRecState.Size = new System.Drawing.Size(87, 14);
             this.lblRecState.TabIndex = 82;
             this.lblRecState.Text = "运行状态  未知";
-            this.lblRecState.Visible = false;
             // 
             // btnStop
             // 
@@ -246,9 +247,8 @@
             this.btnStop.Location = new System.Drawing.Point(194, 196);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(51, 23);
-            this.btnStop.TabIndex = 75;
+            this.btnStop.TabIndex = 8;
             this.btnStop.Text = "停止";
-            this.btnStop.Visible = false;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // btnStart
@@ -257,9 +257,8 @@
             this.btnStart.Location = new System.Drawing.Point(137, 196);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(51, 23);
-            this.btnStart.TabIndex = 73;
+            this.btnStart.TabIndex = 7;
             this.btnStart.Text = "启动";
-            this.btnStart.Visible = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // groupControl2
@@ -309,7 +308,7 @@
             "未知"});
             this.comboBoxEditPower.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxEditPower.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxEditPower.TabIndex = 105;
+            this.comboBoxEditPower.TabIndex = 9;
             // 
             // btnApplySet
             // 
@@ -317,7 +316,7 @@
             this.btnApplySet.Location = new System.Drawing.Point(394, 231);
             this.btnApplySet.Name = "btnApplySet";
             this.btnApplySet.Size = new System.Drawing.Size(100, 23);
-            this.btnApplySet.TabIndex = 63;
+            this.btnApplySet.TabIndex = 13;
             this.btnApplySet.Text = "应用当前设置";
             this.btnApplySet.Click += new System.EventHandler(this.btnApplySet_Click);
             // 
@@ -327,7 +326,7 @@
             this.btnReadSet.Location = new System.Drawing.Point(288, 231);
             this.btnReadSet.Name = "btnReadSet";
             this.btnReadSet.Size = new System.Drawing.Size(100, 23);
-            this.btnReadSet.TabIndex = 62;
+            this.btnReadSet.TabIndex = 12;
             this.btnReadSet.Text = "读取设备参数";
             this.btnReadSet.Click += new System.EventHandler(this.btnReadSet_Click);
             // 
@@ -336,7 +335,7 @@
             this.btnReadT.Location = new System.Drawing.Point(182, 231);
             this.btnReadT.Name = "btnReadT";
             this.btnReadT.Size = new System.Drawing.Size(100, 23);
-            this.btnReadT.TabIndex = 64;
+            this.btnReadT.TabIndex = 11;
             this.btnReadT.Text = "读取模板参数";
             this.btnReadT.Click += new System.EventHandler(this.btnReadT_Click);
             // 
@@ -360,7 +359,7 @@
             "开启"});
             this.comboBoxDist.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxDist.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxDist.TabIndex = 101;
+            this.comboBoxDist.TabIndex = 10;
             this.comboBoxDist.SelectedIndexChanged += new System.EventHandler(this.comboBoxDist_SelectedIndexChanged);
             // 
             // label7
@@ -394,7 +393,7 @@
             this.btnGetConID.Location = new System.Drawing.Point(128, 29);
             this.btnGetConID.Name = "btnGetConID";
             this.btnGetConID.Size = new System.Drawing.Size(59, 23);
-            this.btnGetConID.TabIndex = 64;
+            this.btnGetConID.TabIndex = 1;
             this.btnGetConID.Text = "读取编号";
             // 
             // txtConId
@@ -404,7 +403,7 @@
             this.txtConId.Properties.Mask.EditMask = "f0";
             this.txtConId.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtConId.Size = new System.Drawing.Size(39, 20);
-            this.txtConId.TabIndex = 63;
+            this.txtConId.TabIndex = 0;
             // 
             // label20
             // 
@@ -422,7 +421,7 @@
             this.txtConPort.Properties.Mask.EditMask = "f0";
             this.txtConPort.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtConPort.Size = new System.Drawing.Size(84, 20);
-            this.txtConPort.TabIndex = 61;
+            this.txtConPort.TabIndex = 2;
             // 
             // label22
             // 
@@ -438,7 +437,7 @@
             this.txtConAdress.Location = new System.Drawing.Point(83, 95);
             this.txtConAdress.Name = "txtConAdress";
             this.txtConAdress.Size = new System.Drawing.Size(104, 20);
-            this.txtConAdress.TabIndex = 59;
+            this.txtConAdress.TabIndex = 3;
             // 
             // label21
             // 
@@ -455,7 +454,7 @@
             this.btnNow.Location = new System.Drawing.Point(201, 27);
             this.btnNow.Name = "btnNow";
             this.btnNow.Size = new System.Drawing.Size(42, 23);
-            this.btnNow.TabIndex = 94;
+            this.btnNow.TabIndex = 1;
             this.btnNow.Text = "同步";
             this.btnNow.Click += new System.EventHandler(this.btnNow_Click);
             // 
@@ -484,18 +483,19 @@
             this.txtComTime.Properties.Mask.EditMask = "f0";
             this.txtComTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtComTime.Size = new System.Drawing.Size(28, 20);
-            this.txtComTime.TabIndex = 80;
+            this.txtComTime.TabIndex = 2;
             // 
             // dateTimePicker
             // 
             this.dateTimePicker.CustomFormat = "HH:mm:ss";
             this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker.Location = new System.Drawing.Point(112, 28);
+            this.dateTimePicker.MinDate = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.ShowUpDown = true;
             this.dateTimePicker.Size = new System.Drawing.Size(86, 22);
-            this.dateTimePicker.TabIndex = 97;
-            this.dateTimePicker.Value = new System.DateTime(2013, 9, 12, 0, 0, 0, 0);
+            this.dateTimePicker.TabIndex = 0;
+            this.dateTimePicker.Value = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
             // 
             // label16
             // 
@@ -512,7 +512,7 @@
             this.txtRecTime1.Name = "txtRecTime1";
             this.txtRecTime1.Properties.ReadOnly = true;
             this.txtRecTime1.Size = new System.Drawing.Size(28, 20);
-            this.txtRecTime1.TabIndex = 82;
+            this.txtRecTime1.TabIndex = 4;
             // 
             // label15
             // 
@@ -539,7 +539,7 @@
             this.txtRecTime.Properties.Mask.EditMask = "f0";
             this.txtRecTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtRecTime.Size = new System.Drawing.Size(28, 20);
-            this.txtRecTime.TabIndex = 85;
+            this.txtRecTime.TabIndex = 3;
             this.txtRecTime.EditValueChanged += new System.EventHandler(this.txtRecTime_EditValueChanged);
             // 
             // label8
@@ -585,7 +585,7 @@
             this.txtRecNum.Name = "txtRecNum";
             this.txtRecNum.Properties.ReadOnly = true;
             this.txtRecNum.Size = new System.Drawing.Size(86, 20);
-            this.txtRecNum.TabIndex = 90;
+            this.txtRecNum.TabIndex = 6;
             // 
             // nUpDownSamSpan
             // 
@@ -602,7 +602,7 @@
             0});
             this.nUpDownSamSpan.Name = "nUpDownSamSpan";
             this.nUpDownSamSpan.Size = new System.Drawing.Size(61, 22);
-            this.nUpDownSamSpan.TabIndex = 93;
+            this.nUpDownSamSpan.TabIndex = 5;
             this.nUpDownSamSpan.Value = new decimal(new int[] {
             4,
             0,
@@ -628,7 +628,7 @@
             this.gridControlRec.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit2});
             this.gridControlRec.Size = new System.Drawing.Size(786, 199);
-            this.gridControlRec.TabIndex = 1;
+            this.gridControlRec.TabIndex = 0;
             this.gridControlRec.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewRecordList});
             // 
@@ -752,6 +752,10 @@
             this.gridColumn8.VisibleIndex = 7;
             this.gridColumn8.Width = 176;
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            // 
             // UcRecMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -856,5 +860,6 @@
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditPower;
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.SimpleButton btnUpdate;
+        private System.Windows.Forms.Timer timer1;
     }
 }

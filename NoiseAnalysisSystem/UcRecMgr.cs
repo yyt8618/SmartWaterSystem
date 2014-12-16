@@ -155,7 +155,6 @@ namespace NoiseAnalysisSystem
             Control cl = sender as Control;
             try
             {
-
                 cl.Enabled = false;
                 int id = GlobalValue.log.ReadNoiseLogID();
 
@@ -181,6 +180,8 @@ namespace NoiseAnalysisSystem
                 {
                     id = Convert.ToInt16(txtRecID.Text);
                     btnStart.Enabled = false;
+
+                    GlobalValue.log.CtrlStartOrStop(id, false);  //先发送停止,再启动,因为不能获取记录仪的启停状态
                     GlobalValue.log.CtrlStartOrStop(id, true);
                     lblRecState.Text = "运行状态  正在启动";
 
@@ -188,8 +189,25 @@ namespace NoiseAnalysisSystem
                                          where item.ID == id
                                          select item).ToList()[0];
                     rec.Power = 1;
+                    //设置“启动”时，采集到噪声记录仪静置时噪声原始数据32个数值（64Bytes）
+                    short[] Originaldata = GlobalValue.log.Read(id);
 
                     NoiseDataBaseHelper.UpdateRecorder(rec);
+                    if (NoiseDataBaseHelper.SaveStandData(rec.GroupID, rec.ID, Originaldata) < 0)
+                    {
+                        XtraMessageBox.Show("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        isError = true;
+                    }
+                }
+                catch (TimeoutException)
+                {
+                    XtraMessageBox.Show("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    isError = true;
+                }
+                catch (ArgumentNullException)
+                {
+                    XtraMessageBox.Show("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    isError = true;
                 }
                 catch (Exception ex)
                 {
@@ -200,7 +218,17 @@ namespace NoiseAnalysisSystem
                 {
                     btnStart.Enabled = true;
                     if (!isError)
+                    {
                         lblRecState.Text = "运行状态  已启动";
+                        btnStart.Enabled = false;
+                        btnStop.Enabled = true;
+                    }
+                    else
+                    {
+                        lblRecState.Text = "运行状态  未知";
+                        btnStart.Enabled = true;
+                        btnStop.Enabled = false;
+                    }
                 }
             }
         }
@@ -232,7 +260,11 @@ namespace NoiseAnalysisSystem
                 {
                     btnStop.Enabled = true;
                     if (!isError)
+                    {
                         lblRecState.Text = "运行状态  已停止";
+                        btnStart.Enabled = true;
+                        btnStop.Enabled = false;
+                    }
                 }
             }
         }
@@ -532,6 +564,23 @@ namespace NoiseAnalysisSystem
         private void UcRecMgr_Load(object sender, EventArgs e)
         {
             //BindRecord();
+            this.timer1.Interval = 1000;   //1s
+            this.timer1.Tick += new EventHandler(timer1_Tick);
+            this.timer1.Enabled = true;
+        }
+
+        void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime datenow = this.dateTimePicker.Value;
+                if (datenow.CompareTo(DateTime.Now.AddDays(-1)) > -1)
+                    this.dateTimePicker.Value = datenow.AddSeconds(1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void gridViewRecordList_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)

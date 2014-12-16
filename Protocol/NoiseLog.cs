@@ -543,7 +543,16 @@ namespace Protocol
             data[0] = (byte)(value ? 0x1 : 0x0);
             package.Data = data;
             package.CS = package.CreateCS();
-            return Write(package);
+            //if (value)  //value = true,启动时需要获取第一组32个原始数据用于漏水第一种方法判断的数据
+            //{
+            //    if (Write(package))
+            //    {
+            //        short[] d = Read(id);
+
+            //    }
+            //}
+            //else
+                return Write(package);
         }
 
         ReadDataEventArgs data = null;

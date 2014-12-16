@@ -119,6 +119,9 @@ namespace NoiseAnalysisSystem
 		/// <param name="min_frq">对应的频率数组</param>
         public static bool AmpCalc(List<double[]> data, ref double[] min_amp, ref double[] min_frq)
         {
+            //求出32个数值中最小数值，将32个数值分别减去最小数值，得到新的32个数值
+            SpSubMinValue(ref data);
+
             for (int index = 0; index < data.Count; index++)
             {
                 double[] real_Part = new double[num];// 实数部分
@@ -164,18 +167,48 @@ namespace NoiseAnalysisSystem
                 MinimumAmpCalc2(ref min_amp, ref min_frq);
             else if (c == 2)
                 MinimumAmpCalc(ref min_amp, ref min_frq);
-            else if (c == 3)
-                MinimumAmpCalc(ref min_amp, ref min_frq);
 
             return true;
         }
 
-		/// <summary>
-		/// 计算每一个频段下的最小相对噪声幅度（去最值求平均值）
-		/// </summary>
-		/// <param name="min_amp">最小相对幅度值数组</param>
-		/// <param name="min_frq">对应的频率数组</param>
-		private static void MinimumAmpCalc(ref double[] min_amp, ref double[] min_frq)
+        /// <summary>
+        /// 获取数组中最小值
+        /// </summary>
+        private static double GetMinValue(double[] datas)
+        {
+            double minvalue = 0;
+            int i = 0;
+            for (minvalue = datas[0], i = 0; i < datas.Length; i++)
+            {
+                if (minvalue > datas[i])
+                    minvalue = datas[i];
+            }
+            return minvalue;
+        }
+
+        /// <summary>
+        /// 减去每组中的最小值，得到新的值
+        /// </summary>
+        private static void SpSubMinValue(ref List<double[]> lstDatas)
+        {
+            double minvalue = 0;
+            int i,j;
+            for(i= 0; i< lstDatas.Count; i++)
+            {
+                minvalue = GetMinValue(lstDatas[i]);  //求出32个数值中最小数值，将32个数值分别减去最小数值，得到新的32个数值
+                for (j = 0; j < lstDatas[i].Length; j++)
+                {
+                    lstDatas[i][j] -= minvalue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 计算每一个频段下的最小相对噪声幅度（去最值求平均值）
+        /// </summary>
+        /// <param name="min_amp">最小相对幅度值数组</param>
+        /// <param name="min_frq">对应的频率数组</param>
+        private static void MinimumAmpCalc(ref double[] min_amp, ref double[] min_frq)
 		{
 			double[] amp = new double[FourierData.Count];
 			min_frq = new double[FourierData.Count];
@@ -369,13 +402,48 @@ namespace NoiseAnalysisSystem
 			}
         }
 
-		/// <summary>
-		/// 漏水判断（0：不漏水 1：漏水），返回漏水的幅度及频率
-		/// </summary>
-		/// <param name="db">最小相对噪声幅度数值</param>
-		/// <param name="leakAmp">设定的漏水幅度</param>
-		/// <param name="leakFrq">设定的漏水频率</param>
-		public static int IsLeak(double[] db, double leakAmp, ref double[] re)
+        /// <summary>
+        /// 漏水判断(0:不漏水 1：漏水)
+        /// </summary>
+        /// <param name="data">噪声原始数据32个值一组</param>
+        /// <param name="standvalue">静态漏水标准幅度值</param>
+        /// <returns></returns>
+        public static int IsLeak1(int GroupID,int RecorderID,List<double[]> data)
+        {
+            double standvalue = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("StandardAMP"));
+            short[] standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);
+
+            if (standdata == null)
+                return 1;   //?
+
+            int i;
+            List<double> lstaverage = new List<double>();
+            double standaverage = 0;
+            for(i = 0; i< standdata.Length; i++)
+            {
+                standaverage += standdata[i];  //求出原始数据32个数值的平均值
+            }
+            standaverage /= standdata.Length;
+            //lstaverage.Add(average);
+
+            for (i = 0; i < lstaverage.Count; i++)
+            {
+                lstaverage[i] = Math.Abs(standaverage - lstaverage[i]);
+                if (lstaverage[i] <= standvalue)
+                {
+                    return 0;
+                }
+            }
+            return 1;
+        }
+
+        /// <summary>
+        /// 漏水判断（0：不漏水 1：漏水），返回漏水的幅度及频率
+        /// </summary>
+        /// <param name="db">最小相对噪声幅度数值</param>
+        /// <param name="leakAmp">设定的漏水幅度</param>
+        /// <param name="leakFrq">设定的漏水频率</param>
+        public static int IsLeak2(double[] db, double leakAmp, ref double[] re)
 		{
 			double leakFrq = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("LeakHZ_Template"));
 			List<double> amp = new List<double>();

@@ -18,6 +18,28 @@ namespace NoiseAnalysisSystem
             InitializeComponent();
             this.main = frm;
         }
+
+
+        private void UcGroupMgr_Load(object sender, EventArgs e)
+        {
+            this.timer1.Interval = 1000;   //1s
+            this.timer1.Tick += new EventHandler(timer1_Tick);
+            this.timer1.Enabled = true;
+        }
+
+        void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime datenow = this.dateTimePicker.Value;
+                if (datenow.CompareTo(DateTime.Now.AddDays(-1)) > -1)
+                    this.dateTimePicker.Value = datenow.AddSeconds(1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         
         /// <summary>
         /// 绑定树形列表
@@ -416,5 +438,6 @@ namespace NoiseAnalysisSystem
             BindTree();
             listBoxRec.Items.Clear();
         }
+
     }
 }

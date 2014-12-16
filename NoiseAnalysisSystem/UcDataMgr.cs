@@ -269,12 +269,13 @@ namespace NoiseAnalysisSystem
             //}
             //else
             //{
-            //for (int j = 0; j < selectList.Count; j++)
-            //{
-            //    readIdList.Add(selectList[j].ID);
+            //xxxxx
             //}
-            //}
-
+            for (int j = 0; j < selectList.Count; j++)
+            {
+                if (!readIdList.Contains(selectList[j].ID))
+                    readIdList.Add(selectList[j].ID);
+            }
             if (selectList.Count != 0)
             {
                 simpleButtonRead.Enabled = false;
@@ -295,7 +296,7 @@ namespace NoiseAnalysisSystem
                         {
                             try
                             {
-                                Thread.Sleep(3000);
+                                Thread.Sleep(1000);
                                 this.Invoke(new MethodInvoker(() =>
                                     {
                                         for (int i = 0; i < gridViewGroupList.RowCount; i++)
@@ -318,8 +319,6 @@ namespace NoiseAnalysisSystem
                                 result.Add((short)id, arr);
                                 CallbackReaded(result, selectList);
                                 GlobalValue.reReadIdList.Remove(id);
-
-
 
                                 NoiseRecorder gpRec = (from item in GlobalValue.recorderList.AsEnumerable()
                                                        where item.ID == id
@@ -426,7 +425,7 @@ namespace NoiseAnalysisSystem
                                               where item.ID == key
                                               select item).ToList()[0];
 
-                    int recNum = recorder.RecordNum;
+                    //int recNum = recorder.RecordNum;
                     int spanCount = 32; // 连续采集32个点
                     List<double[]> data = new List<double[]>();// 将采集数据分32个点为一组存放
 
@@ -475,11 +474,14 @@ namespace NoiseAnalysisSystem
                     recorder.Data = da;
 
                     double[] ru = new double[2];
-                    int isLeak = NoiseDataHandler.IsLeak(amp, recorder.LeakValue, ref ru);
+
+                    int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data);
+
+                    int isLeak2 = NoiseDataHandler.IsLeak2(amp, recorder.LeakValue, ref ru);
 
                     NoiseResult re = new NoiseResult();
                     re.GroupID = recorder.GroupID;
-                    re.IsLeak = isLeak;
+                    re.IsLeak = (isLeak1 & isLeak2);
                     re.RecorderID = recorder.ID;
                     re.LeakAmplitude = ru[0];
                     re.LeakFrequency = ru[1];

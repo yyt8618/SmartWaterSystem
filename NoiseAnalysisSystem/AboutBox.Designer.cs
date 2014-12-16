@@ -129,6 +129,7 @@
             // 
             this.textBoxDescription.BackColor = System.Drawing.SystemColors.Window;
             this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxDescription.Enabled = false;
             this.textBoxDescription.Location = new System.Drawing.Point(167, 115);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.textBoxDescription.Multiline = true;
