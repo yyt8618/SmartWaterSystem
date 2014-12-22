@@ -343,6 +343,7 @@ namespace NoiseAnalysisSystem
                                 XtraMessageBox.Show("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 isError = true;
                             }
+                            
                         }
                     }
                     catch (Exception)
@@ -391,7 +392,7 @@ namespace NoiseAnalysisSystem
                 if (v > 1)
                     v = 1;
 
-                gridViewGroupList.SetRowCellValue(rowHandle, "读取进度", (v * 100.0).ToString());
+                gridViewGroupList.SetRowCellValue(rowHandle, "读取进度", (v * 100.0).ToString("f1"));
             };
 
             if (this.InvokeRequired)
@@ -428,10 +429,12 @@ namespace NoiseAnalysisSystem
                     //int recNum = recorder.RecordNum;
                     int spanCount = 32; // 连续采集32个点
                     List<double[]> data = new List<double[]>();// 将采集数据分32个点为一组存放
+                    List<double[]> data_isleak1 = new List<double[]>();// 将采集数据分32个点为一组存放,用于IsLeak1函数运算
 
                     for (int j = 0; j < result[key].Length / spanCount; j++)
                     {
                         double[] tmpData = new double[spanCount];
+                        double[] tmpData_IsLeak = new double[spanCount];
                         for (int k = 0; k < spanCount; k++)
                         {
                             tmpData[k] = result[key][k + j * spanCount];
@@ -452,8 +455,10 @@ namespace NoiseAnalysisSystem
                         sw.Close();
 
                         //////////////////////////////////////////////////////////////////////////////////////////
-
+                        
                         data.Add(tmpData);
+                        tmpData.CopyTo(tmpData_IsLeak, 0);
+                        data_isleak1.Add(tmpData_IsLeak);
                         fla++;
                     }
                     double[] amp = null;
@@ -475,7 +480,7 @@ namespace NoiseAnalysisSystem
 
                     double[] ru = new double[2];
 
-                    int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data);
+                    int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data_isleak1);
 
                     int isLeak2 = NoiseDataHandler.IsLeak2(amp, recorder.LeakValue, ref ru);
 

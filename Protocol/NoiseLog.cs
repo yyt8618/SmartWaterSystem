@@ -531,8 +531,10 @@ namespace Protocol
         /// <param name="id"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool CtrlStartOrStop(short id, bool value)
+        public bool CtrlStartOrStop(short id, bool value,out short[] originaldata)
         {
+            originaldata = null;
+
             Package package = new Package();
             package.DevType = DEV_TYPE.NOISE_LOG;
             package.DevID = id;
@@ -543,16 +545,65 @@ namespace Protocol
             data[0] = (byte)(value ? 0x1 : 0x0);
             package.Data = data;
             package.CS = package.CreateCS();
-            //if (value)  //value = true,启动时需要获取第一组32个原始数据用于漏水第一种方法判断的数据
-            //{
-            //    if (Write(package))
-            //    {
-            //        short[] d = Read(id);
+            if (value)  //value = true,启动时需要获取第一组32个原始数据用于漏水第一种方法判断的数据
+            {
+                ////清除记录仪数据
+                //bool bclear =  ClearData(id);
+                //if (!bclear)
+                //{
+                //    return false;
+                //}
 
-            //    }
-            //}
-            //else
+                //// 读取记录时间段
+                //byte[] tt = ReadStartEndTime(id);
+                //if (tt == null)
+                //    return false;
+                //int begintime = (int)tt[0];
+
+                //DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ((begintime - 1) < 0) ? 0 : (begintime - 1), 59, 50);
+                //dt.AddHours(-1);
+                //bool bmodifytime=WriteTime(id, dt);  //修改时间
+                //if (!bmodifytime)
+                //    return false;
+
+                //bool bstart=Write(package);  //启动
+                //if (!bstart)
+                //    return false;
+
+                //originaldata = Read(id, 30);
+                //if (originaldata == null)
+                //    return false;
+
+                //bmodifytime=WriteTime(id, DateTime.Now);  //改回时间
+                //if (!bmodifytime)
+                //    return false;
+                originaldata = serialPortUtil.ReadOrigityData(package, 30);
+
+                return true;
+            }
+            else
                 return Write(package);
+        }
+
+
+
+        /// <summary>
+        /// 清除数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool ClearData(short id)
+        {
+            Package clear = new Package();
+            clear.DevType = DEV_TYPE.NOISE_LOG;
+            clear.DevID = id;
+            clear.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            clear.C1 = (byte)NOISE_LOG_COMMAND.CTRL_CLEAR_FLASH;
+            clear.DataLength = 0;
+            clear.Data = null;
+            clear.CS = clear.CreateCS();
+
+            return Write(clear);
         }
 
         ReadDataEventArgs data = null;

@@ -185,6 +185,7 @@
             this.txtRecID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtRecID.Size = new System.Drawing.Size(45, 20);
             this.txtRecID.TabIndex = 0;
+            this.txtRecID.TextChanged += new System.EventHandler(this.txtRecID_TextChanged);
             // 
             // label13
             // 

@@ -71,21 +71,23 @@
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Location = new System.Drawing.Point(15, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(217, 101);
+            this.groupBox1.Size = new System.Drawing.Size(217, 92);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.Text = "低频段傅里叶数据区间";
             // 
             // txtMin1
             // 
-            this.txtMin1.Location = new System.Drawing.Point(76, 66);
+            this.txtMin1.Location = new System.Drawing.Point(76, 64);
             this.txtMin1.Name = "txtMin1";
+            this.txtMin1.Properties.Mask.EditMask = "f0";
+            this.txtMin1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtMin1.Size = new System.Drawing.Size(113, 20);
             this.txtMin1.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 73);
+            this.label2.Location = new System.Drawing.Point(20, 67);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 14);
             this.label2.TabIndex = 57;
@@ -93,15 +95,17 @@
             // 
             // txtMax1
             // 
-            this.txtMax1.Location = new System.Drawing.Point(76, 28);
+            this.txtMax1.Location = new System.Drawing.Point(76, 33);
             this.txtMax1.Name = "txtMax1";
+            this.txtMax1.Properties.Mask.EditMask = "f0";
+            this.txtMax1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtMax1.Size = new System.Drawing.Size(113, 20);
             this.txtMax1.TabIndex = 0;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(20, 35);
+            this.label12.Location = new System.Drawing.Point(20, 36);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(31, 14);
             this.label12.TabIndex = 55;
@@ -115,7 +119,7 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(14, 121);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(218, 106);
+            this.groupBox2.Size = new System.Drawing.Size(218, 91);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.Text = "高频段傅里叶数据区间";
             // 
@@ -123,20 +127,24 @@
             // 
             this.txtMin2.Location = new System.Drawing.Point(77, 63);
             this.txtMin2.Name = "txtMin2";
+            this.txtMin2.Properties.Mask.EditMask = "f0";
+            this.txtMin2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtMin2.Size = new System.Drawing.Size(113, 20);
             this.txtMin2.TabIndex = 1;
             // 
             // txtMax2
             // 
-            this.txtMax2.Location = new System.Drawing.Point(77, 27);
+            this.txtMax2.Location = new System.Drawing.Point(77, 32);
             this.txtMax2.Name = "txtMax2";
+            this.txtMax2.Properties.Mask.EditMask = "f0";
+            this.txtMax2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtMax2.Size = new System.Drawing.Size(113, 20);
             this.txtMax2.TabIndex = 0;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 70);
+            this.label3.Location = new System.Drawing.Point(21, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(31, 14);
             this.label3.TabIndex = 59;
@@ -145,7 +153,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 34);
+            this.label1.Location = new System.Drawing.Point(21, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 14);
             this.label1.TabIndex = 57;
@@ -163,7 +171,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(176, 30);
+            this.label4.Location = new System.Drawing.Point(194, 30);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 14);
             this.label4.TabIndex = 84;
@@ -171,15 +179,17 @@
             // 
             // txtLeakHZ
             // 
-            this.txtLeakHZ.Location = new System.Drawing.Point(104, 27);
+            this.txtLeakHZ.Location = new System.Drawing.Point(122, 27);
             this.txtLeakHZ.Name = "txtLeakHZ";
-            this.txtLeakHZ.Size = new System.Drawing.Size(65, 20);
+            this.txtLeakHZ.Properties.Mask.EditMask = "f0";
+            this.txtLeakHZ.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtLeakHZ.Size = new System.Drawing.Size(66, 20);
             this.txtLeakHZ.TabIndex = 0;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(21, 33);
+            this.label5.Location = new System.Drawing.Point(21, 30);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 14);
             this.label5.TabIndex = 82;
@@ -204,15 +214,15 @@
             // cbArith
             // 
             this.cbArith.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbArith.Location = new System.Drawing.Point(90, 53);
+            this.cbArith.Location = new System.Drawing.Point(122, 54);
             this.cbArith.Name = "cbArith";
-            this.cbArith.Size = new System.Drawing.Size(106, 22);
+            this.cbArith.Size = new System.Drawing.Size(92, 22);
             this.cbArith.TabIndex = 1;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(5, 87);
+            this.label7.Location = new System.Drawing.Point(5, 86);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 14);
             this.label7.TabIndex = 85;
@@ -230,7 +240,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(195, 90);
+            this.label8.Location = new System.Drawing.Point(195, 86);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 14);
             this.label8.TabIndex = 84;
@@ -238,9 +248,11 @@
             // 
             // txtStandardAMP
             // 
-            this.txtStandardAMP.Location = new System.Drawing.Point(123, 84);
+            this.txtStandardAMP.Location = new System.Drawing.Point(122, 83);
             this.txtStandardAMP.Name = "txtStandardAMP";
-            this.txtStandardAMP.Size = new System.Drawing.Size(65, 20);
+            this.txtStandardAMP.Properties.Mask.EditMask = "f0";
+            this.txtStandardAMP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtStandardAMP.Size = new System.Drawing.Size(66, 20);
             this.txtStandardAMP.TabIndex = 2;
             // 
             // simpleButton1
@@ -264,6 +276,7 @@
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FrmCalcParamSet";
+            this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "计算参数设置";

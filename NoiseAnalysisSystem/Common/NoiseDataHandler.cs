@@ -408,7 +408,7 @@ namespace NoiseAnalysisSystem
         /// <param name="data">噪声原始数据32个值一组</param>
         /// <param name="standvalue">静态漏水标准幅度值</param>
         /// <returns></returns>
-        public static int IsLeak1(int GroupID,int RecorderID,List<double[]> data)
+        public static int IsLeak1(int GroupID,int RecorderID,List<double[]> lstdatas)
         {
             double standvalue = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("StandardAMP"));
             short[] standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);
@@ -416,15 +416,18 @@ namespace NoiseAnalysisSystem
             if (standdata == null)
                 return 1;   //?
 
-            int i;
-            List<double> lstaverage = new List<double>();
+            int i = 0;
             double standaverage = 0;
-            for(i = 0; i< standdata.Length; i++)
+            standaverage=GetAverage(standdata);
+
+            List<double> lstaverage = new List<double>();
+            if (lstdatas != null && lstdatas.Count > 0)
             {
-                standaverage += standdata[i];  //求出原始数据32个数值的平均值
+                for (i = 0; i < lstdatas.Count; i++)
+                {
+                    lstaverage.Add(GetAverage(lstdatas[i]));
+                }
             }
-            standaverage /= standdata.Length;
-            //lstaverage.Add(average);
 
             for (i = 0; i < lstaverage.Count; i++)
             {
@@ -435,6 +438,34 @@ namespace NoiseAnalysisSystem
                 }
             }
             return 1;
+        }
+
+        private static double GetAverage(double[] datas)
+        {
+            double average = 0;
+            if (datas != null && datas.Length > 0)
+            {
+                for (int i = 0; i < datas.Length; i++)
+                {
+                    average += datas[i];
+                }
+                average /= datas.Length;
+            }
+            return average;
+        }
+
+        private static double GetAverage(short[] datas)
+        {
+            double average = 0;
+            if (datas != null && datas.Length > 0)
+            {
+                for (int i = 0; i < datas.Length; i++)
+                {
+                    average += datas[i];
+                }
+                average /= datas.Length;
+            }
+            return average;
         }
 
         /// <summary>

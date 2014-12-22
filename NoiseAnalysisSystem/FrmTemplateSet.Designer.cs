@@ -222,7 +222,7 @@
             // 
             this.txtConPort_T.Location = new System.Drawing.Point(117, 27);
             this.txtConPort_T.Name = "txtConPort_T";
-            this.txtConPort_T.Size = new System.Drawing.Size(84, 20);
+            this.txtConPort_T.Size = new System.Drawing.Size(111, 20);
             this.txtConPort_T.TabIndex = 41;
             // 
             // label27
@@ -377,6 +377,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximizeBox = false;
             this.Name = "FrmTemplateSet";
+            this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "记录仪参数模板设置";

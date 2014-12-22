@@ -319,13 +319,18 @@ namespace NoiseAnalysisSystem
                 string SQL = string.Format("SELECT Data FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
 
                 string str_data = string.Empty;
-                using (System.Data.OleDb.OleDbDataReader reader = DbForAccess.GetDataReader(SQL))
+                DataTable dt = DbForAccess.GetDataTable(SQL);
+                if (dt != null && dt.Rows != null && dt.Rows.Count > 0)
                 {
-                    if (reader.Read())
-                    {
-                        str_data = reader["Data"] != DBNull.Value ? reader["Data"].ToString() : "";
-                    }
+                    str_data = dt.Rows[0]["Data"] != DBNull.Value ? dt.Rows[0]["Data"].ToString() : "";
                 }
+                //using (System.Data.OleDb.OleDbDataReader reader = DbForAccess.GetDataReader(SQL))
+                //{
+                //    if (reader.Read())
+                //    {
+                //        str_data = reader["Data"] != DBNull.Value ? reader["Data"].ToString() : "";
+                //    }
+                //}
 
                 if (!string.IsNullOrEmpty(str_data))
                 {

@@ -181,16 +181,14 @@ namespace NoiseAnalysisSystem
                     id = Convert.ToInt16(txtRecID.Text);
                     btnStart.Enabled = false;
 
-                    GlobalValue.log.CtrlStartOrStop(id, false);  //先发送停止,再启动,因为不能获取记录仪的启停状态
-                    GlobalValue.log.CtrlStartOrStop(id, true);
+                    short[] Originaldata = null;
+                    GlobalValue.log.CtrlStartOrStop(id, true, out Originaldata);
                     lblRecState.Text = "运行状态  正在启动";
 
                     NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
                                          where item.ID == id
                                          select item).ToList()[0];
                     rec.Power = 1;
-                    //设置“启动”时，采集到噪声记录仪静置时噪声原始数据32个数值（64Bytes）
-                    short[] Originaldata = GlobalValue.log.Read(id);
 
                     NoiseDataBaseHelper.UpdateRecorder(rec);
                     if (NoiseDataBaseHelper.SaveStandData(rec.GroupID, rec.ID, Originaldata) < 0)
@@ -233,6 +231,20 @@ namespace NoiseAnalysisSystem
             }
         }
 
+        /// <summary>
+        /// Test
+        /// </summary>
+        /// <returns>获取随机数组(0-255)[32]</returns>
+        private short[] GetRandomShortArray()
+        {
+            List<short> lstRd = new List<short>();
+            Random rd = new Random();
+            for (int i = 0; i < 32; i++)
+                lstRd.Add((short)rd.Next(0, 255));
+
+            return lstRd.ToArray();
+        }
+
         private void btnStop_Click(object sender, EventArgs e)
         {
             if (!isSetting)
@@ -242,7 +254,8 @@ namespace NoiseAnalysisSystem
                 {
                     btnStop.Enabled = false; ;
                     short id = Convert.ToInt16(txtRecID.Text);
-                    GlobalValue.log.CtrlStartOrStop(id, false);
+                    short[] origitydata = null;
+                    GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
                     lblRecState.Text = "运行状态  正在停止";
 
                     NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
@@ -507,16 +520,16 @@ namespace NoiseAnalysisSystem
                         GlobalValue.log.WriteRemoteSwitch(id, false);
                         alterRec.ControlerPower = 0;
                     }
-
+                    short[] origitydata = null;
                     // 设置开关
                     if (comboBoxEditPower.SelectedIndex == 1)
                     {
-                        GlobalValue.log.CtrlStartOrStop(id, true);
+                        GlobalValue.log.CtrlStartOrStop(id, true, out origitydata);
                         alterRec.Power = 1;
                     }
                     else if (comboBoxEditPower.SelectedIndex == 0)
                     {
-                        GlobalValue.log.CtrlStartOrStop(id, false);
+                        GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
                         alterRec.Power = 0;
                     }
 
@@ -671,7 +684,7 @@ namespace NoiseAnalysisSystem
             switch (obj.Name)
             {
                 case "nUpDownSamSpan":
-                    txtRecNum.Text = (GlobalValue.Time * 60 / obj.Value).ToString();
+                    txtRecNum.Text = (Math.Floor(GlobalValue.Time * 60 / obj.Value)).ToString();
                     break;
                 default:
                     break;
@@ -726,6 +739,13 @@ namespace NoiseAnalysisSystem
                 GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                 BindRecord();
             }
+        }
+
+        private void txtRecID_TextChanged(object sender, EventArgs e)
+        {
+            this.btnStart.Enabled = true;
+            this.btnStop.Enabled = true;
+            this.lblRecState.Text = "运行状态  未知";
         }
 
     }

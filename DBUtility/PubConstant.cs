@@ -48,19 +48,64 @@ namespace Utility
             }
         }
 
+        public static System.IO.Ports.Parity Parity
+        {
+            get
+            {
+                switch (AppConfigHelper.GetAppSettingValue("Parity"))
+                {
+                    case "NONE":
+                        return System.IO.Ports.Parity.None;
+                        break;
+                    case "ODD":
+                        return System.IO.Ports.Parity.Odd;
+                        break;
+                    case "EVEN":
+                        return System.IO.Ports.Parity.Even;
+                        break;
+                    case "MARK":
+                        return System.IO.Ports.Parity.Mark;
+                        break;
+                    case "SPACE":
+                        return System.IO.Ports.Parity.Space;
+                        break;
+                    default:
+                        return System.IO.Ports.Parity.None;
+                        break;
+                }
+            }
+        }
+
         public static string DataBitsString
         {
             get
             {
-                return "8";
+                return AppConfigHelper.GetAppSettingValue("DataBits") ?? "8";
             }
         }
 
-        public static string StopBitsString
+        public static System.IO.Ports.StopBits StopBits
         {
             get
             {
-                return "1";
+                switch (AppConfigHelper.GetAppSettingValue("StopPos"))
+                {
+                    case "NONE":
+                        return System.IO.Ports.StopBits.None;
+                        break;
+                    case "ONE":
+                        return System.IO.Ports.StopBits.One;
+                        break;
+                    case "TWO":
+                        return System.IO.Ports.StopBits.Two;
+                        break;
+                    case "OnePointFive":
+                        return System.IO.Ports.StopBits.OnePointFive;
+                        break;
+                    default:
+                        return System.IO.Ports.StopBits.One;
+                        break;
+                }
             }
         }
     }

@@ -337,6 +337,7 @@
             this.btnReadTemplate.Size = new System.Drawing.Size(110, 23);
             this.btnReadTemplate.TabIndex = 105;
             this.btnReadTemplate.Text = "读取模板参数";
+            this.btnReadTemplate.Click += new System.EventHandler(this.btnReadTemplate_Click);
             // 
             // btnSaveGroupSet
             // 
@@ -345,6 +346,7 @@
             this.btnSaveGroupSet.Size = new System.Drawing.Size(110, 23);
             this.btnSaveGroupSet.TabIndex = 104;
             this.btnSaveGroupSet.Text = "应用批量设置";
+            this.btnSaveGroupSet.Click += new System.EventHandler(this.btnSaveGroupSet_Click);
             // 
             // comboBoxEditPower
             // 
@@ -392,7 +394,6 @@
             // 
             // btnNow
             // 
-            this.btnNow.Enabled = false;
             this.btnNow.Location = new System.Drawing.Point(203, 44);
             this.btnNow.Name = "btnNow";
             this.btnNow.Size = new System.Drawing.Size(42, 23);
@@ -442,7 +443,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(419, 91);
+            this.label16.Location = new System.Drawing.Point(420, 91);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(35, 14);
             this.label16.TabIndex = 81;

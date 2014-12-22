@@ -528,7 +528,8 @@ namespace Noise
                 try
                 {
                     cl.Enabled = false;
-                    if (log.CtrlStartOrStop(NoiseLogID, true))
+                    short[] origitydata = null;
+                    if (log.CtrlStartOrStop(NoiseLogID, true, out origitydata))
                     {
                         MessageBox.Show("设置成功！");
                         label6.Text = "运行中";
@@ -550,7 +551,8 @@ namespace Noise
                 {
                     cl.Enabled = false;
                     short id = log.ReadNoiseLogID();
-                    if (log.CtrlStartOrStop(id, false))
+                    short[] origitydata;
+                    if (log.CtrlStartOrStop(id, false,out origitydata))
                     {
                         MessageBox.Show("设置成功！");
                         label6.Text = "已停止";

@@ -33,31 +33,31 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
             this.label42 = new System.Windows.Forms.Label();
-            this.txtStopPos = new DevExpress.XtraEditors.TextEdit();
-            this.txtDataPos = new DevExpress.XtraEditors.TextEdit();
-            this.txtTestPos = new DevExpress.XtraEditors.TextEdit();
             this.label4 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.cbBaudRate = new DevExpress.XtraEditors.ComboBoxEdit();
             this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
             this.cbSerialPort = new DevExpress.XtraEditors.LookUpEdit();
+            this.cbBaudRate = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbDataPos = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbStopPos = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbParity = new DevExpress.XtraEditors.ComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtStopPos.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDataPos.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTestPos.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbSerialPort.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbDataPos.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbStopPos.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbParity.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(234, 24);
+            this.label2.Location = new System.Drawing.Point(236, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(12, 14);
             this.label2.TabIndex = 39;
@@ -97,30 +97,6 @@
             this.label42.TabIndex = 35;
             this.label42.Text = "bit/s";
             // 
-            // txtStopPos
-            // 
-            this.txtStopPos.EditValue = "1";
-            this.txtStopPos.Location = new System.Drawing.Point(94, 181);
-            this.txtStopPos.Name = "txtStopPos";
-            this.txtStopPos.Size = new System.Drawing.Size(141, 20);
-            this.txtStopPos.TabIndex = 5;
-            // 
-            // txtDataPos
-            // 
-            this.txtDataPos.EditValue = "8";
-            this.txtDataPos.Location = new System.Drawing.Point(94, 149);
-            this.txtDataPos.Name = "txtDataPos";
-            this.txtDataPos.Size = new System.Drawing.Size(141, 20);
-            this.txtDataPos.TabIndex = 4;
-            // 
-            // txtTestPos
-            // 
-            this.txtTestPos.EditValue = "0";
-            this.txtTestPos.Location = new System.Drawing.Point(94, 117);
-            this.txtTestPos.Name = "txtTestPos";
-            this.txtTestPos.Size = new System.Drawing.Size(141, 20);
-            this.txtTestPos.TabIndex = 3;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -147,13 +123,6 @@
             this.label23.Size = new System.Drawing.Size(43, 14);
             this.label23.TabIndex = 26;
             this.label23.Text = "校验位";
-            // 
-            // cbBaudRate
-            // 
-            this.cbBaudRate.Location = new System.Drawing.Point(94, 85);
-            this.cbBaudRate.Name = "cbBaudRate";
-            this.cbBaudRate.Size = new System.Drawing.Size(121, 20);
-            this.cbBaudRate.TabIndex = 2;
             // 
             // label24
             // 
@@ -199,12 +168,61 @@
             this.cbSerialPort.Size = new System.Drawing.Size(141, 20);
             this.cbSerialPort.TabIndex = 1;
             // 
+            // cbBaudRate
+            // 
+            this.cbBaudRate.Location = new System.Drawing.Point(94, 85);
+            this.cbBaudRate.Name = "cbBaudRate";
+            this.cbBaudRate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbBaudRate.Size = new System.Drawing.Size(116, 20);
+            this.cbBaudRate.TabIndex = 2;
+            this.cbBaudRate.SelectedIndexChanged += new System.EventHandler(this.cbBaudRate_SelectedIndexChanged);
+            // 
+            // cbDataPos
+            // 
+            this.cbDataPos.Location = new System.Drawing.Point(94, 149);
+            this.cbDataPos.Name = "cbDataPos";
+            this.cbDataPos.Properties.AllowDropDownWhenReadOnly = DevExpress.Utils.DefaultBoolean.False;
+            this.cbDataPos.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+            this.cbDataPos.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbDataPos.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbDataPos.Size = new System.Drawing.Size(141, 20);
+            this.cbDataPos.TabIndex = 4;
+            // 
+            // cbStopPos
+            // 
+            this.cbStopPos.Location = new System.Drawing.Point(94, 181);
+            this.cbStopPos.Name = "cbStopPos";
+            this.cbStopPos.Properties.AllowDropDownWhenReadOnly = DevExpress.Utils.DefaultBoolean.False;
+            this.cbStopPos.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+            this.cbStopPos.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbStopPos.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbStopPos.Size = new System.Drawing.Size(141, 20);
+            this.cbStopPos.TabIndex = 5;
+            // 
+            // cbParity
+            // 
+            this.cbParity.Location = new System.Drawing.Point(94, 117);
+            this.cbParity.Name = "cbParity";
+            this.cbParity.Properties.AllowDropDownWhenReadOnly = DevExpress.Utils.DefaultBoolean.False;
+            this.cbParity.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+            this.cbParity.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbParity.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbParity.Size = new System.Drawing.Size(141, 20);
+            this.cbParity.TabIndex = 5;
+            // 
             // FrmSerialComSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(250, 260);
+            this.Controls.Add(this.cbParity);
+            this.Controls.Add(this.cbStopPos);
+            this.Controls.Add(this.cbDataPos);
             this.Controls.Add(this.cbBaudRate);
             this.Controls.Add(this.txtTime);
             this.Controls.Add(this.cbSerialPort);
@@ -215,25 +233,24 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.label42);
             this.Controls.Add(this.label24);
-            this.Controls.Add(this.txtStopPos);
-            this.Controls.Add(this.txtDataPos);
             this.Controls.Add(this.label23);
-            this.Controls.Add(this.txtTestPos);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label4);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximizeBox = false;
             this.Name = "FrmSerialComSet";
+            this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "串口通讯设置";
+            this.Load += new System.EventHandler(this.FrmSerialComSet_Load);
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtStopPos.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDataPos.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTestPos.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbSerialPort.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbDataPos.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbStopPos.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbParity.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -243,13 +260,9 @@
 
         private DevExpress.XtraEditors.SimpleButton btnSave;
         private System.Windows.Forms.Label label42;
-        private DevExpress.XtraEditors.TextEdit txtStopPos;
-        private DevExpress.XtraEditors.TextEdit txtDataPos;
-        private DevExpress.XtraEditors.TextEdit txtTestPos;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label23;
-        private DevExpress.XtraEditors.ComboBoxEdit cbBaudRate;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label2;
@@ -258,5 +271,9 @@
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
         private DevExpress.XtraCharts.ChartControl chartControl1;
         private DevExpress.XtraEditors.LookUpEdit cbSerialPort;
+        private DevExpress.XtraEditors.ComboBoxEdit cbBaudRate;
+        private DevExpress.XtraEditors.ComboBoxEdit cbDataPos;
+        private DevExpress.XtraEditors.ComboBoxEdit cbStopPos;
+        private DevExpress.XtraEditors.ComboBoxEdit cbParity;
     }
 }

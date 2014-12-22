@@ -439,5 +439,25 @@ namespace NoiseAnalysisSystem
             listBoxRec.Items.Clear();
         }
 
+        private void btnReadTemplate_Click(object sender, EventArgs e)
+        {
+            txtComTime.Text = AppConfigHelper.GetAppSettingValue("ComTime_Template");
+            txtRecTime.Text = AppConfigHelper.GetAppSettingValue("RecTime_Template");
+            nUpDownSamSpan.Value = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"));
+            txtRecNum.Text = (GlobalValue.Time * 60 / Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"))).ToString();
+            txtLeakValue.Text = AppConfigHelper.GetAppSettingValue("LeakValue_Template");
+
+            int power = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Power_Template"));
+            comboBoxEditPower.SelectedIndex = power;
+
+            int conPower = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("ControlPower_Template"));
+            comboBoxDist.SelectedIndex = conPower;
+        }
+
+        private void btnSaveGroupSet_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

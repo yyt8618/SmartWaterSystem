@@ -74,7 +74,10 @@ namespace Protocol
         /// 响应命令发送
         /// </summary>
         SEND_RESPONSE_DATA = 0xa0,
-
+        /// <summary>
+        /// 相应启动命令(静态标准值)
+        /// </summary>
+        SEND_RESPONSE_DATA_ORIGITY  = 0xa1,
         #endregion
 
         #region 控制
@@ -85,7 +88,15 @@ namespace Protocol
         /// <summary>
         /// 串口读取记录仪数据
         /// </summary>
-        CTRL_START_READ = 0x71
+        CTRL_START_READ = 0x71,
+        /// <summary>
+        /// 清除FLASH
+        /// </summary>
+        CTRL_CLEAR_FLASH = 0x72,
+        /// <summary>
+        /// 读取静态基准值
+        /// </summary>
+        CTRL_READORIGITY = 0xa1
         #endregion
     }
     /// <summary>

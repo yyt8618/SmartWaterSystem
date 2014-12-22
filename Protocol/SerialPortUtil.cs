@@ -20,6 +20,7 @@ namespace Protocol
     {
         public readonly SerialPort serialPort = null;
         public bool ReceiveEventFlag = false;  //接收事件是否有效 false表示有效
+        private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortUtil");
 
         private static readonly SerialPortUtil instance = new SerialPortUtil();
 
@@ -27,7 +28,6 @@ namespace Protocol
         {
             return instance;
         }
-
         #region 事件
 
         /// <summary>
@@ -43,7 +43,6 @@ namespace Protocol
         /// </summary>
         public event AppendBufLogEventHandler AppendBufLog;
 
-
         /// <summary>
         /// 读取记录仪数据完成
         /// </summary>
@@ -54,13 +53,10 @@ namespace Protocol
         public event ReadDataChangedEventHandler ValueChanged;
 
         #endregion
-
-
         /// <summary>
         /// 监控日志
         /// </summary>
         private StringBuilder strLogBuf = new StringBuilder();
-
 
         #region 串口状态
 
@@ -100,8 +96,6 @@ namespace Protocol
                 return serialPort.IsOpen;
             }
         }
-
-
         #endregion
 
         #region 监控日志
@@ -115,8 +109,8 @@ namespace Protocol
                 strLogBuf.Append("\r\n");
                 AppendBufLog(new AppendBufLogEventArgs(strLogBuf));
             }
+            logger.Info(log);
         }
-
 
         private void AppendBufLine(string log, params object[] args)
         {
@@ -124,6 +118,7 @@ namespace Protocol
             {
                 AppendBufLine(string.Format(log, args));
             }
+            logger.Info(string.Format(log, args));
         }
 
         private void AppendBufLine(string log, Package package)
@@ -132,13 +127,12 @@ namespace Protocol
             {
                 AppendBufLine(string.Format(log, ConvertHelper.ByteArrayToHexString(package.ToArray())));
             }
+            logger.Info(string.Format(log, ConvertHelper.ByteArrayToHexString(package.ToArray())));
         }
 
         #endregion
 
         #region 构造函数
-
-
         /// <summary>
         /// 默认构造函数
         /// </summary>
@@ -149,7 +143,6 @@ namespace Protocol
             LoadSerialPort();
         }
 
-
         /// <summary>
         /// 加载参数
         /// </summary>
@@ -159,17 +152,15 @@ namespace Protocol
             {
                 serialPort.PortName = PubConstant.PortNameString;
                 serialPort.BaudRate = Convert.ToInt32(PubConstant.BaudRateString);
-                serialPort.Parity = Parity.None;
+                serialPort.Parity = PubConstant.Parity;
                 serialPort.DataBits = Convert.ToInt32(PubConstant.DataBitsString);
-                serialPort.StopBits = StopBits.One;
+                serialPort.StopBits = PubConstant.StopBits;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
         }
-
 
         #endregion
 
@@ -203,6 +194,7 @@ namespace Protocol
                 AppendBufLine("正在打开串口\"{0}\"...", serialPort.PortName);
                 if (!serialPort.IsOpen)
                 {
+                    LoadSerialPort();
                     serialPort.Open();
                     AppendBufLine("串口\"{0}\"打开成功！", serialPort.PortName);
                     isComClosing = false;
@@ -240,7 +232,6 @@ namespace Protocol
             }
         }
 
-
         /// <summary>
         /// 数据发送
         /// </summary>
@@ -248,7 +239,6 @@ namespace Protocol
         ///<param name="DiscardInBuffer">是否丢弃缓存区的数据默认是</param>
         public void SendData(byte[] data, bool DiscardInBuffer = true)
         {
-
             try
             {
                 if (!IsOpen)
@@ -273,7 +263,6 @@ namespace Protocol
             }
         }
 
-        //System.Threading.CancellationTokenSource CancellSource = new CancellationTokenSource();//取消任务
         public Package SendCommand(byte[] sendData, int timeout = 5)
         {
             try
@@ -281,9 +270,6 @@ namespace Protocol
                 serialPort.DiscardInBuffer();   //清空接收缓冲区     
                 SendData(sendData);
                 Thread.Sleep(50);                       //延时，等待下位机回数据
-
-                //var waitTsk = Task.Factory.StartNew<Package>(() =>
-                //{
 
                 List<byte> bytes = new List<byte>();
                 Queue<byte> ByteQueue = new Queue<byte>();
@@ -336,9 +322,6 @@ namespace Protocol
                     }
                     System.Threading.Thread.Sleep(20);
                 }
-                //});
-                //return waitTsk.Result;
-
             }
             catch (Exception e)
             {
@@ -411,12 +394,16 @@ namespace Protocol
                 int readCount = 0;//计数
 
                 int nStartTime = Environment.TickCount;
+                bool getReadResponse = false;  //是否响应了读取命令
                 while (true)
                 {
                     if (Environment.TickCount - nStartTime > timeout * 1000)    //超时
                     {
                         AppendBufLine("获取设备{0}数据等待超时...[当前设置为{1}秒超时]", id, timeout);
-                        throw new TimeoutException("等待超时...");
+                        if (getReadResponse)
+                            throw new ArgumentNullException("没有读取到数据");
+                        else
+                            throw new TimeoutException("等待超时...");
                     }
                     if (IsComClosing)//关闭窗口
                     {
@@ -448,7 +435,15 @@ namespace Protocol
                             Package pack;
                             if (PackageDefine.MinLenth + len == arr.Length & Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
-                                if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
+                                if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
+                                {
+                                    //if (((arr[6] >> 3) & 0x01) == 0)   //  ==1表示D11为1,有后续命令
+                                    //{
+                                    //    throw new ArgumentNullException("没有读取到数据");
+                                    //}
+                                    getReadResponse = true;
+                                }
+                                else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
                                 {
                                     int total = pack.IsFinal ? pack.DataLength : pack.AllDataLength;
                                     readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
@@ -469,6 +464,8 @@ namespace Protocol
                                     response.CS = response.CreateCS();
                                     AppendBufLine("发送回应...");
                                     SendData(response.ToArray(), false);
+
+                                    
                                 }
                                 packageBytes.Clear();
                             }
@@ -508,6 +505,164 @@ namespace Protocol
                         AppendBufLine("获取完毕!");
 
                         packageCache.Clear();
+
+                        //clear data
+                        Package clear = new Package();
+                        clear.DevType = DEV_TYPE.NOISE_LOG;
+                        clear.DevID = id;
+                        clear.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        clear.C1 = (byte)NOISE_LOG_COMMAND.CTRL_CLEAR_FLASH;
+                        clear.DataLength = 0;
+                        clear.Data = null;
+                        clear.CS = clear.CreateCS();
+                        AppendBufLine("读取数据后清除");
+                        SendData(clear.ToArray(), false);
+
+                        return output.ToArray();
+                    }
+                    System.Threading.Thread.Sleep(20);
+                }
+                
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                isComRecving = false;//正在读取串口数据
+            }
+
+        }
+
+        /// <summary>
+        /// 启动并获取静态标准值
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public short[] ReadOrigityData(Package package, int timeout = 30)
+        {
+            try
+            {
+                serialPort.DiscardInBuffer();   //清空接收缓冲区    
+
+                AppendBufLine("开始获取设备{0}数据...", package.DevID);
+                Send(package);
+
+                Queue<byte> ByteQueue = new Queue<byte>();
+                List<Package> packageCache = new List<Package>();
+                List<byte> packageBytes = new List<byte>();
+                int readCount = 0;//计数
+
+                int nStartTime = Environment.TickCount;
+                bool getReadResponse = false;  //是否响应了读取命令
+                while (true)
+                {
+                    if (Environment.TickCount - nStartTime > timeout * 1000)    //超时
+                    {
+                        AppendBufLine("获取设备{0}数据等待超时...[当前设置为{1}秒超时]", package.DevID, timeout);
+                        if (getReadResponse)
+                            throw new ArgumentNullException("没有读取到数据");
+                        else
+                            throw new TimeoutException("等待超时...");
+                    }
+                    if (IsComClosing)//关闭窗口
+                    {
+                        AppendBufLine("获取设备{0}数据中途串口被关闭！", package.DevID);
+                        throw new Exception("关闭串口，停止获取数据。");
+                    }
+                    isComRecving = true;//正在读取串口数据
+                    while (serialPort.BytesToRead > 0)
+                    {
+                        int len = serialPort.BytesToRead;
+                        byte[] buf = new byte[len];
+                        serialPort.Read(buf, 0, len);
+                        foreach (var item in buf)
+                        {
+                            ByteQueue.Enqueue(item);
+                        }
+                    }
+
+                    while (ByteQueue.Count > 0)
+                    {
+                        byte byteItem = ByteQueue.Dequeue();
+                        packageBytes.Add(byteItem);
+                        if (byteItem == PackageDefine.EndByte & packageBytes.Count >= PackageDefine.MinLenth)
+                        {
+                            byte[] arr = packageBytes.ToArray();
+                            int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);//数据域长度
+
+                            Package pack;
+                            if (PackageDefine.MinLenth + len == arr.Length & Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
+                            {
+                                if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)
+                                {
+                                    getReadResponse = true;
+                                }
+                                else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
+                                {
+                                    int total = pack.IsFinal ? pack.DataLength : pack.AllDataLength;
+                                    readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
+                                    OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
+
+                                    OnReadPackege(new PackageReceivedEventArgs(pack));//触发事件
+                                    packageCache.Add(pack);
+                                    //AppendBufLine("已收到第{0}帧", packageCache.Count);
+                                    AppendBufLine("第{0}帧:{1}", pack.DataNum, pack);
+
+                                    Package response = new Package();
+                                    response.DevType = DEV_TYPE.NOISE_LOG;
+                                    response.DevID = pack.DevID;
+                                    response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE;
+                                    response.C1 = (byte)NOISE_LOG_COMMAND.SEND_RESPONSE_DATA_ORIGITY;
+                                    response.DataLength = 0;
+                                    response.Data = null;
+                                    response.CS = response.CreateCS();
+                                    AppendBufLine("发送回应...");
+                                    SendData(response.ToArray(), false);
+
+                                }
+                                packageBytes.Clear();
+                            }
+                        }
+                    }
+
+                    if (packageCache.Exists(obj => obj.IsFinal))
+                    {
+                        Package final = packageCache.Find(obj => obj.IsFinal);
+                        List<Package> tmp = packageCache.FindAll(obj => obj.DevID == final.DevID).Distinct().ToList();
+                        List<byte> result = new List<byte>();
+
+                        var q = from p in tmp
+                                orderby p.DataNum
+                                select p;
+
+                        foreach (var item in q)
+                        {
+                            for (int i = 0; i < item.DataLength; i++)
+                            {
+                                result.Add(item.Data[i]);
+                            }
+                        }
+
+                        List<Int16> output = new List<Int16>();
+
+                        byte[] t = new byte[2];
+                        for (int i = 0; i < result.Count; i = i + 2)
+                        {
+                            t[0] = result[i];
+                            t[1] = result[i + 1];
+                            output.Add(BitConverter.ToInt16(t, 0));
+                        }
+
+                        //OnReadData(new ReadDataEventArgs(final.DevID, output.ToArray()));
+                        packageCache.Clear();
+                        AppendBufLine("获取完毕!");
+
+                        packageCache.Clear();
+
                         return output.ToArray();
                     }
                     System.Threading.Thread.Sleep(20);
@@ -523,7 +678,6 @@ namespace Protocol
             {
                 isComRecving = false;//正在读取串口数据
             }
-
         }
 
 

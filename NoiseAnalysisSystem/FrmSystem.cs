@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using System.IO;
 
 namespace NoiseAnalysisSystem
 {
@@ -9,6 +10,8 @@ namespace NoiseAnalysisSystem
         private UcDataMgr dataMgr;
         private UcRecMgr recMgr;
         private UcGroupMgr gpMgr;
+
+        NLog.Logger logger = NLog.LogManager.GetLogger("FrmSystem");
 
         /// <summary>
         /// 构造函数
@@ -31,6 +34,12 @@ namespace NoiseAnalysisSystem
             dataMgr = new UcDataMgr(this);
             recMgr = new UcRecMgr(this);
             gpMgr = new UcGroupMgr(this);
+        }
+
+
+        private void FrmSystem_Load(object sender, EventArgs e)
+        {
+            ClearLogAndDb();
         }
 
         // 打开串口
@@ -178,6 +187,26 @@ namespace NoiseAnalysisSystem
             else
             {
                 XtraMessageBox.Show("当前不存在任何记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
+        private void ClearLogAndDb()
+        {
+            try
+            {
+                // 清理7天前的日志
+                string[] fileNames = Directory.GetFiles(Path.GetDirectoryName(Application.ExecutablePath) + "\\log\\");
+                DateTime deleteDate = DateTime.Today.AddDays(-7);
+                foreach (string fileName in fileNames)
+                {
+                    if (DateTime.Parse(Path.GetFileName(fileName).Substring(0, 10)) < deleteDate)
+                        File.Delete(fileName);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                logger.ErrorException("ClearLogAndDb()", ex);
             }
         }
     }
