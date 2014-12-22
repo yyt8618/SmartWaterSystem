@@ -198,6 +198,12 @@
     <Compile Include="UcRecMgr.Designer.cs">
       <DependentUpon>UcRecMgr.cs</DependentUpon>
     </Compile>
+    <Compile Include="WaitForm1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WaitForm1.Designer.cs">
+      <DependentUpon>WaitForm1.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -250,6 +256,9 @@
     <EmbeddedResource Include="UcRecMgr.resx">
       <DependentUpon>UcRecMgr.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WaitForm1.resx">
+      <DependentUpon>WaitForm1.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
@@ -279,6 +288,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gc.ico" />
+    <None Include="Resources\DataCompare3.png" />
+    <None Include="Resources\DataCompare2.png" />
+    <None Include="Resources\DataCompare1.png" />
+    <None Include="Resources\DataCompare.png" />
+    <None Include="Resources\SerialPortConfig1.png" />
+    <None Include="Resources\SerialPortConfig.png" />
+    <None Include="Resources\DisableSerialPort.png" />
+    <None Include="Resources\SerialPort.png" />
+    <None Include="Resources\voice3.png" />
+    <None Include="Resources\voice2.png" />
+    <None Include="Resources\voice1.png" />
+    <None Include="Resources\Voice.PNG" />
+    <None Include="Resources\companylogo.png" />
     <None Include="Resources\wait.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

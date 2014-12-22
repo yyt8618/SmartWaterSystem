@@ -172,21 +172,7 @@ namespace NoiseAnalysisSystem
         /// <returns>是IP地址则为True</returns>
         public static bool IsIPv4(string input)
         {
-
-            string[] IPs = input.Split('.');
-            Regex regex = new Regex(@"^\d+$");
-            for (int i = 0; i < IPs.Length; i++)
-            {
-                if (!regex.IsMatch(IPs[i]))
-                {
-                    return false;
-                }
-                if (Convert.ToUInt16(IPs[i]) > 255)
-                {
-                    return false;
-                }
-            }
-            return true;
+            return Regex.IsMatch(input,@"^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$");
         }
 
         /// <summary>

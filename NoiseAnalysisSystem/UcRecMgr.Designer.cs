@@ -622,6 +622,7 @@
             // 
             // gridControlRec
             // 
+            this.gridControlRec.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControlRec.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridControlRec.Location = new System.Drawing.Point(2, 22);
             this.gridControlRec.MainView = this.gridViewRecordList;
@@ -648,6 +649,7 @@
             this.gridViewRecordList.Name = "gridViewRecordList";
             this.gridViewRecordList.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridViewRecordList.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridViewRecordList.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
             this.gridViewRecordList.OptionsCustomization.AllowFilter = false;
             this.gridViewRecordList.OptionsFilter.AllowFilterEditor = false;
             this.gridViewRecordList.OptionsHint.ShowFooterHints = false;
@@ -740,6 +742,7 @@
             this.gridColumn7.Caption = "添加时间";
             this.gridColumn7.FieldName = "添加时间";
             this.gridColumn7.Name = "gridColumn7";
+            this.gridColumn7.OptionsColumn.AllowEdit = false;
             this.gridColumn7.Visible = true;
             this.gridColumn7.VisibleIndex = 6;
             this.gridColumn7.Width = 129;
@@ -749,6 +752,7 @@
             this.gridColumn8.Caption = "备注";
             this.gridColumn8.FieldName = "备注";
             this.gridColumn8.Name = "gridColumn8";
+            this.gridColumn8.OptionsColumn.AllowEdit = false;
             this.gridColumn8.Visible = true;
             this.gridColumn8.VisibleIndex = 7;
             this.gridColumn8.Width = 176;

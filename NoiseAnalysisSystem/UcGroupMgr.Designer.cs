@@ -332,6 +332,7 @@
             // 
             // btnReadTemplate
             // 
+            this.btnReadTemplate.Enabled = false;
             this.btnReadTemplate.Location = new System.Drawing.Point(110, 214);
             this.btnReadTemplate.Name = "btnReadTemplate";
             this.btnReadTemplate.Size = new System.Drawing.Size(110, 23);
@@ -341,6 +342,7 @@
             // 
             // btnSaveGroupSet
             // 
+            this.btnSaveGroupSet.Enabled = false;
             this.btnSaveGroupSet.Location = new System.Drawing.Point(344, 214);
             this.btnSaveGroupSet.Name = "btnSaveGroupSet";
             this.btnSaveGroupSet.Size = new System.Drawing.Size(110, 23);
@@ -671,8 +673,8 @@
         private DevExpress.XtraEditors.SimpleButton btnAlterGroupSet;
         private DevExpress.XtraEditors.SimpleButton btnDeleteGroup;
         private DevExpress.XtraEditors.SimpleButton btnAddGroup;
-        private DevExpress.XtraEditors.SimpleButton btnReadTemplate;
-        private DevExpress.XtraEditors.SimpleButton btnSaveGroupSet;
+        public DevExpress.XtraEditors.SimpleButton btnReadTemplate;
+        public DevExpress.XtraEditors.SimpleButton btnSaveGroupSet;
         private DevExpress.XtraEditors.SimpleButton simpleButtonUnSelect;
         private DevExpress.XtraEditors.SimpleButton simpleButtonSelectAll;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumnName;

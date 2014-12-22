@@ -105,6 +105,7 @@
             this.gridViewGroupList.Name = "gridViewGroupList";
             this.gridViewGroupList.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridViewGroupList.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridViewGroupList.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
             this.gridViewGroupList.OptionsCustomization.AllowFilter = false;
             this.gridViewGroupList.OptionsFilter.AllowFilterEditor = false;
             this.gridViewGroupList.OptionsHint.ShowFooterHints = false;
@@ -261,6 +262,7 @@
             // 
             // gridControlResult
             // 
+            this.gridControlResult.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControlResult.Location = new System.Drawing.Point(2, 22);
             this.gridControlResult.MainView = this.gridViewResultList;
             this.gridControlResult.Name = "gridControlResult";
@@ -285,6 +287,7 @@
             this.gridViewResultList.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridViewResultList.OptionsBehavior.AllowFixedGroups = DevExpress.Utils.DefaultBoolean.False;
             this.gridViewResultList.OptionsBehavior.Editable = false;
+            this.gridViewResultList.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
             this.gridViewResultList.OptionsCustomization.AllowFilter = false;
             this.gridViewResultList.OptionsCustomization.AllowGroup = false;
             this.gridViewResultList.OptionsCustomization.AllowRowSizing = true;

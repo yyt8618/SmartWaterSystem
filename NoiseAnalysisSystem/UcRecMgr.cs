@@ -24,7 +24,6 @@ namespace NoiseAnalysisSystem
         }
 
         #region 输入验证
-
         /// <summary>
         /// 验证记录仪管理选项卡输入是否正确
         /// </summary>
@@ -74,30 +73,30 @@ namespace NoiseAnalysisSystem
 
             //if (cbConStart.Checked)
             //{
-            //    ok = MetarnetRegex.IsUint(txtConId.Text);
-            //    if (!ok)
-            //    {
-            //        txtConId.Focus();
-            //        txtConId.SelectAll();
-            //        msg = "控制器编号设置错误！";
-            //        return ok;
-            //    }
-            //    ok = MetarnetRegex.IsUint(txtConPort.Text);
-            //    if (!ok)
-            //    {
-            //        txtConPort.Focus();
-            //        txtConPort.SelectAll();
-            //        msg = "远传端口设置错误！";
-            //        return ok;
-            //    }
-            //    ok = MetarnetRegex.IsIPv4(txtConAdress.Text);
-            //    if (!ok)
-            //    {
-            //        txtConAdress.Focus();
-            //        txtConAdress.SelectAll();
-            //        msg = "远传地址设置错误！";
-            //        return ok;
-            //    }
+            ok = MetarnetRegex.IsUint(txtConId.Text);
+            if (!ok)
+            {
+                txtConId.Focus();
+                txtConId.SelectAll();
+                msg = "控制器编号设置错误！";
+                return ok;
+            }
+            ok = MetarnetRegex.IsUint(txtConPort.Text);
+            if (!ok)
+            {
+                txtConPort.Focus();
+                txtConPort.SelectAll();
+                msg = "远传端口设置错误！";
+                return ok;
+            }
+            ok = MetarnetRegex.IsIPv4(txtConAdress.Text);
+            if (!ok)
+            {
+                txtConAdress.Focus();
+                txtConAdress.SelectAll();
+                msg = "远传地址设置错误！";
+                return ok;
+            }
             //}
 
             // 通讯时间与记录时间不能重叠
@@ -115,7 +114,6 @@ namespace NoiseAnalysisSystem
 
             return ok;
         }
-
         #endregion
 
         /// <summary>
@@ -178,11 +176,14 @@ namespace NoiseAnalysisSystem
                 bool isError = false;
                 try
                 {
+                    main.DisableRibbonBar();
+                    main.DisableNavigateBar();
                     id = Convert.ToInt16(txtRecID.Text);
                     btnStart.Enabled = false;
 
                     short[] Originaldata = null;
                     GlobalValue.log.CtrlStartOrStop(id, true, out Originaldata);
+                    main.ShowWaitForm("", "正在启动...");
                     lblRecState.Text = "运行状态  正在启动";
 
                     NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
@@ -214,7 +215,10 @@ namespace NoiseAnalysisSystem
                 }
                 finally
                 {
+                    main.EnableRibbonBar();
+                    main.EnableNavigateBar();
                     btnStart.Enabled = true;
+                    main.HideWaitForm();
                     if (!isError)
                     {
                         lblRecState.Text = "运行状态  已启动";
@@ -252,10 +256,13 @@ namespace NoiseAnalysisSystem
                 bool isError = false;
                 try
                 {
+                    main.DisableRibbonBar();
+                    main.DisableNavigateBar();
                     btnStop.Enabled = false; ;
                     short id = Convert.ToInt16(txtRecID.Text);
                     short[] origitydata = null;
                     GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
+                    main.ShowWaitForm("", "正在停止...");
                     lblRecState.Text = "运行状态  正在停止";
 
                     NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
@@ -271,7 +278,10 @@ namespace NoiseAnalysisSystem
                 }
                 finally
                 {
+                    main.EnableRibbonBar();
+                    main.EnableNavigateBar();
                     btnStop.Enabled = true;
+                    main.HideWaitForm();
                     if (!isError)
                     {
                         lblRecState.Text = "运行状态  已停止";
@@ -400,6 +410,9 @@ namespace NoiseAnalysisSystem
         {
             new Action(() =>
             {
+                main.EnableRibbonBar();
+                main.EnableNavigateBar();
+                main.ShowWaitForm("", "正在读取设备参数...");
                 main.barStaticItemWait.Caption = "正在读取设备参数...";
                 Control cl = sender as Control;
                 try
@@ -450,6 +463,9 @@ namespace NoiseAnalysisSystem
                 }
                 finally
                 {
+                    main.EnableRibbonBar();
+                    main.EnableNavigateBar();
+                    main.HideWaitForm();
                     cl.Enabled = true;
                 }
             }).BeginInvoke(null, null);
@@ -464,13 +480,16 @@ namespace NoiseAnalysisSystem
                 Control cl = sender as Control;
                 try
                 {
-                    main.barStaticItemWait.Caption = "正在应用当前设置...";
-
                     string msg = string.Empty;
                     if (!ValidateRecorderManageInput(out msg))
                     {
                         throw new Exception(msg);
                     }
+
+                    main.DisableRibbonBar();
+                    main.DisableNavigateBar();
+                    main.ShowWaitForm("", "正在应用当前设置...");
+                    main.barStaticItemWait.Caption = "正在应用当前设置...";
 
                     cl.Enabled = false;
                     short id = Convert.ToInt16(txtRecID.Text);
@@ -557,6 +576,9 @@ namespace NoiseAnalysisSystem
                 }
                 finally
                 {
+                    main.EnableRibbonBar();
+                    main.EnableNavigateBar();
+                    main.HideWaitForm();
                     cl.Enabled = true;
                     isSetting = false;
                 }

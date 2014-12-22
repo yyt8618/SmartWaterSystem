@@ -7,6 +7,7 @@ using System.Text;
 using System.Linq;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using Protocol;
 
 namespace NoiseAnalysisSystem
 {
@@ -456,8 +457,205 @@ namespace NoiseAnalysisSystem
 
         private void btnSaveGroupSet_Click(object sender, EventArgs e)
         {
+            new Action(() =>
+            {
+                Control cl = sender as Control;
+                try
+                {
+                    string msg = string.Empty;
+                    if (!ValidateRecorderManageInput(out msg))
+                    {
+                        throw new Exception(msg);
+                    }
 
+                    if (string.IsNullOrEmpty(txtGroupID.Text))
+                    {
+                        DevExpress.XtraEditors.XtraMessageBox.Show("请选择需要操作的分组", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                    NoiseRecorderGroup CurrentGroup = (from tmp in GlobalValue.groupList
+                                                       where tmp.ID == Convert.ToInt32(this.txtGroupID.Text)
+                                                       select tmp).ToList()[0];
+                    if (CurrentGroup != null && CurrentGroup.RecorderList != null && CurrentGroup.RecorderList.Count > 0)
+                    {
+                        main.DisableRibbonBar();
+                        main.DisableNavigateBar();
+                        main.ShowWaitForm("", "正在进行批量设置...");
+                        main.barStaticItemWait.Caption = "正在进行批量设置...";
+
+                        cl.Enabled = false;
+                        short id = 0;
+                        foreach (NoiseRecorder alterRec in CurrentGroup.RecorderList)
+                        {
+                            id = Convert.ToInt16(alterRec.ID);
+                            // 设置记录时间段
+                            GlobalValue.log.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
+                            alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
+
+                            // 设置采集间隔
+                            GlobalValue.log.WriteInterval(id, (int)nUpDownSamSpan.Value);
+                            alterRec.PickSpan = Convert.ToInt32(nUpDownSamSpan.Value);
+
+                            // 设置远传通讯时间
+                            GlobalValue.log.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
+                            alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
+
+                            // 设置远传功能
+                            if (comboBoxDist.SelectedIndex == 1)
+                            {
+                                GlobalValue.log.WriteRemoteSwitch(id, true);
+
+                                alterRec.ControlerPower = 1;
+                                //DistanceController alterCtrl = new DistanceController();
+                                //alterCtrl.ID = Convert.ToInt32(txtConId.Text);
+                                //alterCtrl.RecordID = alterRec.ID;
+                                //alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
+                                //alterCtrl.IPAdress = txtConAdress.Text;
+
+                                //NoiseDataBaseHelper.UpdateControler(alterCtrl);
+                            }
+                            else
+                            {
+                                GlobalValue.log.WriteRemoteSwitch(id, false);
+                                alterRec.ControlerPower = 0;
+                            }
+                            short[] origitydata = null;
+                            // 设置开关
+                            if (comboBoxEditPower.SelectedIndex == 1)
+                            {
+                                GlobalValue.log.CtrlStartOrStop(id, true, out origitydata);
+                                alterRec.Power = 1;
+                            }
+                            else if (comboBoxEditPower.SelectedIndex == 0)
+                            {
+                                GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
+                                alterRec.Power = 0;
+                            }
+
+                            // 设置记录仪时间
+                            GlobalValue.log.WriteTime(id, this.dateTimePicker.Value);
+
+                            // 更新设置入库
+                            int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
+                            if (query != -1)
+                            {
+                                XtraMessageBox.Show("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                                GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                            }
+                            else
+                                throw new Exception("数据入库发生错误。");
+                        }
+                    }
+                    else
+                    {
+                        DevExpress.XtraEditors.XtraMessageBox.Show("请选择需要操作的分组", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    //short id = Convert.ToInt16(txtRecID.Text);
+                    //NoiseRecorder alterRec = (from item in GlobalValue.recorderList
+                    //                          where item.ID == id
+                    //                          select item).ToList()[0];
+
+                    //alterRec.ID = Convert.ToInt32(txtRecID.Text);
+                    //alterRec.LeakValue = Convert.ToInt32(txtLeakValue.Text);
+                    //alterRec.Remark = txtRecNote.Text;
+                    
+                    main.barStaticItemWait.Caption = "当前设置已批量应用到该组设备";
+
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    main.barStaticItemWait.Caption = "设置失败";
+                }
+                finally
+                {
+                    main.EnableRibbonBar();
+                    main.EnableNavigateBar();
+                    main.HideWaitForm();
+                    cl.Enabled = true;
+                }
+            }).BeginInvoke(null, null);
         }
 
+        #region 输入验证
+        /// <summary>
+        /// 验证记录仪管理选项卡输入是否正确
+        /// </summary>
+        private bool ValidateRecorderManageInput(out string msg)
+        {
+            bool ok;
+            msg = string.Empty;
+            ok = MetarnetRegex.IsTime(txtComTime.Text);
+            if (!ok)
+            {
+                txtComTime.Focus();
+                txtComTime.SelectAll();
+                msg = "通讯时间设置错误！";
+                return ok;
+            }
+            ok = MetarnetRegex.IsTime(txtRecTime.Text);
+            if (!ok)
+            {
+                txtRecTime.Focus();
+                txtRecTime.SelectAll();
+                msg = "记录时间设置错误！";
+                return ok;
+            }
+            ok = MetarnetRegex.IsUint(txtLeakValue.Text);
+            if (!ok)
+            {
+                txtLeakValue.Focus();
+                txtLeakValue.SelectAll();
+                msg = "报漏幅度值设置错误！";
+                return ok;
+            }
+
+            //if (cbConStart.Checked)
+            //{
+            //    ok = MetarnetRegex.IsUint(txtConId.Text);
+            //    if (!ok)
+            //    {
+            //        txtConId.Focus();
+            //        txtConId.SelectAll();
+            //        msg = "控制器编号设置错误！";
+            //        return ok;
+            //    }
+            //    ok = MetarnetRegex.IsUint(txtConPort.Text);
+            //    if (!ok)
+            //    {
+            //        txtConPort.Focus();
+            //        txtConPort.SelectAll();
+            //        msg = "远传端口设置错误！";
+            //        return ok;
+            //    }
+            //    ok = MetarnetRegex.IsIPv4(txtConAdress.Text);
+            //    if (!ok)
+            //    {
+            //        txtConAdress.Focus();
+            //        txtConAdress.SelectAll();
+            //        msg = "远传地址设置错误！";
+            //        return ok;
+            //    }
+            //}
+
+            // 通讯时间与记录时间不能重叠
+            int comTime = Convert.ToInt32(txtComTime.Text);
+            int recTime1 = Convert.ToInt32(txtRecTime.Text);
+            int recTime2 = Convert.ToInt32(txtRecTime1.Text);
+
+            if (comTime == recTime1 || comTime == recTime2 || (comTime > recTime1 && comTime < recTime2))
+            {
+                txtComTime.Focus();
+                txtComTime.SelectAll();
+                msg = "通讯时间/记录时间设置重叠！";
+                return false;
+            }
+
+            return ok;
+        }
+        #endregion
     }
 }

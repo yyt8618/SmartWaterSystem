@@ -296,6 +296,8 @@ namespace NoiseAnalysisSystem
                         {
                             try
                             {
+                                main.DisableRibbonBar();
+                                main.DisableNavigateBar();
                                 Thread.Sleep(1000);
                                 this.Invoke(new MethodInvoker(() =>
                                     {
@@ -315,6 +317,7 @@ namespace NoiseAnalysisSystem
 
                                 Dictionary<short, short[]> result = new Dictionary<short, short[]>();
                                 main.barStaticItemWait.Caption = string.Format("正在读取记录仪{0}...", id);
+                                main.ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
                                 short[] arr = GlobalValue.log.Read((short)id);
                                 result.Add((short)id, arr);
                                 CallbackReaded(result, selectList);
@@ -352,11 +355,14 @@ namespace NoiseAnalysisSystem
                     }
                     finally
                     {
-                        isReading = false; ;
+                        isReading = false;
                         main.barStaticItemWait.Caption = "数据读取完成";
                         simpleButtonRead.Enabled = true;
                         simpleButtonSelectAll.Enabled = true;
                         simpleButtonUnSelect.Enabled = true;
+                        main.HideWaitForm();
+                        main.EnableRibbonBar();
+                        main.EnableNavigateBar();
 
                         if (dataList.Count != 0)
                         {

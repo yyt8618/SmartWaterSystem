@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using System.IO;
+using System.Threading;
+using System.Reflection;
 
 namespace NoiseAnalysisSystem
 {
@@ -36,14 +38,14 @@ namespace NoiseAnalysisSystem
             gpMgr = new UcGroupMgr(this);
         }
 
-
         private void FrmSystem_Load(object sender, EventArgs e)
         {
+            this.Text = "自来水管道噪声分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
             ClearLogAndDb();
         }
 
         // 打开串口
-        private void barButtonItem9_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnSerialOpen_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             try
             {
@@ -51,8 +53,8 @@ namespace NoiseAnalysisSystem
                 {
                     GlobalValue.portUtil.Open();
                     barStaticItemWait.Caption = "串口已打开";
-                    barButtonItem9.Enabled = false;
-                    barButtonItem10.Enabled = true;
+                    barBtnSerialOpen.Enabled = false;
+                    barBtnSerialClose.Enabled = true;
                     if (GlobalValue.recorderList.Count > 0)
                     {
                         recMgr.btnApplySet.Enabled = true;
@@ -63,6 +65,8 @@ namespace NoiseAnalysisSystem
                         recMgr.btnStart.Enabled = true;
                         recMgr.btnStop.Enabled = true;
                         dataMgr.simpleButtonRead.Enabled = true;
+                        gpMgr.btnSaveGroupSet.Enabled = true;
+                        gpMgr.btnReadTemplate.Enabled = true;
                     }
                 }
             }
@@ -73,7 +77,7 @@ namespace NoiseAnalysisSystem
         }
 
         // 关闭串口
-        private void barButtonItem10_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnSerialClose_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             try
             {
@@ -81,8 +85,8 @@ namespace NoiseAnalysisSystem
                 {
                     GlobalValue.portUtil.Close();
                     barStaticItemWait.Caption = "串口已关闭";
-                    barButtonItem9.Enabled = true;
-                    barButtonItem10.Enabled = false;
+                    barBtnSerialOpen.Enabled = true;
+                    barBtnSerialClose.Enabled = false;
                     if (GlobalValue.recorderList.Count > 0)
                     {
                         recMgr.btnApplySet.Enabled = false;
@@ -93,6 +97,8 @@ namespace NoiseAnalysisSystem
                         recMgr.btnStart.Enabled = false;
                         recMgr.btnStop.Enabled = false;
                         dataMgr.simpleButtonRead.Enabled = false;
+                        gpMgr.btnSaveGroupSet.Enabled = false;
+                        gpMgr.btnReadTemplate.Enabled = false;
                     }
                 }
             }
@@ -103,7 +109,7 @@ namespace NoiseAnalysisSystem
         }
 
         // 傅里叶分析
-        private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnFFT_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             FrmTest ft= new FrmTest();
             ft.ShowDialog();
@@ -135,7 +141,7 @@ namespace NoiseAnalysisSystem
         }
 
         // 退出
-        private void barButtonItem8_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnSetClose_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             DialogResult dr = DevExpress.XtraEditors.XtraMessageBox.Show("确定退出系统？", "请确定", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == System.Windows.Forms.DialogResult.Yes)
@@ -147,37 +153,37 @@ namespace NoiseAnalysisSystem
             }
         }
 
-        private void barButtonItem5_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnSetTemplate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             FrmTemplateSet fts = new FrmTemplateSet();
             fts.ShowDialog();
         }
 
-        private void barButtonItem4_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnSetSerial_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             FrmSerialComSet fsc = new FrmSerialComSet();
             fsc.ShowDialog();
         }
 
-        private void barButtonItem6_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnSetVoice_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             FrmSysVoiceSet fsv = new FrmSysVoiceSet();
             fsv.ShowDialog();
         }
 
-        private void barButtonItem7_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnSetParam_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             FrmCalcParamSet fcp = new FrmCalcParamSet();
             fcp.ShowDialog();
         }
 
-        private void barButtonItem11_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnSetAbout_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             AboutBox about = new AboutBox();
             about.ShowDialog();
         }
 
-        private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnCompare_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (GlobalValue.recorderList.Count > 0)
             {
@@ -208,6 +214,49 @@ namespace NoiseAnalysisSystem
             {
                 logger.ErrorException("ClearLogAndDb()", ex);
             }
+        }
+
+        /// <summary>
+        /// 显示等待窗口
+        /// </summary>
+        public void ShowWaitForm(string title, string prompt)
+        {
+            if (string.IsNullOrEmpty(title))
+                title = "请稍候...";
+            this.BeginInvoke(new Action(() =>
+                {
+                    splashScreenmanager.ShowWaitForm();
+                    splashScreenmanager.SetWaitFormCaption(title);
+                    splashScreenmanager.SetWaitFormDescription(prompt);
+                }));
+        }
+
+        public void HideWaitForm()
+        {
+            this.BeginInvoke(new Action(() =>
+            {
+                splashScreenmanager.CloseWaitForm();
+            }));
+        }
+
+        public void DisableRibbonBar()
+        {
+            this.ribbonControl1.Enabled = false;
+        }
+
+        public void EnableRibbonBar()
+        {
+            this.ribbonControl1.Enabled = true;
+        }
+
+        public void DisableNavigateBar()
+        {
+            this.navBarControl1.Enabled = false;
+        }
+
+        public void EnableNavigateBar()
+        {
+            this.navBarControl1.Enabled = true;
         }
     }
 }

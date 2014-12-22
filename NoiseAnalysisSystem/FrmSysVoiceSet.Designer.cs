@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSysVoiceSet));
             this.button1 = new DevExpress.XtraEditors.SimpleButton();
             this.listBoxVoice = new System.Windows.Forms.ListBox();
             this.btnPlay = new DevExpress.XtraEditors.SimpleButton();
@@ -130,6 +131,7 @@
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.btnSelectVoice);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmSysVoiceSet";
             this.ShowIcon = false;

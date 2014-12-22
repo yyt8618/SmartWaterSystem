@@ -30,20 +30,21 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSystem));
+            this.splashScreenmanager = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::NoiseAnalysisSystem.WaitForm1), true, true);
             this.panelControlMain = new DevExpress.XtraEditors.PanelControl();
             this.barStaticItemWait = new DevExpress.XtraBars.BarStaticItem();
             this.barStaticItem2 = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem9 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem10 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnFFT = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnSetSerial = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnSetTemplate = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnSetVoice = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnSetParam = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnSetClose = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnSerialOpen = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnSerialClose = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnSetAbout = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnCompare = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageSys = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -99,16 +100,16 @@
             this.ribbonControl1.ExpandCollapseItem,
             this.barStaticItemWait,
             this.barStaticItem2,
-            this.barButtonItem3,
-            this.barButtonItem4,
-            this.barButtonItem5,
-            this.barButtonItem6,
-            this.barButtonItem7,
-            this.barButtonItem8,
-            this.barButtonItem9,
-            this.barButtonItem10,
-            this.barButtonItem11,
-            this.barButtonItem1});
+            this.barBtnFFT,
+            this.barBtnSetSerial,
+            this.barBtnSetTemplate,
+            this.barBtnSetVoice,
+            this.barBtnSetParam,
+            this.barBtnSetClose,
+            this.barBtnSerialOpen,
+            this.barBtnSerialClose,
+            this.barBtnSetAbout,
+            this.barBtnCompare});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
             this.ribbonControl1.MaxItemId = 27;
             this.ribbonControl1.Name = "ribbonControl1";
@@ -118,105 +119,105 @@
             this.ribbonControl1.Size = new System.Drawing.Size(999, 149);
             this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
             // 
-            // barButtonItem3
+            // barBtnFFT
             // 
-            this.barButtonItem3.Caption = "傅里叶分析";
-            this.barButtonItem3.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem3.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem3.Glyph")));
-            this.barButtonItem3.Id = 5;
-            this.barButtonItem3.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem3.LargeGlyph")));
-            this.barButtonItem3.Name = "barButtonItem3";
-            this.barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem3_ItemClick);
+            this.barBtnFFT.Caption = "傅里叶分析";
+            this.barBtnFFT.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnFFT.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnFFT.Glyph")));
+            this.barBtnFFT.Id = 5;
+            this.barBtnFFT.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barBtnFFT.LargeGlyph")));
+            this.barBtnFFT.Name = "barBtnFFT";
+            this.barBtnFFT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnFFT_ItemClick);
             // 
-            // barButtonItem4
+            // barBtnSetSerial
             // 
-            this.barButtonItem4.Caption = "串口通讯";
-            this.barButtonItem4.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem4.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem4.Glyph")));
-            this.barButtonItem4.Id = 6;
-            this.barButtonItem4.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem4.LargeGlyph")));
-            this.barButtonItem4.Name = "barButtonItem4";
-            this.barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem4_ItemClick);
+            this.barBtnSetSerial.Caption = "串口通讯";
+            this.barBtnSetSerial.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnSetSerial.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetSerial.Glyph")));
+            this.barBtnSetSerial.Id = 6;
+            this.barBtnSetSerial.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.SerialPortConfig1;
+            this.barBtnSetSerial.Name = "barBtnSetSerial";
+            this.barBtnSetSerial.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetSerial_ItemClick);
             // 
-            // barButtonItem5
+            // barBtnSetTemplate
             // 
-            this.barButtonItem5.Caption = "模板参数";
-            this.barButtonItem5.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem5.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem5.Glyph")));
-            this.barButtonItem5.Id = 7;
-            this.barButtonItem5.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem5.LargeGlyph")));
-            this.barButtonItem5.Name = "barButtonItem5";
-            this.barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem5_ItemClick);
+            this.barBtnSetTemplate.Caption = "模板参数";
+            this.barBtnSetTemplate.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnSetTemplate.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetTemplate.Glyph")));
+            this.barBtnSetTemplate.Id = 7;
+            this.barBtnSetTemplate.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetTemplate.LargeGlyph")));
+            this.barBtnSetTemplate.Name = "barBtnSetTemplate";
+            this.barBtnSetTemplate.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetTemplate_ItemClick);
             // 
-            // barButtonItem6
+            // barBtnSetVoice
             // 
-            this.barButtonItem6.Caption = "系统声音";
-            this.barButtonItem6.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem6.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem6.Glyph")));
-            this.barButtonItem6.Id = 8;
-            this.barButtonItem6.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem6.LargeGlyph")));
-            this.barButtonItem6.Name = "barButtonItem6";
-            this.barButtonItem6.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem6_ItemClick);
+            this.barBtnSetVoice.Caption = "系统声音";
+            this.barBtnSetVoice.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnSetVoice.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetVoice.Glyph")));
+            this.barBtnSetVoice.Id = 8;
+            this.barBtnSetVoice.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.voice3;
+            this.barBtnSetVoice.Name = "barBtnSetVoice";
+            this.barBtnSetVoice.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetVoice_ItemClick);
             // 
-            // barButtonItem7
+            // barBtnSetParam
             // 
-            this.barButtonItem7.Caption = "计算参数";
-            this.barButtonItem7.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem7.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem7.Glyph")));
-            this.barButtonItem7.Id = 9;
-            this.barButtonItem7.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem7.LargeGlyph")));
-            this.barButtonItem7.Name = "barButtonItem7";
-            this.barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem7_ItemClick);
+            this.barBtnSetParam.Caption = "计算参数";
+            this.barBtnSetParam.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnSetParam.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetParam.Glyph")));
+            this.barBtnSetParam.Id = 9;
+            this.barBtnSetParam.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetParam.LargeGlyph")));
+            this.barBtnSetParam.Name = "barBtnSetParam";
+            this.barBtnSetParam.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetParam_ItemClick);
             // 
-            // barButtonItem8
+            // barBtnSetClose
             // 
-            this.barButtonItem8.Caption = "退出";
-            this.barButtonItem8.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem8.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem8.Glyph")));
-            this.barButtonItem8.Id = 10;
-            this.barButtonItem8.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem8.LargeGlyph")));
-            this.barButtonItem8.Name = "barButtonItem8";
-            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem8_ItemClick);
+            this.barBtnSetClose.Caption = "退出";
+            this.barBtnSetClose.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnSetClose.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetClose.Glyph")));
+            this.barBtnSetClose.Id = 10;
+            this.barBtnSetClose.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetClose.LargeGlyph")));
+            this.barBtnSetClose.Name = "barBtnSetClose";
+            this.barBtnSetClose.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetClose_ItemClick);
             // 
-            // barButtonItem9
+            // barBtnSerialOpen
             // 
-            this.barButtonItem9.Caption = "打开";
-            this.barButtonItem9.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem9.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem9.Glyph")));
-            this.barButtonItem9.Id = 11;
-            this.barButtonItem9.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem9.LargeGlyph")));
-            this.barButtonItem9.Name = "barButtonItem9";
-            this.barButtonItem9.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem9_ItemClick);
+            this.barBtnSerialOpen.Caption = "打开";
+            this.barBtnSerialOpen.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnSerialOpen.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSerialOpen.Glyph")));
+            this.barBtnSerialOpen.Id = 11;
+            this.barBtnSerialOpen.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.SerialPort;
+            this.barBtnSerialOpen.Name = "barBtnSerialOpen";
+            this.barBtnSerialOpen.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSerialOpen_ItemClick);
             // 
-            // barButtonItem10
+            // barBtnSerialClose
             // 
-            this.barButtonItem10.Caption = "关闭";
-            this.barButtonItem10.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem10.Enabled = false;
-            this.barButtonItem10.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem10.Glyph")));
-            this.barButtonItem10.Id = 12;
-            this.barButtonItem10.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem10.LargeGlyph")));
-            this.barButtonItem10.Name = "barButtonItem10";
-            this.barButtonItem10.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem10_ItemClick);
+            this.barBtnSerialClose.Caption = "关闭";
+            this.barBtnSerialClose.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnSerialClose.Enabled = false;
+            this.barBtnSerialClose.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSerialClose.Glyph")));
+            this.barBtnSerialClose.Id = 12;
+            this.barBtnSerialClose.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.DisableSerialPort;
+            this.barBtnSerialClose.Name = "barBtnSerialClose";
+            this.barBtnSerialClose.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSerialClose_ItemClick);
             // 
-            // barButtonItem11
+            // barBtnSetAbout
             // 
-            this.barButtonItem11.Caption = "关于";
-            this.barButtonItem11.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barButtonItem11.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem11.Glyph")));
-            this.barButtonItem11.Id = 13;
-            this.barButtonItem11.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem11.LargeGlyph")));
-            this.barButtonItem11.Name = "barButtonItem11";
-            this.barButtonItem11.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem11_ItemClick);
+            this.barBtnSetAbout.Caption = "关于";
+            this.barBtnSetAbout.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.barBtnSetAbout.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetAbout.Glyph")));
+            this.barBtnSetAbout.Id = 13;
+            this.barBtnSetAbout.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetAbout.LargeGlyph")));
+            this.barBtnSetAbout.Name = "barBtnSetAbout";
+            this.barBtnSetAbout.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetAbout_ItemClick);
             // 
-            // barButtonItem1
+            // barBtnCompare
             // 
-            this.barButtonItem1.Caption = "数据比较";
-            this.barButtonItem1.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem1.Glyph")));
-            this.barButtonItem1.Id = 26;
-            this.barButtonItem1.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem1.LargeGlyph")));
-            this.barButtonItem1.Name = "barButtonItem1";
-            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
+            this.barBtnCompare.Caption = "数据比较";
+            this.barBtnCompare.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnCompare.Glyph")));
+            this.barBtnCompare.Id = 26;
+            this.barBtnCompare.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.DataCompare1;
+            this.barBtnCompare.Name = "barBtnCompare";
+            this.barBtnCompare.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnCompare_ItemClick);
             // 
             // ribbonPageSys
             // 
@@ -231,33 +232,33 @@
             // 
             // ribbonPageGroup4
             // 
-            this.ribbonPageGroup4.ItemLinks.Add(this.barButtonItem9);
-            this.ribbonPageGroup4.ItemLinks.Add(this.barButtonItem10);
+            this.ribbonPageGroup4.ItemLinks.Add(this.barBtnSerialOpen);
+            this.ribbonPageGroup4.ItemLinks.Add(this.barBtnSerialClose);
             this.ribbonPageGroup4.Name = "ribbonPageGroup4";
             this.ribbonPageGroup4.ShowCaptionButton = false;
             this.ribbonPageGroup4.Text = "串口";
             // 
             // ribbonPageGroup1
             // 
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem3);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem1);
+            this.ribbonPageGroup1.ItemLinks.Add(this.barBtnFFT);
+            this.ribbonPageGroup1.ItemLinks.Add(this.barBtnCompare);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.ShowCaptionButton = false;
             this.ribbonPageGroup1.Text = "工具";
             // 
             // ribbonPageGroup2
             // 
-            this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem4);
-            this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem5);
-            this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem6);
-            this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem7);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetSerial);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetTemplate);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetVoice);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetParam);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.ShowCaptionButton = false;
             this.ribbonPageGroup2.Text = "设置";
             // 
             // ribbonPageGroup3
             // 
-            this.ribbonPageGroup3.ItemLinks.Add(this.barButtonItem8);
+            this.ribbonPageGroup3.ItemLinks.Add(this.barBtnSetClose);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.ShowCaptionButton = false;
             this.ribbonPageGroup3.Text = "退出";
@@ -265,7 +266,7 @@
             // ribbonPageGroup5
             // 
             this.ribbonPageGroup5.Glyph = ((System.Drawing.Image)(resources.GetObject("ribbonPageGroup5.Glyph")));
-            this.ribbonPageGroup5.ItemLinks.Add(this.barButtonItem11);
+            this.ribbonPageGroup5.ItemLinks.Add(this.barBtnSetAbout);
             this.ribbonPageGroup5.Name = "ribbonPageGroup5";
             this.ribbonPageGroup5.ShowCaptionButton = false;
             this.ribbonPageGroup5.Text = "帮助";
@@ -427,20 +428,20 @@
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar1;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageSys;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem3;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem4;
+        private DevExpress.XtraBars.BarButtonItem barBtnFFT;
+        private DevExpress.XtraBars.BarButtonItem barBtnSetSerial;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem5;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem6;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem7;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem8;
+        private DevExpress.XtraBars.BarButtonItem barBtnSetTemplate;
+        private DevExpress.XtraBars.BarButtonItem barBtnSetVoice;
+        private DevExpress.XtraBars.BarButtonItem barBtnSetParam;
+        private DevExpress.XtraBars.BarButtonItem barBtnSetClose;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ControlribbonPageGroup;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem9;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem10;
+        private DevExpress.XtraBars.BarButtonItem barBtnSerialOpen;
+        private DevExpress.XtraBars.BarButtonItem barBtnSerialClose;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem11;
+        private DevExpress.XtraBars.BarButtonItem barBtnSetAbout;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraNavBar.NavBarControl navBarControl1;
@@ -452,7 +453,8 @@
         private DevExpress.XtraNavBar.NavBarItem navBarItem3;
         private DevExpress.XtraNavBar.NavBarSeparatorItem navBarSeparatorItem3;
         private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.BarButtonItem barBtnCompare;
+        private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }
 }
