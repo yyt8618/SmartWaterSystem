@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol", "Protocol\Protoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{B0B78C14-5D2B-4FC3-BDC8-05FFD4CF4CCC}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{90961DF0-F83E-4015-953E-C9D68FB5577A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,12 @@ Global
 		{B0B78C14-5D2B-4FC3-BDC8-05FFD4CF4CCC}.Release|Mixed Platforms.Build.0 = Release|x86
 		{B0B78C14-5D2B-4FC3-BDC8-05FFD4CF4CCC}.Release|x86.ActiveCfg = Release|x86
 		{B0B78C14-5D2B-4FC3-BDC8-05FFD4CF4CCC}.Release|x86.Build.0 = Release|x86
+		{90961DF0-F83E-4015-953E-C9D68FB5577A}.Debug|Any CPU.ActiveCfg = Debug
+		{90961DF0-F83E-4015-953E-C9D68FB5577A}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{90961DF0-F83E-4015-953E-C9D68FB5577A}.Debug|x86.ActiveCfg = Debug
+		{90961DF0-F83E-4015-953E-C9D68FB5577A}.Release|Any CPU.ActiveCfg = Release
+		{90961DF0-F83E-4015-953E-C9D68FB5577A}.Release|Mixed Platforms.ActiveCfg = Release
+		{90961DF0-F83E-4015-953E-C9D68FB5577A}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

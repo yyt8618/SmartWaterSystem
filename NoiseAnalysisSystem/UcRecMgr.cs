@@ -71,33 +71,33 @@ namespace NoiseAnalysisSystem
                 return ok;
             }
 
-            //if (cbConStart.Checked)
-            //{
-            ok = MetarnetRegex.IsUint(txtConId.Text);
-            if (!ok)
+            if (comboBoxDist.SelectedIndex == 1)
             {
-                txtConId.Focus();
-                txtConId.SelectAll();
-                msg = "控制器编号设置错误！";
-                return ok;
+                ok = MetarnetRegex.IsUint(txtConId.Text);
+                if (!ok)
+                {
+                    txtConId.Focus();
+                    txtConId.SelectAll();
+                    msg = "控制器编号设置错误！";
+                    return ok;
+                }
+                ok = MetarnetRegex.IsUint(txtConPort.Text);
+                if (!ok)
+                {
+                    txtConPort.Focus();
+                    txtConPort.SelectAll();
+                    msg = "远传端口设置错误！";
+                    return ok;
+                }
+                ok = MetarnetRegex.IsIPv4(txtConAdress.Text);
+                if (!ok)
+                {
+                    txtConAdress.Focus();
+                    txtConAdress.SelectAll();
+                    msg = "远传地址设置错误！";
+                    return ok;
+                }
             }
-            ok = MetarnetRegex.IsUint(txtConPort.Text);
-            if (!ok)
-            {
-                txtConPort.Focus();
-                txtConPort.SelectAll();
-                msg = "远传端口设置错误！";
-                return ok;
-            }
-            ok = MetarnetRegex.IsIPv4(txtConAdress.Text);
-            if (!ok)
-            {
-                txtConAdress.Focus();
-                txtConAdress.SelectAll();
-                msg = "远传地址设置错误！";
-                return ok;
-            }
-            //}
 
             // 通讯时间与记录时间不能重叠
             int comTime = Convert.ToInt32(txtComTime.Text);
@@ -521,7 +521,28 @@ namespace NoiseAnalysisSystem
                         NoiseCtrl ctrl = new NoiseCtrl();
 
                         // 设置远传IP
-                        ctrl.Write_IP(id, txtConAdress.Text);
+                        string str_ip = "";   //需要将ip处理成15位长度,如:192.168.010.125
+                        string[] str_ips = txtConAdress.Text.Split('.');
+                        if (str_ips != null && str_ips.Length > 0)
+                        {
+                            foreach (string ippart in str_ips)
+                            {
+                                if (ippart.Length == 1)
+                                {
+                                    str_ip += "00"+ippart + ".";
+                                }
+                                else if (ippart.Length == 2)
+                                {
+                                    str_ip += "0" + ippart + ".";
+                                }
+                                else {
+                                    str_ip += ippart + ".";
+                                }
+                            }
+                        }
+                        if (str_ip.EndsWith("."))
+                            str_ip = str_ip.Substring(0, str_ip.Length - 1);
+                        ctrl.Write_IP(id, str_ip);
                         // 设置远传端口
                         ctrl.WritePortName(id, txtConPort.Text);
 
@@ -768,6 +789,14 @@ namespace NoiseAnalysisSystem
             this.btnStart.Enabled = true;
             this.btnStop.Enabled = true;
             this.lblRecState.Text = "运行状态  未知";
+        }
+
+        private void btnCleanFlash_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes == DevExpress.XtraEditors.XtraMessageBox.Show("是否清除记录仪数据?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+            {
+                DevExpress.XtraEditors.XtraMessageBox.Show("功能未实现，请耐心等候! ^_^", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
     }

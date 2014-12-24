@@ -102,6 +102,20 @@ namespace NoiseAnalysisSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap NoiseMap {
+            get {
+                object obj = ResourceManager.GetObject("NoiseMap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PreTerConfig {
+            get {
+                object obj = ResourceManager.GetObject("PreTerConfig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SerialPort {
             get {
                 object obj = ResourceManager.GetObject("SerialPort", resourceCulture);

@@ -74,6 +74,7 @@ namespace NoiseAnalysisSystem
 		/// <param name="real_dB">返回最小相对噪声强度（单位：%）</param>
 		public static bool AmpCalc(int c, double[] data, ref double[] real_dB)
         {
+            SpSubMinValue(ref data);
             double[] real_Part = new double[num];// 实数部分
             double[] vir_Part = new double[num]; // 虚数部分
             double[] tmp_fourier = new double[num];// 存储傅里叶转换后的数据
@@ -200,6 +201,16 @@ namespace NoiseAnalysisSystem
                 {
                     lstDatas[i][j] -= minvalue;
                 }
+            }
+        }
+
+        private static void SpSubMinValue(ref double[] Datas)
+        {
+            double minvalue = 0;
+            minvalue = GetMinValue(Datas);
+            for (int i = 0; i < Datas.Length; i++)
+            {
+                Datas[i] -= minvalue;
             }
         }
 

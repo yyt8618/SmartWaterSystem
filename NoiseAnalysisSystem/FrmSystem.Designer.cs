@@ -56,12 +56,34 @@
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.navBarControl1 = new DevExpress.XtraNavBar.NavBarControl();
             this.navBarGroup1 = new DevExpress.XtraNavBar.NavBarGroup();
-            this.navBarItem1 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarNoiseDataManager = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarSeparatorItem1 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
-            this.navBarItem2 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarNoiseRecorderManager = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarSeparatorItem2 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
-            this.navBarItem3 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarNoiseGroupManager = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarSeparatorItem3 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
+            this.navBarNoiseMap = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroup2 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarPreTelMgr = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem1 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem2 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem3 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem4 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem5 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroup3 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarItem6 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem7 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem8 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem9 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem10 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroup4 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarItem12 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem13 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem14 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem15 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem16 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroup5 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarItem11 = new DevExpress.XtraNavBar.NavBarItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
@@ -300,14 +322,36 @@
             this.navBarControl1.ActiveGroup = this.navBarGroup1;
             this.navBarControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navBarControl1.Groups.AddRange(new DevExpress.XtraNavBar.NavBarGroup[] {
-            this.navBarGroup1});
+            this.navBarGroup1,
+            this.navBarGroup2,
+            this.navBarGroup3,
+            this.navBarGroup4,
+            this.navBarGroup5});
             this.navBarControl1.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] {
-            this.navBarItem1,
+            this.navBarNoiseDataManager,
             this.navBarSeparatorItem1,
-            this.navBarItem2,
+            this.navBarNoiseRecorderManager,
             this.navBarSeparatorItem2,
+            this.navBarNoiseGroupManager,
+            this.navBarSeparatorItem3,
+            this.navBarNoiseMap,
+            this.navBarPreTelMgr,
+            this.navBarItem1,
+            this.navBarItem2,
             this.navBarItem3,
-            this.navBarSeparatorItem3});
+            this.navBarItem4,
+            this.navBarItem5,
+            this.navBarItem6,
+            this.navBarItem7,
+            this.navBarItem8,
+            this.navBarItem9,
+            this.navBarItem10,
+            this.navBarItem11,
+            this.navBarItem12,
+            this.navBarItem13,
+            this.navBarItem14,
+            this.navBarItem15,
+            this.navBarItem16});
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
@@ -318,24 +362,25 @@
             // 
             // navBarGroup1
             // 
-            this.navBarGroup1.Caption = "功能菜单";
+            this.navBarGroup1.Caption = "噪声记录仪";
             this.navBarGroup1.Expanded = true;
             this.navBarGroup1.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsText;
             this.navBarGroup1.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem1),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseDataManager),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem1),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem2),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseRecorderManager),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem2),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem3),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem3)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseGroupManager),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem3),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseMap)});
             this.navBarGroup1.Name = "navBarGroup1";
             // 
-            // navBarItem1
+            // navBarNoiseDataManager
             // 
-            this.navBarItem1.Caption = "噪声数据管理";
-            this.navBarItem1.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarItem1.LargeImage")));
-            this.navBarItem1.Name = "navBarItem1";
-            this.navBarItem1.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarItem1_LinkClicked);
+            this.navBarNoiseDataManager.Caption = "噪声数据管理";
+            this.navBarNoiseDataManager.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarNoiseDataManager.LargeImage")));
+            this.navBarNoiseDataManager.Name = "navBarNoiseDataManager";
+            this.navBarNoiseDataManager.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseDataManager_LinkClicked);
             // 
             // navBarSeparatorItem1
             // 
@@ -348,12 +393,12 @@
             this.navBarSeparatorItem1.SmallImageIndex = 0;
             this.navBarSeparatorItem1.SmallImageSize = new System.Drawing.Size(0, 0);
             // 
-            // navBarItem2
+            // navBarNoiseRecorderManager
             // 
-            this.navBarItem2.Caption = "噪声记录仪管理";
-            this.navBarItem2.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarItem2.LargeImage")));
-            this.navBarItem2.Name = "navBarItem2";
-            this.navBarItem2.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarItem2_LinkClicked);
+            this.navBarNoiseRecorderManager.Caption = "噪声记录仪管理";
+            this.navBarNoiseRecorderManager.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarNoiseRecorderManager.LargeImage")));
+            this.navBarNoiseRecorderManager.Name = "navBarNoiseRecorderManager";
+            this.navBarNoiseRecorderManager.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseRecorderManager_LinkClicked);
             // 
             // navBarSeparatorItem2
             // 
@@ -366,12 +411,12 @@
             this.navBarSeparatorItem2.SmallImageIndex = 0;
             this.navBarSeparatorItem2.SmallImageSize = new System.Drawing.Size(0, 0);
             // 
-            // navBarItem3
+            // navBarNoiseGroupManager
             // 
-            this.navBarItem3.Caption = "记录仪分组管理";
-            this.navBarItem3.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarItem3.LargeImage")));
-            this.navBarItem3.Name = "navBarItem3";
-            this.navBarItem3.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarItem3_LinkClicked);
+            this.navBarNoiseGroupManager.Caption = "记录仪分组管理";
+            this.navBarNoiseGroupManager.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarNoiseGroupManager.LargeImage")));
+            this.navBarNoiseGroupManager.Name = "navBarNoiseGroupManager";
+            this.navBarNoiseGroupManager.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseGroupManager_LinkClicked);
             // 
             // navBarSeparatorItem3
             // 
@@ -383,6 +428,140 @@
             this.navBarSeparatorItem3.Name = "navBarSeparatorItem3";
             this.navBarSeparatorItem3.SmallImageIndex = 0;
             this.navBarSeparatorItem3.SmallImageSize = new System.Drawing.Size(0, 0);
+            // 
+            // navBarNoiseMap
+            // 
+            this.navBarNoiseMap.Caption = "地图";
+            this.navBarNoiseMap.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.NoiseMap;
+            this.navBarNoiseMap.Name = "navBarNoiseMap";
+            this.navBarNoiseMap.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseMap_LinkClicked);
+            // 
+            // navBarGroup2
+            // 
+            this.navBarGroup2.Caption = "压力终端";
+            this.navBarGroup2.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelMgr),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem1),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem2),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem3),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem4),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem5)});
+            this.navBarGroup2.Name = "navBarGroup2";
+            // 
+            // navBarPreTelMgr
+            // 
+            this.navBarPreTelMgr.Caption = "终端参数配置和读取";
+            this.navBarPreTelMgr.Name = "navBarPreTelMgr";
+            this.navBarPreTelMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelMgr_LinkClicked);
+            // 
+            // navBarItem1
+            // 
+            this.navBarItem1.Caption = "终端配置和管理";
+            this.navBarItem1.Name = "navBarItem1";
+            // 
+            // navBarItem2
+            // 
+            this.navBarItem2.Caption = "实时列表监控、趋势图";
+            this.navBarItem2.Name = "navBarItem2";
+            // 
+            // navBarItem3
+            // 
+            this.navBarItem3.Caption = "报表、历史数据查询";
+            this.navBarItem3.Name = "navBarItem3";
+            // 
+            // navBarItem4
+            // 
+            this.navBarItem4.Caption = "报警统计分析";
+            this.navBarItem4.Name = "navBarItem4";
+            // 
+            // navBarItem5
+            // 
+            this.navBarItem5.Caption = "故障统计分析";
+            this.navBarItem5.Name = "navBarItem5";
+            // 
+            // navBarGroup3
+            // 
+            this.navBarGroup3.Caption = "GSM终端";
+            this.navBarGroup3.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem6),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem7),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem8),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem9),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem10)});
+            this.navBarGroup3.Name = "navBarGroup3";
+            // 
+            // navBarItem6
+            // 
+            this.navBarItem6.Caption = "参数配置和读取";
+            this.navBarItem6.Name = "navBarItem6";
+            // 
+            // navBarItem7
+            // 
+            this.navBarItem7.Caption = "终端配置和管理";
+            this.navBarItem7.Name = "navBarItem7";
+            // 
+            // navBarItem8
+            // 
+            this.navBarItem8.Caption = "列表监控、趋势图";
+            this.navBarItem8.Name = "navBarItem8";
+            // 
+            // navBarItem9
+            // 
+            this.navBarItem9.Caption = "报表、历史数据查询";
+            this.navBarItem9.Name = "navBarItem9";
+            // 
+            // navBarItem10
+            // 
+            this.navBarItem10.Caption = "故障统计分析";
+            this.navBarItem10.Name = "navBarItem10";
+            // 
+            // navBarGroup4
+            // 
+            this.navBarGroup4.Caption = "阀门开度控制器";
+            this.navBarGroup4.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem12),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem13),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem14),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem15),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem16)});
+            this.navBarGroup4.Name = "navBarGroup4";
+            // 
+            // navBarItem12
+            // 
+            this.navBarItem12.Caption = "设备配置和管理";
+            this.navBarItem12.Name = "navBarItem12";
+            // 
+            // navBarItem13
+            // 
+            this.navBarItem13.Caption = "监控及趋势图";
+            this.navBarItem13.Name = "navBarItem13";
+            // 
+            // navBarItem14
+            // 
+            this.navBarItem14.Caption = "调节方案配置和管理";
+            this.navBarItem14.Name = "navBarItem14";
+            // 
+            // navBarItem15
+            // 
+            this.navBarItem15.Caption = "报表、历史数据查询";
+            this.navBarItem15.Name = "navBarItem15";
+            // 
+            // navBarItem16
+            // 
+            this.navBarItem16.Caption = "故障统计分析";
+            this.navBarItem16.Name = "navBarItem16";
+            // 
+            // navBarGroup5
+            // 
+            this.navBarGroup5.Caption = "便携式压力记录仪";
+            this.navBarGroup5.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem11)});
+            this.navBarGroup5.Name = "navBarGroup5";
+            // 
+            // navBarItem11
+            // 
+            this.navBarItem11.Caption = "参数配置与读取";
+            this.navBarItem11.Name = "navBarItem11";
             // 
             // defaultLookAndFeel1
             // 
@@ -446,15 +625,37 @@
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraNavBar.NavBarControl navBarControl1;
         private DevExpress.XtraNavBar.NavBarGroup navBarGroup1;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem1;
+        private DevExpress.XtraNavBar.NavBarItem navBarNoiseDataManager;
         private DevExpress.XtraNavBar.NavBarSeparatorItem navBarSeparatorItem1;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem2;
+        private DevExpress.XtraNavBar.NavBarItem navBarNoiseRecorderManager;
         private DevExpress.XtraNavBar.NavBarSeparatorItem navBarSeparatorItem2;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem3;
+        private DevExpress.XtraNavBar.NavBarItem navBarNoiseGroupManager;
         private DevExpress.XtraNavBar.NavBarSeparatorItem navBarSeparatorItem3;
         private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
         private DevExpress.XtraBars.BarButtonItem barBtnCompare;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroup2;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroup3;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroup4;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroup5;
+        private DevExpress.XtraNavBar.NavBarItem navBarNoiseMap;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTelMgr;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem1;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem2;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem3;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem4;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem5;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem6;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem7;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem8;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem9;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem10;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem11;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem12;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem13;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem14;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem15;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem16;
 
     }
 }

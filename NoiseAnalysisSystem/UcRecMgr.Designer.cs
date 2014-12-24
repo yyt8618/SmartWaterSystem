@@ -89,6 +89,7 @@
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.btnCleanFlash = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNote.Properties)).BeginInit();
@@ -269,6 +270,7 @@
             this.groupControl2.Controls.Add(this.lblRecState);
             this.groupControl2.Controls.Add(this.btnReadSet);
             this.groupControl2.Controls.Add(this.btnReadT);
+            this.groupControl2.Controls.Add(this.btnCleanFlash);
             this.groupControl2.Controls.Add(this.btnStop);
             this.groupControl2.Controls.Add(this.label3);
             this.groupControl2.Controls.Add(this.comboBoxDist);
@@ -761,6 +763,16 @@
             // 
             this.timer1.Interval = 1000;
             // 
+            // btnCleanFlash
+            // 
+            this.btnCleanFlash.Enabled = false;
+            this.btnCleanFlash.Location = new System.Drawing.Point(112, 231);
+            this.btnCleanFlash.Name = "btnCleanFlash";
+            this.btnCleanFlash.Size = new System.Drawing.Size(64, 23);
+            this.btnCleanFlash.TabIndex = 8;
+            this.btnCleanFlash.Text = "清除数据";
+            this.btnCleanFlash.Click += new System.EventHandler(this.btnCleanFlash_Click);
+            // 
             // UcRecMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -866,5 +878,6 @@
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.SimpleButton btnUpdate;
         private System.Windows.Forms.Timer timer1;
+        public DevExpress.XtraEditors.SimpleButton btnCleanFlash;
     }
 }

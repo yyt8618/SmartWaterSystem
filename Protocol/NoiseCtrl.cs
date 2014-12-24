@@ -140,7 +140,7 @@ namespace Protocol
             package.DevType = DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_GPRS_BAUDRATE;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_IP;
             package.DataLength = 15;
             byte[] data = new byte[package.DataLength];
             if (ip.Length != 15)

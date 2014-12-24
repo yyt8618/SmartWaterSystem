@@ -289,7 +289,7 @@ namespace NoiseAnalysisSystem
         private void btnSelect_Click(object sender, EventArgs e)
         {
 			StreamReader sr = null;
-            openFileDialog.FileName = "选择需要分析的文件";
+            openFileDialog.FileName = "选择需要展示的文件";
             DialogResult dr = openFileDialog.ShowDialog();
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
@@ -327,7 +327,7 @@ namespace NoiseAnalysisSystem
 
         private void btnSelect1_Click(object sender, EventArgs e)
         {
-            openFileDialog.FileName = "选择需要展示的文件";
+            openFileDialog.FileName = "选择需要分析的文件";
             DialogResult dr = openFileDialog.ShowDialog();
             StreamReader sr = null;
             StreamWriter sw = null;

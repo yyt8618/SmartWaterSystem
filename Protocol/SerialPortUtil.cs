@@ -465,7 +465,6 @@ namespace Protocol
                                     AppendBufLine("发送回应...");
                                     SendData(response.ToArray(), false);
 
-                                    
                                 }
                                 packageBytes.Clear();
                             }
@@ -507,16 +506,16 @@ namespace Protocol
                         packageCache.Clear();
 
                         //clear data
-                        Package clear = new Package();
-                        clear.DevType = DEV_TYPE.NOISE_LOG;
-                        clear.DevID = id;
-                        clear.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                        clear.C1 = (byte)NOISE_LOG_COMMAND.CTRL_CLEAR_FLASH;
-                        clear.DataLength = 0;
-                        clear.Data = null;
-                        clear.CS = clear.CreateCS();
-                        AppendBufLine("读取数据后清除");
-                        SendData(clear.ToArray(), false);
+                        //Package clear = new Package();
+                        //clear.DevType = DEV_TYPE.NOISE_LOG;
+                        //clear.DevID = id;
+                        //clear.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        //clear.C1 = (byte)NOISE_LOG_COMMAND.CTRL_CLEAR_FLASH;
+                        //clear.DataLength = 0;
+                        //clear.Data = null;
+                        //clear.CS = clear.CreateCS();
+                        //AppendBufLine("读取数据后清除");
+                        //SendData(clear.ToArray(), false);
 
                         return output.ToArray();
                     }

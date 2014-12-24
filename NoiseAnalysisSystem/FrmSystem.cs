@@ -12,6 +12,7 @@ namespace NoiseAnalysisSystem
         private UcDataMgr dataMgr;
         private UcRecMgr recMgr;
         private UcGroupMgr gpMgr;
+        private UcPreTerMgr pretelMgr;
 
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmSystem");
 
@@ -36,6 +37,7 @@ namespace NoiseAnalysisSystem
             dataMgr = new UcDataMgr(this);
             recMgr = new UcRecMgr(this);
             gpMgr = new UcGroupMgr(this);
+            pretelMgr = new UcPreTerMgr(this);
         }
 
         private void FrmSystem_Load(object sender, EventArgs e)
@@ -116,7 +118,7 @@ namespace NoiseAnalysisSystem
         }
 
         // 数据管理
-        private void navBarItem1_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarNoiseDataManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             panelControlMain.Controls.Clear();
             panelControlMain.Controls.Add(dataMgr);
@@ -124,7 +126,7 @@ namespace NoiseAnalysisSystem
         }
 
         // 记录仪管理
-        private void navBarItem2_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarNoiseRecorderManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             panelControlMain.Controls.Clear();
             panelControlMain.Controls.Add(recMgr);
@@ -132,13 +134,25 @@ namespace NoiseAnalysisSystem
         }
 
         // 分组管理
-        private void navBarItem3_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarNoiseGroupManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             panelControlMain.Controls.Clear();
             panelControlMain.Controls.Add(gpMgr);
             gpMgr.BindTree();
             gpMgr.BindListBox();
         }
+
+        private void navBarNoiseMap_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            DevExpress.XtraEditors.XtraMessageBox.Show("功能未实现，请耐心等候! ^_^", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void navBarPreTelMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            panelControlMain.Controls.Clear();
+            panelControlMain.Controls.Add(pretelMgr);
+        }
+
 
         // 退出
         private void barBtnSetClose_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -235,7 +249,8 @@ namespace NoiseAnalysisSystem
         {
             this.BeginInvoke(new Action(() =>
             {
-                splashScreenmanager.CloseWaitForm();
+                if (splashScreenmanager.IsSplashFormVisible)
+                    splashScreenmanager.CloseWaitForm();
             }));
         }
 
@@ -258,5 +273,6 @@ namespace NoiseAnalysisSystem
         {
             this.navBarControl1.Enabled = true;
         }
+
     }
 }
