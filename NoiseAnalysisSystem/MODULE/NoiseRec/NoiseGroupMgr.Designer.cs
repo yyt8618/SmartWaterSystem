@@ -1,6 +1,6 @@
 ﻿namespace NoiseAnalysisSystem
 {
-    partial class UcGroupMgr
+    partial class NoiseGroupMgr
     {
         /// <summary> 
         /// Required designer variable.
@@ -595,7 +595,7 @@
             this.btnImportRec.Text = "分配记录仪";
             this.btnImportRec.Click += new System.EventHandler(this.btnImportRec_Click);
             // 
-            // UcGroupMgr
+            // NoiseGroupMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -603,7 +603,7 @@
             this.Controls.Add(this.groupControl3);
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl1);
-            this.Name = "UcGroupMgr";
+            this.Name = "NoiseGroupMgr";
             this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.UcGroupMgr_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();

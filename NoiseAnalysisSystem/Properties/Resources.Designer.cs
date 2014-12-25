@@ -109,6 +109,13 @@ namespace NoiseAnalysisSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap NoiseRecorder {
+            get {
+                object obj = ResourceManager.GetObject("NoiseRecorder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap PreTerConfig {
             get {
                 object obj = ResourceManager.GetObject("PreTerConfig", resourceCulture);

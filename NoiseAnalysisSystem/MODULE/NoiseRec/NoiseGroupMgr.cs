@@ -11,10 +11,10 @@ using Protocol;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class UcGroupMgr : DevExpress.XtraEditors.XtraUserControl
+    public partial class NoiseGroupMgr : DevExpress.XtraEditors.XtraUserControl
     {
         private FrmSystem main;
-        public UcGroupMgr(FrmSystem frm)
+        public NoiseGroupMgr(FrmSystem frm)
         {
             InitializeComponent();
             this.main = frm;
@@ -539,7 +539,7 @@ namespace NoiseAnalysisSystem
                             int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
                             if (query != -1)
                             {
-                                XtraMessageBox.Show("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                main.ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                                 GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                             }
@@ -549,7 +549,7 @@ namespace NoiseAnalysisSystem
                     }
                     else
                     {
-                        DevExpress.XtraEditors.XtraMessageBox.Show("请选择需要操作的分组", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        main.ShowDialog("请选择需要操作的分组", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
 
@@ -567,7 +567,7 @@ namespace NoiseAnalysisSystem
                 }
                 catch (Exception ex)
                 {
-                    XtraMessageBox.Show("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    main.ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     main.barStaticItemWait.Caption = "设置失败";
                 }
                 finally

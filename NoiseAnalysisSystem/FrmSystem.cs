@@ -9,10 +9,15 @@ namespace NoiseAnalysisSystem
 {
     public partial class FrmSystem : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        private UcDataMgr dataMgr;
-        private UcRecMgr recMgr;
-        private UcGroupMgr gpMgr;
-        private UcPreTerMgr pretelMgr;
+        private NoiseDataMgr dataMgr;   //噪声记录仪数据读取、分析
+        private NoiseRecMgr recMgr;     //噪声记录仪管理
+        private NoiseGroupMgr gpMgr;    //噪声记录仪分组管理
+        private PreTerParm pretelParm;  //压力终端参数读取设置
+        private PreTerMgr pretelMgr;    //压力终端配置、管理
+        private PreTerMonitor pretelMonitor;  //压力终端监控
+        private PreTerReportHistory pretelReport; //压力终端报表与历史数据查询
+        private PreTerAlarm pretelAlarm;    //压力终端报警
+        private PreTerStoppage pretelStoppage;  //压力终端故障统计分析
 
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmSystem");
 
@@ -34,10 +39,15 @@ namespace NoiseAnalysisSystem
                 XtraMessageBox.Show("获取数据库数据异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-            dataMgr = new UcDataMgr(this);
-            recMgr = new UcRecMgr(this);
-            gpMgr = new UcGroupMgr(this);
-            pretelMgr = new UcPreTerMgr(this);
+            dataMgr = new NoiseDataMgr(this);
+            recMgr = new NoiseRecMgr(this);
+            gpMgr = new NoiseGroupMgr(this);
+            pretelParm = new PreTerParm(this);
+            pretelMgr = new PreTerMgr(this);
+            pretelMonitor = new PreTerMonitor(this);
+            pretelReport = new PreTerReportHistory(this);
+            pretelAlarm = new PreTerAlarm(this);
+            pretelStoppage = new PreTerStoppage(this);
         }
 
         private void FrmSystem_Load(object sender, EventArgs e)
@@ -66,6 +76,7 @@ namespace NoiseAnalysisSystem
                         recMgr.btnNow.Enabled = true;
                         recMgr.btnStart.Enabled = true;
                         recMgr.btnStop.Enabled = true;
+                        recMgr.btnCleanFlash.Enabled = true;
                         dataMgr.simpleButtonRead.Enabled = true;
                         gpMgr.btnSaveGroupSet.Enabled = true;
                         gpMgr.btnReadTemplate.Enabled = true;
@@ -98,6 +109,7 @@ namespace NoiseAnalysisSystem
                         recMgr.btnNow.Enabled = false;
                         recMgr.btnStart.Enabled = false;
                         recMgr.btnStop.Enabled = false;
+                        recMgr.btnCleanFlash.Enabled = false;
                         dataMgr.simpleButtonRead.Enabled = false;
                         gpMgr.btnSaveGroupSet.Enabled = false;
                         gpMgr.btnReadTemplate.Enabled = false;
@@ -147,10 +159,10 @@ namespace NoiseAnalysisSystem
             DevExpress.XtraEditors.XtraMessageBox.Show("功能未实现，请耐心等候! ^_^", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void navBarPreTelMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarPreTelParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(pretelMgr);
+            panelControlMain.Controls.Add(pretelParm);
         }
 
 
@@ -272,6 +284,45 @@ namespace NoiseAnalysisSystem
         public void EnableNavigateBar()
         {
             this.navBarControl1.Enabled = true;
+        }
+
+        public void ShowDialog(string text,string caption,MessageBoxButtons buttons,MessageBoxIcon icon)
+        {
+            EnableRibbonBar();
+            EnableNavigateBar();
+            HideWaitForm();
+            Application.DoEvents();
+            XtraMessageBox.Show(text, caption, buttons, icon);
+        }
+
+        private void navBarPreTelMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            panelControlMain.Controls.Clear();
+            panelControlMain.Controls.Add(pretelMgr);
+        }
+
+        private void navBarPreTelMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            panelControlMain.Controls.Clear();
+            panelControlMain.Controls.Add(pretelMonitor);
+        }
+
+        private void navBarPreTelReport_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            panelControlMain.Controls.Clear();
+            panelControlMain.Controls.Add(pretelReport);
+        }
+
+        private void navBarPreTelAlarm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            panelControlMain.Controls.Clear();
+            panelControlMain.Controls.Add(pretelAlarm);
+        }
+
+        private void navBarPreTelStoppage_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            panelControlMain.Controls.Clear();
+            panelControlMain.Controls.Add(pretelStoppage);
         }
 
     }

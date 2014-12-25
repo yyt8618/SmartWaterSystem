@@ -11,12 +11,12 @@ using Protocol;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class UcRecMgr : DevExpress.XtraEditors.XtraUserControl
+    public partial class NoiseRecMgr : DevExpress.XtraEditors.XtraUserControl
     {
         private FrmSystem main;
         private bool isSetting;
 
-        public UcRecMgr(FrmSystem frm)
+        public NoiseRecMgr(FrmSystem frm)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
@@ -31,13 +31,13 @@ namespace NoiseAnalysisSystem
         {
             bool ok;
             msg = string.Empty;
-            if (string.IsNullOrEmpty(txtRecNote.Text))
-            {
-                txtRecNote.Focus();
-                txtRecNote.SelectAll();
-                msg = "记录仪备注未输入！";
-                return false;
-            }
+            //if (string.IsNullOrEmpty(txtRecNote.Text))
+            //{
+            //    txtRecNote.Focus();
+            //    txtRecNote.SelectAll();
+            //    msg = "记录仪备注未输入！";
+            //    return false;
+            //}
             ok = MetarnetRegex.IsUint(txtRecID.Text);
             if (!ok)
             {
@@ -194,13 +194,13 @@ namespace NoiseAnalysisSystem
                     NoiseDataBaseHelper.UpdateRecorder(rec);
                     if (NoiseDataBaseHelper.SaveStandData(rec.GroupID, rec.ID, Originaldata) < 0)
                     {
-                        XtraMessageBox.Show("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        main.ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         isError = true;
                     }
                 }
                 catch (TimeoutException)
                 {
-                    XtraMessageBox.Show("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    main.ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     isError = true;
                 }
                 catch (ArgumentNullException)
@@ -210,15 +210,15 @@ namespace NoiseAnalysisSystem
                 }
                 catch (Exception ex)
                 {
-                    XtraMessageBox.Show(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    main.ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     isError = true;
                 }
                 finally
                 {
                     main.EnableRibbonBar();
                     main.EnableNavigateBar();
-                    btnStart.Enabled = true;
                     main.HideWaitForm();
+                    btnStart.Enabled = true;
                     if (!isError)
                     {
                         lblRecState.Text = "运行状态  已启动";
@@ -273,15 +273,15 @@ namespace NoiseAnalysisSystem
                 }
                 catch (Exception ex)
                 {
-                    XtraMessageBox.Show(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    main.ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     isError = true;
                 }
                 finally
                 {
                     main.EnableRibbonBar();
                     main.EnableNavigateBar();
-                    btnStop.Enabled = true;
                     main.HideWaitForm();
+                    btnStop.Enabled = true;
                     if (!isError)
                     {
                         lblRecState.Text = "运行状态  已停止";
@@ -410,8 +410,8 @@ namespace NoiseAnalysisSystem
         {
             new Action(() =>
             {
-                main.EnableRibbonBar();
-                main.EnableNavigateBar();
+                main.DisableRibbonBar();
+                main.DisableNavigateBar();
                 main.ShowWaitForm("", "正在读取设备参数...");
                 main.barStaticItemWait.Caption = "正在读取设备参数...";
                 Control cl = sender as Control;
@@ -455,10 +455,11 @@ namespace NoiseAnalysisSystem
                     byte[] tt1 = GlobalValue.log.ReadTime(id);
                     this.dateTimePicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
                     main.barStaticItemWait.Caption = "读取成功";
+                    main.ShowDialog("读取成功", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    XtraMessageBox.Show("读取失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    main.ShowDialog("读取失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     main.barStaticItemWait.Caption = "读取失败"; ;
                 }
                 finally
@@ -483,7 +484,9 @@ namespace NoiseAnalysisSystem
                     string msg = string.Empty;
                     if (!ValidateRecorderManageInput(out msg))
                     {
-                        throw new Exception(msg);
+                        XtraMessageBox.Show("设置失败：" + msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        main.barStaticItemWait.Caption = "设置失败";
+                        return;
                     }
 
                     main.DisableRibbonBar();
@@ -580,7 +583,7 @@ namespace NoiseAnalysisSystem
                     int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
                     if (query != -1)
                     {
-                        XtraMessageBox.Show("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        main.ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                         GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                         BindRecord();
@@ -592,7 +595,7 @@ namespace NoiseAnalysisSystem
                 }
                 catch (Exception ex)
                 {
-                    XtraMessageBox.Show("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    main.ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     main.barStaticItemWait.Caption = "设置失败";
                 }
                 finally
@@ -793,11 +796,61 @@ namespace NoiseAnalysisSystem
 
         private void btnCleanFlash_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes == DevExpress.XtraEditors.XtraMessageBox.Show("是否清除记录仪数据?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+            if (DialogResult.No == DevExpress.XtraEditors.XtraMessageBox.Show("是否清除记录仪数据?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
             {
-                DevExpress.XtraEditors.XtraMessageBox.Show("功能未实现，请耐心等候! ^_^", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
+            new Action(() =>
+                    {
+                        if (!isSetting)
+                        {
+                            short id = 0;
+                            try
+                            {
+                                if (string.IsNullOrEmpty(txtRecID.Text))
+                                {
+                                    XtraMessageBox.Show("请输入记录仪编号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    txtRecID.Focus();
+                                    return;
+                                }
+
+                                main.ShowWaitForm("", "正在清除数据...");
+                                main.DisableRibbonBar();
+                                main.DisableNavigateBar();
+                                id = Convert.ToInt16(txtRecID.Text);
+
+                                main.barStaticItemWait.Description = "正在清除数据...";
+
+                                bool result = GlobalValue.log.ClearData(id);
+
+                                if (result)
+                                {
+                                    main.ShowDialog("清除记录仪数据成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                {
+                                    main.ShowDialog("清除记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                            }
+                            catch (TimeoutException)
+                            {
+                                main.ShowDialog("记录仪" + id + "操作超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                main.ShowDialog("记录仪" + id + "操作失败！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            catch (Exception ex)
+                            {
+                                main.ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }).BeginInvoke(null, null);
         }
 
+        private void btnGetConID_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

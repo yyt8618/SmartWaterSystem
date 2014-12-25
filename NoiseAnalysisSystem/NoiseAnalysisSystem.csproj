@@ -165,11 +165,41 @@
       <DependentUpon>FrmParamViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalValue.cs" />
-    <Compile Include="UcPreTerMgr.cs">
+    <Compile Include="MODULE\PreTerminal\PreTerParm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UcPreTerMgr.Designer.cs">
-      <DependentUpon>UcPreTerMgr.cs</DependentUpon>
+    <Compile Include="MODULE\PreTerminal\PreTerParm.Designer.cs">
+      <DependentUpon>PreTerParm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerMgr.Designer.cs">
+      <DependentUpon>PreTerMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerMonitor.Designer.cs">
+      <DependentUpon>PreTerMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerReportHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerReportHistory.Designer.cs">
+      <DependentUpon>PreTerReportHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerAlarm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerAlarm.Designer.cs">
+      <DependentUpon>PreTerAlarm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerStoppage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerStoppage.Designer.cs">
+      <DependentUpon>PreTerStoppage.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -186,23 +216,23 @@
     <Compile Include="FrmDataCompare.Designer.cs">
       <DependentUpon>FrmDataCompare.cs</DependentUpon>
     </Compile>
-    <Compile Include="UcDataMgr.cs">
+    <Compile Include="MODULE\NoiseRec\NoiseDataMgr.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UcDataMgr.Designer.cs">
-      <DependentUpon>UcDataMgr.cs</DependentUpon>
+    <Compile Include="MODULE\NoiseRec\NoiseDataMgr.Designer.cs">
+      <DependentUpon>NoiseDataMgr.cs</DependentUpon>
     </Compile>
-    <Compile Include="UcGroupMgr.cs">
+    <Compile Include="MODULE\NoiseRec\NoiseGroupMgr.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UcGroupMgr.Designer.cs">
-      <DependentUpon>UcGroupMgr.cs</DependentUpon>
+    <Compile Include="MODULE\NoiseRec\NoiseGroupMgr.Designer.cs">
+      <DependentUpon>NoiseGroupMgr.cs</DependentUpon>
     </Compile>
-    <Compile Include="UcRecMgr.cs">
+    <Compile Include="MODULE\NoiseRec\NoiseRecMgr.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UcRecMgr.Designer.cs">
-      <DependentUpon>UcRecMgr.cs</DependentUpon>
+    <Compile Include="MODULE\NoiseRec\NoiseRecMgr.Designer.cs">
+      <DependentUpon>NoiseRecMgr.cs</DependentUpon>
     </Compile>
     <Compile Include="WaitForm1.cs">
       <SubType>Form</SubType>
@@ -236,8 +266,23 @@
     <EmbeddedResource Include="FrmParamViewer.resx">
       <DependentUpon>FrmParamViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UcPreTerMgr.resx">
-      <DependentUpon>UcPreTerMgr.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerParm.resx">
+      <DependentUpon>PreTerParm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerMgr.resx">
+      <DependentUpon>PreTerMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerMonitor.resx">
+      <DependentUpon>PreTerMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerReportHistory.resx">
+      <DependentUpon>PreTerReportHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerAlarm.resx">
+      <DependentUpon>PreTerAlarm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerStoppage.resx">
+      <DependentUpon>PreTerStoppage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -256,14 +301,14 @@
     <EmbeddedResource Include="FrmDataCompare.resx">
       <DependentUpon>FrmDataCompare.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UcDataMgr.resx">
-      <DependentUpon>UcDataMgr.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseDataMgr.resx">
+      <DependentUpon>NoiseDataMgr.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UcGroupMgr.resx">
-      <DependentUpon>UcGroupMgr.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseGroupMgr.resx">
+      <DependentUpon>NoiseGroupMgr.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UcRecMgr.resx">
-      <DependentUpon>UcRecMgr.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseRecMgr.resx">
+      <DependentUpon>NoiseRecMgr.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitForm1.resx">
       <DependentUpon>WaitForm1.cs</DependentUpon>
@@ -297,6 +342,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gc.ico" />
+    <None Include="Resources\Products\NoiseRecorder.png" />
     <None Include="Resources\PreTerConfig.bmp" />
     <None Include="Resources\NoiseMap.png" />
     <None Include="Resources\DataCompare3.png" />
@@ -313,6 +359,11 @@
     <None Include="Resources\Voice.PNG" />
     <None Include="Resources\companylogo.png" />
     <None Include="Resources\wait.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MODULE\GSMTerminal\" />
+    <Folder Include="MODULE\PortablePreTerminal\" />
+    <Folder Include="MODULE\ValveSwitchCTL\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class UcPreTerMgr : DevExpress.XtraEditors.XtraUserControl
+    public partial class  PreTerMonitor : DevExpress.XtraEditors.XtraUserControl
     {
-        public UcPreTerMgr(FrmSystem parentform)
+        public PreTerMonitor(FrmSystem parentform)
         {
             InitializeComponent();
         }

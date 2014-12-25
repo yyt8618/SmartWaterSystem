@@ -1,6 +1,6 @@
 ﻿namespace NoiseAnalysisSystem
 {
-    partial class UcPreTerMgr
+    partial class PreTerParm
     {
         /// <summary>
         /// Required designer variable.
@@ -45,7 +45,6 @@
             this.checkEdit8 = new DevExpress.XtraEditors.CheckEdit();
             this.checkEdit7 = new DevExpress.XtraEditors.CheckEdit();
             this.checkEdit6 = new DevExpress.XtraEditors.CheckEdit();
-            this.comboBoxEditDist = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnSaveTemplate = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
@@ -58,11 +57,12 @@
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
             this.comboBoxEdit2 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.textEdit6 = new DevExpress.XtraEditors.TextEdit();
+            this.textEdit16 = new DevExpress.XtraEditors.TextEdit();
             this.comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.checkEdit12 = new DevExpress.XtraEditors.CheckEdit();
             this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
-            this.textEdit4 = new DevExpress.XtraEditors.TextEdit();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.textEdit4 = new DevExpress.XtraEditors.TextEdit();
             this.textEdit5 = new DevExpress.XtraEditors.TextEdit();
             this.checkEdit13 = new DevExpress.XtraEditors.CheckEdit();
             this.checkEdit15 = new DevExpress.XtraEditors.CheckEdit();
@@ -91,9 +91,23 @@
             this.checkEdit17 = new DevExpress.XtraEditors.CheckEdit();
             this.checkEdit16 = new DevExpress.XtraEditors.CheckEdit();
             this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
+            this.simpleButton6 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
+            this.radioGroup1 = new DevExpress.XtraEditors.RadioGroup();
+            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl8 = new DevExpress.XtraEditors.GroupControl();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.listBoxControl1 = new DevExpress.XtraEditors.ListBoxControl();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.groupControl9 = new DevExpress.XtraEditors.GroupControl();
+            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.textEdit15 = new DevExpress.XtraEditors.TextEdit();
+            this.textEdit14 = new DevExpress.XtraEditors.TextEdit();
+            this.textEdit13 = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit3.Properties)).BeginInit();
@@ -112,7 +126,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit8.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit7.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit6.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditDist.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -122,6 +135,7 @@
             this.groupControl4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit6.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit16.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit12.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
@@ -156,9 +170,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit17.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit16.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
+            this.groupControl7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).BeginInit();
             this.groupControl8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl9)).BeginInit();
+            this.groupControl9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit15.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit14.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit13.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
@@ -171,9 +192,9 @@
             this.groupControl1.Controls.Add(this.checkEdit3);
             this.groupControl1.Controls.Add(this.checkEdit2);
             this.groupControl1.Controls.Add(this.checkEdit1);
-            this.groupControl1.Location = new System.Drawing.Point(3, 3);
+            this.groupControl1.Location = new System.Drawing.Point(3, 14);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(177, 151);
+            this.groupControl1.Size = new System.Drawing.Size(177, 161);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
             // 
@@ -248,7 +269,7 @@
             // 
             // toggleSwitch1
             // 
-            this.toggleSwitch1.Location = new System.Drawing.Point(20, 466);
+            this.toggleSwitch1.Location = new System.Drawing.Point(63, 28);
             this.toggleSwitch1.Name = "toggleSwitch1";
             this.toggleSwitch1.Properties.OffText = "Off";
             this.toggleSwitch1.Properties.OnText = "On";
@@ -262,9 +283,9 @@
             this.groupControl2.Controls.Add(this.checkEdit8);
             this.groupControl2.Controls.Add(this.checkEdit7);
             this.groupControl2.Controls.Add(this.checkEdit6);
-            this.groupControl2.Location = new System.Drawing.Point(187, 3);
+            this.groupControl2.Location = new System.Drawing.Point(186, 14);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(130, 151);
+            this.groupControl2.Size = new System.Drawing.Size(130, 161);
             this.groupControl2.TabIndex = 4;
             this.groupControl2.Text = "采集功能配置";
             // 
@@ -308,44 +329,31 @@
             this.checkEdit6.Size = new System.Drawing.Size(117, 19);
             this.checkEdit6.TabIndex = 1;
             // 
-            // comboBoxEditDist
-            // 
-            this.comboBoxEditDist.Location = new System.Drawing.Point(470, 447);
-            this.comboBoxEditDist.Name = "comboBoxEditDist";
-            this.comboBoxEditDist.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditDist.Properties.Items.AddRange(new object[] {
-            "关闭",
-            "开启"});
-            this.comboBoxEditDist.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxEditDist.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxEditDist.TabIndex = 106;
-            // 
             // btnSaveTemplate
             // 
-            this.btnSaveTemplate.Location = new System.Drawing.Point(630, 446);
+            this.btnSaveTemplate.Location = new System.Drawing.Point(8, 131);
             this.btnSaveTemplate.Name = "btnSaveTemplate";
-            this.btnSaveTemplate.Size = new System.Drawing.Size(53, 23);
+            this.btnSaveTemplate.Size = new System.Drawing.Size(151, 34);
             this.btnSaveTemplate.TabIndex = 107;
-            this.btnSaveTemplate.Text = "保存";
+            this.btnSaveTemplate.Text = "启动采集";
             // 
             // groupControl3
             // 
             this.groupControl3.Controls.Add(this.gridControl1);
             this.groupControl3.Controls.Add(this.checkEdit26);
-            this.groupControl3.Location = new System.Drawing.Point(209, 160);
+            this.groupControl3.Location = new System.Drawing.Point(207, 181);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(200, 266);
+            this.groupControl3.Size = new System.Drawing.Size(200, 301);
             this.groupControl3.TabIndex = 4;
             this.groupControl3.Text = "压力时间间隔";
             // 
             // gridControl1
             // 
             this.gridControl1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl1.Location = new System.Drawing.Point(5, 44);
+            this.gridControl1.Location = new System.Drawing.Point(6, 44);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(188, 217);
+            this.gridControl1.Size = new System.Drawing.Size(188, 252);
             this.gridControl1.TabIndex = 2;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -362,6 +370,7 @@
             this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridView1.OptionsBehavior.ReadOnly = true;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
             // gridColumn1
             // 
@@ -369,7 +378,7 @@
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
-            this.gridColumn1.Width = 35;
+            this.gridColumn1.Width = 70;
             // 
             // gridColumn2
             // 
@@ -377,7 +386,7 @@
             this.gridColumn2.Name = "gridColumn2";
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 1;
-            this.gridColumn2.Width = 30;
+            this.gridColumn2.Width = 70;
             // 
             // gridColumn3
             // 
@@ -385,7 +394,7 @@
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 2;
-            this.gridColumn3.Width = 84;
+            this.gridColumn3.Width = 20;
             // 
             // gridColumn4
             // 
@@ -393,7 +402,7 @@
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 3;
-            this.gridColumn4.Width = 180;
+            this.gridColumn4.Width = 20;
             // 
             // checkEdit26
             // 
@@ -407,21 +416,22 @@
             // 
             this.groupControl4.Controls.Add(this.comboBoxEdit2);
             this.groupControl4.Controls.Add(this.textEdit6);
+            this.groupControl4.Controls.Add(this.textEdit16);
             this.groupControl4.Controls.Add(this.comboBoxEdit1);
             this.groupControl4.Controls.Add(this.checkEdit12);
             this.groupControl4.Controls.Add(this.groupControl6);
             this.groupControl4.Controls.Add(this.checkEdit15);
             this.groupControl4.Controls.Add(this.checkEdit14);
             this.groupControl4.Controls.Add(this.checkEdit11);
-            this.groupControl4.Location = new System.Drawing.Point(323, 3);
+            this.groupControl4.Location = new System.Drawing.Point(322, 14);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(299, 106);
+            this.groupControl4.Size = new System.Drawing.Size(299, 161);
             this.groupControl4.TabIndex = 4;
             this.groupControl4.Text = "通讯参数";
             // 
             // comboBoxEdit2
             // 
-            this.comboBoxEdit2.Location = new System.Drawing.Point(224, 25);
+            this.comboBoxEdit2.Location = new System.Drawing.Point(224, 29);
             this.comboBoxEdit2.Name = "comboBoxEdit2";
             this.comboBoxEdit2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -434,14 +444,21 @@
             // 
             // textEdit6
             // 
-            this.textEdit6.Location = new System.Drawing.Point(75, 79);
+            this.textEdit6.Location = new System.Drawing.Point(75, 93);
             this.textEdit6.Name = "textEdit6";
             this.textEdit6.Size = new System.Drawing.Size(102, 20);
             this.textEdit6.TabIndex = 108;
             // 
+            // textEdit16
+            // 
+            this.textEdit16.Location = new System.Drawing.Point(250, 95);
+            this.textEdit16.Name = "textEdit16";
+            this.textEdit16.Size = new System.Drawing.Size(37, 20);
+            this.textEdit16.TabIndex = 108;
+            // 
             // comboBoxEdit1
             // 
-            this.comboBoxEdit1.Location = new System.Drawing.Point(75, 25);
+            this.comboBoxEdit1.Location = new System.Drawing.Point(75, 29);
             this.comboBoxEdit1.Name = "comboBoxEdit1";
             this.comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -454,7 +471,7 @@
             // 
             // checkEdit12
             // 
-            this.checkEdit12.Location = new System.Drawing.Point(145, 26);
+            this.checkEdit12.Location = new System.Drawing.Point(145, 30);
             this.checkEdit12.Name = "checkEdit12";
             this.checkEdit12.Properties.Caption = "485波特率";
             this.checkEdit12.Size = new System.Drawing.Size(74, 19);
@@ -462,22 +479,15 @@
             // 
             // groupControl6
             // 
-            this.groupControl6.Controls.Add(this.textEdit4);
             this.groupControl6.Controls.Add(this.labelControl2);
+            this.groupControl6.Controls.Add(this.textEdit4);
             this.groupControl6.Controls.Add(this.textEdit5);
             this.groupControl6.Controls.Add(this.checkEdit13);
-            this.groupControl6.Location = new System.Drawing.Point(5, 48);
+            this.groupControl6.Location = new System.Drawing.Point(5, 58);
             this.groupControl6.Name = "groupControl6";
             this.groupControl6.ShowCaption = false;
             this.groupControl6.Size = new System.Drawing.Size(294, 27);
             this.groupControl6.TabIndex = 4;
-            // 
-            // textEdit4
-            // 
-            this.textEdit4.Location = new System.Drawing.Point(70, 3);
-            this.textEdit4.Name = "textEdit4";
-            this.textEdit4.Size = new System.Drawing.Size(102, 20);
-            this.textEdit4.TabIndex = 108;
             // 
             // labelControl2
             // 
@@ -487,9 +497,16 @@
             this.labelControl2.TabIndex = 1;
             this.labelControl2.Text = "Port";
             // 
+            // textEdit4
+            // 
+            this.textEdit4.Location = new System.Drawing.Point(70, 3);
+            this.textEdit4.Name = "textEdit4";
+            this.textEdit4.Size = new System.Drawing.Size(102, 20);
+            this.textEdit4.TabIndex = 108;
+            // 
             // textEdit5
             // 
-            this.textEdit5.Location = new System.Drawing.Point(223, 3);
+            this.textEdit5.Location = new System.Drawing.Point(219, 3);
             this.textEdit5.Name = "textEdit5";
             this.textEdit5.Size = new System.Drawing.Size(63, 20);
             this.textEdit5.TabIndex = 108;
@@ -504,7 +521,7 @@
             // 
             // checkEdit15
             // 
-            this.checkEdit15.Location = new System.Drawing.Point(183, 81);
+            this.checkEdit15.Location = new System.Drawing.Point(183, 95);
             this.checkEdit15.Name = "checkEdit15";
             this.checkEdit15.Properties.Caption = "心跳间隔";
             this.checkEdit15.Size = new System.Drawing.Size(74, 19);
@@ -512,7 +529,7 @@
             // 
             // checkEdit14
             // 
-            this.checkEdit14.Location = new System.Drawing.Point(5, 81);
+            this.checkEdit14.Location = new System.Drawing.Point(5, 95);
             this.checkEdit14.Name = "checkEdit14";
             this.checkEdit14.Properties.Caption = "手机号";
             this.checkEdit14.Size = new System.Drawing.Size(74, 19);
@@ -520,7 +537,7 @@
             // 
             // checkEdit11
             // 
-            this.checkEdit11.Location = new System.Drawing.Point(5, 26);
+            this.checkEdit11.Location = new System.Drawing.Point(5, 30);
             this.checkEdit11.Name = "checkEdit11";
             this.checkEdit11.Properties.Caption = "通讯方式";
             this.checkEdit11.Size = new System.Drawing.Size(74, 19);
@@ -550,9 +567,9 @@
             this.groupControl5.Controls.Add(this.checkEdit18);
             this.groupControl5.Controls.Add(this.checkEdit17);
             this.groupControl5.Controls.Add(this.checkEdit16);
-            this.groupControl5.Location = new System.Drawing.Point(3, 160);
+            this.groupControl5.Location = new System.Drawing.Point(3, 181);
             this.groupControl5.Name = "groupControl5";
-            this.groupControl5.Size = new System.Drawing.Size(200, 294);
+            this.groupControl5.Size = new System.Drawing.Size(200, 301);
             this.groupControl5.TabIndex = 4;
             this.groupControl5.Text = "采集/阀值参数";
             // 
@@ -745,52 +762,181 @@
             // 
             // groupControl7
             // 
-            this.groupControl7.Location = new System.Drawing.Point(214, 432);
+            this.groupControl7.Controls.Add(this.simpleButton6);
+            this.groupControl7.Controls.Add(this.simpleButton5);
+            this.groupControl7.Controls.Add(this.simpleButton4);
+            this.groupControl7.Controls.Add(this.btnSaveTemplate);
+            this.groupControl7.Controls.Add(this.radioGroup1);
+            this.groupControl7.Controls.Add(this.labelControl6);
+            this.groupControl7.Controls.Add(this.toggleSwitch1);
+            this.groupControl7.Controls.Add(this.simpleButton3);
+            this.groupControl7.Location = new System.Drawing.Point(627, 181);
             this.groupControl7.Name = "groupControl7";
-            this.groupControl7.Size = new System.Drawing.Size(230, 62);
+            this.groupControl7.Size = new System.Drawing.Size(166, 301);
             this.groupControl7.TabIndex = 4;
             this.groupControl7.Text = "控制/操作命令";
+            // 
+            // simpleButton6
+            // 
+            this.simpleButton6.Location = new System.Drawing.Point(8, 209);
+            this.simpleButton6.Name = "simpleButton6";
+            this.simpleButton6.Size = new System.Drawing.Size(151, 34);
+            this.simpleButton6.TabIndex = 107;
+            this.simpleButton6.Text = "设置参数";
+            // 
+            // simpleButton5
+            // 
+            this.simpleButton5.Location = new System.Drawing.Point(8, 248);
+            this.simpleButton5.Name = "simpleButton5";
+            this.simpleButton5.Size = new System.Drawing.Size(151, 34);
+            this.simpleButton5.TabIndex = 107;
+            this.simpleButton5.Text = "抄读参数";
+            // 
+            // simpleButton4
+            // 
+            this.simpleButton4.Location = new System.Drawing.Point(8, 170);
+            this.simpleButton4.Name = "simpleButton4";
+            this.simpleButton4.Size = new System.Drawing.Size(151, 34);
+            this.simpleButton4.TabIndex = 107;
+            this.simpleButton4.Text = "设备校时";
+            // 
+            // radioGroup1
+            // 
+            this.radioGroup1.Location = new System.Drawing.Point(2, 59);
+            this.radioGroup1.Name = "radioGroup1";
+            this.radioGroup1.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
+            this.radioGroup1.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "全清"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "恢复"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "复位")});
+            this.radioGroup1.Size = new System.Drawing.Size(161, 24);
+            this.radioGroup1.TabIndex = 3;
+            // 
+            // labelControl6
+            // 
+            this.labelControl6.Location = new System.Drawing.Point(5, 34);
+            this.labelControl6.Name = "labelControl6";
+            this.labelControl6.Size = new System.Drawing.Size(52, 14);
+            this.labelControl6.TabIndex = 1;
+            this.labelControl6.Text = "招测开关:";
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.Location = new System.Drawing.Point(8, 92);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(151, 34);
+            this.simpleButton3.TabIndex = 107;
+            this.simpleButton3.Text = "设备复位";
             // 
             // groupControl8
             // 
             this.groupControl8.Controls.Add(this.listBoxControl1);
             this.groupControl8.Controls.Add(this.simpleButton1);
-            this.groupControl8.Location = new System.Drawing.Point(414, 162);
+            this.groupControl8.Location = new System.Drawing.Point(411, 181);
             this.groupControl8.Name = "groupControl8";
-            this.groupControl8.Size = new System.Drawing.Size(289, 264);
+            this.groupControl8.Size = new System.Drawing.Size(212, 301);
             this.groupControl8.TabIndex = 4;
             this.groupControl8.Text = "历史数据列表";
-            // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Location = new System.Drawing.Point(216, 25);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(68, 23);
-            this.simpleButton1.TabIndex = 107;
-            this.simpleButton1.Text = "历史数据";
             // 
             // listBoxControl1
             // 
             this.listBoxControl1.Location = new System.Drawing.Point(5, 54);
             this.listBoxControl1.Name = "listBoxControl1";
-            this.listBoxControl1.Size = new System.Drawing.Size(279, 205);
+            this.listBoxControl1.Size = new System.Drawing.Size(200, 242);
             this.listBoxControl1.TabIndex = 108;
             // 
-            // UcPreTerMgr
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(128, 26);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(68, 23);
+            this.simpleButton1.TabIndex = 107;
+            this.simpleButton1.Text = "历史数据";
+            // 
+            // groupControl9
+            // 
+            this.groupControl9.Controls.Add(this.labelControl5);
+            this.groupControl9.Controls.Add(this.labelControl4);
+            this.groupControl9.Controls.Add(this.labelControl3);
+            this.groupControl9.Controls.Add(this.simpleButton2);
+            this.groupControl9.Controls.Add(this.textEdit15);
+            this.groupControl9.Controls.Add(this.textEdit14);
+            this.groupControl9.Controls.Add(this.textEdit13);
+            this.groupControl9.Location = new System.Drawing.Point(627, 14);
+            this.groupControl9.Name = "groupControl9";
+            this.groupControl9.Size = new System.Drawing.Size(164, 161);
+            this.groupControl9.TabIndex = 4;
+            this.groupControl9.Text = "招测数据";
+            // 
+            // labelControl5
+            // 
+            this.labelControl5.Location = new System.Drawing.Point(5, 106);
+            this.labelControl5.Name = "labelControl5";
+            this.labelControl5.Size = new System.Drawing.Size(35, 14);
+            this.labelControl5.TabIndex = 1;
+            this.labelControl5.Text = "压力2:";
+            // 
+            // labelControl4
+            // 
+            this.labelControl4.Location = new System.Drawing.Point(5, 80);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(35, 14);
+            this.labelControl4.TabIndex = 1;
+            this.labelControl4.Text = "压力1:";
+            // 
+            // labelControl3
+            // 
+            this.labelControl3.Location = new System.Drawing.Point(5, 54);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(28, 14);
+            this.labelControl3.TabIndex = 1;
+            this.labelControl3.Text = "时间:";
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Location = new System.Drawing.Point(91, 21);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(68, 23);
+            this.simpleButton2.TabIndex = 107;
+            this.simpleButton2.Text = "实时招测";
+            // 
+            // textEdit15
+            // 
+            this.textEdit15.Enabled = false;
+            this.textEdit15.Location = new System.Drawing.Point(55, 103);
+            this.textEdit15.Name = "textEdit15";
+            this.textEdit15.Size = new System.Drawing.Size(104, 20);
+            this.textEdit15.TabIndex = 108;
+            // 
+            // textEdit14
+            // 
+            this.textEdit14.Enabled = false;
+            this.textEdit14.Location = new System.Drawing.Point(55, 77);
+            this.textEdit14.Name = "textEdit14";
+            this.textEdit14.Size = new System.Drawing.Size(104, 20);
+            this.textEdit14.TabIndex = 108;
+            // 
+            // textEdit13
+            // 
+            this.textEdit13.Enabled = false;
+            this.textEdit13.Location = new System.Drawing.Point(55, 51);
+            this.textEdit13.Name = "textEdit13";
+            this.textEdit13.Size = new System.Drawing.Size(104, 20);
+            this.textEdit13.TabIndex = 108;
+            // 
+            // PreTerParm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnSaveTemplate);
-            this.Controls.Add(this.comboBoxEditDist);
             this.Controls.Add(this.groupControl4);
             this.Controls.Add(this.groupControl5);
-            this.Controls.Add(this.groupControl8);
             this.Controls.Add(this.groupControl7);
+            this.Controls.Add(this.groupControl8);
+            this.Controls.Add(this.groupControl9);
             this.Controls.Add(this.groupControl3);
             this.Controls.Add(this.groupControl2);
-            this.Controls.Add(this.toggleSwitch1);
             this.Controls.Add(this.groupControl1);
-            this.Name = "UcPreTerMgr";
+            this.Name = "PreTerParm";
             this.Size = new System.Drawing.Size(797, 494);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
@@ -810,7 +956,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit8.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit7.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit6.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditDist.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
@@ -820,6 +965,7 @@
             this.groupControl4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit6.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit16.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit12.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
@@ -856,9 +1002,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit17.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEdit16.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
+            this.groupControl7.ResumeLayout(false);
+            this.groupControl7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).EndInit();
             this.groupControl8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl9)).EndInit();
+            this.groupControl9.ResumeLayout(false);
+            this.groupControl9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit15.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit14.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit13.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -870,7 +1025,6 @@
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
         private DevExpress.XtraEditors.GroupControl groupControl2;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditDist;
         private DevExpress.XtraEditors.TextEdit textEdit3;
         private DevExpress.XtraEditors.TextEdit textEdit2;
         private DevExpress.XtraEditors.TextEdit textEdit1;
@@ -888,7 +1042,6 @@
         private DevExpress.XtraEditors.GroupControl groupControl4;
         private DevExpress.XtraEditors.TextEdit textEdit5;
         private DevExpress.XtraEditors.TextEdit textEdit6;
-        private DevExpress.XtraEditors.TextEdit textEdit4;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit1;
         private DevExpress.XtraEditors.CheckEdit checkEdit12;
         private DevExpress.XtraEditors.CheckEdit checkEdit15;
@@ -931,6 +1084,22 @@
         private DevExpress.XtraEditors.GroupControl groupControl8;
         private DevExpress.XtraEditors.ListBoxControl listBoxControl1;
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.GroupControl groupControl9;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.LabelControl labelControl5;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private DevExpress.XtraEditors.TextEdit textEdit15;
+        private DevExpress.XtraEditors.TextEdit textEdit14;
+        private DevExpress.XtraEditors.TextEdit textEdit13;
+        private DevExpress.XtraEditors.LabelControl labelControl6;
+        private DevExpress.XtraEditors.SimpleButton simpleButton6;
+        private DevExpress.XtraEditors.SimpleButton simpleButton5;
+        private DevExpress.XtraEditors.SimpleButton simpleButton4;
+        private DevExpress.XtraEditors.RadioGroup radioGroup1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.TextEdit textEdit16;
+        private DevExpress.XtraEditors.TextEdit textEdit4;
 
     }
 }

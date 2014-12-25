@@ -64,12 +64,12 @@
             this.navBarSeparatorItem3 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarNoiseMap = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarGroup2 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarPreTelParm = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarPreTelMgr = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem1 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem2 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem3 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem4 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem5 = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTelMonitor = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTelReport = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTelAlarm = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTelStoppage = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarGroup3 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarItem6 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarItem7 = new DevExpress.XtraNavBar.NavBarItem();
@@ -117,6 +117,7 @@
             // 
             // ribbonControl1
             // 
+            this.ribbonControl1.ExpandCollapseItem.AllowDrawArrow = true;
             this.ribbonControl1.ExpandCollapseItem.Id = 0;
             this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl1.ExpandCollapseItem,
@@ -137,9 +138,13 @@
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageSys});
-            this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
-            this.ribbonControl1.Size = new System.Drawing.Size(999, 149);
+            this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.MacOffice;
+            this.ribbonControl1.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
+            this.ribbonControl1.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
+            this.ribbonControl1.ShowToolbarCustomizeItem = false;
+            this.ribbonControl1.Size = new System.Drawing.Size(991, 135);
             this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
+            this.ribbonControl1.Toolbar.ShowCustomizeItem = false;
             // 
             // barBtnFFT
             // 
@@ -297,11 +302,11 @@
             // 
             this.ribbonStatusBar1.ItemLinks.Add(this.barStaticItemWait);
             this.ribbonStatusBar1.ItemLinks.Add(this.barStaticItem2);
-            this.ribbonStatusBar1.Location = new System.Drawing.Point(0, 649);
+            this.ribbonStatusBar1.Location = new System.Drawing.Point(0, 637);
             this.ribbonStatusBar1.Name = "ribbonStatusBar1";
             this.ribbonStatusBar1.Ribbon = this.ribbonControl1;
             this.ribbonStatusBar1.ShowSizeGrip = false;
-            this.ribbonStatusBar1.Size = new System.Drawing.Size(999, 23);
+            this.ribbonStatusBar1.Size = new System.Drawing.Size(991, 35);
             // 
             // ControlribbonPageGroup
             // 
@@ -335,12 +340,12 @@
             this.navBarNoiseGroupManager,
             this.navBarSeparatorItem3,
             this.navBarNoiseMap,
+            this.navBarPreTelParm,
             this.navBarPreTelMgr,
-            this.navBarItem1,
-            this.navBarItem2,
-            this.navBarItem3,
-            this.navBarItem4,
-            this.navBarItem5,
+            this.navBarPreTelMonitor,
+            this.navBarPreTelReport,
+            this.navBarPreTelAlarm,
+            this.navBarPreTelStoppage,
             this.navBarItem6,
             this.navBarItem7,
             this.navBarItem8,
@@ -355,6 +360,7 @@
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
+            this.navBarControl1.PaintStyleKind = DevExpress.XtraNavBar.NavBarViewKind.NavigationPane;
             this.navBarControl1.Size = new System.Drawing.Size(185, 490);
             this.navBarControl1.StoreDefaultPaintStyleName = true;
             this.navBarControl1.TabIndex = 0;
@@ -364,7 +370,7 @@
             // 
             this.navBarGroup1.Caption = "噪声记录仪";
             this.navBarGroup1.Expanded = true;
-            this.navBarGroup1.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsText;
+            this.navBarGroup1.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.navBarGroup1.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseDataManager),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem1),
@@ -440,44 +446,49 @@
             // 
             this.navBarGroup2.Caption = "压力终端";
             this.navBarGroup2.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelParm),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelMgr),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem1),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem2),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem3),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem4),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem5)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelMonitor),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelReport),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelAlarm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelStoppage)});
             this.navBarGroup2.Name = "navBarGroup2";
+            // 
+            // navBarPreTelParm
+            // 
+            this.navBarPreTelParm.Caption = "终端参数配置和读取";
+            this.navBarPreTelParm.Name = "navBarPreTelParm";
+            this.navBarPreTelParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelParm_LinkClicked);
             // 
             // navBarPreTelMgr
             // 
-            this.navBarPreTelMgr.Caption = "终端参数配置和读取";
+            this.navBarPreTelMgr.Caption = "终端配置和管理";
             this.navBarPreTelMgr.Name = "navBarPreTelMgr";
             this.navBarPreTelMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelMgr_LinkClicked);
             // 
-            // navBarItem1
+            // navBarPreTelMonitor
             // 
-            this.navBarItem1.Caption = "终端配置和管理";
-            this.navBarItem1.Name = "navBarItem1";
+            this.navBarPreTelMonitor.Caption = "实时列表监控、趋势图";
+            this.navBarPreTelMonitor.Name = "navBarPreTelMonitor";
+            this.navBarPreTelMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelMonitor_LinkClicked);
             // 
-            // navBarItem2
+            // navBarPreTelReport
             // 
-            this.navBarItem2.Caption = "实时列表监控、趋势图";
-            this.navBarItem2.Name = "navBarItem2";
+            this.navBarPreTelReport.Caption = "报表、历史数据查询";
+            this.navBarPreTelReport.Name = "navBarPreTelReport";
+            this.navBarPreTelReport.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelReport_LinkClicked);
             // 
-            // navBarItem3
+            // navBarPreTelAlarm
             // 
-            this.navBarItem3.Caption = "报表、历史数据查询";
-            this.navBarItem3.Name = "navBarItem3";
+            this.navBarPreTelAlarm.Caption = "报警统计分析";
+            this.navBarPreTelAlarm.Name = "navBarPreTelAlarm";
+            this.navBarPreTelAlarm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelAlarm_LinkClicked);
             // 
-            // navBarItem4
+            // navBarPreTelStoppage
             // 
-            this.navBarItem4.Caption = "报警统计分析";
-            this.navBarItem4.Name = "navBarItem4";
-            // 
-            // navBarItem5
-            // 
-            this.navBarItem5.Caption = "故障统计分析";
-            this.navBarItem5.Name = "navBarItem5";
+            this.navBarPreTelStoppage.Caption = "故障统计分析";
+            this.navBarPreTelStoppage.Name = "navBarPreTelStoppage";
+            this.navBarPreTelStoppage.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelStoppage_LinkClicked);
             // 
             // navBarGroup3
             // 
@@ -565,16 +576,15 @@
             // 
             // defaultLookAndFeel1
             // 
-            this.defaultLookAndFeel1.LookAndFeel.SkinName = "Office 2007 Silver";
+            this.defaultLookAndFeel1.LookAndFeel.SkinName = "Seven Classic";
             this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             // 
             // FrmSystem
             // 
-            this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.True;
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(999, 672);
+            this.ClientSize = new System.Drawing.Size(991, 672);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.panelControlMain);
             this.Controls.Add(this.ribbonStatusBar1);
@@ -638,24 +648,24 @@
         private DevExpress.XtraNavBar.NavBarGroup navBarGroup4;
         private DevExpress.XtraNavBar.NavBarGroup navBarGroup5;
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseMap;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTelParm;
         private DevExpress.XtraNavBar.NavBarItem navBarPreTelMgr;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem1;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem2;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem3;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem4;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem5;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTelMonitor;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTelReport;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTelAlarm;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTelStoppage;
         private DevExpress.XtraNavBar.NavBarItem navBarItem6;
         private DevExpress.XtraNavBar.NavBarItem navBarItem7;
         private DevExpress.XtraNavBar.NavBarItem navBarItem8;
         private DevExpress.XtraNavBar.NavBarItem navBarItem9;
         private DevExpress.XtraNavBar.NavBarItem navBarItem10;
         private DevExpress.XtraNavBar.NavBarItem navBarItem11;
-        private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
         private DevExpress.XtraNavBar.NavBarItem navBarItem12;
         private DevExpress.XtraNavBar.NavBarItem navBarItem13;
         private DevExpress.XtraNavBar.NavBarItem navBarItem14;
         private DevExpress.XtraNavBar.NavBarItem navBarItem15;
         private DevExpress.XtraNavBar.NavBarItem navBarItem16;
+        private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }
 }

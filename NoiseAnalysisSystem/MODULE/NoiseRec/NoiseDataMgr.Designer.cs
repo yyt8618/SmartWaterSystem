@@ -1,6 +1,6 @@
 ﻿namespace NoiseAnalysisSystem
 {
-    partial class UcDataMgr
+    partial class NoiseDataMgr
     {
         /// <summary> 
         /// Required designer variable.

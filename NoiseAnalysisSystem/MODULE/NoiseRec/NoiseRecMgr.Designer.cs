@@ -1,6 +1,6 @@
 ﻿namespace NoiseAnalysisSystem
 {
-    partial class UcRecMgr
+    partial class NoiseRecMgr
     {
         /// <summary> 
         /// Required designer variable.
@@ -49,6 +49,7 @@
             this.btnApplySet = new DevExpress.XtraEditors.SimpleButton();
             this.btnReadSet = new DevExpress.XtraEditors.SimpleButton();
             this.btnReadT = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCleanFlash = new DevExpress.XtraEditors.SimpleButton();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxDist = new DevExpress.XtraEditors.ComboBoxEdit();
             this.label7 = new System.Windows.Forms.Label();
@@ -89,7 +90,6 @@
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnCleanFlash = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNote.Properties)).BeginInit();
@@ -237,7 +237,7 @@
             // lblRecState
             // 
             this.lblRecState.AutoSize = true;
-            this.lblRecState.Location = new System.Drawing.Point(36, 201);
+            this.lblRecState.Location = new System.Drawing.Point(43, 182);
             this.lblRecState.Name = "lblRecState";
             this.lblRecState.Size = new System.Drawing.Size(87, 14);
             this.lblRecState.TabIndex = 82;
@@ -246,7 +246,7 @@
             // btnStop
             // 
             this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(194, 196);
+            this.btnStop.Location = new System.Drawing.Point(125, 203);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(51, 23);
             this.btnStop.TabIndex = 8;
@@ -256,7 +256,7 @@
             // btnStart
             // 
             this.btnStart.Enabled = false;
-            this.btnStart.Location = new System.Drawing.Point(137, 196);
+            this.btnStart.Location = new System.Drawing.Point(70, 203);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(51, 23);
             this.btnStart.TabIndex = 7;
@@ -342,6 +342,16 @@
             this.btnReadT.Text = "读取模板参数";
             this.btnReadT.Click += new System.EventHandler(this.btnReadT_Click);
             // 
+            // btnCleanFlash
+            // 
+            this.btnCleanFlash.Enabled = false;
+            this.btnCleanFlash.Location = new System.Drawing.Point(70, 231);
+            this.btnCleanFlash.Name = "btnCleanFlash";
+            this.btnCleanFlash.Size = new System.Drawing.Size(106, 23);
+            this.btnCleanFlash.TabIndex = 8;
+            this.btnCleanFlash.Text = "清除数据";
+            this.btnCleanFlash.Click += new System.EventHandler(this.btnCleanFlash_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -398,6 +408,7 @@
             this.btnGetConID.Size = new System.Drawing.Size(59, 23);
             this.btnGetConID.TabIndex = 1;
             this.btnGetConID.Text = "读取编号";
+            this.btnGetConID.Click += new System.EventHandler(this.btnGetConID_Click);
             // 
             // txtConId
             // 
@@ -454,7 +465,7 @@
             // btnNow
             // 
             this.btnNow.Enabled = false;
-            this.btnNow.Location = new System.Drawing.Point(201, 27);
+            this.btnNow.Location = new System.Drawing.Point(201, 28);
             this.btnNow.Name = "btnNow";
             this.btnNow.Size = new System.Drawing.Size(42, 23);
             this.btnNow.TabIndex = 1;
@@ -464,7 +475,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(44, 63);
+            this.label17.Location = new System.Drawing.Point(44, 62);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(55, 14);
             this.label17.TabIndex = 79;
@@ -481,7 +492,7 @@
             // 
             // txtComTime
             // 
-            this.txtComTime.Location = new System.Drawing.Point(111, 60);
+            this.txtComTime.Location = new System.Drawing.Point(111, 59);
             this.txtComTime.Name = "txtComTime";
             this.txtComTime.Properties.Mask.EditMask = "f0";
             this.txtComTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -503,7 +514,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(146, 94);
+            this.label16.Location = new System.Drawing.Point(146, 92);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(35, 14);
             this.label16.TabIndex = 81;
@@ -511,7 +522,7 @@
             // 
             // txtRecTime1
             // 
-            this.txtRecTime1.Location = new System.Drawing.Point(189, 92);
+            this.txtRecTime1.Location = new System.Drawing.Point(189, 89);
             this.txtRecTime1.Name = "txtRecTime1";
             this.txtRecTime1.Properties.ReadOnly = true;
             this.txtRecTime1.Size = new System.Drawing.Size(28, 20);
@@ -520,7 +531,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(224, 95);
+            this.label15.Location = new System.Drawing.Point(224, 92);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(19, 14);
             this.label15.TabIndex = 83;
@@ -529,7 +540,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(44, 96);
+            this.label14.Location = new System.Drawing.Point(44, 92);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(55, 14);
             this.label14.TabIndex = 84;
@@ -537,7 +548,7 @@
             // 
             // txtRecTime
             // 
-            this.txtRecTime.Location = new System.Drawing.Point(111, 92);
+            this.txtRecTime.Location = new System.Drawing.Point(111, 89);
             this.txtRecTime.Name = "txtRecTime";
             this.txtRecTime.Properties.Mask.EditMask = "f0";
             this.txtRecTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -548,7 +559,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(146, 63);
+            this.label8.Location = new System.Drawing.Point(146, 62);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 14);
             this.label8.TabIndex = 86;
@@ -557,7 +568,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(45, 164);
+            this.label9.Location = new System.Drawing.Point(45, 152);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(55, 14);
             this.label9.TabIndex = 87;
@@ -566,7 +577,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(43, 130);
+            this.label10.Location = new System.Drawing.Point(43, 122);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(55, 14);
             this.label10.TabIndex = 88;
@@ -575,7 +586,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(179, 131);
+            this.label11.Location = new System.Drawing.Point(179, 122);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(48, 14);
             this.label11.TabIndex = 89;
@@ -584,7 +595,7 @@
             // txtRecNum
             // 
             this.txtRecNum.EditValue = "30";
-            this.txtRecNum.Location = new System.Drawing.Point(111, 161);
+            this.txtRecNum.Location = new System.Drawing.Point(111, 149);
             this.txtRecNum.Name = "txtRecNum";
             this.txtRecNum.Properties.ReadOnly = true;
             this.txtRecNum.Size = new System.Drawing.Size(86, 20);
@@ -592,7 +603,7 @@
             // 
             // nUpDownSamSpan
             // 
-            this.nUpDownSamSpan.Location = new System.Drawing.Point(111, 126);
+            this.nUpDownSamSpan.Location = new System.Drawing.Point(111, 118);
             this.nUpDownSamSpan.Maximum = new decimal(new int[] {
             120,
             0,
@@ -626,12 +637,12 @@
             // 
             this.gridControlRec.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControlRec.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlRec.Location = new System.Drawing.Point(2, 22);
+            this.gridControlRec.Location = new System.Drawing.Point(2, 27);
             this.gridControlRec.MainView = this.gridViewRecordList;
             this.gridControlRec.Name = "gridControlRec";
             this.gridControlRec.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit2});
-            this.gridControlRec.Size = new System.Drawing.Size(786, 199);
+            this.gridControlRec.Size = new System.Drawing.Size(786, 194);
             this.gridControlRec.TabIndex = 0;
             this.gridControlRec.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewRecordList});
@@ -763,17 +774,7 @@
             // 
             this.timer1.Interval = 1000;
             // 
-            // btnCleanFlash
-            // 
-            this.btnCleanFlash.Enabled = false;
-            this.btnCleanFlash.Location = new System.Drawing.Point(112, 231);
-            this.btnCleanFlash.Name = "btnCleanFlash";
-            this.btnCleanFlash.Size = new System.Drawing.Size(64, 23);
-            this.btnCleanFlash.TabIndex = 8;
-            this.btnCleanFlash.Text = "清除数据";
-            this.btnCleanFlash.Click += new System.EventHandler(this.btnCleanFlash_Click);
-            // 
-            // UcRecMgr
+            // NoiseRecMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -782,7 +783,7 @@
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.btnAddRec);
-            this.Name = "UcRecMgr";
+            this.Name = "NoiseRecMgr";
             this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.UcRecMgr_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();

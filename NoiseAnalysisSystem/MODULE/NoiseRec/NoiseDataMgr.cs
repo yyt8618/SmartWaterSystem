@@ -14,14 +14,14 @@ using System.IO;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class UcDataMgr : DevExpress.XtraEditors.XtraUserControl
+    public partial class NoiseDataMgr : DevExpress.XtraEditors.XtraUserControl
     {
         private bool isReading;
         private List<NoiseRecorder> selectList = new List<NoiseRecorder>();
         private int rowHandle = 0;
         private FrmSystem main;
 
-        public UcDataMgr(FrmSystem frm)
+        public NoiseDataMgr(FrmSystem frm)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
