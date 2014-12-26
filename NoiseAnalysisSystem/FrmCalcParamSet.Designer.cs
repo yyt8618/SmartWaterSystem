@@ -49,6 +49,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtStandardAMP = new DevExpress.XtraEditors.TextEdit();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.txtDCCompLen = new DevExpress.XtraEditors.TextEdit();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtMin1.Properties)).BeginInit();
@@ -61,6 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDCCompLen.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -161,7 +164,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(14, 357);
+            this.btnSave.Location = new System.Drawing.Point(14, 377);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(66, 23);
             this.btnSave.TabIndex = 0;
@@ -198,16 +201,18 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cbArith);
+            this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.txtDCCompLen);
             this.groupBox3.Controls.Add(this.txtStandardAMP);
             this.groupBox3.Controls.Add(this.txtLeakHZ);
             this.groupBox3.Location = new System.Drawing.Point(16, 231);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(217, 111);
+            this.groupBox3.Size = new System.Drawing.Size(217, 140);
             this.groupBox3.TabIndex = 85;
             this.groupBox3.Text = "计算参数";
             // 
@@ -257,18 +262,36 @@
             // 
             // simpleButton1
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(164, 357);
+            this.simpleButton1.Location = new System.Drawing.Point(164, 377);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(66, 23);
             this.simpleButton1.TabIndex = 1;
             this.simpleButton1.Text = "取消";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
+            // txtDCCompLen
+            // 
+            this.txtDCCompLen.Location = new System.Drawing.Point(122, 111);
+            this.txtDCCompLen.Name = "txtDCCompLen";
+            this.txtDCCompLen.Properties.Mask.EditMask = "f0";
+            this.txtDCCompLen.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtDCCompLen.Size = new System.Drawing.Size(66, 20);
+            this.txtDCCompLen.TabIndex = 3;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(19, 114);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(79, 14);
+            this.label9.TabIndex = 85;
+            this.label9.Text = "直流分量长度";
+            // 
             // FrmCalcParamSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(246, 386);
+            this.ClientSize = new System.Drawing.Size(245, 409);
             this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnSave);
@@ -296,6 +319,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDCCompLen.Properties)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -323,5 +347,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private DevExpress.XtraEditors.TextEdit txtStandardAMP;
+        private System.Windows.Forms.Label label9;
+        private DevExpress.XtraEditors.TextEdit txtDCCompLen;
 	}
 }

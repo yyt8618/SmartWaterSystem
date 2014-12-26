@@ -85,6 +85,7 @@
             this.navBarGroup5 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarItem11 = new DevExpress.XtraNavBar.NavBarItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.barBtnTest = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -132,9 +133,10 @@
             this.barBtnSerialOpen,
             this.barBtnSerialClose,
             this.barBtnSetAbout,
-            this.barBtnCompare});
+            this.barBtnCompare,
+            this.barBtnTest});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 27;
+            this.ribbonControl1.MaxItemId = 29;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageSys});
@@ -269,6 +271,7 @@
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.barBtnFFT);
             this.ribbonPageGroup1.ItemLinks.Add(this.barBtnCompare);
+            this.ribbonPageGroup1.ItemLinks.Add(this.barBtnTest);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.ShowCaptionButton = false;
             this.ribbonPageGroup1.Text = "工具";
@@ -579,6 +582,14 @@
             this.defaultLookAndFeel1.LookAndFeel.SkinName = "Seven Classic";
             this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             // 
+            // barBtnTest
+            // 
+            this.barBtnTest.Caption = "测试图表";
+            this.barBtnTest.Id = 28;
+            this.barBtnTest.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.voice1;
+            this.barBtnTest.Name = "barBtnTest";
+            this.barBtnTest.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnTest_ItemClick);
+            // 
             // FrmSystem
             // 
             this.Appearance.Options.UseFont = true;
@@ -665,6 +676,7 @@
         private DevExpress.XtraNavBar.NavBarItem navBarItem14;
         private DevExpress.XtraNavBar.NavBarItem navBarItem15;
         private DevExpress.XtraNavBar.NavBarItem navBarItem16;
+        private DevExpress.XtraBars.BarButtonItem barBtnTest;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

@@ -205,7 +205,7 @@ namespace NoiseAnalysisSystem
                 }
                 catch (ArgumentNullException)
                 {
-                    XtraMessageBox.Show("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    main.ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     isError = true;
                 }
                 catch (Exception ex)

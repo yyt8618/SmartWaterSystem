@@ -76,6 +76,14 @@ namespace NoiseAnalysisSystem
                 txtStandardAMP.SelectAll();
                 return;
             }
+            if (string.IsNullOrEmpty(txtDCCompLen.Text) || Convert.ToDecimal(txtDCCompLen.Text) <= 0)
+            {
+                DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的直流分量值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtDCCompLen.Focus();
+                txtDCCompLen.SelectAll();
+                return;
+            }
+
             #endregion
 
             AppConfigHelper.SetAppSettingValue("Max1", txtMax1.Text);
@@ -84,6 +92,7 @@ namespace NoiseAnalysisSystem
 			AppConfigHelper.SetAppSettingValue("Min2", txtMin2.Text);
 			AppConfigHelper.SetAppSettingValue("LeakHZ_Template", txtLeakHZ.Text);
             AppConfigHelper.SetAppSettingValue("StandardAMP", txtStandardAMP.Text);
+            AppConfigHelper.SetAppSettingValue("DCComponentLen", txtDCCompLen.Text);
 
 			if(cbArith.SelectedIndex==0)
 				AppConfigHelper.SetAppSettingValue("Calc", (1).ToString());
@@ -102,6 +111,7 @@ namespace NoiseAnalysisSystem
 			txtMin2.Text = AppConfigHelper.GetAppSettingValue("Min2");
 			txtLeakHZ.Text = AppConfigHelper.GetAppSettingValue("LeakHZ_Template");
             txtStandardAMP.Text = AppConfigHelper.GetAppSettingValue("StandardAMP");
+            txtDCCompLen.Text = AppConfigHelper.GetAppSettingValue("DCComponentLen");
 
 			if (AppConfigHelper.GetAppSettingValue("Calc") == (1).ToString())
 				cbArith.SelectedIndex = 0;

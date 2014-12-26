@@ -637,12 +637,12 @@
             // 
             this.gridControlRec.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControlRec.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlRec.Location = new System.Drawing.Point(2, 27);
+            this.gridControlRec.Location = new System.Drawing.Point(2, 22);
             this.gridControlRec.MainView = this.gridViewRecordList;
             this.gridControlRec.Name = "gridControlRec";
             this.gridControlRec.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit2});
-            this.gridControlRec.Size = new System.Drawing.Size(786, 194);
+            this.gridControlRec.Size = new System.Drawing.Size(786, 199);
             this.gridControlRec.TabIndex = 0;
             this.gridControlRec.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewRecordList});

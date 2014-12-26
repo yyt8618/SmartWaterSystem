@@ -440,7 +440,7 @@
             this.barButtonItem1.Id = 1;
             this.barButtonItem1.Name = "barButtonItem1";
             // 
-            // UcDataMgr
+            // NoiseDataMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -450,7 +450,7 @@
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
-            this.Name = "UcDataMgr";
+            this.Name = "NoiseDataMgr";
             this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.UcDataMgr_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGroup)).EndInit();

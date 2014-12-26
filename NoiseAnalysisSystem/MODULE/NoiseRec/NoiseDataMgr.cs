@@ -336,14 +336,14 @@ namespace NoiseAnalysisSystem
                             {
                                 if (!GlobalValue.reReadIdList.Contains(id))
                                     GlobalValue.reReadIdList.Add(id);
-                                XtraMessageBox.Show("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                main.ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 isError = true;
                             }
                             catch (ArgumentNullException)
                             {
                                 if (!GlobalValue.reReadIdList.Contains(id))
                                     GlobalValue.reReadIdList.Add(id);
-                                XtraMessageBox.Show("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                main.ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 isError = true;
                             }
                             
@@ -418,8 +418,6 @@ namespace NoiseAnalysisSystem
         {
             try
             {
-                //System.Windows.Forms.MethodInvoker invoke = () =>
-                //{
                 if (result == null)
                 {
                     return;
@@ -461,7 +459,7 @@ namespace NoiseAnalysisSystem
                         sw.Close();
 
                         //////////////////////////////////////////////////////////////////////////////////////////
-                        
+
                         data.Add(tmpData);
                         tmpData.CopyTo(tmpData_IsLeak, 0);
                         data_isleak1.Add(tmpData_IsLeak);
@@ -507,17 +505,6 @@ namespace NoiseAnalysisSystem
                             GlobalValue.recorderList[i] = recorder;
                     }
                 }
-                //};
-
-
-                //if (this.InvokeRequired)
-                //{
-                //    this.BeginInvoke(invoke);
-                //}
-                //else
-                //{
-                //    invoke();
-                //}
             }
             catch (Exception ex)
             {

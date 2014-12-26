@@ -261,8 +261,12 @@ namespace NoiseAnalysisSystem
         {
             this.BeginInvoke(new Action(() =>
             {
-                if (splashScreenmanager.IsSplashFormVisible)
-                    splashScreenmanager.CloseWaitForm();
+                try
+                {
+                    if (splashScreenmanager.IsSplashFormVisible)
+                        splashScreenmanager.CloseWaitForm();
+                }
+                catch { }
             }));
         }
 
@@ -324,6 +328,14 @@ namespace NoiseAnalysisSystem
             panelControlMain.Controls.Clear();
             panelControlMain.Controls.Add(pretelStoppage);
         }
+
+        //测试图表
+        private void barBtnTest_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            TestChart dialog = new TestChart();
+            dialog.ShowDialog();
+        }
+
 
     }
 }

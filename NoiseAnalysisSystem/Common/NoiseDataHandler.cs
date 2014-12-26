@@ -74,6 +74,11 @@ namespace NoiseAnalysisSystem
 		/// <param name="real_dB">返回最小相对噪声强度（单位：%）</param>
 		public static bool AmpCalc(int c, double[] data, ref double[] real_dB)
         {
+            string str_DCLen = AppConfigHelper.GetAppSettingValue("DCComponentLen");  //获取设定的直流分量长度
+            int DCComponentLen = 10;
+            if (!string.IsNullOrEmpty(str_DCLen))
+                DCComponentLen = Convert.ToInt32(str_DCLen);
+
             SpSubMinValue(ref data);
             double[] real_Part = new double[num];// 实数部分
             double[] vir_Part = new double[num]; // 虚数部分
@@ -92,7 +97,7 @@ namespace NoiseAnalysisSystem
             FFTTransfer(real_Part, vir_Part, num, 1);
 
             // 对变换后的FFT序列进行处理
-            tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num);
+            tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num, DCComponentLen);
 
             //////////////////////////////////////////////////////////////////////////////////////////
             dataList.Add(tmp_fourier); // for test
@@ -120,6 +125,11 @@ namespace NoiseAnalysisSystem
 		/// <param name="min_frq">对应的频率数组</param>
         public static bool AmpCalc(List<double[]> data, ref double[] min_amp, ref double[] min_frq)
         {
+            string str_DCLen = AppConfigHelper.GetAppSettingValue("DCComponentLen");  //获取设定的直流分量长度
+            int DCComponentLen = 10;
+            if (!string.IsNullOrEmpty(str_DCLen))
+                DCComponentLen = Convert.ToInt32(str_DCLen);
+
             //求出32个数值中最小数值，将32个数值分别减去最小数值，得到新的32个数值
             SpSubMinValue(ref data);
 
@@ -142,7 +152,7 @@ namespace NoiseAnalysisSystem
                 FFTTransfer(real_Part, vir_Part, num, 1);
 
                 // 对变换后的FFT序列进行处理
-                tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num);
+                tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num, DCComponentLen);
 
                 for (int i = 0; i < num / 2; i++)
                 {
@@ -170,6 +180,24 @@ namespace NoiseAnalysisSystem
                 MinimumAmpCalc(ref min_amp, ref min_frq);
 
             return true;
+        }
+
+        /// <summary>
+        /// 将指定长度(len)的数据用0替换
+        /// </summary>
+        private static double[] Skip(double[] datas,int Len)
+        {
+            int olddatalen = datas.Length;
+            if (olddatalen <= Len)
+                return datas;
+
+            List<double> lstnewdata = new List<double>();
+            lstnewdata.AddRange(datas.Skip(Len).ToArray());
+            for (int i = 0; i < Len; i++)
+            {
+                lstnewdata.Add(0);
+            }
+            return lstnewdata.ToArray();
         }
 
         /// <summary>
@@ -425,7 +453,7 @@ namespace NoiseAnalysisSystem
             short[] standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);
 
             if (standdata == null)
-                return 1;   //?
+                return 1;
 
             int i = 0;
             double standaverage = 0;
@@ -440,15 +468,28 @@ namespace NoiseAnalysisSystem
                 }
             }
 
+            int isleak = 1;
+            double[] record_average = new double[lstaverage.Count];
+            lstaverage.CopyTo(record_average);
             for (i = 0; i < lstaverage.Count; i++)
             {
                 lstaverage[i] = Math.Abs(standaverage - lstaverage[i]);
                 if (lstaverage[i] <= standvalue)
                 {
-                    return 0;
+                    isleak = 0;
                 }
             }
-            return 1;
+
+            StreamWriter sw = new StreamWriter(string.Format("{0}能量强度变化数据.txt", GlobalValue.TestPath));
+            sw.WriteLine(standaverage);  //先写入标准平均值
+            for (i = 0; i < record_average.Length; i++)
+            {
+                sw.WriteLine(record_average[i]);
+            }
+            sw.Flush();
+            sw.Close();
+
+            return isleak;
         }
 
         private static double GetAverage(double[] datas)
@@ -636,11 +677,13 @@ namespace NoiseAnalysisSystem
         /// </summary>
         /// <param name="x">实数部分</param>
         /// <param name="y">虚数部分</param>
-        public static double[] PowerSpectralCacl(double[] x, double[] y, int n)
+        public static double[] PowerSpectralCacl(double[] x, double[] y, int n,int DCComponentLen)
         {
             double[] psd = new double[x.Length];
             for (int i = 0; i < x.Length; i++)
                 psd[i] = Math.Sqrt(Math.Pow(x[i], 2) + Math.Pow(y[i], 2) / (double)(n / 2));
+
+            psd = Skip(psd, DCComponentLen);//略去直流分量
 
             return psd;
         }

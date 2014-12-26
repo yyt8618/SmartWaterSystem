@@ -234,6 +234,12 @@
     <Compile Include="MODULE\NoiseRec\NoiseRecMgr.Designer.cs">
       <DependentUpon>NoiseRecMgr.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestChart.Designer.cs">
+      <DependentUpon>TestChart.cs</DependentUpon>
+    </Compile>
     <Compile Include="WaitForm1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -309,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseRecMgr.resx">
       <DependentUpon>NoiseRecMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestChart.resx">
+      <DependentUpon>TestChart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitForm1.resx">
       <DependentUpon>WaitForm1.cs</DependentUpon>
