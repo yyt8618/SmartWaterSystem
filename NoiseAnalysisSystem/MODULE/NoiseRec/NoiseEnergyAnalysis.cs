@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Globalization;
-using DevExpress.XtraCharts;
 using System.IO;
 using DevExpress.XtraEditors;
 using ChartDirector;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class TestChart : DevExpress.XtraEditors.XtraForm
+    public partial class NoiseEnergyAnalysis : DevExpress.XtraEditors.XtraForm
     {
         private List<double> lst_data =new List<double>();    
         private List<double> lst_stdev = new List<double>();  //标准差数组
         private double Standard_average = 0;    //标准平均值
-        private double StandardAMP = 0;
-        public TestChart()
+        private double StandardAMP = 0;         //静态漏水标准幅度值
+        private double energyvalue = 0;         //能量强度
+        public NoiseEnergyAnalysis()
         {
             InitializeComponent();
         }
@@ -30,7 +26,9 @@ namespace NoiseAnalysisSystem
             try
             {
                 txtStandValue.Text = "";
+                txtStandardAverage.Text = "";
                 StandardAMP = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("StandardAMP"));
+                txtStandardAMP.Text = StandardAMP.ToString("f2");
             }
             catch { }
             winChartViewer1.ViewPortHeight = 1;
@@ -56,13 +54,13 @@ namespace NoiseAnalysisSystem
                 }
             }
 
-            XYChart chart = new XYChart(701, 314);
+            XYChart chart = new XYChart(857, 314);  //857, 332
             chart.setBackground(chart.linearGradientColor(0, 0, 0, 100, 0x99ccff, 0xffffff), 0x888888);
 
             ChartDirector.TextBox title1_txt = chart.addTitle("能量强度变化分析", "Arial Bold", 13);
             title1_txt.setPos(0, 20);
 
-            chart.setPlotArea(60, 60, 600, 200, 0xffffff, -1, -1, chart.dashLineColor(Chart.CColor(Color.AliceBlue), Chart.DotLine), -1);
+            chart.setPlotArea(60, 60, 620, 200, 0xffffff, -1, -1, chart.dashLineColor(Chart.CColor(Color.AliceBlue), Chart.DotLine), -1);
             chart.xAxis().setLabels(xLabels);
             chart.xAxis().setLabelStep(1);
             chart.xAxis().setIndent(true);
@@ -81,20 +79,24 @@ namespace NoiseAnalysisSystem
             layer.setLineWidth(2);
             layer.setFastLineMode(true);
 
-            Mark standAMPmark=chart.yAxis().addMark(StandardAMP, Chart.CColor(Color.Crimson), "", "Arial Bold");
+            //标准平均值
+            Mark standAMPmark = chart.yAxis().addMark(Standard_average, Chart.CColor(Color.Crimson), "", "Arial Bold");
             standAMPmark.setLineWidth(2);
             standAMPmark.setPos(-15, 10);
             standAMPmark.setFontAngle(90);
 
-            //标准平均值
+            //静态漏水标准幅度值
             Mark standAVmark = chart.yAxis().addMark(StandardAMP, Chart.CColor(Color.Cyan), "", "Arial Bold");
             standAVmark.setLineWidth(2);
             standAVmark.setPos(-15, 10);
             standAVmark.setFontAngle(90);
 
-            LegendBox legendbox=chart.addLegend(550, 25);
-            legendbox.addKey("静态漏水标准值", Chart.CColor(Color.Crimson));
-            legendbox.addKey("标准平均值", Chart.CColor(Color.Cyan));
+            Mark energymark = chart.yAxis().addMark(energyvalue, Chart.CColor(Color.Chartreuse), "", "Arial Bold");
+
+            LegendBox legendbox=chart.addLegend(684, 60);
+            legendbox.addKey("标准平均值", Chart.CColor(Color.Crimson));
+            legendbox.addKey("静态漏水标准幅度值", Chart.CColor(Color.Cyan));
+            legendbox.addKey("能量强度", Chart.CColor(Color.Chartreuse));
             //legendbox.addKey("噪声强度", Chart.CColor(Color.Green));
             //legendbox.addKey("绝对差", Chart.CColor(Color.DarkViolet));
 
@@ -108,6 +110,8 @@ namespace NoiseAnalysisSystem
         private void btnSelect_Click(object sender, EventArgs e)
         {
             txtStandValue.Text = "";
+            txtStandardAverage.Text = "";
+            energyvalue = 0;
             StreamReader sr = null;
             openFileDialog.FileName = "选择需要展示的文件";
             DialogResult dr = openFileDialog.ShowDialog();
@@ -134,10 +138,11 @@ namespace NoiseAnalysisSystem
                         lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
                     }
 
-                    double standvalue=GetAverage(lst_data.ToArray());
-                    standvalue = Math.Abs(Standard_average - standvalue);
+                    energyvalue=GetAverage(lst_data.ToArray());
+                    energyvalue = Math.Abs(Standard_average - energyvalue);
 
-                    txtStandValue.Text = standvalue.ToString("f2");
+                    txtStandValue.Text = energyvalue.ToString("f2");
+                    txtStandardAverage.Text = Standard_average.ToString("f2");
 
                     winChartViewer1.updateViewPort(true, false);
                 }

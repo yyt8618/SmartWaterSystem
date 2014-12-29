@@ -12,12 +12,15 @@ namespace NoiseAnalysisSystem
         private NoiseDataMgr dataMgr;   //噪声记录仪数据读取、分析
         private NoiseRecMgr recMgr;     //噪声记录仪管理
         private NoiseGroupMgr gpMgr;    //噪声记录仪分组管理
+        private NoiseMap noisemapview;      //噪声记录仪地图
+
         private PreTerParm pretelParm;  //压力终端参数读取设置
         private PreTerMgr pretelMgr;    //压力终端配置、管理
         private PreTerMonitor pretelMonitor;  //压力终端监控
         private PreTerReportHistory pretelReport; //压力终端报表与历史数据查询
         private PreTerAlarm pretelAlarm;    //压力终端报警
         private PreTerStoppage pretelStoppage;  //压力终端故障统计分析
+        
 
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmSystem");
 
@@ -42,12 +45,16 @@ namespace NoiseAnalysisSystem
             dataMgr = new NoiseDataMgr(this);
             recMgr = new NoiseRecMgr(this);
             gpMgr = new NoiseGroupMgr(this);
+            noisemapview = new NoiseMap(this);
+
             pretelParm = new PreTerParm(this);
             pretelMgr = new PreTerMgr(this);
             pretelMonitor = new PreTerMonitor(this);
             pretelReport = new PreTerReportHistory(this);
             pretelAlarm = new PreTerAlarm(this);
             pretelStoppage = new PreTerStoppage(this);
+            
+
         }
 
         private void FrmSystem_Load(object sender, EventArgs e)
@@ -156,7 +163,9 @@ namespace NoiseAnalysisSystem
 
         private void navBarNoiseMap_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            DevExpress.XtraEditors.XtraMessageBox.Show("功能未实现，请耐心等候! ^_^", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //DevExpress.XtraEditors.XtraMessageBox.Show("功能未实现，请耐心等候! ^_^", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            panelControlMain.Controls.Clear();
+            panelControlMain.Controls.Add(noisemapview);
         }
 
         private void navBarPreTelParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
@@ -332,8 +341,8 @@ namespace NoiseAnalysisSystem
         //测试图表
         private void barBtnTest_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            TestChart dialog = new TestChart();
-            dialog.ShowDialog();
+            NoiseEnergyAnalysis EnAndialog = new NoiseEnergyAnalysis();
+            EnAndialog.ShowDialog();
         }
 
 

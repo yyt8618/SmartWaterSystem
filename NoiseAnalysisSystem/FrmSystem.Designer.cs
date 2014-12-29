@@ -45,6 +45,7 @@
             this.barBtnSerialClose = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnSetAbout = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnCompare = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnTest = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageSys = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -85,7 +86,6 @@
             this.navBarGroup5 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarItem11 = new DevExpress.XtraNavBar.NavBarItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
-            this.barBtnTest = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -248,6 +248,14 @@
             this.barBtnCompare.Name = "barBtnCompare";
             this.barBtnCompare.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnCompare_ItemClick);
             // 
+            // barBtnTest
+            // 
+            this.barBtnTest.Caption = "能量分析";
+            this.barBtnTest.Id = 28;
+            this.barBtnTest.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.voice1;
+            this.barBtnTest.Name = "barBtnTest";
+            this.barBtnTest.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnTest_ItemClick);
+            // 
             // ribbonPageSys
             // 
             this.ribbonPageSys.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -363,7 +371,7 @@
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
-            this.navBarControl1.PaintStyleKind = DevExpress.XtraNavBar.NavBarViewKind.NavigationPane;
+            this.navBarControl1.PaintStyleKind = DevExpress.XtraNavBar.NavBarViewKind.ExplorerBar;
             this.navBarControl1.Size = new System.Drawing.Size(185, 490);
             this.navBarControl1.StoreDefaultPaintStyleName = true;
             this.navBarControl1.TabIndex = 0;
@@ -382,6 +390,7 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseGroupManager),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem3),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseMap)});
+            this.navBarGroup1.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.NoiseRecorder;
             this.navBarGroup1.Name = "navBarGroup1";
             // 
             // navBarNoiseDataManager
@@ -448,6 +457,7 @@
             // navBarGroup2
             // 
             this.navBarGroup2.Caption = "压力终端";
+            this.navBarGroup2.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.navBarGroup2.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelParm),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelMgr),
@@ -455,6 +465,7 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelReport),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelAlarm),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelStoppage)});
+            this.navBarGroup2.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.PreTerminal;
             this.navBarGroup2.Name = "navBarGroup2";
             // 
             // navBarPreTelParm
@@ -496,12 +507,14 @@
             // navBarGroup3
             // 
             this.navBarGroup3.Caption = "GSM终端";
+            this.navBarGroup3.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.navBarGroup3.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem6),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem7),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem8),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem9),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem10)});
+            this.navBarGroup3.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.GsmTerminal;
             this.navBarGroup3.Name = "navBarGroup3";
             // 
             // navBarItem6
@@ -532,12 +545,14 @@
             // navBarGroup4
             // 
             this.navBarGroup4.Caption = "阀门开度控制器";
+            this.navBarGroup4.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.navBarGroup4.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem12),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem13),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem14),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem15),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem16)});
+            this.navBarGroup4.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.ValveSwitchCTL;
             this.navBarGroup4.Name = "navBarGroup4";
             // 
             // navBarItem12
@@ -568,8 +583,10 @@
             // navBarGroup5
             // 
             this.navBarGroup5.Caption = "便携式压力记录仪";
+            this.navBarGroup5.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.navBarGroup5.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem11)});
+            this.navBarGroup5.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.PortablePreTerminal;
             this.navBarGroup5.Name = "navBarGroup5";
             // 
             // navBarItem11
@@ -581,14 +598,6 @@
             // 
             this.defaultLookAndFeel1.LookAndFeel.SkinName = "Seven Classic";
             this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            // 
-            // barBtnTest
-            // 
-            this.barBtnTest.Caption = "测试图表";
-            this.barBtnTest.Id = 28;
-            this.barBtnTest.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.voice1;
-            this.barBtnTest.Name = "barBtnTest";
-            this.barBtnTest.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnTest_ItemClick);
             // 
             // FrmSystem
             // 

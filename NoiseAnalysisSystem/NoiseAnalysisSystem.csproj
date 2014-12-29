@@ -51,6 +51,7 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Map.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -75,6 +76,7 @@
     <Reference Include="DevExpress.XtraLayout.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.XtraMap.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraNavBar.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -99,6 +101,7 @@
     <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -165,6 +168,12 @@
       <DependentUpon>FrmParamViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalValue.cs" />
+    <Compile Include="MODULE\NoiseRec\NoiseMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseMap.Designer.cs">
+      <DependentUpon>NoiseMap.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\PreTerminal\PreTerParm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -234,11 +243,11 @@
     <Compile Include="MODULE\NoiseRec\NoiseRecMgr.Designer.cs">
       <DependentUpon>NoiseRecMgr.cs</DependentUpon>
     </Compile>
-    <Compile Include="TestChart.cs">
+    <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestChart.Designer.cs">
-      <DependentUpon>TestChart.cs</DependentUpon>
+    <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.Designer.cs">
+      <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="WaitForm1.cs">
       <SubType>Form</SubType>
@@ -271,6 +280,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmParamViewer.resx">
       <DependentUpon>FrmParamViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseMap.resx">
+      <DependentUpon>NoiseMap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerParm.resx">
       <DependentUpon>PreTerParm.cs</DependentUpon>
@@ -316,8 +328,8 @@
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseRecMgr.resx">
       <DependentUpon>NoiseRecMgr.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TestChart.resx">
-      <DependentUpon>TestChart.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseEnergyAnalysis.resx">
+      <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitForm1.resx">
       <DependentUpon>WaitForm1.cs</DependentUpon>
@@ -351,6 +363,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gc.ico" />
+    <None Include="Resources\Products\GsmTerminal.png" />
+    <None Include="Resources\Products\PreTerminal.png" />
+    <None Include="Resources\Products\PortablePreTerminal.png" />
+    <None Include="Resources\Products\ValveSwitchCTL.png" />
     <None Include="Resources\Products\NoiseRecorder.png" />
     <None Include="Resources\PreTerConfig.bmp" />
     <None Include="Resources\NoiseMap.png" />

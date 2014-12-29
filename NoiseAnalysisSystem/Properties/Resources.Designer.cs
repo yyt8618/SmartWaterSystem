@@ -102,6 +102,13 @@ namespace NoiseAnalysisSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap GsmTerminal {
+            get {
+                object obj = ResourceManager.GetObject("GsmTerminal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap NoiseMap {
             get {
                 object obj = ResourceManager.GetObject("NoiseMap", resourceCulture);
@@ -116,9 +123,23 @@ namespace NoiseAnalysisSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap PortablePreTerminal {
+            get {
+                object obj = ResourceManager.GetObject("PortablePreTerminal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap PreTerConfig {
             get {
                 object obj = ResourceManager.GetObject("PreTerConfig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PreTerminal {
+            get {
+                object obj = ResourceManager.GetObject("PreTerminal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -140,6 +161,13 @@ namespace NoiseAnalysisSystem.Properties {
         internal static System.Drawing.Bitmap SerialPortConfig1 {
             get {
                 object obj = ResourceManager.GetObject("SerialPortConfig1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ValveSwitchCTL {
+            get {
+                object obj = ResourceManager.GetObject("ValveSwitchCTL", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -441,7 +441,7 @@ namespace NoiseAnalysisSystem
                         NoiseCtrl ctrl = new NoiseCtrl();
 
                         // 读取远传端口
-                        this.txtConPort.Text = ctrl.ReadPort(id).ToString();
+                        this.txtConPort.Text = ctrl.ReadPort(id);
 
                         // 读取远传地址
                         this.txtConAdress.Text = ctrl.ReadIP(id);
