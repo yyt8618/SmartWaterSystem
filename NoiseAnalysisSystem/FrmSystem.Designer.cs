@@ -86,6 +86,9 @@
             this.navBarGroup5 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarItem11 = new DevExpress.XtraNavBar.NavBarItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.skinRibbonGalleryBarItem1 = new DevExpress.XtraBars.SkinRibbonGalleryBarItem();
+            this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonGalleryBarItem1 = new DevExpress.XtraBars.RibbonGalleryBarItem();
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -134,9 +137,11 @@
             this.barBtnSerialClose,
             this.barBtnSetAbout,
             this.barBtnCompare,
-            this.barBtnTest});
+            this.barBtnTest,
+            this.skinRibbonGalleryBarItem1,
+            this.ribbonGalleryBarItem1});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 29;
+            this.ribbonControl1.MaxItemId = 31;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageSys});
@@ -231,6 +236,8 @@
             // 
             // barBtnSetAbout
             // 
+            this.barBtnSetAbout.ActAsDropDown = true;
+            this.barBtnSetAbout.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.DropDown;
             this.barBtnSetAbout.Caption = "关于";
             this.barBtnSetAbout.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
             this.barBtnSetAbout.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetAbout.Glyph")));
@@ -263,7 +270,8 @@
             this.ribbonPageGroup1,
             this.ribbonPageGroup2,
             this.ribbonPageGroup3,
-            this.ribbonPageGroup5});
+            this.ribbonPageGroup5,
+            this.ribbonPageGroup6});
             this.ribbonPageSys.Name = "ribbonPageSys";
             this.ribbonPageSys.Text = "系统";
             // 
@@ -599,6 +607,27 @@
             this.defaultLookAndFeel1.LookAndFeel.SkinName = "Seven Classic";
             this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             // 
+            // skinRibbonGalleryBarItem1
+            // 
+            this.skinRibbonGalleryBarItem1.Caption = "皮肤";
+            this.skinRibbonGalleryBarItem1.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.skinRibbonGalleryBarItem1.Id = 29;
+            this.skinRibbonGalleryBarItem1.Name = "skinRibbonGalleryBarItem1";
+            // 
+            // ribbonPageGroup6
+            // 
+            this.ribbonPageGroup6.Glyph = ((System.Drawing.Image)(resources.GetObject("ribbonPageGroup6.Glyph")));
+            this.ribbonPageGroup6.ItemLinks.Add(this.ribbonGalleryBarItem1);
+            this.ribbonPageGroup6.Name = "ribbonPageGroup6";
+            this.ribbonPageGroup6.ShowCaptionButton = false;
+            this.ribbonPageGroup6.Text = "皮肤";
+            // 
+            // ribbonGalleryBarItem1
+            // 
+            this.ribbonGalleryBarItem1.Caption = "ribbonGalleryBarItem1";
+            this.ribbonGalleryBarItem1.Id = 30;
+            this.ribbonGalleryBarItem1.Name = "ribbonGalleryBarItem1";
+            // 
             // FrmSystem
             // 
             this.Appearance.Options.UseFont = true;
@@ -686,6 +715,9 @@
         private DevExpress.XtraNavBar.NavBarItem navBarItem15;
         private DevExpress.XtraNavBar.NavBarItem navBarItem16;
         private DevExpress.XtraBars.BarButtonItem barBtnTest;
+        private DevExpress.XtraBars.SkinRibbonGalleryBarItem skinRibbonGalleryBarItem1;
+        private DevExpress.XtraBars.RibbonGalleryBarItem ribbonGalleryBarItem1;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

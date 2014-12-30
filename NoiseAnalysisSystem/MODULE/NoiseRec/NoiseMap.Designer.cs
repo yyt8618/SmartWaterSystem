@@ -30,9 +30,9 @@
         {
             DevExpress.XtraMap.InformationLayer informationLayer1 = new DevExpress.XtraMap.InformationLayer();
             DevExpress.XtraMap.ImageTilesLayer imageTilesLayer1 = new DevExpress.XtraMap.ImageTilesLayer();
-            DevExpress.XtraMap.BingMapDataProvider bingMapDataProvider1 = new DevExpress.XtraMap.BingMapDataProvider();
+            DevExpress.XtraMap.OpenStreetMapDataProvider openStreetMapDataProvider1 = new DevExpress.XtraMap.OpenStreetMapDataProvider();
             DevExpress.XtraMap.VectorFileLayer vectorFileLayer1 = new DevExpress.XtraMap.VectorFileLayer();
-            DevExpress.XtraMap.KmlFileLoader kmlFileLoader1 = new DevExpress.XtraMap.KmlFileLoader();
+            DevExpress.XtraMap.ShapefileLoader shapefileLoader1 = new DevExpress.XtraMap.ShapefileLoader();
             DevExpress.XtraMap.VectorItemsLayer vectorItemsLayer1 = new DevExpress.XtraMap.VectorItemsLayer();
             DevExpress.XtraMap.SizeLegend sizeLegend1 = new DevExpress.XtraMap.SizeLegend();
             DevExpress.XtraMap.ColorListLegend colorListLegend1 = new DevExpress.XtraMap.ColorListLegend();
@@ -50,8 +50,9 @@
             // mapControl1
             // 
             this.mapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            imageTilesLayer1.DataProvider = bingMapDataProvider1;
-            vectorFileLayer1.FileLoader = kmlFileLoader1;
+            imageTilesLayer1.DataProvider = openStreetMapDataProvider1;
+            shapefileLoader1.FileUri = new System.Uri("C:\\Documents and Settings\\Administrator\\桌面\\1\\bou1_4l.shp", System.UriKind.Absolute);
+            vectorFileLayer1.FileLoader = shapefileLoader1;
             this.mapControl1.Layers.Add(informationLayer1);
             this.mapControl1.Layers.Add(imageTilesLayer1);
             this.mapControl1.Layers.Add(vectorFileLayer1);
@@ -61,7 +62,7 @@
             this.mapControl1.Legends.Add(colorScaleLegend1);
             this.mapControl1.Location = new System.Drawing.Point(0, 0);
             this.mapControl1.Name = "mapControl1";
-            this.mapControl1.Size = new System.Drawing.Size(701, 364);
+            this.mapControl1.Size = new System.Drawing.Size(797, 494);
             this.mapControl1.TabIndex = 0;
             // 
             // NoiseMap
@@ -70,7 +71,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.mapControl1);
             this.Name = "NoiseMap";
-            this.Size = new System.Drawing.Size(701, 364);
+            this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.TestChart_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mapControl1)).EndInit();
             this.ResumeLayout(false);

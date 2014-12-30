@@ -4,6 +4,7 @@ using DevExpress.XtraEditors;
 using System.IO;
 using System.Threading;
 using System.Reflection;
+using DevExpress.XtraBars.Helpers;
 
 namespace NoiseAnalysisSystem
 {
@@ -60,6 +61,7 @@ namespace NoiseAnalysisSystem
         private void FrmSystem_Load(object sender, EventArgs e)
         {
             this.Text = "自来水管道噪声分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
+            SkinHelper.InitSkinGallery(this.ribbonGalleryBarItem1);
             ClearLogAndDb();
         }
 
