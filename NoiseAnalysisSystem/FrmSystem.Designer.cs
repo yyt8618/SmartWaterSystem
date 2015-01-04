@@ -35,22 +35,16 @@
             this.barStaticItemWait = new DevExpress.XtraBars.BarStaticItem();
             this.barStaticItem2 = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.barBtnFFT = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnSetSerial = new DevExpress.XtraBars.BarButtonItem();
-            this.barBtnSetTemplate = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnSetVoice = new DevExpress.XtraBars.BarButtonItem();
-            this.barBtnSetParam = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnSetClose = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnSerialOpen = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnSerialClose = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnSetAbout = new DevExpress.XtraBars.BarButtonItem();
-            this.barBtnCompare = new DevExpress.XtraBars.BarButtonItem();
-            this.barBtnTest = new DevExpress.XtraBars.BarButtonItem();
             this.skinRibbonGalleryBarItem1 = new DevExpress.XtraBars.SkinRibbonGalleryBarItem();
             this.ribbonGalleryBarItem1 = new DevExpress.XtraBars.RibbonGalleryBarItem();
             this.ribbonPageSys = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup5 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -67,6 +61,10 @@
             this.navBarNoiseGroupManager = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarSeparatorItem3 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarNoiseMap = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarNoiseParmSet = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarNoiseFFT = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarNoiseCompare = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarNoiseEnergy = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarGroup2 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarPreTelParm = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarPreTelMgr = new DevExpress.XtraNavBar.NavBarItem();
@@ -89,6 +87,7 @@
             this.navBarGroup5 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarItem11 = new DevExpress.XtraNavBar.NavBarItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -127,17 +126,12 @@
             this.ribbonControl1.ExpandCollapseItem,
             this.barStaticItemWait,
             this.barStaticItem2,
-            this.barBtnFFT,
             this.barBtnSetSerial,
-            this.barBtnSetTemplate,
             this.barBtnSetVoice,
-            this.barBtnSetParam,
             this.barBtnSetClose,
             this.barBtnSerialOpen,
             this.barBtnSerialClose,
             this.barBtnSetAbout,
-            this.barBtnCompare,
-            this.barBtnTest,
             this.skinRibbonGalleryBarItem1,
             this.ribbonGalleryBarItem1});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
@@ -153,16 +147,6 @@
             this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
             this.ribbonControl1.Toolbar.ShowCustomizeItem = false;
             // 
-            // barBtnFFT
-            // 
-            this.barBtnFFT.Caption = "傅里叶分析";
-            this.barBtnFFT.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barBtnFFT.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnFFT.Glyph")));
-            this.barBtnFFT.Id = 5;
-            this.barBtnFFT.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barBtnFFT.LargeGlyph")));
-            this.barBtnFFT.Name = "barBtnFFT";
-            this.barBtnFFT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnFFT_ItemClick);
-            // 
             // barBtnSetSerial
             // 
             this.barBtnSetSerial.Caption = "串口通讯";
@@ -173,16 +157,6 @@
             this.barBtnSetSerial.Name = "barBtnSetSerial";
             this.barBtnSetSerial.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetSerial_ItemClick);
             // 
-            // barBtnSetTemplate
-            // 
-            this.barBtnSetTemplate.Caption = "模板参数";
-            this.barBtnSetTemplate.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barBtnSetTemplate.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetTemplate.Glyph")));
-            this.barBtnSetTemplate.Id = 7;
-            this.barBtnSetTemplate.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetTemplate.LargeGlyph")));
-            this.barBtnSetTemplate.Name = "barBtnSetTemplate";
-            this.barBtnSetTemplate.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetTemplate_ItemClick);
-            // 
             // barBtnSetVoice
             // 
             this.barBtnSetVoice.Caption = "系统声音";
@@ -192,16 +166,6 @@
             this.barBtnSetVoice.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.voice3;
             this.barBtnSetVoice.Name = "barBtnSetVoice";
             this.barBtnSetVoice.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetVoice_ItemClick);
-            // 
-            // barBtnSetParam
-            // 
-            this.barBtnSetParam.Caption = "计算参数";
-            this.barBtnSetParam.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.barBtnSetParam.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetParam.Glyph")));
-            this.barBtnSetParam.Id = 9;
-            this.barBtnSetParam.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetParam.LargeGlyph")));
-            this.barBtnSetParam.Name = "barBtnSetParam";
-            this.barBtnSetParam.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetParam_ItemClick);
             // 
             // barBtnSetClose
             // 
@@ -246,23 +210,6 @@
             this.barBtnSetAbout.Name = "barBtnSetAbout";
             this.barBtnSetAbout.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetAbout_ItemClick);
             // 
-            // barBtnCompare
-            // 
-            this.barBtnCompare.Caption = "数据比较";
-            this.barBtnCompare.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnCompare.Glyph")));
-            this.barBtnCompare.Id = 26;
-            this.barBtnCompare.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.DataCompare1;
-            this.barBtnCompare.Name = "barBtnCompare";
-            this.barBtnCompare.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnCompare_ItemClick);
-            // 
-            // barBtnTest
-            // 
-            this.barBtnTest.Caption = "能量分析";
-            this.barBtnTest.Id = 28;
-            this.barBtnTest.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.voice1;
-            this.barBtnTest.Name = "barBtnTest";
-            this.barBtnTest.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnTest_ItemClick);
-            // 
             // skinRibbonGalleryBarItem1
             // 
             this.skinRibbonGalleryBarItem1.Caption = "皮肤";
@@ -280,7 +227,6 @@
             // 
             this.ribbonPageSys.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup4,
-            this.ribbonPageGroup1,
             this.ribbonPageGroup2,
             this.ribbonPageGroup3,
             this.ribbonPageGroup5,
@@ -296,21 +242,10 @@
             this.ribbonPageGroup4.ShowCaptionButton = false;
             this.ribbonPageGroup4.Text = "串口";
             // 
-            // ribbonPageGroup1
-            // 
-            this.ribbonPageGroup1.ItemLinks.Add(this.barBtnFFT);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barBtnCompare);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barBtnTest);
-            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
-            this.ribbonPageGroup1.ShowCaptionButton = false;
-            this.ribbonPageGroup1.Text = "工具";
-            // 
             // ribbonPageGroup2
             // 
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetSerial);
-            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetTemplate);
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetVoice);
-            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetParam);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.ShowCaptionButton = false;
             this.ribbonPageGroup2.Text = "设置";
@@ -396,7 +331,11 @@
             this.navBarItem13,
             this.navBarItem14,
             this.navBarItem15,
-            this.navBarItem16});
+            this.navBarItem16,
+            this.navBarNoiseParmSet,
+            this.navBarNoiseFFT,
+            this.navBarNoiseCompare,
+            this.navBarNoiseEnergy});
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
@@ -409,7 +348,6 @@
             // navBarGroup1
             // 
             this.navBarGroup1.Caption = "噪声记录仪";
-            this.navBarGroup1.Expanded = true;
             this.navBarGroup1.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.navBarGroup1.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseDataManager),
@@ -418,7 +356,11 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem2),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseGroupManager),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem3),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseMap)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseMap),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseParmSet),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseFFT),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseCompare),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseEnergy)});
             this.navBarGroup1.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.NoiseRecorder;
             this.navBarGroup1.Name = "navBarGroup1";
             // 
@@ -482,6 +424,34 @@
             this.navBarNoiseMap.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.NoiseMap;
             this.navBarNoiseMap.Name = "navBarNoiseMap";
             this.navBarNoiseMap.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseMap_LinkClicked);
+            // 
+            // navBarNoiseParmSet
+            // 
+            this.navBarNoiseParmSet.Caption = "参数设置";
+            this.navBarNoiseParmSet.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarNoiseParmSet.LargeImage")));
+            this.navBarNoiseParmSet.Name = "navBarNoiseParmSet";
+            this.navBarNoiseParmSet.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseParmSet_LinkClicked);
+            // 
+            // navBarNoiseFFT
+            // 
+            this.navBarNoiseFFT.Caption = "傅里叶分析";
+            this.navBarNoiseFFT.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarNoiseFFT.LargeImage")));
+            this.navBarNoiseFFT.Name = "navBarNoiseFFT";
+            this.navBarNoiseFFT.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseFFT_LinkClicked);
+            // 
+            // navBarNoiseCompare
+            // 
+            this.navBarNoiseCompare.Caption = "数据比较";
+            this.navBarNoiseCompare.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarNoiseCompare.LargeImage")));
+            this.navBarNoiseCompare.Name = "navBarNoiseCompare";
+            this.navBarNoiseCompare.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseCompare_LinkClicked);
+            // 
+            // navBarNoiseEnergy
+            // 
+            this.navBarNoiseEnergy.Caption = "能量分析";
+            this.navBarNoiseEnergy.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarNoiseEnergy.LargeImage")));
+            this.navBarNoiseEnergy.Name = "navBarNoiseEnergy";
+            this.navBarNoiseEnergy.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseEnergy_LinkClicked);
             // 
             // navBarGroup2
             // 
@@ -628,6 +598,12 @@
             this.defaultLookAndFeel1.LookAndFeel.SkinName = "Seven Classic";
             this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             // 
+            // ribbonPageGroup1
+            // 
+            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
+            this.ribbonPageGroup1.ShowCaptionButton = false;
+            this.ribbonPageGroup1.Text = "工具";
+            // 
             // FrmSystem
             // 
             this.Appearance.Options.UseFont = true;
@@ -667,13 +643,9 @@
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar1;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageSys;
-        private DevExpress.XtraBars.BarButtonItem barBtnFFT;
         private DevExpress.XtraBars.BarButtonItem barBtnSetSerial;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
-        private DevExpress.XtraBars.BarButtonItem barBtnSetTemplate;
         private DevExpress.XtraBars.BarButtonItem barBtnSetVoice;
-        private DevExpress.XtraBars.BarButtonItem barBtnSetParam;
         private DevExpress.XtraBars.BarButtonItem barBtnSetClose;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ControlribbonPageGroup;
@@ -692,7 +664,6 @@
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseGroupManager;
         private DevExpress.XtraNavBar.NavBarSeparatorItem navBarSeparatorItem3;
         private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
-        private DevExpress.XtraBars.BarButtonItem barBtnCompare;
         private DevExpress.XtraNavBar.NavBarGroup navBarGroup2;
         private DevExpress.XtraNavBar.NavBarGroup navBarGroup3;
         private DevExpress.XtraNavBar.NavBarGroup navBarGroup4;
@@ -715,10 +686,14 @@
         private DevExpress.XtraNavBar.NavBarItem navBarItem14;
         private DevExpress.XtraNavBar.NavBarItem navBarItem15;
         private DevExpress.XtraNavBar.NavBarItem navBarItem16;
-        private DevExpress.XtraBars.BarButtonItem barBtnTest;
         private DevExpress.XtraBars.SkinRibbonGalleryBarItem skinRibbonGalleryBarItem1;
         private DevExpress.XtraBars.RibbonGalleryBarItem ribbonGalleryBarItem1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
+        private DevExpress.XtraNavBar.NavBarItem navBarNoiseParmSet;
+        private DevExpress.XtraNavBar.NavBarItem navBarNoiseFFT;
+        private DevExpress.XtraNavBar.NavBarItem navBarNoiseCompare;
+        private DevExpress.XtraNavBar.NavBarItem navBarNoiseEnergy;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

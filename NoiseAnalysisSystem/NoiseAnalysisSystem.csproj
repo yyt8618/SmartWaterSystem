@@ -155,11 +155,11 @@
     <Compile Include="FrmTemplateSet.Designer.cs">
       <DependentUpon>FrmTemplateSet.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmTest.cs">
+    <Compile Include="MODULE\NoiseRec\NoiseFFT.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmTest.Designer.cs">
-      <DependentUpon>FrmTest.cs</DependentUpon>
+    <Compile Include="MODULE\NoiseRec\NoiseFFT.Designer.cs">
+      <DependentUpon>NoiseFFT.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmParamViewer.cs">
       <SubType>Form</SubType>
@@ -173,6 +173,12 @@
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseMap.Designer.cs">
       <DependentUpon>NoiseMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseParmSetting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseParmSetting.Designer.cs">
+      <DependentUpon>NoiseParmSetting.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\PreTerminal\PreTerParm.cs">
       <SubType>UserControl</SubType>
@@ -219,11 +225,11 @@
     <Compile Include="FrmSysVoiceSet.Designer.cs">
       <DependentUpon>FrmSysVoiceSet.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmDataCompare.cs">
+    <Compile Include="MODULE\NoiseRec\NoiseDataCompare.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmDataCompare.Designer.cs">
-      <DependentUpon>FrmDataCompare.cs</DependentUpon>
+    <Compile Include="MODULE\NoiseRec\NoiseDataCompare.Designer.cs">
+      <DependentUpon>NoiseDataCompare.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseDataMgr.cs">
       <SubType>UserControl</SubType>
@@ -275,14 +281,17 @@
     <EmbeddedResource Include="FrmTemplateSet.resx">
       <DependentUpon>FrmTemplateSet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmTest.resx">
-      <DependentUpon>FrmTest.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseFFT.resx">
+      <DependentUpon>NoiseFFT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmParamViewer.resx">
       <DependentUpon>FrmParamViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseMap.resx">
       <DependentUpon>NoiseMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseParmSetting.resx">
+      <DependentUpon>NoiseParmSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerParm.resx">
       <DependentUpon>PreTerParm.cs</DependentUpon>
@@ -316,8 +325,8 @@
     <EmbeddedResource Include="FrmSysVoiceSet.resx">
       <DependentUpon>FrmSysVoiceSet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmDataCompare.resx">
-      <DependentUpon>FrmDataCompare.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseDataCompare.resx">
+      <DependentUpon>NoiseDataCompare.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseDataMgr.resx">
       <DependentUpon>NoiseDataMgr.cs</DependentUpon>

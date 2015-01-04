@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using ChartDirector;
 using System.Collections;
-using System.Media;
 using System.IO;
 using DevExpress.XtraEditors;
 
 namespace NoiseAnalysisSystem
 {
-	public partial class FrmTest : DevExpress.XtraEditors.XtraForm
+    public partial class NoiseFFT : DevExpress.XtraEditors.XtraForm
     {
         List<double> data;
 
@@ -25,16 +20,16 @@ namespace NoiseAnalysisSystem
 		double maxX = 0;
 		double maxY = 0;
 
+        //private FrmSystem main;
+
         /// <summary>
         /// 构造函数
         /// </summary>
-        public FrmTest()
+        public NoiseFFT()
         {
             InitializeComponent();
 
             data = new List<double>();
-
-
             // Initialize the WinChartViewer
             initChartViewer(winChartViewer1);
 
@@ -413,9 +408,10 @@ namespace NoiseAnalysisSystem
 			c.yAxis().setRounding(false, false);
 		}
 
-        private void simpleButton1_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
     }
 }

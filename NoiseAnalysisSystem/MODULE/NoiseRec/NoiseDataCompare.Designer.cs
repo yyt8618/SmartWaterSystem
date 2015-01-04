@@ -1,6 +1,6 @@
 ﻿namespace NoiseAnalysisSystem
 {
-    partial class FrmDataCompare
+    partial class NoiseDataCompare
     {
         /// <summary>
         /// Required designer variable.
@@ -99,7 +99,7 @@
             this.winChartViewer1.TabIndex = 1;
             this.winChartViewer1.TabStop = false;
             // 
-            // FrmDataCompare
+            // NoiseDataCompare
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -111,11 +111,11 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Name = "FrmDataCompare";
+            this.Name = "NoiseDataCompare";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "噪声数据比较分析";
             this.Load += new System.EventHandler(this.FrmDataAnalysis_Load);
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();

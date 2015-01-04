@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.winChartViewer1 = new ChartDirector.WinChartViewer();
             this.groupBox1 = new DevExpress.XtraEditors.GroupControl();
             this.txtRemark = new DevExpress.XtraEditors.MemoEdit();
@@ -62,7 +61,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProvider = new System.Windows.Forms.ErrorProvider();
             this.groupBox3 = new DevExpress.XtraEditors.GroupControl();
             this.cbPoint = new System.Windows.Forms.CheckBox();
             this.cbLineType = new DevExpress.XtraEditors.ComboBoxEdit();

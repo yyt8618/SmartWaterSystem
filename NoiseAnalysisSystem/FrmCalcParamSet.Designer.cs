@@ -343,12 +343,12 @@
 		private System.Windows.Forms.Label label5;
 		private DevExpress.XtraEditors.GroupControl groupBox3;
 		private System.Windows.Forms.ComboBox cbArith;
-		private System.Windows.Forms.Label label6;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private DevExpress.XtraEditors.TextEdit txtStandardAMP;
         private System.Windows.Forms.Label label9;
         private DevExpress.XtraEditors.TextEdit txtDCCompLen;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
 	}
 }

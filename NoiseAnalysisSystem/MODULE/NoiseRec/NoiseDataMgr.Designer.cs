@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.gridControlGroup = new DevExpress.XtraGrid.GridControl();
             this.gridViewGroupList = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -40,6 +39,7 @@
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnProgress = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.btnOpenFold = new DevExpress.XtraEditors.SimpleButton();
             this.btnReadFromFold = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonRead = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonUnSelect = new DevExpress.XtraEditors.SimpleButton();
@@ -55,17 +55,16 @@
             this.gridColumnReadTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnState = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.popupMenu = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.popupMenu = new DevExpress.XtraBars.PopupMenu();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-            this.barManager = new DevExpress.XtraBars.BarManager(this.components);
+            this.barManager = new DevExpress.XtraBars.BarManager();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.barStaticItem1 = new DevExpress.XtraBars.BarStaticItem();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-            this.btnOpenFold = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
@@ -206,6 +205,15 @@
             this.groupControl1.Size = new System.Drawing.Size(320, 487);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "分组列表";
+            // 
+            // btnOpenFold
+            // 
+            this.btnOpenFold.Location = new System.Drawing.Point(97, 457);
+            this.btnOpenFold.Name = "btnOpenFold";
+            this.btnOpenFold.Size = new System.Drawing.Size(64, 24);
+            this.btnOpenFold.TabIndex = 8;
+            this.btnOpenFold.Text = "Open Fold";
+            this.btnOpenFold.Click += new System.EventHandler(this.btnOpenFold_Click);
             // 
             // btnReadFromFold
             // 
@@ -452,15 +460,6 @@
             this.barButtonItem1.Caption = "到";
             this.barButtonItem1.Id = 1;
             this.barButtonItem1.Name = "barButtonItem1";
-            // 
-            // btnOpenFold
-            // 
-            this.btnOpenFold.Location = new System.Drawing.Point(97, 457);
-            this.btnOpenFold.Name = "btnOpenFold";
-            this.btnOpenFold.Size = new System.Drawing.Size(64, 24);
-            this.btnOpenFold.TabIndex = 8;
-            this.btnOpenFold.Text = "Open Fold";
-            this.btnOpenFold.Click += new System.EventHandler(this.btnOpenFold_Click);
             // 
             // NoiseDataMgr
             // 

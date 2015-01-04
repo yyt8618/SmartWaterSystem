@@ -688,7 +688,7 @@ namespace NoiseAnalysisSystem
         {
             if (GlobalValue.recorderList.Count > 0)
             {
-                FrmDataCompare fdc = new FrmDataCompare();
+                NoiseDataCompare fdc = new NoiseDataCompare();
                 fdc.ShowDialog();
             }
             else

@@ -14,6 +14,7 @@ namespace NoiseAnalysisSystem
         private NoiseRecMgr recMgr;     //噪声记录仪管理
         private NoiseGroupMgr gpMgr;    //噪声记录仪分组管理
         private NoiseMap noisemapview;      //噪声记录仪地图
+        private NoiseParmSetting noiseparmset; //噪声记录仪参数设置
 
         private PreTerParm pretelParm;  //压力终端参数读取设置
         private PreTerMgr pretelMgr;    //压力终端配置、管理
@@ -54,7 +55,7 @@ namespace NoiseAnalysisSystem
             pretelReport = new PreTerReportHistory(this);
             pretelAlarm = new PreTerAlarm(this);
             pretelStoppage = new PreTerStoppage(this);
-            
+            noiseparmset = new NoiseParmSetting(this);
 
         }
 
@@ -131,13 +132,6 @@ namespace NoiseAnalysisSystem
             }
         }
 
-        // 傅里叶分析
-        private void barBtnFFT_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            FrmTest ft= new FrmTest();
-            ft.ShowDialog();
-        }
-
         // 数据管理
         private void navBarNoiseDataManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
@@ -165,7 +159,6 @@ namespace NoiseAnalysisSystem
 
         private void navBarNoiseMap_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            //DevExpress.XtraEditors.XtraMessageBox.Show("功能未实现，请耐心等候! ^_^", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             panelControlMain.Controls.Clear();
             panelControlMain.Controls.Add(noisemapview);
         }
@@ -190,12 +183,6 @@ namespace NoiseAnalysisSystem
             }
         }
 
-        private void barBtnSetTemplate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            FrmTemplateSet fts = new FrmTemplateSet();
-            fts.ShowDialog();
-        }
-
         private void barBtnSetSerial_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             FrmSerialComSet fsc = new FrmSerialComSet();
@@ -208,31 +195,11 @@ namespace NoiseAnalysisSystem
             fsv.ShowDialog();
         }
 
-        private void barBtnSetParam_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            FrmCalcParamSet fcp = new FrmCalcParamSet();
-            fcp.ShowDialog();
-        }
-
         private void barBtnSetAbout_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             AboutBox about = new AboutBox();
             about.ShowDialog();
         }
-
-        private void barBtnCompare_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            if (GlobalValue.recorderList.Count > 0)
-            {
-                FrmDataCompare fdc = new FrmDataCompare();
-                fdc.ShowDialog();
-            }
-            else
-            {
-                XtraMessageBox.Show("当前不存在任何记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
 
         private void ClearLogAndDb()
         {
@@ -343,7 +310,6 @@ namespace NoiseAnalysisSystem
             panelControlMain.Controls.Add(pretelStoppage);
         }
 
-        //测试图表
         private void barBtnTest_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             NoiseEnergyAnalysis EnAndialog = new NoiseEnergyAnalysis();
@@ -352,6 +318,36 @@ namespace NoiseAnalysisSystem
 
         private void FrmSystem_KeyDown(object sender, KeyEventArgs e)
         {
+        }
+        private void navBarNoiseParmSet_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            panelControlMain.Controls.Clear();
+            panelControlMain.Controls.Add(noiseparmset);
+        }
+
+        private void navBarNoiseFFT_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            NoiseFFT ft = new NoiseFFT();
+            ft.ShowDialog();
+        }
+
+        private void navBarNoiseCompare_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (GlobalValue.recorderList.Count > 0)
+            {
+                NoiseDataCompare fdc = new NoiseDataCompare();
+                fdc.ShowDialog();
+            }
+            else
+            {
+                XtraMessageBox.Show("当前不存在任何记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void navBarNoiseEnergy_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            NoiseEnergyAnalysis EnAndialog = new NoiseEnergyAnalysis();
+            EnAndialog.ShowDialog();
         }
 
 

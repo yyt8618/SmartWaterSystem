@@ -1,6 +1,6 @@
 ﻿namespace NoiseAnalysisSystem
 {
-    partial class FrmTest
+    partial class NoiseFFT
     {
         /// <summary>
         /// Required designer variable.
@@ -37,9 +37,9 @@
             this.txtSize = new System.Windows.Forms.TextBox();
             this.txtDis = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.winChartViewer1 = new ChartDirector.WinChartViewer();
+            this.btnClose = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -52,7 +52,7 @@
             // 
             // btnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(540, 333);
+            this.btnSelect.Location = new System.Drawing.Point(546, 333);
             this.btnSelect.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(67, 23);
@@ -115,16 +115,6 @@
             this.label2.TabIndex = 21;
             this.label2.Text = "频率分辨率:";
             // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Location = new System.Drawing.Point(622, 333);
-            this.simpleButton1.Margin = new System.Windows.Forms.Padding(2);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(67, 23);
-            this.simpleButton1.TabIndex = 23;
-            this.simpleButton1.Text = "关闭";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
-            // 
             // panelControl1
             // 
             this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
@@ -147,30 +137,33 @@
             this.winChartViewer1.ClickHotSpot += new ChartDirector.WinHotSpotEventHandler(this.winChartViewer1_ClickHotSpot);
             this.winChartViewer1.ViewPortChanged += new ChartDirector.WinViewPortEventHandler(this.winChartViewer1_ViewPortChanged);
             // 
-            // FrmTest
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(634, 333);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(2);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(67, 23);
+            this.btnClose.TabIndex = 16;
+            this.btnClose.Text = "关闭";
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // NoiseFFT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(701, 367);
+            this.ClientSize = new System.Drawing.Size(704, 362);
             this.Controls.Add(this.panelControl1);
-            this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.txtDis);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtSize);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSelect1);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSelect);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmTest";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.Name = "NoiseFFT";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "傅里叶分析";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
@@ -190,9 +183,9 @@
         private System.Windows.Forms.TextBox txtSize;
         private System.Windows.Forms.TextBox txtDis;
         private System.Windows.Forms.Label label2;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private ChartDirector.WinChartViewer winChartViewer1;
+        private DevExpress.XtraEditors.SimpleButton btnClose;
 
 
 

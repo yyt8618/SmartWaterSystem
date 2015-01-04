@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using ChartDirector;
 using System.Collections;
-using System.Media;
 using DevExpress.XtraEditors;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class FrmDataCompare : DevExpress.XtraEditors.XtraForm
+    public partial class NoiseDataCompare : DevExpress.XtraEditors.XtraForm
     {
         private NoiseRecorder sRecorder;
         private NoiseRecorder eRecorder;
@@ -21,7 +16,7 @@ namespace NoiseAnalysisSystem
         /// <summary>
         /// 构造函数
         /// </summary>
-        internal FrmDataCompare()
+        internal NoiseDataCompare()
         {
             InitializeComponent();
             InitComBox();

@@ -130,13 +130,6 @@ namespace NoiseAnalysisSystem.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap PreTerConfig {
-            get {
-                object obj = ResourceManager.GetObject("PreTerConfig", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap PreTerminal {
             get {
                 object obj = ResourceManager.GetObject("PreTerminal", resourceCulture);
