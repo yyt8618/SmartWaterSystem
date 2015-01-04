@@ -57,7 +57,7 @@ namespace NoiseAnalysisSystem
 
 			LineLayer layer1;
 			ChartDirector.DataSet ds;
-            double[] da = data.Frequency.Skip(4).ToArray();
+            double[] da = data.Frequency.ToArray();  //.Skip(4)
 			double[] dataSet = new double[data.Amplitude.Length];
 			data.Amplitude.CopyTo(dataSet, 0);
 

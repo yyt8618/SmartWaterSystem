@@ -11,6 +11,7 @@ using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Threading;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace NoiseAnalysisSystem
 {
@@ -20,6 +21,8 @@ namespace NoiseAnalysisSystem
         private List<NoiseRecorder> selectList = new List<NoiseRecorder>();
         private int rowHandle = 0;
         private FrmSystem main;
+
+        string OriginalFilePath = Application.StartupPath + @"\OriginalDatas\";
 
         public NoiseDataMgr(FrmSystem frm)
         {
@@ -31,6 +34,14 @@ namespace NoiseAnalysisSystem
         private void UcDataMgr_Load(object sender, EventArgs e)
         {
             //BindGroup();
+            try
+            {
+                if (!Directory.Exists(OriginalFilePath))
+                {
+                    Directory.CreateDirectory(OriginalFilePath);
+                }
+            }
+            catch { }
         }
 
         /// <summary>
@@ -685,5 +696,202 @@ namespace NoiseAnalysisSystem
                 XtraMessageBox.Show("当前不存在任何记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        private void btnReadFromFold_Click(object sender, EventArgs e)
+        {
+            //if (!Regex.IsMatch(txtID.Text, @"^\d+$"))
+            //{
+            //    XtraMessageBox.Show("请输入一个记录仪ID！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    txtID.Focus();
+            //    return;
+            //}
+
+            if (!CheckFileExist())
+            {
+                if (DialogResult.Yes == XtraMessageBox.Show("请将原始数据文件(txt)放入路径:" + OriginalFilePath + ",是否打开目录?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+                {
+                    btnOpenFold_Click(null, null);
+                }
+                return;
+            }
+
+
+            List<int> readIdList = new List<int>(); // 需要读取的ID列表
+            //readIdList.Add(Convert.ToInt32(txtID.Text));
+            bool isError = false;
+
+            for (int j = 0; j < selectList.Count; j++)
+            {
+                if (!readIdList.Contains(selectList[j].ID))
+                    readIdList.Add(selectList[j].ID);
+            }
+            if (selectList.Count != 0)
+            {
+
+                btnReadFromFold.Enabled = false;
+                List<NoiseData> dataList = new List<NoiseData>();
+                List<NoiseResult> resultList = new List<NoiseResult>();
+                GlobalValue.log.ValueChanged -= new ReadDataChangedEventHandler(log_ValueChanged);
+                GlobalValue.log.ValueChanged += new ReadDataChangedEventHandler(log_ValueChanged);
+
+                NoiseDataHandler.FourierData.Clear();
+                isReading = true;
+                new Action(() =>
+                {
+                    try
+                    {
+                        foreach (var id in readIdList)
+                        {
+                            try
+                            {
+                                main.DisableRibbonBar();
+                                main.DisableNavigateBar();
+                                Thread.Sleep(1000);
+                                this.Invoke(new MethodInvoker(() =>
+                                {
+                                    for (int i = 0; i < gridViewGroupList.RowCount; i++)
+                                    {
+                                        if (gridViewGroupList.GetRowCellValue(i, "选择") != null)
+                                        {
+                                            if (gridViewGroupList.GetRowCellValue(i, "记录仪编号").ToString() == id.ToString())
+                                            {
+                                                gridViewGroupList.SetRowCellValue(i, "读取进度", 0);
+                                                this.rowHandle = i;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }));
+
+                                Dictionary<short, short[]> result = new Dictionary<short, short[]>();
+                                main.barStaticItemWait.Caption = string.Format("正在读取记录仪{0}...", id);
+                                main.ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
+                                short[] arr = GetDataFromFiles();
+                                if (arr == null || arr.Length == 0)
+                                    throw new ArgumentNullException("数据获取失败");
+                                result.Add((short)id, arr);
+                                CallbackReaded(result, selectList);
+                                GlobalValue.reReadIdList.Remove(id);
+
+                                NoiseRecorder gpRec = (from item in GlobalValue.recorderList.AsEnumerable()
+                                                       where item.ID == id
+                                                       select item).ToList()[0];
+
+                                dataList.Add(gpRec.Data);
+                                resultList.Add(gpRec.Result);
+
+                                BindResult(gpRec);
+                            }
+                            catch (TimeoutException)
+                            {
+                                main.ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                isError = true;
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                main.ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                isError = true;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    finally
+                    {
+                        isReading = false;
+                        main.barStaticItemWait.Caption = "数据读取完成";
+                        btnReadFromFold.Enabled = true;
+                        main.HideWaitForm();
+                        main.EnableRibbonBar();
+                        main.EnableNavigateBar();
+
+                        if (dataList.Count != 0)
+                        {
+                            DialogResult dr = XtraMessageBox.Show("已成功读取" + dataList.Count + "条数据，是否保存到数据库？", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (dr == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                for (int i = 0; i < dataList.Count; i++)
+                                {
+                                    NoiseDataBaseHelper.AddNoiseData(dataList[i]);
+                                    NoiseDataBaseHelper.AddNoiseResult(resultList[i]);
+                                    GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                                    GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                                }
+                            }
+                        }
+                    }
+                }).BeginInvoke(null, null);
+            }
+            else
+            {
+                XtraMessageBox.Show("请勾选需要读取的记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private bool CheckFileExist()
+        {
+            string[] files = Directory.GetFiles(OriginalFilePath, "*.txt");
+            if (files != null && files.Length > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private short[] GetDataFromFiles()
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(OriginalFilePath, "*.txt");
+                if (files != null && files.Length > 0)
+                {
+                    List<short> lstData = new List<short>();
+                    foreach (string file in files)
+                    {
+                        using (StreamReader reader = new StreamReader(file))
+                        {
+                            string strdata = reader.ReadToEnd();
+                            if (!string.IsNullOrEmpty(strdata))
+                            {
+                                string[] str_datas = strdata.Split(new char[] { '\r', '\n' });
+                                if (str_datas != null && str_datas.Length > 0)
+                                {
+                                    foreach (string data in str_datas)
+                                    {
+                                        if (!string.IsNullOrEmpty(data))
+                                        {
+                                            lstData.Add(Convert.ToInt16(data));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return lstData.ToArray();
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("读取文件发生错误,请检查文件", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private void btnOpenFold_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("explorer.exe", OriginalFilePath);
+            }
+            catch {
+                XtraMessageBox.Show("打开文件夹异常", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

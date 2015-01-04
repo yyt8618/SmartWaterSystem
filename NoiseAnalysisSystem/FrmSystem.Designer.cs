@@ -46,12 +46,15 @@
             this.barBtnSetAbout = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnCompare = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnTest = new DevExpress.XtraBars.BarButtonItem();
+            this.skinRibbonGalleryBarItem1 = new DevExpress.XtraBars.SkinRibbonGalleryBarItem();
+            this.ribbonGalleryBarItem1 = new DevExpress.XtraBars.RibbonGalleryBarItem();
             this.ribbonPageSys = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup5 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar1 = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.ControlribbonPageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
@@ -86,9 +89,6 @@
             this.navBarGroup5 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarItem11 = new DevExpress.XtraNavBar.NavBarItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
-            this.skinRibbonGalleryBarItem1 = new DevExpress.XtraBars.SkinRibbonGalleryBarItem();
-            this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonGalleryBarItem1 = new DevExpress.XtraBars.RibbonGalleryBarItem();
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -263,6 +263,19 @@
             this.barBtnTest.Name = "barBtnTest";
             this.barBtnTest.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnTest_ItemClick);
             // 
+            // skinRibbonGalleryBarItem1
+            // 
+            this.skinRibbonGalleryBarItem1.Caption = "皮肤";
+            this.skinRibbonGalleryBarItem1.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
+            this.skinRibbonGalleryBarItem1.Id = 29;
+            this.skinRibbonGalleryBarItem1.Name = "skinRibbonGalleryBarItem1";
+            // 
+            // ribbonGalleryBarItem1
+            // 
+            this.ribbonGalleryBarItem1.Caption = "ribbonGalleryBarItem1";
+            this.ribbonGalleryBarItem1.Id = 30;
+            this.ribbonGalleryBarItem1.Name = "ribbonGalleryBarItem1";
+            // 
             // ribbonPageSys
             // 
             this.ribbonPageSys.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -316,6 +329,14 @@
             this.ribbonPageGroup5.Name = "ribbonPageGroup5";
             this.ribbonPageGroup5.ShowCaptionButton = false;
             this.ribbonPageGroup5.Text = "帮助";
+            // 
+            // ribbonPageGroup6
+            // 
+            this.ribbonPageGroup6.Glyph = ((System.Drawing.Image)(resources.GetObject("ribbonPageGroup6.Glyph")));
+            this.ribbonPageGroup6.ItemLinks.Add(this.ribbonGalleryBarItem1);
+            this.ribbonPageGroup6.Name = "ribbonPageGroup6";
+            this.ribbonPageGroup6.ShowCaptionButton = false;
+            this.ribbonPageGroup6.Text = "皮肤";
             // 
             // ribbonStatusBar1
             // 
@@ -607,27 +628,6 @@
             this.defaultLookAndFeel1.LookAndFeel.SkinName = "Seven Classic";
             this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             // 
-            // skinRibbonGalleryBarItem1
-            // 
-            this.skinRibbonGalleryBarItem1.Caption = "皮肤";
-            this.skinRibbonGalleryBarItem1.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
-            this.skinRibbonGalleryBarItem1.Id = 29;
-            this.skinRibbonGalleryBarItem1.Name = "skinRibbonGalleryBarItem1";
-            // 
-            // ribbonPageGroup6
-            // 
-            this.ribbonPageGroup6.Glyph = ((System.Drawing.Image)(resources.GetObject("ribbonPageGroup6.Glyph")));
-            this.ribbonPageGroup6.ItemLinks.Add(this.ribbonGalleryBarItem1);
-            this.ribbonPageGroup6.Name = "ribbonPageGroup6";
-            this.ribbonPageGroup6.ShowCaptionButton = false;
-            this.ribbonPageGroup6.Text = "皮肤";
-            // 
-            // ribbonGalleryBarItem1
-            // 
-            this.ribbonGalleryBarItem1.Caption = "ribbonGalleryBarItem1";
-            this.ribbonGalleryBarItem1.Id = 30;
-            this.ribbonGalleryBarItem1.Name = "ribbonGalleryBarItem1";
-            // 
             // FrmSystem
             // 
             this.Appearance.Options.UseFont = true;
@@ -648,6 +648,7 @@
             this.StatusBar = this.ribbonStatusBar1;
             this.Text = "自来水管道噪声分析系统";
             this.Load += new System.EventHandler(this.FrmSystem_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmSystem_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();

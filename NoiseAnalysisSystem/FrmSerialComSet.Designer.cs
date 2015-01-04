@@ -242,6 +242,7 @@
             this.MaximizeBox = false;
             this.Name = "FrmSerialComSet";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "串口通讯设置";

@@ -40,6 +40,7 @@
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnProgress = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.btnReadFromFold = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonRead = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonUnSelect = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonSelectAll = new DevExpress.XtraEditors.SimpleButton();
@@ -64,6 +65,7 @@
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.barStaticItem1 = new DevExpress.XtraBars.BarStaticItem();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnOpenFold = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
@@ -193,6 +195,8 @@
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.btnOpenFold);
+            this.groupControl1.Controls.Add(this.btnReadFromFold);
             this.groupControl1.Controls.Add(this.simpleButtonRead);
             this.groupControl1.Controls.Add(this.gridControlGroup);
             this.groupControl1.Controls.Add(this.simpleButtonUnSelect);
@@ -202,6 +206,15 @@
             this.groupControl1.Size = new System.Drawing.Size(320, 487);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "分组列表";
+            // 
+            // btnReadFromFold
+            // 
+            this.btnReadFromFold.Location = new System.Drawing.Point(163, 457);
+            this.btnReadFromFold.Name = "btnReadFromFold";
+            this.btnReadFromFold.Size = new System.Drawing.Size(58, 23);
+            this.btnReadFromFold.TabIndex = 8;
+            this.btnReadFromFold.Text = "读文件夹";
+            this.btnReadFromFold.Click += new System.EventHandler(this.btnReadFromFold_Click);
             // 
             // simpleButtonRead
             // 
@@ -440,6 +453,15 @@
             this.barButtonItem1.Id = 1;
             this.barButtonItem1.Name = "barButtonItem1";
             // 
+            // btnOpenFold
+            // 
+            this.btnOpenFold.Location = new System.Drawing.Point(97, 457);
+            this.btnOpenFold.Name = "btnOpenFold";
+            this.btnOpenFold.Size = new System.Drawing.Size(64, 24);
+            this.btnOpenFold.TabIndex = 8;
+            this.btnOpenFold.Text = "Open Fold";
+            this.btnOpenFold.Click += new System.EventHandler(this.btnOpenFold_Click);
+            // 
             // NoiseDataMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -506,5 +528,7 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         public DevExpress.XtraEditors.SimpleButton simpleButtonRead;
         private DevExpress.XtraEditors.SimpleButton simpleButtonAny;
+        public DevExpress.XtraEditors.SimpleButton btnReadFromFold;
+        public DevExpress.XtraEditors.SimpleButton btnOpenFold;
     }
 }

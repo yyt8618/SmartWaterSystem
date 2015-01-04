@@ -78,6 +78,7 @@ namespace NoiseAnalysisSystem
             this.MaximizeBox = false;
             this.Name = "FrmParamViewer";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "参数查看";

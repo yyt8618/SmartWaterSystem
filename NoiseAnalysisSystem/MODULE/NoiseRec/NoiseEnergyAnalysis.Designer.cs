@@ -34,9 +34,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtStandardAMP = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.winChartViewer1 = new ChartDirector.WinChartViewer();
             this.txtStandardAverage = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.winChartViewer1 = new ChartDirector.WinChartViewer();
             ((System.ComponentModel.ISupportInitialize)(this.winChartViewer1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -93,17 +93,6 @@
             this.label2.TabIndex = 22;
             this.label2.Text = "静态漏水标准幅度值:";
             // 
-            // winChartViewer1
-            // 
-            this.winChartViewer1.Location = new System.Drawing.Point(0, 0);
-            this.winChartViewer1.Margin = new System.Windows.Forms.Padding(2);
-            this.winChartViewer1.Name = "winChartViewer1";
-            this.winChartViewer1.Size = new System.Drawing.Size(857, 332);
-            this.winChartViewer1.TabIndex = 2;
-            this.winChartViewer1.TabStop = false;
-            this.winChartViewer1.ZoomDirection = ChartDirector.WinChartDirection.HorizontalVertical;
-            this.winChartViewer1.ViewPortChanged += new ChartDirector.WinViewPortEventHandler(this.winChartViewer1_ViewPortChanged);
-            // 
             // txtStandardAverage
             // 
             this.txtStandardAverage.Location = new System.Drawing.Point(478, 336);
@@ -122,6 +111,17 @@
             this.label3.Size = new System.Drawing.Size(71, 14);
             this.label3.TabIndex = 22;
             this.label3.Text = "标准平均值:";
+            // 
+            // winChartViewer1
+            // 
+            this.winChartViewer1.Location = new System.Drawing.Point(0, 0);
+            this.winChartViewer1.Margin = new System.Windows.Forms.Padding(2);
+            this.winChartViewer1.Name = "winChartViewer1";
+            this.winChartViewer1.Size = new System.Drawing.Size(857, 332);
+            this.winChartViewer1.TabIndex = 2;
+            this.winChartViewer1.TabStop = false;
+            this.winChartViewer1.ZoomDirection = ChartDirector.WinChartDirection.HorizontalVertical;
+            this.winChartViewer1.ViewPortChanged += new ChartDirector.WinViewPortEventHandler(this.winChartViewer1_ViewPortChanged);
             // 
             // NoiseEnergyAnalysis
             // 

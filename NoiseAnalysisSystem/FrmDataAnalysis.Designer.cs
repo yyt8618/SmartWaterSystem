@@ -56,8 +56,10 @@
             this.txtMinHz = new DevExpress.XtraEditors.TextEdit();
             this.txtMinNoise = new DevExpress.XtraEditors.TextEdit();
             this.txtMaxHz = new DevExpress.XtraEditors.TextEdit();
+            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
             this.txtMaxNoise = new DevExpress.XtraEditors.TextEdit();
             this.label2 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
@@ -85,6 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtMinHz.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMinNoise.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxHz.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxNoise.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
@@ -285,8 +288,10 @@
             this.groupBox2.Controls.Add(this.txtMinHz);
             this.groupBox2.Controls.Add(this.txtMinNoise);
             this.groupBox2.Controls.Add(this.txtMaxHz);
+            this.groupBox2.Controls.Add(this.textEdit1);
             this.groupBox2.Controls.Add(this.txtMaxNoise);
             this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.label18);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Location = new System.Drawing.Point(388, 438);
@@ -298,7 +303,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(164, 34);
+            this.label3.Location = new System.Drawing.Point(164, 22);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(78, 14);
             this.label3.TabIndex = 61;
@@ -307,7 +312,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(81, 34);
+            this.label1.Location = new System.Drawing.Point(81, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 14);
             this.label1.TabIndex = 60;
@@ -315,7 +320,7 @@
             // 
             // txtLeakHz
             // 
-            this.txtLeakHz.Location = new System.Drawing.Point(166, 120);
+            this.txtLeakHz.Location = new System.Drawing.Point(166, 101);
             this.txtLeakHz.Name = "txtLeakHz";
             this.txtLeakHz.Properties.ReadOnly = true;
             this.txtLeakHz.Size = new System.Drawing.Size(65, 20);
@@ -323,7 +328,7 @@
             // 
             // txtLeakNoise
             // 
-            this.txtLeakNoise.Location = new System.Drawing.Point(83, 120);
+            this.txtLeakNoise.Location = new System.Drawing.Point(83, 101);
             this.txtLeakNoise.Name = "txtLeakNoise";
             this.txtLeakNoise.Properties.ReadOnly = true;
             this.txtLeakNoise.Size = new System.Drawing.Size(65, 20);
@@ -331,7 +336,7 @@
             // 
             // txtMinHz
             // 
-            this.txtMinHz.Location = new System.Drawing.Point(166, 89);
+            this.txtMinHz.Location = new System.Drawing.Point(166, 72);
             this.txtMinHz.Name = "txtMinHz";
             this.txtMinHz.Properties.ReadOnly = true;
             this.txtMinHz.Size = new System.Drawing.Size(65, 20);
@@ -339,7 +344,7 @@
             // 
             // txtMinNoise
             // 
-            this.txtMinNoise.Location = new System.Drawing.Point(83, 89);
+            this.txtMinNoise.Location = new System.Drawing.Point(83, 72);
             this.txtMinNoise.Name = "txtMinNoise";
             this.txtMinNoise.Properties.ReadOnly = true;
             this.txtMinNoise.Size = new System.Drawing.Size(65, 20);
@@ -347,15 +352,23 @@
             // 
             // txtMaxHz
             // 
-            this.txtMaxHz.Location = new System.Drawing.Point(166, 57);
+            this.txtMaxHz.Location = new System.Drawing.Point(166, 43);
             this.txtMaxHz.Name = "txtMaxHz";
             this.txtMaxHz.Properties.ReadOnly = true;
             this.txtMaxHz.Size = new System.Drawing.Size(65, 20);
             this.txtMaxHz.TabIndex = 55;
             // 
+            // textEdit1
+            // 
+            this.textEdit1.Location = new System.Drawing.Point(83, 133);
+            this.textEdit1.Name = "textEdit1";
+            this.textEdit1.Properties.ReadOnly = true;
+            this.textEdit1.Size = new System.Drawing.Size(148, 20);
+            this.textEdit1.TabIndex = 54;
+            // 
             // txtMaxNoise
             // 
-            this.txtMaxNoise.Location = new System.Drawing.Point(83, 57);
+            this.txtMaxNoise.Location = new System.Drawing.Point(83, 43);
             this.txtMaxNoise.Name = "txtMaxNoise";
             this.txtMaxNoise.Properties.ReadOnly = true;
             this.txtMaxNoise.Size = new System.Drawing.Size(65, 20);
@@ -364,16 +377,25 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 122);
+            this.label2.Location = new System.Drawing.Point(17, 104);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 14);
             this.label2.TabIndex = 52;
             this.label2.Text = "漏水噪声";
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(16, 136);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(55, 14);
+            this.label18.TabIndex = 43;
+            this.label18.Text = "能量强度";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 92);
+            this.label5.Location = new System.Drawing.Point(17, 75);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(55, 14);
             this.label5.TabIndex = 48;
@@ -382,7 +404,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(17, 61);
+            this.label12.Location = new System.Drawing.Point(17, 46);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(55, 14);
             this.label12.TabIndex = 43;
@@ -478,6 +500,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FrmDataAnalysis";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "噪声数据分析";
@@ -501,6 +524,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtMinHz.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMinNoise.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxHz.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxNoise.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).EndInit();
@@ -556,6 +580,8 @@
 		private DevExpress.XtraEditors.GroupControl groupBox4;
 		private DevExpress.XtraEditors.TextEdit txtNum;
 		private System.Windows.Forms.Label label7;
+        private DevExpress.XtraEditors.TextEdit textEdit1;
+        private System.Windows.Forms.Label label18;
 
 
 

@@ -126,7 +126,7 @@ namespace NoiseAnalysisSystem
         public static bool AmpCalc(List<double[]> data, ref double[] min_amp, ref double[] min_frq)
         {
             string str_DCLen = AppConfigHelper.GetAppSettingValue("DCComponentLen");  //获取设定的直流分量长度
-            int DCComponentLen = 10;
+            int DCComponentLen = 6;
             if (!string.IsNullOrEmpty(str_DCLen))
                 DCComponentLen = Convert.ToInt32(str_DCLen);
 

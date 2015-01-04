@@ -44,13 +44,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox3 = new DevExpress.XtraEditors.GroupControl();
             this.cbArith = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.txtDCCompLen = new DevExpress.XtraEditors.TextEdit();
             this.txtStandardAMP = new DevExpress.XtraEditors.TextEdit();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.txtDCCompLen = new DevExpress.XtraEditors.TextEdit();
-            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtMin1.Properties)).BeginInit();
@@ -62,8 +62,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakHZ.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDCCompLen.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -224,6 +224,15 @@
             this.cbArith.Size = new System.Drawing.Size(92, 22);
             this.cbArith.TabIndex = 1;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(19, 114);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(79, 14);
+            this.label9.TabIndex = 85;
+            this.label9.Text = "直流分量长度";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -251,6 +260,15 @@
             this.label8.TabIndex = 84;
             this.label8.Text = "%";
             // 
+            // txtDCCompLen
+            // 
+            this.txtDCCompLen.Location = new System.Drawing.Point(122, 111);
+            this.txtDCCompLen.Name = "txtDCCompLen";
+            this.txtDCCompLen.Properties.Mask.EditMask = "f0";
+            this.txtDCCompLen.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtDCCompLen.Size = new System.Drawing.Size(66, 20);
+            this.txtDCCompLen.TabIndex = 3;
+            // 
             // txtStandardAMP
             // 
             this.txtStandardAMP.Location = new System.Drawing.Point(122, 83);
@@ -269,24 +287,6 @@
             this.simpleButton1.Text = "取消";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
-            // txtDCCompLen
-            // 
-            this.txtDCCompLen.Location = new System.Drawing.Point(122, 111);
-            this.txtDCCompLen.Name = "txtDCCompLen";
-            this.txtDCCompLen.Properties.Mask.EditMask = "f0";
-            this.txtDCCompLen.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            this.txtDCCompLen.Size = new System.Drawing.Size(66, 20);
-            this.txtDCCompLen.TabIndex = 3;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(19, 114);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(79, 14);
-            this.label9.TabIndex = 85;
-            this.label9.Text = "直流分量长度";
-            // 
             // FrmCalcParamSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -300,6 +300,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FrmCalcParamSet";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "计算参数设置";
@@ -318,8 +319,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDCCompLen.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).EndInit();
             this.ResumeLayout(false);
 
 		}

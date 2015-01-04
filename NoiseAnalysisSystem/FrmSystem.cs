@@ -262,9 +262,12 @@ namespace NoiseAnalysisSystem
                 title = "请稍候...";
             this.BeginInvoke(new Action(() =>
                 {
-                    splashScreenmanager.ShowWaitForm();
-                    splashScreenmanager.SetWaitFormCaption(title);
-                    splashScreenmanager.SetWaitFormDescription(prompt);
+                    if (!splashScreenmanager.IsSplashFormVisible)
+                    {
+                        splashScreenmanager.ShowWaitForm();
+                        splashScreenmanager.SetWaitFormCaption(title);
+                        splashScreenmanager.SetWaitFormDescription(prompt);
+                    }
                 }));
         }
 
@@ -345,6 +348,10 @@ namespace NoiseAnalysisSystem
         {
             NoiseEnergyAnalysis EnAndialog = new NoiseEnergyAnalysis();
             EnAndialog.ShowDialog();
+        }
+
+        private void FrmSystem_KeyDown(object sender, KeyEventArgs e)
+        {
         }
 
 
