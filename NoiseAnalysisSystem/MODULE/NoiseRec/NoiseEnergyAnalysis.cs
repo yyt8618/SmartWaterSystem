@@ -9,7 +9,7 @@ using ChartDirector;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class NoiseEnergyAnalysis : DevExpress.XtraEditors.XtraForm
+    public partial class NoiseEnergyAnalysis : BaseView, INoiseEnergyAnalysis
     {
         private List<double> lst_data =new List<double>();    
         private List<double> lst_stdev = new List<double>();  //标准差数组
@@ -21,7 +21,7 @@ namespace NoiseAnalysisSystem
             InitializeComponent();
         }
 
-        private void TestChart_Load(object sender, EventArgs e)
+        public override void OnLoad()
         {
             try
             {

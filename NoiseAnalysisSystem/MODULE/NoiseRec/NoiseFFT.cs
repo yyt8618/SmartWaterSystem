@@ -9,7 +9,7 @@ using DevExpress.XtraEditors;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class NoiseFFT : DevExpress.XtraEditors.XtraForm
+    public partial class NoiseFFT : BaseView,INoiseFFT
     {
         List<double> data;
 
@@ -408,10 +408,6 @@ namespace NoiseAnalysisSystem
 			c.yAxis().setRounding(false, false);
 		}
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
     }
 }

@@ -28,7 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DevExpress.XtraMap.VectorFileLayer vectorFileLayer1 = new DevExpress.XtraMap.VectorFileLayer();
+            DevExpress.XtraMap.InformationLayer informationLayer1 = new DevExpress.XtraMap.InformationLayer();
+            DevExpress.XtraMap.ImageTilesLayer imageTilesLayer1 = new DevExpress.XtraMap.ImageTilesLayer();
+            DevExpress.XtraMap.VectorFileLayer vectorFileLayer2 = new DevExpress.XtraMap.VectorFileLayer();
+            DevExpress.XtraMap.VectorItemsLayer vectorItemsLayer1 = new DevExpress.XtraMap.VectorItemsLayer();
+            DevExpress.XtraMap.SizeLegend sizeLegend1 = new DevExpress.XtraMap.SizeLegend();
+            DevExpress.XtraMap.ColorListLegend colorListLegend1 = new DevExpress.XtraMap.ColorListLegend();
+            DevExpress.XtraMap.ColorScaleLegend colorScaleLegend1 = new DevExpress.XtraMap.ColorScaleLegend();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.mapControl1 = new DevExpress.XtraMap.MapControl();
+            ((System.ComponentModel.ISupportInitialize)(this.mapControl1)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -36,13 +46,30 @@
             this.openFileDialog.FileName = "*.txt";
             this.openFileDialog.Filter = "txt文件|*.txt";
             // 
+            // mapControl1
+            // 
+            this.mapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapControl1.Layers.Add(vectorFileLayer1);
+            this.mapControl1.Layers.Add(informationLayer1);
+            this.mapControl1.Layers.Add(imageTilesLayer1);
+            this.mapControl1.Layers.Add(vectorFileLayer2);
+            this.mapControl1.Layers.Add(vectorItemsLayer1);
+            this.mapControl1.Legends.Add(sizeLegend1);
+            this.mapControl1.Legends.Add(colorListLegend1);
+            this.mapControl1.Legends.Add(colorScaleLegend1);
+            this.mapControl1.Location = new System.Drawing.Point(0, 0);
+            this.mapControl1.Name = "mapControl1";
+            this.mapControl1.Size = new System.Drawing.Size(797, 494);
+            this.mapControl1.TabIndex = 0;
+            // 
             // NoiseMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.mapControl1);
             this.Name = "NoiseMap";
             this.Size = new System.Drawing.Size(797, 494);
-            this.Load += new System.EventHandler(this.TestChart_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.mapControl1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -50,6 +77,7 @@
         #endregion
 
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private DevExpress.XtraMap.MapControl mapControl1;
 
     }
 }

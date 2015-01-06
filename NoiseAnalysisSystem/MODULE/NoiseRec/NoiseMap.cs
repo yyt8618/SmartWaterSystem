@@ -9,24 +9,12 @@ using ChartDirector;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class NoiseMap : DevExpress.XtraEditors.XtraUserControl
+    public partial class NoiseMap : BaseView, INoiseMap
     {
-        private FrmSystem main;
-        public NoiseMap(FrmSystem frm)
+        public NoiseMap()
         {
             InitializeComponent();
-            this.main = frm;
         }
-
-        private void TestChart_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                //DevExpress.XtraMap
-            }
-            catch { }
-        }
-
 
     }
 }

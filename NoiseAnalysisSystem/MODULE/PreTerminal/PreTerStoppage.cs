@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class  PreTerStoppage : DevExpress.XtraEditors.XtraUserControl
+    public partial class  PreTerStoppage : BaseView,IPreTerStoppage
     {
         public PreTerStoppage(FrmSystem parentform)
         {

@@ -119,6 +119,12 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseView.Designer.cs">
+      <DependentUpon>BaseView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Common\NoiseDataHandler.cs" />
     <Compile Include="FrmCalcParamSet.cs">
       <SubType>Form</SubType>
@@ -133,10 +139,6 @@
       <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\NoiseDataBaseHelper.cs" />
-    <Compile Include="Entity\DistanceController.cs" />
-    <Compile Include="Entity\NoiseData.cs" />
-    <Compile Include="Entity\NoiseRecorder.cs" />
-    <Compile Include="Entity\NoiseResult.cs" />
     <Compile Include="FrmSerialComSet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,7 +158,7 @@
       <DependentUpon>FrmTemplateSet.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseFFT.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseFFT.Designer.cs">
       <DependentUpon>NoiseFFT.cs</DependentUpon>
@@ -218,7 +220,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entity\NoiseRecorderGroup.cs" />
     <Compile Include="FrmSysVoiceSet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -226,7 +227,7 @@
       <DependentUpon>FrmSysVoiceSet.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseDataCompare.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseDataCompare.Designer.cs">
       <DependentUpon>NoiseDataCompare.cs</DependentUpon>
@@ -250,7 +251,7 @@
       <DependentUpon>NoiseRecMgr.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.Designer.cs">
       <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
@@ -261,9 +262,18 @@
     <Compile Include="WaitForm1.Designer.cs">
       <DependentUpon>WaitForm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Welcome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Welcome.Designer.cs">
+      <DependentUpon>Welcome.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseView.resx">
+      <DependentUpon>BaseView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmCalcParamSet.resx">
       <DependentUpon>FrmCalcParamSet.cs</DependentUpon>
@@ -365,6 +375,66 @@
       <Project>{3BB68F7C-6C07-4890-9851-C73CE00C17F5}</Project>
       <Name>Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{A73A7A63-11C8-40BC-AA44-0ACD23F00A0B}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INoiseDataMgr\NoiseDataMgr.csproj">
+      <Project>{AF8AF8E2-7662-4F81-BBB9-B6E828ABD21D}</Project>
+      <Name>NoiseDataMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INoiseUI\NoiseGroupMgr.csproj">
+      <Project>{6B71722E-E09F-417A-8D76-9E6941453FC6}</Project>
+      <Name>NoiseGroupMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseDataCompare\NoiseDataCompare.csproj">
+      <Project>{B67DCBA3-3945-4245-A44F-1ED35E76BAE2}</Project>
+      <Name>NoiseDataCompare</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseEnergyAnalysis\NoiseEnergyAnalysis.csproj">
+      <Project>{7289EE4B-D27F-4C92-BCE2-B599D8DA4127}</Project>
+      <Name>NoiseEnergyAnalysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseFFT\NoiseFFT.csproj">
+      <Project>{1B23425E-3641-4B88-BD76-971C12C03713}</Project>
+      <Name>NoiseFFT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseMap\NoiseMap.csproj">
+      <Project>{8A4C67CC-EDF4-4AD7-9C8A-A8148C17999E}</Project>
+      <Name>NoiseMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseParmSetting\NoiseParmSetting.csproj">
+      <Project>{EFD170E0-EA31-45F7-807F-46791484D2D4}</Project>
+      <Name>NoiseParmSetting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseRecMgr\NoiseRecMgr.csproj">
+      <Project>{8744926E-0AF2-4F41-81D3-98004974856B}</Project>
+      <Name>NoiseRecMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerAlarm\PreTerAlarm.csproj">
+      <Project>{CFE8708A-7EB0-45D8-BD79-0EDCCA20E94F}</Project>
+      <Name>PreTerAlarm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerMgr\PreTerMgr.csproj">
+      <Project>{F7910E06-3FEB-4D0C-976F-70285B06E90C}</Project>
+      <Name>PreTerMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerMonitor\PreTerMonitor.csproj">
+      <Project>{5701E610-ECA4-4EF5-8475-038C59F4D557}</Project>
+      <Name>PreTerMonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerParm\PreTerParm.csproj">
+      <Project>{0150D7FD-CC7E-40C0-97D5-80457FD1BB1B}</Project>
+      <Name>PreTerParm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerReportHistory\PreTerReportHistory.csproj">
+      <Project>{8CFF5DBD-3C8F-4817-BC49-35AC5CEC1A56}</Project>
+      <Name>PreTerReportHistory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerStoppage\PreTerStoppage.csproj">
+      <Project>{73C5ED59-BB50-47C0-97CC-43F82BCA3BA4}</Project>
+      <Name>PreTerStoppage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Protocol\Protocol.csproj">
       <Project>{CBDF6FF1-FDC4-42BE-A21A-A5559DC20F6F}</Project>
       <Name>Protocol</Name>
@@ -395,6 +465,7 @@
     <None Include="Resources\wait.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Entity\" />
     <Folder Include="MODULE\GSMTerminal\" />
     <Folder Include="MODULE\PortablePreTerminal\" />
     <Folder Include="MODULE\ValveSwitchCTL\" />

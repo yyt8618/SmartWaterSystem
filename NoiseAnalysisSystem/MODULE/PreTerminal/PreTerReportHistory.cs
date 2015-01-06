@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class  PreTerReportHistory : DevExpress.XtraEditors.XtraUserControl
+    public partial class PreTerReportHistory : BaseView,IPreTerReportHistory
     {
         public PreTerReportHistory(FrmSystem parentform)
         {

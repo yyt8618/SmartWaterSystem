@@ -473,7 +473,6 @@
             this.Controls.Add(this.barDockControlTop);
             this.Name = "NoiseDataMgr";
             this.Size = new System.Drawing.Size(797, 494);
-            this.Load += new System.EventHandler(this.UcDataMgr_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGroup)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
@@ -525,7 +524,7 @@
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
         private DevExpress.XtraBars.BarStaticItem barStaticItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
-        public DevExpress.XtraEditors.SimpleButton simpleButtonRead;
+        private DevExpress.XtraEditors.SimpleButton simpleButtonRead;
         private DevExpress.XtraEditors.SimpleButton simpleButtonAny;
         public DevExpress.XtraEditors.SimpleButton btnReadFromFold;
         public DevExpress.XtraEditors.SimpleButton btnOpenFold;

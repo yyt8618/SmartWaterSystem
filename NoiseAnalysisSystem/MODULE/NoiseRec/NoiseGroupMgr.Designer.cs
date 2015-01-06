@@ -605,7 +605,6 @@
             this.Controls.Add(this.groupControl1);
             this.Name = "NoiseGroupMgr";
             this.Size = new System.Drawing.Size(797, 494);
-            this.Load += new System.EventHandler(this.UcGroupMgr_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();

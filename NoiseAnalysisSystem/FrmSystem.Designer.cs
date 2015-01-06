@@ -53,39 +53,39 @@
             this.ControlribbonPageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.navBarControl1 = new DevExpress.XtraNavBar.NavBarControl();
-            this.navBarGroup1 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.NBG_PreT = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarPreTerParm = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTerMgr = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTerMonitor = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTerReport = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTerAlarm = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPreTerStoppage = new DevExpress.XtraNavBar.NavBarItem();
+            this.NBG_Noise = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarNoiseDataManager = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarSeparatorItem1 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarNoiseRecorderManager = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarSeparatorItem2 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarNoiseGroupManager = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarSeparatorItem3 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarNoiseMap = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarNoiseParmSet = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarNoiseFFT = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarNoiseCompare = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarNoiseEnergy = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGroup2 = new DevExpress.XtraNavBar.NavBarGroup();
-            this.navBarPreTelParm = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarPreTelMgr = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarPreTelMonitor = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarPreTelReport = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarPreTelAlarm = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarPreTelStoppage = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGroup3 = new DevExpress.XtraNavBar.NavBarGroup();
-            this.navBarItem6 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem7 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem8 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem9 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem10 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGroup4 = new DevExpress.XtraNavBar.NavBarGroup();
-            this.navBarItem12 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem13 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem14 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem15 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarItem16 = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGroup5 = new DevExpress.XtraNavBar.NavBarGroup();
-            this.navBarItem11 = new DevExpress.XtraNavBar.NavBarItem();
+            this.NBG_GSMT = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarGSMParm = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGSMMgr = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGSMMonitor = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGSMReport = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGSMStoppage = new DevExpress.XtraNavBar.NavBarItem();
+            this.NBG_ValveSwitch = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarValveParm = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarValveMonitor = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarValveMgr = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarValveReport = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarValveStoppage = new DevExpress.XtraNavBar.NavBarItem();
+            this.NBG_ProtablePreT = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarProtablePreTer = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarSeparatorItem1 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
+            this.navBarSeparatorItem2 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
+            this.navBarSeparatorItem3 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
@@ -299,14 +299,14 @@
             // 
             // navBarControl1
             // 
-            this.navBarControl1.ActiveGroup = this.navBarGroup1;
+            this.navBarControl1.ActiveGroup = this.NBG_PreT;
             this.navBarControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navBarControl1.Groups.AddRange(new DevExpress.XtraNavBar.NavBarGroup[] {
-            this.navBarGroup1,
-            this.navBarGroup2,
-            this.navBarGroup3,
-            this.navBarGroup4,
-            this.navBarGroup5});
+            this.NBG_Noise,
+            this.NBG_PreT,
+            this.NBG_GSMT,
+            this.NBG_ValveSwitch,
+            this.NBG_ProtablePreT});
             this.navBarControl1.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] {
             this.navBarNoiseDataManager,
             this.navBarSeparatorItem1,
@@ -315,23 +315,23 @@
             this.navBarNoiseGroupManager,
             this.navBarSeparatorItem3,
             this.navBarNoiseMap,
-            this.navBarPreTelParm,
-            this.navBarPreTelMgr,
-            this.navBarPreTelMonitor,
-            this.navBarPreTelReport,
-            this.navBarPreTelAlarm,
-            this.navBarPreTelStoppage,
-            this.navBarItem6,
-            this.navBarItem7,
-            this.navBarItem8,
-            this.navBarItem9,
-            this.navBarItem10,
-            this.navBarItem11,
-            this.navBarItem12,
-            this.navBarItem13,
-            this.navBarItem14,
-            this.navBarItem15,
-            this.navBarItem16,
+            this.navBarPreTerParm,
+            this.navBarPreTerMgr,
+            this.navBarPreTerMonitor,
+            this.navBarPreTerReport,
+            this.navBarPreTerAlarm,
+            this.navBarPreTerStoppage,
+            this.navBarGSMParm,
+            this.navBarGSMMgr,
+            this.navBarGSMMonitor,
+            this.navBarGSMReport,
+            this.navBarGSMStoppage,
+            this.navBarProtablePreTer,
+            this.navBarValveParm,
+            this.navBarValveMonitor,
+            this.navBarValveMgr,
+            this.navBarValveReport,
+            this.navBarValveStoppage,
             this.navBarNoiseParmSet,
             this.navBarNoiseFFT,
             this.navBarNoiseCompare,
@@ -341,28 +341,75 @@
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
             this.navBarControl1.PaintStyleKind = DevExpress.XtraNavBar.NavBarViewKind.ExplorerBar;
             this.navBarControl1.Size = new System.Drawing.Size(185, 490);
-            this.navBarControl1.StoreDefaultPaintStyleName = true;
             this.navBarControl1.TabIndex = 0;
             this.navBarControl1.Text = "navBarControl1";
+            this.navBarControl1.View = new DevExpress.XtraNavBar.ViewInfo.StandardSkinExplorerBarViewInfoRegistrator("Seven Classic");
             // 
-            // navBarGroup1
+            // NBG_PreT
             // 
-            this.navBarGroup1.Caption = "噪声记录仪";
-            this.navBarGroup1.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
-            this.navBarGroup1.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            this.NBG_PreT.Caption = "压力终端";
+            this.NBG_PreT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
+            this.NBG_PreT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerParm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerMgr),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerMonitor),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerReport),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerAlarm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerStoppage)});
+            this.NBG_PreT.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.PreTerminal;
+            this.NBG_PreT.Name = "NBG_PreT";
+            // 
+            // navBarPreTerParm
+            // 
+            this.navBarPreTerParm.Caption = "终端参数配置和读取";
+            this.navBarPreTerParm.Name = "navBarPreTerParm";
+            this.navBarPreTerParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerParm_LinkClicked);
+            // 
+            // navBarPreTerMgr
+            // 
+            this.navBarPreTerMgr.Caption = "终端配置和管理";
+            this.navBarPreTerMgr.Name = "navBarPreTerMgr";
+            this.navBarPreTerMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerMgr_LinkClicked);
+            // 
+            // navBarPreTerMonitor
+            // 
+            this.navBarPreTerMonitor.Caption = "实时列表监控、趋势图";
+            this.navBarPreTerMonitor.Name = "navBarPreTerMonitor";
+            this.navBarPreTerMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerMonitor_LinkClicked);
+            // 
+            // navBarPreTerReport
+            // 
+            this.navBarPreTerReport.Caption = "报表、历史数据查询";
+            this.navBarPreTerReport.Name = "navBarPreTerReport";
+            this.navBarPreTerReport.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerReport_LinkClicked);
+            // 
+            // navBarPreTerAlarm
+            // 
+            this.navBarPreTerAlarm.Caption = "报警统计分析";
+            this.navBarPreTerAlarm.Name = "navBarPreTerAlarm";
+            this.navBarPreTerAlarm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerAlarm_LinkClicked);
+            // 
+            // navBarPreTerStoppage
+            // 
+            this.navBarPreTerStoppage.Caption = "故障统计分析";
+            this.navBarPreTerStoppage.Name = "navBarPreTerStoppage";
+            this.navBarPreTerStoppage.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerStoppage_LinkClicked);
+            // 
+            // NBG_Noise
+            // 
+            this.NBG_Noise.Caption = "噪声记录仪";
+            this.NBG_Noise.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
+            this.NBG_Noise.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseDataManager),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem1),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseRecorderManager),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem2),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseGroupManager),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarSeparatorItem3),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseMap),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseParmSet),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseFFT),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseCompare),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseEnergy)});
-            this.navBarGroup1.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.NoiseRecorder;
-            this.navBarGroup1.Name = "navBarGroup1";
+            this.NBG_Noise.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.NoiseRecorder;
+            this.NBG_Noise.Name = "NBG_Noise";
             // 
             // navBarNoiseDataManager
             // 
@@ -371,17 +418,6 @@
             this.navBarNoiseDataManager.Name = "navBarNoiseDataManager";
             this.navBarNoiseDataManager.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseDataManager_LinkClicked);
             // 
-            // navBarSeparatorItem1
-            // 
-            this.navBarSeparatorItem1.CanDrag = false;
-            this.navBarSeparatorItem1.Enabled = false;
-            this.navBarSeparatorItem1.Hint = null;
-            this.navBarSeparatorItem1.LargeImageIndex = 0;
-            this.navBarSeparatorItem1.LargeImageSize = new System.Drawing.Size(0, 0);
-            this.navBarSeparatorItem1.Name = "navBarSeparatorItem1";
-            this.navBarSeparatorItem1.SmallImageIndex = 0;
-            this.navBarSeparatorItem1.SmallImageSize = new System.Drawing.Size(0, 0);
-            // 
             // navBarNoiseRecorderManager
             // 
             this.navBarNoiseRecorderManager.Caption = "噪声记录仪管理";
@@ -389,34 +425,12 @@
             this.navBarNoiseRecorderManager.Name = "navBarNoiseRecorderManager";
             this.navBarNoiseRecorderManager.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseRecorderManager_LinkClicked);
             // 
-            // navBarSeparatorItem2
-            // 
-            this.navBarSeparatorItem2.CanDrag = false;
-            this.navBarSeparatorItem2.Enabled = false;
-            this.navBarSeparatorItem2.Hint = null;
-            this.navBarSeparatorItem2.LargeImageIndex = 0;
-            this.navBarSeparatorItem2.LargeImageSize = new System.Drawing.Size(0, 0);
-            this.navBarSeparatorItem2.Name = "navBarSeparatorItem2";
-            this.navBarSeparatorItem2.SmallImageIndex = 0;
-            this.navBarSeparatorItem2.SmallImageSize = new System.Drawing.Size(0, 0);
-            // 
             // navBarNoiseGroupManager
             // 
             this.navBarNoiseGroupManager.Caption = "记录仪分组管理";
             this.navBarNoiseGroupManager.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarNoiseGroupManager.LargeImage")));
             this.navBarNoiseGroupManager.Name = "navBarNoiseGroupManager";
             this.navBarNoiseGroupManager.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseGroupManager_LinkClicked);
-            // 
-            // navBarSeparatorItem3
-            // 
-            this.navBarSeparatorItem3.CanDrag = false;
-            this.navBarSeparatorItem3.Enabled = false;
-            this.navBarSeparatorItem3.Hint = null;
-            this.navBarSeparatorItem3.LargeImageIndex = 0;
-            this.navBarSeparatorItem3.LargeImageSize = new System.Drawing.Size(0, 0);
-            this.navBarSeparatorItem3.Name = "navBarSeparatorItem3";
-            this.navBarSeparatorItem3.SmallImageIndex = 0;
-            this.navBarSeparatorItem3.SmallImageSize = new System.Drawing.Size(0, 0);
             // 
             // navBarNoiseMap
             // 
@@ -453,145 +467,128 @@
             this.navBarNoiseEnergy.Name = "navBarNoiseEnergy";
             this.navBarNoiseEnergy.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseEnergy_LinkClicked);
             // 
-            // navBarGroup2
+            // NBG_GSMT
             // 
-            this.navBarGroup2.Caption = "压力终端";
-            this.navBarGroup2.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
-            this.navBarGroup2.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelParm),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelMgr),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelMonitor),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelReport),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelAlarm),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTelStoppage)});
-            this.navBarGroup2.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.PreTerminal;
-            this.navBarGroup2.Name = "navBarGroup2";
+            this.NBG_GSMT.Caption = "GSM终端";
+            this.NBG_GSMT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
+            this.NBG_GSMT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMParm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMMgr),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMMonitor),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMReport),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMStoppage)});
+            this.NBG_GSMT.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.GsmTerminal;
+            this.NBG_GSMT.Name = "NBG_GSMT";
             // 
-            // navBarPreTelParm
+            // navBarGSMParm
             // 
-            this.navBarPreTelParm.Caption = "终端参数配置和读取";
-            this.navBarPreTelParm.Name = "navBarPreTelParm";
-            this.navBarPreTelParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelParm_LinkClicked);
+            this.navBarGSMParm.Caption = "参数配置和读取";
+            this.navBarGSMParm.Name = "navBarGSMParm";
             // 
-            // navBarPreTelMgr
+            // navBarGSMMgr
             // 
-            this.navBarPreTelMgr.Caption = "终端配置和管理";
-            this.navBarPreTelMgr.Name = "navBarPreTelMgr";
-            this.navBarPreTelMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelMgr_LinkClicked);
+            this.navBarGSMMgr.Caption = "终端配置和管理";
+            this.navBarGSMMgr.Name = "navBarGSMMgr";
             // 
-            // navBarPreTelMonitor
+            // navBarGSMMonitor
             // 
-            this.navBarPreTelMonitor.Caption = "实时列表监控、趋势图";
-            this.navBarPreTelMonitor.Name = "navBarPreTelMonitor";
-            this.navBarPreTelMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelMonitor_LinkClicked);
+            this.navBarGSMMonitor.Caption = "列表监控、趋势图";
+            this.navBarGSMMonitor.Name = "navBarGSMMonitor";
             // 
-            // navBarPreTelReport
+            // navBarGSMReport
             // 
-            this.navBarPreTelReport.Caption = "报表、历史数据查询";
-            this.navBarPreTelReport.Name = "navBarPreTelReport";
-            this.navBarPreTelReport.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelReport_LinkClicked);
+            this.navBarGSMReport.Caption = "报表、历史数据查询";
+            this.navBarGSMReport.Name = "navBarGSMReport";
             // 
-            // navBarPreTelAlarm
+            // navBarGSMStoppage
             // 
-            this.navBarPreTelAlarm.Caption = "报警统计分析";
-            this.navBarPreTelAlarm.Name = "navBarPreTelAlarm";
-            this.navBarPreTelAlarm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelAlarm_LinkClicked);
+            this.navBarGSMStoppage.Caption = "故障统计分析";
+            this.navBarGSMStoppage.Name = "navBarGSMStoppage";
             // 
-            // navBarPreTelStoppage
+            // NBG_ValveSwitch
             // 
-            this.navBarPreTelStoppage.Caption = "故障统计分析";
-            this.navBarPreTelStoppage.Name = "navBarPreTelStoppage";
-            this.navBarPreTelStoppage.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTelStoppage_LinkClicked);
+            this.NBG_ValveSwitch.Caption = "阀门开度控制器";
+            this.NBG_ValveSwitch.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
+            this.NBG_ValveSwitch.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarValveParm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarValveMonitor),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarValveMgr),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarValveReport),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarValveStoppage)});
+            this.NBG_ValveSwitch.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.ValveSwitchCTL;
+            this.NBG_ValveSwitch.Name = "NBG_ValveSwitch";
             // 
-            // navBarGroup3
+            // navBarValveParm
             // 
-            this.navBarGroup3.Caption = "GSM终端";
-            this.navBarGroup3.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
-            this.navBarGroup3.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem6),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem7),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem8),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem9),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem10)});
-            this.navBarGroup3.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.GsmTerminal;
-            this.navBarGroup3.Name = "navBarGroup3";
+            this.navBarValveParm.Caption = "设备配置和管理";
+            this.navBarValveParm.Name = "navBarValveParm";
             // 
-            // navBarItem6
+            // navBarValveMonitor
             // 
-            this.navBarItem6.Caption = "参数配置和读取";
-            this.navBarItem6.Name = "navBarItem6";
+            this.navBarValveMonitor.Caption = "监控及趋势图";
+            this.navBarValveMonitor.Name = "navBarValveMonitor";
             // 
-            // navBarItem7
+            // navBarValveMgr
             // 
-            this.navBarItem7.Caption = "终端配置和管理";
-            this.navBarItem7.Name = "navBarItem7";
+            this.navBarValveMgr.Caption = "调节方案配置和管理";
+            this.navBarValveMgr.Name = "navBarValveMgr";
             // 
-            // navBarItem8
+            // navBarValveReport
             // 
-            this.navBarItem8.Caption = "列表监控、趋势图";
-            this.navBarItem8.Name = "navBarItem8";
+            this.navBarValveReport.Caption = "报表、历史数据查询";
+            this.navBarValveReport.Name = "navBarValveReport";
             // 
-            // navBarItem9
+            // navBarValveStoppage
             // 
-            this.navBarItem9.Caption = "报表、历史数据查询";
-            this.navBarItem9.Name = "navBarItem9";
+            this.navBarValveStoppage.Caption = "故障统计分析";
+            this.navBarValveStoppage.Name = "navBarValveStoppage";
             // 
-            // navBarItem10
+            // NBG_ProtablePreT
             // 
-            this.navBarItem10.Caption = "故障统计分析";
-            this.navBarItem10.Name = "navBarItem10";
+            this.NBG_ProtablePreT.Caption = "便携式压力记录仪";
+            this.NBG_ProtablePreT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
+            this.NBG_ProtablePreT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarProtablePreTer)});
+            this.NBG_ProtablePreT.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.PortablePreTerminal;
+            this.NBG_ProtablePreT.Name = "NBG_ProtablePreT";
             // 
-            // navBarGroup4
+            // navBarProtablePreTer
             // 
-            this.navBarGroup4.Caption = "阀门开度控制器";
-            this.navBarGroup4.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
-            this.navBarGroup4.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem12),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem13),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem14),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem15),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem16)});
-            this.navBarGroup4.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.ValveSwitchCTL;
-            this.navBarGroup4.Name = "navBarGroup4";
+            this.navBarProtablePreTer.Caption = "参数配置与读取";
+            this.navBarProtablePreTer.Name = "navBarProtablePreTer";
             // 
-            // navBarItem12
+            // navBarSeparatorItem1
             // 
-            this.navBarItem12.Caption = "设备配置和管理";
-            this.navBarItem12.Name = "navBarItem12";
+            this.navBarSeparatorItem1.CanDrag = false;
+            this.navBarSeparatorItem1.Enabled = false;
+            this.navBarSeparatorItem1.Hint = null;
+            this.navBarSeparatorItem1.LargeImageIndex = 0;
+            this.navBarSeparatorItem1.LargeImageSize = new System.Drawing.Size(0, 0);
+            this.navBarSeparatorItem1.Name = "navBarSeparatorItem1";
+            this.navBarSeparatorItem1.SmallImageIndex = 0;
+            this.navBarSeparatorItem1.SmallImageSize = new System.Drawing.Size(0, 0);
             // 
-            // navBarItem13
+            // navBarSeparatorItem2
             // 
-            this.navBarItem13.Caption = "监控及趋势图";
-            this.navBarItem13.Name = "navBarItem13";
+            this.navBarSeparatorItem2.CanDrag = false;
+            this.navBarSeparatorItem2.Enabled = false;
+            this.navBarSeparatorItem2.Hint = null;
+            this.navBarSeparatorItem2.LargeImageIndex = 0;
+            this.navBarSeparatorItem2.LargeImageSize = new System.Drawing.Size(0, 0);
+            this.navBarSeparatorItem2.Name = "navBarSeparatorItem2";
+            this.navBarSeparatorItem2.SmallImageIndex = 0;
+            this.navBarSeparatorItem2.SmallImageSize = new System.Drawing.Size(0, 0);
             // 
-            // navBarItem14
+            // navBarSeparatorItem3
             // 
-            this.navBarItem14.Caption = "调节方案配置和管理";
-            this.navBarItem14.Name = "navBarItem14";
-            // 
-            // navBarItem15
-            // 
-            this.navBarItem15.Caption = "报表、历史数据查询";
-            this.navBarItem15.Name = "navBarItem15";
-            // 
-            // navBarItem16
-            // 
-            this.navBarItem16.Caption = "故障统计分析";
-            this.navBarItem16.Name = "navBarItem16";
-            // 
-            // navBarGroup5
-            // 
-            this.navBarGroup5.Caption = "便携式压力记录仪";
-            this.navBarGroup5.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
-            this.navBarGroup5.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem11)});
-            this.navBarGroup5.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.PortablePreTerminal;
-            this.navBarGroup5.Name = "navBarGroup5";
-            // 
-            // navBarItem11
-            // 
-            this.navBarItem11.Caption = "参数配置与读取";
-            this.navBarItem11.Name = "navBarItem11";
+            this.navBarSeparatorItem3.CanDrag = false;
+            this.navBarSeparatorItem3.Enabled = false;
+            this.navBarSeparatorItem3.Hint = null;
+            this.navBarSeparatorItem3.LargeImageIndex = 0;
+            this.navBarSeparatorItem3.LargeImageSize = new System.Drawing.Size(0, 0);
+            this.navBarSeparatorItem3.Name = "navBarSeparatorItem3";
+            this.navBarSeparatorItem3.SmallImageIndex = 0;
+            this.navBarSeparatorItem3.SmallImageSize = new System.Drawing.Size(0, 0);
             // 
             // defaultLookAndFeel1
             // 
@@ -656,7 +653,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraNavBar.NavBarControl navBarControl1;
-        private DevExpress.XtraNavBar.NavBarGroup navBarGroup1;
+        private DevExpress.XtraNavBar.NavBarGroup NBG_Noise;
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseDataManager;
         private DevExpress.XtraNavBar.NavBarSeparatorItem navBarSeparatorItem1;
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseRecorderManager;
@@ -664,28 +661,28 @@
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseGroupManager;
         private DevExpress.XtraNavBar.NavBarSeparatorItem navBarSeparatorItem3;
         private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
-        private DevExpress.XtraNavBar.NavBarGroup navBarGroup2;
-        private DevExpress.XtraNavBar.NavBarGroup navBarGroup3;
-        private DevExpress.XtraNavBar.NavBarGroup navBarGroup4;
-        private DevExpress.XtraNavBar.NavBarGroup navBarGroup5;
+        private DevExpress.XtraNavBar.NavBarGroup NBG_PreT;
+        private DevExpress.XtraNavBar.NavBarGroup NBG_GSMT;
+        private DevExpress.XtraNavBar.NavBarGroup NBG_ValveSwitch;
+        private DevExpress.XtraNavBar.NavBarGroup NBG_ProtablePreT;
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseMap;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTelParm;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTelMgr;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTelMonitor;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTelReport;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTelAlarm;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTelStoppage;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem6;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem7;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem8;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem9;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem10;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem11;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem12;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem13;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem14;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem15;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem16;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTerParm;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTerMgr;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTerMonitor;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTerReport;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTerAlarm;
+        private DevExpress.XtraNavBar.NavBarItem navBarPreTerStoppage;
+        private DevExpress.XtraNavBar.NavBarItem navBarGSMParm;
+        private DevExpress.XtraNavBar.NavBarItem navBarGSMMgr;
+        private DevExpress.XtraNavBar.NavBarItem navBarGSMMonitor;
+        private DevExpress.XtraNavBar.NavBarItem navBarGSMReport;
+        private DevExpress.XtraNavBar.NavBarItem navBarGSMStoppage;
+        private DevExpress.XtraNavBar.NavBarItem navBarProtablePreTer;
+        private DevExpress.XtraNavBar.NavBarItem navBarValveParm;
+        private DevExpress.XtraNavBar.NavBarItem navBarValveMonitor;
+        private DevExpress.XtraNavBar.NavBarItem navBarValveMgr;
+        private DevExpress.XtraNavBar.NavBarItem navBarValveReport;
+        private DevExpress.XtraNavBar.NavBarItem navBarValveStoppage;
         private DevExpress.XtraBars.SkinRibbonGalleryBarItem skinRibbonGalleryBarItem1;
         private DevExpress.XtraBars.RibbonGalleryBarItem ribbonGalleryBarItem1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;

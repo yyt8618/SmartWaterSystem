@@ -5,25 +5,14 @@ using System.IO;
 using System.Threading;
 using System.Reflection;
 using DevExpress.XtraBars.Helpers;
+using System.Collections.Generic;
 
 namespace NoiseAnalysisSystem
 {
     public partial class FrmSystem : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        private NoiseDataMgr dataMgr;   //噪声记录仪数据读取、分析
-        private NoiseRecMgr recMgr;     //噪声记录仪管理
-        private NoiseGroupMgr gpMgr;    //噪声记录仪分组管理
-        private NoiseMap noisemapview;      //噪声记录仪地图
-        private NoiseParmSetting noiseparmset; //噪声记录仪参数设置
-
-        private PreTerParm pretelParm;  //压力终端参数读取设置
-        private PreTerMgr pretelMgr;    //压力终端配置、管理
-        private PreTerMonitor pretelMonitor;  //压力终端监控
-        private PreTerReportHistory pretelReport; //压力终端报表与历史数据查询
-        private PreTerAlarm pretelAlarm;    //压力终端报警
-        private PreTerStoppage pretelStoppage;  //压力终端故障统计分析
-        
-
+        List<Type> lstType = new List<Type>();
+        DevExpress.XtraEditors.XtraUserControl currentView = null;
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmSystem");
 
         /// <summary>
@@ -44,19 +33,43 @@ namespace NoiseAnalysisSystem
                 XtraMessageBox.Show("获取数据库数据异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-            dataMgr = new NoiseDataMgr(this);
-            recMgr = new NoiseRecMgr(this);
-            gpMgr = new NoiseGroupMgr(this);
-            noisemapview = new NoiseMap(this);
 
-            pretelParm = new PreTerParm(this);
-            pretelMgr = new PreTerMgr(this);
-            pretelMonitor = new PreTerMonitor(this);
-            pretelReport = new PreTerReportHistory(this);
-            pretelAlarm = new PreTerAlarm(this);
-            pretelStoppage = new PreTerStoppage(this);
-            noiseparmset = new NoiseParmSetting(this);
+            try
+            {
+                //VisiableNavigateBar(false);
 
+                //HideNavigateBar
+                foreach (DevExpress.XtraNavBar.NavBarGroup group in this.navBarControl1.Groups)
+                {
+                    foreach (DevExpress.XtraNavBar.NavBarItemLink itemlink in group.ItemLinks)
+                    {
+                        itemlink.Item.Visible = false;
+                    }
+                    group.Visible = false;
+                }
+
+                #region 加载控件
+                var files = Directory.GetFiles(Application.StartupPath + "\\plugins", "*.dll");
+                for (int i = 0; i < files.Length; i++)
+                {
+                    LoadAddin(files[i]);
+                }
+
+                if (lstType != null && lstType.Count > 0)
+                {
+                    InitNavigate();
+                }
+                else
+                {
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("加载插件异常", ex);
+                XtraMessageBox.Show("加载插件异常", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
         }
 
         private void FrmSystem_Load(object sender, EventArgs e)
@@ -64,6 +77,120 @@ namespace NoiseAnalysisSystem
             this.Text = "自来水管道噪声分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
             SkinHelper.InitSkinGallery(this.ribbonGalleryBarItem1);
             ClearLogAndDb();
+        }
+
+        private void InitNavigate()
+        {
+            foreach (Type t in lstType)
+            {
+                if(t.Name=="INoiseDataMgr")  //噪声数据管理
+                {
+                    NBG_Noise.Visible = true; 
+                    navBarNoiseDataManager.Visible=true;
+                }
+                else if (t.Name == "INoiseRecMgr")        //噪声记录仪管理
+                {
+                    NBG_Noise.Visible = true;
+                    navBarNoiseRecorderManager.Visible=true;
+                }
+                else if (t.Name == "INoiseGroupMgr")  //噪声分组管理
+                {
+                    NBG_Noise.Visible = true;
+                    navBarNoiseGroupManager.Visible=true;
+                }
+                else if (t.Name == "INoiseMap")    //噪声地图
+                {
+                    NBG_Noise.Visible = true;
+                    navBarNoiseMap.Visible=true;
+                }
+                else if (t.Name == "INoiseParmSetting") //噪声记录仪参数设置
+                {
+                    NBG_Noise.Visible = true;
+                    navBarNoiseParmSet.Visible=true;
+                }
+                else if (t.Name=="INoiseFFT")    //噪声记录仪傅里叶分析
+                {
+                    NBG_Noise.Visible = true;
+                    navBarNoiseFFT.Visible=true;
+                }
+                else if (t.Name == "INoiseDataCompare")  //噪声记录仪数据比较
+                {
+                    NBG_Noise.Visible = true;
+                    navBarNoiseCompare.Visible=true;
+                }
+                else if (t.Name=="INoiseEnergyAnalysis") //噪声记录仪能量分析
+                {
+                    NBG_Noise.Visible = true;
+                    navBarNoiseEnergy.Visible=true;
+                }
+                else if (t.Name=="IPreTerParm")  //压力终端参数配置和读取
+                {
+                    NBG_PreT.Visible = true;
+                    navBarPreTerParm.Visible = true;
+                }
+                else if (t.Name=="IPreTerMgr")  //压力终端配置和管理
+                {
+                    NBG_PreT.Visible = true;
+                    navBarPreTerMgr.Visible = true;
+                }
+                else if (t.Name=="IPreTerMonitor")  //压力终端实时列表监控、趋势图
+                {
+                    NBG_PreT.Visible = true;
+                    navBarPreTerMonitor.Visible = true;
+                }
+                else if (t.Name=="IPreTerReportHistory")  //压力终端报表、历史数据查询
+                {
+                    NBG_PreT.Visible = true;
+                    navBarPreTerReport.Visible = true;
+                }
+                else if (t.Name=="IPreTerAlarm")  //压力终端报警统计分析
+                {
+                    NBG_PreT.Visible = true;
+                    navBarPreTerAlarm.Visible = true;
+                }
+                else if (t.Name=="IPreTerStoppage")  //压力终端故障统计分析
+                {
+                    NBG_PreT.Visible = true;
+                    navBarPreTerStoppage.Visible = true;
+                }
+            }
+        }
+
+        private void VisiableNavigateBar(bool isVisiable)
+        {
+            //Noise Group
+            NBG_Noise.Visible = isVisiable;
+            //噪声数据管理
+            navBarNoiseDataManager.Visible = isVisiable;
+            //噪声记录仪管理
+            navBarNoiseRecorderManager.Visible = isVisiable;
+            //噪声分组管理
+            navBarNoiseGroupManager.Visible = isVisiable;
+            //噪声地图
+            navBarNoiseMap.Visible = isVisiable;
+            //噪声记录仪参数设置
+            navBarNoiseParmSet.Visible = isVisiable;
+            //噪声记录仪傅里叶分析
+            navBarNoiseFFT.Visible = isVisiable;
+            //噪声记录仪数据比较
+            navBarNoiseCompare.Visible = isVisiable;
+            //噪声记录仪能量分析
+            navBarNoiseEnergy.Visible = isVisiable;
+
+            //压力终端 Group
+            NBG_PreT.Visible = isVisiable;
+            //压力终端参数配置和读取
+            navBarPreTerParm.Visible = isVisiable;
+            //压力终端配置和管理
+            navBarPreTerMgr.Visible = isVisiable;
+            //压力终端实时列表监控、趋势图
+            navBarPreTerMonitor.Visible = isVisiable;
+            //压力终端报表、历史数据查询
+            navBarPreTerReport.Visible = isVisiable;
+            //压力终端报警统计分析
+            navBarPreTerAlarm.Visible = isVisiable;
+            //压力终端故障统计分析
+            navBarPreTerStoppage.Visible = isVisiable;
         }
 
         // 打开串口
@@ -79,17 +206,17 @@ namespace NoiseAnalysisSystem
                     barBtnSerialClose.Enabled = true;
                     if (GlobalValue.recorderList.Count > 0)
                     {
-                        recMgr.btnApplySet.Enabled = true;
-                        recMgr.btnReadSet.Enabled = true;
-                        recMgr.btnGetRecID.Enabled = true;
-                        recMgr.btnGetConID.Enabled = true;
-                        recMgr.btnNow.Enabled = true;
-                        recMgr.btnStart.Enabled = true;
-                        recMgr.btnStop.Enabled = true;
-                        recMgr.btnCleanFlash.Enabled = true;
-                        dataMgr.simpleButtonRead.Enabled = true;
-                        gpMgr.btnSaveGroupSet.Enabled = true;
-                        gpMgr.btnReadTemplate.Enabled = true;
+                        NoiseRecMgr noiserecMgr=(NoiseRecMgr)GetView(typeof(NoiseRecMgr));
+                        if (noiserecMgr != null)
+                            noiserecMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                        NoiseDataMgr noisedataMgr = (NoiseDataMgr)GetView(typeof(NoiseDataMgr));
+                        if (noisedataMgr != null)
+                            noisedataMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                        NoiseGroupMgr noisegrpMgr = (NoiseGroupMgr)GetView(typeof(NoiseGroupMgr));
+                        if (noisegrpMgr != null)
+                            noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                     }
                 }
             }
@@ -112,17 +239,17 @@ namespace NoiseAnalysisSystem
                     barBtnSerialClose.Enabled = false;
                     if (GlobalValue.recorderList.Count > 0)
                     {
-                        recMgr.btnApplySet.Enabled = false;
-                        recMgr.btnReadSet.Enabled = false;
-                        recMgr.btnGetRecID.Enabled = false;
-                        recMgr.btnGetConID.Enabled = false;
-                        recMgr.btnNow.Enabled = false;
-                        recMgr.btnStart.Enabled = false;
-                        recMgr.btnStop.Enabled = false;
-                        recMgr.btnCleanFlash.Enabled = false;
-                        dataMgr.simpleButtonRead.Enabled = false;
-                        gpMgr.btnSaveGroupSet.Enabled = false;
-                        gpMgr.btnReadTemplate.Enabled = false;
+                        NoiseRecMgr noiserecMgr = (NoiseRecMgr)GetView(typeof(NoiseRecMgr));
+                        if (noiserecMgr != null)
+                            noiserecMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                        NoiseDataMgr noisedataMgr = (NoiseDataMgr)GetView(typeof(NoiseDataMgr));
+                        if (noisedataMgr != null)
+                            noisedataMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                        NoiseGroupMgr noisegrpMgr = (NoiseGroupMgr)GetView(typeof(NoiseGroupMgr));
+                        if (noisegrpMgr != null)
+                            noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                     }
                 }
             }
@@ -135,38 +262,33 @@ namespace NoiseAnalysisSystem
         // 数据管理
         private void navBarNoiseDataManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(dataMgr);
-            dataMgr.BindGroup();
+            NoiseDataMgr DataMgrview = (NoiseDataMgr)LoadView(typeof(NoiseDataMgr));
+            DataMgrview.BindGroup();
         }
 
         // 记录仪管理
         private void navBarNoiseRecorderManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(recMgr);
-            recMgr.BindRecord();
+            NoiseRecMgr RecMgrview = (NoiseRecMgr)LoadView(typeof(NoiseRecMgr));
+            RecMgrview.BindRecord();
         }
 
         // 分组管理
         private void navBarNoiseGroupManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(gpMgr);
-            gpMgr.BindTree();
-            gpMgr.BindListBox();
+            NoiseGroupMgr groupMgrView = (NoiseGroupMgr)this.LoadView(typeof(NoiseGroupMgr));
+            groupMgrView.BindTree();
+            groupMgrView.BindListBox();
         }
 
         private void navBarNoiseMap_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(noisemapview);
+            LoadView(typeof(NoiseMap));
         }
 
-        private void navBarPreTelParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarPreTerParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(pretelParm);
+            LoadView(typeof(PreTerParm));
         }
 
 
@@ -280,40 +402,34 @@ namespace NoiseAnalysisSystem
             XtraMessageBox.Show(text, caption, buttons, icon);
         }
 
-        private void navBarPreTelMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarPreTerMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(pretelMgr);
+            LoadView(typeof(PreTerMgr));
         }
 
-        private void navBarPreTelMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarPreTerMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(pretelMonitor);
+            LoadView(typeof(PreTerMonitor));
         }
 
-        private void navBarPreTelReport_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarPreTerReport_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(pretelReport);
+            LoadView(typeof(PreTerReportHistory));
         }
 
-        private void navBarPreTelAlarm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarPreTerAlarm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(pretelAlarm);
+            LoadView(typeof(PreTerAlarm));
         }
 
-        private void navBarPreTelStoppage_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarPreTerStoppage_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(pretelStoppage);
+            LoadView(typeof(PreTerStoppage));
         }
 
-        private void barBtnTest_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barBtnNoiseEnergyAny_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            NoiseEnergyAnalysis EnAndialog = new NoiseEnergyAnalysis();
-            EnAndialog.ShowDialog();
+            LoadView(typeof(NoiseEnergyAnalysis));
         }
 
         private void FrmSystem_KeyDown(object sender, KeyEventArgs e)
@@ -321,22 +437,19 @@ namespace NoiseAnalysisSystem
         }
         private void navBarNoiseParmSet_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            panelControlMain.Controls.Clear();
-            panelControlMain.Controls.Add(noiseparmset);
+            LoadView(typeof(NoiseParmSetting));
         }
 
         private void navBarNoiseFFT_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            NoiseFFT ft = new NoiseFFT();
-            ft.ShowDialog();
+            LoadView(typeof(NoiseFFT));
         }
 
         private void navBarNoiseCompare_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (GlobalValue.recorderList.Count > 0)
             {
-                NoiseDataCompare fdc = new NoiseDataCompare();
-                fdc.ShowDialog();
+                LoadView(typeof(NoiseDataCompare));
             }
             else
             {
@@ -346,10 +459,115 @@ namespace NoiseAnalysisSystem
 
         private void navBarNoiseEnergy_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            NoiseEnergyAnalysis EnAndialog = new NoiseEnergyAnalysis();
-            EnAndialog.ShowDialog();
+            LoadView(typeof(NoiseEnergyAnalysis));
         }
 
+        #region 加载插件
+        private void LoadAddin(string path)
+        {
+            //通过反射，获取DLL中的类型
+            Assembly assembly = Assembly.LoadFrom(path);
+            Type[] types = assembly.GetTypes();
+            lstType.AddRange(types);
+            //foreach (var t in types)
+            //{
+            //    var obj = assembly.CreateInstance(t.ToString());
+            //    if (obj is IViewContent)
+            //    {
+            //        AddView((AbstractViewContent)obj);
+            //    }
+
+            //    if (t.Name == "INoiseGroupMgr")
+            //    {
+            //        try
+            //        {
+            //            IMyFunction pluginclass = Activator.CreateInstance(t) as IMyFunction;
+            //            pluginclass.doSomething();
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            MessageBox.Show(ex.ToString());
+            //        }
+            //    }
+            //}
+        }
+
+        private bool isExist(Type type)
+        {
+            if(lstType!=null && lstType.Count>0)
+            {
+                foreach(Type t in lstType)
+                {
+                    if(t.Equals(type))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 加载界面
+        /// </summary>
+        public BaseView LoadView(Type targetType)
+        {
+            try
+            {
+                if (currentView != null)
+                    currentView.Visible = false;
+
+                BaseView newView = null;
+                foreach (Control control in this.panelControlMain.Controls)
+                {
+                    if (control.GetType() == targetType)
+                    {
+                        newView = (BaseView)control;
+                        break;
+                    }
+                }
+                if (newView == null)
+                {
+                    newView = (BaseView)Activator.CreateInstance(targetType);
+                    panelControlMain.Controls.Add(newView);
+                    newView.MDIView = this;
+                }
+                currentView = newView;
+                newView.Visible = true;
+                newView.Focus();
+                newView.OnLoad();
+
+                //this.lblTitle.Text = newView.Title;
+                return newView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+        //获取操作页面对象
+        public BaseView GetView(Type targetType)
+        {
+            try
+            {
+                BaseView newView = null;
+                foreach (Control control in this.panelControlMain.Controls)
+                {
+                    if (control.GetType() == targetType)
+                    {
+                        newView = (BaseView)control;
+                        break;
+                    }
+                }
+                return newView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+        #endregion
 
     }
 }

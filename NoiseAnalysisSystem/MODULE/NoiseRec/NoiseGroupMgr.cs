@@ -11,18 +11,17 @@ using Protocol;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class NoiseGroupMgr : DevExpress.XtraEditors.XtraUserControl
+    public partial class NoiseGroupMgr : BaseView, INoiseGroupMgr
     {
-        private FrmSystem main;
-        public NoiseGroupMgr(FrmSystem frm)
+        public NoiseGroupMgr()
         {
             InitializeComponent();
-            this.main = frm;
         }
 
-
-        private void UcGroupMgr_Load(object sender, EventArgs e)
+        public override void OnLoad()
         {
+            SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
             this.timer1.Interval = 1000;   //1s
             this.timer1.Tick += new EventHandler(timer1_Tick);
             this.timer1.Enabled = true;
@@ -478,10 +477,10 @@ namespace NoiseAnalysisSystem
                                                        select tmp).ToList()[0];
                     if (CurrentGroup != null && CurrentGroup.RecorderList != null && CurrentGroup.RecorderList.Count > 0)
                     {
-                        main.DisableRibbonBar();
-                        main.DisableNavigateBar();
-                        main.ShowWaitForm("", "正在进行批量设置...");
-                        main.barStaticItemWait.Caption = "正在进行批量设置...";
+                        DisableRibbonBar();
+                        DisableNavigateBar();
+                        ShowWaitForm("", "正在进行批量设置...");
+                        SetStaticItem("正在进行批量设置...");
 
                         cl.Enabled = false;
                         short id = 0;
@@ -539,7 +538,7 @@ namespace NoiseAnalysisSystem
                             int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
                             if (query != -1)
                             {
-                                main.ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                                 GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                             }
@@ -549,7 +548,7 @@ namespace NoiseAnalysisSystem
                     }
                     else
                     {
-                        main.ShowDialog("请选择需要操作的分组", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ShowDialog("请选择需要操作的分组", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
 
@@ -561,20 +560,20 @@ namespace NoiseAnalysisSystem
                     //alterRec.ID = Convert.ToInt32(txtRecID.Text);
                     //alterRec.LeakValue = Convert.ToInt32(txtLeakValue.Text);
                     //alterRec.Remark = txtRecNote.Text;
-                    
-                    main.barStaticItemWait.Caption = "当前设置已批量应用到该组设备";
+
+                    SetStaticItem("当前设置已批量应用到该组设备");
 
                 }
                 catch (Exception ex)
                 {
-                    main.ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    main.barStaticItemWait.Caption = "设置失败";
+                    ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SetStaticItem("设置失败");
                 }
                 finally
                 {
-                    main.EnableRibbonBar();
-                    main.EnableNavigateBar();
-                    main.HideWaitForm();
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
                     cl.Enabled = true;
                 }
             }).BeginInvoke(null, null);
@@ -657,5 +656,11 @@ namespace NoiseAnalysisSystem
             return ok;
         }
         #endregion
+
+        public override void SerialPortEvent(bool Enabled)
+        {
+            btnSaveGroupSet.Enabled = Enabled;
+            btnReadTemplate.Enabled = Enabled;
+        }
     }
 }

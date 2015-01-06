@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class  PreTerAlarm : DevExpress.XtraEditors.XtraUserControl
+    public partial class PreTerAlarm : BaseView,IPreTerAlarm
     {
         public PreTerAlarm(FrmSystem parentform)
         {

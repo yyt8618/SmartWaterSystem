@@ -15,31 +15,29 @@ using System.Text.RegularExpressions;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class NoiseDataMgr : DevExpress.XtraEditors.XtraUserControl
+    public partial class NoiseDataMgr : BaseView, INoiseDataMgr
     {
         private bool isReading;
         private List<NoiseRecorder> selectList = new List<NoiseRecorder>();
         private int rowHandle = 0;
-        private FrmSystem main;
 
         string OriginalFilePath = Application.StartupPath + @"\OriginalDatas\";
 
-        public NoiseDataMgr(FrmSystem frm)
+        public NoiseDataMgr()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            main = frm;
         }
 
-        private void UcDataMgr_Load(object sender, EventArgs e)
+        public override void OnLoad()
         {
-            //BindGroup();
             try
             {
                 if (!Directory.Exists(OriginalFilePath))
                 {
                     Directory.CreateDirectory(OriginalFilePath);
                 }
+                SerialPortEvent(GlobalValue.portUtil.IsOpen);
             }
             catch { }
         }
@@ -307,8 +305,8 @@ namespace NoiseAnalysisSystem
                         {
                             try
                             {
-                                main.DisableRibbonBar();
-                                main.DisableNavigateBar();
+                                DisableRibbonBar();
+                                DisableNavigateBar();
                                 Thread.Sleep(1000);
                                 this.Invoke(new MethodInvoker(() =>
                                     {
@@ -327,8 +325,8 @@ namespace NoiseAnalysisSystem
                                     }));
 
                                 Dictionary<short, short[]> result = new Dictionary<short, short[]>();
-                                main.barStaticItemWait.Caption = string.Format("正在读取记录仪{0}...", id);
-                                main.ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
+                                SetStaticItem(string.Format("正在读取记录仪{0}...", id));
+                                ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
                                 short[] arr = GlobalValue.log.Read((short)id);
                                 result.Add((short)id, arr);
                                 CallbackReaded(result, selectList);
@@ -347,14 +345,14 @@ namespace NoiseAnalysisSystem
                             {
                                 if (!GlobalValue.reReadIdList.Contains(id))
                                     GlobalValue.reReadIdList.Add(id);
-                                main.ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 isError = true;
                             }
                             catch (ArgumentNullException)
                             {
                                 if (!GlobalValue.reReadIdList.Contains(id))
                                     GlobalValue.reReadIdList.Add(id);
-                                main.ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 isError = true;
                             }
                             
@@ -367,13 +365,13 @@ namespace NoiseAnalysisSystem
                     finally
                     {
                         isReading = false;
-                        main.barStaticItemWait.Caption = "数据读取完成";
+                        SetStaticItem("数据读取完成");
                         simpleButtonRead.Enabled = true;
                         simpleButtonSelectAll.Enabled = true;
                         simpleButtonUnSelect.Enabled = true;
-                        main.HideWaitForm();
-                        main.EnableRibbonBar();
-                        main.EnableNavigateBar();
+                        HideWaitForm();
+                        EnableRibbonBar();
+                        EnableNavigateBar();
 
                         if (dataList.Count != 0)
                         {
@@ -688,8 +686,7 @@ namespace NoiseAnalysisSystem
         {
             if (GlobalValue.recorderList.Count > 0)
             {
-                NoiseDataCompare fdc = new NoiseDataCompare();
-                fdc.ShowDialog();
+                MDIView.LoadView(typeof(NoiseDataCompare));
             }
             else
             {
@@ -744,8 +741,8 @@ namespace NoiseAnalysisSystem
                         {
                             try
                             {
-                                main.DisableRibbonBar();
-                                main.DisableNavigateBar();
+                                DisableRibbonBar();
+                                DisableNavigateBar();
                                 Thread.Sleep(1000);
                                 this.Invoke(new MethodInvoker(() =>
                                 {
@@ -764,8 +761,8 @@ namespace NoiseAnalysisSystem
                                 }));
 
                                 Dictionary<short, short[]> result = new Dictionary<short, short[]>();
-                                main.barStaticItemWait.Caption = string.Format("正在读取记录仪{0}...", id);
-                                main.ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
+                                SetStaticItem(string.Format("正在读取记录仪{0}...", id));
+                                ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
                                 short[] arr = GetDataFromFiles();
                                 if (arr == null || arr.Length == 0)
                                     throw new ArgumentNullException("数据获取失败");
@@ -784,12 +781,12 @@ namespace NoiseAnalysisSystem
                             }
                             catch (TimeoutException)
                             {
-                                main.ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 isError = true;
                             }
                             catch (ArgumentNullException)
                             {
-                                main.ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 isError = true;
                             }
                         }
@@ -801,11 +798,11 @@ namespace NoiseAnalysisSystem
                     finally
                     {
                         isReading = false;
-                        main.barStaticItemWait.Caption = "数据读取完成";
+                        SetStaticItem("数据读取完成");
                         btnReadFromFold.Enabled = true;
-                        main.HideWaitForm();
-                        main.EnableRibbonBar();
-                        main.EnableNavigateBar();
+                        HideWaitForm();
+                        EnableRibbonBar();
+                        EnableNavigateBar();
 
                         if (dataList.Count != 0)
                         {
@@ -891,6 +888,11 @@ namespace NoiseAnalysisSystem
             catch {
                 XtraMessageBox.Show("打开文件夹异常", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public override void SerialPortEvent(bool Enabled)
+        {
+            simpleButtonRead.Enabled = Enabled;
         }
 
     }

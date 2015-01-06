@@ -4,19 +4,17 @@ using DevExpress.XtraEditors;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class NoiseParmSetting : DevExpress.XtraEditors.XtraUserControl
+    public partial class NoiseParmSetting : BaseView, INoiseParmSetting
     {
-        private FrmSystem main;
-        public NoiseParmSetting(FrmSystem frm)
+        public NoiseParmSetting()
         {
             InitializeComponent();
-            this.main = frm;
 
             cbArith.Items.Add("直接平均法");
             cbArith.Items.Add("去最值平均法");
         }
 
-        private void NoiseParmSetting_Load(object sender, EventArgs e)
+        public override void OnLoad()
         {
             #region 计算参数
             txtMax1.Text = AppConfigHelper.GetAppSettingValue("Max1");

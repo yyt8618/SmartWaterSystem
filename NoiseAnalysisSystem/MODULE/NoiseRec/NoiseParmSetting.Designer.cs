@@ -632,7 +632,6 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "NoiseParmSetting";
             this.Size = new System.Drawing.Size(797, 494);
-            this.Load += new System.EventHandler(this.NoiseParmSetting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).EndInit();

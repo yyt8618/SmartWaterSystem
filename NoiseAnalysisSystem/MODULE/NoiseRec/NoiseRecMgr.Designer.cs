@@ -673,6 +673,8 @@
             this.gridViewRecordList.OptionsMenu.ShowGroupSortSummaryItems = false;
             this.gridViewRecordList.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.gridViewRecordList.OptionsSelection.EnableAppearanceFocusedRow = false;
+            this.gridViewRecordList.OptionsSelection.ShowCheckBoxSelectorInColumnHeader = DevExpress.Utils.DefaultBoolean.False;
+            this.gridViewRecordList.OptionsSelection.ShowCheckBoxSelectorInGroupRow = DevExpress.Utils.DefaultBoolean.False;
             this.gridViewRecordList.OptionsView.ShowGroupPanel = false;
             this.gridViewRecordList.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridViewRecordList_RowClick);
             this.gridViewRecordList.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridViewRecordList_CellValueChanging);
@@ -682,7 +684,6 @@
             // 
             this.gridColumn1.Caption = "选择";
             this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit2;
-            this.gridColumn1.FieldName = "选择";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
@@ -690,9 +691,11 @@
             // 
             // repositoryItemCheckEdit2
             // 
+            this.repositoryItemCheckEdit2.AllowFocused = false;
+            this.repositoryItemCheckEdit2.AllowGrayed = true;
             this.repositoryItemCheckEdit2.AutoHeight = false;
-            this.repositoryItemCheckEdit2.Caption = "Check";
             this.repositoryItemCheckEdit2.Name = "repositoryItemCheckEdit2";
+            this.repositoryItemCheckEdit2.ValueChecked = false;
             // 
             // gridColumn2
             // 
@@ -867,18 +870,18 @@
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxDist;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
-        public DevExpress.XtraEditors.SimpleButton btnApplySet;
-        public DevExpress.XtraEditors.SimpleButton btnReadSet;
-        public DevExpress.XtraEditors.SimpleButton btnGetRecID;
-        public DevExpress.XtraEditors.SimpleButton btnGetConID;
-        public DevExpress.XtraEditors.SimpleButton btnNow;
-        public DevExpress.XtraEditors.SimpleButton btnStop;
-        public DevExpress.XtraEditors.SimpleButton btnStart;
+        private DevExpress.XtraEditors.SimpleButton btnApplySet;
+        private DevExpress.XtraEditors.SimpleButton btnReadSet;
+        private DevExpress.XtraEditors.SimpleButton btnGetRecID;
+        private DevExpress.XtraEditors.SimpleButton btnGetConID;
+        private DevExpress.XtraEditors.SimpleButton btnNow;
+        private DevExpress.XtraEditors.SimpleButton btnStop;
+        private DevExpress.XtraEditors.SimpleButton btnStart;
         private DevExpress.XtraEditors.MemoEdit txtRecNote;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditPower;
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.SimpleButton btnUpdate;
         private System.Windows.Forms.Timer timer1;
-        public DevExpress.XtraEditors.SimpleButton btnCleanFlash;
+        private DevExpress.XtraEditors.SimpleButton btnCleanFlash;
     }
 }

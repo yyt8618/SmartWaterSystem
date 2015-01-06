@@ -8,7 +8,7 @@ using DevExpress.XtraEditors;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class NoiseDataCompare : DevExpress.XtraEditors.XtraForm
+    public partial class NoiseDataCompare : BaseView, INoiseDataCompare
     {
         private NoiseRecorder sRecorder;
         private NoiseRecorder eRecorder;
@@ -16,7 +16,7 @@ namespace NoiseAnalysisSystem
         /// <summary>
         /// 构造函数
         /// </summary>
-        internal NoiseDataCompare()
+        public NoiseDataCompare()
         {
             InitializeComponent();
             InitComBox();

@@ -11,17 +11,20 @@ using Protocol;
 
 namespace NoiseAnalysisSystem
 {
-    public partial class NoiseRecMgr : DevExpress.XtraEditors.XtraUserControl
+    public partial class NoiseRecMgr : BaseView, INoiseRecMgr
     {
-        private FrmSystem main;
         private bool isSetting;
 
-        public NoiseRecMgr(FrmSystem frm)
+        public NoiseRecMgr()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            main = frm;
         }
+
+        //public override void OnLoad()
+        //{
+        //    SerialPortEvent(GlobalValue.portUtil.IsOpen);
+        //}
 
         #region 输入验证
         /// <summary>
@@ -176,14 +179,14 @@ namespace NoiseAnalysisSystem
                 bool isError = false;
                 try
                 {
-                    main.DisableRibbonBar();
-                    main.DisableNavigateBar();
+                    DisableRibbonBar();
+                    DisableNavigateBar();
                     id = Convert.ToInt16(txtRecID.Text);
                     btnStart.Enabled = false;
 
                     short[] Originaldata = null;
                     GlobalValue.log.CtrlStartOrStop(id, true, out Originaldata);
-                    main.ShowWaitForm("", "正在启动...");
+                    ShowWaitForm("", "正在启动...");
                     lblRecState.Text = "运行状态  正在启动";
 
                     NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
@@ -194,30 +197,30 @@ namespace NoiseAnalysisSystem
                     NoiseDataBaseHelper.UpdateRecorder(rec);
                     if (NoiseDataBaseHelper.SaveStandData(rec.GroupID, rec.ID, Originaldata) < 0)
                     {
-                        main.ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         isError = true;
                     }
                 }
                 catch (TimeoutException)
                 {
-                    main.ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     isError = true;
                 }
                 catch (ArgumentNullException)
                 {
-                    main.ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     isError = true;
                 }
                 catch (Exception ex)
                 {
-                    main.ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     isError = true;
                 }
                 finally
                 {
-                    main.EnableRibbonBar();
-                    main.EnableNavigateBar();
-                    main.HideWaitForm();
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
                     btnStart.Enabled = true;
                     if (!isError)
                     {
@@ -231,6 +234,8 @@ namespace NoiseAnalysisSystem
                         btnStart.Enabled = true;
                         btnStop.Enabled = false;
                     }
+
+                    this.Refresh();
                 }
             }
         }
@@ -256,13 +261,13 @@ namespace NoiseAnalysisSystem
                 bool isError = false;
                 try
                 {
-                    main.DisableRibbonBar();
-                    main.DisableNavigateBar();
+                    DisableRibbonBar();
+                    DisableNavigateBar();
                     btnStop.Enabled = false; ;
                     short id = Convert.ToInt16(txtRecID.Text);
                     short[] origitydata = null;
                     GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
-                    main.ShowWaitForm("", "正在停止...");
+                    ShowWaitForm("", "正在停止...");
                     lblRecState.Text = "运行状态  正在停止";
 
                     NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
@@ -273,14 +278,14 @@ namespace NoiseAnalysisSystem
                 }
                 catch (Exception ex)
                 {
-                    main.ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     isError = true;
                 }
                 finally
                 {
-                    main.EnableRibbonBar();
-                    main.EnableNavigateBar();
-                    main.HideWaitForm();
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
                     btnStop.Enabled = true;
                     if (!isError)
                     {
@@ -288,6 +293,7 @@ namespace NoiseAnalysisSystem
                         btnStart.Enabled = true;
                         btnStop.Enabled = false;
                     }
+                    this.Refresh();
                 }
             }
         }
@@ -410,10 +416,10 @@ namespace NoiseAnalysisSystem
         {
             new Action(() =>
             {
-                main.DisableRibbonBar();
-                main.DisableNavigateBar();
-                main.ShowWaitForm("", "正在读取设备参数...");
-                main.barStaticItemWait.Caption = "正在读取设备参数...";
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", "正在读取设备参数...");
+                SetStaticItem("正在读取设备参数...");
                 Control cl = sender as Control;
                 try
                 {
@@ -454,19 +460,19 @@ namespace NoiseAnalysisSystem
                     // 读取时间
                     byte[] tt1 = GlobalValue.log.ReadTime(id);
                     this.dateTimePicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
-                    main.barStaticItemWait.Caption = "读取成功";
-                    main.ShowDialog("读取成功", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SetStaticItem("读取成功");
+                    ShowDialog("读取成功", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    main.ShowDialog("读取失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    main.barStaticItemWait.Caption = "读取失败"; ;
+                    ShowDialog("读取失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SetStaticItem("读取失败");
                 }
                 finally
                 {
-                    main.EnableRibbonBar();
-                    main.EnableNavigateBar();
-                    main.HideWaitForm();
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
                     cl.Enabled = true;
                 }
             }).BeginInvoke(null, null);
@@ -485,14 +491,14 @@ namespace NoiseAnalysisSystem
                     if (!ValidateRecorderManageInput(out msg))
                     {
                         XtraMessageBox.Show("设置失败：" + msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        main.barStaticItemWait.Caption = "设置失败";
+                        SetStaticItem("设置失败");
                         return;
                     }
 
-                    main.DisableRibbonBar();
-                    main.DisableNavigateBar();
-                    main.ShowWaitForm("", "正在应用当前设置...");
-                    main.barStaticItemWait.Caption = "正在应用当前设置...";
+                    DisableRibbonBar();
+                    DisableNavigateBar();
+                    ShowWaitForm("", "正在应用当前设置...");
+                    SetStaticItem("正在应用当前设置...");
 
                     cl.Enabled = false;
                     short id = Convert.ToInt16(txtRecID.Text);
@@ -583,26 +589,26 @@ namespace NoiseAnalysisSystem
                     int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
                     if (query != -1)
                     {
-                        main.ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                         GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                         BindRecord();
                     }
                     else
                         throw new Exception("数据入库发生错误。");
-                    main.barStaticItemWait.Caption = "当前设置已应用到记录仪" + id;
+                    SetStaticItem("当前设置已应用到记录仪" + id);
 
                 }
                 catch (Exception ex)
                 {
-                    main.ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    main.barStaticItemWait.Caption = "设置失败";
+                    ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SetStaticItem("设置失败");
                 }
                 finally
                 {
-                    main.EnableRibbonBar();
-                    main.EnableNavigateBar();
-                    main.HideWaitForm();
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
                     cl.Enabled = true;
                     isSetting = false;
                 }
@@ -814,35 +820,35 @@ namespace NoiseAnalysisSystem
                                     return;
                                 }
 
-                                main.ShowWaitForm("", "正在清除数据...");
-                                main.DisableRibbonBar();
-                                main.DisableNavigateBar();
+                                ShowWaitForm("", "正在清除数据...");
+                                DisableRibbonBar();
+                                DisableNavigateBar();
                                 id = Convert.ToInt16(txtRecID.Text);
 
-                                main.barStaticItemWait.Description = "正在清除数据...";
+                                SetStaticItem("正在清除数据...");
 
                                 bool result = GlobalValue.log.ClearData(id);
 
                                 if (result)
                                 {
-                                    main.ShowDialog("清除记录仪数据成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    ShowDialog("清除记录仪数据成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                                 else
                                 {
-                                    main.ShowDialog("清除记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    ShowDialog("清除记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                             }
                             catch (TimeoutException)
                             {
-                                main.ShowDialog("记录仪" + id + "操作超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                ShowDialog("记录仪" + id + "操作超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             catch (ArgumentNullException)
                             {
-                                main.ShowDialog("记录仪" + id + "操作失败！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                ShowDialog("记录仪" + id + "操作失败！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             catch (Exception ex)
                             {
-                                main.ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }).BeginInvoke(null, null);
@@ -851,6 +857,18 @@ namespace NoiseAnalysisSystem
         private void btnGetConID_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public override void SerialPortEvent(bool Enabled)
+        {
+            btnApplySet.Enabled = Enabled;
+            btnReadSet.Enabled = Enabled;
+            btnGetRecID.Enabled = Enabled;
+            btnGetConID.Enabled = Enabled;
+            btnNow.Enabled = Enabled;
+            btnStart.Enabled = Enabled;
+            btnStop.Enabled = Enabled;
+            btnCleanFlash.Enabled = Enabled;
         }
     }
 }

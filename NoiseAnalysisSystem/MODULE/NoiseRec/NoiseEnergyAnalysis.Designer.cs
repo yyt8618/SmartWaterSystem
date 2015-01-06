@@ -136,15 +136,8 @@
             this.Controls.Add(this.txtStandValue);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.winChartViewer1);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "NoiseEnergyAnalysis";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "漏水能量变化分析";
-            this.Load += new System.EventHandler(this.TestChart_Load);
             ((System.ComponentModel.ISupportInitialize)(this.winChartViewer1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

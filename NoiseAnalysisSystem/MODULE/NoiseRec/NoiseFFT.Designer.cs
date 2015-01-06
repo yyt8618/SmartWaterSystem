@@ -39,7 +39,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.winChartViewer1 = new ChartDirector.WinChartViewer();
-            this.btnClose = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -137,33 +136,21 @@
             this.winChartViewer1.ClickHotSpot += new ChartDirector.WinHotSpotEventHandler(this.winChartViewer1_ClickHotSpot);
             this.winChartViewer1.ViewPortChanged += new ChartDirector.WinViewPortEventHandler(this.winChartViewer1_ViewPortChanged);
             // 
-            // btnClose
-            // 
-            this.btnClose.Location = new System.Drawing.Point(634, 333);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(2);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(67, 23);
-            this.btnClose.TabIndex = 16;
-            this.btnClose.Text = "关闭";
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
             // NoiseFFT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(704, 362);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.txtDis);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtSize);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSelect1);
-            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSelect);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "NoiseFFT";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Size = new System.Drawing.Size(704, 362);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
@@ -185,7 +172,6 @@
         private System.Windows.Forms.Label label2;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private ChartDirector.WinChartViewer winChartViewer1;
-        private DevExpress.XtraEditors.SimpleButton btnClose;
 
 
 
