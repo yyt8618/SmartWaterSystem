@@ -97,8 +97,8 @@ namespace NoiseAnalysisSystem
             FFTTransfer(real_Part, vir_Part, num, 1);
 
             // 对变换后的FFT序列进行处理
-            tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num, DCComponentLen);
-
+            tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num);
+            tmp_fourier=Skip(tmp_fourier, DCComponentLen);
             //////////////////////////////////////////////////////////////////////////////////////////
             dataList.Add(tmp_fourier); // for test
 
@@ -137,7 +137,7 @@ namespace NoiseAnalysisSystem
             {
                 double[] real_Part = new double[num];// 实数部分
                 double[] vir_Part = new double[num]; // 虚数部分
-                double[] tmp_fourier = new double[num];
+                double[] tmp_fourier = new double[num/2];
 
                 // 为满足频率分辨率，需要增加采样点数到num，然后补0
                 for (int i = 0; i < num; i++)
@@ -152,9 +152,10 @@ namespace NoiseAnalysisSystem
                 FFTTransfer(real_Part, vir_Part, num, 1);
 
                 // 对变换后的FFT序列进行处理
-                tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num, DCComponentLen);
+                tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num);
+                tmp_fourier = Skip(tmp_fourier, DCComponentLen);
 
-                for (int i = 0; i < num / 2; i++)
+                for (int i = 0; i < num/2; i++)
                 {
                     FourierData[i][index] = tmp_fourier[i];
                 }
@@ -163,7 +164,7 @@ namespace NoiseAnalysisSystem
                 dataList.Add(tmp_fourier); // for test
 
                 StreamWriter sw = new StreamWriter(string.Format("{0}转换后数据{1}.txt", GlobalValue.TestPath, index + 1));
-                for (int i = 0; i < tmp_fourier.Length / 2; i++)
+                for (int i = 0; i < tmp_fourier.Length; i++)
                 {
                     sw.WriteLine(tmp_fourier[i]);
                 }
@@ -254,18 +255,18 @@ namespace NoiseAnalysisSystem
 			for (int i = 0; i < FourierData.Count; i++)
 			{
 				min_frq[i] = i * cDis;
-				List<double> tmp = new List<double>();		
+				//List<double> tmp = new List<double>();		
 				if (FourierData[i].Length < 3)
 				{
-					double avg = FourierData[i].ToList().Average();   // 每一个频率下的傅里叶数据的平均值
-					for (int j = 0; j < FourierData[i].Length; j++)
-					{
-						if (FourierData[i][j] >= avg)
-						{
-							tmp.Add(FourierData[i][j]);
-						}
-					}
-					amp[i] = tmp.Min();
+                    //double avg = FourierData[i].ToList().Average();   // 每一个频率下的傅里叶数据的平均值
+                    //for (int j = 0; j < FourierData[i].Length; j++)
+                    //{
+                    //    if (FourierData[i][j] >= avg)
+                    //    {
+                    //        tmp.Add(FourierData[i][j]);
+                    //    }
+                    //}
+                    amp[i] = FourierData[i].Min();
 				}
 				else
 				{
@@ -273,15 +274,15 @@ namespace NoiseAnalysisSystem
 					List<double> list = FourierData[i].ToList();
 					list.Remove(list.Max());
 					list.Remove(list.Min());
-					double avg = list.Average();
-					for (int j = 0; j < list.Count; j++)
-					{						
-						if (list[j] >= avg)
-						{
-							tmp.Add(list[j]);
-						}
-					}
-					amp[i] = tmp.Min();
+                    //double avg = list.Average();
+                    //for (int j = 0; j < list.Count; j++)
+                    //{						
+                    //    if (list[j] >= avg)
+                    //    {
+                    //        tmp.Add(list[j]);
+                    //    }
+                    //}
+                    amp[i] = list.Min();
 				}
 			}
 
@@ -312,17 +313,17 @@ namespace NoiseAnalysisSystem
 			for (int i = 0; i < FourierData.Count; i++)
 			{
 				min_frq[i] = i * cDis;
-				List<double> tmp = new List<double>();
+				//List<double> tmp = new List<double>();
 
-				double avg = FourierData[i].ToList().Average();   // 每一个频率下的傅里叶数据的平均值
-				for (int j = 0; j < FourierData[i].Length; j++)
-				{
-					if (FourierData[i][j] >= avg)
-					{
-						tmp.Add(FourierData[i][j]);
-					}
-				}
-				amp[i] = tmp.Min();
+                //double avg = FourierData[i].ToList().Average();   // 每一个频率下的傅里叶数据的平均值
+                //for (int j = 0; j < FourierData[i].Length; j++)
+                //{
+                //    if (FourierData[i][j] >= avg)
+                //    {
+                //        tmp.Add(FourierData[i][j]);
+                //    }
+                //}
+                amp[i] = FourierData[i].Min();
 			}
 
 			//////////////////////////////////////////////////////////////////////////////////////////
@@ -677,13 +678,11 @@ namespace NoiseAnalysisSystem
         /// </summary>
         /// <param name="x">实数部分</param>
         /// <param name="y">虚数部分</param>
-        public static double[] PowerSpectralCacl(double[] x, double[] y, int n,int DCComponentLen)
+        public static double[] PowerSpectralCacl(double[] x, double[] y, int n)
         {
-            double[] psd = new double[x.Length];
-            for (int i = 0; i < x.Length; i++)
+            double[] psd = new double[x.Length/2];
+            for (int i = 0; i < x.Length/2; i++)
                 psd[i] = Math.Sqrt(Math.Pow(x[i], 2) + Math.Pow(y[i], 2) / (double)(n / 2));
-
-            psd = Skip(psd, DCComponentLen);//略去直流分量
 
             return psd;
         }

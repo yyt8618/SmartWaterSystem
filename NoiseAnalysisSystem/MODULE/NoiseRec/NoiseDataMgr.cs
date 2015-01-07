@@ -453,31 +453,38 @@ namespace NoiseAnalysisSystem
                             tmpData[k] = result[key][k + j * spanCount];
                         }
 
-                        //////////////////////////////////////////////////////////////////////////////////////////
-                        // for test
-                        GlobalValue.TestPath = string.Format(Application.StartupPath + @"\Data\记录仪{0}\", recorder.ID);
-                        if (!Directory.Exists(GlobalValue.TestPath))
-                            Directory.CreateDirectory(GlobalValue.TestPath);
-
-                        StreamWriter sw = new StreamWriter(string.Format("{0}转换前数据{1}.txt", GlobalValue.TestPath, fla));
-                        foreach (var item in tmpData)
+                        if (tmpData.Max() < 0)
                         {
-                            sw.WriteLine(item);
+                            ; //无效数据
                         }
-                        sw.Flush();
-                        sw.Close();
+                        else
+                        {
+                            //////////////////////////////////////////////////////////////////////////////////////////
+                            // for test
+                            GlobalValue.TestPath = string.Format(Application.StartupPath + @"\Data\记录仪{0}\", recorder.ID);
+                            if (!Directory.Exists(GlobalValue.TestPath))
+                                Directory.CreateDirectory(GlobalValue.TestPath);
 
-                        //////////////////////////////////////////////////////////////////////////////////////////
+                            StreamWriter sw = new StreamWriter(string.Format("{0}转换前数据{1}.txt", GlobalValue.TestPath, fla));
+                            foreach (var item in tmpData)
+                            {
+                                sw.WriteLine(item);
+                            }
+                            sw.Flush();
+                            sw.Close();
 
-                        data.Add(tmpData);
-                        tmpData.CopyTo(tmpData_IsLeak, 0);
-                        data_isleak1.Add(tmpData_IsLeak);
-                        fla++;
+                            //////////////////////////////////////////////////////////////////////////////////////////
+
+                            data.Add(tmpData);
+                            tmpData.CopyTo(tmpData_IsLeak, 0);
+                            data_isleak1.Add(tmpData_IsLeak);
+                            fla++;
+                        }
                     }
                     double[] amp = null;
                     double[] frq = null;
                     // 计算每一个频段下的最小幅度
-                    NoiseDataHandler.InitData(result[key].Length / spanCount);
+                    NoiseDataHandler.InitData(data.Count);//result[key].Length / spanCount);
                     NoiseDataHandler.AmpCalc(data, ref amp, ref frq);
 
                     NoiseData da = new NoiseData();
