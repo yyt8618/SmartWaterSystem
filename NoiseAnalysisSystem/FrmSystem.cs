@@ -2,10 +2,10 @@
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using System.IO;
-using System.Threading;
 using System.Reflection;
 using DevExpress.XtraBars.Helpers;
 using System.Collections.Generic;
+using DevExpress.LookAndFeel;
 
 namespace NoiseAnalysisSystem
 {
@@ -36,6 +36,12 @@ namespace NoiseAnalysisSystem
 
             try
             {
+                //Set Skin
+                string skin = AppConfigHelper.GetAppSettingValue("Skin");
+                if (string.IsNullOrEmpty(skin))
+                    skin = "SevenClassic";
+                UserLookAndFeel.Default.SetSkinStyle(skin);
+
                 //VisiableNavigateBar(false);
 
                 //HideNavigateBar
@@ -49,10 +55,11 @@ namespace NoiseAnalysisSystem
                 }
 
                 #region 加载控件
-                var files = Directory.GetFiles(Application.StartupPath + "\\plugins", "*.dll");
+                var files = Directory.GetFiles(Application.StartupPath, "I*");
                 for (int i = 0; i < files.Length; i++)
                 {
-                    LoadAddin(files[i]);
+                    if (System.Text.RegularExpressions.Regex.IsMatch(files[i], @".dll$"))
+                        LoadAddin(files[i]);
                 }
 
                 if (lstType != null && lstType.Count > 0)
@@ -568,6 +575,12 @@ namespace NoiseAnalysisSystem
             }
         }
         #endregion
+
+        private void ribbonGalleryBarItem1_GalleryItemClick(object sender, DevExpress.XtraBars.Ribbon.GalleryItemClickEventArgs e)
+        {
+            string skincaption=ribbonGalleryBarItem1.Gallery.GetCheckedItems()[0].Caption;
+            AppConfigHelper.SetAppSettingValue("Skin", skincaption);
+        }
 
     }
 }

@@ -219,9 +219,10 @@
             // 
             // ribbonGalleryBarItem1
             // 
-            this.ribbonGalleryBarItem1.Caption = "ribbonGalleryBarItem1";
+            this.ribbonGalleryBarItem1.Caption = "请选择皮肤";
             this.ribbonGalleryBarItem1.Id = 30;
             this.ribbonGalleryBarItem1.Name = "ribbonGalleryBarItem1";
+            this.ribbonGalleryBarItem1.GalleryItemClick += new DevExpress.XtraBars.Ribbon.GalleryItemClickEventHandler(this.ribbonGalleryBarItem1_GalleryItemClick);
             // 
             // ribbonPageSys
             // 
@@ -339,11 +340,10 @@
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
-            this.navBarControl1.PaintStyleKind = DevExpress.XtraNavBar.NavBarViewKind.ExplorerBar;
             this.navBarControl1.Size = new System.Drawing.Size(185, 490);
             this.navBarControl1.TabIndex = 0;
             this.navBarControl1.Text = "navBarControl1";
-            this.navBarControl1.View = new DevExpress.XtraNavBar.ViewInfo.StandardSkinExplorerBarViewInfoRegistrator("Seven Classic");
+            this.navBarControl1.View = new DevExpress.XtraNavBar.ViewInfo.SkinExplorerBarViewInfoRegistrator();
             // 
             // NBG_PreT
             // 
@@ -619,7 +619,7 @@
             this.Ribbon = this.ribbonControl1;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.StatusBar = this.ribbonStatusBar1;
-            this.Text = "自来水管道噪声分析系统";
+            this.Text = "敢创水务系统";
             this.Load += new System.EventHandler(this.FrmSystem_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmSystem_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).EndInit();
