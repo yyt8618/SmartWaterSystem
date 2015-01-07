@@ -109,6 +109,9 @@ namespace NoiseAnalysisSystem
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
+            lst_data.Clear();
+            lst_stdev.Clear();
+
             txtStandValue.Text = "";
             txtStandardAverage.Text = "";
             energyvalue = 0;

@@ -355,7 +355,7 @@ namespace NoiseAnalysisSystem
                                 ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 isError = true;
                             }
-                            
+
                         }
                     }
                     catch (Exception)
@@ -892,7 +892,8 @@ namespace NoiseAnalysisSystem
             {
                 System.Diagnostics.Process.Start("explorer.exe", OriginalFilePath);
             }
-            catch {
+            catch
+            {
                 XtraMessageBox.Show("打开文件夹异常", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

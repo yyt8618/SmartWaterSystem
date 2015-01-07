@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gridControlGroup = new DevExpress.XtraGrid.GridControl();
             this.gridViewGroupList = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.repositoryItemCheckEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -55,10 +56,10 @@
             this.gridColumnReadTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnState = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.popupMenu = new DevExpress.XtraBars.PopupMenu();
+            this.popupMenu = new DevExpress.XtraBars.PopupMenu(this.components);
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-            this.barManager = new DevExpress.XtraBars.BarManager();
+            this.barManager = new DevExpress.XtraBars.BarManager(this.components);
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
@@ -67,7 +68,7 @@
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
@@ -86,7 +87,7 @@
             this.gridControlGroup.MainView = this.gridViewGroupList;
             this.gridControlGroup.Name = "gridControlGroup";
             this.gridControlGroup.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemCheckEdit2});
+            this.repositoryItemCheckEdit3});
             this.gridControlGroup.Size = new System.Drawing.Size(316, 429);
             this.gridControlGroup.TabIndex = 0;
             this.gridControlGroup.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -106,7 +107,6 @@
             this.gridViewGroupList.Name = "gridViewGroupList";
             this.gridViewGroupList.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridViewGroupList.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridViewGroupList.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
             this.gridViewGroupList.OptionsCustomization.AllowFilter = false;
             this.gridViewGroupList.OptionsFilter.AllowFilterEditor = false;
             this.gridViewGroupList.OptionsHint.ShowFooterHints = false;
@@ -126,18 +126,17 @@
             // gridColumn1
             // 
             this.gridColumn1.Caption = "选择";
-            this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit2;
+            this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit3;
             this.gridColumn1.FieldName = "选择";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
             this.gridColumn1.Width = 32;
             // 
-            // repositoryItemCheckEdit2
+            // repositoryItemCheckEdit3
             // 
-            this.repositoryItemCheckEdit2.AutoHeight = false;
-            this.repositoryItemCheckEdit2.Caption = "Check";
-            this.repositoryItemCheckEdit2.Name = "repositoryItemCheckEdit2";
+            this.repositoryItemCheckEdit3.AutoHeight = false;
+            this.repositoryItemCheckEdit3.Name = "repositoryItemCheckEdit3";
             // 
             // gridColumn2
             // 
@@ -475,7 +474,7 @@
             this.Size = new System.Drawing.Size(797, 494);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGroup)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
@@ -506,7 +505,6 @@
         private DevExpress.XtraEditors.SimpleButton simpleButtonUnSelect;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumnID;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
@@ -528,5 +526,6 @@
         private DevExpress.XtraEditors.SimpleButton simpleButtonAny;
         public DevExpress.XtraEditors.SimpleButton btnReadFromFold;
         public DevExpress.XtraEditors.SimpleButton btnOpenFold;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit3;
     }
 }

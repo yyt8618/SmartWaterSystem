@@ -125,8 +125,8 @@ namespace NoiseAnalysisSystem
         public void BindRecord()
         {
             DataTable dt = new DataTable("RecordTable");
-            DataColumn col = dt.Columns.Add("选择");
-            col.DataType = System.Type.GetType("System.Boolean"); ;
+            //DataColumn col = dt.Columns.Add("选择");
+            //col.DataType = System.Type.GetType("System.Boolean"); ;
             dt.Columns.Add("编号");
             dt.Columns.Add("漏水警戒值");
             dt.Columns.Add("通讯时间");
@@ -138,13 +138,14 @@ namespace NoiseAnalysisSystem
             for (int i = 0; i < GlobalValue.recorderList.Count; i++)
             {
                 NoiseRecorder rec = GlobalValue.recorderList[i];
-                dt.Rows.Add(new object[] { false, rec.ID, rec.LeakValue, rec.CommunicationTime, rec.RecordTime, rec.ControlerPower, rec.AddDate, rec.Remark });
+                dt.Rows.Add(new object[] { rec.ID, rec.LeakValue, rec.CommunicationTime, rec.RecordTime, rec.ControlerPower, rec.AddDate, rec.Remark });
             }
 
             // 绑定数据
             MethodInvoker mi = (new MethodInvoker(() =>
             {
                 gridControlRec.DataSource = dt;
+                //gridControlGroup.DataSource = dt;
             }));
 
             this.Invoke(mi);
