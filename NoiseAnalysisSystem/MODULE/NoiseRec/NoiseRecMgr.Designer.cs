@@ -31,20 +31,21 @@
             this.components = new System.ComponentModel.Container();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnUpdate = new DevExpress.XtraEditors.SimpleButton();
+            this.btnDeleteRec = new DevExpress.XtraEditors.SimpleButton();
             this.txtRecNote = new DevExpress.XtraEditors.MemoEdit();
             this.label18 = new System.Windows.Forms.Label();
+            this.btnAddRec = new DevExpress.XtraEditors.SimpleButton();
             this.txtLeakValue = new DevExpress.XtraEditors.TextEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.txtRecID = new DevExpress.XtraEditors.TextEdit();
             this.label13 = new System.Windows.Forms.Label();
             this.label45 = new System.Windows.Forms.Label();
             this.btnGetRecID = new DevExpress.XtraEditors.SimpleButton();
-            this.btnDeleteRec = new DevExpress.XtraEditors.SimpleButton();
-            this.btnAddRec = new DevExpress.XtraEditors.SimpleButton();
             this.lblRecState = new System.Windows.Forms.Label();
             this.btnStop = new DevExpress.XtraEditors.SimpleButton();
             this.btnStart = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.spinEdit1 = new DevExpress.XtraEditors.SpinEdit();
             this.comboBoxEditPower = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnApplySet = new DevExpress.XtraEditors.SimpleButton();
             this.btnReadSet = new DevExpress.XtraEditors.SimpleButton();
@@ -76,11 +77,9 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.txtRecNum = new DevExpress.XtraEditors.TextEdit();
-            this.nUpDownSamSpan = new System.Windows.Forms.NumericUpDown();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
             this.gridControlRec = new DevExpress.XtraGrid.GridControl();
             this.gridViewRecordList = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -89,6 +88,7 @@
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
@@ -97,6 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtRecID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxDist.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
@@ -108,20 +109,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpDownSamSpan)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlRec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecordList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
             // 
             this.groupControl1.Controls.Add(this.btnUpdate);
+            this.groupControl1.Controls.Add(this.btnDeleteRec);
             this.groupControl1.Controls.Add(this.txtRecNote);
             this.groupControl1.Controls.Add(this.label18);
+            this.groupControl1.Controls.Add(this.btnAddRec);
             this.groupControl1.Controls.Add(this.txtLeakValue);
             this.groupControl1.Controls.Add(this.label2);
             this.groupControl1.Controls.Add(this.txtRecID);
@@ -130,26 +132,35 @@
             this.groupControl1.Controls.Add(this.btnGetRecID);
             this.groupControl1.Location = new System.Drawing.Point(4, 3);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(250, 226);
+            this.groupControl1.Size = new System.Drawing.Size(250, 260);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息";
             // 
             // btnUpdate
             // 
             this.btnUpdate.Enabled = false;
-            this.btnUpdate.Location = new System.Drawing.Point(124, 193);
+            this.btnUpdate.Location = new System.Drawing.Point(169, 227);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(89, 23);
+            this.btnUpdate.Size = new System.Drawing.Size(67, 23);
             this.btnUpdate.TabIndex = 4;
             this.btnUpdate.Text = "更新信息";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnDeleteRec
+            // 
+            this.btnDeleteRec.Location = new System.Drawing.Point(92, 227);
+            this.btnDeleteRec.Name = "btnDeleteRec";
+            this.btnDeleteRec.Size = new System.Drawing.Size(67, 23);
+            this.btnDeleteRec.TabIndex = 1;
+            this.btnDeleteRec.Text = "删除记录仪";
+            this.btnDeleteRec.Click += new System.EventHandler(this.btnDeleteRec_Click);
             // 
             // txtRecNote
             // 
             this.txtRecNote.Location = new System.Drawing.Point(105, 101);
             this.txtRecNote.Name = "txtRecNote";
             this.txtRecNote.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtRecNote.Size = new System.Drawing.Size(108, 81);
+            this.txtRecNote.Size = new System.Drawing.Size(108, 120);
             this.txtRecNote.TabIndex = 3;
             // 
             // label18
@@ -160,6 +171,15 @@
             this.label18.Size = new System.Drawing.Size(67, 14);
             this.label18.TabIndex = 72;
             this.label18.Text = "记录仪编号";
+            // 
+            // btnAddRec
+            // 
+            this.btnAddRec.Location = new System.Drawing.Point(15, 227);
+            this.btnAddRec.Name = "btnAddRec";
+            this.btnAddRec.Size = new System.Drawing.Size(67, 23);
+            this.btnAddRec.TabIndex = 0;
+            this.btnAddRec.Text = "添加记录仪";
+            this.btnAddRec.Click += new System.EventHandler(this.btnAddRec_Click);
             // 
             // txtLeakValue
             // 
@@ -217,24 +237,6 @@
             this.btnGetRecID.Text = "读取编号";
             this.btnGetRecID.Click += new System.EventHandler(this.btnGetRecID_Click);
             // 
-            // btnDeleteRec
-            // 
-            this.btnDeleteRec.Location = new System.Drawing.Point(105, 237);
-            this.btnDeleteRec.Name = "btnDeleteRec";
-            this.btnDeleteRec.Size = new System.Drawing.Size(89, 23);
-            this.btnDeleteRec.TabIndex = 1;
-            this.btnDeleteRec.Text = "删除记录仪";
-            this.btnDeleteRec.Click += new System.EventHandler(this.btnDeleteRec_Click);
-            // 
-            // btnAddRec
-            // 
-            this.btnAddRec.Location = new System.Drawing.Point(10, 237);
-            this.btnAddRec.Name = "btnAddRec";
-            this.btnAddRec.Size = new System.Drawing.Size(89, 23);
-            this.btnAddRec.TabIndex = 0;
-            this.btnAddRec.Text = "添加记录仪";
-            this.btnAddRec.Click += new System.EventHandler(this.btnAddRec_Click);
-            // 
             // lblRecState
             // 
             this.lblRecState.AutoSize = true;
@@ -266,6 +268,7 @@
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.spinEdit1);
             this.groupControl2.Controls.Add(this.comboBoxEditPower);
             this.groupControl2.Controls.Add(this.btnApplySet);
             this.groupControl2.Controls.Add(this.lblRecState);
@@ -293,12 +296,37 @@
             this.groupControl2.Controls.Add(this.label10);
             this.groupControl2.Controls.Add(this.label11);
             this.groupControl2.Controls.Add(this.txtRecNum);
-            this.groupControl2.Controls.Add(this.nUpDownSamSpan);
             this.groupControl2.Location = new System.Drawing.Point(260, 3);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(534, 260);
             this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "设备参数";
+            // 
+            // spinEdit1
+            // 
+            this.spinEdit1.EditValue = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.spinEdit1.Location = new System.Drawing.Point(112, 119);
+            this.spinEdit1.Name = "spinEdit1";
+            this.spinEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinEdit1.Properties.MaxValue = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.spinEdit1.Properties.MinValue = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.spinEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.spinEdit1.Size = new System.Drawing.Size(61, 20);
+            this.spinEdit1.TabIndex = 105;
+            this.spinEdit1.ValueChanged += new System.EventHandler(this.spinEdit1_ValueChanged);
             // 
             // comboBoxEditPower
             // 
@@ -493,7 +521,7 @@
             // 
             // txtComTime
             // 
-            this.txtComTime.Location = new System.Drawing.Point(111, 59);
+            this.txtComTime.Location = new System.Drawing.Point(112, 59);
             this.txtComTime.Name = "txtComTime";
             this.txtComTime.Properties.Mask.EditMask = "f0";
             this.txtComTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -549,7 +577,7 @@
             // 
             // txtRecTime
             // 
-            this.txtRecTime.Location = new System.Drawing.Point(111, 89);
+            this.txtRecTime.Location = new System.Drawing.Point(112, 89);
             this.txtRecTime.Name = "txtRecTime";
             this.txtRecTime.Properties.Mask.EditMask = "f0";
             this.txtRecTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -596,34 +624,11 @@
             // txtRecNum
             // 
             this.txtRecNum.EditValue = "30";
-            this.txtRecNum.Location = new System.Drawing.Point(111, 149);
+            this.txtRecNum.Location = new System.Drawing.Point(112, 149);
             this.txtRecNum.Name = "txtRecNum";
             this.txtRecNum.Properties.ReadOnly = true;
             this.txtRecNum.Size = new System.Drawing.Size(86, 20);
             this.txtRecNum.TabIndex = 6;
-            // 
-            // nUpDownSamSpan
-            // 
-            this.nUpDownSamSpan.Location = new System.Drawing.Point(111, 118);
-            this.nUpDownSamSpan.Maximum = new decimal(new int[] {
-            120,
-            0,
-            0,
-            0});
-            this.nUpDownSamSpan.Minimum = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.nUpDownSamSpan.Name = "nUpDownSamSpan";
-            this.nUpDownSamSpan.Size = new System.Drawing.Size(61, 22);
-            this.nUpDownSamSpan.TabIndex = 5;
-            this.nUpDownSamSpan.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.nUpDownSamSpan.ValueChanged += new System.EventHandler(this.nUpDownSamSpan_ValueChanged);
             // 
             // groupControl3
             // 
@@ -680,11 +685,6 @@
             this.gridViewRecordList.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridViewRecordList_CellValueChanging);
             this.gridViewRecordList.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridViewRecordList_CustomColumnDisplayText);
             // 
-            // repositoryItemCheckEdit1
-            // 
-            this.repositoryItemCheckEdit1.AutoHeight = false;
-            this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
-            // 
             // gridColumn2
             // 
             this.gridColumn2.Caption = "编号";
@@ -692,7 +692,7 @@
             this.gridColumn2.Name = "gridColumn2";
             this.gridColumn2.OptionsColumn.AllowEdit = false;
             this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 2;
+            this.gridColumn2.VisibleIndex = 1;
             this.gridColumn2.Width = 49;
             // 
             // gridColumn3
@@ -704,7 +704,7 @@
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.OptionsColumn.AllowEdit = false;
             this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 4;
+            this.gridColumn3.VisibleIndex = 3;
             this.gridColumn3.Width = 65;
             // 
             // gridColumn4
@@ -716,7 +716,7 @@
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.OptionsColumn.AllowEdit = false;
             this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 5;
+            this.gridColumn4.VisibleIndex = 4;
             this.gridColumn4.Width = 65;
             // 
             // gridColumn5
@@ -726,7 +726,7 @@
             this.gridColumn5.Name = "gridColumn5";
             this.gridColumn5.OptionsColumn.AllowEdit = false;
             this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 6;
+            this.gridColumn5.VisibleIndex = 5;
             this.gridColumn5.Width = 65;
             // 
             // gridColumn6
@@ -738,7 +738,7 @@
             this.gridColumn6.Name = "gridColumn6";
             this.gridColumn6.OptionsColumn.AllowEdit = false;
             this.gridColumn6.Visible = true;
-            this.gridColumn6.VisibleIndex = 3;
+            this.gridColumn6.VisibleIndex = 2;
             this.gridColumn6.Width = 70;
             // 
             // gridColumn7
@@ -748,7 +748,7 @@
             this.gridColumn7.Name = "gridColumn7";
             this.gridColumn7.OptionsColumn.AllowEdit = false;
             this.gridColumn7.Visible = true;
-            this.gridColumn7.VisibleIndex = 7;
+            this.gridColumn7.VisibleIndex = 6;
             this.gridColumn7.Width = 129;
             // 
             // gridColumn8
@@ -758,7 +758,7 @@
             this.gridColumn8.Name = "gridColumn8";
             this.gridColumn8.OptionsColumn.AllowEdit = false;
             this.gridColumn8.Visible = true;
-            this.gridColumn8.VisibleIndex = 8;
+            this.gridColumn8.VisibleIndex = 7;
             this.gridColumn8.Width = 176;
             // 
             // repositoryItemCheckEdit2
@@ -767,6 +767,11 @@
             this.repositoryItemCheckEdit2.AllowGrayed = true;
             this.repositoryItemCheckEdit2.AutoHeight = false;
             this.repositoryItemCheckEdit2.Name = "repositoryItemCheckEdit2";
+            // 
+            // repositoryItemCheckEdit1
+            // 
+            this.repositoryItemCheckEdit1.AutoHeight = false;
+            this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             // 
             // timer1
             // 
@@ -777,10 +782,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupControl3);
-            this.Controls.Add(this.btnDeleteRec);
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl1);
-            this.Controls.Add(this.btnAddRec);
             this.Name = "NoiseRecMgr";
             this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.UcRecMgr_Load);
@@ -793,6 +796,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
             this.groupControl2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxDist.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
@@ -805,13 +809,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpDownSamSpan)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlRec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecordList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -852,8 +855,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private  DevExpress.XtraEditors.TextEdit txtRecNum;
-        private System.Windows.Forms.NumericUpDown nUpDownSamSpan;
+        private DevExpress.XtraEditors.TextEdit txtRecNum;
         private DevExpress.XtraEditors.GroupControl groupControl4;
         private  DevExpress.XtraEditors.TextEdit txtConId;
         private System.Windows.Forms.Label label20;
@@ -879,5 +881,6 @@
         private System.Windows.Forms.Timer timer1;
         private DevExpress.XtraEditors.SimpleButton btnCleanFlash;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
+        private DevExpress.XtraEditors.SpinEdit spinEdit1;
     }
 }

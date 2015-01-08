@@ -38,8 +38,16 @@ namespace NoiseAnalysisSystem
                     Directory.CreateDirectory(OriginalFilePath);
                 }
                 SerialPortEvent(GlobalValue.portUtil.IsOpen);
+                ClearView();
             }
             catch { }
+        }
+
+        private void ClearView()
+        {
+            selectList = new List<NoiseRecorder>();
+            gridControlGroup.DataSource = null;
+            gridControlResult.DataSource = null;
         }
 
         /// <summary>
@@ -91,6 +99,7 @@ namespace NoiseAnalysisSystem
         /// </summary>
         private void BindResult(NoiseRecorderGroup gp)
         {
+            gridControlResult.DataSource = null;
             DataTable dt = new DataTable();
             ; dt.Columns.Add("记录仪编号");
             dt.Columns.Add("幅度");
@@ -168,23 +177,25 @@ namespace NoiseAnalysisSystem
         private void gridViewGroupList_RowClick(object sender, RowClickEventArgs e)
         {
             GridView gridview = sender as GridView;
-            if (gridview.IsGroupRow(e.RowHandle))
+            if (e.RowHandle > -1)
             {
-                int id = Convert.ToInt32(gridview.GetGroupRowValue(e.RowHandle));
-                NoiseRecorderGroup gp = (from item in GlobalValue.groupList
+                if (gridview.IsGroupRow(e.RowHandle))
+                {
+                    int id = Convert.ToInt32(gridview.GetGroupRowValue(e.RowHandle));
+                    NoiseRecorderGroup gp = (from item in GlobalValue.groupList
+                                             where item.ID == id
+                                             select item).ToList()[0];
+                    BindResult(gp);
+                }
+                else
+                {
+                    int id = Convert.ToInt32(gridview.GetRowCellValue(e.RowHandle, "记录仪编号"));
+                    NoiseRecorder rec = (from item in GlobalValue.recorderList
                                          where item.ID == id
                                          select item).ToList()[0];
-                BindResult(gp);
+                    BindResult(rec);
+                }
             }
-            else
-            {
-                int id = Convert.ToInt32(gridview.GetRowCellValue(e.RowHandle, "记录仪编号"));
-                NoiseRecorder rec = (from item in GlobalValue.recorderList
-                                     where item.ID == id
-                                     select item).ToList()[0];
-                BindResult(rec);
-            }
-
             //simpleButtonAny.Enabled = false;
         }
 
@@ -538,11 +549,16 @@ namespace NoiseAnalysisSystem
                                      select item).ToList()[0];
                 if ((bool)e.Value)
                 {
-                    selectList.Add(rec);
+                    if (!selectList.Contains(rec))
+                        selectList.Add(rec);
                 }
                 else
                 {
-                    selectList.Remove(rec);
+                    for (int i = 0; i < selectList.Count; i++)
+                    {
+                        if (selectList[i].ID == rec.ID && selectList[i].GroupID == rec.GroupID)
+                            selectList.RemoveAt(i);
+                    }
                 }
             }
         }

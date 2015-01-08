@@ -100,6 +100,7 @@ namespace NoiseAnalysisSystem
                 if (GlobalValue.recorderList[i].GroupState == 0)
                     listBoxRec.Items.Add(GlobalValue.recorderList[i].ID.ToString());
             }
+            listBoxRec.UnSelectAll();
         }
 
         private void treeList1_AfterCheckNode(object sender, DevExpress.XtraTreeList.NodeEventArgs e)

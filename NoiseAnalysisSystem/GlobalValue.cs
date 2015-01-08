@@ -31,6 +31,14 @@ namespace NoiseAnalysisSystem
                 {
                     (item as TextBox).Clear();
                 }
+                else if (item is DevExpress.XtraEditors.MemoEdit)
+                {
+                    (item as DevExpress.XtraEditors.MemoEdit).EditValue = "";
+                }
+                else if (item is DevExpress.XtraEditors.TextEdit)
+                {
+                    (item as DevExpress.XtraEditors.TextEdit).EditValue = "";
+                }
             }
         }
     }

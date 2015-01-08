@@ -174,71 +174,75 @@ namespace NoiseAnalysisSystem
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (!isSetting)
+            new Action(() =>
             {
-                short id = 0;
-                bool isError = false;
-                try
+                if (!isSetting)
                 {
-                    DisableRibbonBar();
-                    DisableNavigateBar();
-                    id = Convert.ToInt16(txtRecID.Text);
-                    btnStart.Enabled = false;
-
-                    short[] Originaldata = null;
-                    GlobalValue.log.CtrlStartOrStop(id, true, out Originaldata);
-                    ShowWaitForm("", "正在启动...");
-                    lblRecState.Text = "运行状态  正在启动";
-
-                    NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
-                                         where item.ID == id
-                                         select item).ToList()[0];
-                    rec.Power = 1;
-
-                    NoiseDataBaseHelper.UpdateRecorder(rec);
-                    if (NoiseDataBaseHelper.SaveStandData(rec.GroupID, rec.ID, Originaldata) < 0)
+                    short id = 0;
+                    bool isError = false;
+                    try
                     {
-                        ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        DisableRibbonBar();
+                        DisableNavigateBar();
+                        ShowWaitForm("", "正在启动...");
+                        lblRecState.Text = "运行状态  正在启动";
+
+                        id = Convert.ToInt16(txtRecID.Text);
+                        btnStart.Enabled = false;
+
+                        short[] Originaldata = null;
+                        GlobalValue.log.CtrlStartOrStop(id, true, out Originaldata);
+
+                        NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
+                                             where item.ID == id
+                                             select item).ToList()[0];
+                        rec.Power = 1;
+
+                        NoiseDataBaseHelper.UpdateRecorder(rec);
+                        if (NoiseDataBaseHelper.SaveStandData(rec.GroupID, rec.ID, Originaldata) < 0)
+                        {
+                            ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            isError = true;
+                        }
+                    }
+                    catch (TimeoutException)
+                    {
+                        ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         isError = true;
                     }
-                }
-                catch (TimeoutException)
-                {
-                    ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    isError = true;
-                }
-                catch (ArgumentNullException)
-                {
-                    ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    isError = true;
-                }
-                catch (Exception ex)
-                {
-                    ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    isError = true;
-                }
-                finally
-                {
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-                    btnStart.Enabled = true;
-                    if (!isError)
+                    catch (ArgumentNullException)
                     {
-                        lblRecState.Text = "运行状态  已启动";
-                        btnStart.Enabled = false;
-                        btnStop.Enabled = true;
+                        ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        isError = true;
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        lblRecState.Text = "运行状态  未知";
+                        ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        isError = true;
+                    }
+                    finally
+                    {
+                        EnableRibbonBar();
+                        EnableNavigateBar();
+                        HideWaitForm();
                         btnStart.Enabled = true;
-                        btnStop.Enabled = false;
-                    }
+                        if (!isError)
+                        {
+                            lblRecState.Text = "运行状态  已启动";
+                            btnStart.Enabled = false;
+                            btnStop.Enabled = true;
+                        }
+                        else
+                        {
+                            lblRecState.Text = "运行状态  未知";
+                            btnStart.Enabled = true;
+                            btnStop.Enabled = false;
+                        }
 
-                    this.Refresh();
+                        this.Refresh();
+                    }
                 }
-            }
+            }).BeginInvoke(null, null);
         }
 
         /// <summary>
@@ -257,46 +261,49 @@ namespace NoiseAnalysisSystem
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            if (!isSetting)
-            {
-                bool isError = false;
-                try
+            new Action(() =>
                 {
-                    DisableRibbonBar();
-                    DisableNavigateBar();
-                    btnStop.Enabled = false; ;
-                    short id = Convert.ToInt16(txtRecID.Text);
-                    short[] origitydata = null;
-                    GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
-                    ShowWaitForm("", "正在停止...");
-                    lblRecState.Text = "运行状态  正在停止";
-
-                    NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
-                                         where item.ID == id
-                                         select item).ToList()[0];
-                    rec.Power = 0;
-                    NoiseDataBaseHelper.UpdateRecorder(rec);
-                }
-                catch (Exception ex)
-                {
-                    ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    isError = true;
-                }
-                finally
-                {
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-                    btnStop.Enabled = true;
-                    if (!isError)
+                    if (!isSetting)
                     {
-                        lblRecState.Text = "运行状态  已停止";
-                        btnStart.Enabled = true;
-                        btnStop.Enabled = false;
+                        bool isError = false;
+                        try
+                        {
+                            DisableRibbonBar();
+                            DisableNavigateBar();
+                            ShowWaitForm("", "正在停止...");
+                            lblRecState.Text = "运行状态  正在停止";
+                            btnStop.Enabled = false; ;
+                            short id = Convert.ToInt16(txtRecID.Text);
+                            short[] origitydata = null;
+                            GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
+                            
+                            NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
+                                                 where item.ID == id
+                                                 select item).ToList()[0];
+                            rec.Power = 0;
+                            NoiseDataBaseHelper.UpdateRecorder(rec);
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            isError = true;
+                        }
+                        finally
+                        {
+                            EnableRibbonBar();
+                            EnableNavigateBar();
+                            HideWaitForm();
+                            btnStop.Enabled = true;
+                            if (!isError)
+                            {
+                                lblRecState.Text = "运行状态  已停止";
+                                btnStart.Enabled = true;
+                                btnStop.Enabled = false;
+                            }
+                            this.Refresh();
+                        }
                     }
-                    this.Refresh();
-                }
-            }
+                }).BeginInvoke(null, null);
         }
 
         // 时间同步
@@ -329,7 +336,7 @@ namespace NoiseAnalysisSystem
 
                 newRec.LeakValue = Convert.ToInt32(txtLeakValue.Text);
                 newRec.Remark = txtRecNote.Text;
-                newRec.PickSpan = Convert.ToInt32(nUpDownSamSpan.Value);
+                newRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
                 newRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
 
                 int query = NoiseDataBaseHelper.AddRecorder(newRec);
@@ -352,23 +359,19 @@ namespace NoiseAnalysisSystem
         {
             try
             {
-                bool flag = false;
-
-                for (int i = 0; i < gridViewRecordList.RowCount; i++)
-                {
-                    if ((bool)gridViewRecordList.GetRowCellValue(i, "选择"))
-                    {
-                        NoiseDataBaseHelper.DeleteRecorder(Convert.ToInt32(gridViewRecordList.GetRowCellValue(i, "编号")));
-                        flag = true;
-                    }
-                }
-                if (flag)
+                int[] selectedRows = gridViewRecordList.GetSelectedRows();
+                if (selectedRows != null && selectedRows.Length > 0)
                 {
                     DialogResult dr = XtraMessageBox.Show("确定删除勾选的记录仪？", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dr == System.Windows.Forms.DialogResult.Yes)
                     {
+                        for (int i = 0; i < selectedRows.Length; i++)
+                        {
+                            int recID = Convert.ToInt32(gridViewRecordList.GetRowCellValue(selectedRows[i], "编号"));
+                            NoiseDataBaseHelper.DeleteRecorder(recID);
+                        }
                         GlobalValue.ClearText(groupControl1);
-                        GlobalValue.ClearText(groupControl1);
+                        GlobalValue.ClearText(groupControl2);
                         GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                         GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                         //LoadRecorderList();
@@ -394,7 +397,7 @@ namespace NoiseAnalysisSystem
         {
             txtComTime.Text = AppConfigHelper.GetAppSettingValue("ComTime_Template");
             txtRecTime.Text = AppConfigHelper.GetAppSettingValue("RecTime_Template");
-            nUpDownSamSpan.Value = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"));
+            spinEdit1.Value = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"));
             txtRecNum.Text = (GlobalValue.Time * 60 / Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"))).ToString();
             txtLeakValue.Text = AppConfigHelper.GetAppSettingValue("LeakValue_Template");
 
@@ -436,7 +439,7 @@ namespace NoiseAnalysisSystem
                     txtRecTime1.Text = tt[1].ToString();
 
                     // 读取采集间隔
-                    nUpDownSamSpan.Value = GlobalValue.log.ReadInterval(id);
+                    spinEdit1.Value= GlobalValue.log.ReadInterval(id);
 
                     // 读取远传通讯时间
                     this.txtComTime.Text = GlobalValue.log.ReadRemoteSendTime(id).ToString();
@@ -516,8 +519,8 @@ namespace NoiseAnalysisSystem
                     alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
 
                     // 设置采集间隔
-                    GlobalValue.log.WriteInterval(id, (int)nUpDownSamSpan.Value);
-                    alterRec.PickSpan = Convert.ToInt32(nUpDownSamSpan.Value);
+                    GlobalValue.log.WriteInterval(id, (int)spinEdit1.Value);
+                    alterRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
 
                     // 设置远传通讯时间
                     GlobalValue.log.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
@@ -663,7 +666,7 @@ namespace NoiseAnalysisSystem
             txtComTime.Text = rec.CommunicationTime.ToString();
             txtRecTime.Text = rec.RecordTime.ToString();
 
-            nUpDownSamSpan.Value = rec.PickSpan;
+            spinEdit1.Value = rec.PickSpan;
             txtRecNum.Text = (GlobalValue.Time * 60 / rec.PickSpan).ToString();
             txtLeakValue.Text = rec.LeakValue.ToString();
             txtRecNote.Text = rec.Remark;
@@ -698,13 +701,22 @@ namespace NoiseAnalysisSystem
 
             btnDeleteRec.Enabled = true;
 
-            if (GlobalValue.portUtil.IsOpen)
-            {
-                btnStart.Enabled = true;
-                btnStop.Enabled = true;
-                btnApplySet.Enabled = true;
-                btnNow.Enabled = true;
-            }
+            //if (GlobalValue.portUtil.IsOpen)
+            //{
+            //    btnStart.Enabled = true;
+            //    btnStop.Enabled = true;
+            //    btnApplySet.Enabled = true;
+            //    btnNow.Enabled = true;
+            //}
+            //else
+            //{
+            //    btnStart.Enabled = false;
+            //    btnStop.Enabled = false;
+            //    btnApplySet.Enabled = false;
+            //    btnNow.Enabled = false;
+            //}
+
+            SerialPortEvent(GlobalValue.portUtil.IsOpen);
 
             btnDeleteRec.Enabled = true;
 
@@ -728,19 +740,6 @@ namespace NoiseAnalysisSystem
                 //{ 
                 //    if(()gridViewRecordList.GetRowCellValue(i,"选择")
                 //}
-            }
-        }
-
-        private void nUpDownSamSpan_ValueChanged(object sender, EventArgs e)
-        {
-            NumericUpDown obj = sender as NumericUpDown;
-            switch (obj.Name)
-            {
-                case "nUpDownSamSpan":
-                    txtRecNum.Text = (Math.Floor(GlobalValue.Time * 60 / obj.Value)).ToString();
-                    break;
-                default:
-                    break;
             }
         }
 
@@ -792,13 +791,27 @@ namespace NoiseAnalysisSystem
                 GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                 BindRecord();
             }
+                        
         }
 
         private void txtRecID_TextChanged(object sender, EventArgs e)
         {
-            this.btnStart.Enabled = true;
-            this.btnStop.Enabled = true;
             this.lblRecState.Text = "运行状态  未知";
+            SerialPortEvent(GlobalValue.portUtil.IsOpen);
+            //if (GlobalValue.portUtil.IsOpen)
+            //{
+            //    btnStart.Enabled = true;
+            //    btnStop.Enabled = true;
+            //    btnApplySet.Enabled = true;
+            //    btnNow.Enabled = true;
+            //}
+            //else
+            //{
+            //    btnStart.Enabled = false;
+            //    btnStop.Enabled = false;
+            //    btnApplySet.Enabled = false;
+            //    btnNow.Enabled = false;
+            //}
         }
 
         private void btnCleanFlash_Click(object sender, EventArgs e)
@@ -851,6 +864,10 @@ namespace NoiseAnalysisSystem
                             {
                                 ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
+                            finally
+                            {
+                                SetStaticItem("清除数据完成!");
+                            }
                         }
                     }).BeginInvoke(null, null);
         }
@@ -870,6 +887,15 @@ namespace NoiseAnalysisSystem
             btnStart.Enabled = Enabled;
             btnStop.Enabled = Enabled;
             btnCleanFlash.Enabled = Enabled;
+        }
+
+        private void spinEdit1_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                txtRecNum.Text = (Math.Floor(GlobalValue.Time * 60 / spinEdit1.Value)).ToString();
+            }
+            catch { }
         }
     }
 }
