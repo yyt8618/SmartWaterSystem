@@ -108,7 +108,6 @@ namespace NoiseAnalysisSystem
             dt.Columns.Add("漏水状态");
             for (int i = 0; i < gp.RecorderList.Count; i++)
             {
-
                 if (gp.RecorderList[i].Result != null)
                 {
                     NoiseResult re = gp.RecorderList[i].Result;
@@ -177,24 +176,21 @@ namespace NoiseAnalysisSystem
         private void gridViewGroupList_RowClick(object sender, RowClickEventArgs e)
         {
             GridView gridview = sender as GridView;
-            if (e.RowHandle > -1)
+            if (gridview.IsGroupRow(e.RowHandle))
             {
-                if (gridview.IsGroupRow(e.RowHandle))
-                {
-                    int id = Convert.ToInt32(gridview.GetGroupRowValue(e.RowHandle));
-                    NoiseRecorderGroup gp = (from item in GlobalValue.groupList
-                                             where item.ID == id
-                                             select item).ToList()[0];
-                    BindResult(gp);
-                }
-                else
-                {
-                    int id = Convert.ToInt32(gridview.GetRowCellValue(e.RowHandle, "记录仪编号"));
-                    NoiseRecorder rec = (from item in GlobalValue.recorderList
+                int id = Convert.ToInt32(gridview.GetGroupRowValue(e.RowHandle));
+                NoiseRecorderGroup gp = (from item in GlobalValue.groupList
                                          where item.ID == id
                                          select item).ToList()[0];
-                    BindResult(rec);
-                }
+                BindResult(gp);
+            }
+            else
+            {
+                int id = Convert.ToInt32(gridview.GetRowCellValue(e.RowHandle, "记录仪编号"));
+                NoiseRecorder rec = (from item in GlobalValue.recorderList
+                                     where item.ID == id
+                                     select item).ToList()[0];
+                BindResult(rec);
             }
             //simpleButtonAny.Enabled = false;
         }
