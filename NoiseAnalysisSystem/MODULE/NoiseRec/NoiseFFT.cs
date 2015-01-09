@@ -68,7 +68,7 @@ namespace NoiseAnalysisSystem
 				}
 			}
 
-            XYChart c = new XYChart(701, 314);
+            XYChart c = new XYChart(795, 455);
 			c.setBackground(c.linearGradientColor(0, 0, 0, 100, 0x99ccff, 0xffffff), 0x888888);
 
             //LegendBox legendBox = c.addLegend(450, 80, false, "Arial", 8);
@@ -80,7 +80,7 @@ namespace NoiseAnalysisSystem
 			ChartDirector.TextBox title = c.addTitle("傅里叶数据分析", "Arial Bold", 13);
 			title.setPos(0, 20);
 
-			c.setPlotArea(60, 60, 610, 210, 0xffffff, -1, -1, c.dashLineColor(
+			c.setPlotArea(50, 60, 730, 345, 0xffffff, -1, -1, c.dashLineColor(
 				0xaaaaaa, Chart.DotLine), -1);
 
 			c.xAxis().setLabels(xLabels);

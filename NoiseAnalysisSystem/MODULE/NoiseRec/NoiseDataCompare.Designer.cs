@@ -104,14 +104,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(784, 360);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.comboBoxEdit2);
             this.Controls.Add(this.comboBoxEdit1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "NoiseDataCompare";
-            this.Text = "噪声数据比较分析";
+            this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.FrmDataAnalysis_Load);
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit2.Properties)).EndInit();

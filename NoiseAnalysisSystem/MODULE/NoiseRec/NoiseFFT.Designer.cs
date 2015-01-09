@@ -51,7 +51,7 @@
             // 
             // btnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(546, 333);
+            this.btnSelect.Location = new System.Drawing.Point(543, 462);
             this.btnSelect.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(67, 23);
@@ -66,7 +66,7 @@
             // 
             // btnSelect1
             // 
-            this.btnSelect1.Location = new System.Drawing.Point(458, 333);
+            this.btnSelect1.Location = new System.Drawing.Point(455, 462);
             this.btnSelect1.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelect1.Name = "btnSelect1";
             this.btnSelect1.Size = new System.Drawing.Size(67, 23);
@@ -77,7 +77,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(201, 336);
+            this.label1.Location = new System.Drawing.Point(198, 466);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(95, 14);
@@ -86,7 +86,7 @@
             // 
             // txtSize
             // 
-            this.txtSize.Location = new System.Drawing.Point(310, 334);
+            this.txtSize.Location = new System.Drawing.Point(307, 462);
             this.txtSize.Margin = new System.Windows.Forms.Padding(2);
             this.txtSize.Name = "txtSize";
             this.txtSize.ReadOnly = true;
@@ -96,7 +96,7 @@
             // 
             // txtDis
             // 
-            this.txtDis.Location = new System.Drawing.Point(98, 334);
+            this.txtDis.Location = new System.Drawing.Point(95, 462);
             this.txtDis.Margin = new System.Windows.Forms.Padding(2);
             this.txtDis.Name = "txtDis";
             this.txtDis.ReadOnly = true;
@@ -107,7 +107,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 337);
+            this.label2.Location = new System.Drawing.Point(8, 466);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 14);
@@ -120,7 +120,7 @@
             this.panelControl1.Controls.Add(this.winChartViewer1);
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(701, 316);
+            this.panelControl1.Size = new System.Drawing.Size(795, 455);
             this.panelControl1.TabIndex = 24;
             // 
             // winChartViewer1
@@ -129,7 +129,7 @@
             this.winChartViewer1.Location = new System.Drawing.Point(2, 2);
             this.winChartViewer1.Margin = new System.Windows.Forms.Padding(2);
             this.winChartViewer1.Name = "winChartViewer1";
-            this.winChartViewer1.Size = new System.Drawing.Size(697, 312);
+            this.winChartViewer1.Size = new System.Drawing.Size(791, 451);
             this.winChartViewer1.TabIndex = 1;
             this.winChartViewer1.TabStop = false;
             this.winChartViewer1.ZoomDirection = ChartDirector.WinChartDirection.HorizontalVertical;
@@ -150,7 +150,7 @@
             this.Controls.Add(this.btnSelect);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "NoiseFFT";
-            this.Size = new System.Drawing.Size(704, 362);
+            this.Size = new System.Drawing.Size(797, 494);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);

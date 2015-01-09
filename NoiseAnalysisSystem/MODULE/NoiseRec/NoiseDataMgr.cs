@@ -255,13 +255,13 @@ namespace NoiseAnalysisSystem
                     if ((bool)gridViewGroupList.GetRowCellValue(i, "选择"))
                     {
                         gridViewGroupList.SetRowCellValue(i, "选择", false);
-                        DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs arg = new DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs(i, gridViewGroupList.Columns["选择"], true);
+                        DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs arg = new DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs(i, gridViewGroupList.Columns["选择"], false);
                         gridViewGroupList_CellValueChanging(null, arg);
                     }
                     else
                     {
                         gridViewGroupList.SetRowCellValue(i, "选择", true);
-                        DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs arg = new DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs(i, gridViewGroupList.Columns["选择"], false);
+                        DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs arg = new DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs(i, gridViewGroupList.Columns["选择"], true);
                         gridViewGroupList_CellValueChanging(null, arg);
                     }
                 }
@@ -298,6 +298,10 @@ namespace NoiseAnalysisSystem
             }
             if (selectList.Count != 0)
             {
+                List<NoiseRecorder> lstSelecttmp = new List<NoiseRecorder>();
+                lstSelecttmp.AddRange(selectList.OrderBy(a => a.ID));
+                selectList = lstSelecttmp;
+
                 simpleButtonRead.Enabled = false;
                 simpleButtonSelectAll.Enabled = false;
                 simpleButtonUnSelect.Enabled = false;
@@ -747,6 +751,9 @@ namespace NoiseAnalysisSystem
             }
             if (selectList.Count != 0)
             {
+                List<NoiseRecorder> lstSelecttmp = new List<NoiseRecorder>();
+                lstSelecttmp.AddRange(selectList.OrderBy(a => a.ID));
+                selectList = lstSelecttmp;
 
                 btnReadFromFold.Enabled = false;
                 List<NoiseData> dataList = new List<NoiseData>();

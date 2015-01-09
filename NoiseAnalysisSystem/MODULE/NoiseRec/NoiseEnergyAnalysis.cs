@@ -29,6 +29,18 @@ namespace NoiseAnalysisSystem
                 txtStandardAverage.Text = "";
                 StandardAMP = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("StandardAMP"));
                 txtStandardAMP.Text = StandardAMP.ToString("f2");
+
+                cbRecorders.Properties.Items.Clear();
+                string path = Application.StartupPath + "\\Data";
+                string[] directorys = Directory.GetDirectories(path);
+                if (directorys != null && directorys.Length > 0)
+                {
+                    foreach (string direct in directorys)
+                        if (File.Exists(direct + "\\能量强度变化数据.txt"))
+                        {
+                            cbRecorders.Properties.Items.Add(Path.GetFileName(direct));
+                        }
+                }
             }
             catch { }
             winChartViewer1.ViewPortHeight = 1;
@@ -54,13 +66,13 @@ namespace NoiseAnalysisSystem
                 }
             }
 
-            XYChart chart = new XYChart(857, 314);  //857, 332
+            XYChart chart = new XYChart(795, 455);//(857, 448);
             chart.setBackground(chart.linearGradientColor(0, 0, 0, 100, 0x99ccff, 0xffffff), 0x888888);
 
             ChartDirector.TextBox title1_txt = chart.addTitle("能量强度变化分析", "Arial Bold", 13);
             title1_txt.setPos(0, 20);
 
-            chart.setPlotArea(60, 60, 620, 200, 0xffffff, -1, -1, chart.dashLineColor(Chart.CColor(Color.AliceBlue), Chart.DotLine), -1);
+            chart.setPlotArea(50, 60, 620, 340, 0xffffff, -1, -1, chart.dashLineColor(Chart.CColor(Color.AliceBlue), Chart.DotLine), -1);
             chart.xAxis().setLabels(xLabels);
             chart.xAxis().setLabelStep(1);
             chart.xAxis().setIndent(true);
@@ -74,10 +86,10 @@ namespace NoiseAnalysisSystem
             layer.setLineWidth(2);
             layer.setFastLineMode(true);
 
-            layer = chart.addLineLayer();
-            layer.addDataSet(lst_stdev.ToArray(), Chart.CColor(Color.DarkViolet), "绝对差");
-            layer.setLineWidth(2);
-            layer.setFastLineMode(true);
+            //layer = chart.addLineLayer();
+            //layer.addDataSet(lst_stdev.ToArray(), Chart.CColor(Color.DarkViolet), "绝对差");
+            //layer.setLineWidth(2);
+            //layer.setFastLineMode(true);
 
             //标准平均值
             Mark standAMPmark = chart.yAxis().addMark(Standard_average, Chart.CColor(Color.Crimson), "", "Arial Bold");
@@ -93,9 +105,9 @@ namespace NoiseAnalysisSystem
 
             Mark energymark = chart.yAxis().addMark(energyvalue, Chart.CColor(Color.Chartreuse), "", "Arial Bold");
 
-            LegendBox legendbox=chart.addLegend(684, 60);
+            LegendBox legendbox=chart.addLegend(672, 60);
             legendbox.addKey("标准平均值", Chart.CColor(Color.Crimson));
-            legendbox.addKey("静态漏水标准幅度值", Chart.CColor(Color.Cyan));
+            legendbox.addKey("静态漏水标准", Chart.CColor(Color.Cyan));
             legendbox.addKey("能量强度", Chart.CColor(Color.Chartreuse));
             //legendbox.addKey("噪声强度", Chart.CColor(Color.Green));
             //legendbox.addKey("绝对差", Chart.CColor(Color.DarkViolet));
@@ -174,6 +186,86 @@ namespace NoiseAnalysisSystem
                 average /= datas.Length;
             }
             return average;
+        }
+
+        private void cbRecorders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrEmpty(cbRecorders.SelectedItem.ToString()))
+            {
+                try
+                {
+                    string filepath = Application.StartupPath + "\\Data" + "\\" + cbRecorders.SelectedItem.ToString() + "\\能量强度变化数据.txt";
+                    if (File.Exists(filepath))
+                    {
+                        OpenFile(filepath);
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("文件已经移除,Path:" + filepath, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show("操作发生异常,Msg:" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void OpenFile(string filepath)
+        {
+            try
+            {
+                lst_data.Clear();
+                lst_stdev.Clear();
+
+                txtStandValue.Text = "";
+                txtStandardAverage.Text = "";
+                energyvalue = 0;
+                StreamReader sr = null;
+                try
+                {
+                    List<double> d = new List<double>();
+                    sr = new StreamReader(filepath);
+                    while (!sr.EndOfStream)
+                    {
+                        string str = sr.ReadLine();
+                        if (str != string.Empty)
+                        {
+                            d.Add(Convert.ToDouble(str));
+                        }
+                    }
+                    sr.Close();
+                    Standard_average = d[0];
+                    lst_data.AddRange(d.Skip(1).ToArray());
+
+                    for (int i = 0; i < lst_data.Count; i++)
+                    {
+                        lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
+                    }
+
+                    energyvalue = GetAverage(lst_data.ToArray());
+                    energyvalue = Math.Abs(Standard_average - energyvalue);
+
+                    txtStandValue.Text = energyvalue.ToString("f2");
+                    txtStandardAverage.Text = Standard_average.ToString("f2");
+
+                    winChartViewer1.updateViewPort(true, false);
+                }
+                catch (Exception)
+                {
+                    XtraMessageBox.Show("文件格式不正确!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                finally
+                {
+                    if (sr != null)
+                        sr.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

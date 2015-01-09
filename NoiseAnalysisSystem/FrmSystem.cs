@@ -364,6 +364,11 @@ namespace NoiseAnalysisSystem
                         splashScreenmanager.SetWaitFormCaption(title);
                         splashScreenmanager.SetWaitFormDescription(prompt);
                     }
+                    else
+                    {
+                        splashScreenmanager.SetWaitFormCaption(title);
+                        splashScreenmanager.SetWaitFormDescription(prompt);
+                    }
                 }));
         }
 

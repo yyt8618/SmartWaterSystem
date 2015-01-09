@@ -37,12 +37,14 @@
             this.txtStandardAverage = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.winChartViewer1 = new ChartDirector.WinChartViewer();
+            this.cbRecorders = new DevExpress.XtraEditors.ComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.winChartViewer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbRecorders.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(564, 336);
+            this.btnSelect.Location = new System.Drawing.Point(531, 462);
             this.btnSelect.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(67, 23);
@@ -57,7 +59,7 @@
             // 
             // txtStandValue
             // 
-            this.txtStandValue.Location = new System.Drawing.Point(307, 336);
+            this.txtStandValue.Location = new System.Drawing.Point(290, 462);
             this.txtStandValue.Margin = new System.Windows.Forms.Padding(2);
             this.txtStandValue.Name = "txtStandValue";
             this.txtStandValue.ReadOnly = true;
@@ -67,7 +69,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(246, 340);
+            this.label1.Location = new System.Drawing.Point(229, 466);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 14);
@@ -76,7 +78,7 @@
             // 
             // txtStandardAMP
             // 
-            this.txtStandardAMP.Location = new System.Drawing.Point(148, 336);
+            this.txtStandardAMP.Location = new System.Drawing.Point(151, 462);
             this.txtStandardAMP.Margin = new System.Windows.Forms.Padding(2);
             this.txtStandardAMP.Name = "txtStandardAMP";
             this.txtStandardAMP.ReadOnly = true;
@@ -86,7 +88,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 340);
+            this.label2.Location = new System.Drawing.Point(31, 466);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(119, 14);
@@ -95,7 +97,7 @@
             // 
             // txtStandardAverage
             // 
-            this.txtStandardAverage.Location = new System.Drawing.Point(478, 336);
+            this.txtStandardAverage.Location = new System.Drawing.Point(445, 462);
             this.txtStandardAverage.Margin = new System.Windows.Forms.Padding(2);
             this.txtStandardAverage.Name = "txtStandardAverage";
             this.txtStandardAverage.ReadOnly = true;
@@ -105,7 +107,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(404, 340);
+            this.label3.Location = new System.Drawing.Point(371, 466);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 14);
@@ -117,17 +119,28 @@
             this.winChartViewer1.Location = new System.Drawing.Point(0, 0);
             this.winChartViewer1.Margin = new System.Windows.Forms.Padding(2);
             this.winChartViewer1.Name = "winChartViewer1";
-            this.winChartViewer1.Size = new System.Drawing.Size(857, 332);
+            this.winChartViewer1.Size = new System.Drawing.Size(795, 455);
             this.winChartViewer1.TabIndex = 2;
             this.winChartViewer1.TabStop = false;
             this.winChartViewer1.ZoomDirection = ChartDirector.WinChartDirection.HorizontalVertical;
             this.winChartViewer1.ViewPortChanged += new ChartDirector.WinViewPortEventHandler(this.winChartViewer1_ViewPortChanged);
             // 
+            // cbRecorders
+            // 
+            this.cbRecorders.Location = new System.Drawing.Point(625, 463);
+            this.cbRecorders.Name = "cbRecorders";
+            this.cbRecorders.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRecorders.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbRecorders.Size = new System.Drawing.Size(144, 20);
+            this.cbRecorders.TabIndex = 23;
+            this.cbRecorders.SelectedIndexChanged += new System.EventHandler(this.cbRecorders_SelectedIndexChanged);
+            // 
             // NoiseEnergyAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(855, 364);
+            this.Controls.Add(this.cbRecorders);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtStandardAMP);
             this.Controls.Add(this.label3);
@@ -137,8 +150,9 @@
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.winChartViewer1);
             this.Name = "NoiseEnergyAnalysis";
-            this.Text = "漏水能量变化分析";
+            this.Size = new System.Drawing.Size(797, 494);
             ((System.ComponentModel.ISupportInitialize)(this.winChartViewer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbRecorders.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,6 +169,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtStandardAverage;
         private System.Windows.Forms.Label label3;
+        private DevExpress.XtraEditors.ComboBoxEdit cbRecorders;
 
     }
 }
