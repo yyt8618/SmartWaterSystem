@@ -21,10 +21,12 @@ namespace NoiseAnalysisSystem
             CheckForIllegalCrossThreadCalls = false;
         }
 
-        //public override void OnLoad()
-        //{
-        //    SerialPortEvent(GlobalValue.portUtil.IsOpen);
-        //}
+        public override void OnLoad()
+        {
+            SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+            
+        }
 
         #region 输入验证
         /// <summary>
@@ -897,5 +899,44 @@ namespace NoiseAnalysisSystem
             }
             catch { }
         }
+
+        private void groupControl2_BackColorChanged(object sender, EventArgs e)
+        {
+            FlagTime.BackColor = groupControl2.BackColor;
+            FlagSendTime.BackColor = groupControl2.BackColor;
+            FlagStartEndTime.BackColor = groupControl2.BackColor;
+            FlagInterval.BackColor = groupControl2.BackColor;
+            FlagStartEndTime.BackColor = groupControl2.BackColor;
+            FlagRemoteSwitch.BackColor = groupControl2.BackColor;
+            FlagPort.BackColor = groupControl2.BackColor;
+            FlagIP.BackColor = groupControl2.BackColor;
+        }
+
+        private void VisiableFlag(bool isVisiable)
+        {
+            FlagTime.Visible = isVisiable;
+            FlagSendTime.Visible = isVisiable;
+            FlagStartEndTime.Visible = isVisiable;
+            FlagInterval.Visible = isVisiable;
+            FlagStartEndTime.Visible = isVisiable;
+            FlagRemoteSwitch.Visible = isVisiable;
+            FlagPort.Visible = isVisiable;
+            FlagIP.Visible = isVisiable;
+        }
+
+        private void SetFlagImage(Bitmap bp)
+        {
+            // NoiseAnalysisSystem.Properties.Resources.cross1;
+            // NoiseAnalysisSystem.Properties.Resources.right;
+            FlagTime.Image = bp;
+            FlagSendTime.Image = bp;
+            FlagStartEndTime.Image = bp;
+            FlagInterval.Image = bp;
+            FlagStartEndTime.Image = bp;
+            FlagRemoteSwitch.Image = bp;
+            FlagPort.Image = bp;
+            FlagIP.Image = bp;
+        }
+
     }
 }

@@ -67,6 +67,13 @@ namespace NoiseAnalysisSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap cross1 {
+            get {
+                object obj = ResourceManager.GetObject("cross1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DataCompare {
             get {
                 object obj = ResourceManager.GetObject("DataCompare", resourceCulture);
@@ -133,6 +140,13 @@ namespace NoiseAnalysisSystem.Properties {
         internal static System.Drawing.Bitmap PreTerminal {
             get {
                 object obj = ResourceManager.GetObject("PreTerminal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap right {
+            get {
+                object obj = ResourceManager.GetObject("right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
