@@ -45,6 +45,11 @@
             this.btnStop = new DevExpress.XtraEditors.SimpleButton();
             this.btnStart = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.FlagRemoteSwitch = new DevExpress.XtraEditors.PictureEdit();
+            this.FlagStartORStop = new DevExpress.XtraEditors.PictureEdit();
+            this.FlagInterval = new DevExpress.XtraEditors.PictureEdit();
+            this.FlagStartEndTime = new DevExpress.XtraEditors.PictureEdit();
+            this.FlagSendTime = new DevExpress.XtraEditors.PictureEdit();
             this.FlagTime = new DevExpress.XtraEditors.PictureEdit();
             this.spinEdit1 = new DevExpress.XtraEditors.SpinEdit();
             this.comboBoxEditPower = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -57,6 +62,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
             this.btnGetConID = new DevExpress.XtraEditors.SimpleButton();
+            this.FlagIP = new DevExpress.XtraEditors.PictureEdit();
+            this.FlagPort = new DevExpress.XtraEditors.PictureEdit();
             this.txtConId = new DevExpress.XtraEditors.TextEdit();
             this.label20 = new System.Windows.Forms.Label();
             this.txtConPort = new DevExpress.XtraEditors.TextEdit();
@@ -91,13 +98,6 @@
             this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.FlagSendTime = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagStartEndTime = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagInterval = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagStartORStop = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagRemoteSwitch = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagPort = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagIP = new DevExpress.XtraEditors.PictureEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNote.Properties)).BeginInit();
@@ -105,12 +105,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtRecID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagRemoteSwitch.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagStartORStop.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagStartEndTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagSendTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FlagTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxDist.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConAdress.Properties)).BeginInit();
@@ -124,13 +131,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecordList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagSendTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagStartEndTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagInterval.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagStartORStop.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagRemoteSwitch.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagPort.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagIP.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
@@ -326,6 +326,86 @@
             this.groupControl2.Text = "设备参数";
             this.groupControl2.BackColorChanged += new System.EventHandler(this.groupControl2_BackColorChanged);
             // 
+            // FlagRemoteSwitch
+            // 
+            this.FlagRemoteSwitch.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagRemoteSwitch.Location = new System.Drawing.Point(435, 58);
+            this.FlagRemoteSwitch.Margin = new System.Windows.Forms.Padding(0);
+            this.FlagRemoteSwitch.Name = "FlagRemoteSwitch";
+            this.FlagRemoteSwitch.Properties.AllowDisposeImage = true;
+            this.FlagRemoteSwitch.Properties.AllowFocused = false;
+            this.FlagRemoteSwitch.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.FlagRemoteSwitch.Properties.Appearance.Options.UseBackColor = true;
+            this.FlagRemoteSwitch.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.FlagRemoteSwitch.Properties.ShowMenu = false;
+            this.FlagRemoteSwitch.Size = new System.Drawing.Size(27, 27);
+            this.FlagRemoteSwitch.TabIndex = 108;
+            this.FlagRemoteSwitch.Visible = false;
+            // 
+            // FlagStartORStop
+            // 
+            this.FlagStartORStop.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagStartORStop.Location = new System.Drawing.Point(435, 27);
+            this.FlagStartORStop.Margin = new System.Windows.Forms.Padding(0);
+            this.FlagStartORStop.Name = "FlagStartORStop";
+            this.FlagStartORStop.Properties.AllowDisposeImage = true;
+            this.FlagStartORStop.Properties.AllowFocused = false;
+            this.FlagStartORStop.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.FlagStartORStop.Properties.Appearance.Options.UseBackColor = true;
+            this.FlagStartORStop.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.FlagStartORStop.Properties.ShowMenu = false;
+            this.FlagStartORStop.Size = new System.Drawing.Size(27, 27);
+            this.FlagStartORStop.TabIndex = 108;
+            this.FlagStartORStop.Visible = false;
+            // 
+            // FlagInterval
+            // 
+            this.FlagInterval.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagInterval.Location = new System.Drawing.Point(246, 116);
+            this.FlagInterval.Margin = new System.Windows.Forms.Padding(0);
+            this.FlagInterval.Name = "FlagInterval";
+            this.FlagInterval.Properties.AllowDisposeImage = true;
+            this.FlagInterval.Properties.AllowFocused = false;
+            this.FlagInterval.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.FlagInterval.Properties.Appearance.Options.UseBackColor = true;
+            this.FlagInterval.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.FlagInterval.Properties.ShowMenu = false;
+            this.FlagInterval.Size = new System.Drawing.Size(27, 27);
+            this.FlagInterval.TabIndex = 108;
+            this.FlagInterval.Visible = false;
+            // 
+            // FlagStartEndTime
+            // 
+            this.FlagStartEndTime.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagStartEndTime.Location = new System.Drawing.Point(246, 86);
+            this.FlagStartEndTime.Margin = new System.Windows.Forms.Padding(0);
+            this.FlagStartEndTime.Name = "FlagStartEndTime";
+            this.FlagStartEndTime.Properties.AllowDisposeImage = true;
+            this.FlagStartEndTime.Properties.AllowFocused = false;
+            this.FlagStartEndTime.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.FlagStartEndTime.Properties.Appearance.Options.UseBackColor = true;
+            this.FlagStartEndTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.FlagStartEndTime.Properties.ShowMenu = false;
+            this.FlagStartEndTime.Size = new System.Drawing.Size(27, 27);
+            this.FlagStartEndTime.TabIndex = 108;
+            this.FlagStartEndTime.Visible = false;
+            // 
+            // FlagSendTime
+            // 
+            this.FlagSendTime.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagSendTime.Location = new System.Drawing.Point(246, 56);
+            this.FlagSendTime.Margin = new System.Windows.Forms.Padding(0);
+            this.FlagSendTime.Name = "FlagSendTime";
+            this.FlagSendTime.Properties.AllowDisposeImage = true;
+            this.FlagSendTime.Properties.AllowFocused = false;
+            this.FlagSendTime.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.FlagSendTime.Properties.Appearance.Options.UseBackColor = true;
+            this.FlagSendTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.FlagSendTime.Properties.ShowMenu = false;
+            this.FlagSendTime.Size = new System.Drawing.Size(27, 27);
+            this.FlagSendTime.TabIndex = 108;
+            this.FlagSendTime.Visible = false;
+            // 
             // FlagTime
             // 
             this.FlagTime.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
@@ -480,6 +560,38 @@
             this.btnGetConID.TabIndex = 1;
             this.btnGetConID.Text = "读取编号";
             this.btnGetConID.Click += new System.EventHandler(this.btnGetConID_Click);
+            // 
+            // FlagIP
+            // 
+            this.FlagIP.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagIP.Location = new System.Drawing.Point(188, 92);
+            this.FlagIP.Margin = new System.Windows.Forms.Padding(0);
+            this.FlagIP.Name = "FlagIP";
+            this.FlagIP.Properties.AllowDisposeImage = true;
+            this.FlagIP.Properties.AllowFocused = false;
+            this.FlagIP.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.FlagIP.Properties.Appearance.Options.UseBackColor = true;
+            this.FlagIP.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.FlagIP.Properties.ShowMenu = false;
+            this.FlagIP.Size = new System.Drawing.Size(27, 27);
+            this.FlagIP.TabIndex = 108;
+            this.FlagIP.Visible = false;
+            // 
+            // FlagPort
+            // 
+            this.FlagPort.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagPort.Location = new System.Drawing.Point(188, 60);
+            this.FlagPort.Margin = new System.Windows.Forms.Padding(0);
+            this.FlagPort.Name = "FlagPort";
+            this.FlagPort.Properties.AllowDisposeImage = true;
+            this.FlagPort.Properties.AllowFocused = false;
+            this.FlagPort.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.FlagPort.Properties.Appearance.Options.UseBackColor = true;
+            this.FlagPort.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.FlagPort.Properties.ShowMenu = false;
+            this.FlagPort.Size = new System.Drawing.Size(27, 27);
+            this.FlagPort.TabIndex = 108;
+            this.FlagPort.Visible = false;
             // 
             // txtConId
             // 
@@ -819,118 +931,6 @@
             // 
             this.timer1.Interval = 1000;
             // 
-            // FlagSendTime
-            // 
-            this.FlagSendTime.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
-            this.FlagSendTime.Location = new System.Drawing.Point(246, 56);
-            this.FlagSendTime.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagSendTime.Name = "FlagSendTime";
-            this.FlagSendTime.Properties.AllowDisposeImage = true;
-            this.FlagSendTime.Properties.AllowFocused = false;
-            this.FlagSendTime.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagSendTime.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagSendTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagSendTime.Properties.ShowMenu = false;
-            this.FlagSendTime.Size = new System.Drawing.Size(27, 27);
-            this.FlagSendTime.TabIndex = 108;
-            this.FlagSendTime.Visible = false;
-            // 
-            // FlagStartEndTime
-            // 
-            this.FlagStartEndTime.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
-            this.FlagStartEndTime.Location = new System.Drawing.Point(246, 86);
-            this.FlagStartEndTime.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagStartEndTime.Name = "FlagStartEndTime";
-            this.FlagStartEndTime.Properties.AllowDisposeImage = true;
-            this.FlagStartEndTime.Properties.AllowFocused = false;
-            this.FlagStartEndTime.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagStartEndTime.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagStartEndTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagStartEndTime.Properties.ShowMenu = false;
-            this.FlagStartEndTime.Size = new System.Drawing.Size(27, 27);
-            this.FlagStartEndTime.TabIndex = 108;
-            this.FlagStartEndTime.Visible = false;
-            // 
-            // FlagInterval
-            // 
-            this.FlagInterval.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
-            this.FlagInterval.Location = new System.Drawing.Point(246, 116);
-            this.FlagInterval.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagInterval.Name = "FlagInterval";
-            this.FlagInterval.Properties.AllowDisposeImage = true;
-            this.FlagInterval.Properties.AllowFocused = false;
-            this.FlagInterval.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagInterval.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagInterval.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagInterval.Properties.ShowMenu = false;
-            this.FlagInterval.Size = new System.Drawing.Size(27, 27);
-            this.FlagInterval.TabIndex = 108;
-            this.FlagInterval.Visible = false;
-            // 
-            // FlagStartORStop
-            // 
-            this.FlagStartORStop.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
-            this.FlagStartORStop.Location = new System.Drawing.Point(435, 27);
-            this.FlagStartORStop.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagStartORStop.Name = "FlagStartORStop";
-            this.FlagStartORStop.Properties.AllowDisposeImage = true;
-            this.FlagStartORStop.Properties.AllowFocused = false;
-            this.FlagStartORStop.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagStartORStop.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagStartORStop.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagStartORStop.Properties.ShowMenu = false;
-            this.FlagStartORStop.Size = new System.Drawing.Size(27, 27);
-            this.FlagStartORStop.TabIndex = 108;
-            this.FlagStartORStop.Visible = false;
-            // 
-            // FlagRemoteSwitch
-            // 
-            this.FlagRemoteSwitch.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
-            this.FlagRemoteSwitch.Location = new System.Drawing.Point(435, 58);
-            this.FlagRemoteSwitch.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagRemoteSwitch.Name = "FlagRemoteSwitch";
-            this.FlagRemoteSwitch.Properties.AllowDisposeImage = true;
-            this.FlagRemoteSwitch.Properties.AllowFocused = false;
-            this.FlagRemoteSwitch.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagRemoteSwitch.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagRemoteSwitch.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagRemoteSwitch.Properties.ShowMenu = false;
-            this.FlagRemoteSwitch.Size = new System.Drawing.Size(27, 27);
-            this.FlagRemoteSwitch.TabIndex = 108;
-            this.FlagRemoteSwitch.Visible = false;
-            // 
-            // FlagPort
-            // 
-            this.FlagPort.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
-            this.FlagPort.Location = new System.Drawing.Point(188, 60);
-            this.FlagPort.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagPort.Name = "FlagPort";
-            this.FlagPort.Properties.AllowDisposeImage = true;
-            this.FlagPort.Properties.AllowFocused = false;
-            this.FlagPort.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagPort.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagPort.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagPort.Properties.ShowMenu = false;
-            this.FlagPort.Size = new System.Drawing.Size(27, 27);
-            this.FlagPort.TabIndex = 108;
-            this.FlagPort.Visible = false;
-            // 
-            // FlagIP
-            // 
-            this.FlagIP.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
-            this.FlagIP.Location = new System.Drawing.Point(188, 92);
-            this.FlagIP.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagIP.Name = "FlagIP";
-            this.FlagIP.Properties.AllowDisposeImage = true;
-            this.FlagIP.Properties.AllowFocused = false;
-            this.FlagIP.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagIP.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagIP.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagIP.Properties.ShowMenu = false;
-            this.FlagIP.Size = new System.Drawing.Size(27, 27);
-            this.FlagIP.TabIndex = 108;
-            this.FlagIP.Visible = false;
-            // 
             // NoiseRecMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -950,6 +950,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
             this.groupControl2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagRemoteSwitch.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagStartORStop.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagStartEndTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagSendTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FlagTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).EndInit();
@@ -957,6 +962,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
             this.groupControl4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FlagPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConAdress.Properties)).EndInit();
@@ -970,13 +977,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecordList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagSendTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagStartEndTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagInterval.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagStartORStop.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagRemoteSwitch.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagPort.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagIP.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1045,12 +1045,12 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
         private DevExpress.XtraEditors.SpinEdit spinEdit1;
         private DevExpress.XtraEditors.PictureEdit FlagTime;
-        private DevExpress.XtraEditors.PictureEdit FlagRemoteSwitch;
         private DevExpress.XtraEditors.PictureEdit FlagStartORStop;
         private DevExpress.XtraEditors.PictureEdit FlagInterval;
         private DevExpress.XtraEditors.PictureEdit FlagStartEndTime;
         private DevExpress.XtraEditors.PictureEdit FlagSendTime;
         private DevExpress.XtraEditors.PictureEdit FlagIP;
         private DevExpress.XtraEditors.PictureEdit FlagPort;
+        private DevExpress.XtraEditors.PictureEdit FlagRemoteSwitch;
     }
 }

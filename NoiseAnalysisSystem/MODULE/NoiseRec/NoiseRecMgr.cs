@@ -13,6 +13,7 @@ namespace NoiseAnalysisSystem
 {
     public partial class NoiseRecMgr : BaseView, INoiseRecMgr
     {
+        NLog.Logger logger = NLog.LogManager.GetLogger("NoiseRecMgr");
         private bool isSetting;
 
         public NoiseRecMgr()
@@ -24,8 +25,7 @@ namespace NoiseAnalysisSystem
         public override void OnLoad()
         {
             SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-            
+            VisiableFlag(false);
         }
 
         #region 输入验证
@@ -490,9 +490,13 @@ namespace NoiseAnalysisSystem
             new Action(() =>
             {
                 isSetting = true;
-                Control cl = sender as Control;
+                
+                string error_flag = "";
                 try
                 {
+                    btnApplySet.Enabled = false;
+                    VisiableFlag(false);  //隐藏标记
+
                     string msg = string.Empty;
                     if (!ValidateRecorderManageInput(out msg))
                     {
@@ -506,7 +510,6 @@ namespace NoiseAnalysisSystem
                     ShowWaitForm("", "正在应用当前设置...");
                     SetStaticItem("正在应用当前设置...");
 
-                    cl.Enabled = false;
                     short id = Convert.ToInt16(txtRecID.Text);
                     NoiseRecorder alterRec = (from item in GlobalValue.recorderList
                                               where item.ID == id
@@ -516,22 +519,62 @@ namespace NoiseAnalysisSystem
                     alterRec.LeakValue = Convert.ToInt32(txtLeakValue.Text);
                     alterRec.Remark = txtRecNote.Text;
 
-                    // 设置记录时间段
-                    GlobalValue.log.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
-                    alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
+                    System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+                    watch.Start();
 
-                    // 设置采集间隔
-                    GlobalValue.log.WriteInterval(id, (int)spinEdit1.Value);
-                    alterRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
+                    // 设置记录仪时间
+                    error_flag = "writetime";
+                    GlobalValue.log.WriteTime(id, this.dateTimePicker.Value);
+                    SetFlagTime(true);
+                    logger.Info("WriteTime:" + watch.ElapsedMilliseconds.ToString());
 
                     // 设置远传通讯时间
+                    error_flag = "writeremotesendtime";
                     GlobalValue.log.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
                     alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
+                    SetFlagSendTime(true);
+                    logger.Info("WriteRemoteSendTime:" + watch.ElapsedMilliseconds.ToString());
+
+                    // 设置记录时间段
+                    error_flag = "writestartendtime";
+                    GlobalValue.log.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
+                    alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
+                    SetFlagStartEndTime(true);
+                    logger.Info("WriteStartEndTime:" + watch.ElapsedMilliseconds.ToString());
+
+                    // 设置采集间隔
+                    error_flag = "writeInterval";
+                    GlobalValue.log.WriteInterval(id, (int)spinEdit1.Value);
+                    alterRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
+                    SetFlagInterval(true);
+                    logger.Info("WriteInterval:" + watch.ElapsedMilliseconds.ToString());
+
+                    short[] origitydata = null;
+                    // 设置开关
+                    if (comboBoxEditPower.SelectedIndex == 1)
+                    {
+                        error_flag = "startorstop";
+                        GlobalValue.log.CtrlStartOrStop(id, true, out origitydata);
+                        alterRec.Power = 1;
+                        SetFlagStartORStop(true);
+                        logger.Info("CtrlStartOrStop:" + watch.ElapsedMilliseconds.ToString());
+                    }
+                    else if (comboBoxEditPower.SelectedIndex == 0)
+                    {
+                        error_flag = "startorstop";
+                        GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
+                        alterRec.Power = 0;
+                        SetFlagStartORStop(true);
+                        logger.Info("CtrlStartOrStop:" + watch.ElapsedMilliseconds.ToString());
+                    }
 
                     // 设置远传功能
                     if (comboBoxDist.SelectedIndex == 1)
                     {
+                        error_flag = "writeremoteswitch";
                         GlobalValue.log.WriteRemoteSwitch(id, true);
+                        SetFlagRemoteSwitch(true);
+                        logger.Info("WriteRemoteSwitch:" + watch.ElapsedMilliseconds.ToString());
 
                         NoiseCtrl ctrl = new NoiseCtrl();
 
@@ -555,11 +598,18 @@ namespace NoiseAnalysisSystem
                                 }
                             }
                         }
+                        // 设置远传端口
+                        error_flag = "writeportname";
+                        ctrl.WritePortName(id, txtConPort.Text);
+                        SetFlagPort(true);
+                        logger.Info("WritePortName:" + watch.ElapsedMilliseconds.ToString());
+
                         if (str_ip.EndsWith("."))
                             str_ip = str_ip.Substring(0, str_ip.Length - 1);
+                        error_flag = "writeip";
                         ctrl.Write_IP(id, str_ip);
-                        // 设置远传端口
-                        ctrl.WritePortName(id, txtConPort.Text);
+                        SetFlagIP(true);
+                        logger.Info("Write_IP:" + watch.ElapsedMilliseconds.ToString());
 
                         alterRec.ControlerPower = 1;
                         DistanceController alterCtrl = new DistanceController();
@@ -572,29 +622,19 @@ namespace NoiseAnalysisSystem
                     }
                     else
                     {
+                        error_flag = "writeremoteswitch";
                         GlobalValue.log.WriteRemoteSwitch(id, false);
                         alterRec.ControlerPower = 0;
-                    }
-                    short[] origitydata = null;
-                    // 设置开关
-                    if (comboBoxEditPower.SelectedIndex == 1)
-                    {
-                        GlobalValue.log.CtrlStartOrStop(id, true, out origitydata);
-                        alterRec.Power = 1;
-                    }
-                    else if (comboBoxEditPower.SelectedIndex == 0)
-                    {
-                        GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
-                        alterRec.Power = 0;
+                        SetFlagRemoteSwitch(true);
+                        logger.Info("WriteRemoteSwitch:" + watch.ElapsedMilliseconds.ToString());
                     }
 
-                    // 设置记录仪时间
-                    GlobalValue.log.WriteTime(id, this.dateTimePicker.Value);
-
+                    logger.Info("begin UpdateRecorder");
                     // 更新设置入库
                     int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
                     if (query != -1)
                     {
+                        logger.Info("end UpdateRecorder");
                         ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                         GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
@@ -607,6 +647,7 @@ namespace NoiseAnalysisSystem
                 }
                 catch (Exception ex)
                 {
+                    SetErrorFlag(error_flag);
                     ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     SetStaticItem("设置失败");
                 }
@@ -615,7 +656,7 @@ namespace NoiseAnalysisSystem
                     EnableRibbonBar();
                     EnableNavigateBar();
                     HideWaitForm();
-                    cl.Enabled = true;
+                    btnApplySet.Enabled = true;
                     isSetting = false;
                 }
             }).BeginInvoke(null, null);
@@ -765,9 +806,7 @@ namespace NoiseAnalysisSystem
                 }
             }
             catch (Exception)
-            {
-
-            }
+            { }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -793,27 +832,12 @@ namespace NoiseAnalysisSystem
                 GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                 BindRecord();
             }
-                        
         }
 
         private void txtRecID_TextChanged(object sender, EventArgs e)
         {
             this.lblRecState.Text = "运行状态  未知";
             SerialPortEvent(GlobalValue.portUtil.IsOpen);
-            //if (GlobalValue.portUtil.IsOpen)
-            //{
-            //    btnStart.Enabled = true;
-            //    btnStop.Enabled = true;
-            //    btnApplySet.Enabled = true;
-            //    btnNow.Enabled = true;
-            //}
-            //else
-            //{
-            //    btnStart.Enabled = false;
-            //    btnStop.Enabled = false;
-            //    btnApplySet.Enabled = false;
-            //    btnNow.Enabled = false;
-            //}
         }
 
         private void btnCleanFlash_Click(object sender, EventArgs e)
@@ -906,19 +930,20 @@ namespace NoiseAnalysisSystem
             FlagSendTime.BackColor = groupControl2.BackColor;
             FlagStartEndTime.BackColor = groupControl2.BackColor;
             FlagInterval.BackColor = groupControl2.BackColor;
-            FlagStartEndTime.BackColor = groupControl2.BackColor;
+            FlagStartORStop.BackColor = groupControl2.BackColor;
             FlagRemoteSwitch.BackColor = groupControl2.BackColor;
             FlagPort.BackColor = groupControl2.BackColor;
             FlagIP.BackColor = groupControl2.BackColor;
         }
 
+        #region 设置标志Flag
         private void VisiableFlag(bool isVisiable)
         {
             FlagTime.Visible = isVisiable;
             FlagSendTime.Visible = isVisiable;
             FlagStartEndTime.Visible = isVisiable;
             FlagInterval.Visible = isVisiable;
-            FlagStartEndTime.Visible = isVisiable;
+            FlagStartORStop.Visible = isVisiable;
             FlagRemoteSwitch.Visible = isVisiable;
             FlagPort.Visible = isVisiable;
             FlagIP.Visible = isVisiable;
@@ -932,11 +957,132 @@ namespace NoiseAnalysisSystem
             FlagSendTime.Image = bp;
             FlagStartEndTime.Image = bp;
             FlagInterval.Image = bp;
-            FlagStartEndTime.Image = bp;
+            FlagStartORStop.Image = bp;
             FlagRemoteSwitch.Image = bp;
             FlagPort.Image = bp;
             FlagIP.Image = bp;
         }
 
+        private void SetFlagTime(bool isRight)
+        {
+            FlagTime.Visible = true;
+            if (isRight)
+                FlagTime.Image = NoiseAnalysisSystem.Properties.Resources.right;
+            else
+                FlagTime.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+            FlagTime.Update();
+            this.Refresh();
+        }
+
+        private void SetFlagSendTime(bool isRight)
+        {
+            FlagSendTime.Visible = true;
+            if (isRight)
+                FlagSendTime.Image = NoiseAnalysisSystem.Properties.Resources.right;
+            else
+                FlagSendTime.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+            FlagSendTime.Update();
+            this.Refresh();
+        }
+
+        private void SetFlagStartEndTime(bool isRight)
+        {
+            FlagStartEndTime.Visible = true;
+            if (isRight)
+                FlagStartEndTime.Image = NoiseAnalysisSystem.Properties.Resources.right;
+            else
+                FlagStartEndTime.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+            FlagStartEndTime.Update();
+            this.Refresh();
+        }
+
+        private void SetFlagInterval(bool isRight)
+        {
+            FlagInterval.Visible = true;
+            if (isRight)
+                FlagInterval.Image = NoiseAnalysisSystem.Properties.Resources.right;
+            else
+                FlagInterval.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+            FlagInterval.Update();
+            this.Refresh();
+        }
+
+        private void SetFlagStartORStop(bool isRight)
+        {
+            FlagStartORStop.Visible = true;
+            if (isRight)
+                FlagStartORStop.Image = NoiseAnalysisSystem.Properties.Resources.right;
+            else
+                FlagStartORStop.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+            FlagStartORStop.Update();
+            this.Refresh();
+        }
+
+        private void SetFlagRemoteSwitch(bool isRight)
+        {
+            FlagRemoteSwitch.Visible = true;
+            if (isRight)
+                FlagRemoteSwitch.Image = NoiseAnalysisSystem.Properties.Resources.right;
+            else
+                FlagRemoteSwitch.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+            FlagRemoteSwitch.Update();
+            this.Refresh();
+        }
+
+        private void SetFlagPort(bool isRight)
+        {
+            FlagPort.Visible = true;
+            if (isRight)
+                FlagPort.Image = NoiseAnalysisSystem.Properties.Resources.right;
+            else
+                FlagPort.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+            FlagPort.Update();
+            this.Refresh();
+        }
+
+        private void SetFlagIP(bool isRight)
+        {
+            FlagIP.Visible = true;
+            if (isRight)
+                FlagIP.Image = NoiseAnalysisSystem.Properties.Resources.right;
+            else
+                FlagIP.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+            FlagIP.Update();
+            this.Refresh();
+        }
+
+        private void SetErrorFlag(string errorflag)
+        {
+            switch (errorflag)
+            {
+                case "writetime":
+                    SetFlagTime(false);
+                    break;
+                case "writeremotesendtime":
+                    SetFlagSendTime(false);
+                    break;
+                case "writestartendtime":
+                    SetFlagStartEndTime(false);
+                    break;
+                case "writeInterval":
+                    SetFlagInterval(false);
+                    break;
+                case "writeremoteswitch":
+                    SetFlagRemoteSwitch(false);
+                    break;
+                case "writeportname":
+                    SetFlagPort(false);
+                    break;
+                case "writeip":
+                    SetFlagIP(false);
+                    break;
+                case "startorstop":
+                    SetFlagStartORStop(false);
+                    break;
+                default :
+                    break;
+            }
+        }
+        #endregion
     }
 }
