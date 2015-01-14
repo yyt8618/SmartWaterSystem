@@ -6,6 +6,8 @@ using System.Reflection;
 using DevExpress.XtraBars.Helpers;
 using System.Collections.Generic;
 using DevExpress.LookAndFeel;
+using DevExpress.XtraSplashScreen;
+using System.Threading;
 
 namespace NoiseAnalysisSystem
 {
@@ -21,19 +23,6 @@ namespace NoiseAnalysisSystem
         public FrmSystem()
         {
             InitializeComponent();
-            // 读取数据库 初始化界面
-            try
-            {
-                GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
-                GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
-                GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show("获取数据库数据异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-
             try
             {
                 //Set Skin
@@ -81,8 +70,69 @@ namespace NoiseAnalysisSystem
 
         private void FrmSystem_Load(object sender, EventArgs e)
         {
-            this.Text = "自来水管道噪声分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
+            this.Text = "自来水管道分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
             SkinHelper.InitSkinGallery(this.ribbonGalleryBarItem1);
+
+            SplashScreenManager.ShowForm(typeof(WelcomSplash));
+
+            #region 数据库操作
+            SQLiteDbManager dbMgr = new SQLiteDbManager();
+            #region 创建数据库
+            //如果数据库文件不存在创建
+            if (!(dbMgr.Exists))
+            {
+                if (!dbMgr.ResetDatabase())
+                {
+                    //error.ErrorCode = -1;
+                    //error.ErrorMessage = "      创建数据库失败，请联系系统管理员";
+                }
+            }
+            else
+            {
+                // Repair Database
+                //if (!dbMgr.VerifyAndRepair())
+                //{
+                //    error.ErrorCode = -1;
+                //    error.ErrorMessage = "      修复数据库失败，请联系系统管理员";
+                //}
+            }
+            #endregion
+            #region 升级数据库
+            DBVersion versionBLL = new DBVersion();
+            string dbVersion = versionBLL.GetVersion(VersionType.DataBase.ToString());
+            if (dbVersion != dbMgr.LastestDBVersion)
+            {
+                if (!dbMgr.UpgradeDB())
+                {
+                    //error.ErrorCode = 0;
+                    //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
+                }
+                else
+                {
+                    if (!versionBLL.UpdateVersion(VersionType.DataBase.ToString(), dbMgr.LastestDBVersion))
+                    {
+                        //error.ErrorCode = 0;
+                        //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
+                    }
+                }
+            }
+            #endregion
+            #endregion
+            // 读取数据库 初始化界面
+            try
+            {
+                GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("获取数据库数据异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+
+            SplashScreenManager.CloseForm();
+
             ClearLogAndDb();
         }
 

@@ -15,7 +15,18 @@ namespace NoiseAnalysisSystem
 
         public static readonly string FileName = "local.db";
 
-        public static readonly string ConnectionString = "Data Source='" + Path.Combine(DatabaseLocation, FileName) + "'";
+        public static string ConnectionString
+        {
+            get
+            {
+                SQLiteConnectionStringBuilder connstr = new SQLiteConnectionStringBuilder();
+                connstr.DataSource = Path.Combine(DatabaseLocation, FileName);
+                connstr.Password = "gcc123";
+
+                return connstr.ToString();
+            }
+        }
+        //= Path.Combine(DatabaseLocation, FileName);
 
         public static SQLiteConnection m_conn = null;
 

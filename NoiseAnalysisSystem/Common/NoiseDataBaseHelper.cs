@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Data.SQLite;
 
 namespace NoiseAnalysisSystem
 {
@@ -12,7 +13,6 @@ namespace NoiseAnalysisSystem
     /// </summary>
     internal class NoiseDataBaseHelper
     {
-        
         /// <summary>
         /// 从数据库中获取记录仪列表
         /// </summary>
@@ -24,7 +24,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
 
                 sql = "SELECT * FROM EN_NoiseRecorder";
-                DataTable dtRecorder = DbForAccess.GetDataTable(sql);
+                DataTable dtRecorder = SQLiteHelper.ExecuteDataTable(sql);
 
                 if (dtRecorder.Rows.Count == 0)
                 {
@@ -34,29 +34,29 @@ namespace NoiseAnalysisSystem
                 for (int i = 0; i < dtRecorder.Rows.Count; i++)
                 {
                     NoiseRecorder rec = new NoiseRecorder();
-                    rec.ID = (int)dtRecorder.Rows[i]["RecorderId"];
+                    rec.ID = Convert.ToInt32(dtRecorder.Rows[i]["RecorderId"]);
                     rec.Remark = dtRecorder.Rows[i]["Remark"].ToString();
-                    rec.AddDate = (DateTime)dtRecorder.Rows[i]["AddDate"];
-                    rec.GroupState = (int)dtRecorder.Rows[i]["GroupState"];
+                    rec.AddDate = Convert.ToDateTime(dtRecorder.Rows[i]["AddDate"]);
+                    rec.GroupState = Convert.ToInt32(dtRecorder.Rows[i]["GroupState"]);
 
                     sql = "SELECT * FROM MT_RecorderSet WHERE RecorderId = " + rec.ID.ToString();
-                    DataTable recSet = DbForAccess.GetDataTable(sql);
-                    rec.RecordTime = (int)recSet.Rows[0]["RecordTime"];
-                    rec.CommunicationTime = (int)recSet.Rows[0]["CommunicationTime"];
-                    rec.PickSpan = (int)recSet.Rows[0]["PickSpan"];
-                    rec.Power = (int)recSet.Rows[0]["StartEnd_Power"];
-                    rec.ControlerPower = (int)recSet.Rows[0]["Controler_Power"];
-					rec.Power = (int)recSet.Rows[0]["StartEnd_Power"];
-                    rec.LeakValue = (int)recSet.Rows[0]["LeakValue"];
+                    DataTable recSet = SQLiteHelper.ExecuteDataTable(sql);
+                    rec.RecordTime = Convert.ToInt32(recSet.Rows[0]["RecordTime"]);
+                    rec.CommunicationTime = Convert.ToInt32(recSet.Rows[0]["CommunicationTime"]);
+                    rec.PickSpan = Convert.ToInt32(recSet.Rows[0]["PickSpan"]);
+                    rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
+                    rec.ControlerPower = Convert.ToInt32(recSet.Rows[0]["Controler_Power"]);
+					rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
+                    rec.LeakValue = Convert.ToInt32(recSet.Rows[0]["LeakValue"]);
 
                     sql = "SELECT TOP 1 * FROM DL_Noise_Real WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
-                    DataTable daSet = DbForAccess.GetDataTable(sql);
+                    DataTable daSet = SQLiteHelper.ExecuteDataTable(sql);
                     if (daSet.Rows.Count != 0)
                     {
                         rec.Data = new NoiseData();
-                        rec.Data.GroupID = (int)daSet.Rows[0]["GroupId"];
-                        rec.Data.ReadTime = (DateTime)daSet.Rows[0]["CollTime"];
-                        rec.Data.UploadTime = (DateTime)daSet.Rows[0]["UnloadTime"];
+                        rec.Data.GroupID = Convert.ToInt32(daSet.Rows[0]["GroupId"]);
+                        rec.Data.ReadTime = Convert.ToDateTime(daSet.Rows[0]["CollTime"]);
+                        rec.Data.UploadTime = Convert.ToDateTime(daSet.Rows[0]["UnloadTime"]);
                         rec.Data.UploadFlag = Convert.ToInt32(daSet.Rows[0]["HistoryFlag"]);
 
                         string[] strAmp = daSet.Rows[0]["LeakValue"].ToString().Split(',');
@@ -86,27 +86,27 @@ namespace NoiseAnalysisSystem
                     }
 
                     sql = "SELECT TOP 1 * FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
-                    DataTable reSet = DbForAccess.GetDataTable(sql);
+                    DataTable reSet = SQLiteHelper.ExecuteDataTable(sql);
                     if (reSet.Rows.Count != 0)
                     {
                         rec.Result = new NoiseResult();
-                        rec.Result.GroupID = (int)reSet.Rows[0]["GroupId"];
+                        rec.Result.GroupID = Convert.ToInt32(reSet.Rows[0]["GroupId"]);
                         rec.Result.RecorderID = rec.ID;
-                        rec.Result.IsLeak = (int)reSet.Rows[0]["IsLeak"];
-                        rec.Result.ReadTime = (DateTime)reSet.Rows[0]["CollTime"];
-                        rec.Result.UploadTime = (DateTime)reSet.Rows[0]["UnloadTime"];
-                        rec.Result.LeakAmplitude = (double)reSet.Rows[0]["MinLeakValue"];
-                        rec.Result.LeakFrequency = (double)reSet.Rows[0]["MinFrequencyValue"];
+                        rec.Result.IsLeak = Convert.ToInt32(reSet.Rows[0]["IsLeak"]);
+                        rec.Result.ReadTime = Convert.ToDateTime(reSet.Rows[0]["CollTime"]);
+                        rec.Result.UploadTime = Convert.ToDateTime(reSet.Rows[0]["UnloadTime"]);
+                        rec.Result.LeakAmplitude = Convert.ToDouble(reSet.Rows[0]["MinLeakValue"]);
+                        rec.Result.LeakFrequency = Convert.ToDouble(reSet.Rows[0]["MinFrequencyValue"]);
                         //rec.Result.UploadFlag = (int)reSet.Rows[0]["HistoryFlag"];
                     }
 
                     
                     sql = @"SELECT GroupId FROM MP_GroupRecorder WHERE RecorderId = " + rec.ID.ToString();
-                    object gID = DbForAccess.GetFirstResult(sql);
+                    object gID = SQLiteHelper.ExecuteScalar(sql);
                     if (gID == null)
                         rec.GroupID = 0;
                     else
-                        rec.GroupID = (int)gID;
+                        rec.GroupID = Convert.ToInt32(gID);
 
                     recList.Add(rec);
                 }
@@ -131,7 +131,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
 
                 sql = "SELECT * FROM EN_Group";
-                DataTable dtGroup = DbForAccess.GetDataTable(sql);
+                DataTable dtGroup = SQLiteHelper.ExecuteDataTable(sql);
 
                 if (dtGroup.Rows.Count == 0)
                 {
@@ -223,7 +223,7 @@ namespace NoiseAnalysisSystem
             string sql = string.Empty;
 
             sql = "SELECT * FROM EN_DistanceControl";
-            DataTable dtCon= DbForAccess.GetDataTable(sql);
+            DataTable dtCon = SQLiteHelper.ExecuteDataTable(sql);
             for (int i = 0; i < dtCon.Rows.Count; i++)
             {
                 DistanceController con = new DistanceController();
@@ -249,13 +249,13 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"UPDATE EN_NoiseRecorder SET Remark = '{0}',GroupState = {1} WHERE RecorderId = {2}", rec.Remark, rec.GroupState, rec.ID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 sql = string.Format(
                 @"UPDATE MT_RecorderSet 
                 SET RecordTime = {0},PickSpan = {1},Controler_Power = {2},StartEnd_Power = {3},CommunicationTime = {4},LeakValue = {5} WHERE RecorderId = {6}",
                 rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.CommunicationTime, rec.LeakValue, rec.ID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -278,7 +278,7 @@ namespace NoiseAnalysisSystem
                 {
                     string SQL = string.Empty;
                     SQL = string.Format(@"DELETE FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
-                    DbForAccess.ExcuteSql(SQL);
+                    SQLiteHelper.ExecuteNonQuery(SQL);
 
                     string strDa = string.Empty;
                     for (int i = 0; i < OriginalData.Length; i++)
@@ -291,7 +291,7 @@ namespace NoiseAnalysisSystem
 
                     SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
                           GroupID, RecorderID, strDa);
-                    DbForAccess.ExcuteSql(SQL);
+                    SQLiteHelper.ExecuteNonQuery(SQL);
 
                     return 1;
                 }
@@ -319,7 +319,7 @@ namespace NoiseAnalysisSystem
                 string SQL = string.Format("SELECT Data FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
 
                 string str_data = string.Empty;
-                DataTable dt = DbForAccess.GetDataTable(SQL);
+                DataTable dt = SQLiteHelper.ExecuteDataTable(SQL);
                 if (dt != null && dt.Rows != null && dt.Rows.Count > 0)
                 {
                     str_data = dt.Rows[0]["Data"] != DBNull.Value ? dt.Rows[0]["Data"].ToString() : "";
@@ -366,7 +366,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"UPDATE EN_Group SET Name = '{0}', Remark = '{1}' WHERE GroupId = {2}", group.Name, group.Remark, group.ID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -388,12 +388,12 @@ namespace NoiseAnalysisSystem
                 int query = 0;
 
                 sql = "SELECT * FROM EN_DistanceControl WHERE ControlId = " + ctrl.ID.ToString();
-                DataTable dt = DbForAccess.GetDataTable(sql);
+                DataTable dt = SQLiteHelper.ExecuteDataTable(sql);
                 if (dt.Rows.Count != 0) // 不为0 表示存在该控制器的记录，更新即可
                 {
                     sql = string.Format(@"UPDATE EN_DistanceControl SET RecorderId = {0}, IPAdress = '{1}', Port = {2}, SendTime = {3} WHERE ControlId = {4}",
                         ctrl.RecordID, ctrl.IPAdress, ctrl.Port, ctrl.SendTime, ctrl.ID);
-                    query = DbForAccess.ExcuteSql(sql);
+                    query = SQLiteHelper.ExecuteNonQuery(sql);
                 }
                 else if (dt.Rows.Count == 0)
                 {
@@ -418,14 +418,24 @@ namespace NoiseAnalysisSystem
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"INSERT INTO EN_NoiseRecorder(RecorderId,AddDate,Remark,GroupState) VALUES({0},'{1}','{2}',{3})",
+                sql = string.Format(@"INSERT INTO EN_NoiseRecorder(RecorderId,AddDate,Remark,GroupState) VALUES(@RecorderId,@AddDate,@Remark,@GroupState)",
                     rec.ID, rec.AddDate, rec.Remark, rec.GroupState);
-                query = DbForAccess.ExcuteSql(sql);
+                SQLiteParameter[] parms =new SQLiteParameter[]{
+                    new SQLiteParameter("@RecorderId",DbType.String),
+                    new SQLiteParameter("@AddDate",DbType.DateTime),
+                    new SQLiteParameter("@Remark",DbType.String),
+                    new SQLiteParameter("@GroupState",DbType.Int32) };
+                parms[0].Value = rec.ID;
+                parms[1].Value = rec.AddDate;
+                parms[2].Value = rec.Remark;
+                parms[3].Value = rec.GroupState;
+
+                query = SQLiteHelper.ExecuteNonQuery(sql,parms);
 
                 sql = string.Format(@"INSERT INTO MT_RecorderSet(RecorderId, RecordTime, PickSpan, Controler_Power, StartEnd_Power, CommunicationTime, LeakValue) 
                 VALUES({0},{1},{2},{3},{4},{5},{6})",
                     rec.ID, rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.CommunicationTime, rec.LeakValue);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
             catch (Exception ex)
@@ -447,7 +457,7 @@ namespace NoiseAnalysisSystem
                 int query = 0;
                 sql = string.Format(@"INSERT INTO EN_Group(Name, Remark) VALUES('{0}','{1}')",
                     group.Name, group.Remark);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -469,7 +479,7 @@ namespace NoiseAnalysisSystem
                 int query = 0;
                 sql = string.Format(@"INSERT INTO EN_DistanceControl(ControlId, RecorderId, IPAdress, Port, SendTime) VALUES({0},{1},'{2}',{3},{4})",
                     ctrl.ID, ctrl.RecordID, ctrl.IPAdress, ctrl.Port, ctrl.SendTime);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -492,7 +502,7 @@ namespace NoiseAnalysisSystem
                 int query = 0;
                 sql = string.Format(@"INSERT INTO MP_GroupRecorder(RecorderId, GroupId) VALUES({0},{1})",
                     recID, groupID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
             catch (Exception)
@@ -514,7 +524,7 @@ namespace NoiseAnalysisSystem
                 sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime) 
                     VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}')",
                     result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime, result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -564,7 +574,7 @@ namespace NoiseAnalysisSystem
                 sql = string.Format(@"INSERT INTO DL_Noise_Real(GroupId, RecorderId, LeakValue, FrequencyValue, OriginalData, CollTime, UnloadTime, HistoryFlag) 
                     VALUES({0},{1},'{2}','{3}','{4}','{5}','{6}',{7})",
                     data.GroupID, data.RecorderID, strAmp, strFrq, strDa, data.ReadTime, data.UploadTime, data.UploadFlag);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -585,17 +595,17 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM MT_RecorderSet WHERE RecorderId = {0}", recID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 sql = string.Format(@"DELETE FROM EN_DistanceControl WHERE RecorderId = {0}", recID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 DeleteRelationByRecoderId(recID);
 				DeleteDataByRecorderId(recID);
 				DeleteResultByRecorderId(recID);
 
                 sql = string.Format(@"DELETE FROM EN_NoiseRecorder WHERE RecorderId = {0}", recID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -628,7 +638,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM EN_Group WHERE GroupId = {0}", groupID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -650,7 +660,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM EN_DistanceControl WHERE ControlId = {0}", conID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -672,7 +682,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM MP_GroupRecorder WHERE RecorderId = {0}", recID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -693,7 +703,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM MP_GroupRecorder WHERE GroupId = {0}", groupID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -715,7 +725,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM MP_GroupRecorder WHERE GroupId = {0} AND RecorderId = {1}", groupID, recID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -736,7 +746,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM DL_Noise_Real WHERE GroupId = {0}", groupID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -757,7 +767,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM DL_Noise_Real WHERE RecorderId = {0}", recID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -778,7 +788,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM DL_NoiseAnalyse WHERE GroupId = {0}", groupID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -799,7 +809,7 @@ namespace NoiseAnalysisSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM DL_NoiseAnalyse WHERE RecorderId = {0}", recID);
-                query = DbForAccess.ExcuteSql(sql);
+                query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)

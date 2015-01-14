@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using System.IO;
 
 namespace NoiseAnalysisSystem
@@ -15,14 +10,14 @@ namespace NoiseAnalysisSystem
         {
             InitializeComponent();
 
-			Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
 
             this.Text = String.Format("关于 {0}", AssemblyTitle);
-			this.labelProductName.Text = AssemblyProduct;
-			this.labelVersion.Text =
-				String.Format("{0}.{1} Build({2})", version.Major, version.Minor,File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString("yyyyMMdd"));
+            this.labelProductName.Text = AssemblyProduct;
+            this.labelVersion.Text =
+                String.Format("{0}.{1} Build({2})", version.Major, version.Minor, File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString("yyyyMMdd"));
             this.labelCopyright.Text = "上海敢创水业科技有限公司 Copyright© 2014";
-			this.labelCompanyName.Text = string.Empty;
+            this.labelCompanyName.Text = string.Empty;
         }
 
         #region 程序集特性访问器

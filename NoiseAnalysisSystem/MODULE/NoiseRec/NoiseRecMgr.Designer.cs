@@ -338,7 +338,7 @@
             this.FlagRemoteSwitch.Properties.Appearance.Options.UseBackColor = true;
             this.FlagRemoteSwitch.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.FlagRemoteSwitch.Properties.ShowMenu = false;
-            this.FlagRemoteSwitch.Size = new System.Drawing.Size(27, 27);
+            this.FlagRemoteSwitch.Size = new System.Drawing.Size(20, 20);
             this.FlagRemoteSwitch.TabIndex = 108;
             this.FlagRemoteSwitch.Visible = false;
             // 
@@ -354,7 +354,7 @@
             this.FlagStartORStop.Properties.Appearance.Options.UseBackColor = true;
             this.FlagStartORStop.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.FlagStartORStop.Properties.ShowMenu = false;
-            this.FlagStartORStop.Size = new System.Drawing.Size(27, 27);
+            this.FlagStartORStop.Size = new System.Drawing.Size(20, 20);
             this.FlagStartORStop.TabIndex = 108;
             this.FlagStartORStop.Visible = false;
             // 
@@ -370,7 +370,7 @@
             this.FlagInterval.Properties.Appearance.Options.UseBackColor = true;
             this.FlagInterval.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.FlagInterval.Properties.ShowMenu = false;
-            this.FlagInterval.Size = new System.Drawing.Size(27, 27);
+            this.FlagInterval.Size = new System.Drawing.Size(20, 20);
             this.FlagInterval.TabIndex = 108;
             this.FlagInterval.Visible = false;
             // 
@@ -386,7 +386,7 @@
             this.FlagStartEndTime.Properties.Appearance.Options.UseBackColor = true;
             this.FlagStartEndTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.FlagStartEndTime.Properties.ShowMenu = false;
-            this.FlagStartEndTime.Size = new System.Drawing.Size(27, 27);
+            this.FlagStartEndTime.Size = new System.Drawing.Size(20, 20);
             this.FlagStartEndTime.TabIndex = 108;
             this.FlagStartEndTime.Visible = false;
             // 
@@ -402,7 +402,7 @@
             this.FlagSendTime.Properties.Appearance.Options.UseBackColor = true;
             this.FlagSendTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.FlagSendTime.Properties.ShowMenu = false;
-            this.FlagSendTime.Size = new System.Drawing.Size(27, 27);
+            this.FlagSendTime.Size = new System.Drawing.Size(20, 20);
             this.FlagSendTime.TabIndex = 108;
             this.FlagSendTime.Visible = false;
             // 
@@ -418,7 +418,7 @@
             this.FlagTime.Properties.Appearance.Options.UseBackColor = true;
             this.FlagTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.FlagTime.Properties.ShowMenu = false;
-            this.FlagTime.Size = new System.Drawing.Size(27, 27);
+            this.FlagTime.Size = new System.Drawing.Size(20, 20);
             this.FlagTime.TabIndex = 108;
             this.FlagTime.Visible = false;
             // 
@@ -573,7 +573,7 @@
             this.FlagIP.Properties.Appearance.Options.UseBackColor = true;
             this.FlagIP.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.FlagIP.Properties.ShowMenu = false;
-            this.FlagIP.Size = new System.Drawing.Size(27, 27);
+            this.FlagIP.Size = new System.Drawing.Size(20, 20);
             this.FlagIP.TabIndex = 108;
             this.FlagIP.Visible = false;
             // 
@@ -589,7 +589,7 @@
             this.FlagPort.Properties.Appearance.Options.UseBackColor = true;
             this.FlagPort.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.FlagPort.Properties.ShowMenu = false;
-            this.FlagPort.Size = new System.Drawing.Size(27, 27);
+            this.FlagPort.Size = new System.Drawing.Size(20, 20);
             this.FlagPort.TabIndex = 108;
             this.FlagPort.Visible = false;
             // 

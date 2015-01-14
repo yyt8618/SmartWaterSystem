@@ -105,6 +105,9 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\DLL\SQLite_x86\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing.Design" />
@@ -263,17 +266,17 @@
     <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.Designer.cs">
       <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
     </Compile>
+    <Compile Include="WelcomSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WelcomSplash.Designer.cs">
+      <DependentUpon>WelcomSplash.cs</DependentUpon>
+    </Compile>
     <Compile Include="WaitForm1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WaitForm1.Designer.cs">
       <DependentUpon>WaitForm1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Welcome.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Welcome.Designer.cs">
-      <DependentUpon>Welcome.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
@@ -356,6 +359,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseEnergyAnalysis.resx">
       <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WelcomSplash.resx">
+      <DependentUpon>WelcomSplash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitForm1.resx">
       <DependentUpon>WaitForm1.cs</DependentUpon>

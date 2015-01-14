@@ -38,7 +38,8 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite">
+    <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\SQLite_x86\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
@@ -52,10 +53,8 @@
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="CheckHelper.cs" />
     <Compile Include="ConvertHelper.cs" />
-    <Compile Include="DataBase\DbForAccess.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DataBase\DbHelperSQL.cs" />
+    <Compile Include="DataBase\Version.cs" />
     <Compile Include="FormatHelper.cs" />
     <Compile Include="MetarnetRegex.cs" />
     <Compile Include="PackageDefine.cs" />

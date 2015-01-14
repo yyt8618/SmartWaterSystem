@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DistanceController.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="NoiseData.cs" />
     <Compile Include="NoiseRecorder.cs" />
     <Compile Include="NoiseRecorderGroup.cs" />
