@@ -49,57 +49,60 @@ namespace NoiseAnalysisSystem
 					rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
                     rec.LeakValue = Convert.ToInt32(recSet.Rows[0]["LeakValue"]);
 
-                    sql = "SELECT TOP 1 * FROM DL_Noise_Real WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
-                    DataTable daSet = SQLiteHelper.ExecuteDataTable(sql);
-                    if (daSet.Rows.Count != 0)
+                    sql = "SELECT GroupId,RecorderId,leakValue,FrequencyValue,OriginalData,CollTime,UnloadTime,HistoryFlag FROM DL_Noise_Real WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
+                    using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(sql, null))
                     {
-                        rec.Data = new NoiseData();
-                        rec.Data.GroupID = Convert.ToInt32(daSet.Rows[0]["GroupId"]);
-                        rec.Data.ReadTime = Convert.ToDateTime(daSet.Rows[0]["CollTime"]);
-                        rec.Data.UploadTime = Convert.ToDateTime(daSet.Rows[0]["UnloadTime"]);
-                        rec.Data.UploadFlag = Convert.ToInt32(daSet.Rows[0]["HistoryFlag"]);
-
-                        string[] strAmp = daSet.Rows[0]["LeakValue"].ToString().Split(',');
-                        double[] amp = new double[strAmp.Length];
-                        for (int j = 0; j < strAmp.Length; j++)
+                        if (reader.Read())
                         {
-                            amp[j] = Convert.ToDouble(strAmp[j]);
-                        }
-                        rec.Data.Amplitude = amp;
+                            rec.Data = new NoiseData();
+                            rec.Data.GroupID = Convert.ToInt32(reader["GroupId"]);
+                            rec.Data.ReadTime = Convert.ToDateTime(reader.GetString(5));
+                            rec.Data.UploadTime = Convert.ToDateTime(reader.GetString(6));
+                            rec.Data.UploadFlag = Convert.ToInt32(reader["HistoryFlag"]);
 
-                        string[] strFrq = daSet.Rows[0]["FrequencyValue"].ToString().Split(',');
-                        double[] frq = new double[strFrq.Length];
-                        for (int j = 0; j < strFrq.Length; j++)
-                        {
-                            frq[j] = Convert.ToDouble(strFrq[j]);
-                        }
-                        rec.Data.Frequency = frq;
+                            string[] strAmp = reader["LeakValue"].ToString().Split(',');
+                            double[] amp = new double[strAmp.Length];
+                            for (int j = 0; j < strAmp.Length; j++)
+                            {
+                                amp[j] = Convert.ToDouble(strAmp[j]);
+                            }
+                            rec.Data.Amplitude = amp;
 
-                        string[] strDa = daSet.Rows[0]["OriginalData"].ToString().Split(',');
-                        short[] da = new short[strDa.Length];
-                        for (int j = 0; j < strDa.Length; j++)
-                        {
-                            if (strDa[j] != "")
-                                da[j] = Convert.ToInt16(strDa[j]);
+                            string[] strFrq = reader["FrequencyValue"].ToString().Split(',');
+                            double[] frq = new double[strFrq.Length];
+                            for (int j = 0; j < strFrq.Length; j++)
+                            {
+                                frq[j] = Convert.ToDouble(strFrq[j]);
+                            }
+                            rec.Data.Frequency = frq;
+
+                            string[] strDa = reader["OriginalData"].ToString().Split(',');
+                            short[] da = new short[strDa.Length];
+                            for (int j = 0; j < strDa.Length; j++)
+                            {
+                                if (strDa[j] != "")
+                                    da[j] = Convert.ToInt16(strDa[j]);
+                            }
+                            rec.Data.OriginalData = da;
                         }
-                        rec.Data.OriginalData = da;
                     }
 
-                    sql = "SELECT TOP 1 * FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
-                    DataTable reSet = SQLiteHelper.ExecuteDataTable(sql);
-                    if (reSet.Rows.Count != 0)
+                    sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,COllTime,UnloadTime,HistoryFlag FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
+                    using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(sql, null))
                     {
-                        rec.Result = new NoiseResult();
-                        rec.Result.GroupID = Convert.ToInt32(reSet.Rows[0]["GroupId"]);
-                        rec.Result.RecorderID = rec.ID;
-                        rec.Result.IsLeak = Convert.ToInt32(reSet.Rows[0]["IsLeak"]);
-                        rec.Result.ReadTime = Convert.ToDateTime(reSet.Rows[0]["CollTime"]);
-                        rec.Result.UploadTime = Convert.ToDateTime(reSet.Rows[0]["UnloadTime"]);
-                        rec.Result.LeakAmplitude = Convert.ToDouble(reSet.Rows[0]["MinLeakValue"]);
-                        rec.Result.LeakFrequency = Convert.ToDouble(reSet.Rows[0]["MinFrequencyValue"]);
-                        //rec.Result.UploadFlag = (int)reSet.Rows[0]["HistoryFlag"];
+                        if (reader.Read())
+                        {
+                            rec.Result = new NoiseResult();
+                            rec.Result.GroupID = Convert.ToInt32(reader["GroupId"]);
+                            rec.Result.RecorderID = rec.ID;
+                            rec.Result.IsLeak = Convert.ToInt32(reader["IsLeak"]);
+                            rec.Result.ReadTime = Convert.ToDateTime(reader.GetString(6));
+                            rec.Result.UploadTime = Convert.ToDateTime(reader.GetString(7));
+                            rec.Result.LeakAmplitude = Convert.ToDouble(reader["MinLeakValue"]);
+                            rec.Result.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
+                            //rec.Result.UploadFlag = (int)reSet.Rows[0]["HistoryFlag"];
+                        }
                     }
-
                     
                     sql = @"SELECT GroupId FROM MP_GroupRecorder WHERE RecorderId = " + rec.ID.ToString();
                     object gID = SQLiteHelper.ExecuteScalar(sql);
@@ -142,7 +145,7 @@ namespace NoiseAnalysisSystem
                 {
                     NoiseRecorderGroup gp = new NoiseRecorderGroup();
                     //gp.RecorderList = new List<NoiseRecorder>();
-                    gp.ID = (int)dtGroup.Rows[i]["GroupId"];
+                    gp.ID = Convert.ToInt32(dtGroup.Rows[i]["GroupId"]);
                     gp.Name = dtGroup.Rows[i]["Name"].ToString();
                     gp.Remark = dtGroup.Rows[i]["Remark"].ToString();
 

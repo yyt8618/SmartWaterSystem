@@ -28,7 +28,10 @@ namespace NoiseAnalysisSystem
         /// </summary>
         public bool Exists
         {
-            get { return File.Exists(SQLiteHelper.FileName); }
+            get 
+            {
+                return File.Exists(Path.Combine(SQLiteHelper.DatabaseLocation, SQLiteHelper.FileName)); 
+            }
         }
         #endregion
 
@@ -347,7 +350,7 @@ namespace NoiseAnalysisSystem
         /// <returns></returns>
         private string CreateTableNoiseReal()
         {
-            return @"CREATE TABLE DL_NoiseReal
+            return @"CREATE TABLE DL_Noise_Real
                      (
                         [ID]             INTEGER PRIMARY KEY         AUTOINCREMENT,
                         [GroupId]        NVARCHAR(15)    NULL        DEFAULT 0,          --组ID
@@ -392,6 +395,7 @@ namespace NoiseAnalysisSystem
                      (
                         [ID]             INTEGER PRIMARY KEY         AUTOINCREMENT,
                         [ControlId]      NVARCHAR(15)    NULL        DEFAULT 0,          --组ID
+                        [RecorderId]     INT             NULL        DEFAULT 0,          --记录仪ID
                         [IP]             NVARCHAR(20)    NULL        DEFAULT '',         --
                         [Port]           INT             NULL        DEFAULT 0,
                         [SendTime]       INT             NULL        DEFAULT 0
@@ -406,8 +410,7 @@ namespace NoiseAnalysisSystem
         {
             return @"CREATE TABLE En_Group
                      (
-                        [ID]             INTEGER PRIMARY KEY         AUTOINCREMENT,
-                        [GroupId]        NVARCHAR(15)    NULL        DEFAULT 0,          --组ID
+                        [GroupId]        INTEGER PRIMARY KEY         AUTOINCREMENT,       --组ID
                         [Name]           NVARCHAR(30)    NULL        DEFAULT '',         --
                         [Remark]         NVARCHAR(100)   NULL        DEFAULT '',         --备注
                         [ModifyTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime'))

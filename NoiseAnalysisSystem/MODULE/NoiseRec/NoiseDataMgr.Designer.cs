@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gridControlGroup = new DevExpress.XtraGrid.GridControl();
             this.gridViewGroupList = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -55,10 +56,10 @@
             this.gridColumnReadTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnState = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.popupMenu = new DevExpress.XtraBars.PopupMenu();
+            this.popupMenu = new DevExpress.XtraBars.PopupMenu(this.components);
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-            this.barManager = new DevExpress.XtraBars.BarManager();
+            this.barManager = new DevExpress.XtraBars.BarManager(this.components);
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();

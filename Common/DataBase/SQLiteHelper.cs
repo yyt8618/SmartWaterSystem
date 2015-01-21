@@ -21,7 +21,7 @@ namespace NoiseAnalysisSystem
             {
                 SQLiteConnectionStringBuilder connstr = new SQLiteConnectionStringBuilder();
                 connstr.DataSource = Path.Combine(DatabaseLocation, FileName);
-                connstr.Password = "gcc123";
+                //connstr.Password = "gcc123";
 
                 return connstr.ToString();
             }
