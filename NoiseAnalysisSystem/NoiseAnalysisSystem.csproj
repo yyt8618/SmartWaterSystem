@@ -455,6 +455,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gc.ico" />
+    <None Include="Resources\Welcome.jpg" />
     <None Include="Resources\right.png" />
     <None Include="Resources\cross.png" />
     <None Include="Resources\cross.jpg" />

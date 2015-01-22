@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.winChartViewer1 = new ChartDirector.WinChartViewer();
             this.groupBox1 = new DevExpress.XtraEditors.GroupControl();
             this.txtRemark = new DevExpress.XtraEditors.MemoEdit();
@@ -55,13 +56,13 @@
             this.txtMinHz = new DevExpress.XtraEditors.TextEdit();
             this.txtMinNoise = new DevExpress.XtraEditors.TextEdit();
             this.txtMaxHz = new DevExpress.XtraEditors.TextEdit();
-            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
+            this.txtEnergyValue = new DevExpress.XtraEditors.TextEdit();
             this.txtMaxNoise = new DevExpress.XtraEditors.TextEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox3 = new DevExpress.XtraEditors.GroupControl();
             this.cbPoint = new System.Windows.Forms.CheckBox();
             this.cbLineType = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -86,7 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtMinHz.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMinNoise.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxHz.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEnergyValue.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxNoise.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
@@ -287,7 +288,7 @@
             this.groupBox2.Controls.Add(this.txtMinHz);
             this.groupBox2.Controls.Add(this.txtMinNoise);
             this.groupBox2.Controls.Add(this.txtMaxHz);
-            this.groupBox2.Controls.Add(this.textEdit1);
+            this.groupBox2.Controls.Add(this.txtEnergyValue);
             this.groupBox2.Controls.Add(this.txtMaxNoise);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label18);
@@ -357,13 +358,13 @@
             this.txtMaxHz.Size = new System.Drawing.Size(65, 20);
             this.txtMaxHz.TabIndex = 55;
             // 
-            // textEdit1
+            // txtEnergyValue
             // 
-            this.textEdit1.Location = new System.Drawing.Point(83, 133);
-            this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Properties.ReadOnly = true;
-            this.textEdit1.Size = new System.Drawing.Size(148, 20);
-            this.textEdit1.TabIndex = 54;
+            this.txtEnergyValue.Location = new System.Drawing.Point(83, 133);
+            this.txtEnergyValue.Name = "txtEnergyValue";
+            this.txtEnergyValue.Properties.ReadOnly = true;
+            this.txtEnergyValue.Size = new System.Drawing.Size(148, 20);
+            this.txtEnergyValue.TabIndex = 54;
             // 
             // txtMaxNoise
             // 
@@ -523,7 +524,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtMinHz.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMinNoise.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxHz.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEnergyValue.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxNoise.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).EndInit();
@@ -579,7 +580,7 @@
 		private DevExpress.XtraEditors.GroupControl groupBox4;
 		private DevExpress.XtraEditors.TextEdit txtNum;
 		private System.Windows.Forms.Label label7;
-        private DevExpress.XtraEditors.TextEdit textEdit1;
+        private DevExpress.XtraEditors.TextEdit txtEnergyValue;
         private System.Windows.Forms.Label label18;
 
 

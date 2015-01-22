@@ -49,5 +49,6 @@ namespace NoiseAnalysisSystem
         /// 原始采集数据
         /// </summary>
         public short[] OriginalData { get; set; }
+        
     }
 }

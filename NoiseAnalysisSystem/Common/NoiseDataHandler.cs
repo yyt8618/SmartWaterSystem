@@ -448,8 +448,9 @@ namespace NoiseAnalysisSystem
         /// <param name="data">噪声原始数据32个值一组</param>
         /// <param name="standvalue">静态漏水标准幅度值</param>
         /// <returns></returns>
-        public static int IsLeak1(int GroupID,int RecorderID,List<double[]> lstdatas)
+        public static int IsLeak1(int GroupID, int RecorderID, List<double[]> lstdatas, out double energyvalue)
         {
+            energyvalue = 0;  //能量值
             double standvalue = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("StandardAMP"));
             short[] standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);
 
@@ -481,8 +482,19 @@ namespace NoiseAnalysisSystem
                 }
             }
 
+            //计算能量值 
+            //List<double> lst_stdev = new List<double>();  //标准差数组
+            //for (i = 0; i < record_average.Length; i++)
+            //{
+            //    lst_stdev.Add(Math.Abs(standaverage - record_average[i]));
+            //}
+
+            energyvalue = GetAverage(record_average.ToArray());
+            energyvalue = Math.Abs(standaverage - energyvalue);
+
             StreamWriter sw = new StreamWriter(string.Format("{0}能量强度变化数据.txt", GlobalValue.TestPath));
             sw.WriteLine(standaverage);  //先写入标准平均值
+            sw.WriteLine(energyvalue);   //写入能量值
             for (i = 0; i < record_average.Length; i++)
             {
                 sw.WriteLine(record_average[i]);

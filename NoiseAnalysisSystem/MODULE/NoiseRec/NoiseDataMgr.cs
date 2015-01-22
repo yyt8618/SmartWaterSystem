@@ -508,11 +508,10 @@ namespace NoiseAnalysisSystem
                     da.Amplitude = amp;
                     da.UploadFlag = result[key].Length / spanCount;
                     recorder.Data = da;
-
+                    
                     double[] ru = new double[2];
-
-                    int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data_isleak1);
-
+                    double energyvalue = 0;
+                    int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data_isleak1, out energyvalue);
                     int isLeak2 = NoiseDataHandler.IsLeak2(amp, recorder.LeakValue, ref ru);
 
                     NoiseResult re = new NoiseResult();
@@ -523,8 +522,8 @@ namespace NoiseAnalysisSystem
                     re.LeakFrequency = ru[1];
                     re.UploadTime = DateTime.Now;
                     re.ReadTime = recorder.Data.ReadTime;
+                    re.EnergyValue = energyvalue;
                     recorder.Result = re;
-
 
                     for (int i = 0; i < GlobalValue.recorderList.Count; i++)
                     {

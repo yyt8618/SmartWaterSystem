@@ -30,7 +30,7 @@
         {
             this.btnSelect = new DevExpress.XtraEditors.SimpleButton();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.txtStandValue = new System.Windows.Forms.TextBox();
+            this.txtEnergyValue = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtStandardAMP = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -57,14 +57,14 @@
             this.openFileDialog.FileName = "*.txt";
             this.openFileDialog.Filter = "txt文件|*.txt";
             // 
-            // txtStandValue
+            // txtEnergyValue
             // 
-            this.txtStandValue.Location = new System.Drawing.Point(290, 462);
-            this.txtStandValue.Margin = new System.Windows.Forms.Padding(2);
-            this.txtStandValue.Name = "txtStandValue";
-            this.txtStandValue.ReadOnly = true;
-            this.txtStandValue.Size = new System.Drawing.Size(68, 22);
-            this.txtStandValue.TabIndex = 21;
+            this.txtEnergyValue.Location = new System.Drawing.Point(290, 462);
+            this.txtEnergyValue.Margin = new System.Windows.Forms.Padding(2);
+            this.txtEnergyValue.Name = "txtEnergyValue";
+            this.txtEnergyValue.ReadOnly = true;
+            this.txtEnergyValue.Size = new System.Drawing.Size(68, 22);
+            this.txtEnergyValue.TabIndex = 21;
             // 
             // label1
             // 
@@ -146,7 +146,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtStandardAverage);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtStandValue);
+            this.Controls.Add(this.txtEnergyValue);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.winChartViewer1);
             this.Name = "NoiseEnergyAnalysis";
@@ -163,7 +163,7 @@
         private ChartDirector.WinChartViewer winChartViewer1;
         private DevExpress.XtraEditors.SimpleButton btnSelect;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.TextBox txtStandValue;
+        private System.Windows.Forms.TextBox txtEnergyValue;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtStandardAMP;
         private System.Windows.Forms.Label label2;

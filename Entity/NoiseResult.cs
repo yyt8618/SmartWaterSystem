@@ -54,5 +54,10 @@ namespace NoiseAnalysisSystem
         /// ESA
         /// </summary>
         public int ESA { get; set; }
+
+        /// <summary>
+        /// 能量值
+        /// </summary>
+        public double EnergyValue { get; set; }
     }
 }

@@ -378,6 +378,7 @@ namespace NoiseAnalysisSystem
                         [MinLeakValue]   NVARCHAR(300)   NULL        DEFAULT '',         --
                         [MinFrequencyValue] NVARCHAR(300)   NULL        DEFAULT '',         --
                         [IsLeak]         INT             NULL        DEFAULT 0,
+                        [EnergyValue]    NVARCHAR(15)    NULL        DEFAULT 0,
                         [ESA]            INT             NULL        DEFAULT 0,
                         [CollTime]       DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
                         [UnloadTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间

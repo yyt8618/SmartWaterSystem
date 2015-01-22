@@ -213,5 +213,12 @@ namespace NoiseAnalysisSystem.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap Welcome {
+            get {
+                object obj = ResourceManager.GetObject("Welcome", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

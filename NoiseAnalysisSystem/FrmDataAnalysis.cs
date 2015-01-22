@@ -122,6 +122,7 @@ namespace NoiseAnalysisSystem
 			txtMaxHz.Text = maxHz.ToString();
 			txtMinHz.Text = minHz.ToString();
 			txtNum.Text = data.UploadFlag.ToString();
+            txtEnergyValue.Text = Recorder.Result.EnergyValue.ToString("f2");
 
 			txtLeakNoise.Text = Recorder.Result.LeakAmplitude.ToString();
 			txtLeakHz.Text = Recorder.Result.LeakFrequency.ToString();

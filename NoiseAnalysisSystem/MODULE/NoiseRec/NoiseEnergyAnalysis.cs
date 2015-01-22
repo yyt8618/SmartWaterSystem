@@ -12,7 +12,7 @@ namespace NoiseAnalysisSystem
     public partial class NoiseEnergyAnalysis : BaseView, INoiseEnergyAnalysis
     {
         private List<double> lst_data =new List<double>();    
-        private List<double> lst_stdev = new List<double>();  //标准差数组
+        //private List<double> lst_stdev = new List<double>();  //标准差数组
         private double Standard_average = 0;    //标准平均值
         private double StandardAMP = 0;         //静态漏水标准幅度值
         private double energyvalue = 0;         //能量强度
@@ -25,7 +25,7 @@ namespace NoiseAnalysisSystem
         {
             try
             {
-                txtStandValue.Text = "";
+                txtEnergyValue.Text = "";
                 txtStandardAverage.Text = "";
                 StandardAMP = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("StandardAMP"));
                 txtStandardAMP.Text = StandardAMP.ToString("f2");
@@ -122,9 +122,9 @@ namespace NoiseAnalysisSystem
         private void btnSelect_Click(object sender, EventArgs e)
         {
             lst_data.Clear();
-            lst_stdev.Clear();
+            //lst_stdev.Clear();
 
-            txtStandValue.Text = "";
+            txtEnergyValue.Text = "";
             txtStandardAverage.Text = "";
             energyvalue = 0;
             StreamReader sr = null;
@@ -146,17 +146,18 @@ namespace NoiseAnalysisSystem
                     }
                     sr.Close();
                     Standard_average = d[0];
-                    lst_data.AddRange(d.Skip(1).ToArray());
+                    energyvalue = d[1];
+                    lst_data.AddRange(d.Skip(2).ToArray());
 
-                    for (int i = 0; i < lst_data.Count; i++)
-                    {
-                        lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
-                    }
+                    //for (int i = 0; i < lst_data.Count; i++)
+                    //{
+                    //    lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
+                    //}
 
-                    energyvalue=GetAverage(lst_data.ToArray());
-                    energyvalue = Math.Abs(Standard_average - energyvalue);
+                    //energyvalue=GetAverage(lst_data.ToArray());
+                    //energyvalue = Math.Abs(Standard_average - energyvalue);
 
-                    txtStandValue.Text = energyvalue.ToString("f2");
+                    txtEnergyValue.Text = energyvalue.ToString("f2");
                     txtStandardAverage.Text = Standard_average.ToString("f2");
 
                     winChartViewer1.updateViewPort(true, false);
@@ -216,9 +217,9 @@ namespace NoiseAnalysisSystem
             try
             {
                 lst_data.Clear();
-                lst_stdev.Clear();
+                //lst_stdev.Clear();
 
-                txtStandValue.Text = "";
+                txtEnergyValue.Text = "";
                 txtStandardAverage.Text = "";
                 energyvalue = 0;
                 StreamReader sr = null;
@@ -236,17 +237,18 @@ namespace NoiseAnalysisSystem
                     }
                     sr.Close();
                     Standard_average = d[0];
-                    lst_data.AddRange(d.Skip(1).ToArray());
+                    energyvalue = d[1];
+                    lst_data.AddRange(d.Skip(2).ToArray());
 
-                    for (int i = 0; i < lst_data.Count; i++)
-                    {
-                        lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
-                    }
+                    //for (int i = 0; i < lst_data.Count; i++)
+                    //{
+                    //    lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
+                    //}
 
-                    energyvalue = GetAverage(lst_data.ToArray());
-                    energyvalue = Math.Abs(Standard_average - energyvalue);
+                    //energyvalue = GetAverage(lst_data.ToArray());
+                    //energyvalue = Math.Abs(Standard_average - energyvalue);
 
-                    txtStandValue.Text = energyvalue.ToString("f2");
+                    txtEnergyValue.Text = energyvalue.ToString("f2");
                     txtStandardAverage.Text = Standard_average.ToString("f2");
 
                     winChartViewer1.updateViewPort(true, false);
