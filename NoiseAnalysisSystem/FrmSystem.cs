@@ -71,69 +71,73 @@ namespace NoiseAnalysisSystem
         private void FrmSystem_Load(object sender, EventArgs e)
         {
             this.Text = "自来水管道分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
-            SkinHelper.InitSkinGallery(this.ribbonGalleryBarItem1);
+            // 读取数据库 初始化界面
+            try
+            {
+                SkinHelper.InitSkinGallery(this.ribbonGalleryBarItem1);
 
-            SplashScreenManager.ShowForm(typeof(WelcomSplash));
+                SplashScreenManager.ShowForm(typeof(WelcomSplash));
 
-            #region 数据库操作
-            SQLiteDbManager dbMgr = new SQLiteDbManager();
-            #region 创建数据库
-            //如果数据库文件不存在创建
-            if (!(dbMgr.Exists))
-            {
-                if (!dbMgr.ResetDatabase())
+                #region 数据库操作
+                SQLiteDbManager dbMgr = new SQLiteDbManager();
+                #region 创建数据库
+                //如果数据库文件不存在创建
+                if (!(dbMgr.Exists))
                 {
-                    //error.ErrorCode = -1;
-                    //error.ErrorMessage = "      创建数据库失败，请联系系统管理员";
-                }
-            }
-            else
-            {
-                // Repair Database
-                //if (!dbMgr.VerifyAndRepair())
-                //{
-                //    error.ErrorCode = -1;
-                //    error.ErrorMessage = "      修复数据库失败，请联系系统管理员";
-                //}
-            }
-            #endregion
-            #region 升级数据库
-            DBVersion versionBLL = new DBVersion();
-            string dbVersion = versionBLL.GetVersion(VersionType.DataBase.ToString());
-            if (dbVersion != dbMgr.LastestDBVersion)
-            {
-                if (!dbMgr.UpgradeDB())
-                {
-                    //error.ErrorCode = 0;
-                    //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
+                    if (!dbMgr.ResetDatabase())
+                    {
+                        //error.ErrorCode = -1;
+                        logger.Error("ResetDatabase","创建数据库失败，请联系系统管理员");
+                    }
                 }
                 else
                 {
-                    if (!versionBLL.UpdateVersion(VersionType.DataBase.ToString(), dbMgr.LastestDBVersion))
+                    // Repair Database
+                    //if (!dbMgr.VerifyAndRepair())
+                    //{
+                    //    error.ErrorCode = -1;
+                    //    error.ErrorMessage = "      修复数据库失败，请联系系统管理员";
+                    //}
+                }
+                #endregion
+                #region 升级数据库
+                DBVersion versionBLL = new DBVersion();
+                string dbVersion = versionBLL.GetVersion(VersionType.DataBase.ToString());
+                if (dbVersion != dbMgr.LastestDBVersion)
+                {
+                    if (!dbMgr.UpgradeDB())
                     {
                         //error.ErrorCode = 0;
                         //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
                     }
+                    else
+                    {
+                        if (!versionBLL.UpdateVersion(VersionType.DataBase.ToString(), dbMgr.LastestDBVersion))
+                        {
+                            //error.ErrorCode = 0;
+                            //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
+                        }
+                    }
                 }
-            }
-            #endregion
-            #endregion
-            // 读取数据库 初始化界面
-            try
-            {
+                #endregion
+                #endregion
+
                 GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                 GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                 GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
+
+
+                SplashScreenManager.CloseForm();
+
+                ClearLogAndDb();
+
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show("获取数据库数据异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show("初始化异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                logger.ErrorException("FrmSystem_Load", ex);
                 Application.Exit();
             }
-
-            SplashScreenManager.CloseForm();
-
-            ClearLogAndDb();
         }
 
         private void InitNavigate()
