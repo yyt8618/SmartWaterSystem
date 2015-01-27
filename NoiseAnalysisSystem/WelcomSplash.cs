@@ -20,13 +20,11 @@ namespace NoiseAnalysisSystem
 
         public override void ProcessCommand(Enum cmd, object arg)
         {
-            base.ProcessCommand(cmd, arg);
+            lblPrompt.Text = arg.ToString();
         }
 
         #endregion
 
-        public enum SplashScreenCommand
-        {
-        }
+        
     }
 }

@@ -30,7 +30,7 @@
         {
             this.marqueeProgressBarControl1 = new DevExpress.XtraEditors.MarqueeProgressBarControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.lblPrompt = new DevExpress.XtraEditors.LabelControl();
             this.pictureEdit2 = new DevExpress.XtraEditors.PictureEdit();
             this.pictureEdit1 = new DevExpress.XtraEditors.PictureEdit();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl1.Properties)).BeginInit();
@@ -55,13 +55,13 @@
             this.labelControl1.TabIndex = 6;
             this.labelControl1.Text = "Copyright © 2014-2020";
             // 
-            // labelControl2
+            // lblPrompt
             // 
-            this.labelControl2.Location = new System.Drawing.Point(23, 180);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(96, 14);
-            this.labelControl2.TabIndex = 7;
-            this.labelControl2.Text = "启动中，请稍候...";
+            this.lblPrompt.Location = new System.Drawing.Point(23, 180);
+            this.lblPrompt.Name = "lblPrompt";
+            this.lblPrompt.Size = new System.Drawing.Size(96, 14);
+            this.lblPrompt.TabIndex = 7;
+            this.lblPrompt.Text = "启动中，请稍候...";
             // 
             // pictureEdit2
             // 
@@ -98,7 +98,7 @@
             this.ClientSize = new System.Drawing.Size(450, 295);
             this.Controls.Add(this.pictureEdit2);
             this.Controls.Add(this.pictureEdit1);
-            this.Controls.Add(this.labelControl2);
+            this.Controls.Add(this.lblPrompt);
             this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.marqueeProgressBarControl1);
             this.Name = "WelcomSplash";
@@ -115,7 +115,7 @@
 
         private DevExpress.XtraEditors.MarqueeProgressBarControl marqueeProgressBarControl1;
         private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.LabelControl labelControl2;
+        private DevExpress.XtraEditors.LabelControl lblPrompt;
         private DevExpress.XtraEditors.PictureEdit pictureEdit1;
         private DevExpress.XtraEditors.PictureEdit pictureEdit2;
     }

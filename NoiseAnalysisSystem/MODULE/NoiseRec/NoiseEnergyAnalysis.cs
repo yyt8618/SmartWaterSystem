@@ -12,7 +12,7 @@ namespace NoiseAnalysisSystem
     public partial class NoiseEnergyAnalysis : BaseView, INoiseEnergyAnalysis
     {
         private List<double> lst_data =new List<double>();    
-        //private List<double> lst_stdev = new List<double>();  //标准差数组
+        private List<double> lst_stdev = new List<double>();  //标准差数组
         private double Standard_average = 0;    //标准平均值
         private double StandardAMP = 0;         //静态漏水标准幅度值
         private double energyvalue = 0;         //能量强度
@@ -86,10 +86,10 @@ namespace NoiseAnalysisSystem
             layer.setLineWidth(2);
             layer.setFastLineMode(true);
 
-            //layer = chart.addLineLayer();
-            //layer.addDataSet(lst_stdev.ToArray(), Chart.CColor(Color.DarkViolet), "绝对差");
-            //layer.setLineWidth(2);
-            //layer.setFastLineMode(true);
+            layer = chart.addLineLayer();
+            layer.addDataSet(lst_stdev.ToArray(), Chart.CColor(Color.DarkViolet), "绝对差");
+            layer.setLineWidth(2);
+            layer.setFastLineMode(true);
 
             //标准平均值
             Mark standAMPmark = chart.yAxis().addMark(Standard_average, Chart.CColor(Color.Crimson), "", "Arial Bold");
@@ -122,7 +122,7 @@ namespace NoiseAnalysisSystem
         private void btnSelect_Click(object sender, EventArgs e)
         {
             lst_data.Clear();
-            //lst_stdev.Clear();
+            lst_stdev.Clear();
 
             txtEnergyValue.Text = "";
             txtStandardAverage.Text = "";
@@ -149,13 +149,13 @@ namespace NoiseAnalysisSystem
                     energyvalue = d[1];
                     lst_data.AddRange(d.Skip(2).ToArray());
 
-                    //for (int i = 0; i < lst_data.Count; i++)
-                    //{
-                    //    lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
-                    //}
+                    for (int i = 0; i < lst_data.Count; i++)
+                    {
+                        lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
+                    }
 
-                    //energyvalue=GetAverage(lst_data.ToArray());
-                    //energyvalue = Math.Abs(Standard_average - energyvalue);
+                    energyvalue = GetAverage(lst_data.ToArray());
+                    energyvalue = Math.Abs(Standard_average - energyvalue);
 
                     txtEnergyValue.Text = energyvalue.ToString("f2");
                     txtStandardAverage.Text = Standard_average.ToString("f2");
@@ -217,7 +217,7 @@ namespace NoiseAnalysisSystem
             try
             {
                 lst_data.Clear();
-                //lst_stdev.Clear();
+                lst_stdev.Clear();
 
                 txtEnergyValue.Text = "";
                 txtStandardAverage.Text = "";
@@ -240,13 +240,13 @@ namespace NoiseAnalysisSystem
                     energyvalue = d[1];
                     lst_data.AddRange(d.Skip(2).ToArray());
 
-                    //for (int i = 0; i < lst_data.Count; i++)
-                    //{
-                    //    lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
-                    //}
+                    for (int i = 0; i < lst_data.Count; i++)
+                    {
+                        lst_stdev.Add(Math.Abs(Standard_average - lst_data[i]));
+                    }
 
-                    //energyvalue = GetAverage(lst_data.ToArray());
-                    //energyvalue = Math.Abs(Standard_average - energyvalue);
+                    energyvalue = GetAverage(lst_data.ToArray());
+                    energyvalue = Math.Abs(Standard_average - energyvalue);
 
                     txtEnergyValue.Text = energyvalue.ToString("f2");
                     txtStandardAverage.Text = Standard_average.ToString("f2");

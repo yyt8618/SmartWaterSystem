@@ -23,15 +23,26 @@ namespace NoiseAnalysisSystem
         public FrmSystem()
         {
             InitializeComponent();
+        }
+
+        private void FrmSystem_Load(object sender, EventArgs e)
+        {
+            this.Text = "自来水管道分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
+            // 读取数据库 初始化界面
             try
             {
+                SkinHelper.InitSkinGallery(this.ribbonGalleryBarItem1);
+
+                SplashScreenManager.ShowForm(typeof(WelcomSplash));
+                if (SplashScreenManager.Default.IsSplashFormVisible)
+                {
+                    SplashScreenManager.Default.SendCommand(null,"正在加载皮肤...");
+                }
                 //Set Skin
                 string skin = AppConfigHelper.GetAppSettingValue("Skin");
                 if (string.IsNullOrEmpty(skin))
                     skin = "SevenClassic";
                 UserLookAndFeel.Default.SetSkinStyle(skin);
-
-                //VisiableNavigateBar(false);
 
                 //HideNavigateBar
                 foreach (DevExpress.XtraNavBar.NavBarGroup group in this.navBarControl1.Groups)
@@ -43,6 +54,10 @@ namespace NoiseAnalysisSystem
                     group.Visible = false;
                 }
 
+                if (SplashScreenManager.Default.IsSplashFormVisible)
+                {
+                    SplashScreenManager.Default.SendCommand(null, "正在加载控件...");
+                }
                 #region 加载控件
                 var files = Directory.GetFiles(Application.StartupPath, "I*");
                 for (int i = 0; i < files.Length; i++)
@@ -59,24 +74,6 @@ namespace NoiseAnalysisSystem
                 {
                 }
                 #endregion
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException("加载插件异常", ex);
-                XtraMessageBox.Show("加载插件异常", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-        }
-
-        private void FrmSystem_Load(object sender, EventArgs e)
-        {
-            this.Text = "自来水管道分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
-            // 读取数据库 初始化界面
-            try
-            {
-                SkinHelper.InitSkinGallery(this.ribbonGalleryBarItem1);
-
-                SplashScreenManager.ShowForm(typeof(WelcomSplash));
 
                 #region 数据库操作
                 SQLiteDbManager dbMgr = new SQLiteDbManager();
@@ -84,6 +81,10 @@ namespace NoiseAnalysisSystem
                 //如果数据库文件不存在创建
                 if (!(dbMgr.Exists))
                 {
+                    if (SplashScreenManager.Default.IsSplashFormVisible)
+                    {
+                        SplashScreenManager.Default.SendCommand(null, "正在创建数据库...");
+                    }
                     if (!dbMgr.ResetDatabase())
                     {
                         //error.ErrorCode = -1;
@@ -105,6 +106,10 @@ namespace NoiseAnalysisSystem
                 string dbVersion = versionBLL.GetVersion(VersionType.DataBase.ToString());
                 if (dbVersion != dbMgr.LastestDBVersion)
                 {
+                    if (SplashScreenManager.Default.IsSplashFormVisible)
+                    {
+                        SplashScreenManager.Default.SendCommand(null, "正在更新数据库...");
+                    }
                     if (!dbMgr.UpgradeDB())
                     {
                         //error.ErrorCode = 0;
@@ -112,6 +117,10 @@ namespace NoiseAnalysisSystem
                     }
                     else
                     {
+                        if (SplashScreenManager.Default.IsSplashFormVisible)
+                        {
+                            SplashScreenManager.Default.SendCommand(null, "正在更新数据库版本...");
+                        }
                         if (!versionBLL.UpdateVersion(VersionType.DataBase.ToString(), dbMgr.LastestDBVersion))
                         {
                             //error.ErrorCode = 0;
@@ -122,6 +131,10 @@ namespace NoiseAnalysisSystem
                 #endregion
                 #endregion
 
+                if (SplashScreenManager.Default.IsSplashFormVisible)
+                {
+                    SplashScreenManager.Default.SendCommand(null, "正在加载数据...");
+                }
                 GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                 GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                 GlobalValue.controllerList = NoiseDataBaseHelper.GetController();

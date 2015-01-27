@@ -14,5 +14,5 @@ namespace NoiseAnalysisSystem
         /// 基础数据
         /// </summary>
         BaseData
-    } 
+    }
 }
