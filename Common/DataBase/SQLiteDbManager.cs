@@ -411,7 +411,7 @@ namespace NoiseAnalysisSystem
         {
             return @"CREATE TABLE En_Group
                      (
-                        [GroupId]        INTEGER PRIMARY KEY         AUTOINCREMENT,       --组ID
+                        [GroupId]        INTEGER PRIMARY KEY         NOT NULL,       --组ID
                         [Name]           NVARCHAR(30)    NULL        DEFAULT '',         --
                         [Remark]         NVARCHAR(100)   NULL        DEFAULT '',         --备注
                         [ModifyTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime'))

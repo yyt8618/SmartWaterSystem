@@ -64,17 +64,20 @@ namespace NoiseAnalysisSystem
             dt.Columns.Add("记录仪编号");
             dt.Columns.Add("记录仪备注");
             dt.Columns.Add("读取进度");
+
             for (int i = 0; i < GlobalValue.groupList.Count; i++)
             {
-                for (int j = 0; j < GlobalValue.groupList[i].RecorderList.Count; j++)
+                List<NoiseRecorder> lstTmpRec = new List<NoiseRecorder>();
+                lstTmpRec.AddRange(GlobalValue.groupList[i].RecorderList.OrderBy(a => a.ID));  //记录仪按ID排序
+                for (int j = 0; j < lstTmpRec.Count; j++)
                 {
-                    double p = 0;
-                    if (GlobalValue.groupList[i].RecorderList[j].Result == null)
+                    double p = 0; 
+                    if (lstTmpRec[j].Result == null)
                         p = 0;
                     else
                         p = 100;
 
-                    dt.Rows.Add(new object[] { false, GlobalValue.groupList[i].ID, GlobalValue.groupList[i].Name, GlobalValue.groupList[i].Remark, GlobalValue.groupList[i].RecorderList[j].ID, GlobalValue.groupList[i].RecorderList[j].Remark, p });
+                    dt.Rows.Add(new object[] { false, GlobalValue.groupList[i].ID, GlobalValue.groupList[i].Name, GlobalValue.groupList[i].Remark, lstTmpRec[j].ID, lstTmpRec[j].Remark, p });
                 }
             }
 

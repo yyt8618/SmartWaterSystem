@@ -435,6 +435,7 @@ namespace Protocol
                             Package pack;
                             if (PackageDefine.MinLenth + len == arr.Length & Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
+                                nStartTime = Environment.TickCount;
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
                                 {
                                     //if (((arr[6] >> 3) & 0x01) == 0)   //  ==1表示D11为1,有后续命令
@@ -452,7 +453,7 @@ namespace Protocol
                                     OnReadPackege(new PackageReceivedEventArgs(pack));//触发事件
                                     packageCache.Add(pack);
                                     AppendBufLine("已收到第{0}帧", packageCache.Count);
-                                    AppendBufLine("第{0}帧:{1}", pack.DataNum, pack);
+                                    //AppendBufLine("第{0}帧:{1}", pack.DataNum, pack);
 
                                     Package response = new Package();
                                     response.DevType = DEV_TYPE.NOISE_LOG;
@@ -519,7 +520,7 @@ namespace Protocol
 
                         return output.ToArray();
                     }
-                    System.Threading.Thread.Sleep(20);
+                    System.Threading.Thread.Sleep(10);
                 }
                 
             }

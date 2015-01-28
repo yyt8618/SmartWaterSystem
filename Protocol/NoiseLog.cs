@@ -620,7 +620,36 @@ namespace Protocol
                 {
                     timeOut = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("TimeOut"));
                 }
-                return serialPortUtil.ReadData(id, timeOut);
+
+                try
+                {
+                    return serialPortUtil.ReadData(id, 5);  //1
+                }
+                catch (TimeoutException e1)
+                {
+                    try
+                    {
+                        return serialPortUtil.ReadData(id, 5);  //2
+                    }
+                    catch (TimeoutException e2)
+                    {
+                        try
+                        {
+                            return serialPortUtil.ReadData(id, 5);  //3
+                        }
+                        catch (TimeoutException e3)
+                        {
+                            try
+                            {
+                                return serialPortUtil.ReadData(id, 5);  //4
+                            }
+                            catch (TimeoutException e4)
+                            {
+                                throw e4;
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

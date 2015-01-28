@@ -13,6 +13,8 @@ namespace NoiseAnalysisSystem
 {
     public partial class NoiseGroupMgr : BaseView, INoiseGroupMgr
     {
+        NLog.Logger logger = NLog.LogManager.GetLogger("NoiseGroupMgr");
+
         public NoiseGroupMgr()
         {
             InitializeComponent();
@@ -46,47 +48,55 @@ namespace NoiseAnalysisSystem
         /// </summary>
         public void BindTree()
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("KeyFieldName");
-            dt.Columns.Add("ParentFieldName");
-            dt.Columns.Add("ID");
-            dt.Columns.Add("Remark");
-            dt.Columns.Add("Name");
-
-            int pFlag = 0;
-            int cFlag = 0;
-            int tFlag = 0;
-            for (int i = 0; i < GlobalValue.groupList.Count; i++)
+            try
             {
-                DataRow dr = dt.NewRow();
-                dr["KeyFieldName"] = tFlag;
-                dr["ParentFieldName"] = DBNull.Value;
-                dr["ID"] = GlobalValue.groupList[i].ID;
-                dr["Remark"] = GlobalValue.groupList[i].Remark;
-                dr["Name"] = GlobalValue.groupList[i].Name;
-                cFlag = tFlag + 1;
-                pFlag = tFlag;
-                dt.Rows.Add(dr);
-                for (int j = 0; j < GlobalValue.groupList[i].RecorderList.Count; j++)
+                DataTable dt = new DataTable();
+                dt.Columns.Add("KeyFieldName");
+                dt.Columns.Add("ParentFieldName");
+                dt.Columns.Add("ID");
+                dt.Columns.Add("Remark");
+                dt.Columns.Add("Name");
+
+                int pFlag = 0;
+                int cFlag = 0;
+                int tFlag = 0;
+                for (int i = 0; i < GlobalValue.groupList.Count; i++)
                 {
-                    DataRow dr1 = dt.NewRow();
-                    dr1["KeyFieldName"] = cFlag;
-                    dr1["ParentFieldName"] = pFlag;
-                    dr1["ID"] = GlobalValue.groupList[i].RecorderList[j].ID;
-                    dr1["Remark"] = GlobalValue.groupList[i].RecorderList[j].Remark;
-                    dt.Rows.Add(dr1);
-                    cFlag++;
+                    DataRow dr = dt.NewRow();
+                    dr["KeyFieldName"] = tFlag;
+                    dr["ParentFieldName"] = DBNull.Value;
+                    dr["ID"] = GlobalValue.groupList[i].ID;
+                    dr["Remark"] = GlobalValue.groupList[i].Remark;
+                    dr["Name"] = GlobalValue.groupList[i].Name;
+                    cFlag = tFlag + 1;
+                    pFlag = tFlag;
+                    dt.Rows.Add(dr);
+                    for (int j = 0; j < GlobalValue.groupList[i].RecorderList.Count; j++)
+                    {
+                        DataRow dr1 = dt.NewRow();
+                        dr1["KeyFieldName"] = cFlag;
+                        dr1["ParentFieldName"] = pFlag;
+                        dr1["ID"] = GlobalValue.groupList[i].RecorderList[j].ID;
+                        dr1["Remark"] = GlobalValue.groupList[i].RecorderList[j].Remark;
+                        dt.Rows.Add(dr1);
+                        cFlag++;
+                        tFlag++;
+                    }
+                    pFlag++;
                     tFlag++;
                 }
-                pFlag++;
-                tFlag++;
+
+                treeList1.DataSource = dt;
+                treeList1.ParentFieldName = "ParentFieldName";
+                treeList1.KeyFieldName = "KeyFieldName";
+
+                treeList1.ExpandAll();
             }
-
-            treeList1.DataSource = dt;
-            treeList1.ParentFieldName = "ParentFieldName";
-            treeList1.KeyFieldName = "KeyFieldName";
-
-            treeList1.ExpandAll();
+            catch (Exception ex)
+            {
+                logger.ErrorException("BindTree", ex);
+                XtraMessageBox.Show("初始化页面出现异常！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         /// <summary>
@@ -231,6 +241,7 @@ namespace NoiseAnalysisSystem
                 }
 
                 NoiseRecorderGroup newGrp = new NoiseRecorderGroup();
+                newGrp.ID = NoiseDataBaseHelper.GetGroupID();
                 newGrp.Name = txtGroupName.Text;
                 newGrp.Remark = txtGroupNote.Text;
                 int query = NoiseDataBaseHelper.AddGroup(newGrp);

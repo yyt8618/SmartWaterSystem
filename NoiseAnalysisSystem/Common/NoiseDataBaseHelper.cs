@@ -459,8 +459,8 @@ namespace NoiseAnalysisSystem
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"INSERT INTO EN_Group(Name, Remark) VALUES('{0}','{1}')",
-                    group.Name, group.Remark);
+                sql = string.Format(@"INSERT INTO EN_Group(GroupId,Name, Remark) VALUES('{0}','{1}','{2}')",
+                    group.ID,group.Name, group.Remark);
                 query = SQLiteHelper.ExecuteNonQuery(sql);
 
                 return query;
@@ -470,6 +470,31 @@ namespace NoiseAnalysisSystem
 				throw ex;
 				//return -1;
 			}
+        }
+
+        /// <summary>
+        /// 获得一个组ID，该ID应该足够大，使之不与记录仪ID重复,否则会导致树形列表出现重复ID项
+        /// </summary>
+        /// <returns></returns>
+        public static int GetGroupID()
+        {
+            Random rd = new Random();
+            int rdint=rd.Next(50000, int.MaxValue - 1);
+            if (IsExistGroupID(rdint))
+            {
+                return GetGroupID();
+            }
+            else 
+                return rdint;
+        }
+
+        public static bool IsExistGroupID(int groupId)
+        {
+            string SQL = "SELECT COUNT(1) FROM EN_Group WHERE GroupID='" + groupId + "'";
+            object objcount=SQLiteHelper.ExecuteScalar(SQL, null);
+            if (objcount != null)
+                return Convert.ToInt32(objcount) == 1 ? true : false;
+            return false;
         }
 
         /// <summary>
