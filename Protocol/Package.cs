@@ -443,8 +443,6 @@ namespace Protocol
                 error = "数据帧不完整或已损坏";
             }
 
-
-
             //控制码
             package.C0 = bytes[start + 6];//控制码
             package.C1 = bytes[start + 7];//功能码
@@ -462,21 +460,6 @@ namespace Protocol
             {
                 package.data[i] = bytes[start + 10 + i];
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             package.CS = bytes[bytes.Length - 2];//校验码
 
