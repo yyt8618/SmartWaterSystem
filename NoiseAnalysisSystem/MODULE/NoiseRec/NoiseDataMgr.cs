@@ -519,7 +519,7 @@ namespace NoiseAnalysisSystem
 
                     NoiseResult re = new NoiseResult();
                     re.GroupID = recorder.GroupID;
-                    re.IsLeak = (isLeak1 & isLeak2);
+                    re.IsLeak = (isLeak1 | isLeak2);
                     re.RecorderID = recorder.ID;
                     re.LeakAmplitude = ru[0];
                     re.LeakFrequency = ru[1];

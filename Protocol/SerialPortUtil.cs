@@ -302,13 +302,13 @@ namespace Protocol
                     {
                         byte byteItem = ByteQueue.Dequeue();
                         bytes.Add(byteItem);
-                        if (byteItem == PackageDefine.EndByte & bytes.Count >= PackageDefine.MinLenth)
+                        if (byteItem == PackageDefine.EndByte && bytes.Count >= PackageDefine.MinLenth)
                         {
                             byte[] arr = bytes.ToArray();
                             int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);//数据域长度
 
                             Package pack;
-                            if (PackageDefine.MinLenth + len == arr.Length & Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
+                            if (PackageDefine.MinLenth + len == arr.Length && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
                                 int total = pack.IsFinal ? pack.DataLength : pack.AllDataLength;
                                 readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
@@ -427,13 +427,13 @@ namespace Protocol
                         byte byteItem = ByteQueue.Dequeue();
                         packageBytes.Add(byteItem);
                         //byteStack.Push(ByteQueue.Dequeue());
-                        if (byteItem == PackageDefine.EndByte & packageBytes.Count >= PackageDefine.MinLenth)
+                        if (byteItem == PackageDefine.EndByte && packageBytes.Count >= PackageDefine.MinLenth)
                         {
                             byte[] arr = packageBytes.ToArray();
                             int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);//数据域长度
 
                             Package pack;
-                            if (PackageDefine.MinLenth + len == arr.Length & Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
+                            if (PackageDefine.MinLenth + len == arr.Length && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
                                 nStartTime = Environment.TickCount;
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
@@ -589,13 +589,13 @@ namespace Protocol
                     {
                         byte byteItem = ByteQueue.Dequeue();
                         packageBytes.Add(byteItem);
-                        if (byteItem == PackageDefine.EndByte & packageBytes.Count >= PackageDefine.MinLenth)
+                        if (byteItem == PackageDefine.EndByte && packageBytes.Count >= PackageDefine.MinLenth)
                         {
                             byte[] arr = packageBytes.ToArray();
                             int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);//数据域长度
 
                             Package pack;
-                            if (PackageDefine.MinLenth + len == arr.Length & Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
+                            if (PackageDefine.MinLenth + len == arr.Length && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)
                                 {
