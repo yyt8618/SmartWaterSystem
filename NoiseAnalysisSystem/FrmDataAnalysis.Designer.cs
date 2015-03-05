@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.winChartViewer1 = new ChartDirector.WinChartViewer();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDataAnalysis));
             this.groupBox1 = new DevExpress.XtraEditors.GroupControl();
             this.txtRemark = new DevExpress.XtraEditors.MemoEdit();
             this.label6 = new System.Windows.Forms.Label();
@@ -70,7 +70,9 @@
             this.groupBox4 = new DevExpress.XtraEditors.GroupControl();
             this.txtNum = new DevExpress.XtraEditors.TextEdit();
             this.label7 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.winChartViewer1)).BeginInit();
+            this.c1Chart1 = new C1.Win.C1Chart.C1Chart();
+            this.txtCurSeriesValue = new DevExpress.XtraEditors.TextEdit();
+            this.colorPanel1 = new NoiseAnalysisSystem.ColorPanel();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRemark.Properties)).BeginInit();
@@ -96,16 +98,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupBox4)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c1Chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCurSeriesValue.Properties)).BeginInit();
             this.SuspendLayout();
-            // 
-            // winChartViewer1
-            // 
-            this.winChartViewer1.Location = new System.Drawing.Point(2, 0);
-            this.winChartViewer1.Name = "winChartViewer1";
-            this.winChartViewer1.Size = new System.Drawing.Size(653, 369);
-            this.winChartViewer1.TabIndex = 0;
-            this.winChartViewer1.TabStop = false;
-            this.winChartViewer1.ClickHotSpot += new ChartDirector.WinHotSpotEventHandler(this.winChartViewer1_ClickHotSpot);
             // 
             // groupBox1
             // 
@@ -434,7 +429,6 @@
             this.cbPoint.TabIndex = 72;
             this.cbPoint.Text = "线节点";
             this.cbPoint.UseVisualStyleBackColor = true;
-            this.cbPoint.CheckedChanged += new System.EventHandler(this.CheckedChanged);
             // 
             // cbLineType
             // 
@@ -448,7 +442,6 @@
             this.cbLineType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbLineType.Size = new System.Drawing.Size(78, 20);
             this.cbLineType.TabIndex = 40;
-            this.cbLineType.SelectedIndexChanged += new System.EventHandler(this.CheckedChanged);
             // 
             // label13
             // 
@@ -486,17 +479,48 @@
             this.label7.TabIndex = 53;
             this.label7.Text = "当前采集次数";
             // 
+            // c1Chart1
+            // 
+            this.c1Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            this.c1Chart1.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.c1Chart1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.c1Chart1.Location = new System.Drawing.Point(1, 3);
+            this.c1Chart1.Name = "c1Chart1";
+            this.c1Chart1.PropBag = resources.GetString("c1Chart1.PropBag");
+            this.c1Chart1.Size = new System.Drawing.Size(597, 364);
+            this.c1Chart1.TabIndex = 61;
+            this.c1Chart1.Paint += new System.Windows.Forms.PaintEventHandler(this.c1Chart1_Paint);
+            this.c1Chart1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.c1Chart1_MouseMove);
+            // 
+            // txtCurSeriesValue
+            // 
+            this.txtCurSeriesValue.Location = new System.Drawing.Point(604, 347);
+            this.txtCurSeriesValue.Name = "txtCurSeriesValue";
+            this.txtCurSeriesValue.Properties.ReadOnly = true;
+            this.txtCurSeriesValue.Size = new System.Drawing.Size(48, 20);
+            this.txtCurSeriesValue.TabIndex = 63;
+            this.txtCurSeriesValue.TabStop = false;
+            // 
+            // colorPanel1
+            // 
+            this.colorPanel1.Location = new System.Drawing.Point(600, 59);
+            this.colorPanel1.Name = "colorPanel1";
+            this.colorPanel1.Size = new System.Drawing.Size(59, 268);
+            this.colorPanel1.TabIndex = 62;
+            // 
             // FrmDataAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(659, 605);
+            this.Controls.Add(this.txtCurSeriesValue);
+            this.Controls.Add(this.colorPanel1);
+            this.Controls.Add(this.c1Chart1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.winChartViewer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FrmDataAnalysis";
             this.ShowIcon = false;
@@ -505,7 +529,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "噪声数据分析";
             this.Load += new System.EventHandler(this.FrmDataAnalysis_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.winChartViewer1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -535,13 +558,14 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c1Chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCurSeriesValue.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private ChartDirector.WinChartViewer winChartViewer1;
         private DevExpress.XtraEditors.GroupControl groupBox1;
         private DevExpress.XtraEditors.TextEdit txtPickSpan;
         private DevExpress.XtraEditors.TextEdit txtRecNum;
@@ -582,6 +606,9 @@
 		private System.Windows.Forms.Label label7;
         private DevExpress.XtraEditors.TextEdit txtEnergyValue;
         private System.Windows.Forms.Label label18;
+        private C1.Win.C1Chart.C1Chart c1Chart1;
+        private ColorPanel colorPanel1;
+        private DevExpress.XtraEditors.TextEdit txtCurSeriesValue;
 
 
 
