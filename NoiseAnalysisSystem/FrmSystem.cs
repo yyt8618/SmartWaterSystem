@@ -351,8 +351,8 @@ namespace NoiseAnalysisSystem
         private void navBarNoiseGroupManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             NoiseGroupMgr groupMgrView = (NoiseGroupMgr)this.LoadView(typeof(NoiseGroupMgr));
-            groupMgrView.BindTree();
             groupMgrView.BindListBox();
+            groupMgrView.BindTree();
         }
 
         private void navBarNoiseMap_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
@@ -441,15 +441,18 @@ namespace NoiseAnalysisSystem
 
         public void HideWaitForm()
         {
-            this.BeginInvoke(new Action(() =>
-            {
-                try
+            //if (this.IsHandleCreated)
+            //{
+                this.BeginInvoke(new Action(() =>
                 {
-                    if (splashScreenmanager.IsSplashFormVisible)
-                        splashScreenmanager.CloseWaitForm();
-                }
-                catch { }
-            }));
+                    try
+                    {
+                        if (splashScreenmanager.IsSplashFormVisible)
+                            splashScreenmanager.CloseWaitForm();
+                    }
+                    catch { }
+                }));
+            //}
         }
 
         public void DisableRibbonBar()

@@ -11,7 +11,6 @@ using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Threading;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace NoiseAnalysisSystem
 {
@@ -278,18 +277,6 @@ namespace NoiseAnalysisSystem
             List<int> readIdList = new List<int>(); // 需要读取的ID列表
             bool isError = false;
 
-            // 如果存在需要重新读取的ID列表（即上次读取超时的ID列表）
-            //if (GlobalValue.reReadIdList.Count != 0)
-            //{
-            //    for (int j = 0; j < GlobalValue.reReadIdList.Count; j++)
-            //    {
-            //        readIdList.Add(GlobalValue.reReadIdList[j]);
-            //    }
-            //}
-            //else
-            //{
-            //xxxxx
-            //}
             for (int j = 0; j < selectList.Count; j++)
             {
                 if (!readIdList.Contains(selectList[j].ID))

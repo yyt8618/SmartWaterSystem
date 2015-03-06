@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
 using Utility;
-using System.Threading.Tasks;
-using Protocol;
 using System.Threading;
 using NoiseAnalysisSystem;
 using System.Management;
@@ -28,8 +26,8 @@ namespace Protocol
         {
             return instance;
         }
-        #region 事件
 
+        #region 事件
         /// <summary>
         /// 完整协议的记录处理事件
         /// </summary>
@@ -59,7 +57,6 @@ namespace Protocol
         private StringBuilder strLogBuf = new StringBuilder();
 
         #region 串口状态
-
         private bool isComRecving = false;
         /// <summary>
         /// 正在读取串口
@@ -680,9 +677,7 @@ namespace Protocol
             }
         }
 
-
         #region 触发外部监听事件
-
         /// <summary>
         /// 触发读取数据事件的方法
         /// </summary>
@@ -880,7 +875,6 @@ namespace Protocol
             this.StrLogBuf = strLogBuf;
         }
     }
-
 
     /// <summary>
     /// 数据返回事件参数

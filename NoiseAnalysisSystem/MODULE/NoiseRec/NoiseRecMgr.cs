@@ -324,7 +324,15 @@ namespace NoiseAnalysisSystem
                 {
                     throw new Exception(msg);
                 }
-
+                for(int i = 0; i < gridViewRecordList.RowCount; i++)
+                {
+                    int id=Convert.ToInt32(gridViewRecordList.GetRowCellValue(i,"编号"));
+                    if (id == Convert.ToInt32(txtRecID.Text))
+                    {
+                        XtraMessageBox.Show("记录仪编号[" + id + "]已存在!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                }
                 NoiseRecorder newRec = new NoiseRecorder();
                 newRec.ID = Convert.ToInt32(txtRecID.Text);
                 newRec.AddDate = DateTime.Now;
