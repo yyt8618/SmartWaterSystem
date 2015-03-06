@@ -54,7 +54,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="C1.Win.C1Chart.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=a22e16972c085838, processorArchitecture=MSIL" />
-    <Reference Include="C1.Win.C1Chart3D.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=a22e16972c085838, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.BonusSkins.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
