@@ -33,8 +33,8 @@ namespace NoiseAnalysisSystem
             colors[2] = Color.Blue;
 
             data = Recorder.Data;
-            cbLineType.SelectedIndex = 1;
-            cbPoint.Checked = false;
+            //cbLineType.SelectedIndex = 1;
+            //cbPoint.Checked = false;
             DataBinding();
             InitChart();
         }

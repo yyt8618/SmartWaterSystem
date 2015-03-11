@@ -172,6 +172,27 @@ namespace NoiseAnalysisSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap UniversalTerMgr {
+            get {
+                object obj = ResourceManager.GetObject("UniversalTerMgr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap UniversalTerMgr1 {
+            get {
+                object obj = ResourceManager.GetObject("UniversalTerMgr1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap UniversalTerParm {
+            get {
+                object obj = ResourceManager.GetObject("UniversalTerParm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ValveSwitchCTL {
             get {
                 object obj = ResourceManager.GetObject("ValveSwitchCTL", resourceCulture);

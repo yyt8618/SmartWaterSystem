@@ -63,10 +63,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.groupBox3 = new DevExpress.XtraEditors.GroupControl();
-            this.cbPoint = new System.Windows.Forms.CheckBox();
-            this.cbLineType = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.label13 = new System.Windows.Forms.Label();
             this.groupBox4 = new DevExpress.XtraEditors.GroupControl();
             this.txtNum = new DevExpress.XtraEditors.TextEdit();
             this.label7 = new System.Windows.Forms.Label();
@@ -92,9 +88,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtEnergyValue.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxNoise.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cbLineType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox4)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum.Properties)).BeginInit();
@@ -409,49 +402,6 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.cbPoint);
-            this.groupBox3.Controls.Add(this.cbLineType);
-            this.groupBox3.Controls.Add(this.label13);
-            this.groupBox3.Location = new System.Drawing.Point(9, 373);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(373, 58);
-            this.groupBox3.TabIndex = 57;
-            this.groupBox3.Text = "图表设置";
-            // 
-            // cbPoint
-            // 
-            this.cbPoint.AutoSize = true;
-            this.cbPoint.Location = new System.Drawing.Point(177, 31);
-            this.cbPoint.Name = "cbPoint";
-            this.cbPoint.Size = new System.Drawing.Size(62, 18);
-            this.cbPoint.TabIndex = 72;
-            this.cbPoint.Text = "线节点";
-            this.cbPoint.UseVisualStyleBackColor = true;
-            // 
-            // cbLineType
-            // 
-            this.cbLineType.Location = new System.Drawing.Point(61, 29);
-            this.cbLineType.Name = "cbLineType";
-            this.cbLineType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbLineType.Properties.Items.AddRange(new object[] {
-            "曲线",
-            "折线"});
-            this.cbLineType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbLineType.Size = new System.Drawing.Size(78, 20);
-            this.cbLineType.TabIndex = 40;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(9, 31);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(43, 14);
-            this.label13.TabIndex = 39;
-            this.label13.Text = "线类型";
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.txtNum);
@@ -518,7 +468,6 @@
             this.Controls.Add(this.colorPanel1);
             this.Controls.Add(this.c1Chart1);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -550,10 +499,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtEnergyValue.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxNoise.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cbLineType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox4)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -594,10 +539,6 @@
         private DevExpress.XtraEditors.MemoEdit txtRemark;
 		private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ErrorProvider errorProvider;
-        private DevExpress.XtraEditors.GroupControl groupBox3;
-        private DevExpress.XtraEditors.ComboBoxEdit cbLineType;
-		private System.Windows.Forms.Label label13;
-		private System.Windows.Forms.CheckBox cbPoint;
 		private DevExpress.XtraEditors.TextEdit txtLeakHz;
 		private DevExpress.XtraEditors.TextEdit txtLeakNoise;
 		private System.Windows.Forms.Label label2;

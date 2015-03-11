@@ -5,20 +5,19 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BB39153E-4B1E-48B3-8790-F4461D4B238B}</ProjectGuid>
+    <ProjectGuid>{950E97A0-8ACB-4ADB-BCD4-680945253386}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NoiseAnalysisSystem</RootNamespace>
-    <AssemblyName>Common</AssemblyName>
+    <RootNamespace>IUniversalTerParm</RootNamespace>
+    <AssemblyName>IUniversalTerParm</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\NoiseAnalysisSystem\bin\Debug\plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,56 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog">
-      <HintPath>..\DLL\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\SQLite_x86\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppConfigHelper.cs" />
-    <Compile Include="CheckHelper.cs" />
-    <Compile Include="Controls\ColorPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ColorPanel.Designer.cs">
-      <DependentUpon>ColorPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\IPControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\IPControl.Designer.cs">
-      <DependentUpon>IPControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConvertHelper.cs" />
-    <Compile Include="DataBase\DbHelperSQL.cs" />
-    <Compile Include="DataBase\Version.cs" />
-    <Compile Include="FormatHelper.cs" />
-    <Compile Include="MetarnetRegex.cs" />
-    <Compile Include="PackageDefine.cs" />
-    <Compile Include="Printer.cs" />
+    <Compile Include="IUniversalTerParm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataBase\SQLiteDbManager.cs" />
-    <Compile Include="DataBase\SQLiteHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Controls\ColorPanel.resx">
-      <DependentUpon>ColorPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\IPControl.resx">
-      <DependentUpon>IPControl.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

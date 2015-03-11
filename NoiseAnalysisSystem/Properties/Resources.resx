@@ -121,17 +121,20 @@
   <data name="SerialPortConfig1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPortConfig1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ValveSwitchCTL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Products\ValveSwitchCTL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="DataCompare2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataCompare2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="companylogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\companylogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Voice" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Voice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="UniversalTerParm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UniversalTerParm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="voice1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\voice1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DataCompare1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataCompare1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PortablePreTerminal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Products\PortablePreTerminal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -139,8 +142,14 @@
   <data name="DataCompare3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataCompare3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DataCompare" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataCompare.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="cross1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UniversalTerMgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UniversalTerMgr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GsmTerminal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Products\GsmTerminal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="voice2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\voice2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,8 +157,8 @@
   <data name="DisableSerialPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DisableSerialPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DataCompare1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataCompare1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Welcome.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SerialPortConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPortConfig.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,22 +178,22 @@
   <data name="PreTerminal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Products\PreTerminal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ValveSwitchCTL" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Products\ValveSwitchCTL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Voice" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Voice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SerialPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GsmTerminal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Products\GsmTerminal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="voice1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\voice1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cross1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DataCompare" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataCompare.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="NoiseMap" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NoiseMap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Welcome.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="UniversalTerMgr1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UniversalTerMgr1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

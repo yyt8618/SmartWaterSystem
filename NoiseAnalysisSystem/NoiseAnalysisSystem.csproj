@@ -71,7 +71,6 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Map.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -96,7 +95,6 @@
     <Reference Include="DevExpress.XtraLayout.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraMap.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraNavBar.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -244,6 +242,24 @@
     <Compile Include="MODULE\PreTerminal\PreTerStoppage.Designer.cs">
       <DependentUpon>PreTerStoppage.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerParm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerParm.Designer.cs">
+      <DependentUpon>UniversalTerParm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerMonitor.Designer.cs">
+      <DependentUpon>UniversalTerMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerMgr.Designer.cs">
+      <DependentUpon>UniversalTerMgr.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FrmSysVoiceSet.cs">
@@ -346,6 +362,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerStoppage.resx">
       <DependentUpon>PreTerStoppage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerParm.resx">
+      <DependentUpon>UniversalTerParm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerMonitor.resx">
+      <DependentUpon>UniversalTerMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerMgr.resx">
+      <DependentUpon>UniversalTerMgr.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -468,10 +493,21 @@
       <Project>{CBDF6FF1-FDC4-42BE-A21A-A5559DC20F6F}</Project>
       <Name>Protocol</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UniversalTerMgr\UniversalTerMgr.csproj">
+      <Project>{68C2F608-9553-463D-B638-EC636C6CA59C}</Project>
+      <Name>UniversalTerMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniversalTerParm\UniversalTerParm.csproj">
+      <Project>{950E97A0-8ACB-4ADB-BCD4-680945253386}</Project>
+      <Name>UniversalTerParm</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
+    <None Include="Resources\UniversalTerMgr1.png" />
+    <None Include="Resources\UniversalTerMgr.png" />
+    <None Include="Resources\UniversalTerParm.png" />
     <None Include="Resources\Welcome.jpg" />
     <None Include="Resources\right.png" />
     <None Include="Resources\cross.png" />
@@ -500,7 +536,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity\" />
-    <Folder Include="MODULE\GSMTerminal\" />
     <Folder Include="MODULE\PortablePreTerminal\" />
     <Folder Include="MODULE\ValveSwitchCTL\" />
   </ItemGroup>

@@ -227,6 +227,16 @@ namespace NoiseAnalysisSystem
                     NBG_PreT.Visible = true;
                     navBarPreTerStoppage.Visible = true;
                 }
+                else if (t.Name == "IUniversalTerParm")  //通用终端参数设置和读取
+                {
+                    NBG_GSMT.Visible = true;
+                    navBarGSMParm.Visible = true;
+                }
+                else if (t.Name == "IUniversalTerMgr")   //通用终端管理
+                {
+                    NBG_GSMT.Visible = true;
+                    navBarGSMMgr.Visible = true;
+                }
             }
         }
 
@@ -265,6 +275,21 @@ namespace NoiseAnalysisSystem
             navBarPreTerAlarm.Visible = isVisiable;
             //压力终端故障统计分析
             navBarPreTerStoppage.Visible = isVisiable;
+
+            //通用终端
+            NBG_GSMT.Visible = isVisiable;
+            //通用终端参数配置和读取
+            navBarGSMParm.Visible = isVisiable;
+            //通用终端管理
+            navBarGSMMgr.Visible = isVisiable;
+            //通用终端列表监控、趋势图
+            navBarGSMMonitor.Visible = isVisiable;
+            //通用终端报表、历史数据查询
+            navBarGSMReport.Visible = isVisiable;
+            //通用终端故障统计分析
+            navBarGSMStoppage.Visible = isVisiable;
+
+
         }
 
         // 打开串口
@@ -333,6 +358,7 @@ namespace NoiseAnalysisSystem
             }
         }
 
+        #region NavigatorBar Click
         // 数据管理
         private void navBarNoiseDataManager_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
@@ -355,16 +381,85 @@ namespace NoiseAnalysisSystem
             groupMgrView.BindTree();
         }
 
+        //噪声地图
         private void navBarNoiseMap_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(NoiseMap));
         }
 
+        // 压力终端参数
         private void navBarPreTerParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(PreTerParm));
         }
 
+        //压力终端管理
+        private void navBarPreTerMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(PreTerMgr));
+        }
+
+        private void navBarPreTerMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(PreTerMonitor));
+        }
+
+        private void navBarPreTerReport_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(PreTerReportHistory));
+        }
+
+        private void navBarPreTerAlarm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(PreTerAlarm));
+        }
+
+        private void navBarPreTerStoppage_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(PreTerStoppage));
+        }
+        private void navBarNoiseParmSet_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(NoiseParmSetting));
+        }
+
+        private void navBarNoiseFFT_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(NoiseFFT));
+        }
+
+        private void navBarNoiseCompare_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (GlobalValue.recorderList.Count > 0)
+            {
+                LoadView(typeof(NoiseDataCompare));
+            }
+            else
+            {
+                XtraMessageBox.Show("当前不存在任何记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void navBarNoiseEnergy_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(NoiseEnergyAnalysis));
+        }
+
+        private void navBarGSMParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(UniversalTerParm));
+        }
+
+        private void navBarGSMMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(UniversalTerMgr));
+        }
+
+        private void navBarGSMMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(UniversalTerMonitor));
+        }
+        #endregion
 
         // 退出
         private void barBtnSetClose_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -484,65 +579,10 @@ namespace NoiseAnalysisSystem
             XtraMessageBox.Show(text, caption, buttons, icon);
         }
 
-        private void navBarPreTerMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(PreTerMgr));
-        }
-
-        private void navBarPreTerMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(PreTerMonitor));
-        }
-
-        private void navBarPreTerReport_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(PreTerReportHistory));
-        }
-
-        private void navBarPreTerAlarm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(PreTerAlarm));
-        }
-
-        private void navBarPreTerStoppage_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(PreTerStoppage));
-        }
-
-        private void barBtnNoiseEnergyAny_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            LoadView(typeof(NoiseEnergyAnalysis));
-        }
-
         private void FrmSystem_KeyDown(object sender, KeyEventArgs e)
         {
         }
-        private void navBarNoiseParmSet_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(NoiseParmSetting));
-        }
-
-        private void navBarNoiseFFT_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(NoiseFFT));
-        }
-
-        private void navBarNoiseCompare_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            if (GlobalValue.recorderList.Count > 0)
-            {
-                LoadView(typeof(NoiseDataCompare));
-            }
-            else
-            {
-                XtraMessageBox.Show("当前不存在任何记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void navBarNoiseEnergy_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(NoiseEnergyAnalysis));
-        }
+        
 
         #region 加载插件
         private void LoadAddin(string path)
@@ -656,6 +696,9 @@ namespace NoiseAnalysisSystem
             string skincaption=ribbonGalleryBarItem1.Gallery.GetCheckedItems()[0].Caption;
             AppConfigHelper.SetAppSettingValue("Skin", skincaption);
         }
+
+        
+
 
     }
 }

@@ -469,7 +469,8 @@
             // 
             // NBG_GSMT
             // 
-            this.NBG_GSMT.Caption = "GSM终端";
+            this.NBG_GSMT.Caption = "通用终端";
+            this.NBG_GSMT.Expanded = true;
             this.NBG_GSMT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.NBG_GSMT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMParm),
@@ -483,17 +484,22 @@
             // navBarGSMParm
             // 
             this.navBarGSMParm.Caption = "参数配置和读取";
+            this.navBarGSMParm.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.UniversalTerParm;
             this.navBarGSMParm.Name = "navBarGSMParm";
+            this.navBarGSMParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMParm_LinkClicked);
             // 
             // navBarGSMMgr
             // 
             this.navBarGSMMgr.Caption = "终端配置和管理";
+            this.navBarGSMMgr.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.UniversalTerMgr1;
             this.navBarGSMMgr.Name = "navBarGSMMgr";
+            this.navBarGSMMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMMgr_LinkClicked);
             // 
             // navBarGSMMonitor
             // 
             this.navBarGSMMonitor.Caption = "列表监控、趋势图";
             this.navBarGSMMonitor.Name = "navBarGSMMonitor";
+            this.navBarGSMMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMMonitor_LinkClicked);
             // 
             // navBarGSMReport
             // 
