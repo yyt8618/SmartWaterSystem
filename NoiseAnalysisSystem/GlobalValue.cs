@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Protocol;
 using System.Windows.Forms;
+using Entity;
+using Common;
 
 namespace NoiseAnalysisSystem
 {

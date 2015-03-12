@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace NoiseAnalysisSystem
+namespace Common
 {
     public class Win32
     {

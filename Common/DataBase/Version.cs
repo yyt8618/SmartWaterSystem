@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 using System.Data;
 
-namespace NoiseAnalysisSystem
+namespace Common
 {
     public class DBVersion
     {

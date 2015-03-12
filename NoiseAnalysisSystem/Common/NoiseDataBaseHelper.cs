@@ -5,6 +5,8 @@ using System.Text;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.Data.SQLite;
+using Entity;
+using Common;
 
 namespace NoiseAnalysisSystem
 {

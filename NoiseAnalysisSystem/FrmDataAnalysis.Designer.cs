@@ -1,4 +1,5 @@
-﻿namespace NoiseAnalysisSystem
+﻿using Common;
+namespace NoiseAnalysisSystem
 {
     partial class FrmDataAnalysis
     {
@@ -68,7 +69,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.c1Chart1 = new C1.Win.C1Chart.C1Chart();
             this.txtCurSeriesValue = new DevExpress.XtraEditors.TextEdit();
-            this.colorPanel1 = new NoiseAnalysisSystem.ColorPanel();
+            this.colorPanel1 = new ColorPanel();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRemark.Properties)).BeginInit();

@@ -7,6 +7,8 @@ using System.Collections;
 using System.Media;
 using C1.Win.C1Chart;
 using DevExpress.XtraEditors;
+using Entity;
+using Common;
 
 namespace NoiseAnalysisSystem
 {

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Xml;
 
-namespace NoiseAnalysisSystem
+namespace Common
 {
     /// <summary>
     /// 提供对App.Config配置文件的操作

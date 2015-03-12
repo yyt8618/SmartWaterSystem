@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Printing;
 using System.Drawing;
 
-namespace NoiseAnalysisSystem
+namespace Common
 {
     /// <summary>
     /// 提供对DataGridView中数据的打印

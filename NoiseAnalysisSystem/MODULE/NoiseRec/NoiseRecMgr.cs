@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using Protocol;
+using Common;
+using Entity;
 
 namespace NoiseAnalysisSystem
 {

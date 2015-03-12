@@ -1,4 +1,4 @@
-﻿namespace NoiseAnalysisSystem
+﻿namespace Common
 {
     partial class IPControl
     {

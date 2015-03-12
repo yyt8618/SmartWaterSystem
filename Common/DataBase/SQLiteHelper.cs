@@ -5,7 +5,7 @@ using System.Data.SQLite;
 using System.Collections;
 using System.Data;
 
-namespace NoiseAnalysisSystem
+namespace Common
 {
     public class SQLiteHelper
     {

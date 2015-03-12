@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace NoiseAnalysisSystem
+namespace Common
 {
     partial class ColorPanel
     {

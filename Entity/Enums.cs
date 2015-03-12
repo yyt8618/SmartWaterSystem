@@ -1,5 +1,5 @@
 ﻿
-namespace NoiseAnalysisSystem
+namespace Entity
 {
     /// <summary>
     /// 版本类型

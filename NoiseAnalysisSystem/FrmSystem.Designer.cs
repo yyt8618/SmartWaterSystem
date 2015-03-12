@@ -638,6 +638,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.StatusBar = this.ribbonStatusBar1;
             this.Text = "敢创水务系统";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSystem_FormClosing);
             this.Load += new System.EventHandler(this.FrmSystem_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmSystem_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).EndInit();

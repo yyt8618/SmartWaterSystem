@@ -5,8 +5,8 @@ using System.Text;
 using System.IO.Ports;
 using Utility;
 using System.Threading;
-using NoiseAnalysisSystem;
 using System.Management;
+using Common;
 
 
 namespace Protocol

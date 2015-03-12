@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace NoiseAnalysisSystem
+namespace Common
 {
     /// <summary>
     /// 校验码计算

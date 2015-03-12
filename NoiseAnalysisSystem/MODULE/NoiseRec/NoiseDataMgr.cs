@@ -11,6 +11,7 @@ using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Threading;
 using System.IO;
+using Entity;
 
 namespace NoiseAnalysisSystem
 {

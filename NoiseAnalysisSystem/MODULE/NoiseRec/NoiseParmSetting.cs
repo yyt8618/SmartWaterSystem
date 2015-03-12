@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using Common;
 
 namespace NoiseAnalysisSystem
 {

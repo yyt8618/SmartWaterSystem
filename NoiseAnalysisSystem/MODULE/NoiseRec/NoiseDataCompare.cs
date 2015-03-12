@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using ChartDirector;
 using System.Collections;
 using DevExpress.XtraEditors;
+using Entity;
 
 namespace NoiseAnalysisSystem
 {

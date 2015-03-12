@@ -301,6 +301,7 @@
     <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.Designer.cs">
       <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
     </Compile>
+    <Compile Include="SQLSyncManager.cs" />
     <Compile Include="WelcomSplash.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -410,9 +411,6 @@
     <EmbeddedResource Include="WaitForm1.resx">
       <DependentUpon>WaitForm1.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

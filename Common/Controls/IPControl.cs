@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
-namespace NoiseAnalysisSystem
+namespace Common
 {
     public partial class IPControl : UserControl
     {

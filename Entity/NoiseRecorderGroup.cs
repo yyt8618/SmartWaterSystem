@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 
-namespace NoiseAnalysisSystem
+namespace Entity
 {
     /// <summary>
     /// 噪声记录仪分组

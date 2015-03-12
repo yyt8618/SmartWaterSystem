@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NoiseAnalysisSystem
+namespace Common
 {
     /// <summary>
     /// 通过Framwork类库中的Regex类实现了一些特殊功能数据检查

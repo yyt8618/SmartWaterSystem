@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Media;
 using System.IO;
+using Common;
 
 namespace NoiseAnalysisSystem
 {

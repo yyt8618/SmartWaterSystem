@@ -9,6 +9,8 @@ using DevExpress.LookAndFeel;
 using DevExpress.XtraSplashScreen;
 using System.Threading;
 using Microsoft.Data.ConnectionUI;
+using Common;
+using Entity;
 
 namespace NoiseAnalysisSystem
 {
@@ -756,8 +758,16 @@ namespace NoiseAnalysisSystem
             AppConfigHelper.SetAppSettingValue("Skin", skincaption);
         }
 
-        
+        private void FrmSystem_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                GlobalValue.SQLSyncMgr.SQLSyncEvent -= new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
 
+                GlobalValue.SQLSyncMgr.Stop();
+            }
+            catch { }
+        }
         
 
 

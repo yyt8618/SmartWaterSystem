@@ -1,4 +1,5 @@
-﻿namespace NoiseAnalysisSystem
+﻿using Common;
+namespace NoiseAnalysisSystem
 {
     partial class UniversalTerParm
     {
@@ -31,7 +32,7 @@
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnNow = new DevExpress.XtraEditors.SimpleButton();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.ipControl1 = new NoiseAnalysisSystem.IPControl();
+            this.ipControl1 = new IPControl();
             this.txtCellPhone = new DevExpress.XtraEditors.TextEdit();
             this.cbComType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceComType = new DevExpress.XtraEditors.CheckEdit();
