@@ -848,58 +848,5 @@ namespace NoiseAnalysisSystem
 			}
         }
 
-		/// <summary>
-		/// 上传数据到服务器
-		/// </summary>
-		/// <param name="result">噪声分析结果</param>
-		/// <param name="data">噪声分析数据</param>
-		public static void Upload2Server(NoiseResult result, NoiseData data)
-		{
-			try
-			{
-				string str = AppConfigHelper.GetAppSettingValue("ConnString");
-				if (!DbHelperSQL.TryConn(str))
-				{
-					throw new Exception("数据库连接失败！");
-				}
-
-				DbHelperSQL.connectionString = str;
-				string sql = string.Empty;
-
-				sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime) 
-                    VALUES({0},{1},'{2}',{3},{4},{5},'{6}')",
-						result.LeakAmplitude, result.LeakFrequency,
-						result.UploadTime, result.IsLeak.ToString(),
-						result.ESA, result.UploadFlag, result.ReadTime);
-
-				DbHelperSQL.ExecuteSql(sql);
-
-				string strAmp = string.Empty;
-				for (int i = 0; i < data.Amplitude.Length; i++)
-				{
-					if (i == data.Amplitude.Length - 1)
-						strAmp += data.Amplitude[i];
-					else
-						strAmp += data.Amplitude[i] + ",";
-				}
-				string strFrq = string.Empty;
-				for (int i = 0; i < data.Frequency.Length; i++)
-				{
-					if (i == data.Frequency.Length - 1)
-						strFrq += data.Frequency[i];
-					else
-						strFrq += data.Frequency[i] + ",";
-				}
-
-				sql = string.Format(@"INSERT INTO DL_Noise_Real(LeakValue, FrequencyValue, CollTime, UnloadTime, HistoryFlag) 
-                    VALUES({0},{1},'{2}','{3}',{4})",
-					strAmp, strFrq, data.ReadTime, data.UploadTime, data.UploadFlag);
-
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
     }
 }

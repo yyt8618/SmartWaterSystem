@@ -271,6 +271,13 @@ namespace NoiseAnalysisSystem
             array.Add(CreateTableGroupRecorder());
             array.Add(CreateTableRecorderSet());
             array.Add(CreateTableStandData());
+            array.Add(CreateTableUniversalTerConfig());
+            array.Add(CreateTablePreTerConfig());
+            array.Add(CreateTableGPRSTerminal());
+            array.Add(CreateTableSimulateType());
+            array.Add(CreateTableRS485Type());
+            array.Add(CreateTablePluseType()); 
+
             array.Add(CreateDBVersionTable());
             return array;
         }
@@ -376,7 +383,7 @@ namespace NoiseAnalysisSystem
                         [GroupId]        NVARCHAR(15)    NULL        DEFAULT 0,          --组ID
                         [RecorderId]     INT             NULL        DEFAULT 0,          --记录仪ID
                         [MinLeakValue]   NVARCHAR(300)   NULL        DEFAULT '',         --
-                        [MinFrequencyValue] NVARCHAR(300)   NULL        DEFAULT '',         --
+                        [MinFrequencyValue] NVARCHAR(300)   NULL        DEFAULT '',      --
                         [IsLeak]         INT             NULL        DEFAULT 0,
                         [EnergyValue]    NVARCHAR(15)    NULL        DEFAULT 0,
                         [ESA]            INT             NULL        DEFAULT 0,
@@ -411,7 +418,7 @@ namespace NoiseAnalysisSystem
         {
             return @"CREATE TABLE En_Group
                      (
-                        [GroupId]        INTEGER PRIMARY KEY         NOT NULL,       --组ID
+                        [GroupId]        INTEGER PRIMARY KEY         NOT NULL,           --组ID
                         [Name]           NVARCHAR(30)    NULL        DEFAULT '',         --
                         [Remark]         NVARCHAR(100)   NULL        DEFAULT '',         --备注
                         [ModifyTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime'))
@@ -484,8 +491,109 @@ namespace NoiseAnalysisSystem
                      )";
         }
 
-        #endregion
+        //终端表
+        private string CreateTableGPRSTerminal()
+        {
+            return @"CREATE TABLE [Terminal]
+                    (
+	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [TerminalID]		[INT] NOT NULL,								--终端ID
+	                    [TerminalName]		NVARCHAR(200) NOT NULL,					    --终端名称
+                        [TerminalType]      [INT]           NOT NULL,                   --终端类型 
+	                    [Address]			NVARCHAR(200)	NOT NULL DEFAULT '',		--地址
+	                    [Remark]			NVARCHAR(200)	NOT NULL DEFAULT '',		--备注
+	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
+                    )";
+        }
 
+        //压力终端配置
+        private string CreateTablePreTerConfig()
+        {
+            return @"CREATE TABLE [PreTerConfig]
+                    (
+	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [TerminalID]		[INT] NOT NULL,								--终端ID
+	                    [EnablePreAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用压力报警 0:不启用,1:启用
+	                    [EnableSlopeAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用斜率报警 0:不启用,1:启用
+	                    [PreUpperLimit]		[NUMERIC](8,5)	NOT NULL DEFAULT 0,			--压力上限值
+	                    [PreLowLimit]		[NUMERIC](8,5)	NOT NULL DEFAULT 0,			--压力下限值
+	                    [PreSlopeUpLimit]   [NUMERIC](8,5)  NOT NULL DEFAULT 0,			--压力斜率上限值
+	                    [PreSlopeLowLimit]  [NUMERIC](8,5)  NOT NULL DEFAULT 0,			--压力斜率下限值
+	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
+                    )";
+        }
+
+        private string CreateTableUniversalTerConfig()
+        {
+            return @"CREATE TABLE [UniversalTerConfig]
+                    (
+	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [TerminalID]		[INT] NOT NULL,								--终端ID
+	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
+                    )";
+        }
+
+        /// <summary>
+        /// 模拟类型(通用终端)
+        /// </summary>
+        /// <returns></returns>
+        private string CreateTableSimulateType()
+        {
+            return @"CREATE TABLE [SimulateType]
+                    (
+	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [Level]             [INT]           NOT NULL,
+	                    [ParentID]          [INT]           NULL,
+	                    [SimulateTypeID]    [INT]           NOT NULL,
+	                    [SimulateTypeName]  NVARCHAR(30)    NOT NULL,
+	                    [MaxMeasureRange]   NUMERIC(18, 2)  NOT NULL,
+	                    [MaxMeasureRangeFlag] NUMERIC(18, 2) NOT NULL,
+	                    [Precision]         [INT]           NULL,
+	                    [Unit]              NVARCHAR(20)    NULL,
+	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
+                    )";
+        }
+
+        /// <summary>
+        /// RS485类型(通用终端)
+        /// </summary>
+        /// <returns></returns>
+        private string CreateTableRS485Type()
+        {
+            return @"CREATE TABLE [RS485Type]
+                    (
+	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [Level]             [INT] NOT NULL,
+	                    [ParentID]          [INT] NULL,
+	                    [RS485TypeID]       [INT] NOT NULL,
+	                    [RS485TypeName]     NVARCHAR(30) NOT NULL,
+	                    [Precision]         [INT] NULL,
+	                    [Unit]              NVARCHAR(20) NULL,
+	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
+                    )";
+        }
+
+        /// <summary>
+        /// 脉冲类型(通用终端)
+        /// </summary>
+        /// <returns></returns>
+        private string CreateTablePluseType()
+        {
+            return @"CREATE TABLE [PluseType]
+                    (
+	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [Level]             [INT] NULL,
+	                    [ParentID]          [INT] NULL,
+	                    [PluseTypeID]       [INT] NOT NULL,
+	                    [PluseTypeName]     NVARCHAR(30) NOT NULL,
+	                    [Precision]         [INT] NULL,
+	                    [Unit]              NVARCHAR(20) NULL,
+	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
+                    )";
+        }
+
+        #endregion
+            
         #region 重建数据库
         /// <summary>
         /// 重建数据库

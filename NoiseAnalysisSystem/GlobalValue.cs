@@ -19,6 +19,8 @@ namespace NoiseAnalysisSystem
         internal static List<int> reReadIdList = new List<int>();                                // 需要重新读取的记录仪ID集合
         internal static string Text = "自来水管道噪声分析系统";
 
+
+        public static SQLSyncManager SQLSyncMgr = new SQLSyncManager();
         /// <summary>
         /// 清除文本框文本
         /// </summary>

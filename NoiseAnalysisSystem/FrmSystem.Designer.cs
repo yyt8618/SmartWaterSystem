@@ -43,6 +43,7 @@
             this.barBtnSetAbout = new DevExpress.XtraBars.BarButtonItem();
             this.skinRibbonGalleryBarItem1 = new DevExpress.XtraBars.SkinRibbonGalleryBarItem();
             this.ribbonGalleryBarItem1 = new DevExpress.XtraBars.RibbonGalleryBarItem();
+            this.barBtnSetDBConnect = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageSys = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -88,6 +89,7 @@
             this.navBarSeparatorItem3 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.SQLSynctimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -133,9 +135,10 @@
             this.barBtnSerialClose,
             this.barBtnSetAbout,
             this.skinRibbonGalleryBarItem1,
-            this.ribbonGalleryBarItem1});
+            this.ribbonGalleryBarItem1,
+            this.barBtnSetDBConnect});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 31;
+            this.ribbonControl1.MaxItemId = 32;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageSys});
@@ -224,6 +227,14 @@
             this.ribbonGalleryBarItem1.Name = "ribbonGalleryBarItem1";
             this.ribbonGalleryBarItem1.GalleryItemClick += new DevExpress.XtraBars.Ribbon.GalleryItemClickEventHandler(this.ribbonGalleryBarItem1_GalleryItemClick);
             // 
+            // barBtnSetDBConnect
+            // 
+            this.barBtnSetDBConnect.Caption = "数据库连接";
+            this.barBtnSetDBConnect.Id = 31;
+            this.barBtnSetDBConnect.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.sql;
+            this.barBtnSetDBConnect.Name = "barBtnSetDBConnect";
+            this.barBtnSetDBConnect.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetDBConnect_ItemClick);
+            // 
             // ribbonPageSys
             // 
             this.ribbonPageSys.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -247,6 +258,7 @@
             // 
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetSerial);
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetVoice);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetDBConnect);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.ShowCaptionButton = false;
             this.ribbonPageGroup2.Text = "设置";
@@ -697,6 +709,8 @@
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseCompare;
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseEnergy;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
+        private DevExpress.XtraBars.BarButtonItem barBtnSetDBConnect;
+        private System.Windows.Forms.Timer SQLSynctimer;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

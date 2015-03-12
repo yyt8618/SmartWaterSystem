@@ -172,6 +172,13 @@ namespace NoiseAnalysisSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap sql {
+            get {
+                object obj = ResourceManager.GetObject("sql", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap UniversalTerMgr {
             get {
                 object obj = ResourceManager.GetObject("UniversalTerMgr", resourceCulture);

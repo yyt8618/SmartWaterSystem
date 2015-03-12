@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using DevExpress.LookAndFeel;
 using DevExpress.XtraSplashScreen;
 using System.Threading;
+using Microsoft.Data.ConnectionUI;
 
 namespace NoiseAnalysisSystem
 {
@@ -91,15 +92,6 @@ namespace NoiseAnalysisSystem
                         logger.Error("ResetDatabase","创建数据库失败，请联系系统管理员");
                     }
                 }
-                else
-                {
-                    // Repair Database
-                    //if (!dbMgr.VerifyAndRepair())
-                    //{
-                    //    error.ErrorCode = -1;
-                    //    error.ErrorMessage = "      修复数据库失败，请联系系统管理员";
-                    //}
-                }
                 #endregion
                 #region 升级数据库
                 DBVersion versionBLL = new DBVersion();
@@ -139,6 +131,34 @@ namespace NoiseAnalysisSystem
                 GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                 GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
 
+                if (SplashScreenManager.Default.IsSplashFormVisible)
+                {
+                    SplashScreenManager.Default.SendCommand(null, "正在初始化参数...");
+                }
+
+                SQLHelper.ConnectionString = AppConfigHelper.GetAppSettingValue("ConnString");
+                if (!string.IsNullOrEmpty(SQLHelper.ConnectionString))
+                {
+                    bool sqlconnect = SQLHelper.TryConn(SQLHelper.ConnectionString);
+                    if (!sqlconnect)
+                    {
+                        if (DialogResult.No == XtraMessageBox.Show("连接SQL数据库失败，是否继续？", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Error))
+                        {
+                            logger.Info("TryConn func:SQL数据库连接失败，主动退出");
+                            Application.Exit();
+                        }
+                    }
+                    else
+                    {
+                        GlobalValue.SQLSyncMgr.SQLSyncEvent += new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
+                        GlobalValue.SQLSyncMgr.Start();
+
+                        SQLSynctimer.Interval = 60 * 1000;
+                        SQLSynctimer.Tick += new EventHandler(SQLSynctimer_Tick);
+                        SQLSynctimer.Enabled = true;
+                    }
+                }
+
 
                 SplashScreenManager.CloseForm();
 
@@ -151,6 +171,17 @@ namespace NoiseAnalysisSystem
                 logger.ErrorException("FrmSystem_Load", ex);
                 Application.Exit();
             }
+        }
+
+        void SQLSynctimer_Tick(object sender, EventArgs e)
+        {
+            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerInfo);
+
+        }
+
+        void SQLSyncMgr_SQLSyncEvent(object sender, SQLSyncEventArgs e)
+        {
+            
         }
 
         private void InitNavigate()
@@ -492,6 +523,34 @@ namespace NoiseAnalysisSystem
             about.ShowDialog();
         }
 
+        private void barBtnSetDBConnect_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                DataConnectionDialog dialog = new DataConnectionDialog();
+                //添加数据源列表，可以向窗口中添加自己程序所需要的数据源类型
+                dialog.DataSources.Add(DataSource.SqlDataSource);
+
+                dialog.SelectedDataSource = DataSource.SqlDataSource;
+                dialog.SelectedDataProvider = DataProvider.SqlDataProvider;
+
+
+                //只能够通过DataConnectionDialog类的静态方法Show出对话框
+                //不同使用dialog.Show()或dialog.ShowDialog()来呈现对话框
+                if (DataConnectionDialog.Show(dialog, this) == DialogResult.OK)
+                {
+                    string dbconnect = dialog.ConnectionString;
+                    AppConfigHelper.SetAppSettingValue("ConnString", dbconnect);
+                    XtraMessageBox.Show("设置成功,请重启程序生效!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("barBtnSetDBConnect_ItemClick", ex);
+                XtraMessageBox.Show("打开设置窗体失败,请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         private void ClearLogAndDb()
         {
             try
@@ -696,6 +755,8 @@ namespace NoiseAnalysisSystem
             string skincaption=ribbonGalleryBarItem1.Gallery.GetCheckedItems()[0].Caption;
             AppConfigHelper.SetAppSettingValue("Skin", skincaption);
         }
+
+        
 
         
 
