@@ -11,7 +11,7 @@ using Protocol;
 using Common;
 using Entity;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class NoiseRecMgr : BaseView, INoiseRecMgr
     {
@@ -407,21 +407,21 @@ namespace NoiseAnalysisSystem
         // 读取模板参数
         private void btnReadT_Click(object sender, EventArgs e)
         {
-            txtComTime.Text = AppConfigHelper.GetAppSettingValue("ComTime_Template");
-            txtRecTime.Text = AppConfigHelper.GetAppSettingValue("RecTime_Template");
-            spinEdit1.Value = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"));
-            txtRecNum.Text = (GlobalValue.Time * 60 / Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"))).ToString();
-            txtLeakValue.Text = AppConfigHelper.GetAppSettingValue("LeakValue_Template");
+            txtComTime.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
+            txtRecTime.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
+            spinEdit1.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
+            txtRecNum.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
+            txtLeakValue.Text = Settings.Instance.GetString(SettingKeys.LeakValue_Template);
 
-            int power = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Power_Template"));
+            int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;
 
-            int conPower = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("ControlPower_Template"));
+            int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
             if (conPower == 1)
             {
                 comboBoxDist.SelectedIndex = conPower;
-                txtConPort.Text = AppConfigHelper.GetAppSettingValue("Port_Template");
-                txtConAdress.Text = AppConfigHelper.GetAppSettingValue("Adress_Template");
+                txtConPort.Text = Settings.Instance.GetString(SettingKeys.Port_Template);
+                txtConAdress.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
             }
             else
                 comboBoxDist.SelectedIndex = conPower;
@@ -977,9 +977,9 @@ namespace NoiseAnalysisSystem
         {
             FlagTime.Visible = true;
             if (isRight)
-                FlagTime.Image = NoiseAnalysisSystem.Properties.Resources.right;
+                FlagTime.Image = SmartWaterSystem.Properties.Resources.right;
             else
-                FlagTime.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+                FlagTime.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagTime.Update();
             this.Refresh();
         }
@@ -988,9 +988,9 @@ namespace NoiseAnalysisSystem
         {
             FlagSendTime.Visible = true;
             if (isRight)
-                FlagSendTime.Image = NoiseAnalysisSystem.Properties.Resources.right;
+                FlagSendTime.Image = SmartWaterSystem.Properties.Resources.right;
             else
-                FlagSendTime.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+                FlagSendTime.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagSendTime.Update();
             this.Refresh();
         }
@@ -999,9 +999,9 @@ namespace NoiseAnalysisSystem
         {
             FlagStartEndTime.Visible = true;
             if (isRight)
-                FlagStartEndTime.Image = NoiseAnalysisSystem.Properties.Resources.right;
+                FlagStartEndTime.Image = SmartWaterSystem.Properties.Resources.right;
             else
-                FlagStartEndTime.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+                FlagStartEndTime.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagStartEndTime.Update();
             this.Refresh();
         }
@@ -1010,9 +1010,9 @@ namespace NoiseAnalysisSystem
         {
             FlagInterval.Visible = true;
             if (isRight)
-                FlagInterval.Image = NoiseAnalysisSystem.Properties.Resources.right;
+                FlagInterval.Image = SmartWaterSystem.Properties.Resources.right;
             else
-                FlagInterval.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+                FlagInterval.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagInterval.Update();
             this.Refresh();
         }
@@ -1021,9 +1021,9 @@ namespace NoiseAnalysisSystem
         {
             FlagStartORStop.Visible = true;
             if (isRight)
-                FlagStartORStop.Image = NoiseAnalysisSystem.Properties.Resources.right;
+                FlagStartORStop.Image = SmartWaterSystem.Properties.Resources.right;
             else
-                FlagStartORStop.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+                FlagStartORStop.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagStartORStop.Update();
             this.Refresh();
         }
@@ -1032,9 +1032,9 @@ namespace NoiseAnalysisSystem
         {
             FlagRemoteSwitch.Visible = true;
             if (isRight)
-                FlagRemoteSwitch.Image = NoiseAnalysisSystem.Properties.Resources.right;
+                FlagRemoteSwitch.Image = SmartWaterSystem.Properties.Resources.right;
             else
-                FlagRemoteSwitch.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+                FlagRemoteSwitch.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagRemoteSwitch.Update();
             this.Refresh();
         }
@@ -1043,9 +1043,9 @@ namespace NoiseAnalysisSystem
         {
             FlagPort.Visible = true;
             if (isRight)
-                FlagPort.Image = NoiseAnalysisSystem.Properties.Resources.right;
+                FlagPort.Image = SmartWaterSystem.Properties.Resources.right;
             else
-                FlagPort.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+                FlagPort.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagPort.Update();
             this.Refresh();
         }
@@ -1054,9 +1054,9 @@ namespace NoiseAnalysisSystem
         {
             FlagIP.Visible = true;
             if (isRight)
-                FlagIP.Image = NoiseAnalysisSystem.Properties.Resources.right;
+                FlagIP.Image = SmartWaterSystem.Properties.Resources.right;
             else
-                FlagIP.Image = NoiseAnalysisSystem.Properties.Resources.cross1;
+                FlagIP.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagIP.Update();
             this.Refresh();
         }

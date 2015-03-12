@@ -1,4 +1,4 @@
-﻿namespace NoiseAnalysisSystem
+﻿namespace SmartWaterSystem
 {
     partial class WelcomSplash
     {
@@ -65,7 +65,7 @@
             // 
             // pictureEdit2
             // 
-            this.pictureEdit2.EditValue = global::NoiseAnalysisSystem.Properties.Resources.Welcome;
+            this.pictureEdit2.EditValue = global::SmartWaterSystem.Properties.Resources.Welcome;
             this.pictureEdit2.Location = new System.Drawing.Point(2, 3);
             this.pictureEdit2.Name = "pictureEdit2";
             this.pictureEdit2.Properties.AllowFocused = false;
@@ -79,7 +79,7 @@
             // 
             // pictureEdit1
             // 
-            this.pictureEdit1.EditValue = global::NoiseAnalysisSystem.Properties.Resources.companylogo;
+            this.pictureEdit1.EditValue = global::SmartWaterSystem.Properties.Resources.companylogo;
             this.pictureEdit1.Location = new System.Drawing.Point(278, 216);
             this.pictureEdit1.Name = "pictureEdit1";
             this.pictureEdit1.Properties.AllowFocused = false;

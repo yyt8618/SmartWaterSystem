@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoiseAnalysisSystem", "NoiseAnalysisSystem\NoiseAnalysisSystem.csproj", "{FCE87823-4C94-4B67-9665-82479F23DDD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartWaterSystem", "NoiseAnalysisSystem\SmartWaterSystem.csproj", "{FCE87823-4C94-4B67-9665-82479F23DDD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "DBUtility\Utility.csproj", "{3BB68F7C-6C07-4890-9851-C73CE00C17F5}"
 EndProject

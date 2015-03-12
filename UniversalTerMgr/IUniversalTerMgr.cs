@@ -1,5 +1,5 @@
 ﻿
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public interface IUniversalTerMgr
     {

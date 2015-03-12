@@ -10,7 +10,7 @@ using DevExpress.XtraEditors;
 using Entity;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class FrmDataAnalysis : DevExpress.XtraEditors.XtraForm
     {
@@ -194,7 +194,7 @@ namespace NoiseAnalysisSystem
 				errorProvider.SetError(txtLeakNoise, "漏水！");
 				errorProvider.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
 
-				if (AppConfigHelper.GetAppSettingValue("LeakVoice") != string.Empty)
+				if (Settings.Instance.GetString(SettingKeys.LeakVoice) != string.Empty)
 				{
 					SoundPlayer player = new SoundPlayer();
 					player.PlayLooping();

@@ -11,7 +11,7 @@ using Protocol;
 using Common;
 using Entity;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class NoiseGroupMgr : BaseView, INoiseGroupMgr
     {
@@ -455,16 +455,16 @@ namespace NoiseAnalysisSystem
 
         private void btnReadTemplate_Click(object sender, EventArgs e)
         {
-            txtComTime.Text = AppConfigHelper.GetAppSettingValue("ComTime_Template");
-            txtRecTime.Text = AppConfigHelper.GetAppSettingValue("RecTime_Template");
-            nUpDownSamSpan.Value = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"));
-            txtRecNum.Text = (GlobalValue.Time * 60 / Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"))).ToString();
-            txtLeakValue.Text = AppConfigHelper.GetAppSettingValue("LeakValue_Template");
+            txtComTime.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
+            txtRecTime.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
+            nUpDownSamSpan.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
+            txtRecNum.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
+            txtLeakValue.Text = Settings.Instance.GetString(SettingKeys.LeakValue_Template);
 
-            int power = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Power_Template"));
+            int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;
 
-            int conPower = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("ControlPower_Template"));
+            int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
             comboBoxDist.SelectedIndex = conPower;
         }
 

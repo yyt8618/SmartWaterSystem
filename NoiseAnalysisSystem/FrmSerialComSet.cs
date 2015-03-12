@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class FrmSerialComSet : DevExpress.XtraEditors.XtraForm
     {
@@ -62,12 +62,12 @@ namespace NoiseAnalysisSystem
             cbSerialPort.Properties.BestFit();
             #endregion
 
-            //cbBaudRate.SelectedItem = AppConfigHelper.GetAppSettingValue("BaudRate");
-            SetComboboxIndex(cbBaudRate, AppConfigHelper.GetAppSettingValue("BaudRate"));
-            SetComboboxIndex(cbParity,AppConfigHelper.GetAppSettingValue("Parity"));
-            SetComboboxIndex(cbDataPos, AppConfigHelper.GetAppSettingValue("DataBits"));
-            SetComboboxIndex(cbStopPos, AppConfigHelper.GetAppSettingValue("StopBits"));
-            txtTime.Text = AppConfigHelper.GetAppSettingValue("TimeOut");
+            //cbBaudRate.SelectedItem = Settings.Instance.GetString(SettingKeys.BaudRate");
+            SetComboboxIndex(cbBaudRate, Settings.Instance.GetString(SettingKeys.BaudRate));
+            SetComboboxIndex(cbParity,Settings.Instance.GetString(SettingKeys.Parity));
+            SetComboboxIndex(cbDataPos, Settings.Instance.GetString(SettingKeys.DataBits));
+            SetComboboxIndex(cbStopPos, Settings.Instance.GetString(SettingKeys.StopBits));
+            txtTime.Text = Settings.Instance.GetString(SettingKeys.TimeOut);
         }
 
         private void SetComboboxIndex(DevExpress.XtraEditors.ComboBoxEdit control, string selectvalue)
@@ -128,12 +128,12 @@ namespace NoiseAnalysisSystem
                     return;
                 }
 
-                AppConfigHelper.SetAppSettingValue("SerialPort", cbSerialPort.EditValue.ToString());
-                AppConfigHelper.SetAppSettingValue("BaudRate", cbBaudRate.SelectedItem.ToString());
-                AppConfigHelper.SetAppSettingValue("Parity", cbParity.SelectedItem.ToString());
-                AppConfigHelper.SetAppSettingValue("DataBits", cbDataPos.SelectedItem.ToString());
-                AppConfigHelper.SetAppSettingValue("StopBits", cbStopPos.SelectedItem.ToString());
-                AppConfigHelper.SetAppSettingValue("TimeOut", txtTime.Text);
+                Settings.Instance.SetValue(SettingKeys.SerialPort, cbSerialPort.EditValue.ToString());
+                Settings.Instance.SetValue(SettingKeys.BaudRate, cbBaudRate.SelectedItem.ToString());
+                Settings.Instance.SetValue(SettingKeys.Parity, cbParity.SelectedItem.ToString());
+                Settings.Instance.SetValue(SettingKeys.DataBits, cbDataPos.SelectedItem.ToString());
+                Settings.Instance.SetValue(SettingKeys.StopBits, cbStopPos.SelectedItem.ToString());
+                Settings.Instance.SetValue(SettingKeys.TimeOut, txtTime.Text);
                 DevExpress.XtraEditors.XtraMessageBox.Show("保存成功，请重新打开串口！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }

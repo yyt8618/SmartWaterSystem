@@ -7,7 +7,7 @@ using System.Collections;
 using System.IO;
 using DevExpress.XtraEditors;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class NoiseFFT : BaseView,INoiseFFT
     {

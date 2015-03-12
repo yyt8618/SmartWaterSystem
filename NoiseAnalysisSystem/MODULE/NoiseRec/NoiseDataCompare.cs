@@ -7,7 +7,7 @@ using System.Collections;
 using DevExpress.XtraEditors;
 using Entity;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class NoiseDataCompare : BaseView, INoiseDataCompare
     {

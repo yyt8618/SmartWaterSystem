@@ -12,7 +12,7 @@ using Microsoft.Data.ConnectionUI;
 using Common;
 using Entity;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class FrmSystem : DevExpress.XtraBars.Ribbon.RibbonForm
     {
@@ -42,7 +42,7 @@ namespace NoiseAnalysisSystem
                     SplashScreenManager.Default.SendCommand(null,"正在加载皮肤...");
                 }
                 //Set Skin
-                string skin = AppConfigHelper.GetAppSettingValue("Skin");
+                string skin = Settings.Instance.GetString(SettingKeys.Skin);
                 if (string.IsNullOrEmpty(skin))
                     skin = "SevenClassic";
                 UserLookAndFeel.Default.SetSkinStyle(skin);
@@ -138,7 +138,7 @@ namespace NoiseAnalysisSystem
                     SplashScreenManager.Default.SendCommand(null, "正在初始化参数...");
                 }
 
-                SQLHelper.ConnectionString = AppConfigHelper.GetAppSettingValue("ConnString");
+                SQLHelper.ConnectionString = Settings.Instance.GetString(SettingKeys.DBString);
                 if (!string.IsNullOrEmpty(SQLHelper.ConnectionString))
                 {
                     bool sqlconnect = SQLHelper.TryConn(SQLHelper.ConnectionString);
@@ -542,7 +542,7 @@ namespace NoiseAnalysisSystem
                 if (DataConnectionDialog.Show(dialog, this) == DialogResult.OK)
                 {
                     string dbconnect = dialog.ConnectionString;
-                    AppConfigHelper.SetAppSettingValue("ConnString", dbconnect);
+                    Settings.Instance.SetValue(SettingKeys.DBString, dbconnect);
                     XtraMessageBox.Show("设置成功,请重启程序生效!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -755,7 +755,7 @@ namespace NoiseAnalysisSystem
         private void ribbonGalleryBarItem1_GalleryItemClick(object sender, DevExpress.XtraBars.Ribbon.GalleryItemClickEventArgs e)
         {
             string skincaption=ribbonGalleryBarItem1.Gallery.GetCheckedItems()[0].Caption;
-            AppConfigHelper.SetAppSettingValue("Skin", skincaption);
+            Settings.Instance.SetValue(SettingKeys.Skin, skincaption);
         }
 
         private void FrmSystem_FormClosing(object sender, FormClosingEventArgs e)

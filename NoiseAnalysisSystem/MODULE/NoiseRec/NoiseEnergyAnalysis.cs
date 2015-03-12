@@ -8,7 +8,7 @@ using DevExpress.XtraEditors;
 using ChartDirector;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class NoiseEnergyAnalysis : BaseView, INoiseEnergyAnalysis
     {
@@ -28,7 +28,7 @@ namespace NoiseAnalysisSystem
             {
                 txtEnergyValue.Text = "";
                 txtStandardAverage.Text = "";
-                StandardAMP = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("StandardAMP"));
+                StandardAMP = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.StandardAMP));
                 txtStandardAMP.Text = StandardAMP.ToString("f2");
 
                 cbRecorders.Properties.Items.Clear();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.IO;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     /// <summary>
     /// 提供对噪声数据的处理，如FFT变换、功率谱计算
@@ -75,7 +75,7 @@ namespace NoiseAnalysisSystem
 		/// <param name="real_dB">返回最小相对噪声强度（单位：%）</param>
 		public static bool AmpCalc(int c, double[] data, ref double[] real_dB)
         {
-            string str_DCLen = AppConfigHelper.GetAppSettingValue("DCComponentLen");  //获取设定的直流分量长度
+            string str_DCLen = Settings.Instance.GetString(SettingKeys.DCComponentLen);  //获取设定的直流分量长度
             int DCComponentLen = 10;
             if (!string.IsNullOrEmpty(str_DCLen))
                 DCComponentLen = Convert.ToInt32(str_DCLen);
@@ -126,7 +126,7 @@ namespace NoiseAnalysisSystem
 		/// <param name="min_frq">对应的频率数组</param>
         public static bool AmpCalc(List<double[]> data, ref double[] min_amp, ref double[] min_frq)
         {
-            string str_DCLen = AppConfigHelper.GetAppSettingValue("DCComponentLen");  //获取设定的直流分量长度
+            string str_DCLen = Settings.Instance.GetString(SettingKeys.DCComponentLen);  //获取设定的直流分量长度
             int DCComponentLen = 6;
             if (!string.IsNullOrEmpty(str_DCLen))
                 DCComponentLen = Convert.ToInt32(str_DCLen);
@@ -174,7 +174,7 @@ namespace NoiseAnalysisSystem
                 //////////////////////////////////////////////////////////////////////////////////////////
             }
 
-            int c = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Calc"));
+            int c = Settings.Instance.GetInt(SettingKeys.Calc);
 
             if (c == 1)
                 MinimumAmpCalc2(ref min_amp, ref min_frq);
@@ -406,11 +406,11 @@ namespace NoiseAnalysisSystem
         /// <param name="data">傅里叶变换后的数组</param>
         private static void Data2Amp(double[] data, ref double[] min_amp, ref double[] min_frq)
         {
-			double max1 = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("Max1"));
-			double max2 = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("Max2"));
-			double min1 = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("Min1"));
-			double min2 = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("Min2"));
-			double f = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("LeakHZ_Template"));
+			double max1 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Max1));
+			double max2 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Max2));
+			double min1 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Min1));
+			double min2 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Min2));
+			double f = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.LeakHZ_Template));
 			min_frq = new double[data.Length];
 			min_amp = new double[data.Length];
 
@@ -452,7 +452,7 @@ namespace NoiseAnalysisSystem
         public static int IsLeak1(int GroupID, int RecorderID, List<double[]> lstdatas, out double energyvalue)
         {
             energyvalue = 0;  //能量值
-            double standvalue = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("StandardAMP"));
+            double standvalue = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.StandardAMP));
             short[] standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);
 
             if (standdata == null)
@@ -542,7 +542,7 @@ namespace NoiseAnalysisSystem
         /// <param name="leakFrq">设定的漏水频率</param>
         public static int IsLeak2(double[] db, double leakAmp, ref double[] re)
 		{
-			double leakFrq = Convert.ToDouble(AppConfigHelper.GetAppSettingValue("LeakHZ_Template"));
+			double leakFrq = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.LeakHZ_Template));
 			List<double> amp = new List<double>();
 			List<double> frq = new List<double>();
 			int num = (int)((leakFrq + 1) / cDis);

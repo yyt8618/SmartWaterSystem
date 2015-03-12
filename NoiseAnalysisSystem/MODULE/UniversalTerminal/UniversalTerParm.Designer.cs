@@ -1,5 +1,5 @@
 ﻿using Common;
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     partial class UniversalTerParm
     {

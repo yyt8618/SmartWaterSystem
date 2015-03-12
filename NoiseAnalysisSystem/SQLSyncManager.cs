@@ -2,7 +2,7 @@
 using System.Threading;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public enum SqlSyncType:uint
     {

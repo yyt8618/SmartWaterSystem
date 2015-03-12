@@ -13,7 +13,7 @@ using System.Threading;
 using System.IO;
 using Entity;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class NoiseDataMgr : BaseView, INoiseDataMgr
     {

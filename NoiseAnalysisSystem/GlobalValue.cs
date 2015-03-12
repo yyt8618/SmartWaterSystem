@@ -7,11 +7,11 @@ using System.Windows.Forms;
 using Entity;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public class GlobalValue
     {
-        internal static int Time = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Time"));   // 采集时长
+        internal static int Time = Settings.Instance.GetInt(SettingKeys.Time);                    // 采集时长
         internal static SerialPortUtil portUtil = SerialPortUtil.GetInstance();                   // 串口操作对象
         internal static NoiseLog log = new NoiseLog();                                            // 记录仪串口操作对象
         internal static List<NoiseRecorderGroup> groupList = new List<NoiseRecorderGroup>();      // 分组对象集合

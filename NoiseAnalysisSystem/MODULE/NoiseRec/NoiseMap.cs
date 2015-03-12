@@ -7,7 +7,7 @@ using System.IO;
 using DevExpress.XtraEditors;
 using ChartDirector;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class NoiseMap : BaseView, INoiseMap
     {

@@ -10,7 +10,7 @@ using System.Media;
 using System.IO;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class FrmSysVoiceSet : DevExpress.XtraEditors.XtraForm
     {
@@ -26,8 +26,8 @@ namespace NoiseAnalysisSystem
                 int i = listBoxVoice.Items.Add(s.Split('\\').Last());
             }
 
-            lblLeakVoice.Text = AppConfigHelper.GetAppSettingValue("LeakVoice");
-            lblRecordVoice.Text = AppConfigHelper.GetAppSettingValue("RecorderVoice");
+            lblLeakVoice.Text = Settings.Instance.GetString(SettingKeys.LeakVoice);
+            lblRecordVoice.Text = Settings.Instance.GetString(SettingKeys.RecorderVoice);
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace NoiseAnalysisSystem
             if (listBoxVoice.SelectedItem != null)
             {
                 lblLeakVoice.Text = listBoxVoice.SelectedItem.ToString();
-                AppConfigHelper.SetAppSettingValue("LeakVoice", lblLeakVoice.Text);
+                Settings.Instance.SetValue(SettingKeys.LeakVoice, lblLeakVoice.Text);
             }
         }
 
@@ -53,7 +53,7 @@ namespace NoiseAnalysisSystem
             if (listBoxVoice.SelectedItem != null)
             {
                 lblRecordVoice.Text = listBoxVoice.SelectedItem.ToString();
-                AppConfigHelper.SetAppSettingValue("RecorderVoice", lblRecordVoice.Text);
+                Settings.Instance.SetValue(SettingKeys.RecorderVoice, lblRecordVoice.Text);
             }
         }
     }

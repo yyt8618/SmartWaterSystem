@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class FrmTemplateSet : DevExpress.XtraEditors.XtraForm
     {
@@ -17,18 +17,18 @@ namespace NoiseAnalysisSystem
         {
             InitializeComponent();
 
-            txtComTime_T.Text = AppConfigHelper.GetAppSettingValue("ComTime_Template");
-            txtRecTime_T.Text = AppConfigHelper.GetAppSettingValue("RecTime_Template");
-            nUpDownSamSpan_T.Value = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"));
-            txtRecNum_T.Text = (GlobalValue.Time * 60 / Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"))).ToString();
-            txtLeakValue_T.Text = AppConfigHelper.GetAppSettingValue("LeakValue_Template");
-            int power = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Power_Template"));
+            txtComTime_T.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
+            txtRecTime_T.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
+            nUpDownSamSpan_T.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
+            txtRecNum_T.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
+            txtLeakValue_T.Text = Settings.Instance.GetString(SettingKeys.LeakValue_Template);
+            int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;
-            int conPower = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("ControlPower_Template"));
+            int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
             comboBoxEditDist.SelectedIndex = power;
 
-            txtConPort_T.Text = AppConfigHelper.GetAppSettingValue("Port_Template");
-            txtConAdree_T.Text = AppConfigHelper.GetAppSettingValue("Adress_Template");
+            txtConPort_T.Text = Settings.Instance.GetString(SettingKeys.Port_Template);
+            txtConAdree_T.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
         }
 
         /// <summary>
@@ -107,14 +107,14 @@ namespace NoiseAnalysisSystem
                     throw new Exception(msg);
                 }
 
-                AppConfigHelper.SetAppSettingValue("ComTime_Template", txtComTime_T.Text);
-                AppConfigHelper.SetAppSettingValue("RecTime_Template", txtRecTime_T.Text);
-                AppConfigHelper.SetAppSettingValue("Span_Template", nUpDownSamSpan_T.Value.ToString());
-                AppConfigHelper.SetAppSettingValue("LeakValue_Template", txtLeakValue_T.Text);
-                AppConfigHelper.SetAppSettingValue("Power_Template", comboBoxEditPower.SelectedIndex.ToString());
-                AppConfigHelper.SetAppSettingValue("ControlPower_Template", comboBoxEditDist.SelectedIndex.ToString());
-                AppConfigHelper.SetAppSettingValue("Port_Template", txtConPort_T.Text);
-                AppConfigHelper.SetAppSettingValue("Adress_Template", txtConAdree_T.Text);
+                Settings.Instance.SetValue(SettingKeys.ComTime_Template, txtComTime_T.Text);
+                Settings.Instance.SetValue(SettingKeys.RecTime_Template, txtRecTime_T.Text);
+                Settings.Instance.SetValue(SettingKeys.Span_Template, nUpDownSamSpan_T.Value.ToString());
+                Settings.Instance.SetValue(SettingKeys.LeakValue_Template, txtLeakValue_T.Text);
+                Settings.Instance.SetValue(SettingKeys.Power_Template, comboBoxEditPower.SelectedIndex.ToString());
+                Settings.Instance.SetValue(SettingKeys.ControlPower_Template, comboBoxEditDist.SelectedIndex.ToString());
+                Settings.Instance.SetValue(SettingKeys.Port_Template, txtConPort_T.Text);
+                Settings.Instance.SetValue(SettingKeys.Adress_Template, txtConAdree_T.Text);
 
                 XtraMessageBox.Show("保存成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 				this.Close();

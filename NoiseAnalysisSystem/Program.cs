@@ -9,7 +9,7 @@ using DevExpress.UserSkins;
 using DevExpress.Skins;
 using DevExpress.LookAndFeel;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
 	static class Program
 	{

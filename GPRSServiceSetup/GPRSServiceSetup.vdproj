@@ -272,6 +272,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -395,11 +408,6 @@
             "AssemblyAsmDisplayName" = "8:Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_24D842898237A423A744F3128177D069"
-                    {
-                    "Name" = "8:Common.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Common.dll"
             "TargetName" = "8:"
@@ -550,11 +558,6 @@
             "AssemblyAsmDisplayName" = "8:Entity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_4F9D3DF55913489E822644AEB4ECF5C3"
-                    {
-                    "Name" = "8:Entity.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Entity.dll"
             "TargetName" = "8:"
@@ -581,11 +584,6 @@
             "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7E976E3437F721F67CC9DE139F695F3D"
-                    {
-                    "Name" = "8:System.Data.SQLite.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Data.SQLite.dll"
             "TargetName" = "8:"
@@ -764,7 +762,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPRSService"
         "ProductCode" = "8:{9C91CAAF-B8A8-443E-94FF-A6A46DE2CA71}"
-        "PackageCode" = "8:{C95BC039-A1FA-4292-8D37-D64D19E4136D}"
+        "PackageCode" = "8:{EE508961-BA6D-4728-BE4C-86B43DCE78F1}"
         "UpgradeCode" = "8:{0DCBBB10-441E-4D6C-9A4E-2EAD640FA763}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

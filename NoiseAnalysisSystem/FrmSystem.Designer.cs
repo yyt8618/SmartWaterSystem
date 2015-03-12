@@ -1,4 +1,4 @@
-﻿namespace NoiseAnalysisSystem
+﻿namespace SmartWaterSystem
 {
     partial class FrmSystem
     {
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSystem));
-            this.splashScreenmanager = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::NoiseAnalysisSystem.WaitForm1), true, true);
+            this.splashScreenmanager = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::SmartWaterSystem.WaitForm1), true, true);
             this.panelControlMain = new DevExpress.XtraEditors.PanelControl();
             this.barStaticItemWait = new DevExpress.XtraBars.BarStaticItem();
             this.barStaticItem2 = new DevExpress.XtraBars.BarStaticItem();
@@ -156,7 +156,7 @@
             this.barBtnSetSerial.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
             this.barBtnSetSerial.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetSerial.Glyph")));
             this.barBtnSetSerial.Id = 6;
-            this.barBtnSetSerial.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.SerialPortConfig1;
+            this.barBtnSetSerial.LargeGlyph = global::SmartWaterSystem.Properties.Resources.SerialPortConfig1;
             this.barBtnSetSerial.Name = "barBtnSetSerial";
             this.barBtnSetSerial.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetSerial_ItemClick);
             // 
@@ -166,7 +166,7 @@
             this.barBtnSetVoice.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
             this.barBtnSetVoice.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSetVoice.Glyph")));
             this.barBtnSetVoice.Id = 8;
-            this.barBtnSetVoice.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.voice3;
+            this.barBtnSetVoice.LargeGlyph = global::SmartWaterSystem.Properties.Resources.voice3;
             this.barBtnSetVoice.Name = "barBtnSetVoice";
             this.barBtnSetVoice.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetVoice_ItemClick);
             // 
@@ -186,7 +186,7 @@
             this.barBtnSerialOpen.CategoryGuid = new System.Guid("6ffddb2b-9015-4d97-a4c1-91613e0ef537");
             this.barBtnSerialOpen.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSerialOpen.Glyph")));
             this.barBtnSerialOpen.Id = 11;
-            this.barBtnSerialOpen.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.SerialPort;
+            this.barBtnSerialOpen.LargeGlyph = global::SmartWaterSystem.Properties.Resources.SerialPort;
             this.barBtnSerialOpen.Name = "barBtnSerialOpen";
             this.barBtnSerialOpen.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSerialOpen_ItemClick);
             // 
@@ -197,7 +197,7 @@
             this.barBtnSerialClose.Enabled = false;
             this.barBtnSerialClose.Glyph = ((System.Drawing.Image)(resources.GetObject("barBtnSerialClose.Glyph")));
             this.barBtnSerialClose.Id = 12;
-            this.barBtnSerialClose.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.DisableSerialPort;
+            this.barBtnSerialClose.LargeGlyph = global::SmartWaterSystem.Properties.Resources.DisableSerialPort;
             this.barBtnSerialClose.Name = "barBtnSerialClose";
             this.barBtnSerialClose.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSerialClose_ItemClick);
             // 
@@ -231,7 +231,7 @@
             // 
             this.barBtnSetDBConnect.Caption = "数据库连接";
             this.barBtnSetDBConnect.Id = 31;
-            this.barBtnSetDBConnect.LargeGlyph = global::NoiseAnalysisSystem.Properties.Resources.sql;
+            this.barBtnSetDBConnect.LargeGlyph = global::SmartWaterSystem.Properties.Resources.sql;
             this.barBtnSetDBConnect.Name = "barBtnSetDBConnect";
             this.barBtnSetDBConnect.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetDBConnect_ItemClick);
             // 
@@ -368,7 +368,7 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerReport),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerAlarm),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerStoppage)});
-            this.NBG_PreT.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.PreTerminal;
+            this.NBG_PreT.LargeImage = global::SmartWaterSystem.Properties.Resources.PreTerminal;
             this.NBG_PreT.Name = "NBG_PreT";
             // 
             // navBarPreTerParm
@@ -420,7 +420,7 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseFFT),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseCompare),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseEnergy)});
-            this.NBG_Noise.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.NoiseRecorder;
+            this.NBG_Noise.LargeImage = global::SmartWaterSystem.Properties.Resources.NoiseRecorder;
             this.NBG_Noise.Name = "NBG_Noise";
             // 
             // navBarNoiseDataManager
@@ -447,7 +447,7 @@
             // navBarNoiseMap
             // 
             this.navBarNoiseMap.Caption = "地图";
-            this.navBarNoiseMap.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.NoiseMap;
+            this.navBarNoiseMap.LargeImage = global::SmartWaterSystem.Properties.Resources.NoiseMap;
             this.navBarNoiseMap.Name = "navBarNoiseMap";
             this.navBarNoiseMap.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseMap_LinkClicked);
             // 
@@ -490,20 +490,20 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMMonitor),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMReport),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMStoppage)});
-            this.NBG_GSMT.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.GsmTerminal;
+            this.NBG_GSMT.LargeImage = global::SmartWaterSystem.Properties.Resources.GsmTerminal;
             this.NBG_GSMT.Name = "NBG_GSMT";
             // 
             // navBarGSMParm
             // 
             this.navBarGSMParm.Caption = "参数配置和读取";
-            this.navBarGSMParm.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.UniversalTerParm;
+            this.navBarGSMParm.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTerParm;
             this.navBarGSMParm.Name = "navBarGSMParm";
             this.navBarGSMParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMParm_LinkClicked);
             // 
             // navBarGSMMgr
             // 
             this.navBarGSMMgr.Caption = "终端配置和管理";
-            this.navBarGSMMgr.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.UniversalTerMgr1;
+            this.navBarGSMMgr.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTerMgr1;
             this.navBarGSMMgr.Name = "navBarGSMMgr";
             this.navBarGSMMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMMgr_LinkClicked);
             // 
@@ -533,7 +533,7 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarValveMgr),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarValveReport),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarValveStoppage)});
-            this.NBG_ValveSwitch.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.ValveSwitchCTL;
+            this.NBG_ValveSwitch.LargeImage = global::SmartWaterSystem.Properties.Resources.ValveSwitchCTL;
             this.NBG_ValveSwitch.Name = "NBG_ValveSwitch";
             // 
             // navBarValveParm
@@ -567,7 +567,7 @@
             this.NBG_ProtablePreT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.NBG_ProtablePreT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarProtablePreTer)});
-            this.NBG_ProtablePreT.LargeImage = global::NoiseAnalysisSystem.Properties.Resources.PortablePreTerminal;
+            this.NBG_ProtablePreT.LargeImage = global::SmartWaterSystem.Properties.Resources.PortablePreTerminal;
             this.NBG_ProtablePreT.Name = "NBG_ProtablePreT";
             // 
             // navBarProtablePreTer

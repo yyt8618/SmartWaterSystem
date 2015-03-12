@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class NoiseParmSetting : BaseView, INoiseParmSetting
     {
@@ -18,33 +18,33 @@ namespace NoiseAnalysisSystem
         public override void OnLoad()
         {
             #region 计算参数
-            txtMax1.Text = AppConfigHelper.GetAppSettingValue("Max1");
-            txtMax2.Text = AppConfigHelper.GetAppSettingValue("Max2");
-            txtMin1.Text = AppConfigHelper.GetAppSettingValue("Min1");
-            txtMin2.Text = AppConfigHelper.GetAppSettingValue("Min2");
-            txtLeakHZ.Text = AppConfigHelper.GetAppSettingValue("LeakHZ_Template");
-            txtStandardAMP.Text = AppConfigHelper.GetAppSettingValue("StandardAMP");
-            txtDCCompLen.Text = AppConfigHelper.GetAppSettingValue("DCComponentLen");
+            txtMax1.Text = Settings.Instance.GetString(SettingKeys.Max1); 
+            txtMax2.Text = Settings.Instance.GetString(SettingKeys.Max2);
+            txtMin1.Text = Settings.Instance.GetString(SettingKeys.Min1);
+            txtMin2.Text = Settings.Instance.GetString(SettingKeys.Min2);
+            txtLeakHZ.Text = Settings.Instance.GetString(SettingKeys.LeakHZ_Template);
+            txtStandardAMP.Text = Settings.Instance.GetString(SettingKeys.StandardAMP);
+            txtDCCompLen.Text = Settings.Instance.GetString(SettingKeys.DCComponentLen);
 
-            if (AppConfigHelper.GetAppSettingValue("Calc") == (1).ToString())
+            if (Settings.Instance.GetString(SettingKeys.Calc) == (1).ToString())
                 cbArith.SelectedIndex = 0;
-            else if (AppConfigHelper.GetAppSettingValue("Calc") == (2).ToString())
+            else if (Settings.Instance.GetString(SettingKeys.Calc) == (2).ToString())
                 cbArith.SelectedIndex = 1;
             #endregion
 
             #region 模板参数
-            txtComTime_T.Text = AppConfigHelper.GetAppSettingValue("ComTime_Template");
-            txtRecTime_T.Text = AppConfigHelper.GetAppSettingValue("RecTime_Template");
-            nUpDownSamSpan_T.Value = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"));
-            txtRecNum_T.Text = (GlobalValue.Time * 60 / Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Span_Template"))).ToString();
-            txtLeakValue_T.Text = AppConfigHelper.GetAppSettingValue("LeakValue_Template");
-            int power = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("Power_Template"));
+            txtComTime_T.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
+            txtRecTime_T.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
+            nUpDownSamSpan_T.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
+            txtRecNum_T.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
+            txtLeakValue_T.Text = Settings.Instance.GetString(SettingKeys.LeakValue_Template);
+            int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;
-            int conPower = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("ControlPower_Template"));
+            int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
             comboBoxEditDist.SelectedIndex = power;
 
-            txtConPort_T.Text = AppConfigHelper.GetAppSettingValue("Port_Template");
-            txtConAdree_T.Text = AppConfigHelper.GetAppSettingValue("Adress_Template");
+            txtConPort_T.Text = Settings.Instance.GetString(SettingKeys.Port_Template);
+            txtConAdree_T.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
             #endregion
         }
 
@@ -113,19 +113,19 @@ namespace NoiseAnalysisSystem
             }
 
             #endregion
-
-            AppConfigHelper.SetAppSettingValue("Max1", txtMax1.Text);
-            AppConfigHelper.SetAppSettingValue("Max2", txtMax2.Text);
-            AppConfigHelper.SetAppSettingValue("Min1", txtMin1.Text);
-            AppConfigHelper.SetAppSettingValue("Min2", txtMin2.Text);
-            AppConfigHelper.SetAppSettingValue("LeakHZ_Template", txtLeakHZ.Text);
-            AppConfigHelper.SetAppSettingValue("StandardAMP", txtStandardAMP.Text);
-            AppConfigHelper.SetAppSettingValue("DCComponentLen", txtDCCompLen.Text);
+            
+            Settings.Instance.SetValue(SettingKeys.Max1, txtMax1.Text);
+            Settings.Instance.SetValue(SettingKeys.Max2, txtMax2.Text);
+            Settings.Instance.SetValue(SettingKeys.Min1, txtMin1.Text);
+            Settings.Instance.SetValue(SettingKeys.Min2, txtMin2.Text);
+            Settings.Instance.SetValue(SettingKeys.LeakHZ_Template, txtLeakHZ.Text);
+            Settings.Instance.SetValue(SettingKeys.StandardAMP, txtStandardAMP.Text);
+            Settings.Instance.SetValue(SettingKeys.DCComponentLen, txtDCCompLen.Text);
 
             if (cbArith.SelectedIndex == 0)
-                AppConfigHelper.SetAppSettingValue("Calc", (1).ToString());
+                Settings.Instance.SetValue(SettingKeys.Calc, (1).ToString());
             else if (cbArith.SelectedIndex == 1)
-                AppConfigHelper.SetAppSettingValue("Calc", (2).ToString());
+                Settings.Instance.SetValue(SettingKeys.Calc, (2).ToString());
 
             XtraMessageBox.Show("保存成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -206,14 +206,14 @@ namespace NoiseAnalysisSystem
                     throw new Exception(msg);
                 }
 
-                AppConfigHelper.SetAppSettingValue("ComTime_Template", txtComTime_T.Text);
-                AppConfigHelper.SetAppSettingValue("RecTime_Template", txtRecTime_T.Text);
-                AppConfigHelper.SetAppSettingValue("Span_Template", nUpDownSamSpan_T.Value.ToString());
-                AppConfigHelper.SetAppSettingValue("LeakValue_Template", txtLeakValue_T.Text);
-                AppConfigHelper.SetAppSettingValue("Power_Template", comboBoxEditPower.SelectedIndex.ToString());
-                AppConfigHelper.SetAppSettingValue("ControlPower_Template", comboBoxEditDist.SelectedIndex.ToString());
-                AppConfigHelper.SetAppSettingValue("Port_Template", txtConPort_T.Text);
-                AppConfigHelper.SetAppSettingValue("Adress_Template", txtConAdree_T.Text);
+                Settings.Instance.SetValue(SettingKeys.ComTime_Template, txtComTime_T.Text);
+                Settings.Instance.SetValue(SettingKeys.RecTime_Template, txtRecTime_T.Text);
+                Settings.Instance.SetValue(SettingKeys.Span_Template, nUpDownSamSpan_T.Value.ToString());
+                Settings.Instance.SetValue(SettingKeys.LeakValue_Template, txtLeakValue_T.Text);
+                Settings.Instance.SetValue(SettingKeys.Power_Template, comboBoxEditPower.SelectedIndex.ToString());
+                Settings.Instance.SetValue(SettingKeys.ControlPower_Template, comboBoxEditDist.SelectedIndex.ToString());
+                Settings.Instance.SetValue(SettingKeys.Port_Template, txtConPort_T.Text);
+                Settings.Instance.SetValue(SettingKeys.Adress_Template, txtConAdree_T.Text);
 
                 XtraMessageBox.Show("保存成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

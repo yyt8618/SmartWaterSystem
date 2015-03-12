@@ -1,4 +1,4 @@
-﻿namespace NoiseAnalysisSystem
+﻿namespace SmartWaterSystem
 {
     partial class NoiseRecMgr
     {
@@ -328,7 +328,7 @@
             // 
             // FlagRemoteSwitch
             // 
-            this.FlagRemoteSwitch.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagRemoteSwitch.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
             this.FlagRemoteSwitch.Location = new System.Drawing.Point(435, 58);
             this.FlagRemoteSwitch.Margin = new System.Windows.Forms.Padding(0);
             this.FlagRemoteSwitch.Name = "FlagRemoteSwitch";
@@ -344,7 +344,7 @@
             // 
             // FlagStartORStop
             // 
-            this.FlagStartORStop.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagStartORStop.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
             this.FlagStartORStop.Location = new System.Drawing.Point(435, 27);
             this.FlagStartORStop.Margin = new System.Windows.Forms.Padding(0);
             this.FlagStartORStop.Name = "FlagStartORStop";
@@ -360,7 +360,7 @@
             // 
             // FlagInterval
             // 
-            this.FlagInterval.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagInterval.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
             this.FlagInterval.Location = new System.Drawing.Point(246, 116);
             this.FlagInterval.Margin = new System.Windows.Forms.Padding(0);
             this.FlagInterval.Name = "FlagInterval";
@@ -376,7 +376,7 @@
             // 
             // FlagStartEndTime
             // 
-            this.FlagStartEndTime.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagStartEndTime.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
             this.FlagStartEndTime.Location = new System.Drawing.Point(246, 86);
             this.FlagStartEndTime.Margin = new System.Windows.Forms.Padding(0);
             this.FlagStartEndTime.Name = "FlagStartEndTime";
@@ -392,7 +392,7 @@
             // 
             // FlagSendTime
             // 
-            this.FlagSendTime.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagSendTime.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
             this.FlagSendTime.Location = new System.Drawing.Point(246, 56);
             this.FlagSendTime.Margin = new System.Windows.Forms.Padding(0);
             this.FlagSendTime.Name = "FlagSendTime";
@@ -408,7 +408,7 @@
             // 
             // FlagTime
             // 
-            this.FlagTime.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagTime.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
             this.FlagTime.Location = new System.Drawing.Point(246, 26);
             this.FlagTime.Margin = new System.Windows.Forms.Padding(0);
             this.FlagTime.Name = "FlagTime";
@@ -563,7 +563,7 @@
             // 
             // FlagIP
             // 
-            this.FlagIP.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagIP.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
             this.FlagIP.Location = new System.Drawing.Point(188, 92);
             this.FlagIP.Margin = new System.Windows.Forms.Padding(0);
             this.FlagIP.Name = "FlagIP";
@@ -579,7 +579,7 @@
             // 
             // FlagPort
             // 
-            this.FlagPort.EditValue = global::NoiseAnalysisSystem.Properties.Resources.cross1;
+            this.FlagPort.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
             this.FlagPort.Location = new System.Drawing.Point(188, 60);
             this.FlagPort.Margin = new System.Windows.Forms.Padding(0);
             this.FlagPort.Name = "FlagPort";

@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraWaitForm;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class WaitForm1 : WaitForm
     {

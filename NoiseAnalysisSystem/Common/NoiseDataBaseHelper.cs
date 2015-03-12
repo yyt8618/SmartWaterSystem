@@ -8,7 +8,7 @@ using System.Data.SQLite;
 using Entity;
 using Common;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     /// <summary>
     /// 提供对噪声系统的数据访问

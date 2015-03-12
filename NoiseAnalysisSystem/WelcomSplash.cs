@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraSplashScreen;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     public partial class WelcomSplash : SplashScreen
     {

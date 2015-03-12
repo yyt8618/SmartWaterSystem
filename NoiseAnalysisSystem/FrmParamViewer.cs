@@ -2,7 +2,7 @@ using System;
 using System.Windows.Forms;
 using System.Collections;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
 	/// <summary>
 	/// A simple form to list out all parameters passed to ClickHotSpot event

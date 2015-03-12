@@ -616,9 +616,9 @@ namespace Protocol
         {
             try
             {
-                if (AppConfigHelper.GetAppSettingValue("TimeOut") != null)
+                if (!string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.TimeOut)))
                 {
-                    timeOut = Convert.ToInt32(AppConfigHelper.GetAppSettingValue("TimeOut"));
+                    timeOut = Settings.Instance.GetInt(SettingKeys.TimeOut);
                 }
 
                 try

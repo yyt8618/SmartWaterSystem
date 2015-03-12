@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.IO;
 
-namespace NoiseAnalysisSystem
+namespace SmartWaterSystem
 {
     partial class AboutBox : DevExpress.XtraEditors.XtraForm
     {

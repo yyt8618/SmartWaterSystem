@@ -35,7 +35,7 @@ namespace Utility
             get
             {
                 //return "COM3";
-                return AppConfigHelper.GetAppSettingValue("SerialPort") ?? "COM3";
+                return Settings.Instance.GetString(SettingKeys.SerialPort) ?? "COM3";
             }
         }
 
@@ -44,7 +44,7 @@ namespace Utility
             get
             {
                 //return "9600";
-                return AppConfigHelper.GetAppSettingValue("BaudRate") ?? "9600";
+                return Settings.Instance.GetString(SettingKeys.BaudRate) ?? "9600";
             }
         }
 
@@ -52,7 +52,7 @@ namespace Utility
         {
             get
             {
-                switch (AppConfigHelper.GetAppSettingValue("Parity"))
+                switch (Settings.Instance.GetString(SettingKeys.Parity)) 
                 {
                     case "NONE":
                         return System.IO.Ports.Parity.None;
@@ -80,7 +80,7 @@ namespace Utility
         {
             get
             {
-                return AppConfigHelper.GetAppSettingValue("DataBits") ?? "8";
+                return Settings.Instance.GetString(SettingKeys.DataBits) ?? "8";
             }
         }
 
@@ -88,7 +88,7 @@ namespace Utility
         {
             get
             {
-                switch (AppConfigHelper.GetAppSettingValue("StopPos"))
+                switch (Settings.Instance.GetString(SettingKeys.StopPos))
                 {
                     case "NONE":
                         return System.IO.Ports.StopBits.None;
