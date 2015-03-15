@@ -22,9 +22,9 @@ namespace Common
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetEvent(IntPtr hEvent);
 
-        [DllImport("coredll.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EventModify(IntPtr hEvent, uint func);
+        //[DllImport("Kernel32.dll")]
+        //[return: MarshalAs(UnmanagedType.Bool)]
+        //public static extern bool EventModify(IntPtr hEvent, uint func);
 
         [DllImport("Kernel32.dll")]
         public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);

@@ -10,54 +10,6 @@ namespace BLL
         NLog.Logger logger = NLog.LogManager.GetLogger("TerminalDataBLL");
         TerminalDataDAL dal = new TerminalDataDAL();
 
-        /// <summary>
-        /// 获取压力终端数据
-        /// </summary>
-        public List<PreDataEntity> GetPreData(List<string> terminalIds)
-        {
-            try
-            {
-                return dal.GetPreData(terminalIds);
-            }
-            catch (Exception ex)
-            {
-                return null;
-                logger.ErrorException("terminalIds", ex);
-            }
-        }
-
-        /// <summary>
-        /// 获取压力数据，包括最新和次新数据
-        /// </summary>
-        public List<PreDataEntity> GetPreDataTop2(List<int> terminalids)
-        {
-            try
-            {
-                return dal.GetPreDataTop2(terminalids);
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException("GetPreDataTop2", ex);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// 获取指定时间范围的终端压力数据
-        /// </summary>
-        public List<PreDetailDataEntity> GetDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval)
-        {
-            try
-            {
-                return dal.GetDetail(TerminalID, minTime, maxTime, interval);
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException("GetDetail", ex);
-                return null;
-            }
-        }
-
         #region GPRS数据操作
         public int InsertGPRSPreData(Queue<GPRSPreFrameDataEntity> datas, out string msg)
         {

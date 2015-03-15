@@ -103,7 +103,8 @@ namespace GCGPRSService
 
         public void Send(SQLType type)
         {
-            Win32.EventModify(hEvent[(int)type], Win32.EVENT_SET);    
+            Win32.SetEvent(hEvent[(int)type]);
+            //Win32.EventModify(hEvent[(int)type], Win32.EVENT_SET);    
         }
 
         private void SocketSQLThread()

@@ -2,7 +2,6 @@
 using System.Text;
 using System.Configuration.Install;
 using System.ServiceProcess;
-using System.Threading;
 
 namespace GPRSServiceUI
 {

@@ -178,7 +178,7 @@ namespace SmartWaterSystem
         void SQLSynctimer_Tick(object sender, EventArgs e)
         {
             GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerInfo);
-
+            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
         }
 
         void SQLSyncMgr_SQLSyncEvent(object sender, SQLSyncEventArgs e)
@@ -577,28 +577,37 @@ namespace SmartWaterSystem
         /// </summary>
         public void ShowWaitForm(string title, string prompt)
         {
-            if (string.IsNullOrEmpty(title))
-                title = "请稍候...";
-            this.BeginInvoke(new Action(() =>
-                {
-                    if (!splashScreenmanager.IsSplashFormVisible)
+            try
+            {
+                if (string.IsNullOrEmpty(title))
+                    title = "请稍候...";
+                this.BeginInvoke(new Action(() =>
                     {
-                        splashScreenmanager.ShowWaitForm();
-                        splashScreenmanager.SetWaitFormCaption(title);
-                        splashScreenmanager.SetWaitFormDescription(prompt);
-                    }
-                    else
-                    {
-                        splashScreenmanager.SetWaitFormCaption(title);
-                        splashScreenmanager.SetWaitFormDescription(prompt);
-                    }
-                }));
+                        if (!splashScreenmanager.IsSplashFormVisible)
+                        {
+                            splashScreenmanager.ShowWaitForm();
+                            splashScreenmanager.SetWaitFormCaption(title);
+                            splashScreenmanager.SetWaitFormDescription(prompt);
+                        }
+                        else
+                        {
+                            splashScreenmanager.SetWaitFormCaption(title);
+                            splashScreenmanager.SetWaitFormDescription(prompt);
+                        }
+                    }));
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("ShowWaitForm", ex);
+            }
         }
 
         public void HideWaitForm()
         {
-            //if (this.IsHandleCreated)
-            //{
+            try
+            {
+                //if (this.IsHandleCreated)
+                //{
                 this.BeginInvoke(new Action(() =>
                 {
                     try
@@ -608,7 +617,12 @@ namespace SmartWaterSystem
                     }
                     catch { }
                 }));
-            //}
+                //}
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("HideWaitForm", ex);
+            }
         }
 
         public void DisableRibbonBar()
@@ -643,7 +657,6 @@ namespace SmartWaterSystem
         private void FrmSystem_KeyDown(object sender, KeyEventArgs e)
         {
         }
-        
 
         #region 加载插件
         private void LoadAddin(string path)
@@ -758,13 +771,13 @@ namespace SmartWaterSystem
             Settings.Instance.SetValue(SettingKeys.Skin, skincaption);
         }
 
-        private void FrmSystem_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmSystem_FormClosed(object sender, FormClosedEventArgs e)
         {
             try
             {
-                GlobalValue.SQLSyncMgr.SQLSyncEvent -= new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
-
                 GlobalValue.SQLSyncMgr.Stop();
+                GlobalValue.SQLSyncMgr.SQLSyncEvent -= new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
+                Thread.Sleep(100);
             }
             catch { }
         }

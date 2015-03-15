@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Threading;
 using Common;
+using BLL;
 
 namespace SmartWaterSystem
 {
     public enum SqlSyncType:uint
     {
         None = 0,
-        SyncTerInfo = 1
+        SyncTerInfo = 1,
+        SyncUpdate_UniversalTerWayType,
         //Sync
     }
 
@@ -57,7 +59,7 @@ namespace SmartWaterSystem
     public delegate void SQLSyncEventHandler(object sender, SQLSyncEventArgs e);
     public class SQLSyncManager
     {
-        private const uint eventcount = 1;
+        private const uint eventcount = 3;
 
         public event SQLSyncEventHandler SQLSyncEvent;
         private IntPtr[] hEvent = new IntPtr[eventcount];
@@ -95,14 +97,7 @@ namespace SmartWaterSystem
 
         public void Stop()
         {
-            try
-            {
-                if (t != null)
-                {
-                    t.Abort();
-                }
-            }
-            catch { }
+            Win32.SetEvent(hEvent[0]);
         }
 
         int result = -1;  //-1:执行失败;1:执行成功;0:无执行返回
@@ -119,8 +114,20 @@ namespace SmartWaterSystem
                 switch (evt)
                 {
                     case (uint)SqlSyncType.None:
+                        Thread.CurrentThread.Abort();
                         break;
                     case (uint)SqlSyncType.SyncTerInfo:
+
+                        break;
+                    case (uint)SqlSyncType.SyncUpdate_UniversalTerWayType:
+                        {
+                            SQLSyncBLL syncBll = new SQLSyncBLL();
+                            bool res=syncBll.Update_UniversalTerWayType();
+                            if (res)
+                                result = 1;
+                            else
+                                result = -1;
+                        }
                         break;
                 }
                 OnSQLSyncEvent(new SQLSyncEventArgs((SqlSyncType)evt, result, msg, obj));
@@ -129,7 +136,8 @@ namespace SmartWaterSystem
 
         public void Send(SqlSyncType type)
         {
-            Win32.EventModify(hEvent[(int)type], Win32.EVENT_SET);
+            Win32.SetEvent(hEvent[(int)type]);
+            //Win32.EventModify(hEvent[(int)type], Win32.EVENT_SET);
         }
 
     }

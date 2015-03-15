@@ -274,9 +274,8 @@ namespace Common
             array.Add(CreateTableUniversalTerConfig());
             array.Add(CreateTablePreTerConfig());
             array.Add(CreateTableGPRSTerminal());
-            array.Add(CreateTableSimulateType());
-            array.Add(CreateTableRS485Type());
-            array.Add(CreateTablePluseType()); 
+            array.Add(CreateTableUniversalTerWayType());
+            array.Add(CreateTableUniversalTerWayConfig());
 
             array.Add(CreateDBVersionTable());
             return array;
@@ -534,64 +533,40 @@ namespace Common
         }
 
         /// <summary>
-        /// 模拟类型(通用终端)
+        /// 第几路采集类型(通用终端)
         /// </summary>
         /// <returns></returns>
-        private string CreateTableSimulateType()
+        private string CreateTableUniversalTerWayType()
         {
-            return @"CREATE TABLE [SimulateType]
+            return @"CREATE TABLE [UniversalTerWayType]
                     (
-	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [ID]                [INT]           NOT NULL,
 	                    [Level]             [INT]           NOT NULL,
 	                    [ParentID]          [INT]           NULL,
-	                    [SimulateTypeID]    [INT]           NOT NULL,
-	                    [SimulateTypeName]  NVARCHAR(30)    NOT NULL,
+                        [WayType]           [INT]           NOT NULL,
+	                    [Name]              NVARCHAR(30)    NOT NULL,
 	                    [MaxMeasureRange]   NUMERIC(18, 2)  NOT NULL,
 	                    [MaxMeasureRangeFlag] NUMERIC(18, 2) NOT NULL,
 	                    [Precision]         [INT]           NULL,
 	                    [Unit]              NVARCHAR(20)    NULL,
+                        [SyncState]         INT             NULL        DEFAULT -1,             --0:已同步,1:新增未同步,-1:删除未同步
 	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
                     )";
         }
-
         /// <summary>
-        /// RS485类型(通用终端)
+        /// 采集类型配置(通用终端)
         /// </summary>
         /// <returns></returns>
-        private string CreateTableRS485Type()
+        private string CreateTableUniversalTerWayConfig()
         {
-            return @"CREATE TABLE [RS485Type]
+            return @"CREATE TABLE [UniversalTerWayConfig]
                     (
 	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
-	                    [Level]             [INT] NOT NULL,
-	                    [ParentID]          [INT] NULL,
-	                    [RS485TypeID]       [INT] NOT NULL,
-	                    [RS485TypeName]     NVARCHAR(30) NOT NULL,
-	                    [Precision]         [INT] NULL,
-	                    [Unit]              NVARCHAR(20) NULL,
+                        [TerminalID]		[INT]           NOT NULL,								--终端ID
+	                    [PointID]           [INT]           NOT NULL,
 	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
                     )";
         }
-
-        /// <summary>
-        /// 脉冲类型(通用终端)
-        /// </summary>
-        /// <returns></returns>
-        private string CreateTablePluseType()
-        {
-            return @"CREATE TABLE [PluseType]
-                    (
-	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
-	                    [Level]             [INT] NULL,
-	                    [ParentID]          [INT] NULL,
-	                    [PluseTypeID]       [INT] NOT NULL,
-	                    [PluseTypeName]     NVARCHAR(30) NOT NULL,
-	                    [Precision]         [INT] NULL,
-	                    [Unit]              NVARCHAR(20) NULL,
-	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
-                    )";
-        }
-
         #endregion
             
         #region 重建数据库
