@@ -30,247 +30,268 @@ namespace SmartWaterSystem
         private void InitializeComponent()
         {
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.btnNow = new DevExpress.XtraEditors.SimpleButton();
-            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.ipControl1 = new IPControl();
+            this.cbBaudRate = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.ceModbusExeFlag = new DevExpress.XtraEditors.CheckEdit();
+            this.txtPort = new DevExpress.XtraEditors.TextEdit();
+            this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
+            this.ceCollectRS485 = new DevExpress.XtraEditors.CheckEdit();
+            this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
+            this.ceCollectPluse = new DevExpress.XtraEditors.CheckEdit();
+            this.ceCollectSimulate = new DevExpress.XtraEditors.CheckEdit();
             this.txtCellPhone = new DevExpress.XtraEditors.TextEdit();
             this.cbComType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceComType = new DevExpress.XtraEditors.CheckEdit();
-            this.txtBaud = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.ceCellPhone = new DevExpress.XtraEditors.CheckEdit();
-            this.txtPort = new DevExpress.XtraEditors.TextEdit();
+            this.ceTime = new DevExpress.XtraEditors.CheckEdit();
+            this.txtTime = new DevExpress.XtraEditors.TextEdit();
             this.txtID = new DevExpress.XtraEditors.TextEdit();
-            this.ceIP = new DevExpress.XtraEditors.CheckEdit();
+            this.ceCellPhone = new DevExpress.XtraEditors.CheckEdit();
+            this.txtNum4 = new DevExpress.XtraEditors.TextEdit();
+            this.cePort = new DevExpress.XtraEditors.CheckEdit();
             this.ceBaud = new DevExpress.XtraEditors.CheckEdit();
             this.ceID = new DevExpress.XtraEditors.CheckEdit();
-            this.ceTime = new DevExpress.XtraEditors.CheckEdit();
-            this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
-            this.btnSaveTemplate = new DevExpress.XtraEditors.SimpleButton();
-            this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
-            this.cbIntervalType = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.gcInterval = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.groupControl5 = new DevExpress.XtraEditors.GroupControl();
-            this.cbHammerEnable = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.cbPreLowEnable = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.cbPreUpEnable = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.txtHammerInterval = new DevExpress.XtraEditors.TextEdit();
-            this.txtPreLowLimit = new DevExpress.XtraEditors.TextEdit();
-            this.ceHammerEnable = new DevExpress.XtraEditors.CheckEdit();
-            this.txtPreUpLimit = new DevExpress.XtraEditors.TextEdit();
-            this.cePreLowEnable = new DevExpress.XtraEditors.CheckEdit();
-            this.ceHammerInterval = new DevExpress.XtraEditors.CheckEdit();
-            this.cePreLowLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.cePreUpEnable = new DevExpress.XtraEditors.CheckEdit();
-            this.cePreUpLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
-            this.simpleButton6 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
-            this.radioGroup1 = new DevExpress.XtraEditors.RadioGroup();
-            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
-            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
-            this.groupControl9 = new DevExpress.XtraEditors.GroupControl();
-            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-            this.textEdit15 = new DevExpress.XtraEditors.TextEdit();
-            this.textEdit14 = new DevExpress.XtraEditors.TextEdit();
-            this.textEdit13 = new DevExpress.XtraEditors.TextEdit();
-            this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
-            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
-            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.ceDigitalPreOne = new DevExpress.XtraEditors.CheckEdit();
-            this.cePulse = new DevExpress.XtraEditors.CheckEdit();
-            this.ceExternalAO = new DevExpress.XtraEditors.CheckEdit();
-            this.ceExternalAOSec = new DevExpress.XtraEditors.CheckEdit();
-            this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
-            this.ceExternal485 = new DevExpress.XtraEditors.CheckEdit();
-            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
-            this.ceModbusStartAddr = new DevExpress.XtraEditors.CheckEdit();
-            this.ceModbusCtrlCode = new DevExpress.XtraEditors.CheckEdit();
-            this.ceModbusRegCount = new DevExpress.XtraEditors.CheckEdit();
-            this.ceModbusAddr = new DevExpress.XtraEditors.CheckEdit();
-            this.ce645Addr = new DevExpress.XtraEditors.CheckEdit();
-            this.ceModbusExeFlag = new DevExpress.XtraEditors.CheckEdit();
-            this.cePulseUnit1 = new DevExpress.XtraEditors.CheckEdit();
-            this.ce645Funcode = new DevExpress.XtraEditors.CheckEdit();
-            this.cePulseUnit4 = new DevExpress.XtraEditors.CheckEdit();
-            this.ceDL645ExeFlag = new DevExpress.XtraEditors.CheckEdit();
-            this.cePulseUnit3 = new DevExpress.XtraEditors.CheckEdit();
-            this.ce645Datalen = new DevExpress.XtraEditors.CheckEdit();
-            this.cePulseUnit2 = new DevExpress.XtraEditors.CheckEdit();
-            this.cbModbusExeFlag = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.cbDL645ExeFlag = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.txtModbusAddr = new DevExpress.XtraEditors.TextEdit();
-            this.cbModbusCtrlCode = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.txtModbusStartAddr1 = new DevExpress.XtraEditors.TextEdit();
-            this.txtModbusStartAddr2 = new DevExpress.XtraEditors.TextEdit();
-            this.txtModbusRegCount = new DevExpress.XtraEditors.TextEdit();
-            this.txt645Addr = new DevExpress.XtraEditors.TextEdit();
-            this.txt645Funcode = new DevExpress.XtraEditors.TextEdit();
-            this.txt645Datalen = new DevExpress.XtraEditors.TextEdit();
-            this.txtPulseUnit1 = new DevExpress.XtraEditors.TextEdit();
-            this.txtPulseUnit2 = new DevExpress.XtraEditors.TextEdit();
-            this.txtPulseUnit3 = new DevExpress.XtraEditors.TextEdit();
-            this.txtPulseUnit4 = new DevExpress.XtraEditors.TextEdit();
+            this.txtNum3 = new DevExpress.XtraEditors.TextEdit();
+            this.txtNum2 = new DevExpress.XtraEditors.TextEdit();
+            this.txtNum1 = new DevExpress.XtraEditors.TextEdit();
+            this.ceIP = new DevExpress.XtraEditors.CheckEdit();
+            this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
+            this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
+            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
+            this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.cbStartTime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.cbCollectTime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.cbSendTime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
+            this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
+            this.btnEnableCollect = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCheckingTime = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
+            this.gridControl_485Protocol = new DevExpress.XtraGrid.GridControl();
+            this.gridView_485Protocol = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox4 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn11 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox5 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn12 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox6 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn13 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn14 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.btnReadParm = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSetParm = new DevExpress.XtraEditors.SimpleButton();
+            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.gridControl_simulate = new DevExpress.XtraGrid.GridControl();
+            this.gridView_simulate = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox3 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
+            this.gridControl_RS485 = new DevExpress.XtraGrid.GridControl();
+            this.gridView_RS485 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox7 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox8 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn15 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox9 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.groupControl5 = new DevExpress.XtraEditors.GroupControl();
+            this.gridControl_Pluse = new DevExpress.XtraGrid.GridControl();
+            this.gridView_Pluse = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn16 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox10 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn17 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox11 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn18 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox12 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.btnReset = new DevExpress.XtraEditors.SimpleButton();
+            this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
+            this.groupControl7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBaud.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceBaud.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
-            this.groupControl3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cbIntervalType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gcInterval)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
-            this.groupControl5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cbHammerEnable.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreLowEnable.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreUpEnable.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtHammerInterval.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPreLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceHammerEnable.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPreUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreLowEnable.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceHammerInterval.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreUpEnable.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
-            this.groupControl7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl9)).BeginInit();
-            this.groupControl9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit15.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit14.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit13.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
-            this.groupControl6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceDigitalPreOne.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulse.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceExternalAO.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceExternalAOSec.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceExternal485.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
-            this.groupControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusStartAddr.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusCtrlCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusRegCount.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusAddr.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ce645Addr.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulseUnit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ce645Funcode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulseUnit4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceDL645ExeFlag.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulseUnit3.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ce645Datalen.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulseUnit2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbModbusExeFlag.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbDL645ExeFlag.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtModbusAddr.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbModbusCtrlCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtModbusStartAddr1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtModbusStartAddr2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtModbusRegCount.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt645Addr.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt645Funcode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt645Datalen.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPulseUnit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPulseUnit2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPulseUnit3.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPulseUnit4.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
+            this.xtraTabControl1.SuspendLayout();
+            this.xtraTabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbStartTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbCollectTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbSendTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_485Protocol)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_485Protocol)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
+            this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_simulate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_simulate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
+            this.groupControl3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_RS485)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_RS485)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
+            this.groupControl5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_Pluse)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_Pluse)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
             // 
-            this.groupControl1.Controls.Add(this.btnNow);
-            this.groupControl1.Controls.Add(this.dateTimePicker);
-            this.groupControl1.Controls.Add(this.ipControl1);
+            this.groupControl1.Controls.Add(this.cbBaudRate);
+            this.groupControl1.Controls.Add(this.ceModbusExeFlag);
+            this.groupControl1.Controls.Add(this.txtPort);
+            this.groupControl1.Controls.Add(this.groupControl7);
             this.groupControl1.Controls.Add(this.txtCellPhone);
             this.groupControl1.Controls.Add(this.cbComType);
             this.groupControl1.Controls.Add(this.ceComType);
-            this.groupControl1.Controls.Add(this.txtBaud);
-            this.groupControl1.Controls.Add(this.ceCellPhone);
-            this.groupControl1.Controls.Add(this.txtPort);
+            this.groupControl1.Controls.Add(this.ceTime);
+            this.groupControl1.Controls.Add(this.txtTime);
             this.groupControl1.Controls.Add(this.txtID);
-            this.groupControl1.Controls.Add(this.ceIP);
+            this.groupControl1.Controls.Add(this.ceCellPhone);
+            this.groupControl1.Controls.Add(this.txtNum4);
+            this.groupControl1.Controls.Add(this.cePort);
             this.groupControl1.Controls.Add(this.ceBaud);
             this.groupControl1.Controls.Add(this.ceID);
-            this.groupControl1.Controls.Add(this.ceTime);
-            this.groupControl1.Location = new System.Drawing.Point(191, 5);
+            this.groupControl1.Controls.Add(this.txtNum3);
+            this.groupControl1.Controls.Add(this.txtNum2);
+            this.groupControl1.Controls.Add(this.txtNum1);
+            this.groupControl1.Controls.Add(this.ceIP);
+            this.groupControl1.Location = new System.Drawing.Point(6, -1);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(199, 150);
+            this.groupControl1.Size = new System.Drawing.Size(791, 80);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
             // 
-            // btnNow
+            // cbBaudRate
             // 
-            this.btnNow.Enabled = false;
-            this.btnNow.Location = new System.Drawing.Point(157, 20);
-            this.btnNow.Name = "btnNow";
-            this.btnNow.Size = new System.Drawing.Size(39, 23);
-            this.btnNow.TabIndex = 15;
-            this.btnNow.Text = "同步";
-            this.btnNow.Click += new System.EventHandler(this.btnNow_Click);
+            this.cbBaudRate.Location = new System.Drawing.Point(75, 53);
+            this.cbBaudRate.Name = "cbBaudRate";
+            this.cbBaudRate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbBaudRate.Size = new System.Drawing.Size(89, 20);
+            this.cbBaudRate.TabIndex = 8;
+            this.cbBaudRate.SelectedIndexChanged += new System.EventHandler(this.cbBaudRate_SelectedIndexChanged);
             // 
-            // dateTimePicker
+            // ceModbusExeFlag
             // 
-            this.dateTimePicker.CustomFormat = "HH:mm:ss";
-            this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker.Location = new System.Drawing.Point(70, 20);
-            this.dateTimePicker.MinDate = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
-            this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.ShowUpDown = true;
-            this.dateTimePicker.Size = new System.Drawing.Size(86, 22);
-            this.dateTimePicker.TabIndex = 14;
-            this.dateTimePicker.Value = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
+            this.ceModbusExeFlag.Location = new System.Drawing.Point(497, 25);
+            this.ceModbusExeFlag.Name = "ceModbusExeFlag";
+            this.ceModbusExeFlag.Properties.Caption = "485采集modbus";
+            this.ceModbusExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceModbusExeFlag.Size = new System.Drawing.Size(108, 19);
+            this.ceModbusExeFlag.TabIndex = 6;
             // 
-            // ipControl1
+            // txtPort
             // 
-            this.ipControl1.BackColor = System.Drawing.SystemColors.Window;
-            this.ipControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ipControl1.Location = new System.Drawing.Point(48, 106);
-            this.ipControl1.Name = "ipControl1";
-            this.ipControl1.Size = new System.Drawing.Size(110, 17);
-            this.ipControl1.TabIndex = 13;
+            this.txtPort.EditValue = "";
+            this.txtPort.Location = new System.Drawing.Point(553, 52);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(48, 20);
+            this.txtPort.TabIndex = 17;
+            // 
+            // groupControl7
+            // 
+            this.groupControl7.Controls.Add(this.ceCollectRS485);
+            this.groupControl7.Controls.Add(this.ceColConfig);
+            this.groupControl7.Controls.Add(this.ceCollectPluse);
+            this.groupControl7.Controls.Add(this.ceCollectSimulate);
+            this.groupControl7.Location = new System.Drawing.Point(608, 21);
+            this.groupControl7.Name = "groupControl7";
+            this.groupControl7.ShowCaption = false;
+            this.groupControl7.Size = new System.Drawing.Size(178, 53);
+            this.groupControl7.TabIndex = 18;
+            // 
+            // ceCollectRS485
+            // 
+            this.ceCollectRS485.Location = new System.Drawing.Point(96, 31);
+            this.ceCollectRS485.Name = "ceCollectRS485";
+            this.ceCollectRS485.Properties.Caption = "采集RS485";
+            this.ceCollectRS485.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceCollectRS485.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceCollectRS485.Size = new System.Drawing.Size(117, 19);
+            this.ceCollectRS485.TabIndex = 3;
+            // 
+            // ceColConfig
+            // 
+            this.ceColConfig.Location = new System.Drawing.Point(5, 4);
+            this.ceColConfig.Name = "ceColConfig";
+            this.ceColConfig.Properties.Caption = "采集功能配置";
+            this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceColConfig.Size = new System.Drawing.Size(90, 19);
+            this.ceColConfig.TabIndex = 0;
+            // 
+            // ceCollectPluse
+            // 
+            this.ceCollectPluse.Location = new System.Drawing.Point(5, 31);
+            this.ceCollectPluse.Name = "ceCollectPluse";
+            this.ceCollectPluse.Properties.Caption = "采集脉冲量";
+            this.ceCollectPluse.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceCollectPluse.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceCollectPluse.Size = new System.Drawing.Size(87, 19);
+            this.ceCollectPluse.TabIndex = 2;
+            // 
+            // ceCollectSimulate
+            // 
+            this.ceCollectSimulate.Location = new System.Drawing.Point(96, 4);
+            this.ceCollectSimulate.Name = "ceCollectSimulate";
+            this.ceCollectSimulate.Properties.Caption = "采集模拟量";
+            this.ceCollectSimulate.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceCollectSimulate.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceCollectSimulate.Size = new System.Drawing.Size(85, 19);
+            this.ceCollectSimulate.TabIndex = 1;
             // 
             // txtCellPhone
             // 
             this.txtCellPhone.EditValue = "";
-            this.txtCellPhone.Location = new System.Drawing.Point(69, 126);
+            this.txtCellPhone.Location = new System.Drawing.Point(392, 25);
             this.txtCellPhone.Name = "txtCellPhone";
-            this.txtCellPhone.Size = new System.Drawing.Size(107, 20);
-            this.txtCellPhone.TabIndex = 12;
+            this.txtCellPhone.Size = new System.Drawing.Size(92, 20);
+            this.txtCellPhone.TabIndex = 5;
             // 
             // cbComType
             // 
-            this.cbComType.Location = new System.Drawing.Point(74, 84);
+            this.cbComType.Location = new System.Drawing.Point(250, 52);
             this.cbComType.Name = "cbComType";
             this.cbComType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -278,1006 +299,803 @@ namespace SmartWaterSystem
             "GSM",
             "GPRS"});
             this.cbComType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbComType.Size = new System.Drawing.Size(63, 20);
-            this.cbComType.TabIndex = 7;
+            this.cbComType.Size = new System.Drawing.Size(78, 20);
+            this.cbComType.TabIndex = 10;
             // 
             // ceComType
             // 
-            this.ceComType.Location = new System.Drawing.Point(5, 85);
+            this.ceComType.Location = new System.Drawing.Point(170, 53);
             this.ceComType.Name = "ceComType";
             this.ceComType.Properties.Caption = "通讯方式";
             this.ceComType.Size = new System.Drawing.Size(74, 19);
-            this.ceComType.TabIndex = 6;
-            // 
-            // txtBaud
-            // 
-            this.txtBaud.Location = new System.Drawing.Point(74, 63);
-            this.txtBaud.Name = "txtBaud";
-            this.txtBaud.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtBaud.Properties.Items.AddRange(new object[] {
-            "1200",
-            "2400",
-            "4800",
-            "9600"});
-            this.txtBaud.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.txtBaud.Size = new System.Drawing.Size(63, 20);
-            this.txtBaud.TabIndex = 5;
-            // 
-            // ceCellPhone
-            // 
-            this.ceCellPhone.Location = new System.Drawing.Point(5, 127);
-            this.ceCellPhone.Name = "ceCellPhone";
-            this.ceCellPhone.Properties.Caption = "手机号";
-            this.ceCellPhone.Size = new System.Drawing.Size(74, 19);
-            this.ceCellPhone.TabIndex = 11;
-            // 
-            // txtPort
-            // 
-            this.txtPort.EditValue = "";
-            this.txtPort.Location = new System.Drawing.Point(161, 105);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(33, 20);
-            this.txtPort.TabIndex = 10;
-            // 
-            // txtID
-            // 
-            this.txtID.Location = new System.Drawing.Point(74, 42);
-            this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(48, 20);
-            this.txtID.TabIndex = 3;
-            // 
-            // ceIP
-            // 
-            this.ceIP.Location = new System.Drawing.Point(5, 106);
-            this.ceIP.Name = "ceIP";
-            this.ceIP.Properties.Caption = "IP";
-            this.ceIP.Size = new System.Drawing.Size(74, 19);
-            this.ceIP.TabIndex = 8;
-            // 
-            // ceBaud
-            // 
-            this.ceBaud.Location = new System.Drawing.Point(5, 64);
-            this.ceBaud.Name = "ceBaud";
-            this.ceBaud.Properties.Caption = "Baud";
-            this.ceBaud.Size = new System.Drawing.Size(48, 19);
-            this.ceBaud.TabIndex = 4;
-            // 
-            // ceID
-            // 
-            this.ceID.Location = new System.Drawing.Point(5, 43);
-            this.ceID.Name = "ceID";
-            this.ceID.Properties.Caption = "设备编号";
-            this.ceID.Size = new System.Drawing.Size(75, 19);
-            this.ceID.TabIndex = 2;
+            this.ceComType.TabIndex = 9;
             // 
             // ceTime
             // 
-            this.ceTime.Location = new System.Drawing.Point(5, 22);
+            this.ceTime.Location = new System.Drawing.Point(170, 26);
             this.ceTime.Name = "ceTime";
             this.ceTime.Properties.Caption = "设备时间";
             this.ceTime.Size = new System.Drawing.Size(75, 19);
-            this.ceTime.TabIndex = 0;
+            this.ceTime.TabIndex = 2;
             // 
-            // toggleSwitch1
+            // txtTime
             // 
-            this.toggleSwitch1.Location = new System.Drawing.Point(63, 28);
-            this.toggleSwitch1.Name = "toggleSwitch1";
-            this.toggleSwitch1.Properties.OffText = "Off";
-            this.toggleSwitch1.Properties.OnText = "On";
-            this.toggleSwitch1.Size = new System.Drawing.Size(95, 25);
-            this.toggleSwitch1.TabIndex = 0;
+            this.txtTime.Location = new System.Drawing.Point(250, 24);
+            this.txtTime.Name = "txtTime";
+            this.txtTime.Size = new System.Drawing.Size(78, 20);
+            this.txtTime.TabIndex = 1;
             // 
-            // btnSaveTemplate
+            // txtID
             // 
-            this.btnSaveTemplate.Location = new System.Drawing.Point(8, 131);
-            this.btnSaveTemplate.Name = "btnSaveTemplate";
-            this.btnSaveTemplate.Size = new System.Drawing.Size(151, 34);
-            this.btnSaveTemplate.TabIndex = 3;
-            this.btnSaveTemplate.Text = "启动采集";
+            this.txtID.Location = new System.Drawing.Point(75, 25);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(89, 20);
+            this.txtID.TabIndex = 1;
             // 
-            // groupControl3
+            // ceCellPhone
             // 
-            this.groupControl3.Controls.Add(this.cbIntervalType);
-            this.groupControl3.Controls.Add(this.gcInterval);
-            this.groupControl3.Location = new System.Drawing.Point(393, 287);
-            this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(230, 201);
-            this.groupControl3.TabIndex = 4;
-            this.groupControl3.Text = "485/压力/模拟量时间间隔";
+            this.ceCellPhone.Location = new System.Drawing.Point(334, 26);
+            this.ceCellPhone.Name = "ceCellPhone";
+            this.ceCellPhone.Properties.Caption = "手机号";
+            this.ceCellPhone.Size = new System.Drawing.Size(74, 19);
+            this.ceCellPhone.TabIndex = 4;
             // 
-            // cbIntervalType
+            // txtNum4
             // 
-            this.cbIntervalType.EditValue = "";
-            this.cbIntervalType.Location = new System.Drawing.Point(6, 22);
-            this.cbIntervalType.Name = "cbIntervalType";
-            this.cbIntervalType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.txtNum4.EditValue = "";
+            this.txtNum4.Location = new System.Drawing.Point(456, 52);
+            this.txtNum4.Name = "txtNum4";
+            this.txtNum4.Properties.MaxLength = 3;
+            this.txtNum4.Size = new System.Drawing.Size(28, 20);
+            this.txtNum4.TabIndex = 15;
+            this.txtNum4.Tag = "4";
+            this.txtNum4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            // 
+            // cePort
+            // 
+            this.cePort.Location = new System.Drawing.Point(497, 53);
+            this.cePort.Name = "cePort";
+            this.cePort.Properties.Caption = "端口号";
+            this.cePort.Size = new System.Drawing.Size(63, 19);
+            this.cePort.TabIndex = 16;
+            // 
+            // ceBaud
+            // 
+            this.ceBaud.Location = new System.Drawing.Point(6, 53);
+            this.ceBaud.Name = "ceBaud";
+            this.ceBaud.Properties.Caption = "波特率";
+            this.ceBaud.Size = new System.Drawing.Size(63, 19);
+            this.ceBaud.TabIndex = 7;
+            // 
+            // ceID
+            // 
+            this.ceID.Location = new System.Drawing.Point(6, 26);
+            this.ceID.Name = "ceID";
+            this.ceID.Properties.Caption = "设备编号";
+            this.ceID.Size = new System.Drawing.Size(75, 19);
+            this.ceID.TabIndex = 0;
+            // 
+            // txtNum3
+            // 
+            this.txtNum3.EditValue = "";
+            this.txtNum3.Location = new System.Drawing.Point(428, 52);
+            this.txtNum3.Name = "txtNum3";
+            this.txtNum3.Properties.MaxLength = 3;
+            this.txtNum3.Size = new System.Drawing.Size(28, 20);
+            this.txtNum3.TabIndex = 14;
+            this.txtNum3.Tag = "3";
+            this.txtNum3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            // 
+            // txtNum2
+            // 
+            this.txtNum2.EditValue = "";
+            this.txtNum2.Location = new System.Drawing.Point(400, 52);
+            this.txtNum2.Name = "txtNum2";
+            this.txtNum2.Properties.MaxLength = 3;
+            this.txtNum2.Size = new System.Drawing.Size(28, 20);
+            this.txtNum2.TabIndex = 13;
+            this.txtNum2.Tag = "2";
+            this.txtNum2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            // 
+            // txtNum1
+            // 
+            this.txtNum1.EditValue = "";
+            this.txtNum1.Location = new System.Drawing.Point(372, 52);
+            this.txtNum1.Name = "txtNum1";
+            this.txtNum1.Properties.MaxLength = 3;
+            this.txtNum1.Size = new System.Drawing.Size(28, 20);
+            this.txtNum1.TabIndex = 12;
+            this.txtNum1.Tag = "1";
+            this.txtNum1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            // 
+            // ceIP
+            // 
+            this.ceIP.Location = new System.Drawing.Point(334, 53);
+            this.ceIP.Name = "ceIP";
+            this.ceIP.Properties.Caption = "IP";
+            this.ceIP.Size = new System.Drawing.Size(35, 19);
+            this.ceIP.TabIndex = 11;
+            // 
+            // xtraTabControl1
+            // 
+            this.xtraTabControl1.HeaderOrientation = DevExpress.XtraTab.TabOrientation.Horizontal;
+            this.xtraTabControl1.Location = new System.Drawing.Point(77, 470);
+            this.xtraTabControl1.Name = "xtraTabControl1";
+            this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
+            this.xtraTabControl1.Size = new System.Drawing.Size(35, 32);
+            this.xtraTabControl1.TabIndex = 5;
+            this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.xtraTabPage1,
+            this.xtraTabPage2,
+            this.xtraTabPage3});
+            // 
+            // xtraTabPage1
+            // 
+            this.xtraTabPage1.Controls.Add(this.gridControl2);
+            this.xtraTabPage1.Name = "xtraTabPage1";
+            this.xtraTabPage1.Size = new System.Drawing.Size(29, 3);
+            this.xtraTabPage1.Text = "模拟量时间间隔";
+            // 
+            // gridControl2
+            // 
+            this.gridControl2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl2.Location = new System.Drawing.Point(0, 0);
+            this.gridControl2.MainView = this.gridView3;
+            this.gridControl2.Name = "gridControl2";
+            this.gridControl2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.cbStartTime,
+            this.cbCollectTime,
+            this.cbSendTime});
+            this.gridControl2.Size = new System.Drawing.Size(29, 3);
+            this.gridControl2.TabIndex = 5;
+            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView3});
+            // 
+            // gridView3
+            // 
+            this.gridView3.ActiveFilterEnabled = false;
+            this.gridView3.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn8,
+            this.gridColumn9,
+            this.gridColumn10});
+            this.gridView3.GridControl = this.gridControl2;
+            this.gridView3.Name = "gridView3";
+            this.gridView3.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView3.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
+            this.gridView3.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView3.OptionsCustomization.AllowGroup = false;
+            this.gridView3.OptionsCustomization.AllowSort = false;
+            this.gridView3.OptionsFilter.AllowFilterEditor = false;
+            this.gridView3.OptionsView.ShowGroupPanel = false;
+            this.gridView3.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView3.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView3_RowCellClick);
+            this.gridView3.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView3_CustomRowCellEdit);
+            this.gridView3.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView3_CellValueChanged);
+            // 
+            // gridColumn8
+            // 
+            this.gridColumn8.Caption = "起始时间";
+            this.gridColumn8.ColumnEdit = this.cbStartTime;
+            this.gridColumn8.FieldName = "starttime";
+            this.gridColumn8.Name = "gridColumn8";
+            this.gridColumn8.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn8.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn8.OptionsColumn.AllowMove = false;
+            this.gridColumn8.OptionsEditForm.StartNewRow = true;
+            this.gridColumn8.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn8.OptionsFilter.AllowFilter = false;
+            this.gridColumn8.Visible = true;
+            this.gridColumn8.VisibleIndex = 0;
+            // 
+            // cbStartTime
+            // 
+            this.cbStartTime.AutoHeight = false;
+            this.cbStartTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbIntervalType.Properties.Items.AddRange(new object[] {
-            "None",
-            "485",
-            "压力",
-            "模拟量"});
-            this.cbIntervalType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbIntervalType.Size = new System.Drawing.Size(111, 20);
-            this.cbIntervalType.TabIndex = 0;
+            this.cbStartTime.Name = "cbStartTime";
             // 
-            // gcInterval
+            // gridColumn9
             // 
-            this.gcInterval.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gcInterval.Location = new System.Drawing.Point(6, 44);
-            this.gcInterval.MainView = this.gridView1;
-            this.gcInterval.Name = "gcInterval";
-            this.gcInterval.Size = new System.Drawing.Size(188, 152);
-            this.gcInterval.TabIndex = 1;
-            this.gcInterval.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.gridColumn9.Caption = "采集时间间隔";
+            this.gridColumn9.ColumnEdit = this.cbCollectTime;
+            this.gridColumn9.FieldName = "collecttime";
+            this.gridColumn9.Name = "gridColumn9";
+            this.gridColumn9.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn9.OptionsFilter.AllowFilter = false;
+            this.gridColumn9.Visible = true;
+            this.gridColumn9.VisibleIndex = 1;
             // 
-            // gridView1
+            // cbCollectTime
             // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.cbCollectTime.AutoHeight = false;
+            this.cbCollectTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbCollectTime.Name = "cbCollectTime";
+            // 
+            // gridColumn10
+            // 
+            this.gridColumn10.Caption = "发送时间间隔";
+            this.gridColumn10.ColumnEdit = this.cbSendTime;
+            this.gridColumn10.FieldName = "sendtime";
+            this.gridColumn10.Name = "gridColumn10";
+            this.gridColumn10.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn10.OptionsFilter.AllowFilter = false;
+            this.gridColumn10.Visible = true;
+            this.gridColumn10.VisibleIndex = 2;
+            // 
+            // cbSendTime
+            // 
+            this.cbSendTime.AutoHeight = false;
+            this.cbSendTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbSendTime.Name = "cbSendTime";
+            // 
+            // xtraTabPage2
+            // 
+            this.xtraTabPage2.Name = "xtraTabPage2";
+            this.xtraTabPage2.Size = new System.Drawing.Size(29, 3);
+            this.xtraTabPage2.Text = "脉冲量时间间隔";
+            // 
+            // xtraTabPage3
+            // 
+            this.xtraTabPage3.Name = "xtraTabPage3";
+            this.xtraTabPage3.Size = new System.Drawing.Size(29, 3);
+            this.xtraTabPage3.Text = "RS485时间间隔";
+            // 
+            // btnEnableCollect
+            // 
+            this.btnEnableCollect.Location = new System.Drawing.Point(503, 462);
+            this.btnEnableCollect.Name = "btnEnableCollect";
+            this.btnEnableCollect.Size = new System.Drawing.Size(88, 26);
+            this.btnEnableCollect.TabIndex = 7;
+            this.btnEnableCollect.Text = "启动采集";
+            // 
+            // btnCheckingTime
+            // 
+            this.btnCheckingTime.Location = new System.Drawing.Point(401, 462);
+            this.btnCheckingTime.Name = "btnCheckingTime";
+            this.btnCheckingTime.Size = new System.Drawing.Size(88, 26);
+            this.btnCheckingTime.TabIndex = 6;
+            this.btnCheckingTime.Text = "校时";
+            // 
+            // groupControl4
+            // 
+            this.groupControl4.Controls.Add(this.gridControl_485Protocol);
+            this.groupControl4.Location = new System.Drawing.Point(402, 86);
+            this.groupControl4.Name = "groupControl4";
+            this.groupControl4.Size = new System.Drawing.Size(395, 186);
+            this.groupControl4.TabIndex = 4;
+            this.groupControl4.Text = "RS485采集modbus协议配置";
+            // 
+            // gridControl_485Protocol
+            // 
+            this.gridControl_485Protocol.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl_485Protocol.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_485Protocol.Location = new System.Drawing.Point(2, 22);
+            this.gridControl_485Protocol.MainView = this.gridView_485Protocol;
+            this.gridControl_485Protocol.Name = "gridControl_485Protocol";
+            this.gridControl_485Protocol.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemComboBox4,
+            this.repositoryItemComboBox5,
+            this.repositoryItemComboBox6});
+            this.gridControl_485Protocol.Size = new System.Drawing.Size(391, 162);
+            this.gridControl_485Protocol.TabIndex = 5;
+            this.gridControl_485Protocol.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView_485Protocol});
+            // 
+            // gridView_485Protocol
+            // 
+            this.gridView_485Protocol.ActiveFilterEnabled = false;
+            this.gridView_485Protocol.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn4,
+            this.gridColumn11,
+            this.gridColumn12,
+            this.gridColumn13,
+            this.gridColumn14});
+            this.gridView_485Protocol.GridControl = this.gridControl_485Protocol;
+            this.gridView_485Protocol.Name = "gridView_485Protocol";
+            this.gridView_485Protocol.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_485Protocol.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
+            this.gridView_485Protocol.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_485Protocol.OptionsCustomization.AllowGroup = false;
+            this.gridView_485Protocol.OptionsCustomization.AllowSort = false;
+            this.gridView_485Protocol.OptionsFilter.AllowFilterEditor = false;
+            this.gridView_485Protocol.OptionsView.ShowGroupPanel = false;
+            this.gridView_485Protocol.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_485Protocol.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView3_CellValueChanged);
+            // 
+            // gridColumn4
+            // 
+            this.gridColumn4.Caption = "波特率";
+            this.gridColumn4.ColumnEdit = this.repositoryItemComboBox4;
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsColumn.AllowMove = false;
+            this.gridColumn4.OptionsEditForm.StartNewRow = true;
+            this.gridColumn4.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn4.OptionsFilter.AllowFilter = false;
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 0;
+            this.gridColumn4.Width = 67;
+            // 
+            // repositoryItemComboBox4
+            // 
+            this.repositoryItemComboBox4.AutoHeight = false;
+            this.repositoryItemComboBox4.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox4.Name = "repositoryItemComboBox4";
+            // 
+            // gridColumn11
+            // 
+            this.gridColumn11.Caption = "设备ID";
+            this.gridColumn11.ColumnEdit = this.repositoryItemComboBox5;
+            this.gridColumn11.Name = "gridColumn11";
+            this.gridColumn11.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn11.OptionsFilter.AllowFilter = false;
+            this.gridColumn11.Visible = true;
+            this.gridColumn11.VisibleIndex = 1;
+            this.gridColumn11.Width = 58;
+            // 
+            // repositoryItemComboBox5
+            // 
+            this.repositoryItemComboBox5.AutoHeight = false;
+            this.repositoryItemComboBox5.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox5.Name = "repositoryItemComboBox5";
+            // 
+            // gridColumn12
+            // 
+            this.gridColumn12.Caption = "功能码";
+            this.gridColumn12.ColumnEdit = this.repositoryItemComboBox6;
+            this.gridColumn12.Name = "gridColumn12";
+            this.gridColumn12.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn12.OptionsFilter.AllowFilter = false;
+            this.gridColumn12.Visible = true;
+            this.gridColumn12.VisibleIndex = 2;
+            this.gridColumn12.Width = 67;
+            // 
+            // repositoryItemComboBox6
+            // 
+            this.repositoryItemComboBox6.AutoHeight = false;
+            this.repositoryItemComboBox6.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox6.Name = "repositoryItemComboBox6";
+            // 
+            // gridColumn13
+            // 
+            this.gridColumn13.Caption = "寄存器起始地址";
+            this.gridColumn13.Name = "gridColumn13";
+            this.gridColumn13.Visible = true;
+            this.gridColumn13.VisibleIndex = 3;
+            this.gridColumn13.Width = 106;
+            // 
+            // gridColumn14
+            // 
+            this.gridColumn14.Caption = "寄存器数量";
+            this.gridColumn14.Name = "gridColumn14";
+            this.gridColumn14.Visible = true;
+            this.gridColumn14.VisibleIndex = 4;
+            // 
+            // btnReadParm
+            // 
+            this.btnReadParm.Location = new System.Drawing.Point(605, 462);
+            this.btnReadParm.Name = "btnReadParm";
+            this.btnReadParm.Size = new System.Drawing.Size(88, 26);
+            this.btnReadParm.TabIndex = 8;
+            this.btnReadParm.Text = "读取设备参数";
+            // 
+            // btnSetParm
+            // 
+            this.btnSetParm.Location = new System.Drawing.Point(707, 462);
+            this.btnSetParm.Name = "btnSetParm";
+            this.btnSetParm.Size = new System.Drawing.Size(88, 26);
+            this.btnSetParm.TabIndex = 9;
+            this.btnSetParm.Text = "设置设备参数";
+            // 
+            // groupControl2
+            // 
+            this.groupControl2.Controls.Add(this.gridControl_simulate);
+            this.groupControl2.Location = new System.Drawing.Point(6, 86);
+            this.groupControl2.Name = "groupControl2";
+            this.groupControl2.Size = new System.Drawing.Size(395, 186);
+            this.groupControl2.TabIndex = 1;
+            this.groupControl2.Text = "模拟量时间间隔";
+            // 
+            // gridControl_simulate
+            // 
+            this.gridControl_simulate.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl_simulate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_simulate.Location = new System.Drawing.Point(2, 22);
+            this.gridControl_simulate.MainView = this.gridView_simulate;
+            this.gridControl_simulate.Name = "gridControl_simulate";
+            this.gridControl_simulate.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemComboBox1,
+            this.repositoryItemComboBox2,
+            this.repositoryItemComboBox3});
+            this.gridControl_simulate.Size = new System.Drawing.Size(391, 162);
+            this.gridControl_simulate.TabIndex = 6;
+            this.gridControl_simulate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView_simulate});
+            // 
+            // gridView_simulate
+            // 
+            this.gridView_simulate.ActiveFilterEnabled = false;
+            this.gridView_simulate.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.gridColumn2,
-            this.gridColumn3,
-            this.gridColumn4});
-            this.gridView1.GridControl = this.gcInterval;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView1.OptionsBehavior.ReadOnly = true;
-            this.gridView1.OptionsView.ShowGroupPanel = false;
+            this.gridColumn3});
+            this.gridView_simulate.GridControl = this.gridControl_simulate;
+            this.gridView_simulate.Name = "gridView_simulate";
+            this.gridView_simulate.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_simulate.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
+            this.gridView_simulate.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_simulate.OptionsCustomization.AllowGroup = false;
+            this.gridView_simulate.OptionsCustomization.AllowSort = false;
+            this.gridView_simulate.OptionsFilter.AllowFilterEditor = false;
+            this.gridView_simulate.OptionsView.ShowGroupPanel = false;
+            this.gridView_simulate.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
             // 
             // gridColumn1
             // 
             this.gridColumn1.Caption = "起始时间";
+            this.gridColumn1.ColumnEdit = this.repositoryItemComboBox1;
+            this.gridColumn1.FieldName = "starttime";
             this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn1.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn1.OptionsColumn.AllowMove = false;
+            this.gridColumn1.OptionsEditForm.StartNewRow = true;
+            this.gridColumn1.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn1.OptionsFilter.AllowFilter = false;
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
-            this.gridColumn1.Width = 70;
+            // 
+            // repositoryItemComboBox1
+            // 
+            this.repositoryItemComboBox1.AutoHeight = false;
+            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
             // 
             // gridColumn2
             // 
-            this.gridColumn2.Caption = "发送间隔";
+            this.gridColumn2.Caption = "采集时间间隔";
+            this.gridColumn2.ColumnEdit = this.repositoryItemComboBox2;
+            this.gridColumn2.FieldName = "collecttime";
             this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn2.OptionsFilter.AllowFilter = false;
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 1;
-            this.gridColumn2.Width = 70;
+            // 
+            // repositoryItemComboBox2
+            // 
+            this.repositoryItemComboBox2.AutoHeight = false;
+            this.repositoryItemComboBox2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox2.Name = "repositoryItemComboBox2";
             // 
             // gridColumn3
             // 
-            this.gridColumn3.Caption = "压力1采集间隔";
+            this.gridColumn3.Caption = "发送时间间隔";
+            this.gridColumn3.ColumnEdit = this.repositoryItemComboBox3;
+            this.gridColumn3.FieldName = "sendtime";
             this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn3.OptionsFilter.AllowFilter = false;
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 2;
-            this.gridColumn3.Width = 20;
             // 
-            // gridColumn4
+            // repositoryItemComboBox3
             // 
-            this.gridColumn4.Caption = "压力2采集间隔";
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 3;
-            this.gridColumn4.Width = 20;
-            // 
-            // groupControl5
-            // 
-            this.groupControl5.Controls.Add(this.cbHammerEnable);
-            this.groupControl5.Controls.Add(this.cbPreLowEnable);
-            this.groupControl5.Controls.Add(this.cbPreUpEnable);
-            this.groupControl5.Controls.Add(this.txtHammerInterval);
-            this.groupControl5.Controls.Add(this.txtPreLowLimit);
-            this.groupControl5.Controls.Add(this.ceHammerEnable);
-            this.groupControl5.Controls.Add(this.txtPreUpLimit);
-            this.groupControl5.Controls.Add(this.cePreLowEnable);
-            this.groupControl5.Controls.Add(this.ceHammerInterval);
-            this.groupControl5.Controls.Add(this.cePreLowLimit);
-            this.groupControl5.Controls.Add(this.cePreUpEnable);
-            this.groupControl5.Controls.Add(this.cePreUpLimit);
-            this.groupControl5.Location = new System.Drawing.Point(191, 303);
-            this.groupControl5.Name = "groupControl5";
-            this.groupControl5.Size = new System.Drawing.Size(199, 179);
-            this.groupControl5.TabIndex = 2;
-            this.groupControl5.Text = "数字量压力";
-            // 
-            // cbHammerEnable
-            // 
-            this.cbHammerEnable.Location = new System.Drawing.Point(100, 154);
-            this.cbHammerEnable.Name = "cbHammerEnable";
-            this.cbHammerEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.repositoryItemComboBox3.AutoHeight = false;
+            this.repositoryItemComboBox3.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbHammerEnable.Properties.Items.AddRange(new object[] {
-            "退出",
-            "投入"});
-            this.cbHammerEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbHammerEnable.Size = new System.Drawing.Size(73, 20);
-            this.cbHammerEnable.TabIndex = 106;
+            this.repositoryItemComboBox3.Name = "repositoryItemComboBox3";
             // 
-            // cbPreLowEnable
+            // groupControl3
             // 
-            this.cbPreLowEnable.Location = new System.Drawing.Point(100, 110);
-            this.cbPreLowEnable.Name = "cbPreLowEnable";
-            this.cbPreLowEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbPreLowEnable.Properties.Items.AddRange(new object[] {
-            "退出",
-            "投入"});
-            this.cbPreLowEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbPreLowEnable.Size = new System.Drawing.Size(73, 20);
-            this.cbPreLowEnable.TabIndex = 106;
+            this.groupControl3.Controls.Add(this.gridControl_RS485);
+            this.groupControl3.Location = new System.Drawing.Point(402, 274);
+            this.groupControl3.Name = "groupControl3";
+            this.groupControl3.Size = new System.Drawing.Size(395, 186);
+            this.groupControl3.TabIndex = 3;
+            this.groupControl3.Text = "RS485时间间隔";
             // 
-            // cbPreUpEnable
+            // gridControl_RS485
             // 
-            this.cbPreUpEnable.Location = new System.Drawing.Point(100, 66);
-            this.cbPreUpEnable.Name = "cbPreUpEnable";
-            this.cbPreUpEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbPreUpEnable.Properties.Items.AddRange(new object[] {
-            "退出",
-            "投入"});
-            this.cbPreUpEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbPreUpEnable.Size = new System.Drawing.Size(73, 20);
-            this.cbPreUpEnable.TabIndex = 106;
+            this.gridControl_RS485.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl_RS485.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_RS485.Location = new System.Drawing.Point(2, 22);
+            this.gridControl_RS485.MainView = this.gridView_RS485;
+            this.gridControl_RS485.Name = "gridControl_RS485";
+            this.gridControl_RS485.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemComboBox7,
+            this.repositoryItemComboBox8,
+            this.repositoryItemComboBox9});
+            this.gridControl_RS485.Size = new System.Drawing.Size(391, 162);
+            this.gridControl_RS485.TabIndex = 6;
+            this.gridControl_RS485.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView_RS485});
             // 
-            // txtHammerInterval
+            // gridView_RS485
             // 
-            this.txtHammerInterval.Location = new System.Drawing.Point(134, 132);
-            this.txtHammerInterval.Name = "txtHammerInterval";
-            this.txtHammerInterval.Size = new System.Drawing.Size(39, 20);
-            this.txtHammerInterval.TabIndex = 108;
-            // 
-            // txtPreLowLimit
-            // 
-            this.txtPreLowLimit.Location = new System.Drawing.Point(100, 88);
-            this.txtPreLowLimit.Name = "txtPreLowLimit";
-            this.txtPreLowLimit.Size = new System.Drawing.Size(73, 20);
-            this.txtPreLowLimit.TabIndex = 108;
-            // 
-            // ceHammerEnable
-            // 
-            this.ceHammerEnable.Location = new System.Drawing.Point(9, 155);
-            this.ceHammerEnable.Name = "ceHammerEnable";
-            this.ceHammerEnable.Properties.Caption = "投退状态:";
-            this.ceHammerEnable.Size = new System.Drawing.Size(74, 19);
-            this.ceHammerEnable.TabIndex = 1;
-            // 
-            // txtPreUpLimit
-            // 
-            this.txtPreUpLimit.Location = new System.Drawing.Point(100, 44);
-            this.txtPreUpLimit.Name = "txtPreUpLimit";
-            this.txtPreUpLimit.Size = new System.Drawing.Size(73, 20);
-            this.txtPreUpLimit.TabIndex = 108;
-            // 
-            // cePreLowEnable
-            // 
-            this.cePreLowEnable.Location = new System.Drawing.Point(9, 111);
-            this.cePreLowEnable.Name = "cePreLowEnable";
-            this.cePreLowEnable.Properties.Caption = "投退状态:";
-            this.cePreLowEnable.Size = new System.Drawing.Size(74, 19);
-            this.cePreLowEnable.TabIndex = 1;
-            // 
-            // ceHammerInterval
-            // 
-            this.ceHammerInterval.Location = new System.Drawing.Point(9, 133);
-            this.ceHammerInterval.Name = "ceHammerInterval";
-            this.ceHammerInterval.Properties.Caption = "水锤采集时间间隔:";
-            this.ceHammerInterval.Size = new System.Drawing.Size(125, 19);
-            this.ceHammerInterval.TabIndex = 1;
-            // 
-            // cePreLowLimit
-            // 
-            this.cePreLowLimit.Location = new System.Drawing.Point(9, 89);
-            this.cePreLowLimit.Name = "cePreLowLimit";
-            this.cePreLowLimit.Properties.Caption = "压力下限值:";
-            this.cePreLowLimit.Size = new System.Drawing.Size(87, 19);
-            this.cePreLowLimit.TabIndex = 1;
-            // 
-            // cePreUpEnable
-            // 
-            this.cePreUpEnable.Location = new System.Drawing.Point(9, 67);
-            this.cePreUpEnable.Name = "cePreUpEnable";
-            this.cePreUpEnable.Properties.Caption = "投退状态:";
-            this.cePreUpEnable.Size = new System.Drawing.Size(74, 19);
-            this.cePreUpEnable.TabIndex = 1;
-            // 
-            // cePreUpLimit
-            // 
-            this.cePreUpLimit.Location = new System.Drawing.Point(9, 45);
-            this.cePreUpLimit.Name = "cePreUpLimit";
-            this.cePreUpLimit.Properties.Caption = "压力上限值:";
-            this.cePreUpLimit.Size = new System.Drawing.Size(87, 19);
-            this.cePreUpLimit.TabIndex = 1;
-            // 
-            // groupControl7
-            // 
-            this.groupControl7.Controls.Add(this.simpleButton6);
-            this.groupControl7.Controls.Add(this.simpleButton5);
-            this.groupControl7.Controls.Add(this.simpleButton4);
-            this.groupControl7.Controls.Add(this.btnSaveTemplate);
-            this.groupControl7.Controls.Add(this.radioGroup1);
-            this.groupControl7.Controls.Add(this.labelControl6);
-            this.groupControl7.Controls.Add(this.toggleSwitch1);
-            this.groupControl7.Controls.Add(this.simpleButton3);
-            this.groupControl7.Location = new System.Drawing.Point(627, 172);
-            this.groupControl7.Name = "groupControl7";
-            this.groupControl7.Size = new System.Drawing.Size(166, 310);
-            this.groupControl7.TabIndex = 6;
-            this.groupControl7.Text = "控制/操作命令";
-            // 
-            // simpleButton6
-            // 
-            this.simpleButton6.Location = new System.Drawing.Point(8, 209);
-            this.simpleButton6.Name = "simpleButton6";
-            this.simpleButton6.Size = new System.Drawing.Size(151, 34);
-            this.simpleButton6.TabIndex = 5;
-            this.simpleButton6.Text = "设置参数";
-            // 
-            // simpleButton5
-            // 
-            this.simpleButton5.Location = new System.Drawing.Point(8, 248);
-            this.simpleButton5.Name = "simpleButton5";
-            this.simpleButton5.Size = new System.Drawing.Size(151, 34);
-            this.simpleButton5.TabIndex = 6;
-            this.simpleButton5.Text = "抄读参数";
-            // 
-            // simpleButton4
-            // 
-            this.simpleButton4.Location = new System.Drawing.Point(8, 170);
-            this.simpleButton4.Name = "simpleButton4";
-            this.simpleButton4.Size = new System.Drawing.Size(151, 34);
-            this.simpleButton4.TabIndex = 4;
-            this.simpleButton4.Text = "设备校时";
-            // 
-            // radioGroup1
-            // 
-            this.radioGroup1.Location = new System.Drawing.Point(2, 59);
-            this.radioGroup1.Name = "radioGroup1";
-            this.radioGroup1.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
-            this.radioGroup1.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "全清"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "恢复"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "复位")});
-            this.radioGroup1.Size = new System.Drawing.Size(161, 24);
-            this.radioGroup1.TabIndex = 1;
-            // 
-            // labelControl6
-            // 
-            this.labelControl6.Location = new System.Drawing.Point(5, 34);
-            this.labelControl6.Name = "labelControl6";
-            this.labelControl6.Size = new System.Drawing.Size(52, 14);
-            this.labelControl6.TabIndex = 0;
-            this.labelControl6.Text = "招测开关:";
-            // 
-            // simpleButton3
-            // 
-            this.simpleButton3.Location = new System.Drawing.Point(8, 92);
-            this.simpleButton3.Name = "simpleButton3";
-            this.simpleButton3.Size = new System.Drawing.Size(151, 34);
-            this.simpleButton3.TabIndex = 2;
-            this.simpleButton3.Text = "设备复位";
-            // 
-            // groupControl9
-            // 
-            this.groupControl9.Controls.Add(this.labelControl5);
-            this.groupControl9.Controls.Add(this.labelControl4);
-            this.groupControl9.Controls.Add(this.labelControl3);
-            this.groupControl9.Controls.Add(this.simpleButton2);
-            this.groupControl9.Controls.Add(this.textEdit15);
-            this.groupControl9.Controls.Add(this.textEdit14);
-            this.groupControl9.Controls.Add(this.textEdit13);
-            this.groupControl9.Location = new System.Drawing.Point(627, 5);
-            this.groupControl9.Name = "groupControl9";
-            this.groupControl9.Size = new System.Drawing.Size(164, 161);
-            this.groupControl9.TabIndex = 5;
-            this.groupControl9.Text = "招测数据";
-            // 
-            // labelControl5
-            // 
-            this.labelControl5.Location = new System.Drawing.Point(5, 106);
-            this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(35, 14);
-            this.labelControl5.TabIndex = 1;
-            this.labelControl5.Text = "压力2:";
-            // 
-            // labelControl4
-            // 
-            this.labelControl4.Location = new System.Drawing.Point(5, 80);
-            this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(35, 14);
-            this.labelControl4.TabIndex = 1;
-            this.labelControl4.Text = "压力1:";
-            // 
-            // labelControl3
-            // 
-            this.labelControl3.Location = new System.Drawing.Point(5, 54);
-            this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(28, 14);
-            this.labelControl3.TabIndex = 1;
-            this.labelControl3.Text = "时间:";
-            // 
-            // simpleButton2
-            // 
-            this.simpleButton2.Location = new System.Drawing.Point(91, 23);
-            this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(68, 23);
-            this.simpleButton2.TabIndex = 0;
-            this.simpleButton2.Text = "实时招测";
-            // 
-            // textEdit15
-            // 
-            this.textEdit15.Enabled = false;
-            this.textEdit15.Location = new System.Drawing.Point(55, 103);
-            this.textEdit15.Name = "textEdit15";
-            this.textEdit15.Size = new System.Drawing.Size(104, 20);
-            this.textEdit15.TabIndex = 3;
-            // 
-            // textEdit14
-            // 
-            this.textEdit14.Enabled = false;
-            this.textEdit14.Location = new System.Drawing.Point(55, 77);
-            this.textEdit14.Name = "textEdit14";
-            this.textEdit14.Size = new System.Drawing.Size(104, 20);
-            this.textEdit14.TabIndex = 2;
-            // 
-            // textEdit13
-            // 
-            this.textEdit13.Enabled = false;
-            this.textEdit13.Location = new System.Drawing.Point(55, 51);
-            this.textEdit13.Name = "textEdit13";
-            this.textEdit13.Size = new System.Drawing.Size(104, 20);
-            this.textEdit13.TabIndex = 1;
-            // 
-            // groupControl6
-            // 
-            this.groupControl6.Controls.Add(this.gridControl1);
-            this.groupControl6.Location = new System.Drawing.Point(4, 5);
-            this.groupControl6.Name = "groupControl6";
-            this.groupControl6.Size = new System.Drawing.Size(181, 483);
-            this.groupControl6.TabIndex = 4;
-            this.groupControl6.Text = "列表";
-            // 
-            // gridControl1
-            // 
-            this.gridControl1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl1.Location = new System.Drawing.Point(2, 22);
-            this.gridControl1.MainView = this.gridView2;
-            this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(177, 459);
-            this.gridControl1.TabIndex = 111;
-            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView2});
-            // 
-            // gridView2
-            // 
-            this.gridView2.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn5,
+            this.gridView_RS485.ActiveFilterEnabled = false;
+            this.gridView_RS485.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn6,
-            this.gridColumn7});
-            this.gridView2.GridControl = this.gridControl1;
-            this.gridView2.Name = "gridView2";
-            this.gridView2.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView2.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView2.OptionsView.ShowGroupPanel = false;
-            // 
-            // gridColumn5
-            // 
-            this.gridColumn5.Caption = "编号";
-            this.gridColumn5.Name = "gridColumn5";
-            this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 0;
-            this.gridColumn5.Width = 49;
+            this.gridColumn7,
+            this.gridColumn15});
+            this.gridView_RS485.GridControl = this.gridControl_RS485;
+            this.gridView_RS485.Name = "gridView_RS485";
+            this.gridView_RS485.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_RS485.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
+            this.gridView_RS485.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_RS485.OptionsCustomization.AllowGroup = false;
+            this.gridView_RS485.OptionsCustomization.AllowSort = false;
+            this.gridView_RS485.OptionsFilter.AllowFilterEditor = false;
+            this.gridView_RS485.OptionsView.ShowGroupPanel = false;
+            this.gridView_RS485.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
             // 
             // gridColumn6
             // 
-            this.gridColumn6.Caption = "名称";
+            this.gridColumn6.Caption = "起始时间";
+            this.gridColumn6.ColumnEdit = this.repositoryItemComboBox7;
+            this.gridColumn6.FieldName = "starttime";
             this.gridColumn6.Name = "gridColumn6";
+            this.gridColumn6.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn6.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn6.OptionsColumn.AllowMove = false;
+            this.gridColumn6.OptionsEditForm.StartNewRow = true;
+            this.gridColumn6.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn6.OptionsFilter.AllowFilter = false;
             this.gridColumn6.Visible = true;
-            this.gridColumn6.VisibleIndex = 1;
-            this.gridColumn6.Width = 58;
+            this.gridColumn6.VisibleIndex = 0;
+            // 
+            // repositoryItemComboBox7
+            // 
+            this.repositoryItemComboBox7.AutoHeight = false;
+            this.repositoryItemComboBox7.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox7.Name = "repositoryItemComboBox7";
             // 
             // gridColumn7
             // 
-            this.gridColumn7.Caption = "地址";
+            this.gridColumn7.Caption = "采集时间间隔";
+            this.gridColumn7.ColumnEdit = this.repositoryItemComboBox8;
+            this.gridColumn7.FieldName = "collecttime";
             this.gridColumn7.Name = "gridColumn7";
+            this.gridColumn7.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn7.OptionsFilter.AllowFilter = false;
             this.gridColumn7.Visible = true;
-            this.gridColumn7.VisibleIndex = 2;
-            this.gridColumn7.Width = 52;
+            this.gridColumn7.VisibleIndex = 1;
             // 
-            // ceDigitalPreOne
+            // repositoryItemComboBox8
             // 
-            this.ceDigitalPreOne.Location = new System.Drawing.Point(3, 44);
-            this.ceDigitalPreOne.Name = "ceDigitalPreOne";
-            this.ceDigitalPreOne.Properties.Caption = "第一路数字量压力";
-            this.ceDigitalPreOne.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceDigitalPreOne.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceDigitalPreOne.Size = new System.Drawing.Size(117, 19);
-            this.ceDigitalPreOne.TabIndex = 1;
-            this.ceDigitalPreOne.CheckedChanged += new System.EventHandler(this.ceDigitalPreOne_CheckedChanged);
-            // 
-            // cePulse
-            // 
-            this.cePulse.Location = new System.Drawing.Point(3, 63);
-            this.cePulse.Name = "cePulse";
-            this.cePulse.Properties.Caption = "脉冲";
-            this.cePulse.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePulse.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cePulse.Size = new System.Drawing.Size(117, 19);
-            this.cePulse.TabIndex = 2;
-            // 
-            // ceExternalAO
-            // 
-            this.ceExternalAO.Location = new System.Drawing.Point(3, 82);
-            this.ceExternalAO.Name = "ceExternalAO";
-            this.ceExternalAO.Properties.Caption = "外接模拟量";
-            this.ceExternalAO.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceExternalAO.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceExternalAO.Size = new System.Drawing.Size(117, 19);
-            this.ceExternalAO.TabIndex = 3;
-            // 
-            // ceExternalAOSec
-            // 
-            this.ceExternalAOSec.Location = new System.Drawing.Point(3, 101);
-            this.ceExternalAOSec.Name = "ceExternalAOSec";
-            this.ceExternalAOSec.Properties.Caption = "外接第二路模拟量";
-            this.ceExternalAOSec.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceExternalAOSec.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceExternalAOSec.Size = new System.Drawing.Size(117, 19);
-            this.ceExternalAOSec.TabIndex = 4;
-            // 
-            // ceColConfig
-            // 
-            this.ceColConfig.Location = new System.Drawing.Point(3, 25);
-            this.ceColConfig.Name = "ceColConfig";
-            this.ceColConfig.Properties.Caption = "采集功能配置";
-            this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceColConfig.Size = new System.Drawing.Size(117, 19);
-            this.ceColConfig.TabIndex = 0;
-            this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
-            // 
-            // ceExternal485
-            // 
-            this.ceExternal485.Location = new System.Drawing.Point(3, 120);
-            this.ceExternal485.Name = "ceExternal485";
-            this.ceExternal485.Properties.Caption = "外接485";
-            this.ceExternal485.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceExternal485.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceExternal485.Size = new System.Drawing.Size(117, 19);
-            this.ceExternal485.TabIndex = 5;
-            // 
-            // groupControl2
-            // 
-            this.groupControl2.Controls.Add(this.ceExternal485);
-            this.groupControl2.Controls.Add(this.ceColConfig);
-            this.groupControl2.Controls.Add(this.ceExternalAOSec);
-            this.groupControl2.Controls.Add(this.ceExternalAO);
-            this.groupControl2.Controls.Add(this.cePulse);
-            this.groupControl2.Controls.Add(this.ceDigitalPreOne);
-            this.groupControl2.Location = new System.Drawing.Point(191, 158);
-            this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(199, 141);
-            this.groupControl2.TabIndex = 1;
-            this.groupControl2.Text = "采集功能配置";
-            // 
-            // ceModbusStartAddr
-            // 
-            this.ceModbusStartAddr.Location = new System.Drawing.Point(5, 97);
-            this.ceModbusStartAddr.Name = "ceModbusStartAddr";
-            this.ceModbusStartAddr.Properties.Caption = "modbus协议起始地址";
-            this.ceModbusStartAddr.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceModbusStartAddr.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceModbusStartAddr.Size = new System.Drawing.Size(195, 19);
-            this.ceModbusStartAddr.TabIndex = 8;
-            // 
-            // ceModbusCtrlCode
-            // 
-            this.ceModbusCtrlCode.Location = new System.Drawing.Point(5, 78);
-            this.ceModbusCtrlCode.Name = "ceModbusCtrlCode";
-            this.ceModbusCtrlCode.Properties.Caption = "modbus协议控制码";
-            this.ceModbusCtrlCode.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceModbusCtrlCode.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceModbusCtrlCode.Size = new System.Drawing.Size(195, 19);
-            this.ceModbusCtrlCode.TabIndex = 6;
-            // 
-            // ceModbusRegCount
-            // 
-            this.ceModbusRegCount.Location = new System.Drawing.Point(5, 116);
-            this.ceModbusRegCount.Name = "ceModbusRegCount";
-            this.ceModbusRegCount.Properties.Caption = "485采集modbus协议寄存器数量";
-            this.ceModbusRegCount.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceModbusRegCount.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceModbusRegCount.Size = new System.Drawing.Size(195, 19);
-            this.ceModbusRegCount.TabIndex = 11;
-            // 
-            // ceModbusAddr
-            // 
-            this.ceModbusAddr.Location = new System.Drawing.Point(5, 59);
-            this.ceModbusAddr.Name = "ceModbusAddr";
-            this.ceModbusAddr.Properties.Caption = "modbus协议通信地址";
-            this.ceModbusAddr.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceModbusAddr.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceModbusAddr.Size = new System.Drawing.Size(195, 19);
-            this.ceModbusAddr.TabIndex = 4;
-            // 
-            // ce645Addr
-            // 
-            this.ce645Addr.Location = new System.Drawing.Point(5, 135);
-            this.ce645Addr.Name = "ce645Addr";
-            this.ce645Addr.Properties.Caption = "645协议设备地址";
-            this.ce645Addr.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ce645Addr.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ce645Addr.Size = new System.Drawing.Size(195, 19);
-            this.ce645Addr.TabIndex = 13;
-            // 
-            // ceModbusExeFlag
-            // 
-            this.ceModbusExeFlag.Location = new System.Drawing.Point(5, 21);
-            this.ceModbusExeFlag.Name = "ceModbusExeFlag";
-            this.ceModbusExeFlag.Properties.Caption = "485采集modbus执行标识";
-            this.ceModbusExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceModbusExeFlag.Size = new System.Drawing.Size(195, 19);
-            this.ceModbusExeFlag.TabIndex = 0;
-            // 
-            // cePulseUnit1
-            // 
-            this.cePulseUnit1.Location = new System.Drawing.Point(5, 192);
-            this.cePulseUnit1.Name = "cePulseUnit1";
-            this.cePulseUnit1.Properties.Caption = "第一路脉冲计数单位";
-            this.cePulseUnit1.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePulseUnit1.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cePulseUnit1.Size = new System.Drawing.Size(148, 19);
-            this.cePulseUnit1.TabIndex = 19;
-            // 
-            // ce645Funcode
-            // 
-            this.ce645Funcode.Location = new System.Drawing.Point(5, 154);
-            this.ce645Funcode.Name = "ce645Funcode";
-            this.ce645Funcode.Properties.Caption = "485采集645协议功能码";
-            this.ce645Funcode.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ce645Funcode.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ce645Funcode.Size = new System.Drawing.Size(195, 19);
-            this.ce645Funcode.TabIndex = 15;
-            // 
-            // cePulseUnit4
-            // 
-            this.cePulseUnit4.Location = new System.Drawing.Point(5, 249);
-            this.cePulseUnit4.Name = "cePulseUnit4";
-            this.cePulseUnit4.Properties.Caption = "第二路脉冲计数单位";
-            this.cePulseUnit4.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePulseUnit4.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cePulseUnit4.Size = new System.Drawing.Size(148, 19);
-            this.cePulseUnit4.TabIndex = 25;
-            // 
-            // ceDL645ExeFlag
-            // 
-            this.ceDL645ExeFlag.Location = new System.Drawing.Point(5, 40);
-            this.ceDL645ExeFlag.Name = "ceDL645ExeFlag";
-            this.ceDL645ExeFlag.Properties.Caption = "485采集DL645协议执行标识";
-            this.ceDL645ExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceDL645ExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceDL645ExeFlag.Size = new System.Drawing.Size(195, 19);
-            this.ceDL645ExeFlag.TabIndex = 2;
-            // 
-            // cePulseUnit3
-            // 
-            this.cePulseUnit3.Location = new System.Drawing.Point(5, 230);
-            this.cePulseUnit3.Name = "cePulseUnit3";
-            this.cePulseUnit3.Properties.Caption = "第三路脉冲计数单位";
-            this.cePulseUnit3.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePulseUnit3.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cePulseUnit3.Size = new System.Drawing.Size(148, 19);
-            this.cePulseUnit3.TabIndex = 23;
-            // 
-            // ce645Datalen
-            // 
-            this.ce645Datalen.Location = new System.Drawing.Point(5, 173);
-            this.ce645Datalen.Name = "ce645Datalen";
-            this.ce645Datalen.Properties.Caption = "485采集645协议帧的数据域长度";
-            this.ce645Datalen.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ce645Datalen.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ce645Datalen.Size = new System.Drawing.Size(195, 19);
-            this.ce645Datalen.TabIndex = 17;
-            // 
-            // cePulseUnit2
-            // 
-            this.cePulseUnit2.Location = new System.Drawing.Point(5, 211);
-            this.cePulseUnit2.Name = "cePulseUnit2";
-            this.cePulseUnit2.Properties.Caption = "第四路脉冲计数单位";
-            this.cePulseUnit2.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePulseUnit2.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cePulseUnit2.Size = new System.Drawing.Size(148, 19);
-            this.cePulseUnit2.TabIndex = 21;
-            // 
-            // cbModbusExeFlag
-            // 
-            this.cbModbusExeFlag.Location = new System.Drawing.Point(175, 21);
-            this.cbModbusExeFlag.Name = "cbModbusExeFlag";
-            this.cbModbusExeFlag.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.repositoryItemComboBox8.AutoHeight = false;
+            this.repositoryItemComboBox8.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbModbusExeFlag.Properties.Items.AddRange(new object[] {
-            "执行",
-            "不执行"});
-            this.cbModbusExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cbModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cbModbusExeFlag.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbModbusExeFlag.Size = new System.Drawing.Size(53, 20);
-            this.cbModbusExeFlag.TabIndex = 1;
+            this.repositoryItemComboBox8.Name = "repositoryItemComboBox8";
             // 
-            // cbDL645ExeFlag
+            // gridColumn15
             // 
-            this.cbDL645ExeFlag.Location = new System.Drawing.Point(175, 40);
-            this.cbDL645ExeFlag.Name = "cbDL645ExeFlag";
-            this.cbDL645ExeFlag.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.gridColumn15.Caption = "发送时间间隔";
+            this.gridColumn15.ColumnEdit = this.repositoryItemComboBox9;
+            this.gridColumn15.FieldName = "sendtime";
+            this.gridColumn15.Name = "gridColumn15";
+            this.gridColumn15.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn15.OptionsFilter.AllowFilter = false;
+            this.gridColumn15.Visible = true;
+            this.gridColumn15.VisibleIndex = 2;
+            // 
+            // repositoryItemComboBox9
+            // 
+            this.repositoryItemComboBox9.AutoHeight = false;
+            this.repositoryItemComboBox9.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbDL645ExeFlag.Properties.Items.AddRange(new object[] {
-            "执行",
-            "不执行"});
-            this.cbDL645ExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cbDL645ExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cbDL645ExeFlag.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbDL645ExeFlag.Size = new System.Drawing.Size(53, 20);
-            this.cbDL645ExeFlag.TabIndex = 3;
+            this.repositoryItemComboBox9.Name = "repositoryItemComboBox9";
             // 
-            // txtModbusAddr
+            // groupControl5
             // 
-            this.txtModbusAddr.EditValue = "";
-            this.txtModbusAddr.Location = new System.Drawing.Point(175, 59);
-            this.txtModbusAddr.Name = "txtModbusAddr";
-            this.txtModbusAddr.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txtModbusAddr.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txtModbusAddr.Size = new System.Drawing.Size(55, 20);
-            this.txtModbusAddr.TabIndex = 5;
+            this.groupControl5.Controls.Add(this.gridControl_Pluse);
+            this.groupControl5.Location = new System.Drawing.Point(6, 274);
+            this.groupControl5.Name = "groupControl5";
+            this.groupControl5.Size = new System.Drawing.Size(395, 186);
+            this.groupControl5.TabIndex = 2;
+            this.groupControl5.Text = "脉冲量时间间隔";
             // 
-            // cbModbusCtrlCode
+            // gridControl_Pluse
             // 
-            this.cbModbusCtrlCode.Location = new System.Drawing.Point(175, 78);
-            this.cbModbusCtrlCode.Name = "cbModbusCtrlCode";
-            this.cbModbusCtrlCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.gridControl_Pluse.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl_Pluse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_Pluse.Location = new System.Drawing.Point(2, 22);
+            this.gridControl_Pluse.MainView = this.gridView_Pluse;
+            this.gridControl_Pluse.Name = "gridControl_Pluse";
+            this.gridControl_Pluse.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemComboBox10,
+            this.repositoryItemComboBox11,
+            this.repositoryItemComboBox12});
+            this.gridControl_Pluse.Size = new System.Drawing.Size(391, 162);
+            this.gridControl_Pluse.TabIndex = 6;
+            this.gridControl_Pluse.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView_Pluse});
+            // 
+            // gridView_Pluse
+            // 
+            this.gridView_Pluse.ActiveFilterEnabled = false;
+            this.gridView_Pluse.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn16,
+            this.gridColumn17,
+            this.gridColumn18});
+            this.gridView_Pluse.GridControl = this.gridControl_Pluse;
+            this.gridView_Pluse.Name = "gridView_Pluse";
+            this.gridView_Pluse.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_Pluse.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
+            this.gridView_Pluse.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_Pluse.OptionsCustomization.AllowGroup = false;
+            this.gridView_Pluse.OptionsCustomization.AllowSort = false;
+            this.gridView_Pluse.OptionsFilter.AllowFilterEditor = false;
+            this.gridView_Pluse.OptionsView.ShowGroupPanel = false;
+            this.gridView_Pluse.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            // 
+            // gridColumn16
+            // 
+            this.gridColumn16.Caption = "起始时间";
+            this.gridColumn16.ColumnEdit = this.repositoryItemComboBox10;
+            this.gridColumn16.FieldName = "starttime";
+            this.gridColumn16.Name = "gridColumn16";
+            this.gridColumn16.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn16.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn16.OptionsColumn.AllowMove = false;
+            this.gridColumn16.OptionsEditForm.StartNewRow = true;
+            this.gridColumn16.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn16.OptionsFilter.AllowFilter = false;
+            this.gridColumn16.Visible = true;
+            this.gridColumn16.VisibleIndex = 0;
+            // 
+            // repositoryItemComboBox10
+            // 
+            this.repositoryItemComboBox10.AutoHeight = false;
+            this.repositoryItemComboBox10.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbModbusCtrlCode.Properties.Items.AddRange(new object[] {
-            "03",
-            "04"});
-            this.cbModbusCtrlCode.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cbModbusCtrlCode.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cbModbusCtrlCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbModbusCtrlCode.Size = new System.Drawing.Size(53, 20);
-            this.cbModbusCtrlCode.TabIndex = 7;
+            this.repositoryItemComboBox10.Name = "repositoryItemComboBox10";
             // 
-            // txtModbusStartAddr1
+            // gridColumn17
             // 
-            this.txtModbusStartAddr1.EditValue = "";
-            this.txtModbusStartAddr1.Location = new System.Drawing.Point(176, 97);
-            this.txtModbusStartAddr1.Name = "txtModbusStartAddr1";
-            this.txtModbusStartAddr1.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txtModbusStartAddr1.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txtModbusStartAddr1.Size = new System.Drawing.Size(24, 20);
-            this.txtModbusStartAddr1.TabIndex = 9;
+            this.gridColumn17.Caption = "采集时间间隔";
+            this.gridColumn17.ColumnEdit = this.repositoryItemComboBox11;
+            this.gridColumn17.FieldName = "collecttime";
+            this.gridColumn17.Name = "gridColumn17";
+            this.gridColumn17.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn17.OptionsFilter.AllowFilter = false;
+            this.gridColumn17.Visible = true;
+            this.gridColumn17.VisibleIndex = 1;
             // 
-            // txtModbusStartAddr2
+            // repositoryItemComboBox11
             // 
-            this.txtModbusStartAddr2.EditValue = "";
-            this.txtModbusStartAddr2.Location = new System.Drawing.Point(201, 97);
-            this.txtModbusStartAddr2.Name = "txtModbusStartAddr2";
-            this.txtModbusStartAddr2.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txtModbusStartAddr2.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txtModbusStartAddr2.Size = new System.Drawing.Size(24, 20);
-            this.txtModbusStartAddr2.TabIndex = 10;
+            this.repositoryItemComboBox11.AutoHeight = false;
+            this.repositoryItemComboBox11.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox11.Name = "repositoryItemComboBox11";
             // 
-            // txtModbusRegCount
+            // gridColumn18
             // 
-            this.txtModbusRegCount.EditValue = "";
-            this.txtModbusRegCount.Location = new System.Drawing.Point(201, 116);
-            this.txtModbusRegCount.Name = "txtModbusRegCount";
-            this.txtModbusRegCount.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txtModbusRegCount.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txtModbusRegCount.Size = new System.Drawing.Size(24, 20);
-            this.txtModbusRegCount.TabIndex = 12;
+            this.gridColumn18.Caption = "发送时间间隔";
+            this.gridColumn18.ColumnEdit = this.repositoryItemComboBox12;
+            this.gridColumn18.FieldName = "sendtime";
+            this.gridColumn18.Name = "gridColumn18";
+            this.gridColumn18.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn18.OptionsFilter.AllowFilter = false;
+            this.gridColumn18.Visible = true;
+            this.gridColumn18.VisibleIndex = 2;
             // 
-            // txt645Addr
+            // repositoryItemComboBox12
             // 
-            this.txt645Addr.EditValue = "";
-            this.txt645Addr.Location = new System.Drawing.Point(201, 135);
-            this.txt645Addr.Name = "txt645Addr";
-            this.txt645Addr.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txt645Addr.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txt645Addr.Size = new System.Drawing.Size(24, 20);
-            this.txt645Addr.TabIndex = 14;
+            this.repositoryItemComboBox12.AutoHeight = false;
+            this.repositoryItemComboBox12.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox12.Name = "repositoryItemComboBox12";
             // 
-            // txt645Funcode
+            // btnReset
             // 
-            this.txt645Funcode.EditValue = "";
-            this.txt645Funcode.Location = new System.Drawing.Point(201, 154);
-            this.txt645Funcode.Name = "txt645Funcode";
-            this.txt645Funcode.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txt645Funcode.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txt645Funcode.Size = new System.Drawing.Size(24, 20);
-            this.txt645Funcode.TabIndex = 16;
+            this.btnReset.Location = new System.Drawing.Point(299, 462);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(88, 26);
+            this.btnReset.TabIndex = 5;
+            this.btnReset.Text = "复位";
             // 
-            // txt645Datalen
+            // toggleSwitch1
             // 
-            this.txt645Datalen.EditValue = "";
-            this.txt645Datalen.Location = new System.Drawing.Point(201, 173);
-            this.txt645Datalen.Name = "txt645Datalen";
-            this.txt645Datalen.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txt645Datalen.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txt645Datalen.Size = new System.Drawing.Size(24, 20);
-            this.txt645Datalen.TabIndex = 18;
-            // 
-            // txtPulseUnit1
-            // 
-            this.txtPulseUnit1.EditValue = "";
-            this.txtPulseUnit1.Location = new System.Drawing.Point(139, 192);
-            this.txtPulseUnit1.Name = "txtPulseUnit1";
-            this.txtPulseUnit1.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txtPulseUnit1.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txtPulseUnit1.Size = new System.Drawing.Size(55, 20);
-            this.txtPulseUnit1.TabIndex = 26;
-            // 
-            // txtPulseUnit2
-            // 
-            this.txtPulseUnit2.EditValue = "";
-            this.txtPulseUnit2.Location = new System.Drawing.Point(139, 211);
-            this.txtPulseUnit2.Name = "txtPulseUnit2";
-            this.txtPulseUnit2.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txtPulseUnit2.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txtPulseUnit2.Size = new System.Drawing.Size(55, 20);
-            this.txtPulseUnit2.TabIndex = 26;
-            // 
-            // txtPulseUnit3
-            // 
-            this.txtPulseUnit3.EditValue = "";
-            this.txtPulseUnit3.Location = new System.Drawing.Point(139, 230);
-            this.txtPulseUnit3.Name = "txtPulseUnit3";
-            this.txtPulseUnit3.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txtPulseUnit3.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txtPulseUnit3.Size = new System.Drawing.Size(55, 20);
-            this.txtPulseUnit3.TabIndex = 26;
-            // 
-            // txtPulseUnit4
-            // 
-            this.txtPulseUnit4.EditValue = "";
-            this.txtPulseUnit4.Location = new System.Drawing.Point(139, 249);
-            this.txtPulseUnit4.Name = "txtPulseUnit4";
-            this.txtPulseUnit4.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.txtPulseUnit4.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.txtPulseUnit4.Size = new System.Drawing.Size(55, 20);
-            this.txtPulseUnit4.TabIndex = 26;
-            // 
-            // groupControl4
-            // 
-            this.groupControl4.Controls.Add(this.txtPulseUnit4);
-            this.groupControl4.Controls.Add(this.txtPulseUnit3);
-            this.groupControl4.Controls.Add(this.txtPulseUnit2);
-            this.groupControl4.Controls.Add(this.txtPulseUnit1);
-            this.groupControl4.Controls.Add(this.txt645Datalen);
-            this.groupControl4.Controls.Add(this.txt645Funcode);
-            this.groupControl4.Controls.Add(this.txt645Addr);
-            this.groupControl4.Controls.Add(this.txtModbusRegCount);
-            this.groupControl4.Controls.Add(this.txtModbusStartAddr2);
-            this.groupControl4.Controls.Add(this.txtModbusStartAddr1);
-            this.groupControl4.Controls.Add(this.cbModbusCtrlCode);
-            this.groupControl4.Controls.Add(this.txtModbusAddr);
-            this.groupControl4.Controls.Add(this.cbDL645ExeFlag);
-            this.groupControl4.Controls.Add(this.cbModbusExeFlag);
-            this.groupControl4.Controls.Add(this.cePulseUnit2);
-            this.groupControl4.Controls.Add(this.ce645Datalen);
-            this.groupControl4.Controls.Add(this.cePulseUnit3);
-            this.groupControl4.Controls.Add(this.ceDL645ExeFlag);
-            this.groupControl4.Controls.Add(this.cePulseUnit4);
-            this.groupControl4.Controls.Add(this.ce645Funcode);
-            this.groupControl4.Controls.Add(this.cePulseUnit1);
-            this.groupControl4.Controls.Add(this.ceModbusExeFlag);
-            this.groupControl4.Controls.Add(this.ce645Addr);
-            this.groupControl4.Controls.Add(this.ceModbusAddr);
-            this.groupControl4.Controls.Add(this.ceModbusRegCount);
-            this.groupControl4.Controls.Add(this.ceModbusCtrlCode);
-            this.groupControl4.Controls.Add(this.ceModbusStartAddr);
-            this.groupControl4.Location = new System.Drawing.Point(393, 3);
-            this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(230, 278);
-            this.groupControl4.TabIndex = 3;
-            this.groupControl4.Text = "协议设置";
+            this.toggleSwitch1.Location = new System.Drawing.Point(176, 462);
+            this.toggleSwitch1.Name = "toggleSwitch1";
+            this.toggleSwitch1.Properties.OffText = "GPRS";
+            this.toggleSwitch1.Properties.OnText = "串口";
+            this.toggleSwitch1.Size = new System.Drawing.Size(117, 25);
+            this.toggleSwitch1.TabIndex = 11;
             // 
             // UniversalTerParm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupControl5);
-            this.Controls.Add(this.groupControl7);
-            this.Controls.Add(this.groupControl9);
-            this.Controls.Add(this.groupControl4);
-            this.Controls.Add(this.groupControl6);
+            this.Controls.Add(this.toggleSwitch1);
+            this.Controls.Add(this.xtraTabControl1);
+            this.Controls.Add(this.btnEnableCollect);
+            this.Controls.Add(this.btnReset);
+            this.Controls.Add(this.btnCheckingTime);
+            this.Controls.Add(this.btnSetParm);
+            this.Controls.Add(this.btnReadParm);
             this.Controls.Add(this.groupControl3);
+            this.Controls.Add(this.groupControl5);
             this.Controls.Add(this.groupControl2);
+            this.Controls.Add(this.groupControl4);
             this.Controls.Add(this.groupControl1);
             this.Name = "UniversalTerParm";
             this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.UniversalTerParm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
+            this.groupControl7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBaud.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceBaud.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
-            this.groupControl3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cbIntervalType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gcInterval)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).EndInit();
-            this.groupControl5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cbHammerEnable.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreLowEnable.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreUpEnable.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtHammerInterval.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPreLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceHammerEnable.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPreUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreLowEnable.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceHammerInterval.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreUpEnable.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
-            this.groupControl7.ResumeLayout(false);
-            this.groupControl7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl9)).EndInit();
-            this.groupControl9.ResumeLayout(false);
-            this.groupControl9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit15.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit14.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit13.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
-            this.groupControl6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceDigitalPreOne.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulse.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceExternalAO.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceExternalAOSec.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceExternal485.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
-            this.groupControl2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusStartAddr.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusCtrlCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusRegCount.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusAddr.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ce645Addr.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulseUnit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ce645Funcode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulseUnit4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceDL645ExeFlag.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulseUnit3.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ce645Datalen.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePulseUnit2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbModbusExeFlag.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbDL645ExeFlag.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtModbusAddr.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbModbusCtrlCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtModbusStartAddr1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtModbusStartAddr2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtModbusRegCount.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt645Addr.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt645Funcode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt645Datalen.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPulseUnit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPulseUnit2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPulseUnit3.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPulseUnit4.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
+            this.xtraTabControl1.ResumeLayout(false);
+            this.xtraTabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbStartTime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbCollectTime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbSendTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_485Protocol)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_485Protocol)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
+            this.groupControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_simulate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_simulate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
+            this.groupControl3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_RS485)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_RS485)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).EndInit();
+            this.groupControl5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_Pluse)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_Pluse)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1286,11 +1104,8 @@ namespace SmartWaterSystem
 
         private DevExpress.XtraEditors.GroupControl groupControl1;
         private DevExpress.XtraEditors.CheckEdit ceTime;
-        private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
         private DevExpress.XtraEditors.TextEdit txtID;
         private DevExpress.XtraEditors.CheckEdit ceID;
-        private DevExpress.XtraEditors.SimpleButton btnSaveTemplate;
-        private DevExpress.XtraEditors.GroupControl groupControl3;
         private DevExpress.XtraEditors.TextEdit txtPort;
         private DevExpress.XtraEditors.TextEdit txtCellPhone;
         private DevExpress.XtraEditors.ComboBoxEdit cbComType;
@@ -1298,86 +1113,75 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit ceCellPhone;
         private DevExpress.XtraEditors.CheckEdit ceIP;
         private DevExpress.XtraEditors.CheckEdit ceComType;
-        private DevExpress.XtraEditors.ComboBoxEdit txtBaud;
-        private DevExpress.XtraEditors.GroupControl groupControl5;
-        private DevExpress.XtraEditors.ComboBoxEdit cbHammerEnable;
-        private DevExpress.XtraEditors.ComboBoxEdit cbPreLowEnable;
-        private DevExpress.XtraEditors.ComboBoxEdit cbPreUpEnable;
-        private DevExpress.XtraEditors.TextEdit txtHammerInterval;
-        private DevExpress.XtraEditors.TextEdit txtPreLowLimit;
-        private DevExpress.XtraEditors.CheckEdit ceHammerEnable;
-        private DevExpress.XtraEditors.TextEdit txtPreUpLimit;
-        private DevExpress.XtraEditors.CheckEdit cePreLowEnable;
-        private DevExpress.XtraEditors.CheckEdit ceHammerInterval;
-        private DevExpress.XtraEditors.CheckEdit cePreLowLimit;
-        private DevExpress.XtraEditors.CheckEdit cePreUpEnable;
-        private DevExpress.XtraEditors.CheckEdit cePreUpLimit;
-        private DevExpress.XtraGrid.GridControl gcInterval;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraEditors.GroupControl groupControl7;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraEditors.GroupControl groupControl9;
-        private DevExpress.XtraEditors.SimpleButton simpleButton2;
-        private DevExpress.XtraEditors.LabelControl labelControl5;
-        private DevExpress.XtraEditors.LabelControl labelControl4;
-        private DevExpress.XtraEditors.LabelControl labelControl3;
-        private DevExpress.XtraEditors.TextEdit textEdit15;
-        private DevExpress.XtraEditors.TextEdit textEdit14;
-        private DevExpress.XtraEditors.TextEdit textEdit13;
-        private DevExpress.XtraEditors.LabelControl labelControl6;
-        private DevExpress.XtraEditors.SimpleButton simpleButton6;
-        private DevExpress.XtraEditors.SimpleButton simpleButton5;
-        private DevExpress.XtraEditors.SimpleButton simpleButton4;
-        private DevExpress.XtraEditors.RadioGroup radioGroup1;
-        private DevExpress.XtraEditors.SimpleButton simpleButton3;
-        private DevExpress.XtraEditors.ComboBoxEdit cbIntervalType;
-        private DevExpress.XtraEditors.GroupControl groupControl6;
-        private IPControl ipControl1;
-        private DevExpress.XtraEditors.SimpleButton btnNow;
-        private System.Windows.Forms.DateTimePicker dateTimePicker;
-        private DevExpress.XtraEditors.CheckEdit ceDigitalPreOne;
-        private DevExpress.XtraEditors.CheckEdit cePulse;
-        private DevExpress.XtraEditors.CheckEdit ceExternalAO;
-        private DevExpress.XtraEditors.CheckEdit ceExternalAOSec;
-        private DevExpress.XtraEditors.CheckEdit ceColConfig;
-        private DevExpress.XtraEditors.CheckEdit ceExternal485;
-        private DevExpress.XtraEditors.GroupControl groupControl2;
-        private DevExpress.XtraEditors.CheckEdit ceModbusStartAddr;
-        private DevExpress.XtraEditors.CheckEdit ceModbusCtrlCode;
-        private DevExpress.XtraEditors.CheckEdit ceModbusRegCount;
-        private DevExpress.XtraEditors.CheckEdit ceModbusAddr;
-        private DevExpress.XtraEditors.CheckEdit ce645Addr;
         private DevExpress.XtraEditors.CheckEdit ceModbusExeFlag;
-        private DevExpress.XtraEditors.CheckEdit cePulseUnit1;
-        private DevExpress.XtraEditors.CheckEdit ce645Funcode;
-        private DevExpress.XtraEditors.CheckEdit cePulseUnit4;
-        private DevExpress.XtraEditors.CheckEdit ceDL645ExeFlag;
-        private DevExpress.XtraEditors.CheckEdit cePulseUnit3;
-        private DevExpress.XtraEditors.CheckEdit ce645Datalen;
-        private DevExpress.XtraEditors.CheckEdit cePulseUnit2;
-        private DevExpress.XtraEditors.ComboBoxEdit cbModbusExeFlag;
-        private DevExpress.XtraEditors.ComboBoxEdit cbDL645ExeFlag;
-        private DevExpress.XtraEditors.TextEdit txtModbusAddr;
-        private DevExpress.XtraEditors.ComboBoxEdit cbModbusCtrlCode;
-        private DevExpress.XtraEditors.TextEdit txtModbusStartAddr1;
-        private DevExpress.XtraEditors.TextEdit txtModbusStartAddr2;
-        private DevExpress.XtraEditors.TextEdit txtModbusRegCount;
-        private DevExpress.XtraEditors.TextEdit txt645Addr;
-        private DevExpress.XtraEditors.TextEdit txt645Funcode;
-        private DevExpress.XtraEditors.TextEdit txt645Datalen;
-        private DevExpress.XtraEditors.TextEdit txtPulseUnit1;
-        private DevExpress.XtraEditors.TextEdit txtPulseUnit2;
-        private DevExpress.XtraEditors.TextEdit txtPulseUnit3;
-        private DevExpress.XtraEditors.TextEdit txtPulseUnit4;
+        private DevExpress.XtraEditors.TextEdit txtNum1;
+        private DevExpress.XtraEditors.TextEdit txtNum2;
+        private DevExpress.XtraEditors.TextEdit txtNum4;
+        private DevExpress.XtraEditors.TextEdit txtNum3;
+        private DevExpress.XtraGrid.GridControl gridControl2;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cbStartTime;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cbCollectTime;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cbSendTime;
+        private DevExpress.XtraEditors.SimpleButton btnEnableCollect;
+        private DevExpress.XtraEditors.SimpleButton btnCheckingTime;
         private DevExpress.XtraEditors.GroupControl groupControl4;
-        private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
+        private DevExpress.XtraGrid.GridControl gridControl_485Protocol;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_485Protocol;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox4;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn11;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox5;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn12;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox6;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn13;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn14;
+        private DevExpress.XtraEditors.SimpleButton btnReadParm;
+        private DevExpress.XtraEditors.SimpleButton btnSetParm;
+        private DevExpress.XtraEditors.CheckEdit ceColConfig;
+        private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPage3;
+        private DevExpress.XtraEditors.GroupControl groupControl2;
+        private DevExpress.XtraGrid.GridControl gridControl_simulate;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_simulate;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox3;
+        private DevExpress.XtraEditors.GroupControl groupControl3;
+        private DevExpress.XtraGrid.GridControl gridControl_RS485;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_RS485;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox7;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox8;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn15;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox9;
+        private DevExpress.XtraEditors.GroupControl groupControl5;
+        private DevExpress.XtraGrid.GridControl gridControl_Pluse;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_Pluse;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn16;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox10;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn17;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox11;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn18;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox12;
+        private DevExpress.XtraEditors.CheckEdit cePort;
+        private DevExpress.XtraEditors.GroupControl groupControl7;
+        private DevExpress.XtraEditors.CheckEdit ceCollectRS485;
+        private DevExpress.XtraEditors.CheckEdit ceCollectPluse;
+        private DevExpress.XtraEditors.CheckEdit ceCollectSimulate;
+        private DevExpress.XtraEditors.SimpleButton btnReset;
+        private DevExpress.XtraEditors.TextEdit txtTime;
+        private DevExpress.XtraEditors.ComboBoxEdit cbBaudRate;
+        private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
 
     }
 }

@@ -155,7 +155,7 @@ namespace SmartWaterSystem
                         GlobalValue.SQLSyncMgr.SQLSyncEvent += new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
                         GlobalValue.SQLSyncMgr.Start();
 
-                        SQLSynctimer.Interval = 60 * 1000;
+                        SQLSynctimer.Interval =60 * 1000;
                         SQLSynctimer.Tick += new EventHandler(SQLSynctimer_Tick);
                         SQLSynctimer.Enabled = true;
                     }

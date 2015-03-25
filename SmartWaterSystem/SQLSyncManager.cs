@@ -121,12 +121,19 @@ namespace SmartWaterSystem
                         break;
                     case (uint)SqlSyncType.SyncUpdate_UniversalTerWayType:
                         {
-                            SQLSyncBLL syncBll = new SQLSyncBLL();
-                            bool res=syncBll.Update_UniversalTerWayType();
-                            if (res)
-                                result = 1;
+                            if (SQLHelper.TryConn(SQLHelper.ConnectionString))
+                            {
+                                SQLSyncBLL syncBll = new SQLSyncBLL();
+                                bool res = syncBll.Update_UniversalTerWayType();
+                                if (res)
+                                    result = 1;
+                                else
+                                    result = -1;
+                            }
                             else
-                                result = -1;
+                            {
+                                result = 1;
+                            }
                         }
                         break;
                 }

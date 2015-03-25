@@ -5,6 +5,7 @@ using System.Data;
 using System.Collections;
 using Entity;
 using Common;
+using System.Data.SQLite;
 
 namespace DAL
 {
@@ -12,9 +13,10 @@ namespace DAL
     {
         public DataTable GetTerID_PointID(TerType type)
         {
-            string SQL = "SELECT ID,TerminalID,TerminalName FROM Terminal WHERE TerminalType='" + (int)type + "'";
+            string SQL = "SELECT ID,TerminalID,TerminalName,Address,Remark,ModifyTime FROM Terminal WHERE TerminalType='" + (int)type + "'";
             return SQLHelper.ExecuteDataTable(SQL, null);
         }
+
         #region GPRS数据操作
         public int InsertGPRSPreData(Queue<GPRSPreFrameDataEntity> datas)
         {
@@ -279,5 +281,192 @@ namespace DAL
             }
         }
         #endregion
+
+        public DataTable GetTerInfo(TerType type)
+        {
+            string SQL = "SELECT ID,TerminalID,TerminalName,Address,Remark,ModifyTime FROM Terminal WHERE TerminalType='" + (int)type + "'";
+            return SQLiteHelper.ExecuteDataTable(SQL, null);
+        }
+
+        /// <summary>
+        /// 查找指定类型的终端是否存在,-1:查找发生异常,0:不存在,1:存在
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="TerminalID"></param>
+        /// <returns></returns>
+        public int GetTerExist(TerType type, int TerminalID)
+        {
+            string SQL = "SELECT COUNT(1) FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='"+TerminalID+"'";
+            object obj = SQLiteHelper.ExecuteScalar(SQL, null);
+            if (obj != null && obj != DBNull.Value)
+            {
+                return Convert.ToInt32(obj) > 0 ? 1 : 0;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public void DeleteTer(TerType type, int TerminalID)
+        {
+            string SQL = "";
+            string SQL_SELECT = "SELECT COUNT(1) FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
+            object obj_exist = SQLiteHelper.ExecuteScalar(SQL_SELECT, null);
+            bool exist = false;
+            if (obj_exist != null && obj_exist != DBNull.Value)
+            {
+                exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
+            }
+            if (exist)
+                SQL = "DELETE FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
+            else
+                SQL = "UPDATE Terminal SET SyncState=-1 WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
+            SQLiteHelper.ExecuteNonQuery(SQL, null);
+        }
+
+        public int GetTerminalTableMaxId()
+        {
+            string SQL = "SELECT MAX(id) FROM Terminal";
+            object obj = SQLiteHelper.ExecuteScalar(SQL, null);
+            if (obj != null && obj != DBNull.Value)
+            {
+                return Convert.ToInt32(obj);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public int GetUniversalTerWayConfigTableMaxId()
+        {
+            string SQL = "SELECT MAX(id) FROM UniversalTerWayConfig";
+            object obj = SQLiteHelper.ExecuteScalar(SQL, null);
+            if (obj != null && obj != DBNull.Value)
+            {
+                return Convert.ToInt32(obj);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+
+        /// <summary>
+        /// 保存通用终端配置
+        /// </summary>
+        /// <returns></returns>
+        public int SaveUniversalTerConfig(int terminalid, string name, string addr, string remark, List<UniversalWayTypeConfigEntity> lstPointID)
+        {
+            SQLiteTransaction trans = null;
+            try
+            {
+                trans = SQLiteHelper.GetTransaction();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = SQLiteHelper.Conn;
+                command.Transaction = trans;
+
+                command.CommandText = "DELETE FROM Terminal WHERE TerminalType='" + (int)TerType.UniversalTer + "' AND TerminalID='" + terminalid + "'";
+                command.ExecuteNonQuery();
+
+                command.CommandText = string.Format("INSERT INTO Terminal(ID,TerminalID,TerminalName,TerminalType,Address,Remark) VALUES('{0}','{1}','{2}','{3}','{4}','{5}')",
+                                                        GetTerminalTableMaxId() + 1, terminalid, name, (int)TerType.UniversalTer, addr, remark);
+                command.ExecuteNonQuery();
+
+                //Update UniversalTerConfig Table
+
+                //Update UniversalTerWayConfig Table
+                if (lstPointID != null && lstPointID.Count > 0)
+                {
+                    //UniversalTerWayConfig ID TerminalID PointID
+                    command.CommandText = "DELETE FROM UniversalTerWayConfig WHERE TerminalID='" + terminalid + "'";
+                    command.ExecuteNonQuery();
+
+                    int configeMaxId = GetUniversalTerWayConfigTableMaxId();
+                    foreach (UniversalWayTypeConfigEntity config in lstPointID)
+                    {
+                        configeMaxId++;
+                        command.CommandText = string.Format("INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID) VALUES('{0}','{1}','{2}','{3}')",
+                            configeMaxId, terminalid,config.Sequence, config.PointID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                trans.Commit();
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                if (trans != null)
+                    trans.Rollback();
+                return -1;
+            }
+        }
+
+        public void DeleteUniversalWayTypeConfig(int PointID)
+        {
+            string SQL = "DELETE FROM UniversalTerWayConfig WHERE PointID='" + PointID + "'";
+            SQLiteHelper.ExecuteNonQuery(SQL, null);
+        }
+
+        public void DeleteUniversalWayTypeConfig_TerID(int TerminalID)
+        {
+            string SQL_Ter = "SELECT Distinct PointID FROM UniversalTerWayConfig WHERE TerminalID='"+TerminalID+"'";
+            List<string> lstPoint = new List<string>();
+            using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL_Ter, null))
+            {
+                while (reader.Read())
+                {
+                    lstPoint.Add(reader["PointID"].ToString());
+                }
+            }
+            if (lstPoint != null && lstPoint.Count > 0)
+            {
+                foreach (string pointid in lstPoint)
+                {
+                    string SQL = "";
+                    string SQL_SELECT = "SELECT COUNT(1) FROM UniversalTerWayConfig WHERE SyncState=-1 AND PointID='" + pointid + "' AND TerminalID='" + TerminalID + "'";
+                    object obj_exist = SQLiteHelper.ExecuteScalar(SQL_SELECT, null);
+                    bool exist = false;
+                    if (obj_exist != null && obj_exist != DBNull.Value)
+                    {
+                        exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
+                    }
+                    if (exist)
+                        SQL = "DELETE FROM UniversalTerWayConfig WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "'";
+                    else
+                        SQL = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "'";
+                    SQLiteHelper.ExecuteNonQuery(SQL, null);
+                }
+            }
+        }
+
+        public List<UniversalWayTypeConfigEntity> GetUniversalWayTypeConfig(int TerminalID)
+        {
+            string SQL = "SELECT id,Sequence,PointID,SyncState,ModifyTime FROM UniversalTerWayConfig WHERE TerminalID AND SyncState!=-1";
+            
+            using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL, null))
+            {
+                List<UniversalWayTypeConfigEntity> lstWayTypeConfig = new List<UniversalWayTypeConfigEntity>();
+                while (reader.Read())
+                {
+                    UniversalWayTypeConfigEntity entity = new UniversalWayTypeConfigEntity();
+                    entity.ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : -1;
+                    entity.PointID = reader["PointID"] != DBNull.Value ? Convert.ToInt32(reader["PointID"]) : -1;
+                    entity.Sequence = reader["Sequence"] != DBNull.Value ? Convert.ToInt32(reader["Sequence"]) : -1;
+                    entity.TerminalID = TerminalID;
+                    entity.SyncState = reader["SyncState"] != DBNull.Value ? Convert.ToInt32(reader["SyncState"]) : -1;
+                    entity.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]) : ConstValue.MinDateTime;
+
+                    lstWayTypeConfig.Add(entity);
+                }
+                return lstWayTypeConfig;
+            }
+            return null;
+        }
+
+
     }
 }

@@ -364,6 +364,8 @@ namespace Common
                         [LeakValue]      NVARCHAR(300)   NULL        DEFAULT '',         --
                         [FrequencyValue] NVARCHAR(300)   NULL        DEFAULT '',         --
                         [OriginalData]   NVARCHAR(200)   NULL        DEFAULT '',         --
+                        --[MaxAmp]         NVARCHAR(200)   NULL        DEFAULT '',         --分析后的每组最大幅度值(%)
+                        --[MaxFrq]         NVARCHAR(200)   NULL        DEFAULT '',         --分析后的每组最大频率值(HZ),与MaxAmp一一对应
                         [CollTime]       DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
                         [UnloadTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
                         [HistoryFlag]    INT             NULL        DEFAULT 0           --
@@ -501,6 +503,7 @@ namespace Common
                         [TerminalType]      [INT]           NOT NULL,                   --终端类型 
 	                    [Address]			NVARCHAR(200)	NOT NULL DEFAULT '',		--地址
 	                    [Remark]			NVARCHAR(200)	NOT NULL DEFAULT '',		--备注
+                        [SyncState]         INT             NULL        DEFAULT 1 ,     --0:已同步,1:新增未同步,-1:删除未同步
 	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
                     )";
         }
@@ -541,15 +544,17 @@ namespace Common
             return @"CREATE TABLE [UniversalTerWayType]
                     (
 	                    [ID]                [INT]           NOT NULL,
-	                    [Level]             [INT]           NOT NULL,
-	                    [ParentID]          [INT]           NULL,
+	                    [Level]             [INT]           NOT NULL,                           --从1开始
+	                    [ParentID]          [INT]           NOT NULL    DEFAULT -1,
                         [WayType]           [INT]           NOT NULL,
 	                    [Name]              NVARCHAR(30)    NOT NULL,
 	                    [MaxMeasureRange]   NUMERIC(18, 2)  NOT NULL,
 	                    [MaxMeasureRangeFlag] NUMERIC(18, 2) NOT NULL,
+                        [FrameWidth]        [INT]           NOT NULL    DEFAULT 2,              --帧中数据宽度(字节)
+                        [Sequence]          [INT]           NOT NULL,                           --帧中顺序,一级节点为0,子节点从1开始
 	                    [Precision]         [INT]           NULL,
 	                    [Unit]              NVARCHAR(20)    NULL,
-                        [SyncState]         INT             NULL        DEFAULT -1,             --0:已同步,1:新增未同步,-1:删除未同步
+                        [SyncState]         INT             NULL        DEFAULT 1,              --0:已同步,1:新增未同步,-1:删除未同步
 	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
                     )";
         }
@@ -563,7 +568,9 @@ namespace Common
                     (
 	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
                         [TerminalID]		[INT]           NOT NULL,								--终端ID
+                        [Sequence]          [INT]           NOT NULL,                               --对应顺序序号
 	                    [PointID]           [INT]           NOT NULL,
+                        [SyncState]         [INT]           NULL        DEFAULT 1,                  --0:已同步,1:新增未同步,-1:删除未同步
 	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
                     )";
         }

@@ -19,7 +19,8 @@ namespace Common
         public const string Min1 = "Min1";
         public const string Min2 = "Min2";
         public const string LeakHZ_Template = "LeakHZ_Template";
-        public const string StandardAMP = "StandardAMP";
+        public const string MaxStandardAMP = "MaxStandardAMP";
+        public const string MinStandardAMP = "MinStandardAMP";
         public const string DCComponentLen = "DCComponentLen";
         public const string Calc = "Calc";
         public const string ComTime_Template = "ComTime_Template";

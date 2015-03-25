@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Common;
+using System.Collections;
 
 namespace SmartWaterSystem
 {
@@ -17,7 +18,7 @@ namespace SmartWaterSystem
         public static int num = 256;
         public static double cDis = 2000.0 / (double)num; // 频率分辨率，控制在10Hz以内
 
-        private static List<double[]> dataList = new List<double[]>(); // for test
+        //private static List<double[]> dataList = new List<double[]>(); // for test
 		/// <summary>
 		/// 集合的长度为128，代表128个频率。每一个double数组长度为采集的次数,存储该频率下每次采集的傅里叶数据值。
 		/// </summary>
@@ -101,7 +102,7 @@ namespace SmartWaterSystem
             tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num);
             tmp_fourier=Skip(tmp_fourier, DCComponentLen);
             //////////////////////////////////////////////////////////////////////////////////////////
-            dataList.Add(tmp_fourier); // for test
+            //dataList.Add(tmp_fourier); // for test
 
             StreamWriter sw = new StreamWriter(string.Format("{0}转换后数据{1}.txt", GlobalValue.TestPath, c + 1));
             for (int i = 0; i < tmp_fourier.Length; i++) 
@@ -124,7 +125,7 @@ namespace SmartWaterSystem
 		/// <param name="data">噪声原始采集数据</param>
 		/// <param name="min_amp">最小相对幅度值数组</param>
 		/// <param name="min_frq">对应的频率数组</param>
-        public static bool AmpCalc(List<double[]> data, ref double[] min_amp, ref double[] min_frq)
+        public static bool AmpCalc(List<double[]> data, ref double[] max_amp, ref double[] max_frq,ref double[] max_am,int leakvalue)
         {
             string str_DCLen = Settings.Instance.GetString(SettingKeys.DCComponentLen);  //获取设定的直流分量长度
             int DCComponentLen = 6;
@@ -162,7 +163,7 @@ namespace SmartWaterSystem
                 }
 
                 //////////////////////////////////////////////////////////////////////////////////////////
-                dataList.Add(tmp_fourier); // for test
+                //dataList.Add(tmp_fourier); // for test
 
                 StreamWriter sw = new StreamWriter(string.Format("{0}转换后数据{1}.txt", GlobalValue.TestPath, index + 1));
                 for (int i = 0; i < tmp_fourier.Length; i++)
@@ -174,13 +175,13 @@ namespace SmartWaterSystem
                 //////////////////////////////////////////////////////////////////////////////////////////
             }
 
-            int c = Settings.Instance.GetInt(SettingKeys.Calc);
+            //int c = Settings.Instance.GetInt(SettingKeys.Calc);
 
-            if (c == 1)
-                MinimumAmpCalc2(ref min_amp, ref min_frq);
-            else if (c == 2)
-                MinimumAmpCalc(ref min_amp, ref min_frq);
-
+            //if (c == 1)
+            //    MinimumAmpCalc2(ref min_amp, ref min_frq);
+            //else if (c == 2)
+            //    MinimumAmpCalc(ref min_amp, ref min_frq);
+            MinimumAmpCalc(DCComponentLen, data.Count, leakvalue, out max_amp, out max_frq, out max_am);
             return true;
         }
 
@@ -288,7 +289,7 @@ namespace SmartWaterSystem
 			}
 
 			//////////////////////////////////////////////////////////////////////////////////////////
-			dataList.Add(amp); // for test
+			//dataList.Add(amp); // for test
 
             StreamWriter sw = new StreamWriter(GlobalValue.TestPath + "最小噪声数据.txt");
 			for (int i = 0; i < amp.Length; i++)
@@ -328,7 +329,7 @@ namespace SmartWaterSystem
 			}
 
 			//////////////////////////////////////////////////////////////////////////////////////////
-			dataList.Add(amp); // for test
+			//dataList.Add(amp); // for test
 
             StreamWriter sw = new StreamWriter(GlobalValue.TestPath + "最小噪声数据.txt");
 			for (int i = 0; i < amp.Length; i++)
@@ -341,6 +342,81 @@ namespace SmartWaterSystem
 
 			Data2Amp(amp, ref min_amp, ref min_frq);
 		}
+
+        private static void MinimumAmpCalc(int DCComponentLen,int array_count,int leakvalue,out double[] lst_maxamp,out double[] lst_maxfrq,out double[] lst_max_am)
+        {
+            List<double> lst_data = new List<double>();
+            double[] min_amp = new double[FourierData.Count - DCComponentLen];
+            double[] frq=null;
+            for (int i = 0; i < FourierData.Count-DCComponentLen; i++)
+            {
+                min_amp[i] = FourierData[i].Min();
+            }
+
+            StreamWriter sw = new StreamWriter(GlobalValue.TestPath + "最小噪声数据.txt");
+            for (int i = 0; i < min_amp.Length; i++)
+            {
+                sw.WriteLine(min_amp[i]);
+            }
+            sw.Flush();
+            sw.Close();
+
+            lst_maxamp = new double[array_count];
+            lst_maxfrq = new double[array_count];
+            lst_max_am = new double[array_count];
+            
+            for (int i = 0; i < array_count; i++)
+            {
+                lst_data.Clear();
+                for (int j = 0; j < FourierData.Count - DCComponentLen; j++)
+                {
+                    lst_data.Add(FourierData[j][i]);
+                }
+                //double[] low_amp =null;
+                //double[] high_amp = null;
+
+                Data2Amp_LH(lst_data.ToArray(), out frq,out lst_max_am[i], out lst_maxamp[i], out lst_maxfrq[i], leakvalue);
+            }
+
+            //根据幅度去掉最小，最大值
+            //int maxindex=0,minindex = 0;
+            //double tmpmax = lst_max_am[0];
+            //double tmpmin = lst_max_am[0];
+            //for (int i = 1; i < lst_max_am.Length; i++)
+            //{
+            //    if (lst_max_am[i] > tmpmax)
+            //    {
+            //        tmpmax = lst_max_am[i];
+            //        maxindex = i;
+            //    }
+
+            //    if (lst_maxamp[i] < tmpmin)
+            //    {
+            //        tmpmin = lst_max_am[i];
+            //        minindex = i;
+            //    }
+            //}
+
+            //lst_data.Clear();
+            //lst_data.AddRange(lst_maxamp);
+            //lst_data.RemoveAt(minindex);
+            //if (maxindex > minindex)
+            //    maxindex--;
+            //lst_data.RemoveAt(maxindex);
+            //lst_maxamp = lst_data.ToArray();
+
+            //lst_data.Clear();
+            //lst_data.AddRange(lst_maxfrq);
+            //lst_data.RemoveAt(minindex);
+            //lst_data.RemoveAt(maxindex);
+            //lst_maxfrq = lst_data.ToArray();
+
+            //lst_data.Clear();
+            //lst_data.AddRange(lst_max_am);
+            //lst_data.RemoveAt(minindex);
+            //lst_data.RemoveAt(maxindex);
+            //lst_max_am = lst_data.ToArray();
+        }
 
         /// <summary>
         /// 计算每一个频段下的最小相对噪声幅度（去最值求平均值平均）
@@ -386,7 +462,7 @@ namespace SmartWaterSystem
             }
 
             //////////////////////////////////////////////////////////////////////////////////////////
-            dataList.Add(amp); // for test
+            //dataList.Add(amp); // for test
 
             StreamWriter sw = new StreamWriter(GlobalValue.TestPath + "最小噪声数据.txt");
             for (int i = 0; i < amp.Length; i++)
@@ -444,7 +520,89 @@ namespace SmartWaterSystem
         }
 
         /// <summary>
-        /// 漏水判断(0:不漏水 1：漏水)
+        /// 按低频和高频段返回
+        /// </summary>
+        private static void Data2Amp_LH(double[] data, out double[] frq,out double max_am, out double max_amp, out double max_frq,double leakvalue)
+        {
+            double max1 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Max1));
+            double max2 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Max2));
+            double min1 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Min1));
+            double min2 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Min2));
+            double f = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.LeakHZ_Template));
+            List<double> lst_low_amp = new List<double>();
+            List<double> lst_high_amp = new List<double>();
+            frq = new double[data.Length];
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                double hz = i * cDis;
+
+                if (hz >= 0 && hz <= f)
+                {
+                    double a = max1 - min1;
+                    double per = (data[i] - min1) / a;
+                    if (per < 0)
+                        per = 0;
+                    else if (per > 1)
+                        per = 1;
+                    lst_low_amp.Add(Math.Round(per * 100));
+                    frq[i] = hz;
+                }
+                else if (hz >= (f + 1) && hz < 1000)
+                {
+                    double a = max2 - min2;
+                    double per = (data[i] - min2) / a;
+                    if (per < 0)
+                        per = 0;
+                    else if (per > 1)
+                        per = 1;
+                    lst_high_amp.Add(Math.Round(per * 100));
+                    frq[i] = hz;
+                }
+            }
+
+            //low_amp = ((lst_low_amp.Count > 0) ? lst_low_amp.ToArray() : null);
+            //high_amp = ((lst_high_amp.Count > 0) ? lst_high_amp.ToArray() : null);
+
+            double tmplow_amp = lst_low_amp.Max();
+            double tmphigh_amp = lst_high_amp.Max();
+            int index = -1;
+
+            if ((tmplow_amp > leakvalue) && (tmphigh_amp > leakvalue))
+            {
+                max_amp = tmphigh_amp;
+                index=lst_high_amp.IndexOf(max_amp);
+                max_frq = frq[lst_low_amp.Count + index];
+                max_am = data[lst_low_amp.Count + index];
+            }
+            else
+            {
+                if (tmplow_amp > tmphigh_amp)
+                {
+                    max_amp = tmplow_amp;
+                    index = lst_low_amp.IndexOf(max_amp);
+                    max_frq = frq[index];
+                    max_am = data[index];
+                }
+                else if (tmplow_amp < tmphigh_amp)
+                {
+                    max_amp = tmphigh_amp;
+                    index = lst_high_amp.IndexOf(max_amp);
+                    max_frq = frq[lst_low_amp.Count + index];
+                    max_am = data[lst_low_amp.Count + index];
+                }
+                else
+                {
+                    max_amp = tmplow_amp;
+                    index = lst_low_amp.IndexOf(max_amp);
+                    max_frq = frq[index];
+                    max_am = data[index];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 漏水判断(-1:处于最大最小标准值中间，需要通过别的方法综合判断 1：漏水 0:不漏水)
         /// </summary>
         /// <param name="data">噪声原始数据32个值一组</param>
         /// <param name="standvalue">静态漏水标准幅度值</param>
@@ -452,11 +610,12 @@ namespace SmartWaterSystem
         public static int IsLeak1(int GroupID, int RecorderID, List<double[]> lstdatas, out double energyvalue)
         {
             energyvalue = 0;  //能量值
-            double standvalue = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.StandardAMP));
+            double maxstandvalue = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.MaxStandardAMP));
+            double minstandvalue = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.MinStandardAMP));
             short[] standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);
 
             if (standdata == null)
-                return 1;
+                return -1;
 
             int i = 0;
             double standaverage = 0;
@@ -474,20 +633,13 @@ namespace SmartWaterSystem
             int isleak = 1;
             double[] record_average = new double[lstaverage.Count];
             lstaverage.CopyTo(record_average);
-            for (i = 0; i < lstaverage.Count; i++)
-            {
-                lstaverage[i] = Math.Abs(standaverage - lstaverage[i]);
-                if (lstaverage[i] <= standvalue)
-                {
-                    isleak = 0;
-                }
-            }
-
-            //计算能量值 
-            //List<double> lst_stdev = new List<double>();  //标准差数组
-            //for (i = 0; i < record_average.Length; i++)
+            //for (i = 0; i < lstaverage.Count; i++)
             //{
-            //    lst_stdev.Add(Math.Abs(standaverage - record_average[i]));
+            //    lstaverage[i] = Math.Abs(standaverage - lstaverage[i]);
+            //    if (lstaverage[i] <= maxstandvalue)
+            //    {
+            //        isleak = 0;
+            //    }
             //}
 
             energyvalue = GetAverage(record_average.ToArray());
@@ -503,7 +655,114 @@ namespace SmartWaterSystem
             sw.Flush();
             sw.Close();
 
+            if (energyvalue >= maxstandvalue)
+                isleak = 1;
+            else if (energyvalue <= minstandvalue)
+                isleak = 0;
+            else
+                isleak = -1;
+
             return isleak;
+        }
+
+        /// <summary>
+        /// 漏水判断(根据漏水噪声幅度判断,IsLeak1方法辅助办法) 1：漏水 0:不漏水
+        /// </summary>
+        public static int IsLeak3(double[] max_amps,double[] max_frqs,int leakvalue,
+            out double max_amp,out double max_frq,out double min_amp,out double min_frq,out double leak_amp,out double leak_frq)
+        {
+            max_amp = 0; max_frq = 0; min_amp = 0; min_frq = 0; leak_amp = 0; leak_frq = 0;
+            if (max_amps == null || max_amps.Length == 0)
+                return 0;
+
+            int divid_hz = Settings.Instance.GetInt(SettingKeys.LeakHZ_Template);  //频率分界值
+            //按频率从低到高排列,幅度同样根据频率排序
+            for (int i = 0; i < max_frqs.Length; i++)
+            {
+                for (int j = i+1; j < max_frqs.Length; j++)
+                {
+                    if (max_frqs[j] < max_frqs[i])
+                    {
+                        double tmp = max_frqs[i];
+                        max_frqs[i] = max_frqs[j];
+                        max_frqs[j] = tmp;
+
+                        tmp = max_amps[i];  //幅度也跟着变
+                        max_amps[i] = max_amps[j];
+                        max_amps[j] = tmp;
+                    }
+                }
+            }
+
+            double tmp_max_amp = 0;
+            double tmp_min_amp = 0;
+            List<int> maxvalue_index = new List<int>(); //最大幅度值对应索引值
+            List<int> minvalue_index = new List<int>(); //最小幅度值对应索引值
+            //获得最大幅度、最大频率, 有相同的最大幅度值，取频率高的
+            tmp_max_amp = max_amps[0];
+            //maxvalue_index.Add(0);
+            tmp_min_amp = max_amps[0];
+            //minvalue_index.Add(0);
+            for (int i = 0; i < max_amps.Length; i++)  
+            {
+                if (tmp_max_amp < max_amps[i])  //得到最大幅度值
+                {
+                    tmp_max_amp = max_amps[i];
+
+                    maxvalue_index.Clear();
+                    maxvalue_index.Add(i);
+                }
+                else if(tmp_max_amp == max_amps[i])
+                {
+                    maxvalue_index.Add(i);
+                }
+
+                if (tmp_min_amp > max_amps[i])
+                {
+                    tmp_min_amp = max_amps[i];
+
+                    minvalue_index.Clear();
+                    minvalue_index.Add(i);
+                }
+                else if (tmp_min_amp == max_amps[i])
+                {
+                    minvalue_index.Add(i);
+                }
+            }
+
+            max_amp = max_amps[maxvalue_index[maxvalue_index.Count - 1]];  //最大的取最高频
+            max_frq = max_frqs[maxvalue_index[maxvalue_index.Count - 1]];  //最小的取最低频
+
+            min_amp = max_amps[minvalue_index[0]];
+            min_frq = max_frqs[minvalue_index[0]];
+
+            if (min_amp < leakvalue)
+            { min_amp = 0; min_frq = 0; }
+            //漏水幅度、频率(分高低频,如果只有低频有，取低频段中最小频率对应的值，如果高频有，则取高频段中最小频率对应的值)
+            if (max_frqs[maxvalue_index[0]] <= divid_hz)  //低频有,获得低频段最小频率对应的值
+            {
+                leak_amp = max_amps[maxvalue_index[0]];
+                leak_frq = max_frqs[maxvalue_index[0]];
+            }
+            if (max_frqs[maxvalue_index[maxvalue_index.Count - 1]] > divid_hz)  //高频段有，取高频段最小频率对应值
+            {
+                for (int i = 0; i < maxvalue_index.Count; i++)
+                {
+                    if (max_frqs[maxvalue_index[i]] > divid_hz)
+                    {
+                        leak_amp = max_amps[maxvalue_index[i]];
+                        leak_frq = max_frqs[maxvalue_index[i]];
+                        break;
+                    }
+                }
+            }
+
+            if (leak_amp >= leakvalue)
+            {
+                return 1;
+            }
+            else
+                return 0;
         }
 
         private static double GetAverage(double[] datas)
@@ -1001,6 +1260,8 @@ namespace SmartWaterSystem
             }
         }
 
-        #endregion        
+        #endregion   
+     
+
     }
 }

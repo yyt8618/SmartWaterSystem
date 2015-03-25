@@ -64,17 +64,19 @@ namespace SmartWaterSystem
 
                             string[] strAmp = reader["LeakValue"].ToString().Split(',');
                             double[] amp = new double[strAmp.Length];
-                            for (int j = 0; j < strAmp.Length; j++)
+                            for (int j = 0; j < strAmp.Length && strAmp.Length > 1; j++)
                             {
-                                amp[j] = Convert.ToDouble(strAmp[j]);
+                                if (!string.IsNullOrEmpty(strAmp[j]))
+                                    amp[j] = Convert.ToDouble(strAmp[j]);
                             }
                             rec.Data.Amplitude = amp;
 
                             string[] strFrq = reader["FrequencyValue"].ToString().Split(',');
                             double[] frq = new double[strFrq.Length];
-                            for (int j = 0; j < strFrq.Length; j++)
+                            for (int j = 0; j < strFrq.Length && strFrq.Length > 1; j++)
                             {
-                                frq[j] = Convert.ToDouble(strFrq[j]);
+                                if (!string.IsNullOrEmpty(strFrq[j]))
+                                    frq[j] = Convert.ToDouble(strFrq[j]);
                             }
                             rec.Data.Frequency = frq;
 

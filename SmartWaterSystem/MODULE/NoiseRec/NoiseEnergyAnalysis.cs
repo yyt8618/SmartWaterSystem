@@ -28,7 +28,7 @@ namespace SmartWaterSystem
             {
                 txtEnergyValue.Text = "";
                 txtStandardAverage.Text = "";
-                StandardAMP = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.StandardAMP));
+                StandardAMP = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.MaxStandardAMP));
                 txtStandardAMP.Text = StandardAMP.ToString("f2");
 
                 cbRecorders.Properties.Items.Clear();

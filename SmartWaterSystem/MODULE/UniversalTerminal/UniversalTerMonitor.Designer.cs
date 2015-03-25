@@ -32,18 +32,18 @@ namespace SmartWaterSystem
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnNow = new DevExpress.XtraEditors.SimpleButton();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.ipControl1 = new IPControl();
+            this.ipControl1 = new Common.IPControl();
             this.txtCellPhone = new DevExpress.XtraEditors.TextEdit();
             this.cbComType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceComType = new DevExpress.XtraEditors.CheckEdit();
             this.txtBaud = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceCellPhone = new DevExpress.XtraEditors.CheckEdit();
-            this.txtPort = new DevExpress.XtraEditors.TextEdit();
             this.txtID = new DevExpress.XtraEditors.TextEdit();
             this.ceIP = new DevExpress.XtraEditors.CheckEdit();
             this.ceBaud = new DevExpress.XtraEditors.CheckEdit();
             this.ceID = new DevExpress.XtraEditors.CheckEdit();
             this.ceTime = new DevExpress.XtraEditors.CheckEdit();
+            this.txtPort = new DevExpress.XtraEditors.TextEdit();
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             this.btnSaveTemplate = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
@@ -105,12 +105,12 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtBaud.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceBaud.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
@@ -168,9 +168,9 @@ namespace SmartWaterSystem
             this.groupControl1.Controls.Add(this.txtCellPhone);
             this.groupControl1.Controls.Add(this.cbComType);
             this.groupControl1.Controls.Add(this.ceComType);
+            this.groupControl1.Controls.Add(this.txtPort);
             this.groupControl1.Controls.Add(this.txtBaud);
             this.groupControl1.Controls.Add(this.ceCellPhone);
-            this.groupControl1.Controls.Add(this.txtPort);
             this.groupControl1.Controls.Add(this.txtID);
             this.groupControl1.Controls.Add(this.ceIP);
             this.groupControl1.Controls.Add(this.ceBaud);
@@ -178,7 +178,7 @@ namespace SmartWaterSystem
             this.groupControl1.Controls.Add(this.ceTime);
             this.groupControl1.Location = new System.Drawing.Point(191, 5);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(199, 150);
+            this.groupControl1.Size = new System.Drawing.Size(199, 170);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
             // 
@@ -208,15 +208,15 @@ namespace SmartWaterSystem
             // 
             this.ipControl1.BackColor = System.Drawing.SystemColors.Window;
             this.ipControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ipControl1.Location = new System.Drawing.Point(48, 106);
+            this.ipControl1.Location = new System.Drawing.Point(38, 106);
             this.ipControl1.Name = "ipControl1";
-            this.ipControl1.Size = new System.Drawing.Size(110, 17);
+            this.ipControl1.Size = new System.Drawing.Size(156, 29);
             this.ipControl1.TabIndex = 13;
             // 
             // txtCellPhone
             // 
             this.txtCellPhone.EditValue = "";
-            this.txtCellPhone.Location = new System.Drawing.Point(69, 126);
+            this.txtCellPhone.Location = new System.Drawing.Point(69, 141);
             this.txtCellPhone.Name = "txtCellPhone";
             this.txtCellPhone.Size = new System.Drawing.Size(107, 20);
             this.txtCellPhone.TabIndex = 12;
@@ -259,19 +259,11 @@ namespace SmartWaterSystem
             // 
             // ceCellPhone
             // 
-            this.ceCellPhone.Location = new System.Drawing.Point(5, 127);
+            this.ceCellPhone.Location = new System.Drawing.Point(5, 142);
             this.ceCellPhone.Name = "ceCellPhone";
             this.ceCellPhone.Properties.Caption = "手机号";
             this.ceCellPhone.Size = new System.Drawing.Size(74, 19);
             this.ceCellPhone.TabIndex = 11;
-            // 
-            // txtPort
-            // 
-            this.txtPort.EditValue = "";
-            this.txtPort.Location = new System.Drawing.Point(161, 105);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(33, 20);
-            this.txtPort.TabIndex = 10;
             // 
             // txtID
             // 
@@ -311,6 +303,14 @@ namespace SmartWaterSystem
             this.ceTime.Properties.Caption = "设备时间";
             this.ceTime.Size = new System.Drawing.Size(75, 19);
             this.ceTime.TabIndex = 0;
+            // 
+            // txtPort
+            // 
+            this.txtPort.EditValue = "";
+            this.txtPort.Location = new System.Drawing.Point(157, 84);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(33, 20);
+            this.txtPort.TabIndex = 10;
             // 
             // toggleSwitch1
             // 
@@ -426,15 +426,15 @@ namespace SmartWaterSystem
             this.groupControl5.Controls.Add(this.cePreLowLimit);
             this.groupControl5.Controls.Add(this.cePreUpEnable);
             this.groupControl5.Controls.Add(this.cePreUpLimit);
-            this.groupControl5.Location = new System.Drawing.Point(191, 303);
+            this.groupControl5.Location = new System.Drawing.Point(191, 328);
             this.groupControl5.Name = "groupControl5";
-            this.groupControl5.Size = new System.Drawing.Size(199, 179);
+            this.groupControl5.Size = new System.Drawing.Size(199, 160);
             this.groupControl5.TabIndex = 2;
             this.groupControl5.Text = "数字量压力";
             // 
             // cbHammerEnable
             // 
-            this.cbHammerEnable.Location = new System.Drawing.Point(100, 154);
+            this.cbHammerEnable.Location = new System.Drawing.Point(100, 136);
             this.cbHammerEnable.Name = "cbHammerEnable";
             this.cbHammerEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -447,7 +447,7 @@ namespace SmartWaterSystem
             // 
             // cbPreLowEnable
             // 
-            this.cbPreLowEnable.Location = new System.Drawing.Point(100, 110);
+            this.cbPreLowEnable.Location = new System.Drawing.Point(100, 92);
             this.cbPreLowEnable.Name = "cbPreLowEnable";
             this.cbPreLowEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -460,7 +460,7 @@ namespace SmartWaterSystem
             // 
             // cbPreUpEnable
             // 
-            this.cbPreUpEnable.Location = new System.Drawing.Point(100, 66);
+            this.cbPreUpEnable.Location = new System.Drawing.Point(100, 48);
             this.cbPreUpEnable.Name = "cbPreUpEnable";
             this.cbPreUpEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -473,21 +473,21 @@ namespace SmartWaterSystem
             // 
             // txtHammerInterval
             // 
-            this.txtHammerInterval.Location = new System.Drawing.Point(134, 132);
+            this.txtHammerInterval.Location = new System.Drawing.Point(134, 114);
             this.txtHammerInterval.Name = "txtHammerInterval";
             this.txtHammerInterval.Size = new System.Drawing.Size(39, 20);
             this.txtHammerInterval.TabIndex = 108;
             // 
             // txtPreLowLimit
             // 
-            this.txtPreLowLimit.Location = new System.Drawing.Point(100, 88);
+            this.txtPreLowLimit.Location = new System.Drawing.Point(100, 70);
             this.txtPreLowLimit.Name = "txtPreLowLimit";
             this.txtPreLowLimit.Size = new System.Drawing.Size(73, 20);
             this.txtPreLowLimit.TabIndex = 108;
             // 
             // ceHammerEnable
             // 
-            this.ceHammerEnable.Location = new System.Drawing.Point(9, 155);
+            this.ceHammerEnable.Location = new System.Drawing.Point(9, 137);
             this.ceHammerEnable.Name = "ceHammerEnable";
             this.ceHammerEnable.Properties.Caption = "投退状态:";
             this.ceHammerEnable.Size = new System.Drawing.Size(74, 19);
@@ -495,14 +495,14 @@ namespace SmartWaterSystem
             // 
             // txtPreUpLimit
             // 
-            this.txtPreUpLimit.Location = new System.Drawing.Point(100, 44);
+            this.txtPreUpLimit.Location = new System.Drawing.Point(100, 26);
             this.txtPreUpLimit.Name = "txtPreUpLimit";
             this.txtPreUpLimit.Size = new System.Drawing.Size(73, 20);
             this.txtPreUpLimit.TabIndex = 108;
             // 
             // cePreLowEnable
             // 
-            this.cePreLowEnable.Location = new System.Drawing.Point(9, 111);
+            this.cePreLowEnable.Location = new System.Drawing.Point(9, 93);
             this.cePreLowEnable.Name = "cePreLowEnable";
             this.cePreLowEnable.Properties.Caption = "投退状态:";
             this.cePreLowEnable.Size = new System.Drawing.Size(74, 19);
@@ -510,7 +510,7 @@ namespace SmartWaterSystem
             // 
             // ceHammerInterval
             // 
-            this.ceHammerInterval.Location = new System.Drawing.Point(9, 133);
+            this.ceHammerInterval.Location = new System.Drawing.Point(9, 115);
             this.ceHammerInterval.Name = "ceHammerInterval";
             this.ceHammerInterval.Properties.Caption = "水锤采集时间间隔:";
             this.ceHammerInterval.Size = new System.Drawing.Size(125, 19);
@@ -518,7 +518,7 @@ namespace SmartWaterSystem
             // 
             // cePreLowLimit
             // 
-            this.cePreLowLimit.Location = new System.Drawing.Point(9, 89);
+            this.cePreLowLimit.Location = new System.Drawing.Point(9, 71);
             this.cePreLowLimit.Name = "cePreLowLimit";
             this.cePreLowLimit.Properties.Caption = "压力下限值:";
             this.cePreLowLimit.Size = new System.Drawing.Size(87, 19);
@@ -526,7 +526,7 @@ namespace SmartWaterSystem
             // 
             // cePreUpEnable
             // 
-            this.cePreUpEnable.Location = new System.Drawing.Point(9, 67);
+            this.cePreUpEnable.Location = new System.Drawing.Point(9, 49);
             this.cePreUpEnable.Name = "cePreUpEnable";
             this.cePreUpEnable.Properties.Caption = "投退状态:";
             this.cePreUpEnable.Size = new System.Drawing.Size(74, 19);
@@ -534,7 +534,7 @@ namespace SmartWaterSystem
             // 
             // cePreUpLimit
             // 
-            this.cePreUpLimit.Location = new System.Drawing.Point(9, 45);
+            this.cePreUpLimit.Location = new System.Drawing.Point(9, 27);
             this.cePreUpLimit.Name = "cePreUpLimit";
             this.cePreUpLimit.Properties.Caption = "压力上限值:";
             this.cePreUpLimit.Size = new System.Drawing.Size(87, 19);
@@ -682,9 +682,9 @@ namespace SmartWaterSystem
             // treeList1
             // 
             this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeList1.Location = new System.Drawing.Point(2, 27);
+            this.treeList1.Location = new System.Drawing.Point(2, 22);
             this.treeList1.Name = "treeList1";
-            this.treeList1.Size = new System.Drawing.Size(177, 454);
+            this.treeList1.Size = new System.Drawing.Size(177, 459);
             this.treeList1.TabIndex = 5;
             // 
             // groupControl6
@@ -766,7 +766,7 @@ namespace SmartWaterSystem
             this.groupControl2.Controls.Add(this.ceExternalAO);
             this.groupControl2.Controls.Add(this.cePulse);
             this.groupControl2.Controls.Add(this.ceDigitalPreOne);
-            this.groupControl2.Location = new System.Drawing.Point(191, 158);
+            this.groupControl2.Location = new System.Drawing.Point(191, 181);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(199, 141);
             this.groupControl2.TabIndex = 1;
@@ -846,7 +846,7 @@ namespace SmartWaterSystem
             this.groupControl4.TabIndex = 3;
             this.groupControl4.Text = "协议设置";
             // 
-            // UniversalTerParm
+            // UniversalTerMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -858,7 +858,7 @@ namespace SmartWaterSystem
             this.Controls.Add(this.groupControl3);
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl1);
-            this.Name = "UniversalTerParm";
+            this.Name = "UniversalTerMonitor";
             this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.UniversalTerParm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
@@ -868,12 +868,12 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtBaud.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceBaud.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);

@@ -18,8 +18,9 @@ namespace SmartWaterSystem
         NoiseData data;
 		internal NoiseRecorder Recorder { get; set; }
         Color[] colors = new Color[3];  //颜色条使用渐变颜色
-                
-
+        Image[] images = new Image[7];
+        int index_image = 0;
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -35,10 +36,19 @@ namespace SmartWaterSystem
             colors[2] = Color.Blue;
 
             data = Recorder.Data;
-            //cbLineType.SelectedIndex = 1;
-            //cbPoint.Checked = false;
             DataBinding();
             InitChart();
+        }
+
+        void timer1_Tick(object sender, EventArgs e)
+        {
+            new System.Action(() =>
+            {
+                if (index_image == 7)
+                    index_image = 0;
+                PicBox.Image = images[index_image];
+                index_image++;
+            }).BeginInvoke(null, null);
         }
 
         private void InitChart()
@@ -46,28 +56,27 @@ namespace SmartWaterSystem
             try
             {
                 this.colorPanel1.ColorBarValue = colors;
-                Random r = new Random();
-                int seriescount = 20;
+                //Random r = new Random();
+                int seriescount = data.Amplitude.Length;
 
                 ChartDataSeriesCollection coll = c1Chart1.ChartGroups[0].ChartData.SeriesList;
-                List<float> lsttmp = new List<float>();
-                List<float> lstdata = new List<float>();
+                List<double> lsttmp = new List<double>();
                 #region testdata
-                int i = 0;
-                for (i = 0; i < seriescount; i++) 
-                {
-                    lstdata.Add(r.Next(300, 800));
-                }
-                float min = lstdata.Min();
-                float max = lstdata.Max();
+                //int i = 0;
+                //for (i = 0; i < seriescount; i++) 
+                //{
+                //    lstdata.Add(r.Next(300, 800));
+                //}
+                float min = 0;
+                float max = 1000;
                 float interval = (max-min)/4;
-                for (i = 0; i < seriescount; i++)
+                for (int i = 0; i < seriescount; i++)
                 {
-                    lsttmp = new List<float>();
-                    lsttmp.Add(lstdata[i]);
+                    lsttmp = new List<double>();
+                    lsttmp.Add(data.Amplitude[i]);
                     lsttmp.Add(1);
                     c1Chart1.ChartGroups[0].ChartData.SeriesList[i].Y.CopyDataIn(lsttmp.ToArray());
-                    c1Chart1.ChartGroups[0].ChartData.SeriesList[i].FillStyle.Color1 = GetColor(min, max, lsttmp[0]);
+                    c1Chart1.ChartGroups[0].ChartData.SeriesList[i].FillStyle.Color1 = GetColor(min, max, data.Frequency[i]);
                 }
                 #endregion
                 while (coll.Count > seriescount)
@@ -79,6 +88,17 @@ namespace SmartWaterSystem
                     (int)Math.Ceiling(min + interval * 3), (int)Math.Ceiling(max));  //set colorpanel mark
                 C1.Win.C1Chart.Axis axisX = (C1.Win.C1Chart.Axis)c1Chart1.ChartArea.AxisX;
                 axisX.Max = 0.1 * (30 - seriescount) + 1.52;
+
+                c1Chart1.ChartArea.AxisY.ValueLabels.Add(Recorder.LeakValue, "");
+                c1Chart1.ChartArea.AxisY.ValueLabels[0].Appearance = ValueLabelAppearanceEnum.TriangleMarker;
+                c1Chart1.ChartArea.AxisY.ValueLabels[0].GridLine = false;
+                c1Chart1.ChartArea.AxisY.ValueLabels[0].Color = Color.Red;
+                c1Chart1.ChartArea.AxisY.ValueLabels[0].Moveable = false;
+                c1Chart1.ChartArea.AxisY.AnnoMethod = AnnotationMethodEnum.Mixed;
+
+                c1Chart1.ChartArea.AxisY.Max = 100;
+                c1Chart1.ChartArea.AxisY.AutoMax = false;
+                
             }
             catch (Exception ex)
             {
@@ -87,80 +107,6 @@ namespace SmartWaterSystem
             }
         }
 
-        ///// <summary>
-        ///// 绘制噪声数据统计图
-        ///// </summary>
-        //private void CreateChart()
-        //{
-        //    int hzColor = Chart.CColor(Color.MediumSeaGreen);
-        //    int ampColor = Chart.CColor(Color.DodgerBlue);
-
-        //    XYChart c = new XYChart(700, 360);
-        //    c.setBackground(c.linearGradientColor(0, 0, 0, 100, 0x99ccff, 0xffffff), 0x888888);
-        //    //c.setRoundedFrame();
-        //    //c.setDropShadow();
-        //    //c.setClipping();
-
-        //    ChartDirector.TextBox title = c.addTitle("噪声数据分析图", "Arial Bold", 15);
-        //    title.setPos(0, 20);
-
-        //    c.setPlotArea(120, 80, 490, 230, 0xffffff, -1, -1, c.dashLineColor(
-        //        0xaaaaaa, Chart.DotLine), -1);
-
-        //    LegendBox legendBox = c.addLegend(350, 80, false, "Arial", 8);
-        //    legendBox.setAlignment(Chart.BottomCenter);
-        //    legendBox.setBackground(Chart.Transparent, Chart.Transparent);
-        //    legendBox.setLineStyleKey();
-        //    legendBox.setFontSize(8);
-
-        //    c.xAxis().setIndent(true);
-        //    c.xAxis().setTitle("噪声频率(Hz)");
-        //    c.yAxis().setTitle("噪声幅度(%)").setAlignment(Chart.TopLeft2);
-
-        //    LineLayer layer1;
-        //    ChartDirector.DataSet ds;
-        //    double[] da = data.Frequency.ToArray();
-        //    double[] dataSet = new double[data.Amplitude.Length];
-        //    data.Amplitude.CopyTo(dataSet, 0);
-
-        //    List<double> tmp = dataSet.ToList();
-        //    tmp.RemoveRange(0, 4);
-        //    dataSet = tmp.ToArray();
-			 
-        //    switch (cbLineType.SelectedItem.ToString())
-        //    {
-        //        case "折线":
-        //            layer1 = c.addLineLayer();
-        //            ds = layer1.addDataSet(dataSet, ampColor, "噪声幅度");
-        //            layer1.setLineWidth(2);
-                    
-        //            layer1.setXData(da);
-        //            if (cbPoint.Checked)
-        //                ds.setDataSymbol(Chart.CircleSymbol, 4);
-        //            break;
-        //        case "曲线":
-        //            layer1 = c.addSplineLayer();
-        //            ds = layer1.addDataSet(dataSet, ampColor, "噪声幅度");
-        //            layer1.setLineWidth(2);
-
-        //            layer1.setXData(da);
-        //            if (cbPoint.Checked)
-        //                ds.setDataSymbol(Chart.CircleSymbol, 5, ampColor, ampColor);
-        //            break;
-        //    }
-
-        //    Mark mark = c.yAxis().addMark(Recorder.LeakValue, Chart.CColor(Color.Crimson), "警戒值(" + Recorder.LeakValue + "%)", "Arial Bold");
-        //    mark.setLineWidth(2);
-        //    mark.setPos(-15, 0);
-
-        //    c.xAxis().setLabelStep(15);
-        //    c.yAxis().setDateScale(0, 120);
-
-        //    winChartViewer1.Chart = c;
-        //    winChartViewer1.ImageMap = c.getHTMLImageMap("clickable", "",
-        //        "title='噪声频率: {x}Hz, \n{dataSetName}: {value}%'");
-        //}
-        
         /// <summary>
         /// 数据绑定
         /// </summary>
@@ -174,32 +120,49 @@ namespace SmartWaterSystem
 			txtPickSpan.Text = Recorder.PickSpan.ToString();
 			txtRemark.Text = Recorder.Remark;
 
-			double maxAmp = data.Amplitude.ToList().Max();
-			double minAmp = data.Amplitude.ToList().Min();
-			double maxHz = data.Frequency.ToList().Max();
-			double minHz = data.Frequency.ToList().Min();
+            double max_amp, max_frq, min_amp, min_frq, leak_amp, leak_frq;
+            NoiseDataHandler.IsLeak3(data.Amplitude, data.Frequency, Recorder.LeakValue, out max_amp, out max_frq, out min_amp, out min_frq, out leak_amp, out leak_frq);
 
-			txtMaxNoise.Text = maxAmp.ToString();
-			txtMinNoise.Text = minAmp.ToString();
-			txtMaxHz.Text = maxHz.ToString();
-			txtMinHz.Text = minHz.ToString();
+            //double maxAmp = data.Amplitude.ToList().Max();
+            //double minAmp = data.Amplitude.ToList().Min();
+            //double maxHz = data.Frequency.ToList().Max();
+            //double minHz = data.Frequency.ToList().Min();
+
+            txtMaxNoise.Text = max_amp.ToString();
+            txtMinNoise.Text = min_amp.ToString();
+            txtMaxHz.Text = max_frq.ToString();
+            txtMinHz.Text = min_frq.ToString();
 			txtNum.Text = data.UploadFlag.ToString();
             txtEnergyValue.Text = Recorder.Result.EnergyValue.ToString("f2");
 
-			txtLeakNoise.Text = Recorder.Result.LeakAmplitude.ToString();
-			txtLeakHz.Text = Recorder.Result.LeakFrequency.ToString();
+            txtLeakNoise.Text = Recorder.Result.LeakAmplitude.ToString();
+            txtLeakHz.Text = Recorder.Result.LeakFrequency.ToString();
 
-			if (Recorder.Result.IsLeak == 1)
-			{
-				errorProvider.SetError(txtLeakNoise, "漏水！");
-				errorProvider.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
+            if (Recorder.Result.IsLeak == 1)
+            {
+                //errorProvider.SetError(txtLeakNoise, "漏水！");
+                //errorProvider.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
+                images[0] = Properties.Resources.leak1;
+                images[1] = Properties.Resources.leak2;
+                images[2] = Properties.Resources.leak3;
+                images[3] = Properties.Resources.leak4;
+                images[4] = Properties.Resources.leak5;
+                images[5] = Properties.Resources.leak6;
+                images[6] = Properties.Resources.leak7;
 
-				if (Settings.Instance.GetString(SettingKeys.LeakVoice) != string.Empty)
-				{
-					SoundPlayer player = new SoundPlayer();
-					player.PlayLooping();
-				}
-			}
+                PicBox.Visible = true;
+                timer1.Interval = 120;
+                timer1.Tick += new EventHandler(timer1_Tick);
+                timer1.Enabled = true;
+
+                if (Settings.Instance.GetString(SettingKeys.LeakVoice) != string.Empty)
+                {
+                    SoundPlayer player = new SoundPlayer();
+                    player.PlayLooping();
+                }
+            }
+            else
+                PicBox.Visible = false;
 		}
 
         /// <summary>
@@ -283,7 +246,7 @@ namespace SmartWaterSystem
                 {
                     if (s == oldSeries && p == oldPoint)
                         return;
-                    txtCurSeriesValue.Text = ((float)(grp.ChartData[s].Y[p])).ToString("0.##");
+                    txtCurSeriesValue.Text = ((grp.ChartData[s].Y[p])).ToString();
                     return;
                 }
             }
@@ -293,13 +256,18 @@ namespace SmartWaterSystem
 
         private int X, Y;
         private Pen pen = new Pen(Color.LawnGreen);
+        Pen pen_mark = new Pen(Color.Red);
         private void c1Chart1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             g.DrawLine(pen, X, c1Chart1.ChartArea.PlotArea.Location.Y, X, c1Chart1.ChartArea.PlotArea.Location.Y + c1Chart1.ChartArea.PlotArea.Size.Height);
+
+            //paint leakvalue marker
+            Rectangle rect_mark = c1Chart1.ChartArea.AxisY.ValueLabels[0].MarkerRectangle;
+            g.DrawLine(pen_mark, c1Chart1.ChartArea.PlotArea.Location.X, rect_mark.Y + rect_mark.Height / 2, c1Chart1.ChartArea.PlotArea.Location.X + c1Chart1.ChartArea.PlotArea.Size.Width, rect_mark.Y + rect_mark.Height / 2);
         }
 
-        private Color GetColor(float min,float max,float Value)
+        private Color GetColor(double min, double max, double Value)
         {  //目前算法只支持  蓝->红->黄顺序
             if (colors == null || colors.Length == 0)
                 return Color.AliceBlue ;
@@ -309,13 +277,14 @@ namespace SmartWaterSystem
             if (Value <= min)
                 return colors[2];
 
-            float per = (Value-min)/(max - min);  //计算区间百分比
-            if (per < 0.5)  //colors[2] ~ colors[1]
+            if (Value < ((max - min) / 2))  //colors[2] ~ colors[1]
             {
-                return Color.FromArgb(0, 0,255-(int)Math.Ceiling(per * 255));
+                double per = Value / ((max - min)/2);  //计算区间百分比
+                return Color.FromArgb((int)Math.Ceiling(per * 255), 0, 255 - (int)Math.Ceiling(per * 255));
             }
-            else   //colors[1] ~ colors[0]
+            else  //colors[1] ~ colors[0]
             {
+                double per = (Value - (max - min) / 2) / ((max - min) / 2);
                 return Color.FromArgb(255, (int)Math.Ceiling(per * 255), 0);
             }
         }

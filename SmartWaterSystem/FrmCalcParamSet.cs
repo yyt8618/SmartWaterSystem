@@ -85,7 +85,7 @@ namespace SmartWaterSystem
 			Settings.Instance.SetValue(SettingKeys.Min1, txtMin1.Text);
             Settings.Instance.SetValue(SettingKeys.Min2, txtMin2.Text);
 			Settings.Instance.SetValue(SettingKeys.LeakHZ_Template, txtLeakHZ.Text);
-            Settings.Instance.SetValue(SettingKeys.StandardAMP, txtStandardAMP.Text);
+            Settings.Instance.SetValue(SettingKeys.MaxStandardAMP, txtStandardAMP.Text);
             Settings.Instance.SetValue(SettingKeys.DCComponentLen, txtDCCompLen.Text);
 
 			if(cbArith.SelectedIndex==0)
@@ -104,7 +104,7 @@ namespace SmartWaterSystem
 			txtMin1.Text = Settings.Instance.GetString(SettingKeys.Min1);
 			txtMin2.Text = Settings.Instance.GetString(SettingKeys.Min2);
 			txtLeakHZ.Text = Settings.Instance.GetString(SettingKeys.LeakHZ_Template);
-            txtStandardAMP.Text = Settings.Instance.GetString(SettingKeys.StandardAMP);
+            txtStandardAMP.Text = Settings.Instance.GetString(SettingKeys.MaxStandardAMP);
             txtDCCompLen.Text = Settings.Instance.GetString(SettingKeys.DCComponentLen);
 
 			if (Settings.Instance.GetString(SettingKeys.Calc) == (1).ToString())

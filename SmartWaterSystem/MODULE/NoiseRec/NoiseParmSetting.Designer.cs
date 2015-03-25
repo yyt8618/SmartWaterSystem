@@ -30,18 +30,19 @@
         {
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new DevExpress.XtraEditors.GroupControl();
+            this.btnSave = new DevExpress.XtraEditors.SimpleButton();
             this.groupBox3 = new DevExpress.XtraEditors.GroupControl();
+            this.txtMaxStandardAMP = new DevExpress.XtraEditors.TextEdit();
+            this.txtMinStandardAMP = new DevExpress.XtraEditors.TextEdit();
             this.cbArith = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtDCCompLen = new DevExpress.XtraEditors.TextEdit();
-            this.txtStandardAMP = new DevExpress.XtraEditors.TextEdit();
             this.txtLeakHZ = new DevExpress.XtraEditors.TextEdit();
-            this.btnSave = new DevExpress.XtraEditors.SimpleButton();
             this.groupBox2 = new DevExpress.XtraEditors.GroupControl();
             this.txtMin2 = new DevExpress.XtraEditors.TextEdit();
             this.txtMax2 = new DevExpress.XtraEditors.TextEdit();
@@ -83,8 +84,9 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMaxStandardAMP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMinStandardAMP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDCCompLen.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakHZ.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -127,28 +129,57 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.Text = "计算参数";
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(503, 25);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 87;
+            this.btnSave.Text = "保存";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.txtMaxStandardAMP);
+            this.groupBox3.Controls.Add(this.txtMinStandardAMP);
             this.groupBox3.Controls.Add(this.cbArith);
             this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.txtDCCompLen);
-            this.groupBox3.Controls.Add(this.txtStandardAMP);
             this.groupBox3.Controls.Add(this.txtLeakHZ);
             this.groupBox3.Location = new System.Drawing.Point(7, 122);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(217, 135);
+            this.groupBox3.Size = new System.Drawing.Size(441, 135);
             this.groupBox3.TabIndex = 90;
             this.groupBox3.Text = "计算参数";
+            // 
+            // txtMaxStandardAMP
+            // 
+            this.txtMaxStandardAMP.Location = new System.Drawing.Point(142, 62);
+            this.txtMaxStandardAMP.Name = "txtMaxStandardAMP";
+            this.txtMaxStandardAMP.Properties.Mask.EditMask = "f0";
+            this.txtMaxStandardAMP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtMaxStandardAMP.Size = new System.Drawing.Size(66, 20);
+            this.txtMaxStandardAMP.TabIndex = 2;
+            // 
+            // txtMinStandardAMP
+            // 
+            this.txtMinStandardAMP.Location = new System.Drawing.Point(370, 62);
+            this.txtMinStandardAMP.Name = "txtMinStandardAMP";
+            this.txtMinStandardAMP.Properties.Mask.EditMask = "f0";
+            this.txtMinStandardAMP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtMinStandardAMP.Size = new System.Drawing.Size(66, 20);
+            this.txtMinStandardAMP.TabIndex = 2;
             // 
             // cbArith
             // 
             this.cbArith.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbArith.Location = new System.Drawing.Point(122, 54);
+            this.cbArith.Enabled = false;
+            this.cbArith.Location = new System.Drawing.Point(325, 30);
             this.cbArith.Name = "cbArith";
             this.cbArith.Size = new System.Drawing.Size(92, 22);
             this.cbArith.TabIndex = 1;
@@ -156,25 +187,34 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(19, 114);
+            this.label9.Location = new System.Drawing.Point(21, 91);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(79, 14);
             this.label9.TabIndex = 85;
             this.label9.Text = "直流分量长度";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(230, 65);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(139, 14);
+            this.label8.TabIndex = 85;
+            this.label8.Text = "最小静态漏水标准幅度值";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(5, 86);
+            this.label7.Location = new System.Drawing.Point(5, 65);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(115, 14);
+            this.label7.Size = new System.Drawing.Size(139, 14);
             this.label7.TabIndex = 85;
-            this.label7.Text = "静态漏水标准幅度值";
+            this.label7.Text = "最大静态漏水标准幅度值";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(21, 58);
+            this.label6.Location = new System.Drawing.Point(224, 34);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(55, 14);
             this.label6.TabIndex = 85;
@@ -189,15 +229,6 @@
             this.label5.TabIndex = 82;
             this.label5.Text = "频率分界值";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(195, 86);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(19, 14);
-            this.label8.TabIndex = 84;
-            this.label8.Text = "%";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -209,21 +240,12 @@
             // 
             // txtDCCompLen
             // 
-            this.txtDCCompLen.Location = new System.Drawing.Point(122, 111);
+            this.txtDCCompLen.Location = new System.Drawing.Point(122, 88);
             this.txtDCCompLen.Name = "txtDCCompLen";
             this.txtDCCompLen.Properties.Mask.EditMask = "f0";
             this.txtDCCompLen.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtDCCompLen.Size = new System.Drawing.Size(66, 20);
             this.txtDCCompLen.TabIndex = 3;
-            // 
-            // txtStandardAMP
-            // 
-            this.txtStandardAMP.Location = new System.Drawing.Point(122, 83);
-            this.txtStandardAMP.Name = "txtStandardAMP";
-            this.txtStandardAMP.Properties.Mask.EditMask = "f0";
-            this.txtStandardAMP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            this.txtStandardAMP.Size = new System.Drawing.Size(66, 20);
-            this.txtStandardAMP.TabIndex = 2;
             // 
             // txtLeakHZ
             // 
@@ -233,15 +255,6 @@
             this.txtLeakHZ.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtLeakHZ.Size = new System.Drawing.Size(66, 20);
             this.txtLeakHZ.TabIndex = 0;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(503, 25);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 87;
-            this.btnSave.Text = "保存";
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // groupBox2
             // 
@@ -637,8 +650,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMaxStandardAMP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMinStandardAMP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDCCompLen.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtStandardAMP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakHZ.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox2)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -680,10 +694,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.TextEdit txtDCCompLen;
-        private DevExpress.XtraEditors.TextEdit txtStandardAMP;
+        private DevExpress.XtraEditors.TextEdit txtMaxStandardAMP;
         private DevExpress.XtraEditors.TextEdit txtLeakHZ;
         private DevExpress.XtraEditors.SimpleButton btnSave;
         private DevExpress.XtraEditors.GroupControl groupBox2;
@@ -723,6 +736,8 @@
         private System.Windows.Forms.Label label39;
         public DevExpress.XtraEditors.TextEdit txtComTime_T;
         private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label label8;
+        private DevExpress.XtraEditors.TextEdit txtMinStandardAMP;
 
     }
 }

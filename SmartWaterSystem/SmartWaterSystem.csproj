@@ -153,16 +153,10 @@
       <DependentUpon>BaseView.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\NoiseDataHandler.cs" />
-    <Compile Include="FrmCalcParamSet.cs">
+    <Compile Include="MODULE\NoiseRec\FrmDataAnalysis.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmCalcParamSet.Designer.cs">
-      <DependentUpon>FrmCalcParamSet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmDataAnalysis.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmDataAnalysis.Designer.cs">
+    <Compile Include="MODULE\NoiseRec\FrmDataAnalysis.Designer.cs">
       <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\NoiseDataBaseHelper.cs" />
@@ -245,6 +239,12 @@
     <Compile Include="MODULE\PreTerminal\PreTerStoppage.Designer.cs">
       <DependentUpon>PreTerStoppage.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\UniversalTerminal\TreeNodeInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\TreeNodeInfoForm.Designer.cs">
+      <DependentUpon>TreeNodeInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\UniversalTerminal\UniversalTerParm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -321,11 +321,7 @@
     <EmbeddedResource Include="BaseView.resx">
       <DependentUpon>BaseView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmCalcParamSet.resx">
-      <DependentUpon>FrmCalcParamSet.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmDataAnalysis.resx">
+    <EmbeddedResource Include="MODULE\NoiseRec\FrmDataAnalysis.resx">
       <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSerialComSet.resx">
@@ -366,6 +362,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerStoppage.resx">
       <DependentUpon>PreTerStoppage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\TreeNodeInfoForm.resx">
+      <DependentUpon>TreeNodeInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerParm.resx">
       <DependentUpon>UniversalTerParm.cs</DependentUpon>
@@ -510,6 +509,15 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
+    <None Include="Resources\leak\leak7.ico" />
+    <None Include="Resources\leak\leak6.ico" />
+    <None Include="Resources\leak\leak5.ico" />
+    <None Include="Resources\leak\leak4.ico" />
+    <None Include="Resources\leak\leak3.ico" />
+    <None Include="Resources\leak\leak2.ico" />
+    <None Include="Resources\leak\leak1.ico" />
+    <None Include="Resources\leak_tuming.gif" />
+    <None Include="Resources\leak.gif" />
     <None Include="Resources\sql.ico" />
     <None Include="Resources\UniversalTerMgr1.png" />
     <None Include="Resources\UniversalTerMgr.png" />
@@ -541,7 +549,6 @@
     <None Include="Resources\wait.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entity\" />
     <Folder Include="MODULE\PortablePreTerminal\" />
     <Folder Include="MODULE\ValveSwitchCTL\" />
   </ItemGroup>

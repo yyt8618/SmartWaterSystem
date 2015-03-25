@@ -47,7 +47,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.txtDCCompLen = new DevExpress.XtraEditors.TextEdit();
             this.txtStandardAMP = new DevExpress.XtraEditors.TextEdit();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
@@ -205,7 +204,6 @@
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.txtDCCompLen);
             this.groupBox3.Controls.Add(this.txtStandardAMP);
@@ -250,15 +248,6 @@
             this.label6.Size = new System.Drawing.Size(55, 14);
             this.label6.TabIndex = 85;
             this.label6.Text = "分析算法";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(195, 86);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(19, 14);
-            this.label8.TabIndex = 84;
-            this.label8.Text = "%";
             // 
             // txtDCCompLen
             // 
@@ -345,7 +334,6 @@
 		private System.Windows.Forms.ComboBox cbArith;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
         private DevExpress.XtraEditors.TextEdit txtStandardAMP;
         private System.Windows.Forms.Label label9;
         private DevExpress.XtraEditors.TextEdit txtDCCompLen;

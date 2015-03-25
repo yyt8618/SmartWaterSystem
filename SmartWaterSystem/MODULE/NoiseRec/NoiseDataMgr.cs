@@ -485,9 +485,10 @@ namespace SmartWaterSystem
                     }
                     double[] amp = null;
                     double[] frq = null;
+                    double[] max_am = null;
                     // 计算每一个频段下的最小幅度
                     NoiseDataHandler.InitData(data.Count);//result[key].Length / spanCount);
-                    NoiseDataHandler.AmpCalc(data, ref amp, ref frq);
+                    NoiseDataHandler.AmpCalc(data, ref amp, ref frq,ref max_am,recorder.LeakValue);
 
                     NoiseData da = new NoiseData();
                     da.RecorderID = recorder.ID;
@@ -503,11 +504,16 @@ namespace SmartWaterSystem
                     double[] ru = new double[2];
                     double energyvalue = 0;
                     int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data_isleak1, out energyvalue);
-                    int isLeak2 = NoiseDataHandler.IsLeak2(amp, recorder.LeakValue, ref ru);
+                   // int isLeak2 = NoiseDataHandler.IsLeak2(amp, recorder.LeakValue, ref ru);
+                    if (-1 == isLeak1)
+                    {
+                        double max_amp, max_frq, min_amp, min_frq;//, leak_amp, leak_frq;
+                        isLeak1 = NoiseDataHandler.IsLeak3(amp,frq, recorder.LeakValue,out max_amp,out max_frq,out min_amp,out min_frq,out ru[0],out ru[1]);
+                    }
 
                     NoiseResult re = new NoiseResult();
                     re.GroupID = recorder.GroupID;
-                    re.IsLeak = (isLeak1 | isLeak2);
+                    re.IsLeak = (isLeak1);// | isLeak2);
                     re.RecorderID = recorder.ID;
                     re.LeakAmplitude = ru[0];
                     re.LeakFrequency = ru[1];

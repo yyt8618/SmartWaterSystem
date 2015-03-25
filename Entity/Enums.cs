@@ -37,6 +37,17 @@ namespace Entity
 
     public enum UniversalCollectType
     {
-
+        /// <summary>
+        /// 采集类型（模拟类型）
+        /// </summary>
+        Simulate = 0,
+        /// <summary>
+        /// 采集类型（脉冲类型）
+        /// </summary>
+        Pluse =1,
+        /// <summary>
+        /// 采集类型RS485
+        /// </summary>
+        RS485 = 2
     }
 }

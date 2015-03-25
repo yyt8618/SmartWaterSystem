@@ -23,7 +23,8 @@ namespace SmartWaterSystem
             txtMin1.Text = Settings.Instance.GetString(SettingKeys.Min1);
             txtMin2.Text = Settings.Instance.GetString(SettingKeys.Min2);
             txtLeakHZ.Text = Settings.Instance.GetString(SettingKeys.LeakHZ_Template);
-            txtStandardAMP.Text = Settings.Instance.GetString(SettingKeys.StandardAMP);
+            txtMaxStandardAMP.Text = Settings.Instance.GetString(SettingKeys.MaxStandardAMP);
+            txtMinStandardAMP.Text = Settings.Instance.GetString(SettingKeys.MinStandardAMP);
             txtDCCompLen.Text = Settings.Instance.GetString(SettingKeys.DCComponentLen);
 
             if (Settings.Instance.GetString(SettingKeys.Calc) == (1).ToString())
@@ -97,11 +98,18 @@ namespace SmartWaterSystem
                 return;
             }
 
-            if (string.IsNullOrEmpty(txtStandardAMP.Text) || Convert.ToDecimal(txtStandardAMP.Text) <= 0)
+            if (string.IsNullOrEmpty(txtMaxStandardAMP.Text) || Convert.ToDecimal(txtMaxStandardAMP.Text) <= 0)
             {
-                DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的静态漏水标准幅度值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtStandardAMP.Focus();
-                txtStandardAMP.SelectAll();
+                DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的最大静态漏水标准幅度值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtMaxStandardAMP.Focus();
+                txtMaxStandardAMP.SelectAll();
+                return;
+            }
+            if (string.IsNullOrEmpty(txtMinStandardAMP.Text) || Convert.ToDecimal(txtMinStandardAMP.Text) <= 0)
+            {
+                DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的最小静态漏水标准幅度值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtMinStandardAMP.Focus();
+                txtMinStandardAMP.SelectAll();
                 return;
             }
             if (string.IsNullOrEmpty(txtDCCompLen.Text) || Convert.ToDecimal(txtDCCompLen.Text) <= 0)
@@ -119,7 +127,8 @@ namespace SmartWaterSystem
             Settings.Instance.SetValue(SettingKeys.Min1, txtMin1.Text);
             Settings.Instance.SetValue(SettingKeys.Min2, txtMin2.Text);
             Settings.Instance.SetValue(SettingKeys.LeakHZ_Template, txtLeakHZ.Text);
-            Settings.Instance.SetValue(SettingKeys.StandardAMP, txtStandardAMP.Text);
+            Settings.Instance.SetValue(SettingKeys.MaxStandardAMP, txtMaxStandardAMP.Text); 
+            Settings.Instance.SetValue(SettingKeys.MinStandardAMP, txtMinStandardAMP.Text);
             Settings.Instance.SetValue(SettingKeys.DCComponentLen, txtDCCompLen.Text);
 
             if (cbArith.SelectedIndex == 0)

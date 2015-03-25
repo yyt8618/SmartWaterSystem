@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using DevExpress.XtraEditors;
 
 namespace Common
 {
@@ -38,26 +39,26 @@ namespace Common
 
         private void txtNum_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox txtbox = (TextBox)sender;
+            TextEdit txtbox = (TextEdit)sender;
             int index = Convert.ToInt32(txtbox.Tag);
             if (e.KeyChar == '\b') //backspace
             {
-                if (txtbox.TextLength == 0)
+                if (txtbox.Text.Length == 0)
                 {
                     if (2 == index)
                     {
                         txtNum1.Focus();
-                        txtNum1.SelectionStart = txtNum1.TextLength;
+                        txtNum1.SelectionStart = txtNum1.Text.Length;
                     }
                     else if (3 == index)
                     {
                         txtNum2.Focus();
-                        txtNum2.SelectionStart = txtNum2.TextLength;
+                        txtNum2.SelectionStart = txtNum2.Text.Length;
                     }
                     else if (4 == index)
                     {
                         txtNum3.Focus();
-                        txtNum3.SelectionStart = txtNum3.TextLength;
+                        txtNum3.SelectionStart = txtNum3.Text.Length;
                     }
                 }
             }
@@ -82,25 +83,25 @@ namespace Common
             }
             else if (e.KeyChar >= 48 && e.KeyChar <= 57)
             {
-                if (txtbox.TextLength == 3)
+                if (txtbox.Text.Length == 3)
                 {
                     if (1 == index)
                     {
                         txtNum2.Text = e.KeyChar.ToString();
                         txtNum2.Focus();
-                        txtNum2.SelectionStart = txtNum2.TextLength;
+                        txtNum2.SelectionStart = txtNum2.Text.Length;
                     }
                     else if (2 == index)
                     {
                         txtNum3.Text = e.KeyChar.ToString();
                         txtNum3.Focus();
-                        txtNum3.SelectionStart = txtNum3.TextLength;
+                        txtNum3.SelectionStart = txtNum3.Text.Length;
                     }
                     else if (3 == index)
                     {
                         txtNum4.Text = e.KeyChar.ToString();
                         txtNum4.Focus();
-                        txtNum4.SelectionStart = txtNum4.TextLength;
+                        txtNum4.SelectionStart = txtNum4.Text.Length;
                     }
                 }
                 else

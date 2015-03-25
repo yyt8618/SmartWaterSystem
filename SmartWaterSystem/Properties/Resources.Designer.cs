@@ -116,6 +116,62 @@ namespace SmartWaterSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap leak_tuming {
+            get {
+                object obj = ResourceManager.GetObject("leak_tuming", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap leak1 {
+            get {
+                object obj = ResourceManager.GetObject("leak1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap leak2 {
+            get {
+                object obj = ResourceManager.GetObject("leak2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap leak3 {
+            get {
+                object obj = ResourceManager.GetObject("leak3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap leak4 {
+            get {
+                object obj = ResourceManager.GetObject("leak4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap leak5 {
+            get {
+                object obj = ResourceManager.GetObject("leak5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap leak6 {
+            get {
+                object obj = ResourceManager.GetObject("leak6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap leak7 {
+            get {
+                object obj = ResourceManager.GetObject("leak7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap NoiseMap {
             get {
                 object obj = ResourceManager.GetObject("NoiseMap", resourceCulture);
