@@ -53,62 +53,54 @@ namespace SmartWaterSystem
             this.txtNum2 = new DevExpress.XtraEditors.TextEdit();
             this.txtNum1 = new DevExpress.XtraEditors.TextEdit();
             this.ceIP = new DevExpress.XtraEditors.CheckEdit();
-            this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
-            this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
-            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
-            this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cbStartTime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cbCollectTime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cbSendTime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
             this.btnEnableCollect = new DevExpress.XtraEditors.SimpleButton();
             this.btnCheckingTime = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
-            this.gridControl_485Protocol = new DevExpress.XtraGrid.GridControl();
-            this.gridView_485Protocol = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridControl_485protocol = new DevExpress.XtraGrid.GridControl();
+            this.gridView_485protocol = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox4 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_485protocol_baud = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn11 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox5 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.txt_485protocol_ID = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridColumn12 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox6 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.txt_485protocol_funcode = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridColumn13 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.txt_485protocol_regbeginaddr = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridColumn14 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.txt_485protocol_regcount = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.btnReadParm = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetParm = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
-            this.gridControl_simulate = new DevExpress.XtraGrid.GridControl();
-            this.gridView_simulate = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridControl_Simulate = new DevExpress.XtraGrid.GridControl();
+            this.gridView_Simulate = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_sim_starttime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_sim_coltime1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.cb_sim_coltime2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox3 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_sim_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl_RS485 = new DevExpress.XtraGrid.GridControl();
             this.gridView_RS485 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox7 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_RS485_starttime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox8 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_RS485_coltime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn15 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox9 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_RS485_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupControl5 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl_Pluse = new DevExpress.XtraGrid.GridControl();
             this.gridView_Pluse = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.cb_pluse_starttime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn16 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox10 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_pluse_coltime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn17 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox11 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.gridColumn18 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemComboBox12 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cb_pluse_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.btnReset = new DevExpress.XtraEditors.SimpleButton();
-            this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
+            this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).BeginInit();
@@ -135,43 +127,38 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
-            this.xtraTabControl1.SuspendLayout();
-            this.xtraTabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbStartTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbCollectTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbSendTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl_485Protocol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView_485Protocol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_485protocol)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_485protocol)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_485protocol_baud)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_485protocol_ID)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_485protocol_funcode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_485protocol_regbeginaddr)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_485protocol_regcount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl_simulate)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView_simulate)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_Simulate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_Simulate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_sim_starttime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_sim_sendtime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_RS485)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_RS485)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_starttime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_coltime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_sendtime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
             this.groupControl5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_Pluse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_Pluse)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_starttime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
@@ -220,6 +207,7 @@ namespace SmartWaterSystem
             this.ceModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceModbusExeFlag.Size = new System.Drawing.Size(108, 19);
             this.ceModbusExeFlag.TabIndex = 6;
+            this.ceModbusExeFlag.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
             // 
             // txtPort
             // 
@@ -250,6 +238,7 @@ namespace SmartWaterSystem
             this.ceCollectRS485.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceCollectRS485.Size = new System.Drawing.Size(117, 19);
             this.ceCollectRS485.TabIndex = 3;
+            this.ceCollectRS485.CheckedChanged += new System.EventHandler(this.ceCollectRS485_CheckedChanged);
             // 
             // ceColConfig
             // 
@@ -260,6 +249,7 @@ namespace SmartWaterSystem
             this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceColConfig.Size = new System.Drawing.Size(90, 19);
             this.ceColConfig.TabIndex = 0;
+            this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
             // 
             // ceCollectPluse
             // 
@@ -270,6 +260,7 @@ namespace SmartWaterSystem
             this.ceCollectPluse.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceCollectPluse.Size = new System.Drawing.Size(87, 19);
             this.ceCollectPluse.TabIndex = 2;
+            this.ceCollectPluse.CheckedChanged += new System.EventHandler(this.ceCollectPluse_CheckedChanged);
             // 
             // ceCollectSimulate
             // 
@@ -280,6 +271,7 @@ namespace SmartWaterSystem
             this.ceCollectSimulate.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceCollectSimulate.Size = new System.Drawing.Size(85, 19);
             this.ceCollectSimulate.TabIndex = 1;
+            this.ceCollectSimulate.CheckedChanged += new System.EventHandler(this.ceCollectSimulate_CheckedChanged);
             // 
             // txtCellPhone
             // 
@@ -323,7 +315,7 @@ namespace SmartWaterSystem
             this.txtTime.Location = new System.Drawing.Point(250, 24);
             this.txtTime.Name = "txtTime";
             this.txtTime.Size = new System.Drawing.Size(78, 20);
-            this.txtTime.TabIndex = 1;
+            this.txtTime.TabIndex = 3;
             // 
             // txtID
             // 
@@ -416,199 +408,79 @@ namespace SmartWaterSystem
             this.ceIP.Size = new System.Drawing.Size(35, 19);
             this.ceIP.TabIndex = 11;
             // 
-            // xtraTabControl1
-            // 
-            this.xtraTabControl1.HeaderOrientation = DevExpress.XtraTab.TabOrientation.Horizontal;
-            this.xtraTabControl1.Location = new System.Drawing.Point(77, 470);
-            this.xtraTabControl1.Name = "xtraTabControl1";
-            this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(35, 32);
-            this.xtraTabControl1.TabIndex = 5;
-            this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.xtraTabPage1,
-            this.xtraTabPage2,
-            this.xtraTabPage3});
-            // 
-            // xtraTabPage1
-            // 
-            this.xtraTabPage1.Controls.Add(this.gridControl2);
-            this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(29, 3);
-            this.xtraTabPage1.Text = "模拟量时间间隔";
-            // 
-            // gridControl2
-            // 
-            this.gridControl2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl2.Location = new System.Drawing.Point(0, 0);
-            this.gridControl2.MainView = this.gridView3;
-            this.gridControl2.Name = "gridControl2";
-            this.gridControl2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.cbStartTime,
-            this.cbCollectTime,
-            this.cbSendTime});
-            this.gridControl2.Size = new System.Drawing.Size(29, 3);
-            this.gridControl2.TabIndex = 5;
-            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView3});
-            // 
-            // gridView3
-            // 
-            this.gridView3.ActiveFilterEnabled = false;
-            this.gridView3.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn8,
-            this.gridColumn9,
-            this.gridColumn10});
-            this.gridView3.GridControl = this.gridControl2;
-            this.gridView3.Name = "gridView3";
-            this.gridView3.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView3.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
-            this.gridView3.OptionsCustomization.AllowColumnMoving = false;
-            this.gridView3.OptionsCustomization.AllowGroup = false;
-            this.gridView3.OptionsCustomization.AllowSort = false;
-            this.gridView3.OptionsFilter.AllowFilterEditor = false;
-            this.gridView3.OptionsView.ShowGroupPanel = false;
-            this.gridView3.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView3.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView3_RowCellClick);
-            this.gridView3.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView3_CustomRowCellEdit);
-            this.gridView3.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView3_CellValueChanged);
-            // 
-            // gridColumn8
-            // 
-            this.gridColumn8.Caption = "起始时间";
-            this.gridColumn8.ColumnEdit = this.cbStartTime;
-            this.gridColumn8.FieldName = "starttime";
-            this.gridColumn8.Name = "gridColumn8";
-            this.gridColumn8.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn8.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn8.OptionsColumn.AllowMove = false;
-            this.gridColumn8.OptionsEditForm.StartNewRow = true;
-            this.gridColumn8.OptionsFilter.AllowAutoFilter = false;
-            this.gridColumn8.OptionsFilter.AllowFilter = false;
-            this.gridColumn8.Visible = true;
-            this.gridColumn8.VisibleIndex = 0;
-            // 
-            // cbStartTime
-            // 
-            this.cbStartTime.AutoHeight = false;
-            this.cbStartTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbStartTime.Name = "cbStartTime";
-            // 
-            // gridColumn9
-            // 
-            this.gridColumn9.Caption = "采集时间间隔";
-            this.gridColumn9.ColumnEdit = this.cbCollectTime;
-            this.gridColumn9.FieldName = "collecttime";
-            this.gridColumn9.Name = "gridColumn9";
-            this.gridColumn9.OptionsFilter.AllowAutoFilter = false;
-            this.gridColumn9.OptionsFilter.AllowFilter = false;
-            this.gridColumn9.Visible = true;
-            this.gridColumn9.VisibleIndex = 1;
-            // 
-            // cbCollectTime
-            // 
-            this.cbCollectTime.AutoHeight = false;
-            this.cbCollectTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbCollectTime.Name = "cbCollectTime";
-            // 
-            // gridColumn10
-            // 
-            this.gridColumn10.Caption = "发送时间间隔";
-            this.gridColumn10.ColumnEdit = this.cbSendTime;
-            this.gridColumn10.FieldName = "sendtime";
-            this.gridColumn10.Name = "gridColumn10";
-            this.gridColumn10.OptionsFilter.AllowAutoFilter = false;
-            this.gridColumn10.OptionsFilter.AllowFilter = false;
-            this.gridColumn10.Visible = true;
-            this.gridColumn10.VisibleIndex = 2;
-            // 
-            // cbSendTime
-            // 
-            this.cbSendTime.AutoHeight = false;
-            this.cbSendTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbSendTime.Name = "cbSendTime";
-            // 
-            // xtraTabPage2
-            // 
-            this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(29, 3);
-            this.xtraTabPage2.Text = "脉冲量时间间隔";
-            // 
-            // xtraTabPage3
-            // 
-            this.xtraTabPage3.Name = "xtraTabPage3";
-            this.xtraTabPage3.Size = new System.Drawing.Size(29, 3);
-            this.xtraTabPage3.Text = "RS485时间间隔";
-            // 
             // btnEnableCollect
             // 
-            this.btnEnableCollect.Location = new System.Drawing.Point(503, 462);
+            this.btnEnableCollect.Location = new System.Drawing.Point(504, 462);
             this.btnEnableCollect.Name = "btnEnableCollect";
             this.btnEnableCollect.Size = new System.Drawing.Size(88, 26);
             this.btnEnableCollect.TabIndex = 7;
             this.btnEnableCollect.Text = "启动采集";
+            this.btnEnableCollect.Click += new System.EventHandler(this.btnEnableCollect_Click);
             // 
             // btnCheckingTime
             // 
-            this.btnCheckingTime.Location = new System.Drawing.Point(401, 462);
+            this.btnCheckingTime.Location = new System.Drawing.Point(402, 462);
             this.btnCheckingTime.Name = "btnCheckingTime";
             this.btnCheckingTime.Size = new System.Drawing.Size(88, 26);
             this.btnCheckingTime.TabIndex = 6;
             this.btnCheckingTime.Text = "校时";
+            this.btnCheckingTime.Click += new System.EventHandler(this.btnCheckingTime_Click);
             // 
             // groupControl4
             // 
-            this.groupControl4.Controls.Add(this.gridControl_485Protocol);
+            this.groupControl4.Controls.Add(this.gridControl_485protocol);
             this.groupControl4.Location = new System.Drawing.Point(402, 86);
             this.groupControl4.Name = "groupControl4";
             this.groupControl4.Size = new System.Drawing.Size(395, 186);
             this.groupControl4.TabIndex = 4;
             this.groupControl4.Text = "RS485采集modbus协议配置";
             // 
-            // gridControl_485Protocol
+            // gridControl_485protocol
             // 
-            this.gridControl_485Protocol.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl_485Protocol.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_485Protocol.Location = new System.Drawing.Point(2, 22);
-            this.gridControl_485Protocol.MainView = this.gridView_485Protocol;
-            this.gridControl_485Protocol.Name = "gridControl_485Protocol";
-            this.gridControl_485Protocol.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemComboBox4,
-            this.repositoryItemComboBox5,
-            this.repositoryItemComboBox6});
-            this.gridControl_485Protocol.Size = new System.Drawing.Size(391, 162);
-            this.gridControl_485Protocol.TabIndex = 5;
-            this.gridControl_485Protocol.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView_485Protocol});
+            this.gridControl_485protocol.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl_485protocol.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_485protocol.Location = new System.Drawing.Point(2, 22);
+            this.gridControl_485protocol.MainView = this.gridView_485protocol;
+            this.gridControl_485protocol.Name = "gridControl_485protocol";
+            this.gridControl_485protocol.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.txt_485protocol_ID,
+            this.txt_485protocol_funcode,
+            this.txt_485protocol_regbeginaddr,
+            this.txt_485protocol_regcount,
+            this.cb_485protocol_baud});
+            this.gridControl_485protocol.Size = new System.Drawing.Size(391, 162);
+            this.gridControl_485protocol.TabIndex = 4;
+            this.gridControl_485protocol.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView_485protocol});
             // 
-            // gridView_485Protocol
+            // gridView_485protocol
             // 
-            this.gridView_485Protocol.ActiveFilterEnabled = false;
-            this.gridView_485Protocol.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridView_485protocol.ActiveFilterEnabled = false;
+            this.gridView_485protocol.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn4,
             this.gridColumn11,
             this.gridColumn12,
             this.gridColumn13,
             this.gridColumn14});
-            this.gridView_485Protocol.GridControl = this.gridControl_485Protocol;
-            this.gridView_485Protocol.Name = "gridView_485Protocol";
-            this.gridView_485Protocol.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView_485Protocol.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
-            this.gridView_485Protocol.OptionsCustomization.AllowColumnMoving = false;
-            this.gridView_485Protocol.OptionsCustomization.AllowGroup = false;
-            this.gridView_485Protocol.OptionsCustomization.AllowSort = false;
-            this.gridView_485Protocol.OptionsFilter.AllowFilterEditor = false;
-            this.gridView_485Protocol.OptionsView.ShowGroupPanel = false;
-            this.gridView_485Protocol.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView_485Protocol.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView3_CellValueChanged);
+            this.gridView_485protocol.GridControl = this.gridControl_485protocol;
+            this.gridView_485protocol.IndicatorWidth = 30;
+            this.gridView_485protocol.Name = "gridView_485protocol";
+            this.gridView_485protocol.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_485protocol.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
+            this.gridView_485protocol.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_485protocol.OptionsCustomization.AllowGroup = false;
+            this.gridView_485protocol.OptionsCustomization.AllowSort = false;
+            this.gridView_485protocol.OptionsFilter.AllowFilterEditor = false;
+            this.gridView_485protocol.OptionsView.ShowGroupPanel = false;
+            this.gridView_485protocol.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_485protocol.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridView_CustomDrawRowIndicator);
+            this.gridView_485protocol.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_485protocol_CellValueChanged);
             // 
             // gridColumn4
             // 
             this.gridColumn4.Caption = "波特率";
-            this.gridColumn4.ColumnEdit = this.repositoryItemComboBox4;
+            this.gridColumn4.ColumnEdit = this.cb_485protocol_baud;
+            this.gridColumn4.FieldName = "baud";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.gridColumn4.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
@@ -618,129 +490,154 @@ namespace SmartWaterSystem
             this.gridColumn4.OptionsFilter.AllowFilter = false;
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 0;
-            this.gridColumn4.Width = 67;
+            this.gridColumn4.Width = 71;
             // 
-            // repositoryItemComboBox4
+            // cb_485protocol_baud
             // 
-            this.repositoryItemComboBox4.AutoHeight = false;
-            this.repositoryItemComboBox4.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_485protocol_baud.AutoHeight = false;
+            this.cb_485protocol_baud.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox4.Name = "repositoryItemComboBox4";
+            this.cb_485protocol_baud.Name = "cb_485protocol_baud";
             // 
             // gridColumn11
             // 
             this.gridColumn11.Caption = "设备ID";
-            this.gridColumn11.ColumnEdit = this.repositoryItemComboBox5;
+            this.gridColumn11.ColumnEdit = this.txt_485protocol_ID;
+            this.gridColumn11.FieldName = "ID";
             this.gridColumn11.Name = "gridColumn11";
             this.gridColumn11.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn11.OptionsFilter.AllowFilter = false;
             this.gridColumn11.Visible = true;
             this.gridColumn11.VisibleIndex = 1;
-            this.gridColumn11.Width = 58;
+            this.gridColumn11.Width = 52;
             // 
-            // repositoryItemComboBox5
+            // txt_485protocol_ID
             // 
-            this.repositoryItemComboBox5.AutoHeight = false;
-            this.repositoryItemComboBox5.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox5.Name = "repositoryItemComboBox5";
+            this.txt_485protocol_ID.AutoHeight = false;
+            this.txt_485protocol_ID.Name = "txt_485protocol_ID";
             // 
             // gridColumn12
             // 
             this.gridColumn12.Caption = "功能码";
-            this.gridColumn12.ColumnEdit = this.repositoryItemComboBox6;
+            this.gridColumn12.ColumnEdit = this.txt_485protocol_funcode;
+            this.gridColumn12.FieldName = "funcode";
             this.gridColumn12.Name = "gridColumn12";
             this.gridColumn12.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn12.OptionsFilter.AllowFilter = false;
             this.gridColumn12.Visible = true;
             this.gridColumn12.VisibleIndex = 2;
-            this.gridColumn12.Width = 67;
+            this.gridColumn12.Width = 63;
             // 
-            // repositoryItemComboBox6
+            // txt_485protocol_funcode
             // 
-            this.repositoryItemComboBox6.AutoHeight = false;
-            this.repositoryItemComboBox6.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox6.Name = "repositoryItemComboBox6";
+            this.txt_485protocol_funcode.AutoHeight = false;
+            this.txt_485protocol_funcode.Name = "txt_485protocol_funcode";
             // 
             // gridColumn13
             // 
             this.gridColumn13.Caption = "寄存器起始地址";
+            this.gridColumn13.ColumnEdit = this.txt_485protocol_regbeginaddr;
+            this.gridColumn13.FieldName = "regbeginaddr";
             this.gridColumn13.Name = "gridColumn13";
+            this.gridColumn13.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn13.OptionsFilter.AllowFilter = false;
             this.gridColumn13.Visible = true;
             this.gridColumn13.VisibleIndex = 3;
-            this.gridColumn13.Width = 106;
+            this.gridColumn13.Width = 97;
+            // 
+            // txt_485protocol_regbeginaddr
+            // 
+            this.txt_485protocol_regbeginaddr.AutoHeight = false;
+            this.txt_485protocol_regbeginaddr.Name = "txt_485protocol_regbeginaddr";
             // 
             // gridColumn14
             // 
             this.gridColumn14.Caption = "寄存器数量";
+            this.gridColumn14.ColumnEdit = this.txt_485protocol_regcount;
+            this.gridColumn14.FieldName = "regcount";
             this.gridColumn14.Name = "gridColumn14";
+            this.gridColumn14.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn14.OptionsFilter.AllowFilter = false;
             this.gridColumn14.Visible = true;
             this.gridColumn14.VisibleIndex = 4;
+            this.gridColumn14.Width = 76;
+            // 
+            // txt_485protocol_regcount
+            // 
+            this.txt_485protocol_regcount.AutoHeight = false;
+            this.txt_485protocol_regcount.Name = "txt_485protocol_regcount";
             // 
             // btnReadParm
             // 
-            this.btnReadParm.Location = new System.Drawing.Point(605, 462);
+            this.btnReadParm.Location = new System.Drawing.Point(606, 462);
             this.btnReadParm.Name = "btnReadParm";
             this.btnReadParm.Size = new System.Drawing.Size(88, 26);
             this.btnReadParm.TabIndex = 8;
             this.btnReadParm.Text = "读取设备参数";
+            this.btnReadParm.Click += new System.EventHandler(this.btnReadParm_Click);
             // 
             // btnSetParm
             // 
-            this.btnSetParm.Location = new System.Drawing.Point(707, 462);
+            this.btnSetParm.Location = new System.Drawing.Point(708, 462);
             this.btnSetParm.Name = "btnSetParm";
             this.btnSetParm.Size = new System.Drawing.Size(88, 26);
             this.btnSetParm.TabIndex = 9;
             this.btnSetParm.Text = "设置设备参数";
+            this.btnSetParm.Click += new System.EventHandler(this.btnSetParm_Click);
             // 
             // groupControl2
             // 
-            this.groupControl2.Controls.Add(this.gridControl_simulate);
+            this.groupControl2.Controls.Add(this.gridControl_Simulate);
             this.groupControl2.Location = new System.Drawing.Point(6, 86);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(395, 186);
             this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "模拟量时间间隔";
             // 
-            // gridControl_simulate
+            // gridControl_Simulate
             // 
-            this.gridControl_simulate.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl_simulate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_simulate.Location = new System.Drawing.Point(2, 22);
-            this.gridControl_simulate.MainView = this.gridView_simulate;
-            this.gridControl_simulate.Name = "gridControl_simulate";
-            this.gridControl_simulate.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemComboBox1,
-            this.repositoryItemComboBox2,
-            this.repositoryItemComboBox3});
-            this.gridControl_simulate.Size = new System.Drawing.Size(391, 162);
-            this.gridControl_simulate.TabIndex = 6;
-            this.gridControl_simulate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView_simulate});
+            this.gridControl_Simulate.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl_Simulate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_Simulate.Location = new System.Drawing.Point(2, 22);
+            this.gridControl_Simulate.MainView = this.gridView_Simulate;
+            this.gridControl_Simulate.Name = "gridControl_Simulate";
+            this.gridControl_Simulate.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.cb_sim_starttime,
+            this.cb_sim_coltime1,
+            this.cb_sim_sendtime,
+            this.cb_sim_coltime2});
+            this.gridControl_Simulate.Size = new System.Drawing.Size(391, 162);
+            this.gridControl_Simulate.TabIndex = 2;
+            this.gridControl_Simulate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView_Simulate});
             // 
-            // gridView_simulate
+            // gridView_Simulate
             // 
-            this.gridView_simulate.ActiveFilterEnabled = false;
-            this.gridView_simulate.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridView_Simulate.ActiveFilterEnabled = false;
+            this.gridView_Simulate.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.gridColumn2,
+            this.gridColumn8,
             this.gridColumn3});
-            this.gridView_simulate.GridControl = this.gridControl_simulate;
-            this.gridView_simulate.Name = "gridView_simulate";
-            this.gridView_simulate.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView_simulate.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
-            this.gridView_simulate.OptionsCustomization.AllowColumnMoving = false;
-            this.gridView_simulate.OptionsCustomization.AllowGroup = false;
-            this.gridView_simulate.OptionsCustomization.AllowSort = false;
-            this.gridView_simulate.OptionsFilter.AllowFilterEditor = false;
-            this.gridView_simulate.OptionsView.ShowGroupPanel = false;
-            this.gridView_simulate.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_Simulate.GridControl = this.gridControl_Simulate;
+            this.gridView_Simulate.IndicatorWidth = 30;
+            this.gridView_Simulate.Name = "gridView_Simulate";
+            this.gridView_Simulate.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_Simulate.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
+            this.gridView_Simulate.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_Simulate.OptionsCustomization.AllowGroup = false;
+            this.gridView_Simulate.OptionsCustomization.AllowSort = false;
+            this.gridView_Simulate.OptionsFilter.AllowFilterEditor = false;
+            this.gridView_Simulate.OptionsView.ShowGroupPanel = false;
+            this.gridView_Simulate.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_Simulate.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridView_CustomDrawRowIndicator);
+            this.gridView_Simulate.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_Simulate_CustomRowCellEdit);
+            this.gridView_Simulate.CustomRowCellEditForEditing += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_Simulate_CustomRowCellEditForEditing);
             // 
             // gridColumn1
             // 
             this.gridColumn1.Caption = "起始时间";
-            this.gridColumn1.ColumnEdit = this.repositoryItemComboBox1;
+            this.gridColumn1.ColumnEdit = this.cb_sim_starttime;
             this.gridColumn1.FieldName = "starttime";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
@@ -752,48 +649,66 @@ namespace SmartWaterSystem
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
             // 
-            // repositoryItemComboBox1
+            // cb_sim_starttime
             // 
-            this.repositoryItemComboBox1.AutoHeight = false;
-            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_sim_starttime.AutoHeight = false;
+            this.cb_sim_starttime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
+            this.cb_sim_starttime.Name = "cb_sim_starttime";
             // 
             // gridColumn2
             // 
-            this.gridColumn2.Caption = "采集时间间隔";
-            this.gridColumn2.ColumnEdit = this.repositoryItemComboBox2;
-            this.gridColumn2.FieldName = "collecttime";
+            this.gridColumn2.Caption = "采集时间间隔1";
+            this.gridColumn2.ColumnEdit = this.cb_sim_coltime1;
+            this.gridColumn2.FieldName = "collecttime1";
             this.gridColumn2.Name = "gridColumn2";
             this.gridColumn2.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn2.OptionsFilter.AllowFilter = false;
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 1;
             // 
-            // repositoryItemComboBox2
+            // cb_sim_coltime1
             // 
-            this.repositoryItemComboBox2.AutoHeight = false;
-            this.repositoryItemComboBox2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_sim_coltime1.AutoHeight = false;
+            this.cb_sim_coltime1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox2.Name = "repositoryItemComboBox2";
+            this.cb_sim_coltime1.Name = "cb_sim_coltime1";
+            // 
+            // gridColumn8
+            // 
+            this.gridColumn8.Caption = "采集时间间隔2";
+            this.gridColumn8.ColumnEdit = this.cb_sim_coltime2;
+            this.gridColumn8.FieldName = "collecttime2";
+            this.gridColumn8.Name = "gridColumn8";
+            this.gridColumn8.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn8.OptionsFilter.AllowFilter = false;
+            this.gridColumn8.Visible = true;
+            this.gridColumn8.VisibleIndex = 2;
+            // 
+            // cb_sim_coltime2
+            // 
+            this.cb_sim_coltime2.AutoHeight = false;
+            this.cb_sim_coltime2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cb_sim_coltime2.Name = "cb_sim_coltime2";
             // 
             // gridColumn3
             // 
             this.gridColumn3.Caption = "发送时间间隔";
-            this.gridColumn3.ColumnEdit = this.repositoryItemComboBox3;
+            this.gridColumn3.ColumnEdit = this.cb_sim_sendtime;
             this.gridColumn3.FieldName = "sendtime";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn3.OptionsFilter.AllowFilter = false;
             this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 2;
+            this.gridColumn3.VisibleIndex = 3;
             // 
-            // repositoryItemComboBox3
+            // cb_sim_sendtime
             // 
-            this.repositoryItemComboBox3.AutoHeight = false;
-            this.repositoryItemComboBox3.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_sim_sendtime.AutoHeight = false;
+            this.cb_sim_sendtime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox3.Name = "repositoryItemComboBox3";
+            this.cb_sim_sendtime.Name = "cb_sim_sendtime";
             // 
             // groupControl3
             // 
@@ -812,11 +727,11 @@ namespace SmartWaterSystem
             this.gridControl_RS485.MainView = this.gridView_RS485;
             this.gridControl_RS485.Name = "gridControl_RS485";
             this.gridControl_RS485.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemComboBox7,
-            this.repositoryItemComboBox8,
-            this.repositoryItemComboBox9});
+            this.cb_RS485_starttime,
+            this.cb_RS485_coltime,
+            this.cb_RS485_sendtime});
             this.gridControl_RS485.Size = new System.Drawing.Size(391, 162);
-            this.gridControl_RS485.TabIndex = 6;
+            this.gridControl_RS485.TabIndex = 3;
             this.gridControl_RS485.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_RS485});
             // 
@@ -828,6 +743,7 @@ namespace SmartWaterSystem
             this.gridColumn7,
             this.gridColumn15});
             this.gridView_RS485.GridControl = this.gridControl_RS485;
+            this.gridView_RS485.IndicatorWidth = 30;
             this.gridView_RS485.Name = "gridView_RS485";
             this.gridView_RS485.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
             this.gridView_RS485.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
@@ -837,11 +753,14 @@ namespace SmartWaterSystem
             this.gridView_RS485.OptionsFilter.AllowFilterEditor = false;
             this.gridView_RS485.OptionsView.ShowGroupPanel = false;
             this.gridView_RS485.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_RS485.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridView_CustomDrawRowIndicator);
+            this.gridView_RS485.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_RS485_CustomRowCellEdit);
+            this.gridView_RS485.CustomRowCellEditForEditing += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_RS485_CustomRowCellEditForEditing);
             // 
             // gridColumn6
             // 
             this.gridColumn6.Caption = "起始时间";
-            this.gridColumn6.ColumnEdit = this.repositoryItemComboBox7;
+            this.gridColumn6.ColumnEdit = this.cb_RS485_starttime;
             this.gridColumn6.FieldName = "starttime";
             this.gridColumn6.Name = "gridColumn6";
             this.gridColumn6.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
@@ -853,17 +772,17 @@ namespace SmartWaterSystem
             this.gridColumn6.Visible = true;
             this.gridColumn6.VisibleIndex = 0;
             // 
-            // repositoryItemComboBox7
+            // cb_RS485_starttime
             // 
-            this.repositoryItemComboBox7.AutoHeight = false;
-            this.repositoryItemComboBox7.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_RS485_starttime.AutoHeight = false;
+            this.cb_RS485_starttime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox7.Name = "repositoryItemComboBox7";
+            this.cb_RS485_starttime.Name = "cb_RS485_starttime";
             // 
             // gridColumn7
             // 
             this.gridColumn7.Caption = "采集时间间隔";
-            this.gridColumn7.ColumnEdit = this.repositoryItemComboBox8;
+            this.gridColumn7.ColumnEdit = this.cb_RS485_coltime;
             this.gridColumn7.FieldName = "collecttime";
             this.gridColumn7.Name = "gridColumn7";
             this.gridColumn7.OptionsFilter.AllowAutoFilter = false;
@@ -871,17 +790,17 @@ namespace SmartWaterSystem
             this.gridColumn7.Visible = true;
             this.gridColumn7.VisibleIndex = 1;
             // 
-            // repositoryItemComboBox8
+            // cb_RS485_coltime
             // 
-            this.repositoryItemComboBox8.AutoHeight = false;
-            this.repositoryItemComboBox8.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_RS485_coltime.AutoHeight = false;
+            this.cb_RS485_coltime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox8.Name = "repositoryItemComboBox8";
+            this.cb_RS485_coltime.Name = "cb_RS485_coltime";
             // 
             // gridColumn15
             // 
             this.gridColumn15.Caption = "发送时间间隔";
-            this.gridColumn15.ColumnEdit = this.repositoryItemComboBox9;
+            this.gridColumn15.ColumnEdit = this.cb_RS485_sendtime;
             this.gridColumn15.FieldName = "sendtime";
             this.gridColumn15.Name = "gridColumn15";
             this.gridColumn15.OptionsFilter.AllowAutoFilter = false;
@@ -889,12 +808,12 @@ namespace SmartWaterSystem
             this.gridColumn15.Visible = true;
             this.gridColumn15.VisibleIndex = 2;
             // 
-            // repositoryItemComboBox9
+            // cb_RS485_sendtime
             // 
-            this.repositoryItemComboBox9.AutoHeight = false;
-            this.repositoryItemComboBox9.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_RS485_sendtime.AutoHeight = false;
+            this.cb_RS485_sendtime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox9.Name = "repositoryItemComboBox9";
+            this.cb_RS485_sendtime.Name = "cb_RS485_sendtime";
             // 
             // groupControl5
             // 
@@ -913,11 +832,11 @@ namespace SmartWaterSystem
             this.gridControl_Pluse.MainView = this.gridView_Pluse;
             this.gridControl_Pluse.Name = "gridControl_Pluse";
             this.gridControl_Pluse.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemComboBox10,
-            this.repositoryItemComboBox11,
-            this.repositoryItemComboBox12});
+            this.cb_pluse_starttime,
+            this.cb_pluse_coltime,
+            this.cb_pluse_sendtime});
             this.gridControl_Pluse.Size = new System.Drawing.Size(391, 162);
-            this.gridControl_Pluse.TabIndex = 6;
+            this.gridControl_Pluse.TabIndex = 3;
             this.gridControl_Pluse.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Pluse});
             // 
@@ -925,10 +844,11 @@ namespace SmartWaterSystem
             // 
             this.gridView_Pluse.ActiveFilterEnabled = false;
             this.gridView_Pluse.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn5,
             this.gridColumn16,
-            this.gridColumn17,
-            this.gridColumn18});
+            this.gridColumn17});
             this.gridView_Pluse.GridControl = this.gridControl_Pluse;
+            this.gridView_Pluse.IndicatorWidth = 30;
             this.gridView_Pluse.Name = "gridView_Pluse";
             this.gridView_Pluse.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
             this.gridView_Pluse.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
@@ -938,88 +858,91 @@ namespace SmartWaterSystem
             this.gridView_Pluse.OptionsFilter.AllowFilterEditor = false;
             this.gridView_Pluse.OptionsView.ShowGroupPanel = false;
             this.gridView_Pluse.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_Pluse.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridView_CustomDrawRowIndicator);
+            this.gridView_Pluse.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_Pluse_CustomRowCellEdit);
+            this.gridView_Pluse.CustomRowCellEditForEditing += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_Pluse_CustomRowCellEditForEditing);
+            // 
+            // gridColumn5
+            // 
+            this.gridColumn5.Caption = "起始时间";
+            this.gridColumn5.ColumnEdit = this.cb_pluse_starttime;
+            this.gridColumn5.FieldName = "starttime";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn5.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn5.OptionsColumn.AllowMove = false;
+            this.gridColumn5.OptionsEditForm.StartNewRow = true;
+            this.gridColumn5.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn5.OptionsFilter.AllowFilter = false;
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 0;
+            // 
+            // cb_pluse_starttime
+            // 
+            this.cb_pluse_starttime.AutoHeight = false;
+            this.cb_pluse_starttime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cb_pluse_starttime.Name = "cb_pluse_starttime";
             // 
             // gridColumn16
             // 
-            this.gridColumn16.Caption = "起始时间";
-            this.gridColumn16.ColumnEdit = this.repositoryItemComboBox10;
-            this.gridColumn16.FieldName = "starttime";
+            this.gridColumn16.Caption = "采集时间间隔";
+            this.gridColumn16.ColumnEdit = this.cb_pluse_coltime;
+            this.gridColumn16.FieldName = "collecttime";
             this.gridColumn16.Name = "gridColumn16";
-            this.gridColumn16.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn16.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn16.OptionsColumn.AllowMove = false;
-            this.gridColumn16.OptionsEditForm.StartNewRow = true;
             this.gridColumn16.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn16.OptionsFilter.AllowFilter = false;
             this.gridColumn16.Visible = true;
-            this.gridColumn16.VisibleIndex = 0;
+            this.gridColumn16.VisibleIndex = 1;
             // 
-            // repositoryItemComboBox10
+            // cb_pluse_coltime
             // 
-            this.repositoryItemComboBox10.AutoHeight = false;
-            this.repositoryItemComboBox10.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_pluse_coltime.AutoHeight = false;
+            this.cb_pluse_coltime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox10.Name = "repositoryItemComboBox10";
+            this.cb_pluse_coltime.Name = "cb_pluse_coltime";
             // 
             // gridColumn17
             // 
-            this.gridColumn17.Caption = "采集时间间隔";
-            this.gridColumn17.ColumnEdit = this.repositoryItemComboBox11;
-            this.gridColumn17.FieldName = "collecttime";
+            this.gridColumn17.Caption = "发送时间间隔";
+            this.gridColumn17.ColumnEdit = this.cb_pluse_sendtime;
+            this.gridColumn17.FieldName = "sendtime";
             this.gridColumn17.Name = "gridColumn17";
             this.gridColumn17.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn17.OptionsFilter.AllowFilter = false;
             this.gridColumn17.Visible = true;
-            this.gridColumn17.VisibleIndex = 1;
+            this.gridColumn17.VisibleIndex = 2;
             // 
-            // repositoryItemComboBox11
+            // cb_pluse_sendtime
             // 
-            this.repositoryItemComboBox11.AutoHeight = false;
-            this.repositoryItemComboBox11.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cb_pluse_sendtime.AutoHeight = false;
+            this.cb_pluse_sendtime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox11.Name = "repositoryItemComboBox11";
-            // 
-            // gridColumn18
-            // 
-            this.gridColumn18.Caption = "发送时间间隔";
-            this.gridColumn18.ColumnEdit = this.repositoryItemComboBox12;
-            this.gridColumn18.FieldName = "sendtime";
-            this.gridColumn18.Name = "gridColumn18";
-            this.gridColumn18.OptionsFilter.AllowAutoFilter = false;
-            this.gridColumn18.OptionsFilter.AllowFilter = false;
-            this.gridColumn18.Visible = true;
-            this.gridColumn18.VisibleIndex = 2;
-            // 
-            // repositoryItemComboBox12
-            // 
-            this.repositoryItemComboBox12.AutoHeight = false;
-            this.repositoryItemComboBox12.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox12.Name = "repositoryItemComboBox12";
+            this.cb_pluse_sendtime.Name = "cb_pluse_sendtime";
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(299, 462);
+            this.btnReset.Location = new System.Drawing.Point(300, 462);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(88, 26);
             this.btnReset.TabIndex = 5;
             this.btnReset.Text = "复位";
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // toggleSwitch1
+            // SwitchComunication
             // 
-            this.toggleSwitch1.Location = new System.Drawing.Point(176, 462);
-            this.toggleSwitch1.Name = "toggleSwitch1";
-            this.toggleSwitch1.Properties.OffText = "GPRS";
-            this.toggleSwitch1.Properties.OnText = "串口";
-            this.toggleSwitch1.Size = new System.Drawing.Size(117, 25);
-            this.toggleSwitch1.TabIndex = 11;
+            this.SwitchComunication.Location = new System.Drawing.Point(176, 462);
+            this.SwitchComunication.Name = "SwitchComunication";
+            this.SwitchComunication.Properties.OffText = "GPRS";
+            this.SwitchComunication.Properties.OnText = "串口";
+            this.SwitchComunication.Size = new System.Drawing.Size(117, 25);
+            this.SwitchComunication.TabIndex = 11;
             // 
             // UniversalTerParm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.toggleSwitch1);
-            this.Controls.Add(this.xtraTabControl1);
+            this.Controls.Add(this.SwitchComunication);
             this.Controls.Add(this.btnEnableCollect);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnCheckingTime);
@@ -1059,43 +982,38 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
-            this.xtraTabControl1.ResumeLayout(false);
-            this.xtraTabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbStartTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbCollectTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbSendTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl_485Protocol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView_485Protocol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_485protocol)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_485protocol)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_485protocol_baud)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_485protocol_ID)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_485protocol_funcode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_485protocol_regbeginaddr)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_485protocol_regcount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl_simulate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView_simulate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_Simulate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_Simulate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_sim_starttime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_sim_sendtime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_RS485)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_RS485)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_starttime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_coltime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_sendtime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).EndInit();
             this.groupControl5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_Pluse)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_Pluse)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_starttime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1118,61 +1036,15 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.TextEdit txtNum2;
         private DevExpress.XtraEditors.TextEdit txtNum4;
         private DevExpress.XtraEditors.TextEdit txtNum3;
-        private DevExpress.XtraGrid.GridControl gridControl2;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cbStartTime;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cbCollectTime;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cbSendTime;
         private DevExpress.XtraEditors.SimpleButton btnEnableCollect;
         private DevExpress.XtraEditors.SimpleButton btnCheckingTime;
         private DevExpress.XtraEditors.GroupControl groupControl4;
-        private DevExpress.XtraGrid.GridControl gridControl_485Protocol;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView_485Protocol;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox4;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn11;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox5;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn12;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox6;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn13;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn14;
         private DevExpress.XtraEditors.SimpleButton btnReadParm;
         private DevExpress.XtraEditors.SimpleButton btnSetParm;
         private DevExpress.XtraEditors.CheckEdit ceColConfig;
-        private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage3;
         private DevExpress.XtraEditors.GroupControl groupControl2;
-        private DevExpress.XtraGrid.GridControl gridControl_simulate;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView_simulate;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox2;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox3;
         private DevExpress.XtraEditors.GroupControl groupControl3;
-        private DevExpress.XtraGrid.GridControl gridControl_RS485;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView_RS485;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox7;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox8;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn15;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox9;
         private DevExpress.XtraEditors.GroupControl groupControl5;
-        private DevExpress.XtraGrid.GridControl gridControl_Pluse;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView_Pluse;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn16;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox10;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn17;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox11;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn18;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox12;
         private DevExpress.XtraEditors.CheckEdit cePort;
         private DevExpress.XtraEditors.GroupControl groupControl7;
         private DevExpress.XtraEditors.CheckEdit ceCollectRS485;
@@ -1181,7 +1053,45 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.SimpleButton btnReset;
         private DevExpress.XtraEditors.TextEdit txtTime;
         private DevExpress.XtraEditors.ComboBoxEdit cbBaudRate;
-        private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
+        private DevExpress.XtraGrid.GridControl gridControl_Simulate;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_Simulate;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_starttime;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_coltime1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_sendtime;
+        private DevExpress.XtraGrid.GridControl gridControl_Pluse;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_Pluse;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pluse_starttime;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn16;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pluse_coltime;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn17;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pluse_sendtime;
+        private DevExpress.XtraGrid.GridControl gridControl_RS485;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_RS485;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_RS485_starttime;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_RS485_coltime;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn15;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_RS485_sendtime;
+        private DevExpress.XtraGrid.GridControl gridControl_485protocol;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_485protocol;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn11;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn12;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn13;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn14;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_485protocol_ID;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_485protocol_funcode;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_485protocol_regbeginaddr;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_485protocol_regcount;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_485protocol_baud;
+        private DevExpress.XtraEditors.ToggleSwitch SwitchComunication;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_coltime2;
 
     }
 }

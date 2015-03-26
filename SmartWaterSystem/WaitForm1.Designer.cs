@@ -77,8 +77,9 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.DoubleBuffered = true;
             this.Name = "WaitForm1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.ShowOnTopMode = DevExpress.XtraWaitForm.ShowFormOnTopMode.AboveAll;
             this.Text = "Form1";
+            this.Deactivate += new System.EventHandler(this.WaitForm1_Deactivate);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

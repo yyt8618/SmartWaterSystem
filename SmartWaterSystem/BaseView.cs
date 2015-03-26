@@ -56,6 +56,16 @@ namespace SmartWaterSystem
             this.MDIView.HideWaitForm();
         }
 
+        //protected void ShowWaitForm_Test(string title, string prompt)
+        //{
+        //    this.MDIView.ShowWaitForm_Test(title, prompt);
+        //}
+
+        //protected void HideWaitForm_Test()
+        //{
+        //    this.MDIView.HideWaitForm_Test();
+        //}
+
         protected void ShowDialog(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
             this.MDIView.ShowDialog(text, caption, buttons, icon);

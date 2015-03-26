@@ -34,10 +34,30 @@ namespace SmartWaterSystem
             base.ProcessCommand(cmd, arg);
         }
 
+        public void ShowProgress(string caption,string description)
+        {
+            this.progressPanel1.Caption = caption;
+            this.progressPanel1.Description = description;
+
+            if (!this.Visible)
+            {
+                this.Show();
+            }
+        }
+
+        public void HideProgress()
+        {
+            this.Hide();
+        }
         #endregion
 
         public enum WaitFormCommand
         {
+        }
+
+        private void WaitForm1_Deactivate(object sender, EventArgs e)
+        {
+            this.Activate();
         }
     }
 }

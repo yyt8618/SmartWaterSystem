@@ -518,6 +518,7 @@ namespace SmartWaterSystem
                     DisableRibbonBar();
                     DisableNavigateBar();
                     ShowWaitForm("", "正在应用当前设置...");
+                    Application.DoEvents();
                     SetStaticItem("正在应用当前设置...");
 
                     short id = Convert.ToInt16(txtRecID.Text);
