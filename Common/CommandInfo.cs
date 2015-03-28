@@ -175,6 +175,110 @@ namespace Common
         READ_NOISE_TOUR_ID = 0x4d
     }
 
+    public enum UNIVERSAL_COMMAND
+    {
+        #region 设置
+        /// <summary>
+        /// 设置时间
+        /// </summary>
+        SET_TIME = 0x10,
+        /// <summary>
+        /// 设置从站脉冲时间间隔
+        /// </summary>
+        SET_PLUSEINTERVAL = 0x11,
+        /// <summary>
+        /// 设置从站模拟量时间间隔
+        /// </summary>
+        SET_SIMINTERVAL = 0x14,
+        /// <summary>
+        /// 设置从站485采集时间间隔
+        /// </summary>
+        SET_485INTERVAL = 0x16,
+        /// <summary>
+        /// 设置从站采集配置功能
+        /// </summary>
+        SET_COLLECTCONFIG = 0x18,
+        /// <summary>
+        /// 设置从站485采集MODBUS执行标识
+        /// </summary>
+        SET_MODBUSEXEFLAG = 0x19,
+        /// <summary>
+        /// 设置485采集modbus协议
+        /// </summary>
+        SET_MODBUSPROTOCOL = 0x1b,
+        /// <summary>
+        /// 设置从站ID
+        /// </summary>
+        SET_ID = 0x22,
+        /// <summary>
+        /// 设置从站IP
+        /// </summary>
+        SET_IP = 0x23,
+        /// <summary>
+        /// 设置从站端口号
+        /// </summary>
+        SET_PORT = 0x24,
+        /// <summary>
+        /// 设置从站通信方式
+        /// </summary>
+        SET_COMTYPE = 0x2a,
+        #endregion
+
+        #region 读取
+        /// <summary>
+        /// 读取从站时间
+        /// </summary>
+        READ_TIME = 0x40,
+        /// <summary>
+        /// 读取从站波特率
+        /// </summary>
+        READ_BAUD = 0x42,
+        /// <summary>
+        /// 读取从站模拟量时间间隔
+        /// </summary>
+        READ_SIMINTERVAL = 0x44,
+        /// <summary>
+        /// 读取从站RS485时间间隔
+        /// </summary>
+        READ_485INTERVAL = 0x46,
+        /// <summary>
+        /// 读取从站脉冲时间间隔
+        /// </summary>
+        READ_PLUSEINTERVAL = 0x00, //???
+        /// <summary>
+        /// 读取从站采集功能配置
+        /// </summary>
+        READ_COLLECTCONFIG = 0x48,   //???
+        /// <summary>
+        /// 读取从站MODBUS协议执行标识
+        /// </summary>
+        READ_MODBUSEXEFLAG = 0x49,
+        /// <summary>
+        /// 读取从站485采集modbus协议
+        /// </summary>
+        READ_MODBUSPROTOCOL = 0x4b,
+        /// <summary>
+        /// 读取从站
+        /// </summary>
+        READ_ID = 0x51,
+        READ_IP = 0x52,
+        READ_PORT = 0x53,
+        READ_CELLPHONE = 0x54,
+        READ_COMTYPE = 0x59,
+        #endregion
+
+        #region 控制命令
+        /// <summary>
+        /// 复位命令
+        /// </summary>
+        RESET = 0x72,
+        /// <summary>
+        /// 启动终端采集功能命令
+        /// </summary>
+        EnableCollect = 0x73
+        #endregion
+    }
+
     /// <summary>
     /// 控制码类型
     /// </summary>

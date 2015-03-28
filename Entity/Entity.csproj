@@ -54,7 +54,9 @@
     <Compile Include="PreDataEntity.cs" />
     <Compile Include="PreDetailDataEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NoiseSerialPortOptEntity.cs" />
     <Compile Include="TerminalConfigEntity.cs" />
+    <Compile Include="UniversalSerialPortOptEntity.cs" />
     <Compile Include="UniversalWayTypeConfigEntity.cs" />
     <Compile Include="UniversalWayTypeEntity.cs" />
   </ItemGroup>

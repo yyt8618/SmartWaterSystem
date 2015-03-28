@@ -502,21 +502,21 @@ namespace SmartWaterSystem
                         {
                             id = Convert.ToInt16(alterRec.ID);
                             // 设置记录时间段
-                            GlobalValue.log.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
+                            GlobalValue.Noiselog.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
                             alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
 
                             // 设置采集间隔
-                            GlobalValue.log.WriteInterval(id, (int)nUpDownSamSpan.Value);
+                            GlobalValue.Noiselog.WriteInterval(id, (int)nUpDownSamSpan.Value);
                             alterRec.PickSpan = Convert.ToInt32(nUpDownSamSpan.Value);
 
                             // 设置远传通讯时间
-                            GlobalValue.log.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
+                            GlobalValue.Noiselog.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
                             alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
 
                             // 设置远传功能
                             if (comboBoxDist.SelectedIndex == 1)
                             {
-                                GlobalValue.log.WriteRemoteSwitch(id, true);
+                                GlobalValue.Noiselog.WriteRemoteSwitch(id, true);
 
                                 alterRec.ControlerPower = 1;
                                 //DistanceController alterCtrl = new DistanceController();
@@ -529,24 +529,24 @@ namespace SmartWaterSystem
                             }
                             else
                             {
-                                GlobalValue.log.WriteRemoteSwitch(id, false);
+                                GlobalValue.Noiselog.WriteRemoteSwitch(id, false);
                                 alterRec.ControlerPower = 0;
                             }
                             short[] origitydata = null;
                             // 设置开关
                             if (comboBoxEditPower.SelectedIndex == 1)
                             {
-                                GlobalValue.log.CtrlStartOrStop(id, true, out origitydata);
+                                GlobalValue.Noiselog.CtrlStartOrStop(id, true, out origitydata);
                                 alterRec.Power = 1;
                             }
                             else if (comboBoxEditPower.SelectedIndex == 0)
                             {
-                                GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
+                                GlobalValue.Noiselog.CtrlStartOrStop(id, false, out origitydata);
                                 alterRec.Power = 0;
                             }
 
                             // 设置记录仪时间
-                            GlobalValue.log.WriteTime(id, this.dateTimePicker.Value);
+                            GlobalValue.Noiselog.WriteTime(id, this.dateTimePicker.Value);
 
                             // 更新设置入库
                             int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);

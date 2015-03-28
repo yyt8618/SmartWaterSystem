@@ -34,10 +34,10 @@ namespace SmartWaterSystem
             this.ceModbusExeFlag = new DevExpress.XtraEditors.CheckEdit();
             this.txtPort = new DevExpress.XtraEditors.TextEdit();
             this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
-            this.ceCollectRS485 = new DevExpress.XtraEditors.CheckEdit();
             this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
-            this.ceCollectPluse = new DevExpress.XtraEditors.CheckEdit();
-            this.ceCollectSimulate = new DevExpress.XtraEditors.CheckEdit();
+            this.cePluseState = new DevExpress.XtraEditors.CheckEdit();
+            this.ceRS485State = new DevExpress.XtraEditors.CheckEdit();
+            this.ceSimulateState = new DevExpress.XtraEditors.CheckEdit();
             this.txtCellPhone = new DevExpress.XtraEditors.TextEdit();
             this.cbComType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceComType = new DevExpress.XtraEditors.CheckEdit();
@@ -53,6 +53,9 @@ namespace SmartWaterSystem
             this.txtNum2 = new DevExpress.XtraEditors.TextEdit();
             this.txtNum1 = new DevExpress.XtraEditors.TextEdit();
             this.ceIP = new DevExpress.XtraEditors.CheckEdit();
+            this.ceCollectRS485 = new DevExpress.XtraEditors.CheckEdit();
+            this.ceCollectPluse = new DevExpress.XtraEditors.CheckEdit();
+            this.ceCollectSimulate = new DevExpress.XtraEditors.CheckEdit();
             this.btnEnableCollect = new DevExpress.XtraEditors.SimpleButton();
             this.btnCheckingTime = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
@@ -101,6 +104,7 @@ namespace SmartWaterSystem
             this.cb_pluse_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.btnReset = new DevExpress.XtraEditors.SimpleButton();
             this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
+            this.checkEdit1 = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).BeginInit();
@@ -108,10 +112,10 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
             this.groupControl7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulateState.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).BeginInit();
@@ -127,6 +131,9 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_485protocol)).BeginInit();
@@ -159,12 +166,13 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.ceColConfig);
             this.groupControl1.Controls.Add(this.cbBaudRate);
-            this.groupControl1.Controls.Add(this.ceModbusExeFlag);
             this.groupControl1.Controls.Add(this.txtPort);
             this.groupControl1.Controls.Add(this.groupControl7);
             this.groupControl1.Controls.Add(this.txtCellPhone);
@@ -200,12 +208,12 @@ namespace SmartWaterSystem
             // 
             // ceModbusExeFlag
             // 
-            this.ceModbusExeFlag.Location = new System.Drawing.Point(497, 25);
+            this.ceModbusExeFlag.Location = new System.Drawing.Point(3, 0);
             this.ceModbusExeFlag.Name = "ceModbusExeFlag";
-            this.ceModbusExeFlag.Properties.Caption = "485采集modbus";
+            this.ceModbusExeFlag.Properties.Caption = "RS485采集modbus协议配置";
             this.ceModbusExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceModbusExeFlag.Size = new System.Drawing.Size(108, 19);
+            this.ceModbusExeFlag.Size = new System.Drawing.Size(177, 19);
             this.ceModbusExeFlag.TabIndex = 6;
             this.ceModbusExeFlag.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
             // 
@@ -219,30 +227,19 @@ namespace SmartWaterSystem
             // 
             // groupControl7
             // 
-            this.groupControl7.Controls.Add(this.ceCollectRS485);
-            this.groupControl7.Controls.Add(this.ceColConfig);
-            this.groupControl7.Controls.Add(this.ceCollectPluse);
-            this.groupControl7.Controls.Add(this.ceCollectSimulate);
-            this.groupControl7.Location = new System.Drawing.Point(608, 21);
+            this.groupControl7.Controls.Add(this.cePluseState);
+            this.groupControl7.Controls.Add(this.checkEdit1);
+            this.groupControl7.Controls.Add(this.ceRS485State);
+            this.groupControl7.Controls.Add(this.ceSimulateState);
+            this.groupControl7.Location = new System.Drawing.Point(608, 24);
             this.groupControl7.Name = "groupControl7";
             this.groupControl7.ShowCaption = false;
             this.groupControl7.Size = new System.Drawing.Size(178, 53);
             this.groupControl7.TabIndex = 18;
             // 
-            // ceCollectRS485
-            // 
-            this.ceCollectRS485.Location = new System.Drawing.Point(96, 31);
-            this.ceCollectRS485.Name = "ceCollectRS485";
-            this.ceCollectRS485.Properties.Caption = "采集RS485";
-            this.ceCollectRS485.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceCollectRS485.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceCollectRS485.Size = new System.Drawing.Size(117, 19);
-            this.ceCollectRS485.TabIndex = 3;
-            this.ceCollectRS485.CheckedChanged += new System.EventHandler(this.ceCollectRS485_CheckedChanged);
-            // 
             // ceColConfig
             // 
-            this.ceColConfig.Location = new System.Drawing.Point(5, 4);
+            this.ceColConfig.Location = new System.Drawing.Point(498, 26);
             this.ceColConfig.Name = "ceColConfig";
             this.ceColConfig.Properties.Caption = "采集功能配置";
             this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
@@ -251,27 +248,38 @@ namespace SmartWaterSystem
             this.ceColConfig.TabIndex = 0;
             this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
             // 
-            // ceCollectPluse
+            // cePluseState
             // 
-            this.ceCollectPluse.Location = new System.Drawing.Point(5, 31);
-            this.ceCollectPluse.Name = "ceCollectPluse";
-            this.ceCollectPluse.Properties.Caption = "采集脉冲量";
-            this.ceCollectPluse.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceCollectPluse.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceCollectPluse.Size = new System.Drawing.Size(87, 19);
-            this.ceCollectPluse.TabIndex = 2;
-            this.ceCollectPluse.CheckedChanged += new System.EventHandler(this.ceCollectPluse_CheckedChanged);
+            this.cePluseState.Location = new System.Drawing.Point(5, 29);
+            this.cePluseState.Name = "cePluseState";
+            this.cePluseState.Properties.Caption = "脉冲量";
+            this.cePluseState.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.cePluseState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.cePluseState.Size = new System.Drawing.Size(72, 19);
+            this.cePluseState.TabIndex = 2;
+            this.cePluseState.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
             // 
-            // ceCollectSimulate
+            // ceRS485State
             // 
-            this.ceCollectSimulate.Location = new System.Drawing.Point(96, 4);
-            this.ceCollectSimulate.Name = "ceCollectSimulate";
-            this.ceCollectSimulate.Properties.Caption = "采集模拟量";
-            this.ceCollectSimulate.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceCollectSimulate.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceCollectSimulate.Size = new System.Drawing.Size(85, 19);
-            this.ceCollectSimulate.TabIndex = 1;
-            this.ceCollectSimulate.CheckedChanged += new System.EventHandler(this.ceCollectSimulate_CheckedChanged);
+            this.ceRS485State.Location = new System.Drawing.Point(101, 28);
+            this.ceRS485State.Name = "ceRS485State";
+            this.ceRS485State.Properties.Caption = "RS485";
+            this.ceRS485State.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceRS485State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceRS485State.Size = new System.Drawing.Size(72, 19);
+            this.ceRS485State.TabIndex = 3;
+            this.ceRS485State.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
+            // 
+            // ceSimulateState
+            // 
+            this.ceSimulateState.Location = new System.Drawing.Point(101, 5);
+            this.ceSimulateState.Name = "ceSimulateState";
+            this.ceSimulateState.Properties.Caption = "模拟量";
+            this.ceSimulateState.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceSimulateState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceSimulateState.Size = new System.Drawing.Size(72, 19);
+            this.ceSimulateState.TabIndex = 1;
+            this.ceSimulateState.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
             // 
             // txtCellPhone
             // 
@@ -283,7 +291,7 @@ namespace SmartWaterSystem
             // 
             // cbComType
             // 
-            this.cbComType.Location = new System.Drawing.Point(250, 52);
+            this.cbComType.Location = new System.Drawing.Point(244, 52);
             this.cbComType.Name = "cbComType";
             this.cbComType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -312,7 +320,7 @@ namespace SmartWaterSystem
             // 
             // txtTime
             // 
-            this.txtTime.Location = new System.Drawing.Point(250, 24);
+            this.txtTime.Location = new System.Drawing.Point(244, 24);
             this.txtTime.Name = "txtTime";
             this.txtTime.Size = new System.Drawing.Size(78, 20);
             this.txtTime.TabIndex = 3;
@@ -408,8 +416,42 @@ namespace SmartWaterSystem
             this.ceIP.Size = new System.Drawing.Size(35, 19);
             this.ceIP.TabIndex = 11;
             // 
+            // ceCollectRS485
+            // 
+            this.ceCollectRS485.Location = new System.Drawing.Point(4, 2);
+            this.ceCollectRS485.Name = "ceCollectRS485";
+            this.ceCollectRS485.Properties.Caption = "采集RS485";
+            this.ceCollectRS485.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceCollectRS485.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceCollectRS485.Size = new System.Drawing.Size(117, 19);
+            this.ceCollectRS485.TabIndex = 3;
+            this.ceCollectRS485.CheckedChanged += new System.EventHandler(this.ceCollectRS485_CheckedChanged);
+            // 
+            // ceCollectPluse
+            // 
+            this.ceCollectPluse.Location = new System.Drawing.Point(2, 2);
+            this.ceCollectPluse.Name = "ceCollectPluse";
+            this.ceCollectPluse.Properties.Caption = "采集脉冲量";
+            this.ceCollectPluse.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceCollectPluse.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceCollectPluse.Size = new System.Drawing.Size(87, 19);
+            this.ceCollectPluse.TabIndex = 2;
+            this.ceCollectPluse.CheckedChanged += new System.EventHandler(this.ceCollectPluse_CheckedChanged);
+            // 
+            // ceCollectSimulate
+            // 
+            this.ceCollectSimulate.Location = new System.Drawing.Point(2, -1);
+            this.ceCollectSimulate.Name = "ceCollectSimulate";
+            this.ceCollectSimulate.Properties.Caption = "采集模拟量";
+            this.ceCollectSimulate.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceCollectSimulate.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceCollectSimulate.Size = new System.Drawing.Size(85, 19);
+            this.ceCollectSimulate.TabIndex = 1;
+            this.ceCollectSimulate.CheckedChanged += new System.EventHandler(this.ceCollectSimulate_CheckedChanged);
+            // 
             // btnEnableCollect
             // 
+            this.btnEnableCollect.Enabled = false;
             this.btnEnableCollect.Location = new System.Drawing.Point(504, 462);
             this.btnEnableCollect.Name = "btnEnableCollect";
             this.btnEnableCollect.Size = new System.Drawing.Size(88, 26);
@@ -419,6 +461,7 @@ namespace SmartWaterSystem
             // 
             // btnCheckingTime
             // 
+            this.btnCheckingTime.Enabled = false;
             this.btnCheckingTime.Location = new System.Drawing.Point(402, 462);
             this.btnCheckingTime.Name = "btnCheckingTime";
             this.btnCheckingTime.Size = new System.Drawing.Size(88, 26);
@@ -428,12 +471,12 @@ namespace SmartWaterSystem
             // 
             // groupControl4
             // 
+            this.groupControl4.Controls.Add(this.ceModbusExeFlag);
             this.groupControl4.Controls.Add(this.gridControl_485protocol);
             this.groupControl4.Location = new System.Drawing.Point(402, 86);
             this.groupControl4.Name = "groupControl4";
             this.groupControl4.Size = new System.Drawing.Size(395, 186);
             this.groupControl4.TabIndex = 4;
-            this.groupControl4.Text = "RS485采集modbus协议配置";
             // 
             // gridControl_485protocol
             // 
@@ -569,6 +612,7 @@ namespace SmartWaterSystem
             // 
             // btnReadParm
             // 
+            this.btnReadParm.Enabled = false;
             this.btnReadParm.Location = new System.Drawing.Point(606, 462);
             this.btnReadParm.Name = "btnReadParm";
             this.btnReadParm.Size = new System.Drawing.Size(88, 26);
@@ -578,6 +622,7 @@ namespace SmartWaterSystem
             // 
             // btnSetParm
             // 
+            this.btnSetParm.Enabled = false;
             this.btnSetParm.Location = new System.Drawing.Point(708, 462);
             this.btnSetParm.Name = "btnSetParm";
             this.btnSetParm.Size = new System.Drawing.Size(88, 26);
@@ -587,12 +632,12 @@ namespace SmartWaterSystem
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.ceCollectSimulate);
             this.groupControl2.Controls.Add(this.gridControl_Simulate);
             this.groupControl2.Location = new System.Drawing.Point(6, 86);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(395, 186);
             this.groupControl2.TabIndex = 1;
-            this.groupControl2.Text = "模拟量时间间隔";
             // 
             // gridControl_Simulate
             // 
@@ -712,12 +757,12 @@ namespace SmartWaterSystem
             // 
             // groupControl3
             // 
+            this.groupControl3.Controls.Add(this.ceCollectRS485);
             this.groupControl3.Controls.Add(this.gridControl_RS485);
             this.groupControl3.Location = new System.Drawing.Point(402, 274);
             this.groupControl3.Name = "groupControl3";
             this.groupControl3.Size = new System.Drawing.Size(395, 186);
             this.groupControl3.TabIndex = 3;
-            this.groupControl3.Text = "RS485时间间隔";
             // 
             // gridControl_RS485
             // 
@@ -817,12 +862,12 @@ namespace SmartWaterSystem
             // 
             // groupControl5
             // 
+            this.groupControl5.Controls.Add(this.ceCollectPluse);
             this.groupControl5.Controls.Add(this.gridControl_Pluse);
             this.groupControl5.Location = new System.Drawing.Point(6, 274);
             this.groupControl5.Name = "groupControl5";
             this.groupControl5.Size = new System.Drawing.Size(395, 186);
             this.groupControl5.TabIndex = 2;
-            this.groupControl5.Text = "脉冲量时间间隔";
             // 
             // gridControl_Pluse
             // 
@@ -922,6 +967,7 @@ namespace SmartWaterSystem
             // 
             // btnReset
             // 
+            this.btnReset.Enabled = false;
             this.btnReset.Location = new System.Drawing.Point(300, 462);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(88, 26);
@@ -931,12 +977,25 @@ namespace SmartWaterSystem
             // 
             // SwitchComunication
             // 
+            this.SwitchComunication.EditValue = true;
             this.SwitchComunication.Location = new System.Drawing.Point(176, 462);
             this.SwitchComunication.Name = "SwitchComunication";
             this.SwitchComunication.Properties.OffText = "GPRS";
             this.SwitchComunication.Properties.OnText = "串口";
             this.SwitchComunication.Size = new System.Drawing.Size(117, 25);
             this.SwitchComunication.TabIndex = 11;
+            this.SwitchComunication.Click += new System.EventHandler(this.SwitchComunication_Click);
+            // 
+            // checkEdit1
+            // 
+            this.checkEdit1.Location = new System.Drawing.Point(5, 5);
+            this.checkEdit1.Name = "checkEdit1";
+            this.checkEdit1.Properties.Caption = "modbus协议";
+            this.checkEdit1.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.checkEdit1.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.checkEdit1.Size = new System.Drawing.Size(90, 19);
+            this.checkEdit1.TabIndex = 2;
+            this.checkEdit1.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
             // 
             // UniversalTerParm
             // 
@@ -963,10 +1022,10 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
             this.groupControl7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulateState.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).EndInit();
@@ -982,6 +1041,9 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_485protocol)).EndInit();
@@ -1014,6 +1076,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1092,6 +1155,10 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.ToggleSwitch SwitchComunication;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_coltime2;
+        private DevExpress.XtraEditors.CheckEdit cePluseState;
+        private DevExpress.XtraEditors.CheckEdit ceRS485State;
+        private DevExpress.XtraEditors.CheckEdit ceSimulateState;
+        private DevExpress.XtraEditors.CheckEdit checkEdit1;
 
     }
 }

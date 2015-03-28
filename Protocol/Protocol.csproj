@@ -44,15 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandInfo.cs" />
     <Compile Include="Entity\SerialInfoEntity.cs" />
-    <Compile Include="Noise.cs" />
+    <Compile Include="SerialPortRW.cs" />
     <Compile Include="NoiseCtrl.cs" />
     <Compile Include="NoiseLog.cs" />
     <Compile Include="NoiseTour.cs" />
-    <Compile Include="Package.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialPortUtil.cs" />
+    <Compile Include="UniversalLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

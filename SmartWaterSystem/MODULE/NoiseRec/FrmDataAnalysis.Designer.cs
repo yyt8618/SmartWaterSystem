@@ -29,7 +29,6 @@ namespace SmartWaterSystem
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDataAnalysis));
             this.groupBox1 = new DevExpress.XtraEditors.GroupControl();
             this.txtRemark = new DevExpress.XtraEditors.MemoEdit();
@@ -69,7 +68,6 @@ namespace SmartWaterSystem
             this.label12 = new System.Windows.Forms.Label();
             this.c1Chart1 = new C1.Win.C1Chart.C1Chart();
             this.txtCurSeriesValue = new DevExpress.XtraEditors.TextEdit();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.colorPanel1 = new Common.ColorPanel();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -485,6 +483,7 @@ namespace SmartWaterSystem
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "噪声数据分析";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDataAnalysis_FormClosing);
             this.Load += new System.EventHandler(this.FrmDataAnalysis_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -558,7 +557,6 @@ namespace SmartWaterSystem
         private ColorPanel colorPanel1;
         private DevExpress.XtraEditors.TextEdit txtCurSeriesValue;
         private System.Windows.Forms.PictureBox PicBox;
-        private System.Windows.Forms.Timer timer1;
 
 
 

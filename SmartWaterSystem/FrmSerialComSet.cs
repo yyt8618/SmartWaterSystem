@@ -33,7 +33,7 @@ namespace SmartWaterSystem
             cbStopPos.Properties.Items.AddRange(new string[] { "NONE", "ONE", "TWO", "OnePointFive" });
             #endregion
         }
-        
+
         private void FrmSerialComSet_Load(object sender, EventArgs e)
         {
             #region Init cbSerialPort
@@ -43,7 +43,12 @@ namespace SmartWaterSystem
             cbSerialPort.Properties.ShowHeader = false;
             cbSerialPort.Properties.ShowFooter = false;
 
-            List<Protocol.SerialInfoEntity> lstSerial = Protocol.SerialPortUtil.GetInstance().MulGetHardwareInfo(Protocol.SerialPortUtil.HardwareEnum.Win32_SerialPort);
+            List<Protocol.SerialInfoEntity> lstSerial = Protocol.SerialPortUtil.GetInstance().MulGetHardwareInfo(Protocol.SerialPortUtil.HardwareEnum.Win32_PnPEntity);
+            //List<Protocol.SerialInfoEntity> lstpnp = Protocol.SerialPortUtil.GetInstance().MulGetHardwareInfo(Protocol.SerialPortUtil.HardwareEnum.Win32_PnPEntity);
+            //if (lstpnp != null && lstpnp.Count > 0)
+            //{
+            //    lstSerial.AddRange(lstpnp);
+            //}
             if (lstSerial != null && lstSerial.Count > 0)
             {
                 cbSerialPort.Properties.NullText = "--请选择--";
@@ -64,7 +69,7 @@ namespace SmartWaterSystem
 
             //cbBaudRate.SelectedItem = Settings.Instance.GetString(SettingKeys.BaudRate");
             SetComboboxIndex(cbBaudRate, Settings.Instance.GetString(SettingKeys.BaudRate));
-            SetComboboxIndex(cbParity,Settings.Instance.GetString(SettingKeys.Parity));
+            SetComboboxIndex(cbParity, Settings.Instance.GetString(SettingKeys.Parity));
             SetComboboxIndex(cbDataPos, Settings.Instance.GetString(SettingKeys.DataBits));
             SetComboboxIndex(cbStopPos, Settings.Instance.GetString(SettingKeys.StopBits));
             txtTime.Text = Settings.Instance.GetString(SettingKeys.TimeOut);

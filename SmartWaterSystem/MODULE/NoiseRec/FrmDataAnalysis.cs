@@ -9,6 +9,7 @@ using C1.Win.C1Chart;
 using DevExpress.XtraEditors;
 using Entity;
 using Common;
+using System.Threading;
 
 namespace SmartWaterSystem
 {
@@ -20,6 +21,7 @@ namespace SmartWaterSystem
         Color[] colors = new Color[3];  //颜色条使用渐变颜色
         Image[] images = new Image[7];
         int index_image = 0;
+        Thread t_animation = null;
         
         /// <summary>
         /// 构造函数
@@ -35,20 +37,17 @@ namespace SmartWaterSystem
             colors[1] = Color.Red;
             colors[2] = Color.Blue;
 
+            images[0] = Properties.Resources.leak1;
+            images[1] = Properties.Resources.leak2;
+            images[2] = Properties.Resources.leak3;
+            images[3] = Properties.Resources.leak4;
+            images[4] = Properties.Resources.leak5;
+            images[5] = Properties.Resources.leak6;
+            images[6] = Properties.Resources.leak7;
+
             data = Recorder.Data;
             DataBinding();
             InitChart();
-        }
-
-        void timer1_Tick(object sender, EventArgs e)
-        {
-            new System.Action(() =>
-            {
-                if (index_image == 7)
-                    index_image = 0;
-                PicBox.Image = images[index_image];
-                index_image++;
-            }).BeginInvoke(null, null);
         }
 
         private void InitChart()
@@ -67,7 +66,12 @@ namespace SmartWaterSystem
                 //{
                 //    lstdata.Add(r.Next(300, 800));
                 //}
-                float min = 0;
+                string str_DCLen = Settings.Instance.GetString(SettingKeys.DCComponentLen);  //获取设定的直流分量长度
+                int DCComponentLen = 6;
+                if (!string.IsNullOrEmpty(str_DCLen))
+                    DCComponentLen = Convert.ToInt32(str_DCLen);
+
+                float min = DCComponentLen * 2000 / 256;
                 float max = 1000;
                 float interval = (max-min)/4;
                 for (int i = 0; i < seriescount; i++)
@@ -142,28 +146,34 @@ namespace SmartWaterSystem
             {
                 //errorProvider.SetError(txtLeakNoise, "漏水！");
                 //errorProvider.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
-                images[0] = Properties.Resources.leak1;
-                images[1] = Properties.Resources.leak2;
-                images[2] = Properties.Resources.leak3;
-                images[3] = Properties.Resources.leak4;
-                images[4] = Properties.Resources.leak5;
-                images[5] = Properties.Resources.leak6;
-                images[6] = Properties.Resources.leak7;
 
                 PicBox.Visible = true;
-                timer1.Interval = 120;
-                timer1.Tick += new EventHandler(timer1_Tick);
-                timer1.Enabled = true;
-
                 if (Settings.Instance.GetString(SettingKeys.LeakVoice) != string.Empty)
                 {
                     SoundPlayer player = new SoundPlayer();
                     player.PlayLooping();
                 }
+
+                t_animation = new Thread(new ThreadStart(EnableLeak_animation));
+                t_animation.Start();
             }
             else
                 PicBox.Visible = false;
 		}
+
+        private void EnableLeak_animation()
+        {
+            while (true)
+            {
+                if (index_image == 7)
+                    index_image = 0;
+                PicBox.Image = images[index_image];
+                index_image++;
+
+                Thread.Sleep(120);
+            }
+            
+        }
 
         /// <summary>
         /// 返回出现次数最多的数字
@@ -287,6 +297,16 @@ namespace SmartWaterSystem
                 double per = (Value - (max - min) / 2) / ((max - min) / 2);
                 return Color.FromArgb(255, (int)Math.Ceiling(per * 255), 0);
             }
+        }
+
+        private void FrmDataAnalysis_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (t_animation != null)
+                    t_animation.Abort();
+            }
+            catch { }
         }
 
     }

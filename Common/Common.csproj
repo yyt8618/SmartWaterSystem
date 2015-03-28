@@ -80,7 +80,7 @@
     <Compile Include="DataBase\SQLiteDbManager.cs" />
     <Compile Include="DataBase\SQLiteHelper.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="DataBase\Socket\CommandInfo.cs" />
+    <Compile Include="CommandInfo.cs" />
     <Compile Include="DataBase\Socket\ConvertHelper.cs" />
     <Compile Include="DataBase\Socket\Package.cs" />
     <Compile Include="DataBase\Socket\PackageDefine.cs" />

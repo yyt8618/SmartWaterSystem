@@ -9,7 +9,7 @@ namespace Protocol
     /// <summary>
     /// 远传控制器
     /// </summary>
-    public class NoiseCtrl : Noise
+    public class NoiseCtrl : SerialPortRW
     {
         #region 设置
 

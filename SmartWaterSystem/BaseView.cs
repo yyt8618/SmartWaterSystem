@@ -25,6 +25,33 @@ namespace SmartWaterSystem
             InitializeComponent();
         }
 
+        public void BeginSerialPortDelegate()
+        {
+            GlobalValue.SerialPortMgr.SerialPortEvent += new SerialPortHandle(SerialPortNotify);
+        }
+
+        protected void SerialPortNotify(object sender, SerialPortEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new SerialPortHandle(OnSerialPortNotify), new object[2] { sender, e });
+            }
+            else
+            {
+                OnSerialPortNotify(sender, e);
+            }
+        }
+
+        public virtual void OnSerialPortNotify(object sender, SerialPortEventArgs e)
+        {
+            if (e.TransactStatus != TransStatus.Start)
+            {
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                HideWaitForm();
+                this.Enabled = true;
+            }
+        }
+
         #region 公共方法
         protected void DisableRibbonBar()
         {
@@ -56,16 +83,6 @@ namespace SmartWaterSystem
             this.MDIView.HideWaitForm();
         }
 
-        //protected void ShowWaitForm_Test(string title, string prompt)
-        //{
-        //    this.MDIView.ShowWaitForm_Test(title, prompt);
-        //}
-
-        //protected void HideWaitForm_Test()
-        //{
-        //    this.MDIView.HideWaitForm_Test();
-        //}
-
         protected void ShowDialog(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
             this.MDIView.ShowDialog(text, caption, buttons, icon);
@@ -84,5 +101,6 @@ namespace SmartWaterSystem
         public virtual void OnLoad() { SerialPortEvent(GlobalValue.portUtil.IsOpen); }
         public virtual void SerialPortEvent(bool Enabled) { }
         #endregion
+
     }
 }

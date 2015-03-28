@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common;
 namespace Protocol
 {
     /// <summary>
     /// 噪音巡视仪
     /// </summary>
-    public class NoiseTour : Noise
+    public class NoiseTour : SerialPortRW
     {
         #region 设置
         /// <summary>

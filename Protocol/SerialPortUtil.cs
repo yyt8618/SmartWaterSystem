@@ -826,7 +826,12 @@ namespace Protocol
                         {
                             SerialInfoEntity entity = new SerialInfoEntity();
                             entity.SerialFullName = hardInfo.Properties["Name"].Value.ToString();
-                            entity.SerialName = hardInfo.Properties["DeviceID"].Value.ToString();
+                            int index = entity.SerialFullName.IndexOf("COM");
+                            if (index > -1)
+                            {
+                                entity.SerialName = entity.SerialFullName.Substring(index, entity.SerialFullName.Length - index-1);
+                            }
+                            //entity.SerialName = hardInfo.Properties["DeviceID"].Value.ToString();
                             lstSerials.Add(entity);
                         }
                     }

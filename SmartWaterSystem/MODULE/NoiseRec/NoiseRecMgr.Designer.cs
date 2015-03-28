@@ -68,7 +68,7 @@
             this.label20 = new System.Windows.Forms.Label();
             this.txtConPort = new DevExpress.XtraEditors.TextEdit();
             this.label22 = new System.Windows.Forms.Label();
-            this.txtConAdress = new DevExpress.XtraEditors.TextEdit();
+            this.txtConIP = new DevExpress.XtraEditors.TextEdit();
             this.label21 = new System.Windows.Forms.Label();
             this.btnNow = new DevExpress.XtraEditors.SimpleButton();
             this.label17 = new System.Windows.Forms.Label();
@@ -120,7 +120,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.FlagPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConPort.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtConAdress.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtConIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).BeginInit();
@@ -542,9 +542,8 @@
             this.groupControl4.Controls.Add(this.label20);
             this.groupControl4.Controls.Add(this.txtConPort);
             this.groupControl4.Controls.Add(this.label22);
-            this.groupControl4.Controls.Add(this.txtConAdress);
+            this.groupControl4.Controls.Add(this.txtConIP);
             this.groupControl4.Controls.Add(this.label21);
-            this.groupControl4.Enabled = false;
             this.groupControl4.Location = new System.Drawing.Point(295, 87);
             this.groupControl4.Name = "groupControl4";
             this.groupControl4.Size = new System.Drawing.Size(217, 134);
@@ -629,12 +628,12 @@
             this.label22.TabIndex = 60;
             this.label22.Text = "远传端口";
             // 
-            // txtConAdress
+            // txtConIP
             // 
-            this.txtConAdress.Location = new System.Drawing.Point(83, 95);
-            this.txtConAdress.Name = "txtConAdress";
-            this.txtConAdress.Size = new System.Drawing.Size(104, 20);
-            this.txtConAdress.TabIndex = 3;
+            this.txtConIP.Location = new System.Drawing.Point(83, 95);
+            this.txtConIP.Name = "txtConIP";
+            this.txtConIP.Size = new System.Drawing.Size(104, 20);
+            this.txtConIP.TabIndex = 3;
             // 
             // label21
             // 
@@ -966,7 +965,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.FlagPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConPort.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtConAdress.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtConIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).EndInit();
@@ -1023,7 +1022,7 @@
         private System.Windows.Forms.Label label20;
         private  DevExpress.XtraEditors.TextEdit txtConPort;
         private System.Windows.Forms.Label label22;
-        private  DevExpress.XtraEditors.TextEdit txtConAdress;
+        private  DevExpress.XtraEditors.TextEdit txtConIP;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label7;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxDist;

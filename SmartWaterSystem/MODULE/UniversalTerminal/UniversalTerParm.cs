@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using System.Text.RegularExpressions;
 using DevExpress.XtraGrid.Views.Grid;
+using Entity;
+using System.Collections;
 
 namespace SmartWaterSystem
 {
@@ -490,26 +487,554 @@ namespace SmartWaterSystem
         #region button Events
         private void btnReset_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtID.Text))
+            {
+                XtraMessageBox.Show("请先向终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            }
+            if (SwitchComunication.IsOn)
+            {
+                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+
+                EnableControls(false);
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", "正在复位终端...");
+                BeginSerialPortDelegate();
+                Application.DoEvents();
+                SetStaticItem("正在复位终端...");
+                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReset);
+            }
+            else
+            {
+
+            }
         }
 
         private void btnCheckingTime_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtID.Text))
+            {
+                XtraMessageBox.Show("请先向终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            }
+            if (SwitchComunication.IsOn)
+            {
+                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+
+                EnableControls(false);
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", "正在设置时间...");
+                BeginSerialPortDelegate();
+                Application.DoEvents();
+                SetStaticItem("正在设置时间...");
+                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetTime);
+            }
+            else
+            {
+            }
         }
 
         private void btnEnableCollect_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtID.Text))
+            {
+                XtraMessageBox.Show("请先向终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            } 
+            if (SwitchComunication.IsOn)
+            {
+                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
+                EnableControls(false);
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", "正在启动采集...");
+                BeginSerialPortDelegate();
+                Application.DoEvents();
+                SetStaticItem("正在启动采集...");
+                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetEnableCollect);
+            }
+            else
+            {
+            }
         }
 
         private void btnReadParm_Click(object sender, EventArgs e)
         {
+            if (SwitchComunication.IsOn)
+            {
+                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
+                if (ceID.Checked)
+                {
+                    GlobalValue.UniversalSerialPortOptData.IsOptID = ceID.Checked;
+                }
+                else
+                {
+                    if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
+                    {
+                        XtraMessageBox.Show("请输入设备ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtID.Focus();
+                        return;
+                    }
+                    GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+
+                    if (ceTime.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOptDT = ceTime.Checked;
+                    if (ceCellPhone.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOptCellPhone = ceCellPhone.Checked;
+                    if (ceModbusExeFlag.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOptmodbusExeFlag = ceModbusExeFlag.Checked;
+                    if (ceBaud.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOptBaud = ceBaud.Checked;
+                    if (ceComType.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOptComType = ceComType.Checked;
+                    if (ceIP.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOptIP = ceIP.Checked;
+                    if (cePort.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOptPort = cePort.Checked;
+                    if (ceColConfig.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOpt_CollectConfig = ceColConfig.Checked;
+                    if (ceCollectSimulate.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval = ceCollectSimulate.Checked;
+                    if (ceCollectPluse.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOpt_PluseInterval = ceCollectPluse.Checked;
+                    if (ceCollectRS485.Checked)
+                        GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval = ceCollectRS485.Checked;
+                }
+
+                EnableControls(false);
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", "正在读取...");
+                BeginSerialPortDelegate();
+                GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
+                GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
+                Application.DoEvents();
+                SetStaticItem("正在正在读取...");
+                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReadBaicInfo);
+            }
+            else
+            {
+            }
+        }
+
+        void SerialPortMgr_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
+        {
+            if ((e.OptType == SerialPortType.UniversalReadBaicInfo || e.OptType == SerialPortType.UniversalSetBasicInfo) && !string.IsNullOrEmpty(e.Msg))
+            {
+                ShowWaitForm("", e.Msg);
+                SetStaticItem(e.Msg);
+            }
 
         }
 
         private void btnSetParm_Click(object sender, EventArgs e)
         {
+            if (SwitchComunication.IsOn)
+            {
+                if (Validate())
+                {
 
+                }
+            }
+            else
+            {
+            }
+        }
+
+
+        public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
+        {
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalReset)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    XtraMessageBox.Show("复位成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("复位失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalSetTime)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    XtraMessageBox.Show("设置时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("设置时间失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalSetEnableCollect)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    XtraMessageBox.Show("设置启动采集成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("设置启动采集失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalReadBaicInfo)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    if (GlobalValue.UniversalSerialPortOptData.IsOptDT)
+                    {
+                        txtTime.Text = GlobalValue.UniversalSerialPortOptData.DT.ToString();
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOptCellPhone)
+                    {
+                        txtCellPhone.Text = GlobalValue.UniversalSerialPortOptData.CellPhone;
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOptmodbusExeFlag)
+                    {
+                        ceModbusExeFlag.Checked = GlobalValue.UniversalSerialPortOptData.ModbusExeFlag;
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOptBaud)
+                    {
+                        cbBaudRate.Text = GlobalValue.UniversalSerialPortOptData.Baud.ToString();
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOptComType)
+                    {
+                        cbComType.SelectedIndex = GlobalValue.UniversalSerialPortOptData.ComType;
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOptIP)
+                    {
+                        txtNum1.Text = GlobalValue.UniversalSerialPortOptData.IP[0].ToString();
+                        txtNum2.Text = GlobalValue.UniversalSerialPortOptData.IP[1].ToString();
+                        txtNum3.Text = GlobalValue.UniversalSerialPortOptData.IP[2].ToString();
+                        txtNum4.Text = GlobalValue.UniversalSerialPortOptData.IP[3].ToString();
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOptPort)
+                    {
+                        txtPort.Text = GlobalValue.UniversalSerialPortOptData.Port.ToString();
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_CollectConfig)
+                    {
+                        
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval)
+                    {
+                        gridControl_Simulate.DataSource=GlobalValue.UniversalSerialPortOptData.Simulate_Interval;
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_PluseInterval)
+                    {
+                        gridControl_Pluse.DataSource = GlobalValue.UniversalSerialPortOptData.Pluse_Interval;
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval)
+                    {
+                        gridControl_RS485.DataSource = GlobalValue.UniversalSerialPortOptData.RS485_Interval;
+                    }
+                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Protocol)
+                    {
+                        gridControl_485protocol.DataSource = GlobalValue.UniversalSerialPortOptData.RS485Protocol;
+                    }
+
+                    XtraMessageBox.Show("读取设备参数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("读取设备参数失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalSetBasicInfo)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    XtraMessageBox.Show("设置设备参数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("设置设备参数失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void EnableControls(bool enable)
+        {
+            btnReset.Enabled = enable;
+            btnCheckingTime.Enabled = enable;
+            btnEnableCollect.Enabled = enable;
+            btnReadParm.Enabled = enable;
+            btnSetParm.Enabled = enable;
+        }
+
+        private bool Validate()
+        {
+            if (ceID.Checked && !Regex.IsMatch(txtID.Text,@"^\d{1,5}$"))
+            {
+                XtraMessageBox.Show("请输入设备ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return false;
+            }
+
+            if (ceCellPhone.Checked && !Regex.IsMatch(txtCellPhone.Text, @"^1\d{10}$"))
+            {
+                XtraMessageBox.Show("请输入手机号码[130XXXXXXXX]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtCellPhone.Focus();
+                return false;
+            }
+
+            if (ceCollectRS485.Checked)
+            {
+                DataTable dt = gridControl_485protocol.DataSource as DataTable;
+                if (dt == null && dt.Rows.Count == 0)
+                {
+                    XtraMessageBox.Show("请填写RS485采集modbus协议配置表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gridView_485protocol.Focus();
+                    return false;
+                }
+            }
+
+            if (ceBaud.Checked && !Regex.IsMatch(cbBaudRate.Text,@"^$"))
+            {
+                XtraMessageBox.Show("请选择波特率!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbBaudRate.Focus();
+                return false;
+            }
+
+            if (ceComType.Checked && string.IsNullOrEmpty(cbComType.Text))
+            {
+                XtraMessageBox.Show("请选择通信方式!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbComType.Focus();
+                return false;
+            }
+
+            if (ceIP.Checked)
+            {
+                if (string.IsNullOrEmpty(txtNum1.Text) || string.IsNullOrEmpty(txtNum2.Text) ||
+                    string.IsNullOrEmpty(txtNum3.Text) || string.IsNullOrEmpty(txtNum4.Text))
+                {
+                    XtraMessageBox.Show("请填写完整的IP地址!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtNum1.Focus();
+                    return false;
+                }
+            }
+
+            if (cePort.Checked && !Regex.IsMatch(txtPort.Text,@"^\d{3,5}$"))
+            {
+                XtraMessageBox.Show("请输入端口号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtPort.Focus();
+                return false;
+            }
+
+            if (ceColConfig.Checked && ceCollectSimulate.Checked)
+            {
+                DataTable dt = gridControl_Simulate.DataSource as DataTable;
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gridView_Simulate.Focus();
+                    return false;
+                }
+            }
+
+            if (ceColConfig.Checked && ceCollectPluse.Checked)
+            {
+                DataTable dt = gridControl_Pluse.DataSource as DataTable;
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    XtraMessageBox.Show("请填写脉冲量时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gridView_Pluse.Focus();
+                    return false;
+                }
+            }
+
+            if (ceColConfig.Checked && ceCollectRS485.Checked)
+            {
+                DataTable dt = gridControl_RS485.DataSource as DataTable;
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gridView_RS485.Focus();
+                    return false;
+                }
+            }
+
+            return true;
         }
         #endregion
+
+        public override void SerialPortEvent(bool Enabled)
+        {
+            if (SwitchComunication.IsOn)  //串口
+            {
+                btnReset.Enabled = Enabled;
+                btnCheckingTime.Enabled = Enabled;
+                btnEnableCollect.Enabled = Enabled;
+                btnReadParm.Enabled = Enabled;
+                btnSetParm.Enabled = Enabled;
+            }
+        }
+
+        private void SwitchComunication_Click(object sender, EventArgs e)
+        {
+            if (SwitchComunication.IsOn)  //Grps
+            {
+                SetGprsCtrlStatus(); 
+            }
+            else   //串口
+            {
+                SetSerialPortCtrlStatus();
+            }
+        }
+
+        private void SetSerialPortCtrlStatus()
+        {
+            btnReset.Enabled = GlobalValue.portUtil.IsOpen;
+            btnCheckingTime.Enabled = GlobalValue.portUtil.IsOpen;
+            btnEnableCollect.Enabled = GlobalValue.portUtil.IsOpen;
+            btnReadParm.Enabled = GlobalValue.portUtil.IsOpen;
+            btnSetParm.Enabled = GlobalValue.portUtil.IsOpen;
+
+            ceTime.Enabled = true;
+            txtTime.Enabled = true;
+            txtTime.Text = "";
+            ceCellPhone.Enabled = true;
+            txtCellPhone.Enabled = true;
+            txtCellPhone.Text = "";
+            ceModbusExeFlag.Enabled = true;
+            ceCollectRS485.Enabled = true;
+            ceBaud.Enabled = true;
+            cbBaudRate.Enabled = true;
+            cbBaudRate.SelectedIndex = -1;
+            ceComType.Enabled = true;
+            cbComType.Enabled = true;
+            cbComType.SelectedIndex = -1;
+            ceIP.Enabled = true;
+            txtNum1.Enabled = true;
+            txtNum1.Text = "";
+            txtNum2.Enabled = true;
+            txtNum2.Text = "";
+            txtNum3.Enabled = true;
+            txtNum3.Text = "";
+            txtNum4.Enabled = true;
+            txtNum4.Text = "";
+            cePort.Enabled = true;
+            txtPort.Enabled = true;
+            txtPort.Text = "";
+        }
+
+        private void SetGprsCtrlStatus()
+        {
+            btnReset.Enabled = false;
+            btnCheckingTime.Enabled = false;
+            btnEnableCollect.Enabled = false;
+            btnReadParm.Enabled = false;
+            btnSetParm.Enabled = true;
+
+            ceTime.Enabled = false;
+            ceTime.Checked = false;
+            txtTime.Enabled = false;
+            txtTime.Text = "";
+            ceCellPhone.Enabled = false;
+            ceCellPhone.Checked = false;
+            txtCellPhone.Enabled = false;
+            txtCellPhone.Text = "";
+            ceModbusExeFlag.Enabled = false;
+            ceModbusExeFlag.Checked = false;
+            ceCollectRS485.Enabled = false;
+            ceCollectRS485.Checked = false;
+            ceBaud.Enabled = false;
+            ceBaud.Checked = false;
+            cbBaudRate.Enabled = false;
+            cbBaudRate.SelectedIndex = -1;
+            ceComType.Enabled = false;
+            ceComType.Checked = false;
+            cbComType.Enabled = false;
+            cbComType.SelectedIndex = -1;
+            ceIP.Enabled = false;
+            ceIP.Checked = false;
+            txtNum1.Enabled = false;
+            txtNum1.Text = "";
+            txtNum2.Enabled = false;
+            txtNum2.Text = "";
+            txtNum3.Enabled = false;
+            txtNum3.Text = "";
+            txtNum4.Enabled = false;
+            txtNum4.Text = "";
+            cePort.Enabled = false;
+            cePort.Checked = false;
+            txtPort.Enabled = false;
+            txtPort.Text = "";
+        }
+
     }
 }

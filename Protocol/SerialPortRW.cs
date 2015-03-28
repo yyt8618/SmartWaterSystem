@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
+using Common;
 
 namespace Protocol
 {
-    public abstract class Noise
+    public abstract class SerialPortRW
     {
 
         #region 事件定义

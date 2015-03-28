@@ -11,7 +11,7 @@ namespace Protocol
     /// <summary>
     /// 噪音记录仪
     /// </summary>
-    public class NoiseLog : Noise
+    public class NoiseLog : SerialPortRW
     {
 
         #region 设置

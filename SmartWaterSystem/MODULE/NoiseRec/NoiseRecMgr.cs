@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Text;
 using System.Linq;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using Protocol;
 using Common;
 using Entity;
+using System.Net;
 
 namespace SmartWaterSystem
 {
@@ -96,11 +95,11 @@ namespace SmartWaterSystem
                     msg = "远传端口设置错误！";
                     return ok;
                 }
-                ok = MetarnetRegex.IsIPv4(txtConAdress.Text);
+                ok = MetarnetRegex.IsIPv4(txtConIP.Text);
                 if (!ok)
                 {
-                    txtConAdress.Focus();
-                    txtConAdress.SelectAll();
+                    txtConIP.Focus();
+                    txtConIP.SelectAll();
                     msg = "远传地址设置错误！";
                     return ok;
                 }
@@ -162,7 +161,7 @@ namespace SmartWaterSystem
             try
             {
                 cl.Enabled = false;
-                int id = GlobalValue.log.ReadNoiseLogID();
+                int id = GlobalValue.Noiselog.ReadNoiseLogID();
 
                 this.txtRecID.Text = id.ToString();
             }
@@ -186,6 +185,7 @@ namespace SmartWaterSystem
                     bool isError = false;
                     try
                     {
+                        EnableControls(false);
                         DisableRibbonBar();
                         DisableNavigateBar();
                         ShowWaitForm("", "正在启动...");
@@ -195,7 +195,7 @@ namespace SmartWaterSystem
                         btnStart.Enabled = false;
 
                         short[] Originaldata = null;
-                        GlobalValue.log.CtrlStartOrStop(id, true, out Originaldata);
+                        GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
 
                         NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
                                              where item.ID == id
@@ -226,6 +226,7 @@ namespace SmartWaterSystem
                     }
                     finally
                     {
+                        EnableControls(true);
                         EnableRibbonBar();
                         EnableNavigateBar();
                         HideWaitForm();
@@ -272,6 +273,7 @@ namespace SmartWaterSystem
                         bool isError = false;
                         try
                         {
+                            EnableControls(false);
                             DisableRibbonBar();
                             DisableNavigateBar();
                             ShowWaitForm("", "正在停止...");
@@ -279,7 +281,7 @@ namespace SmartWaterSystem
                             btnStop.Enabled = false; ;
                             short id = Convert.ToInt16(txtRecID.Text);
                             short[] origitydata = null;
-                            GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
+                            GlobalValue.Noiselog.CtrlStartOrStop(id, false, out origitydata);
                             
                             NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
                                                  where item.ID == id
@@ -294,6 +296,7 @@ namespace SmartWaterSystem
                         }
                         finally
                         {
+                            EnableControls(true);
                             EnableRibbonBar();
                             EnableNavigateBar();
                             HideWaitForm();
@@ -421,10 +424,28 @@ namespace SmartWaterSystem
             {
                 comboBoxDist.SelectedIndex = conPower;
                 txtConPort.Text = Settings.Instance.GetString(SettingKeys.Port_Template);
-                txtConAdress.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
+                txtConIP.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
             }
             else
                 comboBoxDist.SelectedIndex = conPower;
+        }
+
+        private void EnableControls(bool enable)
+        {
+            btnGetRecID.Enabled = enable;
+            txtRecID.Enabled = enable;
+            btnAddRec.Enabled = enable;
+            btnDeleteRec.Enabled = enable;
+            btnUpdate.Enabled = enable;
+
+            btnStart.Enabled = enable;
+            btnStop.Enabled = enable;
+            btnCleanFlash.Enabled = enable;
+            btnReadT.Enabled = enable;
+            btnReadSet.Enabled = enable;
+            btnApplySet.Enabled = enable;
+
+            gridControlRec.Enabled = enable;
         }
 
         // 读取设备参数
@@ -432,32 +453,32 @@ namespace SmartWaterSystem
         {
             new Action(() =>
             {
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在读取设备参数...");
-                SetStaticItem("正在读取设备参数...");
-                Control cl = sender as Control;
                 try
                 {
+                    EnableControls(false);
+                    DisableRibbonBar();
+                    DisableNavigateBar();
+                    ShowWaitForm("", "正在读取设备参数...");
+                    SetStaticItem("正在读取设备参数...");
+
                     if (txtRecID.Text == string.Empty)
                         throw new Exception("请检查记录仪编号是否正确。");
 
-                    cl.Enabled = false;
                     short id = Convert.ToInt16(txtRecID.Text);//device.ReadNoiseLogID();
 
                     // 读取记录时间段
-                    byte[] tt = GlobalValue.log.ReadStartEndTime(id);
+                    byte[] tt = GlobalValue.Noiselog.ReadStartEndTime(id);
                     txtRecTime.Text = tt[0].ToString();
                     txtRecTime1.Text = tt[1].ToString();
 
                     // 读取采集间隔
-                    spinEdit1.Value= GlobalValue.log.ReadInterval(id);
+                    spinEdit1.Value= GlobalValue.Noiselog.ReadInterval(id);
 
                     // 读取远传通讯时间
-                    this.txtComTime.Text = GlobalValue.log.ReadRemoteSendTime(id).ToString();
+                    this.txtComTime.Text = GlobalValue.Noiselog.ReadRemoteSendTime(id).ToString();
 
                     // 读取远传功能
-                    if (GlobalValue.log.ReadRemote(id))
+                    if (GlobalValue.Noiselog.ReadRemote(id))
                     {
                         comboBoxDist.SelectedIndex = 1;
                         NoiseCtrl ctrl = new NoiseCtrl();
@@ -466,7 +487,7 @@ namespace SmartWaterSystem
                         this.txtConPort.Text = ctrl.ReadPort(id);
 
                         // 读取远传地址
-                        this.txtConAdress.Text = ctrl.ReadIP(id);
+                        this.txtConIP.Text = ctrl.ReadIP(id);
                     }
                     else
                     {
@@ -474,7 +495,7 @@ namespace SmartWaterSystem
                     }
 
                     // 读取时间
-                    byte[] tt1 = GlobalValue.log.ReadTime(id);
+                    byte[] tt1 = GlobalValue.Noiselog.ReadTime(id);
                     this.dateTimePicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
                     SetStaticItem("读取成功");
                     ShowDialog("读取成功", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -488,18 +509,236 @@ namespace SmartWaterSystem
                 {
                     EnableRibbonBar();
                     EnableNavigateBar();
+                    EnableControls(true);
                     HideWaitForm();
-                    cl.Enabled = true;
                 }
             }).BeginInvoke(null, null);
         }
 
+        public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
+        {
+            if (e.TransactStatus!= TransStatus.Start && e.OptType == SerialPortType.NoiseWriteTime)
+            {
+                string message = string.Empty;
+                if (e.Tag != null)
+                    message = e.Tag.ToString();
+
+                this.Enabled = true;
+                HideWaitForm();
+                
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    SetFlagTime(true);
+                    ShowWaitForm("", "正在设置远传通信时间");
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseWriteRemoteSendTime);
+                }
+                else
+                {
+                    GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnApplySet.Enabled = true;
+                    isSetting = false;
+                    XtraMessageBox.Show("设置时间失败!" + message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseWriteRemoteSendTime)
+            {
+                string message = string.Empty;
+                if (e.Tag != null)
+                    message = e.Tag.ToString();
+
+                this.Enabled = true;
+                HideWaitForm();
+
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    SetFlagSendTime(true);
+                    ShowWaitForm("", "正在设置记录时间段");
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseWriteStartEndTime);
+                }
+                else
+                {
+                    GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnApplySet.Enabled = true;
+                    isSetting = false;
+                    XtraMessageBox.Show("设置记录时间段失败!" + message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseWriteStartEndTime)
+            {
+                string message = string.Empty;
+                if (e.Tag != null)
+                    message = e.Tag.ToString();
+
+                this.Enabled = true;
+                HideWaitForm();
+
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    SetFlagStartEndTime(true);
+                    ShowWaitForm("", "正在设置采集间隔");
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseWriteInterval);
+                }
+                else
+                {
+                    GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnApplySet.Enabled = true;
+                    isSetting = false;
+                    XtraMessageBox.Show("设置记录时间段失败!" + message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseWriteInterval)
+            {
+                string message = string.Empty;
+                if (e.Tag != null)
+                    message = e.Tag.ToString();
+
+                this.Enabled = true;
+                HideWaitForm();
+
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    SetFlagInterval(true);
+                    //if (GlobalValue.SerialPortOptData.RemoteSwitch)
+                    //{
+                        ShowWaitForm("", "正在设置远传开关");
+                        GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseWriteRemoteSwitch);
+                    //}
+                    //else
+                    //{
+                    //    GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                    //    EnableControls(true);
+                    //    EnableRibbonBar();
+                    //    EnableNavigateBar();
+                    //    HideWaitForm();
+                    //    btnApplySet.Enabled = true;
+                    //    isSetting = false;
+
+                    //    int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
+                    //    if (query != -1)
+                    //    {
+                    //        logger.Info("end UpdateRecorder");
+                    //        ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //        GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                    //        GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                    //        BindRecord();
+                    //    }
+                    //    else
+                    //        throw new Exception("数据入库发生错误。");
+                        //XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //}
+                }
+                else
+                {
+                    GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnApplySet.Enabled = true;
+                    isSetting = false;
+                    XtraMessageBox.Show("设置采集间隔失败!" + message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseWriteRemoteSwitch)
+            {
+                string message = string.Empty;
+                if (e.Tag != null)
+                    message = e.Tag.ToString();
+
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    SetFlagRemoteSwitch(true);
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnApplySet.Enabled = true;
+                    isSetting = false;
+
+                    if (alterCtrl != null)
+                        NoiseDataBaseHelper.UpdateControler(alterCtrl);
+                    int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
+                    if (query != -1)
+                    {
+                        logger.Info("end UpdateRecorder");
+                        ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                        GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                        BindRecord();
+                    }
+                    else
+                        throw new Exception("数据入库发生错误。");
+                    //XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnApplySet.Enabled = true;
+                    isSetting = false;
+                    XtraMessageBox.Show("设置远传开关失败!"+message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
         // 应用设置
+        NoiseRecorder alterRec = null;
+        DistanceController alterCtrl = null;
         private void btnApplySet_Click(object sender, EventArgs e)
         {
-            new Action(() =>
-            {
+            //new Action(() =>
+            //{
                 isSetting = true;
+                if (comboBoxDist.SelectedIndex == 1)
+                {
+                    if (string.IsNullOrEmpty(txtConId.Text))
+                    {
+                        XtraMessageBox.Show("请设置控制器编号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtConId.Focus();
+                        return;
+                    }
+                    if (string.IsNullOrEmpty(txtConPort.Text))
+                    {
+                        XtraMessageBox.Show("请设置远传端口号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtConPort.Focus();
+                        return;
+                    }
+
+                    if (string.IsNullOrEmpty(txtConIP.Text))
+                    {
+                        XtraMessageBox.Show("请设置远传IP!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtConId.Focus();
+                        return;
+                    }
+                    else
+                    {
+                        IPAddress ipAddress;
+                        if (!IPAddress.TryParse(txtConIP.Text, out ipAddress))
+                        {
+                            XtraMessageBox.Show("请设置有效远传IP!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtConIP.Focus();
+                            return;
+                        }
+                    }
+                }
                 
                 string error_flag = "";
                 try
@@ -515,14 +754,16 @@ namespace SmartWaterSystem
                         return;
                     }
 
+                    EnableControls(false);
                     DisableRibbonBar();
                     DisableNavigateBar();
                     ShowWaitForm("", "正在应用当前设置...");
+                    BeginSerialPortDelegate();
                     Application.DoEvents();
                     SetStaticItem("正在应用当前设置...");
 
                     short id = Convert.ToInt16(txtRecID.Text);
-                    NoiseRecorder alterRec = (from item in GlobalValue.recorderList
+                    alterRec = (from item in GlobalValue.recorderList
                                               where item.ID == id
                                               select item).ToList()[0];
 
@@ -530,129 +771,170 @@ namespace SmartWaterSystem
                     alterRec.LeakValue = Convert.ToInt32(txtLeakValue.Text);
                     alterRec.Remark = txtRecNote.Text;
 
-                    System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-                    watch.Start();
-
-                    // 设置记录仪时间
-                    error_flag = "writetime";
-                    GlobalValue.log.WriteTime(id, this.dateTimePicker.Value);
-                    SetFlagTime(true);
-                    logger.Info("WriteTime:" + watch.ElapsedMilliseconds.ToString());
-
-                    // 设置远传通讯时间
-                    error_flag = "writeremotesendtime";
-                    GlobalValue.log.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
-                    alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
-                    SetFlagSendTime(true);
-                    logger.Info("WriteRemoteSendTime:" + watch.ElapsedMilliseconds.ToString());
-
-                    // 设置记录时间段
-                    error_flag = "writestartendtime";
-                    GlobalValue.log.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
-                    alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
-                    SetFlagStartEndTime(true);
-                    logger.Info("WriteStartEndTime:" + watch.ElapsedMilliseconds.ToString());
-
-                    // 设置采集间隔
-                    error_flag = "writeInterval";
-                    GlobalValue.log.WriteInterval(id, (int)spinEdit1.Value);
-                    alterRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
-                    SetFlagInterval(true);
-                    logger.Info("WriteInterval:" + watch.ElapsedMilliseconds.ToString());
-
-                    short[] origitydata = null;
-                    // 设置开关
-                    if (comboBoxEditPower.SelectedIndex == 1)
-                    {
-                        error_flag = "startorstop";
-                        GlobalValue.log.CtrlStartOrStop(id, true, out origitydata);
-                        alterRec.Power = 1;
-                        SetFlagStartORStop(true);
-                        logger.Info("CtrlStartOrStop:" + watch.ElapsedMilliseconds.ToString());
-                    }
-                    else if (comboBoxEditPower.SelectedIndex == 0)
-                    {
-                        error_flag = "startorstop";
-                        GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
-                        alterRec.Power = 0;
-                        SetFlagStartORStop(true);
-                        logger.Info("CtrlStartOrStop:" + watch.ElapsedMilliseconds.ToString());
-                    }
-
-                    // 设置远传功能
+                    ShowWaitForm("", "正在设置时间");
+                    bool remoteswitch = false;
+                    string ip ="";
+                    int port = 0;
                     if (comboBoxDist.SelectedIndex == 1)
                     {
-                        error_flag = "writeremoteswitch";
-                        GlobalValue.log.WriteRemoteSwitch(id, true);
-                        SetFlagRemoteSwitch(true);
-                        logger.Info("WriteRemoteSwitch:" + watch.ElapsedMilliseconds.ToString());
-
-                        NoiseCtrl ctrl = new NoiseCtrl();
-
+                        remoteswitch = true;
                         // 设置远传IP
                         string str_ip = "";   //需要将ip处理成15位长度,如:192.168.010.125
-                        string[] str_ips = txtConAdress.Text.Split('.');
+                        string[] str_ips = txtConIP.Text.Split('.');
                         if (str_ips != null && str_ips.Length > 0)
                         {
                             foreach (string ippart in str_ips)
                             {
                                 if (ippart.Length == 1)
                                 {
-                                    str_ip += "00"+ippart + ".";
+                                    str_ip += "00" + ippart + ".";
                                 }
                                 else if (ippart.Length == 2)
                                 {
                                     str_ip += "0" + ippart + ".";
                                 }
-                                else {
+                                else
+                                {
                                     str_ip += ippart + ".";
                                 }
                             }
                         }
                         // 设置远传端口
-                        error_flag = "writeportname";
-                        ctrl.WritePortName(id, txtConPort.Text);
-                        SetFlagPort(true);
-                        logger.Info("WritePortName:" + watch.ElapsedMilliseconds.ToString());
-
                         if (str_ip.EndsWith("."))
                             str_ip = str_ip.Substring(0, str_ip.Length - 1);
-                        error_flag = "writeip";
-                        ctrl.Write_IP(id, str_ip);
-                        SetFlagIP(true);
-                        logger.Info("Write_IP:" + watch.ElapsedMilliseconds.ToString());
+                        ip = str_ip;
+                        port = Convert.ToInt32(txtConPort.Text);
 
                         alterRec.ControlerPower = 1;
-                        DistanceController alterCtrl = new DistanceController();
+
+                        alterCtrl = new DistanceController();
                         alterCtrl.ID = Convert.ToInt32(txtConId.Text);
                         alterCtrl.RecordID = alterRec.ID;
                         alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
-                        alterCtrl.IPAdress = txtConAdress.Text;
-
-                        NoiseDataBaseHelper.UpdateControler(alterCtrl);
+                        alterCtrl.IPAdress = txtConIP.Text;
+                        
                     }
                     else
                     {
-                        error_flag = "writeremoteswitch";
-                        GlobalValue.log.WriteRemoteSwitch(id, false);
                         alterRec.ControlerPower = 0;
-                        SetFlagRemoteSwitch(true);
-                        logger.Info("WriteRemoteSwitch:" + watch.ElapsedMilliseconds.ToString());
                     }
+                    alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
+                    alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
+                    alterRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
+                    GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity(id, this.dateTimePicker.Value, Convert.ToInt32(txtComTime.Text),
+                        Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text), (int)spinEdit1.Value, remoteswitch, ip, port);
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseWriteTime);
 
-                    logger.Info("begin UpdateRecorder");
-                    // 更新设置入库
-                    int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
-                    if (query != -1)
-                    {
-                        logger.Info("end UpdateRecorder");
-                        ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
-                        GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
-                        BindRecord();
-                    }
-                    else
-                        throw new Exception("数据入库发生错误。");
+                    // 设置记录仪时间
+                    //error_flag = "writetime";
+                    //GlobalValue.log.WriteTime(id, this.dateTimePicker.Value);
+                    //SetFlagTime(true);
+
+                    //// 设置远传通讯时间
+                    //error_flag = "writeremotesendtime";
+                    //GlobalValue.log.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
+                    //alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
+                    //SetFlagSendTime(true);
+
+                    //// 设置记录时间段
+                    //error_flag = "writestartendtime";
+                    //GlobalValue.log.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
+                    //alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
+                    //SetFlagStartEndTime(true);
+
+                    //// 设置采集间隔
+                    //error_flag = "writeInterval";
+                    //GlobalValue.log.WriteInterval(id, (int)spinEdit1.Value);
+                    //alterRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
+                    //SetFlagInterval(true);
+
+                    //short[] origitydata = null;
+                    //// 设置开关
+                    //if (comboBoxEditPower.SelectedIndex == 1)
+                    //{
+                    //    error_flag = "startorstop";
+                    //    GlobalValue.log.CtrlStartOrStop(id, true, out origitydata);
+                    //    alterRec.Power = 1;
+                    //    SetFlagStartORStop(true);
+                    //}
+                    //else if (comboBoxEditPower.SelectedIndex == 0)
+                    //{
+                    //    error_flag = "startorstop";
+                    //    GlobalValue.log.CtrlStartOrStop(id, false, out origitydata);
+                    //    alterRec.Power = 0;
+                    //    SetFlagStartORStop(true);
+                    //}
+
+                    //// 设置远传功能
+                    //if (comboBoxDist.SelectedIndex == 1)
+                    //{
+                    //    error_flag = "writeremoteswitch";
+                    //    GlobalValue.log.WriteRemoteSwitch(id, true);
+                    //    SetFlagRemoteSwitch(true);
+
+                    //    NoiseCtrl ctrl = new NoiseCtrl();
+
+                    //    // 设置远传IP
+                    //    string str_ip = "";   //需要将ip处理成15位长度,如:192.168.010.125
+                    //    string[] str_ips = txtConAdress.Text.Split('.');
+                    //    if (str_ips != null && str_ips.Length > 0)
+                    //    {
+                    //        foreach (string ippart in str_ips)
+                    //        {
+                    //            if (ippart.Length == 1)
+                    //            {
+                    //                str_ip += "00"+ippart + ".";
+                    //            }
+                    //            else if (ippart.Length == 2)
+                    //            {
+                    //                str_ip += "0" + ippart + ".";
+                    //            }
+                    //            else {
+                    //                str_ip += ippart + ".";
+                    //            }
+                    //        }
+                    //    }
+                    //    // 设置远传端口
+                    //    error_flag = "writeportname";
+                    //    ctrl.WritePortName(id, txtConPort.Text);
+                    //    SetFlagPort(true);
+
+                    //    if (str_ip.EndsWith("."))
+                    //        str_ip = str_ip.Substring(0, str_ip.Length - 1);
+                    //    error_flag = "writeip";
+                    //    ctrl.Write_IP(id, str_ip);
+                    //    SetFlagIP(true);
+
+                    //    alterRec.ControlerPower = 1;
+                    //    DistanceController alterCtrl = new DistanceController();
+                    //    alterCtrl.ID = Convert.ToInt32(txtConId.Text);
+                    //    alterCtrl.RecordID = alterRec.ID;
+                    //    alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
+                    //    alterCtrl.IPAdress = txtConAdress.Text;
+
+                    //    NoiseDataBaseHelper.UpdateControler(alterCtrl);
+                    //}
+                    //else
+                    //{
+                    //    error_flag = "writeremoteswitch";
+                    //    GlobalValue.log.WriteRemoteSwitch(id, false);
+                    //    alterRec.ControlerPower = 0;
+                    //    SetFlagRemoteSwitch(true);
+                    //}
+
+                    //logger.Info("begin UpdateRecorder");
+                    //// 更新设置入库
+                    //int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
+                    //if (query != -1)
+                    //{
+                    //    logger.Info("end UpdateRecorder");
+                    //    ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //    GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                    //    GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                    //    BindRecord();
+                    //}
+                    //else
+                    //    throw new Exception("数据入库发生错误。");
                     SetStaticItem("当前设置已应用到记录仪" + id);
 
                 }
@@ -664,13 +946,13 @@ namespace SmartWaterSystem
                 }
                 finally
                 {
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-                    btnApplySet.Enabled = true;
-                    isSetting = false;
+                    //EnableRibbonBar();
+                    //EnableNavigateBar();
+                    //HideWaitForm();
+                    //btnApplySet.Enabled = true;
+                    //isSetting = false;
                 }
-            }).BeginInvoke(null, null);
+            //}).BeginInvoke(null, null);
         }
 
         private void gridViewRecordList_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
@@ -708,7 +990,7 @@ namespace SmartWaterSystem
 
         private void gridViewRecordList_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
         {
-            txtConAdress.Text = "";
+            txtConIP.Text = "";
             txtConId.Text = "";
             txtConPort.Text = "";
 
@@ -749,7 +1031,7 @@ namespace SmartWaterSystem
 
                 txtConId.Text = dc.ID.ToString();
                 txtConPort.Text = dc.Port.ToString();
-                txtConAdress.Text = dc.IPAdress.ToString();
+                txtConIP.Text = dc.IPAdress.ToString();
             }
             comboBoxDist.SelectedIndex = rec.ControlerPower;
 
@@ -781,9 +1063,19 @@ namespace SmartWaterSystem
         private void comboBoxDist_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxDist.SelectedIndex == 1)
-                groupControl4.Enabled = true;
+            {
+                txtConId.Enabled = true;
+                txtConPort.Enabled = true;
+                txtConIP.Enabled = true;
+                btnGetConID.Enabled = true;
+            }
             else
-                groupControl4.Enabled = false;
+            {
+                txtConId.Enabled = false;
+                txtConPort.Enabled = false;
+                txtConIP.Enabled = false;
+                btnGetConID.Enabled = false;
+            }
         }
 
         private void gridViewRecordList_CellValueChanging(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
@@ -822,7 +1114,7 @@ namespace SmartWaterSystem
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtLeakValue.Text) || string.IsNullOrEmpty(txtRecNote.Text))
+            if (string.IsNullOrEmpty(txtLeakValue.Text))
             {
                 XtraMessageBox.Show("记录仪信息不完整！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -872,13 +1164,14 @@ namespace SmartWaterSystem
                                 }
 
                                 ShowWaitForm("", "正在清除数据...");
+                                EnableControls(false);
                                 DisableRibbonBar();
                                 DisableNavigateBar();
                                 id = Convert.ToInt16(txtRecID.Text);
 
                                 SetStaticItem("正在清除数据...");
 
-                                bool result = GlobalValue.log.ClearData(id);
+                                bool result = GlobalValue.Noiselog.ClearData(id);
 
                                 if (result)
                                 {
@@ -903,6 +1196,7 @@ namespace SmartWaterSystem
                             }
                             finally
                             {
+                                EnableControls(true);
                                 SetStaticItem("清除数据完成!");
                             }
                         }

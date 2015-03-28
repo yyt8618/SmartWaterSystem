@@ -482,7 +482,6 @@
             // NBG_GSMT
             // 
             this.NBG_GSMT.Caption = "通用终端";
-            this.NBG_GSMT.Expanded = true;
             this.NBG_GSMT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.NBG_GSMT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMParm),

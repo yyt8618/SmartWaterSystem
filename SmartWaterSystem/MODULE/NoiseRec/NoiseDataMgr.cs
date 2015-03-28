@@ -294,8 +294,8 @@ namespace SmartWaterSystem
                 simpleButtonUnSelect.Enabled = false;
                 List<NoiseData> dataList = new List<NoiseData>();
                 List<NoiseResult> resultList = new List<NoiseResult>();
-                GlobalValue.log.ValueChanged -= new ReadDataChangedEventHandler(log_ValueChanged);
-                GlobalValue.log.ValueChanged += new ReadDataChangedEventHandler(log_ValueChanged);
+                GlobalValue.Noiselog.ValueChanged -= new ReadDataChangedEventHandler(log_ValueChanged);
+                GlobalValue.Noiselog.ValueChanged += new ReadDataChangedEventHandler(log_ValueChanged);
 
                 NoiseDataHandler.FourierData.Clear();
                 isReading = true;
@@ -329,7 +329,7 @@ namespace SmartWaterSystem
                                 Dictionary<short, short[]> result = new Dictionary<short, short[]>();
                                 SetStaticItem(string.Format("正在读取记录仪{0}...", id));
                                 ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
-                                short[] arr = GlobalValue.log.Read((short)id);
+                                short[] arr = GlobalValue.Noiselog.Read((short)id);
                                 result.Add((short)id, arr);
                                 CallbackReaded(result, selectList);
                                 GlobalValue.reReadIdList.Remove(id);
@@ -750,8 +750,8 @@ namespace SmartWaterSystem
                 btnReadFromFold.Enabled = false;
                 List<NoiseData> dataList = new List<NoiseData>();
                 List<NoiseResult> resultList = new List<NoiseResult>();
-                GlobalValue.log.ValueChanged -= new ReadDataChangedEventHandler(log_ValueChanged);
-                GlobalValue.log.ValueChanged += new ReadDataChangedEventHandler(log_ValueChanged);
+                GlobalValue.Noiselog.ValueChanged -= new ReadDataChangedEventHandler(log_ValueChanged);
+                GlobalValue.Noiselog.ValueChanged += new ReadDataChangedEventHandler(log_ValueChanged);
 
                 NoiseDataHandler.FourierData.Clear();
                 isReading = true;

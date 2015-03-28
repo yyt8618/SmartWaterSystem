@@ -57,7 +57,7 @@ namespace SmartWaterSystem
 
         private void WaitForm1_Deactivate(object sender, EventArgs e)
         {
-            this.Activate();
+            //this.Activate();
         }
     }
 }

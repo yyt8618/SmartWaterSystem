@@ -155,12 +155,15 @@ namespace SmartWaterSystem
                         GlobalValue.SQLSyncMgr.SQLSyncEvent += new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
                         GlobalValue.SQLSyncMgr.Start();
 
+
                         SQLSynctimer.Interval =60 * 1000;
                         SQLSynctimer.Tick += new EventHandler(SQLSynctimer_Tick);
                         SQLSynctimer.Enabled = true;
                     }
                 }
 
+                GlobalValue.SerialPortMgr.SerialPortEvent += new SerialPortHandle(SerialPortMgr_SerialPortEvent);
+                GlobalValue.SerialPortMgr.Start();
 
                 SplashScreenManager.CloseForm();
 
@@ -173,6 +176,11 @@ namespace SmartWaterSystem
                 logger.ErrorException("FrmSystem_Load", ex);
                 Application.Exit();
             }
+        }
+
+        void SerialPortMgr_SerialPortEvent(object sender, SerialPortEventArgs e)
+        {
+            
         }
 
         void SQLSynctimer_Tick(object sender, EventArgs e)
@@ -349,6 +357,10 @@ namespace SmartWaterSystem
                         NoiseGroupMgr noisegrpMgr = (NoiseGroupMgr)GetView(typeof(NoiseGroupMgr));
                         if (noisegrpMgr != null)
                             noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                        UniversalTerParm universalterMgr = (UniversalTerParm)GetView(typeof(UniversalTerParm));
+                        if (universalterMgr != null)
+                            universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                     }
                 }
             }
@@ -382,6 +394,10 @@ namespace SmartWaterSystem
                         NoiseGroupMgr noisegrpMgr = (NoiseGroupMgr)GetView(typeof(NoiseGroupMgr));
                         if (noisegrpMgr != null)
                             noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                        UniversalTerParm universalterMgr = (UniversalTerParm)GetView(typeof(UniversalTerParm));
+                        if (universalterMgr != null)
+                            universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                     }
                 }
             }
@@ -793,6 +809,10 @@ namespace SmartWaterSystem
             {
                 GlobalValue.SQLSyncMgr.Stop();
                 GlobalValue.SQLSyncMgr.SQLSyncEvent -= new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
+                Thread.Sleep(100);
+
+                GlobalValue.SerialPortMgr.Stop();
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortMgr_SerialPortEvent);
                 Thread.Sleep(100);
             }
             catch { }

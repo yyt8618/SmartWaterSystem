@@ -302,6 +302,7 @@
       <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="SQLSyncManager.cs" />
+    <Compile Include="Threads\SerialPortManager.cs" />
     <Compile Include="WelcomSplash.cs">
       <SubType>Form</SubType>
     </Compile>
