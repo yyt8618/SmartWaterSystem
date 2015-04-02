@@ -106,5 +106,15 @@ namespace Entity
             get { return _ModifyTime; }
             set { _ModifyTime = value; }
         }
+
+        private bool _HaveChild = false;
+        /// <summary>
+        /// 是否有子节点
+        /// </summary>
+        public bool HaveChild
+        {
+            get { return _HaveChild; }
+            set { _HaveChild = value; }
+        }
     }
 }

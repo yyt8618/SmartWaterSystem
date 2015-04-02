@@ -30,29 +30,29 @@ namespace SmartWaterSystem
         private void InitializeComponent()
         {
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.cbBaudRate = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.ceModbusExeFlag = new DevExpress.XtraEditors.CheckEdit();
+            this.txtCellPhone = new DevExpress.XtraEditors.TextEdit();
+            this.txtTime = new DevExpress.XtraEditors.TextEdit();
+            this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
             this.txtPort = new DevExpress.XtraEditors.TextEdit();
             this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
-            this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
             this.cePluseState = new DevExpress.XtraEditors.CheckEdit();
+            this.cemodbusprotocolstatus = new DevExpress.XtraEditors.CheckEdit();
             this.ceRS485State = new DevExpress.XtraEditors.CheckEdit();
-            this.ceSimulateState = new DevExpress.XtraEditors.CheckEdit();
-            this.txtCellPhone = new DevExpress.XtraEditors.TextEdit();
+            this.ceSimulate2State = new DevExpress.XtraEditors.CheckEdit();
+            this.ceSimulate1State = new DevExpress.XtraEditors.CheckEdit();
             this.cbComType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceComType = new DevExpress.XtraEditors.CheckEdit();
             this.ceTime = new DevExpress.XtraEditors.CheckEdit();
-            this.txtTime = new DevExpress.XtraEditors.TextEdit();
             this.txtID = new DevExpress.XtraEditors.TextEdit();
             this.ceCellPhone = new DevExpress.XtraEditors.CheckEdit();
             this.txtNum4 = new DevExpress.XtraEditors.TextEdit();
             this.cePort = new DevExpress.XtraEditors.CheckEdit();
-            this.ceBaud = new DevExpress.XtraEditors.CheckEdit();
             this.ceID = new DevExpress.XtraEditors.CheckEdit();
             this.txtNum3 = new DevExpress.XtraEditors.TextEdit();
             this.txtNum2 = new DevExpress.XtraEditors.TextEdit();
             this.txtNum1 = new DevExpress.XtraEditors.TextEdit();
             this.ceIP = new DevExpress.XtraEditors.CheckEdit();
+            this.ceModbusExeFlag = new DevExpress.XtraEditors.CheckEdit();
             this.ceCollectRS485 = new DevExpress.XtraEditors.CheckEdit();
             this.ceCollectPluse = new DevExpress.XtraEditors.CheckEdit();
             this.ceCollectSimulate = new DevExpress.XtraEditors.CheckEdit();
@@ -74,6 +74,8 @@ namespace SmartWaterSystem
             this.btnReadParm = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetParm = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.btnCalibrationSimualte2 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCalibrationSimualte1 = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl_Simulate = new DevExpress.XtraGrid.GridControl();
             this.gridView_Simulate = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -104,33 +106,32 @@ namespace SmartWaterSystem
             this.cb_pluse_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.btnReset = new DevExpress.XtraEditors.SimpleButton();
             this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
-            this.checkEdit1 = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
             this.groupControl7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cemodbusprotocolstatus.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceSimulateState.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2State.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1State.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceBaud.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).BeginInit();
@@ -166,25 +167,22 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.txtCellPhone);
+            this.groupControl1.Controls.Add(this.txtTime);
             this.groupControl1.Controls.Add(this.ceColConfig);
-            this.groupControl1.Controls.Add(this.cbBaudRate);
             this.groupControl1.Controls.Add(this.txtPort);
             this.groupControl1.Controls.Add(this.groupControl7);
-            this.groupControl1.Controls.Add(this.txtCellPhone);
             this.groupControl1.Controls.Add(this.cbComType);
             this.groupControl1.Controls.Add(this.ceComType);
             this.groupControl1.Controls.Add(this.ceTime);
-            this.groupControl1.Controls.Add(this.txtTime);
             this.groupControl1.Controls.Add(this.txtID);
             this.groupControl1.Controls.Add(this.ceCellPhone);
             this.groupControl1.Controls.Add(this.txtNum4);
             this.groupControl1.Controls.Add(this.cePort);
-            this.groupControl1.Controls.Add(this.ceBaud);
             this.groupControl1.Controls.Add(this.ceID);
             this.groupControl1.Controls.Add(this.txtNum3);
             this.groupControl1.Controls.Add(this.txtNum2);
@@ -196,102 +194,111 @@ namespace SmartWaterSystem
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
             // 
-            // cbBaudRate
+            // txtCellPhone
             // 
-            this.cbBaudRate.Location = new System.Drawing.Point(75, 53);
-            this.cbBaudRate.Name = "cbBaudRate";
-            this.cbBaudRate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbBaudRate.Size = new System.Drawing.Size(89, 20);
-            this.cbBaudRate.TabIndex = 8;
-            this.cbBaudRate.SelectedIndexChanged += new System.EventHandler(this.cbBaudRate_SelectedIndexChanged);
+            this.txtCellPhone.EditValue = "";
+            this.txtCellPhone.Location = new System.Drawing.Point(396, 25);
+            this.txtCellPhone.Name = "txtCellPhone";
+            this.txtCellPhone.Size = new System.Drawing.Size(92, 20);
+            this.txtCellPhone.TabIndex = 5;
             // 
-            // ceModbusExeFlag
+            // txtTime
             // 
-            this.ceModbusExeFlag.Location = new System.Drawing.Point(3, 0);
-            this.ceModbusExeFlag.Name = "ceModbusExeFlag";
-            this.ceModbusExeFlag.Properties.Caption = "RS485采集modbus协议配置";
-            this.ceModbusExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceModbusExeFlag.Size = new System.Drawing.Size(177, 19);
-            this.ceModbusExeFlag.TabIndex = 6;
-            this.ceModbusExeFlag.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
-            // 
-            // txtPort
-            // 
-            this.txtPort.EditValue = "";
-            this.txtPort.Location = new System.Drawing.Point(553, 52);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(48, 20);
-            this.txtPort.TabIndex = 17;
-            // 
-            // groupControl7
-            // 
-            this.groupControl7.Controls.Add(this.cePluseState);
-            this.groupControl7.Controls.Add(this.checkEdit1);
-            this.groupControl7.Controls.Add(this.ceRS485State);
-            this.groupControl7.Controls.Add(this.ceSimulateState);
-            this.groupControl7.Location = new System.Drawing.Point(608, 24);
-            this.groupControl7.Name = "groupControl7";
-            this.groupControl7.ShowCaption = false;
-            this.groupControl7.Size = new System.Drawing.Size(178, 53);
-            this.groupControl7.TabIndex = 18;
+            this.txtTime.Location = new System.Drawing.Point(215, 24);
+            this.txtTime.Name = "txtTime";
+            this.txtTime.Size = new System.Drawing.Size(120, 20);
+            this.txtTime.TabIndex = 3;
             // 
             // ceColConfig
             // 
-            this.ceColConfig.Location = new System.Drawing.Point(498, 26);
+            this.ceColConfig.Location = new System.Drawing.Point(460, 53);
             this.ceColConfig.Name = "ceColConfig";
             this.ceColConfig.Properties.Caption = "采集功能配置";
             this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceColConfig.Size = new System.Drawing.Size(90, 19);
-            this.ceColConfig.TabIndex = 0;
+            this.ceColConfig.TabIndex = 15;
             this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
+            // 
+            // txtPort
+            // 
+            this.txtPort.EditValue = "";
+            this.txtPort.Location = new System.Drawing.Point(396, 53);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(58, 20);
+            this.txtPort.TabIndex = 14;
+            // 
+            // groupControl7
+            // 
+            this.groupControl7.Controls.Add(this.cePluseState);
+            this.groupControl7.Controls.Add(this.cemodbusprotocolstatus);
+            this.groupControl7.Controls.Add(this.ceRS485State);
+            this.groupControl7.Controls.Add(this.ceSimulate2State);
+            this.groupControl7.Controls.Add(this.ceSimulate1State);
+            this.groupControl7.Location = new System.Drawing.Point(556, 24);
+            this.groupControl7.Name = "groupControl7";
+            this.groupControl7.ShowCaption = false;
+            this.groupControl7.Size = new System.Drawing.Size(230, 53);
+            this.groupControl7.TabIndex = 18;
             // 
             // cePluseState
             // 
-            this.cePluseState.Location = new System.Drawing.Point(5, 29);
+            this.cePluseState.Enabled = false;
+            this.cePluseState.Location = new System.Drawing.Point(101, 5);
             this.cePluseState.Name = "cePluseState";
             this.cePluseState.Properties.Caption = "脉冲量";
             this.cePluseState.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.cePluseState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cePluseState.Size = new System.Drawing.Size(72, 19);
-            this.cePluseState.TabIndex = 2;
-            this.cePluseState.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
+            this.cePluseState.Size = new System.Drawing.Size(60, 19);
+            this.cePluseState.TabIndex = 1;
+            // 
+            // cemodbusprotocolstatus
+            // 
+            this.cemodbusprotocolstatus.Enabled = false;
+            this.cemodbusprotocolstatus.Location = new System.Drawing.Point(5, 5);
+            this.cemodbusprotocolstatus.Name = "cemodbusprotocolstatus";
+            this.cemodbusprotocolstatus.Properties.Caption = "modbus协议";
+            this.cemodbusprotocolstatus.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.cemodbusprotocolstatus.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.cemodbusprotocolstatus.Size = new System.Drawing.Size(90, 19);
+            this.cemodbusprotocolstatus.TabIndex = 0;
             // 
             // ceRS485State
             // 
-            this.ceRS485State.Location = new System.Drawing.Point(101, 28);
+            this.ceRS485State.Enabled = false;
+            this.ceRS485State.Location = new System.Drawing.Point(162, 5);
             this.ceRS485State.Name = "ceRS485State";
             this.ceRS485State.Properties.Caption = "RS485";
             this.ceRS485State.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceRS485State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceRS485State.Size = new System.Drawing.Size(72, 19);
-            this.ceRS485State.TabIndex = 3;
-            this.ceRS485State.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
+            this.ceRS485State.TabIndex = 2;
             // 
-            // ceSimulateState
+            // ceSimulate2State
             // 
-            this.ceSimulateState.Location = new System.Drawing.Point(101, 5);
-            this.ceSimulateState.Name = "ceSimulateState";
-            this.ceSimulateState.Properties.Caption = "模拟量";
-            this.ceSimulateState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceSimulateState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceSimulateState.Size = new System.Drawing.Size(72, 19);
-            this.ceSimulateState.TabIndex = 1;
-            this.ceSimulateState.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
+            this.ceSimulate2State.Enabled = false;
+            this.ceSimulate2State.Location = new System.Drawing.Point(101, 30);
+            this.ceSimulate2State.Name = "ceSimulate2State";
+            this.ceSimulate2State.Properties.Caption = "第2路模拟量";
+            this.ceSimulate2State.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceSimulate2State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceSimulate2State.Size = new System.Drawing.Size(90, 19);
+            this.ceSimulate2State.TabIndex = 4;
             // 
-            // txtCellPhone
+            // ceSimulate1State
             // 
-            this.txtCellPhone.EditValue = "";
-            this.txtCellPhone.Location = new System.Drawing.Point(392, 25);
-            this.txtCellPhone.Name = "txtCellPhone";
-            this.txtCellPhone.Size = new System.Drawing.Size(92, 20);
-            this.txtCellPhone.TabIndex = 5;
+            this.ceSimulate1State.Enabled = false;
+            this.ceSimulate1State.Location = new System.Drawing.Point(5, 30);
+            this.ceSimulate1State.Name = "ceSimulate1State";
+            this.ceSimulate1State.Properties.Caption = "第1路模拟量";
+            this.ceSimulate1State.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceSimulate1State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceSimulate1State.Size = new System.Drawing.Size(90, 19);
+            this.ceSimulate1State.TabIndex = 3;
             // 
             // cbComType
             // 
-            this.cbComType.Location = new System.Drawing.Point(244, 52);
+            this.cbComType.Location = new System.Drawing.Point(75, 52);
             this.cbComType.Name = "cbComType";
             this.cbComType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -299,42 +306,37 @@ namespace SmartWaterSystem
             "GSM",
             "GPRS"});
             this.cbComType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbComType.Size = new System.Drawing.Size(78, 20);
-            this.cbComType.TabIndex = 10;
+            this.cbComType.Size = new System.Drawing.Size(65, 20);
+            this.cbComType.TabIndex = 7;
             // 
             // ceComType
             // 
-            this.ceComType.Location = new System.Drawing.Point(170, 53);
+            this.ceComType.Enabled = false;
+            this.ceComType.Location = new System.Drawing.Point(6, 53);
             this.ceComType.Name = "ceComType";
             this.ceComType.Properties.Caption = "通讯方式";
             this.ceComType.Size = new System.Drawing.Size(74, 19);
-            this.ceComType.TabIndex = 9;
+            this.ceComType.TabIndex = 6;
             // 
             // ceTime
             // 
-            this.ceTime.Location = new System.Drawing.Point(170, 26);
+            this.ceTime.Location = new System.Drawing.Point(146, 26);
             this.ceTime.Name = "ceTime";
             this.ceTime.Properties.Caption = "设备时间";
             this.ceTime.Size = new System.Drawing.Size(75, 19);
             this.ceTime.TabIndex = 2;
             // 
-            // txtTime
-            // 
-            this.txtTime.Location = new System.Drawing.Point(244, 24);
-            this.txtTime.Name = "txtTime";
-            this.txtTime.Size = new System.Drawing.Size(78, 20);
-            this.txtTime.TabIndex = 3;
-            // 
             // txtID
             // 
             this.txtID.Location = new System.Drawing.Point(75, 25);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(89, 20);
+            this.txtID.Size = new System.Drawing.Size(65, 20);
             this.txtID.TabIndex = 1;
             // 
             // ceCellPhone
             // 
-            this.ceCellPhone.Location = new System.Drawing.Point(334, 26);
+            this.ceCellPhone.Enabled = false;
+            this.ceCellPhone.Location = new System.Drawing.Point(338, 26);
             this.ceCellPhone.Name = "ceCellPhone";
             this.ceCellPhone.Properties.Caption = "手机号";
             this.ceCellPhone.Size = new System.Drawing.Size(74, 19);
@@ -343,29 +345,22 @@ namespace SmartWaterSystem
             // txtNum4
             // 
             this.txtNum4.EditValue = "";
-            this.txtNum4.Location = new System.Drawing.Point(456, 52);
+            this.txtNum4.Location = new System.Drawing.Point(305, 52);
             this.txtNum4.Name = "txtNum4";
             this.txtNum4.Properties.MaxLength = 3;
-            this.txtNum4.Size = new System.Drawing.Size(28, 20);
-            this.txtNum4.TabIndex = 15;
+            this.txtNum4.Size = new System.Drawing.Size(30, 20);
+            this.txtNum4.TabIndex = 12;
             this.txtNum4.Tag = "4";
             this.txtNum4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
             // 
             // cePort
             // 
-            this.cePort.Location = new System.Drawing.Point(497, 53);
+            this.cePort.Location = new System.Drawing.Point(338, 53);
             this.cePort.Name = "cePort";
             this.cePort.Properties.Caption = "端口号";
             this.cePort.Size = new System.Drawing.Size(63, 19);
-            this.cePort.TabIndex = 16;
-            // 
-            // ceBaud
-            // 
-            this.ceBaud.Location = new System.Drawing.Point(6, 53);
-            this.ceBaud.Name = "ceBaud";
-            this.ceBaud.Properties.Caption = "波特率";
-            this.ceBaud.Size = new System.Drawing.Size(63, 19);
-            this.ceBaud.TabIndex = 7;
+            this.cePort.TabIndex = 13;
+            this.cePort.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceID
             // 
@@ -378,43 +373,55 @@ namespace SmartWaterSystem
             // txtNum3
             // 
             this.txtNum3.EditValue = "";
-            this.txtNum3.Location = new System.Drawing.Point(428, 52);
+            this.txtNum3.Location = new System.Drawing.Point(275, 52);
             this.txtNum3.Name = "txtNum3";
             this.txtNum3.Properties.MaxLength = 3;
-            this.txtNum3.Size = new System.Drawing.Size(28, 20);
-            this.txtNum3.TabIndex = 14;
+            this.txtNum3.Size = new System.Drawing.Size(30, 20);
+            this.txtNum3.TabIndex = 11;
             this.txtNum3.Tag = "3";
             this.txtNum3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
             // 
             // txtNum2
             // 
             this.txtNum2.EditValue = "";
-            this.txtNum2.Location = new System.Drawing.Point(400, 52);
+            this.txtNum2.Location = new System.Drawing.Point(245, 52);
             this.txtNum2.Name = "txtNum2";
             this.txtNum2.Properties.MaxLength = 3;
-            this.txtNum2.Size = new System.Drawing.Size(28, 20);
-            this.txtNum2.TabIndex = 13;
+            this.txtNum2.Size = new System.Drawing.Size(30, 20);
+            this.txtNum2.TabIndex = 10;
             this.txtNum2.Tag = "2";
             this.txtNum2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
             // 
             // txtNum1
             // 
             this.txtNum1.EditValue = "";
-            this.txtNum1.Location = new System.Drawing.Point(372, 52);
+            this.txtNum1.Location = new System.Drawing.Point(215, 52);
             this.txtNum1.Name = "txtNum1";
             this.txtNum1.Properties.MaxLength = 3;
-            this.txtNum1.Size = new System.Drawing.Size(28, 20);
-            this.txtNum1.TabIndex = 12;
+            this.txtNum1.Size = new System.Drawing.Size(30, 20);
+            this.txtNum1.TabIndex = 9;
             this.txtNum1.Tag = "1";
             this.txtNum1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
             // 
             // ceIP
             // 
-            this.ceIP.Location = new System.Drawing.Point(334, 53);
+            this.ceIP.Location = new System.Drawing.Point(145, 53);
             this.ceIP.Name = "ceIP";
             this.ceIP.Properties.Caption = "IP";
             this.ceIP.Size = new System.Drawing.Size(35, 19);
-            this.ceIP.TabIndex = 11;
+            this.ceIP.TabIndex = 8;
+            this.ceIP.CheckedChanged += new System.EventHandler(this.ceIP_CheckedChanged);
+            // 
+            // ceModbusExeFlag
+            // 
+            this.ceModbusExeFlag.Location = new System.Drawing.Point(3, 0);
+            this.ceModbusExeFlag.Name = "ceModbusExeFlag";
+            this.ceModbusExeFlag.Properties.Caption = "RS485采集modbus协议配置";
+            this.ceModbusExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceModbusExeFlag.Size = new System.Drawing.Size(177, 19);
+            this.ceModbusExeFlag.TabIndex = 6;
+            this.ceModbusExeFlag.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
             // 
             // ceCollectRS485
             // 
@@ -446,7 +453,7 @@ namespace SmartWaterSystem
             this.ceCollectSimulate.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceCollectSimulate.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceCollectSimulate.Size = new System.Drawing.Size(85, 19);
-            this.ceCollectSimulate.TabIndex = 1;
+            this.ceCollectSimulate.TabIndex = 0;
             this.ceCollectSimulate.CheckedChanged += new System.EventHandler(this.ceCollectSimulate_CheckedChanged);
             // 
             // btnEnableCollect
@@ -632,12 +639,32 @@ namespace SmartWaterSystem
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.btnCalibrationSimualte2);
+            this.groupControl2.Controls.Add(this.btnCalibrationSimualte1);
             this.groupControl2.Controls.Add(this.ceCollectSimulate);
             this.groupControl2.Controls.Add(this.gridControl_Simulate);
             this.groupControl2.Location = new System.Drawing.Point(6, 86);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(395, 186);
             this.groupControl2.TabIndex = 1;
+            // 
+            // btnCalibrationSimualte2
+            // 
+            this.btnCalibrationSimualte2.Location = new System.Drawing.Point(170, 1);
+            this.btnCalibrationSimualte2.Name = "btnCalibrationSimualte2";
+            this.btnCalibrationSimualte2.Size = new System.Drawing.Size(71, 20);
+            this.btnCalibrationSimualte2.TabIndex = 3;
+            this.btnCalibrationSimualte2.Text = "第2路校准";
+            this.btnCalibrationSimualte2.Click += new System.EventHandler(this.btnCalibrationSimualte2_Click);
+            // 
+            // btnCalibrationSimualte1
+            // 
+            this.btnCalibrationSimualte1.Location = new System.Drawing.Point(93, 1);
+            this.btnCalibrationSimualte1.Name = "btnCalibrationSimualte1";
+            this.btnCalibrationSimualte1.Size = new System.Drawing.Size(71, 20);
+            this.btnCalibrationSimualte1.TabIndex = 2;
+            this.btnCalibrationSimualte1.Text = "第1路校准";
+            this.btnCalibrationSimualte1.Click += new System.EventHandler(this.btnCalibrationSimualte1_Click);
             // 
             // gridControl_Simulate
             // 
@@ -652,7 +679,7 @@ namespace SmartWaterSystem
             this.cb_sim_sendtime,
             this.cb_sim_coltime2});
             this.gridControl_Simulate.Size = new System.Drawing.Size(391, 162);
-            this.gridControl_Simulate.TabIndex = 2;
+            this.gridControl_Simulate.TabIndex = 1;
             this.gridControl_Simulate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Simulate});
             // 
@@ -986,17 +1013,6 @@ namespace SmartWaterSystem
             this.SwitchComunication.TabIndex = 11;
             this.SwitchComunication.Click += new System.EventHandler(this.SwitchComunication_Click);
             // 
-            // checkEdit1
-            // 
-            this.checkEdit1.Location = new System.Drawing.Point(5, 5);
-            this.checkEdit1.Name = "checkEdit1";
-            this.checkEdit1.Properties.Caption = "modbus协议";
-            this.checkEdit1.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.checkEdit1.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.checkEdit1.Size = new System.Drawing.Size(90, 19);
-            this.checkEdit1.TabIndex = 2;
-            this.checkEdit1.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
-            // 
             // UniversalTerParm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1017,30 +1033,30 @@ namespace SmartWaterSystem
             this.Load += new System.EventHandler(this.UniversalTerParm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
             this.groupControl7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cemodbusprotocolstatus.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceSimulateState.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2State.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1State.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceBaud.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).EndInit();
@@ -1076,7 +1092,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1090,7 +1105,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.TextEdit txtPort;
         private DevExpress.XtraEditors.TextEdit txtCellPhone;
         private DevExpress.XtraEditors.ComboBoxEdit cbComType;
-        private DevExpress.XtraEditors.CheckEdit ceBaud;
         private DevExpress.XtraEditors.CheckEdit ceCellPhone;
         private DevExpress.XtraEditors.CheckEdit ceIP;
         private DevExpress.XtraEditors.CheckEdit ceComType;
@@ -1115,7 +1129,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit ceCollectSimulate;
         private DevExpress.XtraEditors.SimpleButton btnReset;
         private DevExpress.XtraEditors.TextEdit txtTime;
-        private DevExpress.XtraEditors.ComboBoxEdit cbBaudRate;
         private DevExpress.XtraGrid.GridControl gridControl_Simulate;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView_Simulate;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
@@ -1157,8 +1170,11 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_coltime2;
         private DevExpress.XtraEditors.CheckEdit cePluseState;
         private DevExpress.XtraEditors.CheckEdit ceRS485State;
-        private DevExpress.XtraEditors.CheckEdit ceSimulateState;
-        private DevExpress.XtraEditors.CheckEdit checkEdit1;
+        private DevExpress.XtraEditors.CheckEdit ceSimulate1State;
+        private DevExpress.XtraEditors.CheckEdit cemodbusprotocolstatus;
+        private DevExpress.XtraEditors.SimpleButton btnCalibrationSimualte2;
+        private DevExpress.XtraEditors.SimpleButton btnCalibrationSimualte1;
+        private DevExpress.XtraEditors.CheckEdit ceSimulate2State;
 
     }
 }

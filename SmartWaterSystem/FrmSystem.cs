@@ -159,6 +159,9 @@ namespace SmartWaterSystem
                         SQLSynctimer.Interval =60 * 1000;
                         SQLSynctimer.Tick += new EventHandler(SQLSynctimer_Tick);
                         SQLSynctimer.Enabled = true;
+
+                        SplashScreenManager.Default.SendCommand(null, "开始同步数据...");
+                        SQLSynctimer_Tick(null, null);  //启动先同步一次数据
                     }
                 }
 
@@ -185,8 +188,9 @@ namespace SmartWaterSystem
 
         void SQLSynctimer_Tick(object sender, EventArgs e)
         {
-            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerInfo);
+            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
             GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
+            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
         }
 
         void SQLSyncMgr_SQLSyncEvent(object sender, SQLSyncEventArgs e)
@@ -278,6 +282,11 @@ namespace SmartWaterSystem
                     NBG_GSMT.Visible = true;
                     navBarGSMMgr.Visible = true;
                 }
+                else if (t.Name == "IUniversalTerMonitor")   //通用终端数据展示
+                {
+                    navBarGSMMonitor.Visible = true;
+                    navBarGSMMonitor.Visible = true;
+                }
             }
         }
 
@@ -357,11 +366,11 @@ namespace SmartWaterSystem
                         NoiseGroupMgr noisegrpMgr = (NoiseGroupMgr)GetView(typeof(NoiseGroupMgr));
                         if (noisegrpMgr != null)
                             noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                        UniversalTerParm universalterMgr = (UniversalTerParm)GetView(typeof(UniversalTerParm));
-                        if (universalterMgr != null)
-                            universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                     }
+
+                    UniversalTerParm universalterMgr = (UniversalTerParm)GetView(typeof(UniversalTerParm));
+                    if (universalterMgr != null)
+                        universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                 }
             }
             catch (Exception ex)
@@ -394,11 +403,11 @@ namespace SmartWaterSystem
                         NoiseGroupMgr noisegrpMgr = (NoiseGroupMgr)GetView(typeof(NoiseGroupMgr));
                         if (noisegrpMgr != null)
                             noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                        UniversalTerParm universalterMgr = (UniversalTerParm)GetView(typeof(UniversalTerParm));
-                        if (universalterMgr != null)
-                            universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                     }
+
+                    UniversalTerParm universalterMgr = (UniversalTerParm)GetView(typeof(UniversalTerParm));
+                    if (universalterMgr != null)
+                        universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                 }
             }
             catch (Exception ex)
@@ -567,6 +576,14 @@ namespace SmartWaterSystem
                 logger.ErrorException("barBtnSetDBConnect_ItemClick", ex);
                 XtraMessageBox.Show("打开设置窗体失败,请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        FrmGPRSConsole grpsconsole=null;
+        private void barBtnGPRSConsole_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (grpsconsole == null)
+                grpsconsole = new FrmGPRSConsole();
+            grpsconsole.ShowDialog();
         }
 
         private void ClearLogAndDb()
@@ -817,6 +834,7 @@ namespace SmartWaterSystem
             }
             catch { }
         }
+
         
 
 

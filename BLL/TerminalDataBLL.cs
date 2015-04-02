@@ -59,6 +59,23 @@ namespace BLL
             }
         }
 
+        public int InsertGPRSUniversalData(Queue<GPRSUniversalFrameDataEntity> datas, out string msg)
+        {
+            msg = "";
+            try
+            {
+                if (datas.Count == 0)
+                    return 0;
+                return dal.InsertGPRSUniversalData(datas);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("InsertGPRSFlowData", ex);
+                msg = "保存至数据库发生异常";
+                return -1;
+            }
+        }
+
         public List<GPRSCmdEntity> GetGPRSParm()
         {
             try

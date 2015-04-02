@@ -53,7 +53,7 @@ namespace Entity
         /// <summary>
         /// 是否读取/设置modbus协议标识
         /// </summary>
-        public bool IsOptmodbusExeFlag = false;
+        //public bool IsOptmodbusExeFlag = false;
         private bool _modbusExeFlag;
         /// <summary>
         /// 485采集执行modbus协议标识
@@ -64,19 +64,19 @@ namespace Entity
             set { _modbusExeFlag = value; }
         }
 
-        /// <summary>
-        /// 是否读取/设置波特率
-        /// </summary>
-        public bool IsOptBaud = false;
-        private int _baud;
-        /// <summary>
-        /// 波特率
-        /// </summary>
-        public int Baud
-        {
-            get { return _baud; }
-            set { _baud = value; }
-        }
+        ///// <summary>
+        ///// 是否读取/设置波特率
+        ///// </summary>
+        //public bool IsOptBaud = false;
+        //private int _baud;
+        ///// <summary>
+        ///// 波特率
+        ///// </summary>
+        //public int Baud
+        //{
+        //    get { return _baud; }
+        //    set { _baud = value; }
+        //}
 
         /// <summary>
         /// 是否读取/设置通讯方式
@@ -126,15 +126,26 @@ namespace Entity
         public bool IsOpt_CollectConfig = false;
 
 
-        private bool _collect_simulate;
+        private bool _collect_simulate1;
         /// <summary>
-        /// 是否采集模拟量
+        /// 是否采集模拟量1路
         /// </summary>
-        public bool Collect_Simulate
+        public bool Collect_Simulate1
         {
-            get { return _collect_simulate; }
-            set { _collect_simulate = value; }
+            get { return _collect_simulate1; }
+            set { _collect_simulate1 = value; }
         }
+
+        private bool _collect_simulate2;
+        /// <summary>
+        /// 是否采集模拟量2路
+        /// </summary>
+        public bool Collect_Simulate2
+        {
+            get { return _collect_simulate2; }
+            set { _collect_simulate2 = value; }
+        }
+
         private bool _collect_pluse;
         /// <summary>
         /// 是否采集脉冲量

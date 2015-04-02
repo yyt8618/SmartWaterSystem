@@ -109,6 +109,13 @@ namespace SmartWaterSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap GPRSConsole {
+            get {
+                object obj = ResourceManager.GetObject("GPRSConsole", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap GsmTerminal {
             get {
                 object obj = ResourceManager.GetObject("GsmTerminal", resourceCulture);
@@ -245,6 +252,13 @@ namespace SmartWaterSystem.Properties {
         internal static System.Drawing.Bitmap UniversalTerMgr1 {
             get {
                 object obj = ResourceManager.GetObject("UniversalTerMgr1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap UniversalTermonitor {
+            get {
+                object obj = ResourceManager.GetObject("UniversalTermonitor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

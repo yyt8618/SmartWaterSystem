@@ -128,7 +128,9 @@
     <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -301,7 +303,7 @@
     <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.Designer.cs">
       <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
     </Compile>
-    <Compile Include="SQLSyncManager.cs" />
+    <Compile Include="Threads\SQLSyncManager.cs" />
     <Compile Include="Threads\SerialPortManager.cs" />
     <Compile Include="WelcomSplash.cs">
       <SubType>Form</SubType>
@@ -314,6 +316,12 @@
     </Compile>
     <Compile Include="WaitForm1.Designer.cs">
       <DependentUpon>WaitForm1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmGPRSConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGPRSConsole.Designer.cs">
+      <DependentUpon>FrmGPRSConsole.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
@@ -411,6 +419,9 @@
     <EmbeddedResource Include="WaitForm1.resx">
       <DependentUpon>WaitForm1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmGPRSConsole.resx">
+      <DependentUpon>FrmGPRSConsole.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -437,6 +448,10 @@
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{A73A7A63-11C8-40BC-AA44-0ACD23F00A0B}</Project>
       <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUniversalTerMonitor\UniversalTerMonitor.csproj">
+      <Project>{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}</Project>
+      <Name>UniversalTerMonitor</Name>
     </ProjectReference>
     <ProjectReference Include="..\NoiseDataCompare\NoiseDataCompare.csproj">
       <Project>{B67DCBA3-3945-4245-A44F-1ED35E76BAE2}</Project>
@@ -510,6 +525,8 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
+    <None Include="Resources\GPRSConsole.png" />
+    <None Include="Resources\UniversalTermonitor.png" />
     <None Include="Resources\leak\leak7.ico" />
     <None Include="Resources\leak\leak6.ico" />
     <None Include="Resources\leak\leak5.ico" />

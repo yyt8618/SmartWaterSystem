@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Entity;
+using System.Collections;
 
 namespace BLL
 {
@@ -83,6 +84,19 @@ namespace BLL
             }
         }
 
+        public int UpdateFlag(int id, int state)
+        {
+            try
+            {
+                return dal.UpdateFlag(id, state);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("UpdateFlag", ex);
+                return -1;
+            }
+        }
+
         public List<UniversalWayTypeEntity> Select(string where)
         {
             try
@@ -92,6 +106,23 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("Select", ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 获得配置的全部PointID(不区分ID)
+        /// </summary>
+        /// <returns></returns>
+        public List<UniversalWayTypeEntity> GetAllConfigPointID()
+        {
+            try
+            {
+                return dal.GetAllConfigPointID();
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetAllConfigPointID", ex);
                 return null;
             }
         }

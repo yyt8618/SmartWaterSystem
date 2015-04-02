@@ -244,11 +244,11 @@ namespace Common
         /// <summary>
         /// 读取从站脉冲时间间隔
         /// </summary>
-        READ_PLUSEINTERVAL = 0x00, //???
+        READ_PLUSEINTERVAL = 0x41,
         /// <summary>
         /// 读取从站采集功能配置
         /// </summary>
-        READ_COLLECTCONFIG = 0x48,   //???
+        READ_COLLECTCONFIG = 0x48,
         /// <summary>
         /// 读取从站MODBUS协议执行标识
         /// </summary>
@@ -275,7 +275,15 @@ namespace Common
         /// <summary>
         /// 启动终端采集功能命令
         /// </summary>
-        EnableCollect = 0x73
+        EnableCollect = 0x73,
+        /// <summary>
+        /// 从站第1路模拟量零点值校准
+        /// </summary>
+        CalibartionSimualte1 = 0x4E,
+        /// <summary>
+        /// 从站第2路模拟量零点值校准
+        /// </summary>
+        CalibartionSimualte2= 0x4F
         #endregion
     }
 
@@ -316,9 +324,9 @@ namespace Common
         /// </summary>
         PRESS_CTRL = 0x01,
         /// <summary>
-        /// 水厂采集控制器
+        /// 通用终端
         /// </summary>
-        WATER_CTRL = 0x02,
+        UNIVERSAL_CTRL = 0x02,
         /// <summary>
         /// 便携式压力控制终端
         /// </summary>
@@ -440,98 +448,6 @@ namespace Common
     public enum GPRS_READ
     {
         /// <summary>
-        /// 读取时间
-        /// </summary>
-        READ_TIME = 0x40,
-        /// <summary>
-        /// 读取压力时间间隔
-        /// </summary>
-        READ_PRE_INTERVAL = 0x41,
-        /// <summary>
-        /// 读取压力偏移量
-        /// </summary>
-        READ_PRE_OFFSET = 0x42,
-        /// <summary>
-        /// 读取流量时间间隔
-        /// </summary>
-        READ_FLOW_INTERVAL = 0x44,
-        /// <summary>
-        /// 读取压力报警上限值
-        /// </summary>
-        READ_PRE_UPPERALARM = 0x45,
-        /// <summary>
-        /// 读取压力报警下限值
-        /// </summary>
-        READ_PRE_LOWALARM = 0x46,
-        /// <summary>
-        /// 读取电池电压报警下限值
-        /// </summary>
-        READ_BATTERY_LOWLIMIT = 0x47,
-        /// <summary>
-        /// 读取斜率报警上限值
-        /// </summary>
-        READ_SLOPE_UPPERLIMIT = 0x48,
-        /// <summary>
-        /// 读取斜率报警下限值
-        /// </summary>
-        READ_SLOPE_LOWLIMIT = 0x49,
-        /// <summary>
-        /// 读取心跳时间间隔
-        /// </summary>
-        READ_HEART_INTERVAL = 0x4A,
-        /// <summary>
-        /// 读取采集功能配置
-        /// </summary>
-        READ_COLLECT = 0x4B,
-        /// <summary>
-        /// 读取通讯方式
-        /// </summary>
-        READ_COMTYPE = 0x4C,
-        /// <summary>
-        /// 读取波特率
-        /// </summary>
-        READ_BAUD = 0x4D,
-        /// <summary>
-        /// 读取终端ID
-        /// </summary>
-        READ_ID = 0x4E,
-        /// <summary>
-        /// 读取IP
-        /// </summary>
-        READ_IP = 0x4F,
-        /// <summary>
-        /// 读取端口
-        /// </summary>
-        READ_PORT = 0x50,
-        /// <summary>
-        /// 读取报警手机号
-        /// </summary>
-        READ_CELLPHONE = 0x51,
-        /// <summary>
-        /// 读取压力上限报警功能投/退
-        /// </summary>
-        READ_PRE_UPPERALARM_ENABLE = 0x52,
-        /// <summary>
-        /// 读取压力下限报警功能投/退
-        /// </summary>
-        READ_PRE_LOWALARM_ENABLE = 0x53,
-        /// <summary>
-        /// 读取斜率上限报警功能投/退
-        /// </summary>
-        READ_SLOPE_UPPERLIMIT_ENABLE = 0x54,
-        /// <summary>
-        /// 读取斜率下限报警功能投/退
-        /// </summary>
-        READ_SLOPE_LOWLIMIT_ENABLE = 0x55,
-        /// <summary>
-        /// 读取电池电压采集时间间隔
-        /// </summary>
-        READ_BATTERY_INTERVAL = 0x56,
-        /// <summary>
-        /// 读取压力量程
-        /// </summary>
-        READ_PRE_SPAN = 0x58,
-        /// <summary>
         /// 从站向主站发送压力采集数据
         /// </summary>
         READ_PREDATA = 0xA0,
@@ -544,21 +460,49 @@ namespace Common
         /// </summary>
         READ_ALARMINFO = 0xA2,
         /// <summary>
-        /// 从站向主站发送心跳包
+        /// 通用终端发送脉冲数据
         /// </summary>
-        READ_HEART = 0xA3,
+        READ_UNIVERSAL_PLUSE=0xA0,
         /// <summary>
-        /// 从站向主站发送压力采集历史数据
+        /// 通用终端发送模拟量1路数据
         /// </summary>
-        READ_PREHISTORYDATA = 0xA4,
+        READ_UNIVERSAL_SIM1=0xA1,
         /// <summary>
-        /// 从站向主站请求断开gprs
+        /// 通用终端发送模拟量2路数据
         /// </summary>
-        READ_DISCONNECT = 0xA5,
+        READ_UNIVERSAL_SIM2=0xA2,
         /// <summary>
-        /// 从站向主站发送流量采集历史数据
+        /// 通用终端发送RS485 1路数据
         /// </summary>
-        READ_FLOWHISTORYDATA = 0xA6
+        READ_UNVERSAL_RS4851=0xA3,
+        /// <summary>
+        /// 通用终端发送RS485 2路数据
+        /// </summary>
+        READ_UNVERSAL_RS4852 = 0xA4,
+        /// <summary>
+        /// 通用终端发送RS485 3路数据
+        /// </summary>
+        READ_UNVERSAL_RS4853 = 0xA5,
+        /// <summary>
+        /// 通用终端发送RS485 4路数据
+        /// </summary>
+        READ_UNVERSAL_RS4854 = 0xA6,
+        /// <summary>
+        /// 通用终端发送RS485 5路数据
+        /// </summary>
+        READ_UNVERSAL_RS4855 = 0xA7,
+        /// <summary>
+        /// 通用终端发送RS485 6路数据
+        /// </summary>
+        READ_UNVERSAL_RS4856 = 0xA8,
+        /// <summary>
+        /// 通用终端发送RS485 7路数据
+        /// </summary>
+        READ_UNVERSAL_RS4857 = 0xA9,
+        /// <summary>
+        /// 通用终端发送RS485 8路数据
+        /// </summary>
+        READ_UNVERSAL_RS4858 = 0xAA
     }
 
     public enum GPRS_CTRL

@@ -6,6 +6,7 @@ using Common;
 using Entity;
 using System.Data;
 using System.Data.SQLite;
+using System.Collections;
 
 namespace DAL
 {
@@ -107,6 +108,15 @@ namespace DAL
             return 1;
         }
 
+        public int UpdateFlag(int id, int state)
+        {
+            if (id < 0)
+                return 0;
+            string SQL = "UPDATE UniversalTerWayType SET SyncState='"+state.ToString()+"' WHERE ID='" + id + "'";
+            SQLiteHelper.ExecuteNonQuery(SQL, null);
+            return 1;
+        }
+            
         public List<UniversalWayTypeEntity> Select(string where)
         {
             string SQL = "SELECT ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,SyncState,ModifyTime FROM UniversalTerWayType ";
@@ -141,6 +151,58 @@ namespace DAL
             }
             return null;
         }
-        
+
+        /// <summary>
+        /// 获得配置的全部PointID(不区分ID)
+        /// </summary>
+        /// <returns></returns>
+        public List<UniversalWayTypeEntity> GetAllConfigPointID()
+        {
+            string SQL_Point = @"SELECT ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,SyncState,ModifyTime 
+                                FROM UniversalTerWayType WHERE ID IN (SELECT DISTINCT PointID FROM UniversalTerWayConfig) ORDER BY WayType,Sequence";
+            List<UniversalWayTypeEntity> lst = new List<UniversalWayTypeEntity>();
+            using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL_Point, null))
+            {
+                while (reader.Read())
+                {
+                    UniversalWayTypeEntity entity = new UniversalWayTypeEntity();
+
+                    entity.ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : -1;
+                    entity.Level = reader["Level"] != DBNull.Value ? Convert.ToInt32(reader["Level"]) : 0;
+                    entity.ParentID = reader["ParentID"] != DBNull.Value ? Convert.ToInt32(reader["ParentID"]) : 0;
+                    entity.WayType = reader["WayType"] != DBNull.Value ? (UniversalCollectType)(Convert.ToInt32(reader["WayType"])) : UniversalCollectType.Simulate;
+                    entity.Name = reader["Name"] != DBNull.Value ? reader["Name"].ToString() : "";
+
+                    entity.FrameWidth = reader["FrameWidth"] != DBNull.Value ? Convert.ToInt32(reader["FrameWidth"]) : 2;
+                    entity.Sequence = reader["Sequence"] != DBNull.Value ? Convert.ToInt32(reader["Sequence"]) : 1;
+                    entity.MaxMeasureRange = reader["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRange"]) : 0f;
+                    entity.ManMeasureRangeFlag = reader["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRangeFlag"]) : 0f;
+                    entity.Precision = reader["Precision"] != DBNull.Value ? Convert.ToInt32(reader["Precision"]) : 2;
+
+                    entity.Unit = reader["Unit"] != DBNull.Value ? reader["Unit"].ToString() : "";
+                    entity.SyncState = reader["SyncState"] != DBNull.Value ? Convert.ToInt32(reader["SyncState"]) : 0;
+                    entity.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]) : ConstValue.MinDateTime;
+
+                    lst.Add(entity);
+                }
+            }
+            foreach (UniversalWayTypeEntity entity in lst)
+            {
+                entity.HaveChild = IDHaveChild(entity.ID.ToString());
+            }
+            return lst.Count>0 ? lst:null;
+        }
+
+        private bool IDHaveChild(string PointID)
+        {
+            string SQL = "SELECT COUNT(1) FROM UniversalTerWayType WHERE ParentID='" + PointID + "'";
+            object obj_count = SQLiteHelper.ExecuteScalar(SQL, null);
+            if (obj_count != null)
+            {
+                return Convert.ToInt32(obj_count) > 0 ? true : false;
+            }
+            return false;
+        }
+
     }
 }

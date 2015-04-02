@@ -25,41 +25,30 @@ namespace BLL
             }
         }
 
-        //同步模拟类型信息
-        public bool SyncSimulateType()
+        public bool UpdateSQL_UniversalTerWayConfig()
         {
             try
             {
+                dal.UpdateSQL_UniversalTerWayConfig();
                 return true;
             }
             catch (Exception ex)
             {
+                logger.ErrorException("UpdateSQL_UniversalTerWayConfig", ex);
                 return false;
             }
         }
 
-        //同步RS485类型信息
-        public bool SyncRS485Type()
+        public bool UpdateSQL_Terminal()
         {
             try
             {
+                dal.UpdateSQL_Terminal();
                 return true;
             }
             catch (Exception ex)
             {
-                return false;
-            }
-        }
-
-        //同步脉冲类型信息
-        public bool SyncPluseType()
-        {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
+                logger.ErrorException("UpdateSQL_Terminal", ex);
                 return false;
             }
         }

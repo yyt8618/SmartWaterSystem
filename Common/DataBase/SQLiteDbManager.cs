@@ -497,9 +497,9 @@ namespace Common
         {
             return @"CREATE TABLE [Terminal]
                     (
-	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [ID]                [INT]           NOT NULL,
 	                    [TerminalID]		[INT] NOT NULL,								--终端ID
-	                    [TerminalName]		NVARCHAR(200) NOT NULL,					    --终端名称
+	                    [TerminalName]		NVARCHAR(200)   NOT NULL,					--终端名称
                         [TerminalType]      [INT]           NOT NULL,                   --终端类型 
 	                    [Address]			NVARCHAR(200)	NOT NULL DEFAULT '',		--地址
 	                    [Remark]			NVARCHAR(200)	NOT NULL DEFAULT '',		--备注
@@ -566,7 +566,7 @@ namespace Common
         {
             return @"CREATE TABLE [UniversalTerWayConfig]
                     (
-	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [ID]                [INT]           NOT NULL,
                         [TerminalID]		[INT]           NOT NULL,								--终端ID
                         [Sequence]          [INT]           NOT NULL,                               --对应顺序序号
 	                    [PointID]           [INT]           NOT NULL,

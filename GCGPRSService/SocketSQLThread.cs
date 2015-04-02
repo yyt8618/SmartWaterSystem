@@ -10,11 +10,13 @@ namespace GCGPRSService
 {
     public enum SQLType : uint
     {
-        None = 0,
-        GetSendParm = 1,
-        UpdateSendParmFlag =2,
-        InsertPreValue = 3,
-        InsertFlowValue = 4
+        None,
+        GetSendParm,
+        UpdateSendParmFlag,
+        InsertPreValue,
+        InsertFlowValue,
+
+        InsertUniversalValue
     }
 
     public class SQLNotifyEventArgs : EventArgs
@@ -63,7 +65,7 @@ namespace GCGPRSService
         private NLog.Logger logger = NLog.LogManager.GetLogger("SocketSQLThread");
         TerminalDataBLL dataBll = new TerminalDataBLL();
 
-        private const int eventcount = 5;
+        private const int eventcount = 6;
         private IntPtr[] hEvent = new IntPtr[eventcount];
         public event SQLHandle SQLEvent;
 
@@ -145,10 +147,15 @@ namespace GCGPRSService
                             result = dataBll.InsertGPRSPreData(GlobalValue.Instance.GPRS_PreFrameData, out msg);
                             #endregion
                                 break;
-                        break;
                     case (uint)SQLType.InsertFlowValue:
                         result = dataBll.InsertGPRSFlowData(GlobalValue.Instance.GPRS_FlowFrameData, out msg);
                         break;
+                    case (uint)SQLType.InsertUniversalValue:
+                        {
+                            result = dataBll.InsertGPRSUniversalData(GlobalValue.Instance.GPRS_UniversalFrameData, out msg);
+                        }
+                        break;
+                        
                 }
                 OnSQLEvent(new SQLNotifyEventArgs((SQLType)evt,result,msg));
             }

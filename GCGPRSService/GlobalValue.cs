@@ -50,6 +50,16 @@ namespace GCGPRSService
             set { _GPRS_FlowFrameData = value; }
         }
 
+        private Queue<GPRSUniversalFrameDataEntity> _GPRS_UniversalFrameData = new Queue<GPRSUniversalFrameDataEntity>();
+        /// <summary>
+        /// GPRS通用终端帧数据
+        /// </summary>
+        public Queue<GPRSUniversalFrameDataEntity> GPRS_UniversalFrameData
+        {
+            get { return _GPRS_UniversalFrameData; }
+            set { _GPRS_UniversalFrameData = value; }
+        }
+
         private List<GPRSCmdEntity> _lstGprsCmd = new List<GPRSCmdEntity>();
         /// <summary>
         /// GPRS下送命令

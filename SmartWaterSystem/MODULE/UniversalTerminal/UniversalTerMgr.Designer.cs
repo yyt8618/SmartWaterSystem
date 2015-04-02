@@ -691,11 +691,11 @@
             // 
             // labelControl9
             // 
-            this.labelControl9.Location = new System.Drawing.Point(17, 397);
+            this.labelControl9.Location = new System.Drawing.Point(6, 397);
             this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(76, 14);
+            this.labelControl9.Size = new System.Drawing.Size(100, 14);
             this.labelControl9.TabIndex = 109;
-            this.labelControl9.Text = "最大测量范围:";
+            this.labelControl9.Text = "仪表最大测量范围:";
             // 
             // txtCollectType
             // 

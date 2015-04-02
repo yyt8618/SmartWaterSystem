@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
@@ -50,6 +51,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -81,9 +83,10 @@
     <Compile Include="DataBase\SQLiteHelper.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="CommandInfo.cs" />
-    <Compile Include="DataBase\Socket\ConvertHelper.cs" />
-    <Compile Include="DataBase\Socket\Package.cs" />
-    <Compile Include="DataBase\Socket\PackageDefine.cs" />
+    <Compile Include="Socket\ConvertHelper.cs" />
+    <Compile Include="Socket\Package.cs" />
+    <Compile Include="Socket\PackageDefine.cs" />
+    <Compile Include="Socket\ServiceManager.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>
   <ItemGroup>

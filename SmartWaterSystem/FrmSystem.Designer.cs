@@ -44,6 +44,7 @@
             this.skinRibbonGalleryBarItem1 = new DevExpress.XtraBars.SkinRibbonGalleryBarItem();
             this.ribbonGalleryBarItem1 = new DevExpress.XtraBars.RibbonGalleryBarItem();
             this.barBtnSetDBConnect = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnGPRSConsole = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageSys = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -136,9 +137,10 @@
             this.barBtnSetAbout,
             this.skinRibbonGalleryBarItem1,
             this.ribbonGalleryBarItem1,
-            this.barBtnSetDBConnect});
+            this.barBtnSetDBConnect,
+            this.barBtnGPRSConsole});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 32;
+            this.ribbonControl1.MaxItemId = 33;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageSys});
@@ -235,6 +237,14 @@
             this.barBtnSetDBConnect.Name = "barBtnSetDBConnect";
             this.barBtnSetDBConnect.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnSetDBConnect_ItemClick);
             // 
+            // barBtnGPRSConsole
+            // 
+            this.barBtnGPRSConsole.Caption = "终端监控";
+            this.barBtnGPRSConsole.Id = 32;
+            this.barBtnGPRSConsole.LargeGlyph = global::SmartWaterSystem.Properties.Resources.GPRSConsole;
+            this.barBtnGPRSConsole.Name = "barBtnGPRSConsole";
+            this.barBtnGPRSConsole.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnGPRSConsole_ItemClick);
+            // 
             // ribbonPageSys
             // 
             this.ribbonPageSys.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -259,6 +269,7 @@
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetSerial);
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetVoice);
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetDBConnect);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnGPRSConsole);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.ShowCaptionButton = false;
             this.ribbonPageGroup2.Text = "设置";
@@ -509,6 +520,7 @@
             // navBarGSMMonitor
             // 
             this.navBarGSMMonitor.Caption = "列表监控、趋势图";
+            this.navBarGSMMonitor.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTermonitor;
             this.navBarGSMMonitor.Name = "navBarGSMMonitor";
             this.navBarGSMMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMMonitor_LinkClicked);
             // 
@@ -711,6 +723,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.BarButtonItem barBtnSetDBConnect;
         private System.Windows.Forms.Timer SQLSynctimer;
+        private DevExpress.XtraBars.BarButtonItem barBtnGPRSConsole;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

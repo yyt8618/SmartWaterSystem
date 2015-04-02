@@ -8,8 +8,9 @@ namespace SmartWaterSystem
     public enum SqlSyncType:uint
     {
         None = 0,
-        SyncTerInfo = 1,
+        SyncTerminal,
         SyncUpdate_UniversalTerWayType,
+        SyncUpdate_UniversalTerWayConfig
         //Sync
     }
 
@@ -59,7 +60,7 @@ namespace SmartWaterSystem
     public delegate void SQLSyncEventHandler(object sender, SQLSyncEventArgs e);
     public class SQLSyncManager
     {
-        private const uint eventcount = 3;
+        private const uint eventcount = 4;
 
         public event SQLSyncEventHandler SQLSyncEvent;
         private IntPtr[] hEvent = new IntPtr[eventcount];
@@ -103,6 +104,7 @@ namespace SmartWaterSystem
         int result = -1;  //-1:执行失败;1:执行成功;0:无执行返回
         object obj = null;
         string msg = string.Empty;
+        SQLSyncBLL syncBll = new SQLSyncBLL();
         private void SQLSyncThread()
         {
             while (true)
@@ -116,15 +118,43 @@ namespace SmartWaterSystem
                     case (uint)SqlSyncType.None:
                         Thread.CurrentThread.Abort();
                         break;
-                    case (uint)SqlSyncType.SyncTerInfo:
-
+                    case (uint)SqlSyncType.SyncTerminal:
+                        {
+                            if (SQLHelper.TryConn(SQLHelper.ConnectionString))
+                            {
+                                bool res = syncBll.UpdateSQL_Terminal();
+                                if (res)
+                                    result = 1;
+                                else
+                                    result = -1;
+                            }
+                            else
+                            {
+                                result = 1;
+                            }
+                        }
                         break;
                     case (uint)SqlSyncType.SyncUpdate_UniversalTerWayType:
                         {
                             if (SQLHelper.TryConn(SQLHelper.ConnectionString))
                             {
-                                SQLSyncBLL syncBll = new SQLSyncBLL();
                                 bool res = syncBll.Update_UniversalTerWayType();
+                                if (res)
+                                    result = 1;
+                                else
+                                    result = -1;
+                            }
+                            else
+                            {
+                                result = 1;
+                            }
+                        }
+                        break;
+                    case (uint)SqlSyncType.SyncUpdate_UniversalTerWayConfig:
+                        {
+                            if (SQLHelper.TryConn(SQLHelper.ConnectionString))
+                            {
+                                bool res = syncBll.UpdateSQL_UniversalTerWayConfig();
                                 if (res)
                                     result = 1;
                                 else
@@ -144,7 +174,6 @@ namespace SmartWaterSystem
         public void Send(SqlSyncType type)
         {
             Win32.SetEvent(hEvent[(int)type]);
-            //Win32.EventModify(hEvent[(int)type], Win32.EVENT_SET);
         }
 
     }

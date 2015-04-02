@@ -131,6 +131,7 @@ namespace GCGPRSService
                 t_socket.Abort();
                 return;
             }
+            //Thread.Sleep(10 * 1000);
             int port =Settings.Instance.GetInt(SettingKeys.GPRS_PORT);
             IPAddress ipAddress = IPAddress.Parse(ip);
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
@@ -238,171 +239,220 @@ namespace GCGPRSService
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据"));
 #endif
 
-                                    #region
-                                    //解析数据
-                                    if (pack.C1 == (byte)GPRS_READ.READ_PREDATA)  //从站向主站发送压力采集数据
+                                    #region 解析数据
+                                    if (pack.ID3 == (byte)DEV_TYPE.Data_CTRL)
                                     {
-                                        int dataindex = (pack.DataLength - 2 - 1) % 8;
-                                        if (dataindex != 0)
+                                        #region 压力终端
+                                        if (pack.C1 == (byte)GPRS_READ.READ_PREDATA)  //从站向主站发送压力采集数据
                                         {
-                                            throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+8*n)规则");
+                                            int dataindex = (pack.DataLength - 2 - 1) % 8;
+                                            if (dataindex != 0)
+                                            {
+                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+8*n)规则");
+                                            }
+                                            dataindex = (pack.DataLength - 2 - 1) / 8;
+
+                                            string alarm = "";
+                                            int preFlag = 0;
+
+                                            //报警
+                                            /*
+                                             * A0—压力1上限报警。
+                                             * A1—压力1下限报警。
+                                             * A2—压力2上限报警。
+                                             * A3—压力2下限报警。
+                                             * A4—压力1斜率上限报警。
+                                             * A5—压力1斜率下限报警。
+                                             * A6—压力2斜率上限报警。
+                                             * A7—压力2斜率下限报警。
+                                             * A8～A15—备用
+                                             */
+
+                                            if ((pack.Data[1] & 0x01) == 1)  //压力1上限报警
+                                                alarm += "压力1上限报警";
+                                            else if (((pack.Data[1] & 0x02) >> 1) == 1)   //压力1下限报警
+                                                alarm += "压力1下限报警";
+                                            else if (((pack.Data[1] & 0x04) >> 2) == 1)   //压力2上限报警
+                                                alarm += "压力2上限报警";
+                                            else if (((pack.Data[1] & 0x08) >> 3) == 1)  //压力2下限报警
+                                                alarm += "压力2下限报警";
+                                            else if (((pack.Data[1] & 0x10) >> 4) == 1)   //压力1斜率上限报警
+                                                alarm += "压力1斜率上限报警";
+                                            else if (((pack.Data[1] & 0x20) >> 5) == 1)  //压力1斜率下限报警
+                                                alarm += "压力1斜率下限报警";
+                                            else if (((pack.Data[1] & 0x40) >> 6) == 1)  //压力2斜率上限报警
+                                                alarm += "压力2斜率上限报警";
+                                            else if (((pack.Data[1] & 0x80) >> 7) == 1)  //压力2斜率下限报警
+                                                alarm += "压力2斜率下限报警";
+
+                                            preFlag = Convert.ToInt16(pack.Data[2]);
+
+                                            GPRSPreFrameDataEntity framedata = new GPRSPreFrameDataEntity();
+                                            framedata.TerId = pack.ID.ToString();
+                                            framedata.ModifyTime = DateTime.Now;
+                                            framedata.Frame = str_frame;
+
+                                            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                            float pressuevalue = 0;
+                                            for (int i = 0; i < dataindex; i++)
+                                            {
+                                                year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
+                                                month = Convert.ToInt16(pack.Data[i * 8 + 4]);
+                                                day = Convert.ToInt16(pack.Data[i * 8 + 5]);
+                                                hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
+                                                minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
+                                                sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
+
+                                                pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0)) / 1000;
+
+                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力终端[{1}]|报警({2})|压力标志({3})|采集时间({4})|压力值:{5}MPa",
+                                                    dataindex, pack.ID, alarm, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue)));
+
+                                                GPRSPreDataEntity data = new GPRSPreDataEntity();
+                                                data.PreValue = pressuevalue;
+                                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                framedata.lstPreData.Add(data);
+                                            }
+
+                                            GlobalValue.Instance.GPRS_PreFrameData.Enqueue(framedata);  //通知存储线程处理
+                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertPreValue);
                                         }
-                                        dataindex = (pack.DataLength - 2 - 1) / 8;
-
-                                        string alarm = "";
-                                        int preFlag = 0;
-
-                                        //报警
-                                        /*
-                                         * A0—压力1上限报警。
-                                         * A1—压力1下限报警。
-                                         * A2—压力2上限报警。
-                                         * A3—压力2下限报警。
-                                         * A4—压力1斜率上限报警。
-                                         * A5—压力1斜率下限报警。
-                                         * A6—压力2斜率上限报警。
-                                         * A7—压力2斜率下限报警。
-                                         * A8～A15—备用
-                                         */
-
-                                        if ((pack.Data[1] & 0x01) == 1)  //压力1上限报警
-                                            alarm += "压力1上限报警";
-                                        else if (((pack.Data[1] & 0x02) >> 1) == 1)   //压力1下限报警
-                                            alarm += "压力1下限报警";
-                                        else if (((pack.Data[1] & 0x04) >> 2) == 1)   //压力2上限报警
-                                            alarm += "压力2上限报警";
-                                        else if (((pack.Data[1] & 0x08) >> 3) == 1)  //压力2下限报警
-                                            alarm += "压力2下限报警";
-                                        else if (((pack.Data[1] & 0x10) >> 4) == 1)   //压力1斜率上限报警
-                                            alarm += "压力1斜率上限报警";
-                                        else if (((pack.Data[1] & 0x20) >> 5) == 1)  //压力1斜率下限报警
-                                            alarm += "压力1斜率下限报警";
-                                        else if (((pack.Data[1] & 0x40) >> 6) == 1)  //压力2斜率上限报警
-                                            alarm += "压力2斜率上限报警";
-                                        else if (((pack.Data[1] & 0x80) >> 7) == 1)  //压力2斜率下限报警
-                                            alarm += "压力2斜率下限报警";
-
-                                        preFlag = Convert.ToInt16(pack.Data[2]);
-
-                                        GPRSPreFrameDataEntity framedata = new GPRSPreFrameDataEntity();
-                                        framedata.TerId = pack.ID.ToString();
-                                        framedata.ModifyTime = DateTime.Now;
-                                        framedata.Frame = str_frame;
-
-                                        int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                        float pressuevalue = 0;
-                                        for (int i = 0; i < dataindex; i++)
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_FLOWDATA)  //从站向主站发送流量采集数据
                                         {
-                                            year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
-                                            month = Convert.ToInt16(pack.Data[i * 8 + 4]);
-                                            day = Convert.ToInt16(pack.Data[i * 8 + 5]);
-                                            hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
-                                            minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
-                                            sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
+                                            int dataindex = (pack.DataLength - 2 - 1) % 18;
+                                            if (dataindex != 0)
+                                            {
+                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+18*n)规则");
+                                            }
+                                            dataindex = (pack.DataLength - 2 - 1) / 18;
 
-                                            pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0)) / 1000;
+                                            int alarmflag = 0;
+                                            int flowFlag = 0;
 
-                                            OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力终端[{1}]|报警({2})|压力标志({3})|采集时间({4})|压力值:{5}MPa",
-                                                dataindex, pack.ID, alarm, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue)));
 
-                                            GPRSPreDataEntity data = new GPRSPreDataEntity();
-                                            data.PreValue = pressuevalue;
-                                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                                            framedata.lstPreData.Add(data);
+                                            //报警标志
+                                            alarmflag = BitConverter.ToInt16(new byte[] { pack.Data[0], pack.Data[1] }, 0);
+                                            flowFlag = Convert.ToInt16(pack.Data[2]);
+
+                                            GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
+                                            framedata.TerId = pack.ID.ToString();
+                                            framedata.ModifyTime = DateTime.Now;
+                                            framedata.Frame = str_frame;
+
+                                            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                            float forward_flowvalue = 0, reverse_flowvalue, instant_flowvalue = 0;
+                                            for (int i = 0; i < dataindex; i++)
+                                            {
+                                                year = 2000 + Convert.ToInt16(pack.Data[i * 18 + 3]);
+                                                month = Convert.ToInt16(pack.Data[i * 18 + 4]);
+                                                day = Convert.ToInt16(pack.Data[i * 18 + 5]);
+                                                hour = Convert.ToInt16(pack.Data[i * 18 + 6]);
+                                                minute = Convert.ToInt16(pack.Data[i * 18 + 7]);
+                                                sec = Convert.ToInt16(pack.Data[i * 18 + 8]);
+
+                                                //前向流量
+                                                forward_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 12], pack.Data[i * 18 + 11], pack.Data[i * 18 + 10], pack.Data[i * 18 + 9] }, 0);
+                                                //反向流量
+                                                reverse_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 16], pack.Data[i * 18 + 15], pack.Data[i * 18 + 14], pack.Data[i * 18 + 13] }, 0);
+                                                //瞬时流量
+                                                instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 20], pack.Data[i * 18 + 19], pack.Data[i * 18 + 18], pack.Data[i * 18 + 17] }, 0);
+
+                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|流量终端[{1}]|报警标志({2})|流量标志({3})|采集时间({4})|正向流量值:{5}|反向流量值:{6}|瞬时流量值:{7}",
+                                                    dataindex, pack.ID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
+
+                                                GPRSFlowDataEntity data = new GPRSFlowDataEntity();
+                                                data.Forward_FlowValue = forward_flowvalue;
+                                                data.Reverse_FlowValue = reverse_flowvalue;
+                                                data.Instant_FlowValue = instant_flowvalue;
+                                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                framedata.lstFlowData.Add(data);
+                                            }
+                                            GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
+                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertPreValue);
                                         }
-                                        
-                                        GlobalValue.Instance.GPRS_PreFrameData.Enqueue(framedata);  //通知存储线程处理
-                                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertPreValue);
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_ALARMINFO)  //从站向主站发送设备报警信息
+                                        {
+                                            if (pack.DataLength != 7)
+                                            {
+                                                throw new ArgumentException(DateTime.Now.ToString() + " " + "帧数据长度[" + pack.DataLength + "]不符合(2+1+18*n)规则");
+                                            }
+
+                                            string alarm = "";
+                                            //报警
+                                            /*
+                                             * A0—电池低压报警。
+                                             * A1—压力传感器1损坏报警。
+                                             * A2—压力传感器2损坏报警。
+                                             * A3—485流量传感器损坏报警。
+                                             * A4～A7—备用
+                                             */
+
+                                            if ((pack.Data[0] & 0x01) == 1)  //电池低压报警
+                                                alarm += "电池低压报警";
+                                            else if (((pack.Data[0] & 0x02) >> 1) == 1)   //压力传感器1损坏报警
+                                                alarm += "压力传感器1损坏报警";
+                                            else if (((pack.Data[0] & 0x04) >> 2) == 1)   //压力传感器2损坏报警
+                                                alarm += "压力传感器2损坏报警";
+                                            else if (((pack.Data[0] & 0x08) >> 3) == 1)  //485流量传感器损坏报警
+                                                alarm += "485流量传感器损坏报警";
+
+                                            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                            year = 2000 + Convert.ToInt16(pack.Data[1]);
+                                            month = Convert.ToInt16(pack.Data[2]);
+                                            day = Convert.ToInt16(pack.Data[3]);
+                                            hour = Convert.ToInt16(pack.Data[4]);
+                                            minute = Convert.ToInt16(pack.Data[5]);
+                                            sec = Convert.ToInt16(pack.Data[6]);
+
+                                            OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}]{1}|时间({2})",
+                                                 pack.ID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                        }
+                                        #endregion
                                     }
-                                    else if (pack.C1 == (byte)GPRS_READ.READ_FLOWDATA)  //从站向主站发送流量采集数据
+                                    else if (pack.ID3 == (byte)DEV_TYPE.UNIVERSAL_CTRL)
                                     {
-                                        int dataindex = (pack.DataLength - 2 - 1) % 18;
-                                        if (dataindex != 0)
+                                        #region 通用终端
+                                        if (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM1)  //接受通用终端发送的模拟1路数据
                                         {
-                                            throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+18*n)规则");
+                                            int dataindex = (pack.DataLength - 2 - 1) % 8;
+                                            if (dataindex != 0)
+                                            {
+                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+8*n)规则");
+                                            }
+                                            dataindex = (pack.DataLength - 2 - 1) / 8;
+
+                                            int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
+                                            GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
+                                            framedata.TerId = pack.ID.ToString();
+                                            framedata.ModifyTime = DateTime.Now;
+                                            framedata.Frame = str_frame;
+
+                                            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                            float datavalue = 0;
+                                            for (int i = 0; i < dataindex; i++)
+                                            {
+                                                year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
+                                                month = Convert.ToInt16(pack.Data[i * 8 + 4]);
+                                                day = Convert.ToInt16(pack.Data[i * 8 + 5]);
+                                                hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
+                                                minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
+                                                sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
+
+                                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
+
+                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]一路|校准值({2})|采集时间({3})|值:{4}",
+                                                    dataindex, pack.ID, calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, datavalue)));
+
+                                                GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
+                                                data.Sim1 = datavalue;
+                                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                framedata.lstData.Add(data);
+                                            }
+
+                                            GlobalValue.Instance.GPRS_UniversalFrameData.Enqueue(framedata);  //通知存储线程处理
+                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertUniversalValue);
                                         }
-                                        dataindex = (pack.DataLength - 2 - 1) / 18;
-
-                                        int alarmflag = 0;
-                                        int flowFlag = 0;
-
-
-                                        //报警标志
-                                        alarmflag = BitConverter.ToInt16(new byte[] { pack.Data[0], pack.Data[1] }, 0);
-                                        flowFlag = Convert.ToInt16(pack.Data[2]);
-
-                                        GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
-                                        framedata.TerId = pack.ID.ToString();
-                                        framedata.ModifyTime = DateTime.Now;
-                                        framedata.Frame = str_frame;
-
-                                        int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                        float forward_flowvalue = 0, reverse_flowvalue, instant_flowvalue = 0;
-                                        for (int i = 0; i < dataindex; i++)
-                                        {
-                                            year = 2000 + Convert.ToInt16(pack.Data[i * 18 + 3]);
-                                            month = Convert.ToInt16(pack.Data[i * 18 + 4]);
-                                            day = Convert.ToInt16(pack.Data[i * 18 + 5]);
-                                            hour = Convert.ToInt16(pack.Data[i * 18 + 6]);
-                                            minute = Convert.ToInt16(pack.Data[i * 18 + 7]);
-                                            sec = Convert.ToInt16(pack.Data[i * 18 + 8]);
-
-                                            //前向流量
-                                            forward_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 12], pack.Data[i * 18 + 11], pack.Data[i * 18 + 10], pack.Data[i * 18 + 9] }, 0);
-                                            //反向流量
-                                            reverse_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 16], pack.Data[i * 18 + 15], pack.Data[i * 18 + 14], pack.Data[i * 18 + 13] }, 0);
-                                            //瞬时流量
-                                            instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 20], pack.Data[i * 18 + 19], pack.Data[i * 18 + 18], pack.Data[i * 18 + 17] }, 0);
-
-                                            OnSendMsg(new SocketEventArgs(string.Format("index({0})|流量终端[{1}]|报警标志({2})|流量标志({3})|采集时间({4})|正向流量值:{5}|反向流量值:{6}|瞬时流量值:{7}",
-                                                dataindex, pack.ID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
-
-                                            GPRSFlowDataEntity data = new GPRSFlowDataEntity();
-                                            data.Forward_FlowValue = forward_flowvalue;
-                                            data.Reverse_FlowValue = reverse_flowvalue;
-                                            data.Instant_FlowValue = instant_flowvalue;
-                                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                                            framedata.lstFlowData.Add(data);
-                                        }
-                                        GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
-                                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertPreValue);
-                                    }
-                                    else if (pack.C1 == (byte)GPRS_READ.READ_ALARMINFO)  //从站向主站发送设备报警信息
-                                    {
-                                        if (pack.DataLength != 7)
-                                        {
-                                            throw new ArgumentException(DateTime.Now.ToString() +" "+ "帧数据长度[" + pack.DataLength + "]不符合(2+1+18*n)规则");
-                                        }
-
-                                        string alarm = "";
-                                        //报警
-                                        /*
-                                         * A0—电池低压报警。
-                                         * A1—压力传感器1损坏报警。
-                                         * A2—压力传感器2损坏报警。
-                                         * A3—485流量传感器损坏报警。
-                                         * A4～A7—备用
-                                         */
-
-                                        if ((pack.Data[0] & 0x01) == 1)  //电池低压报警
-                                            alarm += "电池低压报警";
-                                        else if (((pack.Data[0] & 0x02) >> 1) == 1)   //压力传感器1损坏报警
-                                            alarm += "压力传感器1损坏报警";
-                                        else if (((pack.Data[0] & 0x04) >> 2) == 1)   //压力传感器2损坏报警
-                                            alarm += "压力传感器2损坏报警";
-                                        else if (((pack.Data[0] & 0x08) >> 3) == 1)  //485流量传感器损坏报警
-                                            alarm += "485流量传感器损坏报警";
-
-                                        int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                        year = 2000 + Convert.ToInt16(pack.Data[1]);
-                                        month = Convert.ToInt16(pack.Data[2]);
-                                        day = Convert.ToInt16(pack.Data[3]);
-                                        hour = Convert.ToInt16(pack.Data[4]);
-                                        minute = Convert.ToInt16(pack.Data[5]);
-                                        sec = Convert.ToInt16(pack.Data[6]);
-
-                                        OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}]{1}|时间({2})",
-                                             pack.ID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                        #endregion
                                     }
                                     #endregion
 

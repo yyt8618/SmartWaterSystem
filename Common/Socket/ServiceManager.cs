@@ -3,7 +3,7 @@ using System.Text;
 using System.Configuration.Install;
 using System.ServiceProcess;
 
-namespace GPRSServiceUI
+namespace Common
 {
     public class ServiceManager
     {

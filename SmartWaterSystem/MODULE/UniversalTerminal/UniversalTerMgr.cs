@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraTreeList;
 using DevExpress.XtraTreeList.Nodes;
@@ -112,7 +109,7 @@ namespace SmartWaterSystem
         #region TreeList
         private void LoadTreeList()
         {
-            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("ORDER BY WayType,Sequence");
+            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE SyncState !=-1 ORDER BY WayType,Sequence");
             if (lstNodedata != null && lstNodedata.Count > 0)
             {
                 treeCollectType.BeginUnboundLoad();
@@ -284,6 +281,7 @@ namespace SmartWaterSystem
                 }
                 nodeentity.Sequence = sequence + 1;
             }
+            nodeentity.SyncState = 1;
             int saveresult = WayTypebll.Insert(nodeentity);
             if (-1 == saveresult)
             {
@@ -310,7 +308,7 @@ namespace SmartWaterSystem
                     TreeListNodes childs = currentNode.Nodes;
                     if (childs != null && childs.Count > 0)
                     {
-                        if ((WayTypebll.Delete(((UniversalWayTypeEntity)childs[0].Tag).ID) == -1) && (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)childs[0].Tag).ID) != -1))
+                        if ((WayTypebll.UpdateFlag(((UniversalWayTypeEntity)childs[0].Tag).ID,-1) == -1) && (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)childs[0].Tag).ID) != -1))
                         {
                             XtraMessageBox.Show("删除数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
@@ -320,7 +318,7 @@ namespace SmartWaterSystem
                         }
                     }
                 }
-                if (WayTypebll.Delete(((UniversalWayTypeEntity)currentNode.Tag).ID) == -1)
+                if (WayTypebll.UpdateFlag(((UniversalWayTypeEntity)currentNode.Tag).ID,-1) == -1)
                 {
                     XtraMessageBox.Show("删除数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -1055,8 +1053,8 @@ namespace SmartWaterSystem
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 ClearTerControls();
-                
-                txtID.Text=gridTer.GetRowCellValue(e.RowHandle, "ID").ToString();
+
+                txtID.Text = gridTer.GetRowCellValue(e.RowHandle, "TerminalID").ToString();
                 txtName.Text = gridTer.GetRowCellValue(e.RowHandle, "TerminalName").ToString();
                 txtAddr.Text = gridTer.GetRowCellValue(e.RowHandle, "Address").ToString();
                 txtRemark.Text = gridTer.GetRowCellValue(e.RowHandle, "Remark").ToString();
