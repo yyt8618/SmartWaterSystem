@@ -1,41 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraGrid.Views.BandedGrid;
 using DevExpress.XtraEditors;
 using BLL;
-using System.Collections;
-using DevExpress.Utils.Helpers;
 using Entity;
+using System.Data;
 
 namespace SmartWaterSystem
 {
     public partial class UniversalTerMonitor : BaseView, IUniversalTerMonitor
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("UniversalTerMonitor");
-
+        UniversalWayTypeBLL typeBll = new UniversalWayTypeBLL();
+        List<int> lst_datacolumnIdIndex = new List<int>();  //数据列id索引
         public UniversalTerMonitor()
         {
             InitializeComponent();
         }
 
-        //public UniversalTerParm(FrmSystem parentform)
-        //{
-        //    InitializeComponent();
-        //}
-
         private void UniversalTerParm_Load(object sender, EventArgs e)
         {
-            InitGridData();
+            timer1.Interval = 20 * 1000;
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Enabled = true;
+            //repositoryItemCheckEdit3
+            InitGrid();
+        }
+
+        void timer1_Tick(object sender, EventArgs e)
+        {
+            ShowTerData();
         }
 
         private void SetGridDataProperties()
         {
+            lst_datacolumnIdIndex = new List<int>();
+
             advBandedGridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             advBandedGridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
             advBandedGridView1.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
@@ -51,8 +52,8 @@ namespace SmartWaterSystem
             //advBandedGridView1.OptionsView.AllowHtmlDrawHeaders = true;
             //advBandedGridView1.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             ////表头及行内容居中显示
-            //advBandedGridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            //advBandedGridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            advBandedGridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            advBandedGridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
 
             BandedGridView view = advBandedGridView1 as BandedGridView;
             view.BeginUpdate();
@@ -71,12 +72,11 @@ namespace SmartWaterSystem
             columnId.Visible = true;
             columnId.VisibleIndex = 0;
             columnId.Width = 40;
-            //columnId.FieldName = "ID";
+            columnId.FieldName = "TerminalID";
 
             GridBand bandID = view.Bands.AddBand("ID");
             bandID.Columns.Add(columnId);
 
-            UniversalWayTypeBLL typeBll = new UniversalWayTypeBLL();
             List<UniversalWayTypeEntity> lst_TypeWay_Parent = typeBll.GetAllConfigPointID();
             if (lst_TypeWay_Parent != null)
             {
@@ -107,9 +107,12 @@ namespace SmartWaterSystem
                                 column_child.Visible = true;
                                 column_child.VisibleIndex = index - 1;
                                 column_child.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                                column_child.FieldName = "column" + index;
                                 bandChild.Columns.Add(column_child);
-                                GridBand bandGrandChild=bandChild.Children.AddBand(ChildNode.Unit);
-                                bandGrandChild.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                                GridBand bandUnit=bandChild.Children.AddBand(ChildNode.Unit);
+                                bandUnit.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                                if (!lst_datacolumnIdIndex.Contains(ChildNode.ID))
+                                    lst_datacolumnIdIndex.Add(ChildNode.ID);
                             }
                         }
                     }
@@ -128,9 +131,12 @@ namespace SmartWaterSystem
                         column_parent.Visible = true;
                         column_parent.VisibleIndex = index - 1;
                         column_parent.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-                        //column_one.FieldName = "ID";
-
+                        column_parent.FieldName = "column" + index;
                         bandParent.Columns.Add(column_parent);
+                        GridBand bandUnit = bandParent.Children.AddBand(ParentNode.Unit);
+                        bandUnit.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                        if (!lst_datacolumnIdIndex.Contains(ParentNode.ID))
+                            lst_datacolumnIdIndex.Add(ParentNode.ID);
                     }
                 }
             }
@@ -139,18 +145,53 @@ namespace SmartWaterSystem
             view.EndUpdate();   //结束视图的编辑
         }
 
-        private void InitGridData()
+        private void InitGrid()
         {
             try
             {
+
                 SetGridDataProperties();
                 //binding data
-                gridControl_data.DataSource = null;
+                InitGridData();
             }
             catch (Exception ex)
             {
                 logger.ErrorException("InitGridData", ex);
                 XtraMessageBox.Show("初始化列表发生错误!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void InitGridData()
+        {
+            ShowGridTerData();
+            ShowTerData();
+        }
+
+        private void ShowGridTerData()
+        {
+            gridControlTer.DataSource = null;
+            DataTable dt = typeBll.GetTerminalID_Configed();
+            //DataColumn col = dt.Columns.Add("Checked");
+            //col.DataType = System.Type.GetType("System.Boolean");
+            gridControlTer.DataSource = dt;
+        }
+
+        private void ShowTerData()
+        {
+            List<string> lst_terid = new List<string>();
+            int[] selectedRows = advBandedGridView1.GetSelectedRows();
+            if (selectedRows != null && selectedRows.Length > 0)
+            {
+                for (int i = 0; i < selectedRows.Length; i++)
+                {
+                    lst_terid.Add(advBandedGridView1.GetRowCellValue(selectedRows[i], "TerminalID").ToString().Trim());
+                }
+            }
+
+            if (lst_datacolumnIdIndex.Count > 0 && lst_datacolumnIdIndex != null && lst_terid.Count > 0)
+            {
+                DataTable dt = typeBll.GetTerminalDataToShow(lst_terid, lst_datacolumnIdIndex);
+                gridControl_data.DataSource = dt;
             }
         }
 
@@ -169,6 +210,11 @@ namespace SmartWaterSystem
                     e.Info.DisplayText = "G" + e.RowHandle.ToString();
                 }
             }
+        }
+
+        private void gridViewTer_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
+        {
+            ShowTerData();
         }
     }
 }

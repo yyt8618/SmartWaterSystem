@@ -228,10 +228,10 @@ namespace DAL
 
                     string SQL_Data = @"INSERT INTO UniversalTerData([TerminalID],[Simulate1],[Simulate2],[Simulate1Zero],[Simulate2Zero],
                                             [Pluse1],[Pluse2],[Pluse3],[Pluse4],[Pluse5],[RS485_1],[RS485_2],
-                                            [RS485_3],[RS485_4],[RS485_5],[RS485_6],[RS485_7],[RS485_8],[CollTime],[UnloadTime]) 
+                                            [RS485_3],[RS485_4],[RS485_5],[RS485_6],[RS485_7],[RS485_8],[CollTime],[UnloadTime],TypeTableID,TableColumnName) 
                                             VALUES(@terId,@sim1,@sim2,@sim1zero,@sim2zero,@pluse1,@pluse2,@pluse3,@pluse4,@pluse5,
-                                            @rs4851,@rs4852,@rs4853,@rs4854,@rs4855,@rs4856,@rs4857,@rs4858,@coltime,@UploadTime)";
-                    SqlParameter[] parms_predata = new SqlParameter[]{
+                                            @rs4851,@rs4852,@rs4853,@rs4854,@rs4855,@rs4856,@rs4857,@rs4858,@coltime,@UploadTime,@tableid,@columnname)";
+                    SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@terId",SqlDbType.Int),
                     new SqlParameter("@sim1",SqlDbType.Decimal),
                     new SqlParameter("@sim2",SqlDbType.Decimal),
@@ -254,11 +254,14 @@ namespace DAL
                     new SqlParameter("@rs4857",SqlDbType.Decimal),
                     new SqlParameter("@rs4858",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
-                    new SqlParameter("@UploadTime",SqlDbType.DateTime)
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime),
+
+                    new SqlParameter("@tableid",SqlDbType.Int),
+                    new SqlParameter("@columnname",SqlDbType.NVarChar,20)
                 };
                     SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_Data;
-                    command_predata.Parameters.AddRange(parms_predata);
+                    command_predata.Parameters.AddRange(parms_data);
                     command_predata.CommandType = CommandType.Text;
                     command_predata.Connection = SQLHelper.Conn;
                     command_predata.Transaction = trans;
@@ -274,29 +277,32 @@ namespace DAL
 
                         for (int i = 0; i < entity.lstData.Count; i++)
                         {
-                            parms_predata[0].Value = entity.TerId;
-                            parms_predata[1].Value = entity.lstData[i].Sim1;
-                            parms_predata[2].Value = entity.lstData[i].Sim2;
-                            parms_predata[3].Value = entity.lstData[i].Sim1Zero;
-                            parms_predata[4].Value = entity.lstData[i].Sim2Zero;
+                            parms_data[0].Value = entity.TerId;
+                            parms_data[1].Value = entity.lstData[i].Sim1;
+                            parms_data[2].Value = entity.lstData[i].Sim2;
+                            parms_data[3].Value = entity.lstData[i].Sim1Zero;
+                            parms_data[4].Value = entity.lstData[i].Sim2Zero;
 
-                            parms_predata[5].Value = entity.lstData[i].Pluse1;
-                            parms_predata[6].Value = entity.lstData[i].Pluse2;
-                            parms_predata[7].Value = entity.lstData[i].Pluse3;
-                            parms_predata[8].Value = entity.lstData[i].Pluse4;
-                            parms_predata[9].Value = entity.lstData[i].Pluse5;
+                            parms_data[5].Value = entity.lstData[i].Pluse1;
+                            parms_data[6].Value = entity.lstData[i].Pluse2;
+                            parms_data[7].Value = entity.lstData[i].Pluse3;
+                            parms_data[8].Value = entity.lstData[i].Pluse4;
+                            parms_data[9].Value = entity.lstData[i].Pluse5;
 
-                            parms_predata[10].Value = entity.lstData[i].RS4851;
-                            parms_predata[11].Value = entity.lstData[i].RS4852;
-                            parms_predata[12].Value = entity.lstData[i].RS4853;
-                            parms_predata[13].Value = entity.lstData[i].RS4854;
-                            parms_predata[14].Value = entity.lstData[i].RS4855;
+                            parms_data[10].Value = entity.lstData[i].RS4851;
+                            parms_data[11].Value = entity.lstData[i].RS4852;
+                            parms_data[12].Value = entity.lstData[i].RS4853;
+                            parms_data[13].Value = entity.lstData[i].RS4854;
+                            parms_data[14].Value = entity.lstData[i].RS4855;
 
-                            parms_predata[15].Value = entity.lstData[i].RS4856;
-                            parms_predata[16].Value = entity.lstData[i].RS4857;
-                            parms_predata[17].Value = entity.lstData[i].RS4858;
-                            parms_predata[18].Value = entity.lstData[i].ColTime;
-                            parms_predata[19].Value = entity.ModifyTime;
+                            parms_data[15].Value = entity.lstData[i].RS4856;
+                            parms_data[16].Value = entity.lstData[i].RS4857;
+                            parms_data[17].Value = entity.lstData[i].RS4858;
+                            parms_data[18].Value = entity.lstData[i].ColTime;
+                            parms_data[19].Value = entity.ModifyTime;
+
+                            parms_data[20].Value = entity.lstData[i].TypeTableID;
+                            parms_data[21].Value = entity.lstData[i].TableColumnName;
 
                             command_predata.ExecuteNonQuery();
                         }
@@ -585,6 +591,14 @@ namespace DAL
             return null;
         }
 
+        public DataTable GetUniversalDataConfig()
+        {
+            string SQL = @"SELECT Type.ID,Config.TerminalID,Config.Sequence,Type.[Level],Type.[ParentID],Type.[WayType],Type.[Name],Type.[MaxMeasureRange],Type.[MaxMeasureRangeFlag],Type.[FrameWidth],Type.[Precision],Type.[Unit]
+                        FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE Config.PointID=Type.ID";
+
+            DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
+            return dt;
+        }
 
     }
 }

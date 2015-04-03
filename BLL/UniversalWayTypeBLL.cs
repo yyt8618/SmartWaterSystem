@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Entity;
-using System.Collections;
+using System.Data;
 
 namespace BLL
 {
@@ -126,5 +124,36 @@ namespace BLL
                 return null;
             }
         }
+
+        public DataTable GetTerminalID_Configed()
+        {
+            try
+            {
+                return dal.GetTerminalID_Configed();
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetTerminalID_Configed",ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 获取指定终端的数据,并按指定顺序排列
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetTerminalDataToShow(List<string> lstTerID,List<int> lstTypeID)
+        {
+            try
+            {
+                return dal.GetTerminalDataToShow(lstTerID,lstTypeID);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetTerminalDataToShow", ex);
+                return null;
+            }
+        }
+
     }
 }

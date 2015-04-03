@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Common;
 using Entity;
+using System.Data;
 
 namespace GCGPRSService
 {
@@ -69,6 +70,11 @@ namespace GCGPRSService
             get { return _lstGprsCmd; }
             set { _lstGprsCmd = value; }
         }
+
+        /// <summary>
+        /// 通用终端配置，用于帧数据解析
+        /// </summary>
+        public DataTable UniversalDataConfig = null;
 
         private List<GPRSCmdFlag> _lstSendedCmdId = new List<GPRSCmdFlag>();
         /// <summary>

@@ -16,6 +16,8 @@ namespace GCGPRSService
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("Service1");
         string QueuePath = ".\\private$\\GcGPRS";
+        Thread t_send=null;
+
         public Service1()
         {
             InitializeComponent();
@@ -35,12 +37,17 @@ namespace GCGPRSService
             SQLHelper.ConnectionString = Settings.Instance.GetString(SettingKeys.DBString);
 
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
+            GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
+
             GlobalValue.Instance.SocketMag.cmdEvent += new cmdEventHandle(socketService_cmdEvent);
             GlobalValue.Instance.SocketMag.T_Listening();
         }
 
         protected override void OnStop()
         {
+            if (t_send != null)
+                t_send.Abort();
+
             GlobalValue.Instance.SocketSQLMag.Stop();
 
             GlobalValue.Instance.SocketMag.cmdEvent -= new cmdEventHandle(socketService_cmdEvent);

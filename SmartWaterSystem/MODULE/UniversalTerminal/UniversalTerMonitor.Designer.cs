@@ -29,18 +29,26 @@ namespace SmartWaterSystem
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl_data = new DevExpress.XtraGrid.GridControl();
             this.advBandedGridView1 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
-            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.gridControlTer = new DevExpress.XtraGrid.GridControl();
+            this.gridViewGroupList = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemCheckEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_data)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.advBandedGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
             this.groupControl6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl3
@@ -74,22 +82,74 @@ namespace SmartWaterSystem
             this.advBandedGridView1.OptionsView.ShowGroupPanel = false;
             this.advBandedGridView1.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.advBandedGridView1_CustomDrawRowIndicator);
             // 
-            // treeList1
-            // 
-            this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeList1.Location = new System.Drawing.Point(2, 22);
-            this.treeList1.Name = "treeList1";
-            this.treeList1.Size = new System.Drawing.Size(105, 459);
-            this.treeList1.TabIndex = 5;
-            // 
             // groupControl6
             // 
-            this.groupControl6.Controls.Add(this.treeList1);
+            this.groupControl6.Controls.Add(this.gridControlTer);
             this.groupControl6.Location = new System.Drawing.Point(4, 5);
             this.groupControl6.Name = "groupControl6";
             this.groupControl6.Size = new System.Drawing.Size(109, 483);
             this.groupControl6.TabIndex = 4;
             this.groupControl6.Text = "列表";
+            // 
+            // gridControlTer
+            // 
+            this.gridControlTer.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControlTer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlTer.Location = new System.Drawing.Point(2, 22);
+            this.gridControlTer.MainView = this.gridViewGroupList;
+            this.gridControlTer.Name = "gridControlTer";
+            this.gridControlTer.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemCheckEdit3});
+            this.gridControlTer.Size = new System.Drawing.Size(105, 459);
+            this.gridControlTer.TabIndex = 1;
+            this.gridControlTer.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewGroupList});
+            // 
+            // gridViewGroupList
+            // 
+            this.gridViewGroupList.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn1,
+            this.gridColumn2});
+            this.gridViewGroupList.GridControl = this.gridControlTer;
+            this.gridViewGroupList.Name = "gridViewGroupList";
+            this.gridViewGroupList.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridViewGroupList.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridViewGroupList.OptionsCustomization.AllowFilter = false;
+            this.gridViewGroupList.OptionsFilter.AllowFilterEditor = false;
+            this.gridViewGroupList.OptionsHint.ShowFooterHints = false;
+            this.gridViewGroupList.OptionsMenu.EnableColumnMenu = false;
+            this.gridViewGroupList.OptionsMenu.EnableFooterMenu = false;
+            this.gridViewGroupList.OptionsMenu.EnableGroupPanelMenu = false;
+            this.gridViewGroupList.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.gridViewGroupList.OptionsMenu.ShowGroupSortSummaryItems = false;
+            this.gridViewGroupList.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.gridViewGroupList.OptionsSelection.EnableAppearanceFocusedRow = false;
+            this.gridViewGroupList.OptionsView.ShowGroupPanel = false;
+            // 
+            // gridColumn1
+            // 
+            this.gridColumn1.Caption = "选择";
+            this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit3;
+            this.gridColumn1.FieldName = "Checked";
+            this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 0;
+            this.gridColumn1.Width = 27;
+            // 
+            // repositoryItemCheckEdit3
+            // 
+            this.repositoryItemCheckEdit3.AutoHeight = false;
+            this.repositoryItemCheckEdit3.Name = "repositoryItemCheckEdit3";
+            // 
+            // gridColumn2
+            // 
+            this.gridColumn2.Caption = "终端编号";
+            this.gridColumn2.FieldName = "TerminalID";
+            this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.OptionsColumn.AllowEdit = false;
+            this.gridColumn2.Visible = true;
+            this.gridColumn2.VisibleIndex = 1;
+            this.gridColumn2.Width = 60;
             // 
             // UniversalTerMonitor
             // 
@@ -104,9 +164,11 @@ namespace SmartWaterSystem
             this.groupControl3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_data)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.advBandedGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
             this.groupControl6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -115,9 +177,14 @@ namespace SmartWaterSystem
 
         private DevExpress.XtraEditors.GroupControl groupControl3;
         private DevExpress.XtraGrid.GridControl gridControl_data;
-        private DevExpress.XtraTreeList.TreeList treeList1;
         private DevExpress.XtraEditors.GroupControl groupControl6;
         private DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView advBandedGridView1;
+        private System.Windows.Forms.Timer timer1;
+        private DevExpress.XtraGrid.GridControl gridControlTer;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewGroupList;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit3;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
 
     }
 }

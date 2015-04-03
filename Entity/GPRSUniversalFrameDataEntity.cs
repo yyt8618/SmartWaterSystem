@@ -183,5 +183,25 @@ namespace Entity
             set { _DataValue = value; }
         }
 
+        private int _TypeTableID;
+        /// <summary>
+        /// UniversalTerWayType表对应ID(用于显示)
+        /// </summary>
+        public int TypeTableID
+        {
+            get { return _TypeTableID; }
+            set { _TypeTableID = value; }
+        }
+
+        private string _TableColumnName;
+        /// <summary>
+        /// UniversalTerData表数据存储表名(用于显示)
+        /// </summary>
+        public string TableColumnName
+        {
+            get { return _TableColumnName; }
+            set { _TableColumnName = value; }
+        }
+
     }
 }

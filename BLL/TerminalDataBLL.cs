@@ -70,7 +70,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                logger.ErrorException("InsertGPRSFlowData", ex);
+                logger.ErrorException("InsertGPRSUniversalData", ex);
                 msg = "保存至数据库发生异常";
                 return -1;
             }
@@ -176,6 +176,19 @@ namespace BLL
             {
                 logger.ErrorException("GetUniversalWayTypeConfig", ex);
                 return -1;
+            }
+        }
+
+        public DataTable GetUniversalDataConfig()
+        {
+            try
+            {
+                return dal.GetUniversalDataConfig();
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetUniversalDataConfig()", ex);
+                return null;
             }
         }
 

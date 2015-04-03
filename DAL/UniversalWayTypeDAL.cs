@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Common;
 using Entity;
 using System.Data;
 using System.Data.SQLite;
-using System.Collections;
 
 namespace DAL
 {
@@ -42,7 +39,7 @@ namespace DAL
 
         public int TypeExist(UniversalCollectType type, string name)
         {
-            string SQL = "SELECT COUNT(1) FROM UniversalTerWayType WHERE WayType='" + (int)type + "' AND Name='" + name + "'";
+            string SQL = "SELECT COUNT(1) FROM UniversalTerWayType WHERE SyncState<>-1 AND WayType='" + (int)type + "' AND Name='" + name + "'";
             object obj = SQLiteHelper.ExecuteScalar(SQL, null);
             if (obj != null && obj != DBNull.Value)
             {
@@ -204,5 +201,65 @@ namespace DAL
             return false;
         }
 
+        public DataTable GetTerminalID_Configed()
+        {
+            string SQL = "SELECT DISTINCT TerminalID,'Checked' Checked FROM UniversalTerWayConfig WHERE SyncState<>-1";
+            DataTable dt = SQLiteHelper.ExecuteDataTable(SQL, null);
+            foreach (DataRow dr in dt.Rows)
+            {
+                dr["Checked"] = "false";
+            }
+            return dt;
+        }
+
+        public DataTable GetTerminalDataToShow(List<string> lstTerID, List<int> lstTypeID)
+        {
+            if (lstTerID == null || lstTerID.Count == 0)
+                return null;
+            if (lstTypeID == null || lstTypeID.Count == 0)
+                return null;
+
+            string str_typeid = "";
+            foreach (int typeid in lstTypeID)
+            {
+                str_typeid += "'" + typeid + "',";
+            }
+            str_typeid = str_typeid.Substring(0, str_typeid.Length - 1);
+            string SQL = @"SELECT [TerminalID],[Simulate1],[Simulate2],[Simulate1Zero],[Simulate2Zero],[Pluse1],[Pluse2],
+                        [Pluse3],[Pluse4],[Pluse5],[RS485_1],[RS485_2],[RS485_3],[RS485_4],[RS485_5],[RS485_6],[RS485_7],
+                        [RS485_8],[CollTime],[UnloadTime],[TypeTableID],[TableColumnName] FROM UniversalTerData 
+                        WHERE ID IN(SELECT Max(ID) FROM UniversalTerData WHERE TypeTableID IN(" + str_typeid + ") GROUP BY TypeTableID)";
+            DataTable dt_select = SQLHelper.ExecuteDataTable(SQL, null);
+
+            if (dt_select != null && dt_select.Rows.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("TerminalID");
+                for (int i = 1; i <= lstTypeID.Count; i++)
+                    dt.Columns.Add("column" + i);  //column+index
+
+                for (int i = 0; i < lstTerID.Count; i++)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["TerminalID"] = lstTerID[i];
+                    DataRow[] dr_sel = dt_select.Select("TerminalID='" + lstTerID[i] + "'");
+                    if (dr_sel != null && dr_sel.Length > 0)
+                    {
+                        foreach (DataRow dr_tmp in dr_sel)
+                        {
+                            int tabledid = Convert.ToInt32(dr_tmp["TypeTableID"]);
+                            int index = lstTypeID.IndexOf(tabledid)+1;
+                            dr["column"+index] = dr_tmp[dr_tmp["TableColumnName"].ToString()];
+                        }
+                    }
+
+                    dt.Rows.Add(dr);
+                }
+
+                return dt;
+            }
+            else
+                return null;
+        }
     }
 }

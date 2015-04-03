@@ -12,10 +12,11 @@ namespace GCGPRSService
     {
         None,
         GetSendParm,
+        GetUniversalConfig,
         UpdateSendParmFlag,
         InsertPreValue,
-        InsertFlowValue,
 
+        InsertFlowValue,
         InsertUniversalValue
     }
 
@@ -65,7 +66,7 @@ namespace GCGPRSService
         private NLog.Logger logger = NLog.LogManager.GetLogger("SocketSQLThread");
         TerminalDataBLL dataBll = new TerminalDataBLL();
 
-        private const int eventcount = 6;
+        private const int eventcount = 7;
         private IntPtr[] hEvent = new IntPtr[eventcount];
         public event SQLHandle SQLEvent;
 
@@ -153,6 +154,13 @@ namespace GCGPRSService
                     case (uint)SQLType.InsertUniversalValue:
                         {
                             result = dataBll.InsertGPRSUniversalData(GlobalValue.Instance.GPRS_UniversalFrameData, out msg);
+                        }
+                        break;
+                    case (uint)SQLType.GetUniversalConfig:
+                        {
+                            #region 获取解析帧的配置数据
+                            GlobalValue.Instance.UniversalDataConfig = dataBll.GetUniversalDataConfig();
+                            #endregion
                         }
                         break;
                         
