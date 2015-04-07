@@ -493,7 +493,7 @@ namespace DAL
                 command.ExecuteNonQuery();
 
                 command.CommandText = string.Format("INSERT INTO Terminal(ID,TerminalID,TerminalName,TerminalType,Address,Remark) VALUES('{0}','{1}','{2}','{3}','{4}','{5}')",
-                                                         GetTerminalTableMaxId() + 1, terminalid, name, (int)TerType.UniversalTer, addr, remark);
+                                                         GetTerminalTableMaxId() + 1, terminalid, name.Trim(), (int)TerType.UniversalTer, addr.Trim(), remark.Trim());
                 command.ExecuteNonQuery();
 
                 //Update UniversalTerConfig Table
@@ -531,7 +531,7 @@ namespace DAL
 
         public void DeleteUniversalWayTypeConfig(int PointID)
         {
-            string SQL = "DELETE FROM UniversalTerWayConfig WHERE PointID='" + PointID + "'";
+            string SQL = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE PointID='" + PointID + "'";
             SQLiteHelper.ExecuteNonQuery(SQL, null);
         }
 
@@ -569,7 +569,7 @@ namespace DAL
 
         public List<UniversalWayTypeConfigEntity> GetUniversalWayTypeConfig(int TerminalID)
         {
-            string SQL = "SELECT id,Sequence,PointID,SyncState,ModifyTime FROM UniversalTerWayConfig WHERE TerminalID AND SyncState!=-1";
+            string SQL = "SELECT id,Sequence,PointID,SyncState,ModifyTime FROM UniversalTerWayConfig WHERE TerminalID='" + TerminalID + "' AND SyncState!=-1";
             
             using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL, null))
             {

@@ -103,8 +103,8 @@ namespace Entity
         private float _pluse5 = 0f;
         public float Pluse5
         {
-            get { return _pluse1; }
-            set { _pluse1 = value; }
+            get { return _pluse5; }
+            set { _pluse5 = value; }
         }
 
         private float _rs4851 = 0f;

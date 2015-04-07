@@ -81,27 +81,34 @@ namespace SmartWaterSystem
             {
                 foreach (UniversalWayTypeEntity entity in lstComboboxdata)
                 {
-                    //simulate
-                    cbSimulate1.Properties.Items.Add(entity.Name);
-                    cbSimulate2.Properties.Items.Add(entity.Name);
-                    cbSimulate3.Properties.Items.Add(entity.Name);
-
-                    //pluse
-                    cbPluse1.Properties.Items.Add(entity.Name);
-                    cbPluse2.Properties.Items.Add(entity.Name);
-                    cbPluse3.Properties.Items.Add(entity.Name);
-                    cbPluse4.Properties.Items.Add(entity.Name);
-                    cbPluse5.Properties.Items.Add(entity.Name);
-
-                    //RS485
-                    cbRS485_1.Properties.Items.Add(entity.Name);
-                    cbRS485_2.Properties.Items.Add(entity.Name);
-                    cbRS485_3.Properties.Items.Add(entity.Name);
-                    cbRS485_4.Properties.Items.Add(entity.Name);
-                    cbRS485_5.Properties.Items.Add(entity.Name);
-                    cbRS485_6.Properties.Items.Add(entity.Name);
-                    cbRS485_7.Properties.Items.Add(entity.Name);
-                    cbRS485_8.Properties.Items.Add(entity.Name);
+                    if (entity.WayType == UniversalCollectType.Simulate)
+                    {
+                        //simulate
+                        cbSimulate1.Properties.Items.Add(entity.Name); cbSimulate1.Tag = (cbSimulate1.Tag != null ? cbSimulate1.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbSimulate2.Properties.Items.Add(entity.Name); cbSimulate2.Tag = (cbSimulate2.Tag != null ? cbSimulate2.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbSimulate3.Properties.Items.Add(entity.Name); cbSimulate3.Tag = (cbSimulate3.Tag != null ? cbSimulate3.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                    }
+                    else if (entity.WayType == UniversalCollectType.Pluse)
+                    {
+                        //pluse
+                        cbPluse1.Properties.Items.Add(entity.Name); cbPluse1.Tag = (cbPluse1.Tag != null ? cbPluse1.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbPluse2.Properties.Items.Add(entity.Name); cbPluse2.Tag = (cbPluse2.Tag != null ? cbPluse2.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbPluse3.Properties.Items.Add(entity.Name); cbPluse3.Tag = (cbPluse3.Tag != null ? cbPluse3.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbPluse4.Properties.Items.Add(entity.Name); cbPluse4.Tag = (cbPluse4.Tag != null ? cbPluse4.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbPluse5.Properties.Items.Add(entity.Name); cbPluse5.Tag = (cbPluse5.Tag != null ? cbPluse5.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                    }
+                    else
+                    {
+                        //RS485
+                        cbRS485_1.Properties.Items.Add(entity.Name); cbRS485_1.Tag = (cbRS485_1.Tag != null ? cbRS485_1.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbRS485_2.Properties.Items.Add(entity.Name); cbRS485_2.Tag = (cbRS485_2.Tag != null ? cbRS485_2.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbRS485_3.Properties.Items.Add(entity.Name); cbRS485_3.Tag = (cbRS485_3.Tag != null ? cbRS485_3.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbRS485_4.Properties.Items.Add(entity.Name); cbRS485_4.Tag = (cbRS485_4.Tag != null ? cbRS485_4.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbRS485_5.Properties.Items.Add(entity.Name); cbRS485_5.Tag = (cbRS485_5.Tag != null ? cbRS485_5.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbRS485_6.Properties.Items.Add(entity.Name); cbRS485_6.Tag = (cbRS485_6.Tag != null ? cbRS485_6.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbRS485_7.Properties.Items.Add(entity.Name); cbRS485_7.Tag = (cbRS485_7.Tag != null ? cbRS485_7.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                        cbRS485_8.Properties.Items.Add(entity.Name); cbRS485_8.Tag = (cbRS485_8.Tag != null ? cbRS485_8.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
+                    }
                 }
             }
         }
@@ -318,7 +325,7 @@ namespace SmartWaterSystem
                         }
                     }
                 }
-                if (WayTypebll.UpdateFlag(((UniversalWayTypeEntity)currentNode.Tag).ID,-1) == -1)
+                if ((WayTypebll.UpdateFlag(((UniversalWayTypeEntity)currentNode.Tag).ID, -1) == -1) && (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)currentNode.Tag).ID) != -1))
                 {
                     XtraMessageBox.Show("删除数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -1059,6 +1066,40 @@ namespace SmartWaterSystem
                 txtAddr.Text = gridTer.GetRowCellValue(e.RowHandle, "Address").ToString();
                 txtRemark.Text = gridTer.GetRowCellValue(e.RowHandle, "Remark").ToString();
 
+                ceSimulate1.Checked = false;
+                ceSimulate2.Checked = false;
+                ceSimulate3.Checked = false;
+                cePluse1.Checked = false;
+                cePluse2.Checked = false;
+                cePluse3.Checked = false;
+                cePluse4.Checked = false;
+                cePluse5.Checked = false;
+                ceRS485_1.Checked = false;
+                ceRS485_2.Checked = false;
+                ceRS485_3.Checked = false;
+                ceRS485_4.Checked = false;
+                ceRS485_5.Checked = false;
+                ceRS485_6.Checked = false;
+                ceRS485_7.Checked = false;
+                ceRS485_8.Checked = false;
+
+                cbSimulate1.SelectedIndex = -1;
+                cbSimulate2.SelectedIndex = -1;
+                cbSimulate3.SelectedIndex = -1;
+                cbPluse1.SelectedIndex = -1;
+                cbPluse2.SelectedIndex = -1;
+                cbPluse3.SelectedIndex = -1;
+                cbPluse4.SelectedIndex = -1;
+                cbPluse5.SelectedIndex = -1;
+                cbRS485_1.SelectedIndex = -1;
+                cbRS485_2.SelectedIndex = -1;
+                cbRS485_3.SelectedIndex = -1;
+                cbRS485_4.SelectedIndex = -1;
+                cbRS485_5.SelectedIndex = -1;
+                cbRS485_6.SelectedIndex = -1;
+                cbRS485_7.SelectedIndex = -1;
+                cbRS485_8.SelectedIndex = -1;
+
                 List<UniversalWayTypeConfigEntity> lstWayTypeConfig = Terbll.GetUniversalWayTypeConfig(Convert.ToInt32(txtID.Text));
                 if (lstWayTypeConfig != null && lstWayTypeConfig.Count > 0)
                 {
@@ -1146,6 +1187,22 @@ namespace SmartWaterSystem
 
         private void FindWayTypeConfig(ComboBoxEdit control,int PointID)
         {
+            string[] ids = null;
+            if (control.Tag != null)
+                ids = control.Tag.ToString().Split(',');
+            if (ids != null && ids.Length > 0)
+            {
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    if (ids[i].Trim() == PointID.ToString())
+                    {
+                        control.Visible = true;
+                        control.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            /*
             for (int i = 0; i < lstComboboxdata.Count; i++)
             {
                 if (lstComboboxdata[i].ID == PointID && (i < control.Properties.Items.Count))
@@ -1154,7 +1211,7 @@ namespace SmartWaterSystem
                     control.SelectedIndex = i;
                     break;
                 }
-            }
+            }*/
         }
 
         private void ClearTerControls()

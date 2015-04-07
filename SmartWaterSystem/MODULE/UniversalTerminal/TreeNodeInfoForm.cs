@@ -58,10 +58,10 @@ namespace SmartWaterSystem
                 return;
             }
 
-            if (!cbType.Enabled && !Regex.IsMatch(txtMaxMeasureR.Text, @"^\d{1,2}$"))
+            if (!Regex.IsMatch(cbFrameWidth.Text, @"^\d{1,2}$"))
             {
-                XtraMessageBox.Show("请输入合法的帧宽度!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtMaxMeasureR.Focus();
+                XtraMessageBox.Show("请选择合法的帧宽度!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbFrameWidth.Focus();
                 return;
             }
 
@@ -97,8 +97,7 @@ namespace SmartWaterSystem
                 return;
             }
 
-            if (!cbType.Enabled)
-                entity.FrameWidth = Convert.ToInt32(txtFrameWidth.Text);
+            entity.FrameWidth = Convert.ToInt32(cbFrameWidth.Text);
             if (!string.IsNullOrEmpty(txtMaxMeasureR.Text))
                 entity.MaxMeasureRange = Convert.ToSingle(txtMaxMeasureR.Text);
             if (!string.IsNullOrEmpty(txtMaxMeasureRFlag.Text))

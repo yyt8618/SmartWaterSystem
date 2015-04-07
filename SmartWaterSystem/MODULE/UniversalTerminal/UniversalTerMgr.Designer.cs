@@ -232,6 +232,7 @@
             this.cbPluse5.Name = "cbPluse5";
             this.cbPluse5.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbPluse5.Properties.NullText = "请选择...";
             this.cbPluse5.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPluse5.Size = new System.Drawing.Size(73, 20);
             this.cbPluse5.TabIndex = 4;
@@ -242,6 +243,7 @@
             this.cbPluse4.Name = "cbPluse4";
             this.cbPluse4.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbPluse4.Properties.NullText = "请选择...";
             this.cbPluse4.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPluse4.Size = new System.Drawing.Size(73, 20);
             this.cbPluse4.TabIndex = 3;
@@ -252,6 +254,7 @@
             this.cbPluse2.Name = "cbPluse2";
             this.cbPluse2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbPluse2.Properties.NullText = "请选择...";
             this.cbPluse2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPluse2.Size = new System.Drawing.Size(73, 20);
             this.cbPluse2.TabIndex = 1;
@@ -262,6 +265,7 @@
             this.cbPluse3.Name = "cbPluse3";
             this.cbPluse3.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbPluse3.Properties.NullText = "请选择...";
             this.cbPluse3.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPluse3.Size = new System.Drawing.Size(73, 20);
             this.cbPluse3.TabIndex = 2;
@@ -290,6 +294,7 @@
             this.cbPluse1.Name = "cbPluse1";
             this.cbPluse1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbPluse1.Properties.NullText = "请选择...";
             this.cbPluse1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPluse1.Size = new System.Drawing.Size(73, 20);
             this.cbPluse1.TabIndex = 0;
@@ -352,6 +357,7 @@
             this.cbRS485_1.Name = "cbRS485_1";
             this.cbRS485_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRS485_1.Properties.NullText = "请选择...";
             this.cbRS485_1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbRS485_1.Size = new System.Drawing.Size(73, 20);
             this.cbRS485_1.TabIndex = 0;
@@ -371,6 +377,7 @@
             this.cbRS485_2.Name = "cbRS485_2";
             this.cbRS485_2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRS485_2.Properties.NullText = "请选择...";
             this.cbRS485_2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbRS485_2.Size = new System.Drawing.Size(73, 20);
             this.cbRS485_2.TabIndex = 1;
@@ -382,6 +389,7 @@
             this.cbRS485_3.Name = "cbRS485_3";
             this.cbRS485_3.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRS485_3.Properties.NullText = "请选择...";
             this.cbRS485_3.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbRS485_3.Size = new System.Drawing.Size(73, 20);
             this.cbRS485_3.TabIndex = 2;
@@ -393,6 +401,7 @@
             this.cbRS485_4.Name = "cbRS485_4";
             this.cbRS485_4.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRS485_4.Properties.NullText = "请选择...";
             this.cbRS485_4.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbRS485_4.Size = new System.Drawing.Size(73, 20);
             this.cbRS485_4.TabIndex = 3;
@@ -404,6 +413,7 @@
             this.cbRS485_7.Name = "cbRS485_7";
             this.cbRS485_7.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRS485_7.Properties.NullText = "请选择...";
             this.cbRS485_7.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbRS485_7.Size = new System.Drawing.Size(73, 20);
             this.cbRS485_7.TabIndex = 6;
@@ -415,6 +425,7 @@
             this.cbRS485_8.Name = "cbRS485_8";
             this.cbRS485_8.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRS485_8.Properties.NullText = "请选择...";
             this.cbRS485_8.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbRS485_8.Size = new System.Drawing.Size(73, 20);
             this.cbRS485_8.TabIndex = 7;
@@ -426,6 +437,7 @@
             this.cbRS485_5.Name = "cbRS485_5";
             this.cbRS485_5.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRS485_5.Properties.NullText = "请选择...";
             this.cbRS485_5.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbRS485_5.Size = new System.Drawing.Size(73, 20);
             this.cbRS485_5.TabIndex = 4;
@@ -437,6 +449,7 @@
             this.cbRS485_6.Name = "cbRS485_6";
             this.cbRS485_6.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbRS485_6.Properties.NullText = "请选择...";
             this.cbRS485_6.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbRS485_6.Size = new System.Drawing.Size(73, 20);
             this.cbRS485_6.TabIndex = 5;
@@ -533,6 +546,7 @@
             this.cbSimulate1.Name = "cbSimulate1";
             this.cbSimulate1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbSimulate1.Properties.NullText = "请选择...";
             this.cbSimulate1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbSimulate1.Size = new System.Drawing.Size(73, 20);
             this.cbSimulate1.TabIndex = 0;
@@ -544,6 +558,7 @@
             this.cbSimulate3.Name = "cbSimulate3";
             this.cbSimulate3.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbSimulate3.Properties.NullText = "请选择...";
             this.cbSimulate3.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbSimulate3.Size = new System.Drawing.Size(73, 20);
             this.cbSimulate3.TabIndex = 2;
@@ -564,6 +579,7 @@
             this.cbSimulate2.Name = "cbSimulate2";
             this.cbSimulate2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbSimulate2.Properties.NullText = "请选择...";
             this.cbSimulate2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbSimulate2.Size = new System.Drawing.Size(73, 20);
             this.cbSimulate2.TabIndex = 1;
@@ -628,6 +644,9 @@
             this.treeListColumn1.Name = "treeListColumn1";
             this.treeListColumn1.OptionsColumn.AllowEdit = false;
             this.treeListColumn1.OptionsColumn.AllowMove = false;
+            this.treeListColumn1.OptionsColumn.AllowSort = false;
+            this.treeListColumn1.OptionsFilter.AllowAutoFilter = false;
+            this.treeListColumn1.OptionsFilter.AllowFilter = false;
             this.treeListColumn1.Visible = true;
             this.treeListColumn1.VisibleIndex = 0;
             // 
@@ -863,6 +882,10 @@
             this.gridTer.OptionsBehavior.Editable = false;
             this.gridTer.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
             this.gridTer.OptionsBehavior.ReadOnly = true;
+            this.gridTer.OptionsCustomization.AllowColumnMoving = false;
+            this.gridTer.OptionsCustomization.AllowFilter = false;
+            this.gridTer.OptionsCustomization.AllowGroup = false;
+            this.gridTer.OptionsCustomization.AllowSort = false;
             this.gridTer.OptionsMenu.EnableColumnMenu = false;
             this.gridTer.OptionsSelection.MultiSelect = true;
             this.gridTer.OptionsView.ShowGroupPanel = false;

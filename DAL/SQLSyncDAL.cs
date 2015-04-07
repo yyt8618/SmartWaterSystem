@@ -171,8 +171,8 @@ namespace DAL
                     adapter.Fill(dt_sql);
                     if (dt_sql != null && dt_sql.Rows.Count > 0)
                     {
-                        string str_SQLite_Insert = @"INSERT INTO Terminal(ID,TerminalID,TerminalName,TerminalType,Address,Remark) VALUES(
-                                                        @ID,@TerminalID,@TerminalName,@TerminalType,@Address,@Remark)";
+                        string str_SQLite_Insert = @"INSERT INTO Terminal(ID,TerminalID,TerminalName,TerminalType,Address,Remark,SyncState) VALUES(
+                                                        @ID,@TerminalID,@TerminalName,@TerminalType,@Address,@Remark,@SyncState)";
                         SQLiteParameter[] parms_sqlite = new SQLiteParameter[]{
                                 new SQLiteParameter("@ID",DbType.Int32),
                                 new SQLiteParameter("@TerminalID",DbType.Int32),
@@ -351,8 +351,8 @@ namespace DAL
                     adapter.Fill(dt_sql);
                     if (dt_sql != null && dt_sql.Rows.Count > 0)
                     {
-                        string str_SQLite_Insert = @"INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID) VALUES(
-                                                        @ID,@TerminalID,@Sequence,@PointID)";
+                        string str_SQLite_Insert = @"INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID,SyncState) VALUES(
+                                                        @ID,@TerminalID,@Sequence,@PointID,@SyncState)";
                         SQLiteParameter[] parms_sqlite = new SQLiteParameter[]{
                                 new SQLiteParameter("@ID",DbType.Int32),
                                 new SQLiteParameter("@TerminalID",DbType.Int32),

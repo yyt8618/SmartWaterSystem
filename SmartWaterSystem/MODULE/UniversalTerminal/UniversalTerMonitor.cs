@@ -74,7 +74,8 @@ namespace SmartWaterSystem
             columnId.Width = 40;
             columnId.FieldName = "TerminalID";
 
-            GridBand bandID = view.Bands.AddBand("ID");
+            GridBand bandID = view.Bands.AddBand("ID"); 
+            bandID.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             bandID.Columns.Add(columnId);
 
             List<UniversalWayTypeEntity> lst_TypeWay_Parent = typeBll.GetAllConfigPointID();
@@ -164,34 +165,41 @@ namespace SmartWaterSystem
         private void InitGridData()
         {
             ShowGridTerData();
-            ShowTerData();
+            //ShowTerData();
         }
 
         private void ShowGridTerData()
         {
             gridControlTer.DataSource = null;
             DataTable dt = typeBll.GetTerminalID_Configed();
-            //DataColumn col = dt.Columns.Add("Checked");
-            //col.DataType = System.Type.GetType("System.Boolean");
-            gridControlTer.DataSource = dt;
+
+            DataTable dt_bind = new DataTable("BindTable");
+            DataColumn col = dt_bind.Columns.Add("checked");
+            col.DataType = System.Type.GetType("System.Boolean");
+            dt_bind.Columns.Add("TerminalID");
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                dt_bind.Rows.Add(new object[] { false, dr["TerminalID"] });
+            }
+            gridControlTer.DataSource = dt_bind;
         }
 
         private void ShowTerData()
         {
             List<string> lst_terid = new List<string>();
-            int[] selectedRows = advBandedGridView1.GetSelectedRows();
-            if (selectedRows != null && selectedRows.Length > 0)
+            for (int i = 0; i < gridViewTer.RowCount; i++)
             {
-                for (int i = 0; i < selectedRows.Length; i++)
-                {
-                    lst_terid.Add(advBandedGridView1.GetRowCellValue(selectedRows[i], "TerminalID").ToString().Trim());
-                }
+                object obj = gridViewTer.GetRowCellValue(i, "checked");
+                if (obj != null && Convert.ToBoolean(obj))
+                    lst_terid.Add(gridViewTer.GetRowCellValue(i, "TerminalID").ToString().Trim());
             }
 
             if (lst_datacolumnIdIndex.Count > 0 && lst_datacolumnIdIndex != null && lst_terid.Count > 0)
             {
                 DataTable dt = typeBll.GetTerminalDataToShow(lst_terid, lst_datacolumnIdIndex);
                 gridControl_data.DataSource = dt;
+                gridControl_data.RefreshDataSource();
             }
         }
 
@@ -215,6 +223,14 @@ namespace SmartWaterSystem
         private void gridViewTer_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
         {
             ShowTerData();
+        }
+
+        private void gridViewTer_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        {
+            if (e.Column.Caption == "选择")
+            {
+                ShowTerData();
+            }
         }
     }
 }

@@ -34,12 +34,12 @@ namespace SmartWaterSystem
             this.gridControl_data = new DevExpress.XtraGrid.GridControl();
             this.advBandedGridView1 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.gridControlTer = new DevExpress.XtraGrid.GridControl();
-            this.gridViewGroupList = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridViewTer = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemCheckEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_data)).BeginInit();
@@ -47,16 +47,16 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
             this.groupControl6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewTer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl3
             // 
             this.groupControl3.Controls.Add(this.gridControl_data);
-            this.groupControl3.Location = new System.Drawing.Point(117, 5);
+            this.groupControl3.Location = new System.Drawing.Point(103, 5);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(680, 483);
+            this.groupControl3.Size = new System.Drawing.Size(694, 483);
             this.groupControl3.TabIndex = 4;
             this.groupControl3.Text = "数据列表";
             // 
@@ -67,7 +67,7 @@ namespace SmartWaterSystem
             this.gridControl_data.Location = new System.Drawing.Point(2, 22);
             this.gridControl_data.MainView = this.advBandedGridView1;
             this.gridControl_data.Name = "gridControl_data";
-            this.gridControl_data.Size = new System.Drawing.Size(676, 459);
+            this.gridControl_data.Size = new System.Drawing.Size(690, 459);
             this.gridControl_data.TabIndex = 1;
             this.gridControl_data.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.advBandedGridView1});
@@ -87,7 +87,7 @@ namespace SmartWaterSystem
             this.groupControl6.Controls.Add(this.gridControlTer);
             this.groupControl6.Location = new System.Drawing.Point(4, 5);
             this.groupControl6.Name = "groupControl6";
-            this.groupControl6.Size = new System.Drawing.Size(109, 483);
+            this.groupControl6.Size = new System.Drawing.Size(95, 483);
             this.groupControl6.TabIndex = 4;
             this.groupControl6.Text = "列表";
             // 
@@ -96,50 +96,53 @@ namespace SmartWaterSystem
             this.gridControlTer.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControlTer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridControlTer.Location = new System.Drawing.Point(2, 22);
-            this.gridControlTer.MainView = this.gridViewGroupList;
+            this.gridControlTer.MainView = this.gridViewTer;
             this.gridControlTer.Name = "gridControlTer";
             this.gridControlTer.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemCheckEdit3});
-            this.gridControlTer.Size = new System.Drawing.Size(105, 459);
-            this.gridControlTer.TabIndex = 1;
+            this.repositoryItemCheckEdit1});
+            this.gridControlTer.Size = new System.Drawing.Size(91, 459);
+            this.gridControlTer.TabIndex = 0;
             this.gridControlTer.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridViewGroupList});
+            this.gridViewTer});
             // 
-            // gridViewGroupList
+            // gridViewTer
             // 
-            this.gridViewGroupList.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridViewTer.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.gridColumn2});
-            this.gridViewGroupList.GridControl = this.gridControlTer;
-            this.gridViewGroupList.Name = "gridViewGroupList";
-            this.gridViewGroupList.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridViewGroupList.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridViewGroupList.OptionsCustomization.AllowFilter = false;
-            this.gridViewGroupList.OptionsFilter.AllowFilterEditor = false;
-            this.gridViewGroupList.OptionsHint.ShowFooterHints = false;
-            this.gridViewGroupList.OptionsMenu.EnableColumnMenu = false;
-            this.gridViewGroupList.OptionsMenu.EnableFooterMenu = false;
-            this.gridViewGroupList.OptionsMenu.EnableGroupPanelMenu = false;
-            this.gridViewGroupList.OptionsMenu.ShowAutoFilterRowItem = false;
-            this.gridViewGroupList.OptionsMenu.ShowGroupSortSummaryItems = false;
-            this.gridViewGroupList.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.gridViewGroupList.OptionsSelection.EnableAppearanceFocusedRow = false;
-            this.gridViewGroupList.OptionsView.ShowGroupPanel = false;
+            this.gridViewTer.GridControl = this.gridControlTer;
+            this.gridViewTer.Name = "gridViewTer";
+            this.gridViewTer.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridViewTer.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridViewTer.OptionsCustomization.AllowFilter = false;
+            this.gridViewTer.OptionsCustomization.AllowSort = false;
+            this.gridViewTer.OptionsFilter.AllowFilterEditor = false;
+            this.gridViewTer.OptionsHint.ShowFooterHints = false;
+            this.gridViewTer.OptionsMenu.EnableColumnMenu = false;
+            this.gridViewTer.OptionsMenu.EnableFooterMenu = false;
+            this.gridViewTer.OptionsMenu.EnableGroupPanelMenu = false;
+            this.gridViewTer.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.gridViewTer.OptionsMenu.ShowGroupSortSummaryItems = false;
+            this.gridViewTer.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.gridViewTer.OptionsSelection.EnableAppearanceFocusedRow = false;
+            this.gridViewTer.OptionsView.ShowGroupPanel = false;
+            this.gridViewTer.OptionsView.ShowIndicator = false;
+            this.gridViewTer.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridViewTer_CellValueChanged);
             // 
             // gridColumn1
             // 
             this.gridColumn1.Caption = "选择";
-            this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit3;
-            this.gridColumn1.FieldName = "Checked";
+            this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit1;
+            this.gridColumn1.FieldName = "checked";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
-            this.gridColumn1.Width = 27;
+            this.gridColumn1.Width = 32;
             // 
-            // repositoryItemCheckEdit3
+            // repositoryItemCheckEdit1
             // 
-            this.repositoryItemCheckEdit3.AutoHeight = false;
-            this.repositoryItemCheckEdit3.Name = "repositoryItemCheckEdit3";
+            this.repositoryItemCheckEdit1.AutoHeight = false;
+            this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             // 
             // gridColumn2
             // 
@@ -147,9 +150,11 @@ namespace SmartWaterSystem
             this.gridColumn2.FieldName = "TerminalID";
             this.gridColumn2.Name = "gridColumn2";
             this.gridColumn2.OptionsColumn.AllowEdit = false;
+            this.gridColumn2.OptionsColumn.AllowMove = false;
+            this.gridColumn2.OptionsColumn.ReadOnly = true;
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 1;
-            this.gridColumn2.Width = 60;
+            this.gridColumn2.Width = 57;
             // 
             // UniversalTerMonitor
             // 
@@ -167,8 +172,8 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
             this.groupControl6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewTer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -181,9 +186,9 @@ namespace SmartWaterSystem
         private DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView advBandedGridView1;
         private System.Windows.Forms.Timer timer1;
         private DevExpress.XtraGrid.GridControl gridControlTer;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridViewGroupList;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewTer;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit3;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
 
     }

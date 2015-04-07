@@ -44,15 +44,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.txtFrameWidth = new DevExpress.XtraEditors.TextEdit();
             this.label3 = new System.Windows.Forms.Label();
+            this.cbFrameWidth = new DevExpress.XtraEditors.ComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPrecision.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureRFlag.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureR.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFrameWidth.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbFrameWidth.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // cbPrecision
@@ -205,15 +205,6 @@
             this.labelControl1.TabIndex = 127;
             this.labelControl1.Text = "数据宽度:";
             // 
-            // txtFrameWidth
-            // 
-            this.txtFrameWidth.Location = new System.Drawing.Point(104, 55);
-            this.txtFrameWidth.Name = "txtFrameWidth";
-            this.txtFrameWidth.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.txtFrameWidth.Properties.MaxLength = 2;
-            this.txtFrameWidth.Size = new System.Drawing.Size(86, 20);
-            this.txtFrameWidth.TabIndex = 2;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -224,16 +215,29 @@
             this.label3.TabIndex = 134;
             this.label3.Text = "字节";
             // 
+            // cbFrameWidth
+            // 
+            this.cbFrameWidth.Location = new System.Drawing.Point(104, 55);
+            this.cbFrameWidth.Name = "cbFrameWidth";
+            this.cbFrameWidth.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbFrameWidth.Properties.Items.AddRange(new object[] {
+            "2",
+            "4"});
+            this.cbFrameWidth.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbFrameWidth.Size = new System.Drawing.Size(86, 20);
+            this.cbFrameWidth.TabIndex = 2;
+            // 
             // TreeNodeInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(238, 211);
             this.Controls.Add(this.cbPrecision);
+            this.Controls.Add(this.cbFrameWidth);
             this.Controls.Add(this.cbType);
             this.Controls.Add(this.txtUnit);
             this.Controls.Add(this.txtMaxMeasureRFlag);
-            this.Controls.Add(this.txtFrameWidth);
             this.Controls.Add(this.txtMaxMeasureR);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label3);
@@ -260,7 +264,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureRFlag.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureR.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFrameWidth.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbFrameWidth.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,7 +288,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.TextEdit txtFrameWidth;
         private System.Windows.Forms.Label label3;
+        private DevExpress.XtraEditors.ComboBoxEdit cbFrameWidth;
     }
 }

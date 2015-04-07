@@ -203,12 +203,8 @@ namespace DAL
 
         public DataTable GetTerminalID_Configed()
         {
-            string SQL = "SELECT DISTINCT TerminalID,'Checked' Checked FROM UniversalTerWayConfig WHERE SyncState<>-1";
+            string SQL = "SELECT DISTINCT TerminalID FROM UniversalTerWayConfig WHERE SyncState<>-1";
             DataTable dt = SQLiteHelper.ExecuteDataTable(SQL, null);
-            foreach (DataRow dr in dt.Rows)
-            {
-                dr["Checked"] = "false";
-            }
             return dt;
         }
 
@@ -249,7 +245,7 @@ namespace DAL
                         {
                             int tabledid = Convert.ToInt32(dr_tmp["TypeTableID"]);
                             int index = lstTypeID.IndexOf(tabledid)+1;
-                            dr["column"+index] = dr_tmp[dr_tmp["TableColumnName"].ToString()];
+                            dr["column"+index] = dr_tmp[dr_tmp["TableColumnName"].ToString().Trim()];
                         }
                     }
 
