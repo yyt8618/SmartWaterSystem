@@ -241,6 +241,12 @@
     <Compile Include="MODULE\PreTerminal\PreTerStoppage.Designer.cs">
       <DependentUpon>PreTerStoppage.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalChartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalChartForm.Designer.cs">
+      <DependentUpon>UniversalChartForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\UniversalTerminal\TreeNodeInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -371,6 +377,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerStoppage.resx">
       <DependentUpon>PreTerStoppage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalChartForm.resx">
+      <DependentUpon>UniversalChartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\TreeNodeInfoForm.resx">
       <DependentUpon>TreeNodeInfoForm.cs</DependentUpon>

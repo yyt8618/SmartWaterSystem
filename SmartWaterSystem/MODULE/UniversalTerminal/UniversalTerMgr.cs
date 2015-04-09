@@ -300,6 +300,8 @@ namespace SmartWaterSystem
             treeCollectType.EndUnboundLoad();
 
             BindCombobox();
+
+            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
         }
 
         private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -315,7 +317,7 @@ namespace SmartWaterSystem
                     TreeListNodes childs = currentNode.Nodes;
                     if (childs != null && childs.Count > 0)
                     {
-                        if ((WayTypebll.UpdateFlag(((UniversalWayTypeEntity)childs[0].Tag).ID,-1) == -1) && (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)childs[0].Tag).ID) != -1))
+                        if ((WayTypebll.UpdateFlag(((UniversalWayTypeEntity)childs[0].Tag).ID,-1) == -1) || (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)childs[0].Tag).ID) == -1))
                         {
                             XtraMessageBox.Show("删除数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
@@ -325,7 +327,7 @@ namespace SmartWaterSystem
                         }
                     }
                 }
-                if ((WayTypebll.UpdateFlag(((UniversalWayTypeEntity)currentNode.Tag).ID, -1) == -1) && (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)currentNode.Tag).ID) != -1))
+                if ((WayTypebll.UpdateFlag(((UniversalWayTypeEntity)currentNode.Tag).ID, -1) == -1) || (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)currentNode.Tag).ID) == -1))
                 {
                     XtraMessageBox.Show("删除数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -335,7 +337,11 @@ namespace SmartWaterSystem
                 }
                 currentNode = null;
 
+                WayTypeControlsDefault();
                 BindCombobox();
+
+                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
+                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
             }
         }
         #endregion
@@ -603,16 +609,21 @@ namespace SmartWaterSystem
                 if ((Terbll.DeleteTer(TerType.UniversalTer, Convert.ToInt32(txtID.Text)) == 1) && (Terbll.DeleteUniversalWayTypeConfig_TerID(Convert.ToInt32(txtID.Text)) == 1))
                 {
                     XtraMessageBox.Show("删除成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
                 }
                 else
                 {
                     XtraMessageBox.Show("删除发生异常，请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                WayTypeControlsDefault();
                 ClearTerControls();
                 LoadTerminalData();
 
                 if (gridTer.RowCount > 0)
                     gridTer_RowClick(null, new DevExpress.XtraGrid.Views.Grid.RowClickEventArgs(new DevExpress.Utils.DXMouseEventArgs(System.Windows.Forms.MouseButtons.Left, 0, 0, 0, 0), 0));
+
+                UpdateMonitroUI();
             }
         }
 
@@ -1036,11 +1047,15 @@ namespace SmartWaterSystem
             {
                 XtraMessageBox.Show("保存成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadTerminalData();
+                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
             }
             else
             {
                 XtraMessageBox.Show("保存发生异常，请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+            UpdateMonitroUI();
         }
 
         private void gridTer_CustomDrawEmptyForeground(object sender, DevExpress.XtraGrid.Views.Base.CustomDrawEventArgs e)
@@ -1055,50 +1070,56 @@ namespace SmartWaterSystem
             }
         }
 
+        private void WayTypeControlsDefault()
+        {
+            ceSimulate1.Checked = false;
+            ceSimulate2.Checked = false;
+            ceSimulate3.Checked = false;
+            cePluse1.Checked = false;
+            cePluse2.Checked = false;
+            cePluse3.Checked = false;
+            cePluse4.Checked = false;
+            cePluse5.Checked = false;
+            ceRS485_1.Checked = false;
+            ceRS485_2.Checked = false;
+            ceRS485_3.Checked = false;
+            ceRS485_4.Checked = false;
+            ceRS485_5.Checked = false;
+            ceRS485_6.Checked = false;
+            ceRS485_7.Checked = false;
+            ceRS485_8.Checked = false;
+
+            cbSimulate1.SelectedIndex = -1;
+            cbSimulate2.SelectedIndex = -1;
+            cbSimulate3.SelectedIndex = -1;
+            cbPluse1.SelectedIndex = -1;
+            cbPluse2.SelectedIndex = -1;
+            cbPluse3.SelectedIndex = -1;
+            cbPluse4.SelectedIndex = -1;
+            cbPluse5.SelectedIndex = -1;
+            cbRS485_1.SelectedIndex = -1;
+            cbRS485_2.SelectedIndex = -1;
+            cbRS485_3.SelectedIndex = -1;
+            cbRS485_4.SelectedIndex = -1;
+            cbRS485_5.SelectedIndex = -1;
+            cbRS485_6.SelectedIndex = -1;
+            cbRS485_7.SelectedIndex = -1;
+            cbRS485_8.SelectedIndex = -1;
+
+        }
+
         private void gridTer_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 ClearTerControls();
 
-                txtID.Text = gridTer.GetRowCellValue(e.RowHandle, "TerminalID").ToString();
-                txtName.Text = gridTer.GetRowCellValue(e.RowHandle, "TerminalName").ToString();
-                txtAddr.Text = gridTer.GetRowCellValue(e.RowHandle, "Address").ToString();
-                txtRemark.Text = gridTer.GetRowCellValue(e.RowHandle, "Remark").ToString();
-
-                ceSimulate1.Checked = false;
-                ceSimulate2.Checked = false;
-                ceSimulate3.Checked = false;
-                cePluse1.Checked = false;
-                cePluse2.Checked = false;
-                cePluse3.Checked = false;
-                cePluse4.Checked = false;
-                cePluse5.Checked = false;
-                ceRS485_1.Checked = false;
-                ceRS485_2.Checked = false;
-                ceRS485_3.Checked = false;
-                ceRS485_4.Checked = false;
-                ceRS485_5.Checked = false;
-                ceRS485_6.Checked = false;
-                ceRS485_7.Checked = false;
-                ceRS485_8.Checked = false;
-
-                cbSimulate1.SelectedIndex = -1;
-                cbSimulate2.SelectedIndex = -1;
-                cbSimulate3.SelectedIndex = -1;
-                cbPluse1.SelectedIndex = -1;
-                cbPluse2.SelectedIndex = -1;
-                cbPluse3.SelectedIndex = -1;
-                cbPluse4.SelectedIndex = -1;
-                cbPluse5.SelectedIndex = -1;
-                cbRS485_1.SelectedIndex = -1;
-                cbRS485_2.SelectedIndex = -1;
-                cbRS485_3.SelectedIndex = -1;
-                cbRS485_4.SelectedIndex = -1;
-                cbRS485_5.SelectedIndex = -1;
-                cbRS485_6.SelectedIndex = -1;
-                cbRS485_7.SelectedIndex = -1;
-                cbRS485_8.SelectedIndex = -1;
+                txtID.Text = gridTer.GetRowCellValue(e.RowHandle, "TerminalID").ToString().Trim();
+                txtName.Text = gridTer.GetRowCellValue(e.RowHandle, "TerminalName").ToString().Trim();
+                txtAddr.Text = gridTer.GetRowCellValue(e.RowHandle, "Address").ToString().Trim();
+                txtRemark.Text = gridTer.GetRowCellValue(e.RowHandle, "Remark").ToString().Trim();
+                
+                WayTypeControlsDefault();
 
                 List<UniversalWayTypeConfigEntity> lstWayTypeConfig = Terbll.GetUniversalWayTypeConfig(Convert.ToInt32(txtID.Text));
                 if (lstWayTypeConfig != null && lstWayTypeConfig.Count > 0)
@@ -1221,45 +1242,14 @@ namespace SmartWaterSystem
             txtAddr.Text = "";
             txtRemark.Text = "";
 
-            //simulate
-            ceSimulate1.Checked = false;
-            ceSimulate2.Checked = false;
-            ceSimulate3.Checked = false;
-            cbSimulate1.SelectedIndex = -1;
-            cbSimulate2.SelectedIndex = -1;
-            cbSimulate3.SelectedIndex = -1;
-
-            //pluse
-            cePluse1.Checked = false;
-            cePluse2.Checked = false;
-            cePluse3.Checked = false;
-            cePluse4.Checked = false;
-            cePluse5.Checked = false;
-            cbPluse1.SelectedIndex = -1;
-            cbPluse2.SelectedIndex = -1;
-            cbPluse3.SelectedIndex = -1;
-            cbPluse4.SelectedIndex = -1;
-            cbPluse5.SelectedIndex = -1;
-
-            //RS485
-            ceRS485_1.Checked = false;
-            ceRS485_2.Checked = false;
-            ceRS485_3.Checked = false;
-            ceRS485_4.Checked = false;
-            ceRS485_5.Checked = false;
-            ceRS485_6.Checked = false;
-            ceRS485_7.Checked = false;
-            ceRS485_8.Checked = false;
-            cbRS485_1.SelectedIndex = -1;
-            cbRS485_2.SelectedIndex = -1;
-            cbRS485_3.SelectedIndex = -1;
-            cbRS485_4.SelectedIndex = -1;
-            cbRS485_5.SelectedIndex = -1;
-            cbRS485_6.SelectedIndex = -1;
-            cbRS485_7.SelectedIndex = -1;
-            cbRS485_8.SelectedIndex = -1;
+            WayTypeControlsDefault();
         }
-        
+        private void UpdateMonitroUI()
+        {
+            UniversalTerMonitor monitorView= (UniversalTerMonitor)this.MDIView.GetView(typeof(UniversalTerMonitor));
+            if (monitorView != null)
+                monitorView.UpdateView();
+        }
 
         
     }

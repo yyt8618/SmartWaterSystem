@@ -514,8 +514,8 @@ namespace Protocol
                 else if (baud == 3)
                     dr["baud"] = 9600;
                 dr["ID"] = Convert.ToInt32(result.Data[i+1]);
-                dr["funcode"] = Convert.ToInt32(result.Data[i + 2]);
-                dr["regbeginaddr"] = BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
+                dr["funcode"] = "0x"+String.Format("{0:X2}", result.Data[i + 2]);
+                dr["regbeginaddr"] = "0x" + String.Format("{0:X2}", result.Data[i + 4]) + String.Format("{0:X2}", result.Data[i + 3]);//BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
                 dr["regcount"] = BitConverter.ToInt16(new byte[] { result.Data[i + 6], result.Data[i + 5] }, 0);
                 dt_485protocol.Rows.Add(dr);
             }
@@ -805,14 +805,46 @@ namespace Protocol
                         lstdata.Add(0x02);
                     else if (baud == 9600)
                         lstdata.Add(0x03);
-                    lstdata.Add(Convert.ToByte(dr["ID"]));
-                    lstdata.Add(Convert.ToByte(dr["funcode"]));
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["regbeginaddr"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["regcount"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
+
+                    string id = dr["ID"].ToString().Trim();
+                    if (id.StartsWith("0x")&&id.Length>2)
+                        lstdata.Add(Convert.ToByte(id.Substring(2), 16));
+                    else
+                        lstdata.Add(Convert.ToByte(dr["ID"]));
+
+                    string funcode = dr["funcode"].ToString().Trim();
+                    if (funcode.StartsWith("0x") && funcode.Length > 2)
+                        lstdata.Add(Convert.ToByte(funcode.Substring(2), 16));
+                    else
+                        lstdata.Add(Convert.ToByte(dr["funcode"]));
+
+                    string regbeginaddr = dr["regbeginaddr"].ToString().Trim();
+                    if (regbeginaddr.StartsWith("0x") && regbeginaddr.Length > 2)
+                    {
+                        data = BitConverter.GetBytes(Convert.ToInt16(regbeginaddr.Substring(2), 16));
+                        lstdata.Add(data[1]);
+                        lstdata.Add(data[0]);
+                    }
+                    else
+                    {
+                        data = BitConverter.GetBytes(Convert.ToInt16(dr["regbeginaddr"]));
+                        lstdata.Add(data[1]);
+                        lstdata.Add(data[0]);
+                    }
+
+                    string regcount = dr["regcount"].ToString().Trim();
+                    if (regcount.StartsWith("0x") && regcount.Length > 2)
+                    {
+                        data = BitConverter.GetBytes(Convert.ToInt16(regcount.Substring(2), 16));
+                        lstdata.Add(data[1]);
+                        lstdata.Add(data[0]);
+                    }
+                    else
+                    {
+                        data = BitConverter.GetBytes(Convert.ToInt16(dr["regcount"]));
+                        lstdata.Add(data[1]);
+                        lstdata.Add(data[0]);
+                    }
                 }
             }
 

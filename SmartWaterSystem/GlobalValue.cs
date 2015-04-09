@@ -19,7 +19,7 @@ namespace SmartWaterSystem
         internal static List<DistanceController> controllerList = new List<DistanceController>(); // 远传控制器对象集合
         internal static string TestPath = Application.StartupPath + @"\Data\";
         internal static List<int> reReadIdList = new List<int>();                                // 需要重新读取的记录仪ID集合
-        internal static string Text = "自来水管道噪声分析系统";
+        internal static string Text = "自来水管道分析系统";
 
 
         public static SQLSyncManager SQLSyncMgr = new SQLSyncManager();

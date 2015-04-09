@@ -80,6 +80,7 @@ namespace SmartWaterSystem
             this.advBandedGridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
             this.advBandedGridView1.OptionsBehavior.ReadOnly = true;
             this.advBandedGridView1.OptionsView.ShowGroupPanel = false;
+            this.advBandedGridView1.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.advBandedGridView1_RowCellClick);
             this.advBandedGridView1.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.advBandedGridView1_CustomDrawRowIndicator);
             // 
             // groupControl6

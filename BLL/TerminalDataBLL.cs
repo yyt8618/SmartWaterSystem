@@ -192,5 +192,34 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// 获取指定时间范围的终端压力数据
+        /// </summary>
+        public List<UniversalDetailDataEntity> GetUniversalDetail(string TerminalID, int typeId, DateTime minTime, DateTime maxTime, int interval)
+        {
+            try
+            {
+                return dal.GetUniversalDetail(TerminalID, typeId, minTime, maxTime, interval);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetUniversalDetail", ex);
+                return null;
+            }
+        }
+
+        public string GetTerminalName(string TerminalID, TerType tertype)
+        {
+            try
+            {
+                return dal.GetTerminalName(TerminalID, tertype);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetTerminalName", ex);
+                return "";
+            }
+        }
+
     }
 }

@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 
 namespace Common
 {
-    public partial class ColorPanel : UserControl
+    public partial class ColorPanel_static : UserControl
     {
         private Color[] colorbarvalue = null;
         public Color[] ColorBarValue
@@ -13,7 +13,7 @@ namespace Common
             set{ colorbarvalue = value;}
         }
 
-        public ColorPanel()
+        public ColorPanel_static()
         {
             InitializeComponent();
         }

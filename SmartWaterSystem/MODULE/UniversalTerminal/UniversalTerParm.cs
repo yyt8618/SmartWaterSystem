@@ -162,16 +162,6 @@ namespace SmartWaterSystem
             //dt_485.Columns.Add("sendtime");
             //gridControl_RS485.DataSource = dt_485;
             //gridView_RS485.AddNewRow();
-
-            gridControl_485protocol.DataSource = null;
-            //DataTable dt_485protocol = new DataTable();
-            //dt_485protocol.Columns.Add("baud");
-            //dt_485protocol.Columns.Add("ID");
-            //dt_485protocol.Columns.Add("funcode");
-            //dt_485protocol.Columns.Add("regbeginaddr");
-            //dt_485protocol.Columns.Add("regcount");
-            //gridControl_485protocol.DataSource = dt_485protocol;
-            //gridView_485protocol.AddNewRow();
         }
 
         private void InitControls()
@@ -286,9 +276,22 @@ namespace SmartWaterSystem
             {
                 e.Handled = false;
             }
-            else if (e.KeyChar >= 48 && e.KeyChar <= 57)
+            else if ((e.KeyChar >= 48 && e.KeyChar <= 57) || (e.KeyChar >= 65 && e.KeyChar <= 70) || (e.KeyChar >= 97 && e.KeyChar <= 102) || e.KeyChar == 120)
             {
-                if (!Regex.IsMatch(txtbox.Text + e.KeyChar.ToString(), @"^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"))
+                string text = txtbox.Text;
+                if (txtbox.SelectedText.Length > 0)
+                {
+                    text =text.Remove(txtbox.SelectionStart, txtbox.SelectionLength);
+                    
+                }
+                text = text.Insert(txtbox.SelectionStart, e.KeyChar.ToString());
+
+                if (Regex.IsMatch(text, @"^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$")
+            || Regex.IsMatch(text, @"^(0x|0x[0-9a-fA-F]{1,2})$"))
+                {
+                    e.Handled = false;
+                }
+                else
                 {
                     e.Handled = true;
                 }
@@ -313,9 +316,21 @@ namespace SmartWaterSystem
             {
                 e.Handled = false;
             }
-            else if (e.KeyChar >= 48 && e.KeyChar <= 57)
+            else if ((e.KeyChar >= 48 && e.KeyChar <= 57) || (e.KeyChar >= 65 && e.KeyChar <= 70) || (e.KeyChar >= 97 && e.KeyChar <= 102) || e.KeyChar==120)
             {
-                if (!Regex.IsMatch(txtbox.Text + e.KeyChar.ToString(), @"^\d{1,5}$") || Convert.ToInt32(txtbox.Text + e.KeyChar.ToString()) > 65535)
+                string text = txtbox.Text;
+                if (txtbox.SelectedText.Length > 0)
+                {
+                    text = text.Remove(txtbox.SelectionStart, txtbox.SelectionLength);
+                    text = text.Insert(txtbox.SelectionStart, e.KeyChar.ToString());
+                }
+                text = text.Insert(txtbox.SelectionStart, e.KeyChar.ToString());
+                if ((Regex.IsMatch(text, @"^\d{1,5}$") && Convert.ToInt32(text) <= 65535)
+                || Regex.IsMatch(text, @"^(0x|0x[0-9a-fA-F]{1,4})$"))
+                {
+                    e.Handled = false;
+                }
+                else
                 {
                     e.Handled = true;
                 }
@@ -600,14 +615,31 @@ namespace SmartWaterSystem
                 gridControl_485protocol.DataSource = null;
             else
             {
+                //DataTable dt_485protocol = new DataTable();
+                //dt_485protocol.Columns.Add("baud");
+                //dt_485protocol.Columns.Add("ID");
+                //dt_485protocol.Columns.Add("funcode");
+                //dt_485protocol.Columns.Add("regbeginaddr");
+                //dt_485protocol.Columns.Add("regcount");
+                //gridControl_485protocol.DataSource = dt_485protocol;
+                //gridView_485protocol.AddNewRow();
                 DataTable dt_485protocol = new DataTable();
                 dt_485protocol.Columns.Add("baud");
                 dt_485protocol.Columns.Add("ID");
                 dt_485protocol.Columns.Add("funcode");
                 dt_485protocol.Columns.Add("regbeginaddr");
                 dt_485protocol.Columns.Add("regcount");
+                for (int i = 0; i < 8; i++)
+                {
+                    DataRow dr_protocol = dt_485protocol.NewRow();
+                    dr_protocol["baud"] = 9600;
+                    dr_protocol["ID"] = 0;
+                    dr_protocol["funcode"] = 0;
+                    dr_protocol["regbeginaddr"] = 0;
+                    dr_protocol["regcount"] = 0;
+                    dt_485protocol.Rows.Add(dr_protocol);
+                }
                 gridControl_485protocol.DataSource = dt_485protocol;
-                gridView_485protocol.AddNewRow();
             }
         }
 
@@ -1251,7 +1283,7 @@ namespace SmartWaterSystem
             if (ceCollectRS485.Checked)
             {
                 DataTable dt = gridControl_485protocol.DataSource as DataTable;
-                if (dt == null && dt.Rows.Count == 0)
+                if (dt == null || dt.Rows.Count == 0)
                 {
                     XtraMessageBox.Show("请填写RS485采集modbus协议配置表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     gridView_485protocol.Focus();

@@ -109,6 +109,7 @@ namespace SmartWaterSystem
                                 column_child.VisibleIndex = index - 1;
                                 column_child.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                                 column_child.FieldName = "column" + index;
+                                column_child.Tag = ChildNode.ID;
                                 bandChild.Columns.Add(column_child);
                                 GridBand bandUnit=bandChild.Children.AddBand(ChildNode.Unit);
                                 bandUnit.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -133,6 +134,7 @@ namespace SmartWaterSystem
                         column_parent.VisibleIndex = index - 1;
                         column_parent.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                         column_parent.FieldName = "column" + index;
+                        column_parent.Tag = ParentNode.ID;
                         bandParent.Columns.Add(column_parent);
                         GridBand bandUnit = bandParent.Children.AddBand(ParentNode.Unit);
                         bandUnit.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -150,7 +152,6 @@ namespace SmartWaterSystem
         {
             try
             {
-
                 SetGridDataProperties();
                 //binding data
                 InitGridData();
@@ -180,9 +181,52 @@ namespace SmartWaterSystem
 
             foreach (DataRow dr in dt.Rows)
             {
-                dt_bind.Rows.Add(new object[] { false, dr["TerminalID"] });
+                dt_bind.Rows.Add(new object[] { false, dr["TerminalID"].ToString().Trim() });
             }
             gridControlTer.DataSource = dt_bind;
+        }
+
+        public void UpdateView()
+        {
+            List<string> lst_selectIds = new List<string>();
+            DataTable dt = gridControlTer.DataSource as DataTable;
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["checked"] != DBNull.Value)
+                    {
+                        if (Convert.ToBoolean(dr["checked"]))
+                        {
+                            lst_selectIds.Add(dr["TerminalID"].ToString().Trim());
+                        }
+                    }
+                }
+            }
+
+            gridControlTer.DataSource = null;
+            DataTable dt_config = typeBll.GetTerminalID_Configed();
+
+            DataTable dt_bind = new DataTable("BindTable");
+            DataColumn col = dt_bind.Columns.Add("checked");
+            col.DataType = System.Type.GetType("System.Boolean");
+            dt_bind.Columns.Add("TerminalID");
+
+            foreach (DataRow dr in dt_config.Rows)
+            {
+                bool select = false;
+                foreach (string terid in lst_selectIds)
+                {
+                    if (terid == dr["TerminalID"].ToString().Trim())
+                    {
+                        select = true;
+                    }
+                }
+                dt_bind.Rows.Add(new object[] { select, dr["TerminalID"].ToString().Trim() });
+            }
+            gridControlTer.DataSource = dt_bind;
+            gridControlTer.RefreshDataSource();
+            ShowTerData();
         }
 
         private void ShowTerData()
@@ -199,6 +243,11 @@ namespace SmartWaterSystem
             {
                 DataTable dt = typeBll.GetTerminalDataToShow(lst_terid, lst_datacolumnIdIndex);
                 gridControl_data.DataSource = dt;
+                gridControl_data.RefreshDataSource();
+            }
+            else
+            {
+                gridControl_data.DataSource = null;
                 gridControl_data.RefreshDataSource();
             }
         }
@@ -232,5 +281,19 @@ namespace SmartWaterSystem
                 ShowTerData();
             }
         }
+
+        private void advBandedGridView1_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
+        {
+            if (e.RowHandle > -1 && e.Column.Tag != null && e.CellValue!=null)
+            {
+                string terId = advBandedGridView1.GetRowCellValue(e.RowHandle, "TerminalID").ToString().Trim();
+                UniversalChartForm.TerminalID = terId;
+                UniversalChartForm.TypeId = Convert.ToInt32(e.Column.Tag);
+                UniversalChartForm.ColumnName = e.Column.Caption.Trim();
+                UniversalChartForm detailForm = new UniversalChartForm();
+                detailForm.ShowDialog();
+            }
+        }
+
     }
 }

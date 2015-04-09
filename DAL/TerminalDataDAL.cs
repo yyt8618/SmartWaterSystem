@@ -402,7 +402,7 @@ namespace DAL
 
         public DataTable GetTerInfo(TerType type)
         {
-            string SQL = "SELECT ID,TerminalID,TerminalName,Address,Remark,ModifyTime FROM Terminal WHERE SyncState<>-1 AND TerminalType='" + (int)type + "'";
+            string SQL = "SELECT ID,TerminalID,TerminalName,Address,Remark,ModifyTime FROM Terminal WHERE SyncState<>-1 AND TerminalType='" + (int)type + "' ORDER BY TerminalID";
             return SQLiteHelper.ExecuteDataTable(SQL, null);
         }
 
@@ -429,7 +429,7 @@ namespace DAL
         public void DeleteTer(TerType type, int TerminalID)
         {
             string SQL = "";
-            string SQL_SELECT = "SELECT COUNT(1) FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
+            string SQL_SELECT = "SELECT COUNT(1) FROM Terminal WHERE SyncState=1 AND TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
             object obj_exist = SQLiteHelper.ExecuteScalar(SQL_SELECT, null);
             bool exist = false;
             if (obj_exist != null && obj_exist != DBNull.Value)
@@ -598,6 +598,58 @@ namespace DAL
 
             DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
             return dt;
+        }
+
+        public List<UniversalDetailDataEntity> GetUniversalDetail(string TerminalID, int typeId, DateTime minTime, DateTime maxTime, int interval)
+        {
+            string SQL = @"SELECT [Simulate1],[Simulate2],[Pluse1],[Pluse2],[Pluse3],[Pluse4],[Pluse5],
+  [RS485_1],[RS485_2],[RS485_3],[RS485_4],[RS485_5],[RS485_6],[RS485_7],[RS485_8],CollTime,[TableColumnName] FROM UniversalTerData 
+  WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalID=@TerId AND TypeTableID=@typeId  ORDER BY CollTime";
+
+            SqlParameter[] parms = new SqlParameter[]{
+                new SqlParameter("@TerId",SqlDbType.Int),
+                new SqlParameter("@typeId",SqlDbType.Int),
+                new SqlParameter("@mintime",SqlDbType.DateTime),
+                new SqlParameter("@maxtime",SqlDbType.DateTime),
+                new SqlParameter("@interval",SqlDbType.Int)
+            };
+
+            parms[0].Value = TerminalID;
+            parms[1].Value = typeId;
+            parms[2].Value = minTime;
+            parms[3].Value = maxTime;
+            parms[4].Value = interval;
+
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, parms))
+            {
+                List<UniversalDetailDataEntity> lstData = new List<UniversalDetailDataEntity>();
+                while (reader.Read())
+                {
+                    if (reader["TableColumnName"] != DBNull.Value)
+                    {
+                        string columnname = reader["TableColumnName"].ToString().Trim();
+                        UniversalDetailDataEntity entity = new UniversalDetailDataEntity();
+
+                        entity.Data = reader[columnname] != DBNull.Value ? Convert.ToDecimal(reader[columnname]) : 0;
+                        entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : ConstValue.MinDateTime;
+
+                        lstData.Add(entity);
+                    }
+                }
+                return lstData;
+            }
+            return null;
+        }
+
+        public string GetTerminalName(string TerminalID, TerType tertype)
+        {
+            string SQL = "SELECT TerminalName FROM Terminal WHERE TerminalType= '" + (int)tertype + "' AND TerminalID='" + TerminalID.Trim() + "'";
+            object obj_name = SQLiteHelper.ExecuteScalar(SQL, null);
+            if (obj_name != null && obj_name != DBNull.Value)
+            {
+                return obj_name.ToString().Trim();
+            }
+            return "";
         }
 
     }

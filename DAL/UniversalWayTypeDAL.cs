@@ -203,7 +203,7 @@ namespace DAL
 
         public DataTable GetTerminalID_Configed()
         {
-            string SQL = "SELECT DISTINCT TerminalID FROM UniversalTerWayConfig WHERE SyncState<>-1";
+            string SQL = "SELECT DISTINCT TerminalID FROM UniversalTerWayConfig WHERE SyncState<>-1 ORDER BY TerminalID";
             DataTable dt = SQLiteHelper.ExecuteDataTable(SQL, null);
             return dt;
         }

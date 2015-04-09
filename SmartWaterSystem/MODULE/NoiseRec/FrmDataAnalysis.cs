@@ -54,7 +54,7 @@ namespace SmartWaterSystem
         {
             try
             {
-                this.colorPanel1.ColorBarValue = colors;
+                //this.colorPanel1.ColorBarValue = colors;
                 //Random r = new Random();
                 int seriescount = data.Amplitude.Length;
 

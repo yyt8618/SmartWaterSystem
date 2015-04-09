@@ -68,6 +68,7 @@ namespace SmartWaterSystem
             this.label12 = new System.Windows.Forms.Label();
             this.c1Chart1 = new C1.Win.C1Chart.C1Chart();
             this.txtCurSeriesValue = new DevExpress.XtraEditors.TextEdit();
+            this.colorPanel_static1 = new Common.ColorPanel_static();
             this.colorPanel1 = new Common.ColorPanel();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -458,11 +459,19 @@ namespace SmartWaterSystem
             this.txtCurSeriesValue.TabIndex = 63;
             this.txtCurSeriesValue.TabStop = false;
             // 
+            // colorPanel_static1
+            // 
+            this.colorPanel_static1.Location = new System.Drawing.Point(622, 12);
+            this.colorPanel_static1.Name = "colorPanel_static1";
+            this.colorPanel_static1.Size = new System.Drawing.Size(10, 15);
+            this.colorPanel_static1.TabIndex = 64;
+            this.colorPanel_static1.Visible = false;
+            // 
             // colorPanel1
             // 
-            this.colorPanel1.Location = new System.Drawing.Point(600, 59);
+            this.colorPanel1.Location = new System.Drawing.Point(598, 59);
             this.colorPanel1.Name = "colorPanel1";
-            this.colorPanel1.Size = new System.Drawing.Size(59, 268);
+            this.colorPanel1.Size = new System.Drawing.Size(57, 268);
             this.colorPanel1.TabIndex = 62;
             // 
             // FrmDataAnalysis
@@ -471,6 +480,7 @@ namespace SmartWaterSystem
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(659, 605);
+            this.Controls.Add(this.colorPanel_static1);
             this.Controls.Add(this.txtCurSeriesValue);
             this.Controls.Add(this.colorPanel1);
             this.Controls.Add(this.c1Chart1);
@@ -557,7 +567,7 @@ namespace SmartWaterSystem
         private ColorPanel colorPanel1;
         private DevExpress.XtraEditors.TextEdit txtCurSeriesValue;
         private System.Windows.Forms.PictureBox PicBox;
-
+        private ColorPanel_static colorPanel_static1;
 
 
     }
