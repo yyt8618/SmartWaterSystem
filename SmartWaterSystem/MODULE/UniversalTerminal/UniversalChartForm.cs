@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Entity;
 using BLL;
+using DevExpress.XtraEditors;
 
 namespace SmartWaterSystem
 {
@@ -111,13 +112,13 @@ namespace SmartWaterSystem
         {
             if (dtpEnd.Value < dtpStart.Value)
             {
-                MessageBox.Show("结束数据不能大于起始时间!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                XtraMessageBox.Show("结束数据不能大于起始时间!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dtpEnd.Focus();
                 return false;
             }
             if (string.IsNullOrEmpty(cbInterval.Text))
             {
-                MessageBox.Show("间隔时间不能为空!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                XtraMessageBox.Show("间隔时间不能为空!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cbInterval.Focus();
                 return false;
             }
@@ -131,7 +132,7 @@ namespace SmartWaterSystem
             }
             else
             {
-                MessageBox.Show("没有"+ColumnName+"数据,请修改条件!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                XtraMessageBox.Show("没有"+ColumnName+"数据,请修改条件!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dtpStart.Focus();
                 return false;
             }
@@ -183,7 +184,7 @@ namespace SmartWaterSystem
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    XtraMessageBox.Show(ex.Message);
                 }
             }
         }

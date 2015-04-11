@@ -188,6 +188,7 @@ namespace SmartWaterSystem
 
         public void UpdateView()
         {
+            SetGridDataProperties();
             List<string> lst_selectIds = new List<string>();
             DataTable dt = gridControlTer.DataSource as DataTable;
             if (dt != null && dt.Rows.Count > 0)

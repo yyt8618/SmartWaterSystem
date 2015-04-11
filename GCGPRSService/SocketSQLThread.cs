@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using Common;
 using BLL;
+using Entity;
 
 namespace GCGPRSService
 {
@@ -135,10 +136,24 @@ namespace GCGPRSService
                             result = dataBll.UpdateGPRSParmFlag(GlobalValue.Instance.lstSendedCmdId);
                             if (result == 1)
                             {
-                                for (int i = 0; i < GlobalValue.Instance.lstSendedCmdId.Count; i++)
+                                List<GPRSCmdEntity> lstTmp = new List<GPRSCmdEntity>();
+                                for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
                                 {
-                                    GlobalValue.Instance.lstGprsCmd.RemoveAt(GlobalValue.Instance.lstSendedCmdId[i].Index);
+                                    bool exist = false;
+                                    foreach(GPRSCmdFlag flag in GlobalValue.Instance.lstSendedCmdId)
+                                    {
+                                        if(flag.TableId == GlobalValue.Instance.lstGprsCmd[i].TableId)
+                                        {
+                                            exist = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!exist)
+                                    {
+                                        lstTmp.Add(GlobalValue.Instance.lstGprsCmd[i]);
+                                    }
                                 }
+                                GlobalValue.Instance.lstGprsCmd = lstTmp;
                             }
                             #endregion
                         }

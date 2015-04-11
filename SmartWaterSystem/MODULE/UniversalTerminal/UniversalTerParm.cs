@@ -6,6 +6,9 @@ using System.Text.RegularExpressions;
 using DevExpress.XtraGrid.Views.Grid;
 using Entity;
 using System.Collections;
+using BLL;
+using Common;
+using System.Collections.Generic;
 
 namespace SmartWaterSystem
 {
@@ -615,31 +618,34 @@ namespace SmartWaterSystem
                 gridControl_485protocol.DataSource = null;
             else
             {
+                //if (gridView_485protocol.RowCount < 8)
+                //{
+                    DataTable dt_485protocol = new DataTable();
+                    dt_485protocol.Columns.Add("baud");
+                    dt_485protocol.Columns.Add("ID");
+                    dt_485protocol.Columns.Add("funcode"); 
+                    dt_485protocol.Columns.Add("regbeginaddr");
+                    dt_485protocol.Columns.Add("regcount");
+                    gridControl_485protocol.DataSource = dt_485protocol;
+                    gridView_485protocol.AddNewRow();
+                //}
                 //DataTable dt_485protocol = new DataTable();
                 //dt_485protocol.Columns.Add("baud");
                 //dt_485protocol.Columns.Add("ID");
                 //dt_485protocol.Columns.Add("funcode");
                 //dt_485protocol.Columns.Add("regbeginaddr");
                 //dt_485protocol.Columns.Add("regcount");
+                //for (int i = 0; i < 8; i++)
+                //{
+                //    DataRow dr_protocol = dt_485protocol.NewRow();
+                //    dr_protocol["baud"] = 9600;
+                //    dr_protocol["ID"] = 0;
+                //    dr_protocol["funcode"] = 0;
+                //    dr_protocol["regbeginaddr"] = 0;
+                //    dr_protocol["regcount"] = 0;
+                //    dt_485protocol.Rows.Add(dr_protocol);
+                //}
                 //gridControl_485protocol.DataSource = dt_485protocol;
-                //gridView_485protocol.AddNewRow();
-                DataTable dt_485protocol = new DataTable();
-                dt_485protocol.Columns.Add("baud");
-                dt_485protocol.Columns.Add("ID");
-                dt_485protocol.Columns.Add("funcode");
-                dt_485protocol.Columns.Add("regbeginaddr");
-                dt_485protocol.Columns.Add("regcount");
-                for (int i = 0; i < 8; i++)
-                {
-                    DataRow dr_protocol = dt_485protocol.NewRow();
-                    dr_protocol["baud"] = 9600;
-                    dr_protocol["ID"] = 0;
-                    dr_protocol["funcode"] = 0;
-                    dr_protocol["regbeginaddr"] = 0;
-                    dr_protocol["regcount"] = 0;
-                    dt_485protocol.Rows.Add(dr_protocol);
-                }
-                gridControl_485protocol.DataSource = dt_485protocol;
             }
         }
 
@@ -962,6 +968,87 @@ namespace SmartWaterSystem
             }
             else
             {
+                #region GPRS校验
+                if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
+                {
+                    XtraMessageBox.Show("请输入设备ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtID.Focus();
+                    return ;
+                }
+                bool haveset = false;
+                if (ceCollectSimulate.Checked)
+                {
+                    DataTable dt = gridControl_Simulate.DataSource as DataTable;
+                    if (dt == null || dt.Rows.Count == 0)
+                    {
+                        XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        gridView_Simulate.Focus();
+                        return ;
+                    }
+                    haveset = true;
+                }
+
+                if (ceCollectPluse.Checked)
+                {
+                    DataTable dt = gridControl_Pluse.DataSource as DataTable;
+                    if (dt == null || dt.Rows.Count == 0)
+                    {
+                        XtraMessageBox.Show("请填写脉冲量时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        gridView_Pluse.Focus();
+                        return ;
+                    }
+                    haveset = true;
+                }
+
+                if (ceCollectRS485.Checked)
+                {
+                    DataTable dt = gridControl_RS485.DataSource as DataTable;
+                    if (dt == null || dt.Rows.Count == 0)
+                    {
+                        XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        gridView_RS485.Focus();
+                        return ;
+                    }
+                    haveset = true;
+                }
+                if (!haveset)
+                {
+                    XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                #endregion
+
+                TerminalDataBLL terBll = new TerminalDataBLL();
+                List<Package> lstPack = new List<Package>();
+                if (ceCollectSimulate.Checked)
+                {
+                    DataTable dt = gridControl_Simulate.DataSource as DataTable;
+                    Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(Convert.ToInt16(txtID.Text), dt);
+                    lstPack.Add(pack);
+                }
+                if (ceCollectPluse.Checked)
+                {
+                    DataTable dt = gridControl_Pluse.DataSource as DataTable;
+                    Package pack = GlobalValue.Universallog.GetPluseIntervalPackage(Convert.ToInt16(txtID.Text), dt);
+                    lstPack.Add(pack);
+                }
+                if (ceCollectRS485.Checked)
+                {
+                    DataTable dt = gridControl_RS485.DataSource as DataTable;
+                    Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(Convert.ToInt16(txtID.Text), dt);
+                    lstPack.Add(pack);
+                }
+
+                foreach (Package pack in lstPack)
+                {
+                    if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
+                    {
+                        XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+                ceCollectSimulate.Checked = false; ceCollectPluse.Checked = false; ceCollectRS485.Checked = false;
+                XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -1280,7 +1367,7 @@ namespace SmartWaterSystem
                 return false;
             }
 
-            if (ceCollectRS485.Checked)
+            if (ceModbusExeFlag.Checked)
             {
                 DataTable dt = gridControl_485protocol.DataSource as DataTable;
                 if (dt == null || dt.Rows.Count == 0)

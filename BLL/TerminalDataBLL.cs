@@ -221,5 +221,19 @@ namespace BLL
             }
         }
 
+        public bool InsertDevGPRSParm(int devId, int DevTypeId, int ctrlCode, int Funcode, string DataValue)
+        {
+            try
+            {
+                dal.InsertDevGPRSParm(devId, DevTypeId, ctrlCode, Funcode, DataValue);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("InsertDevGPRSParm", ex);
+                return false;
+            }
+        }
+
     }
 }

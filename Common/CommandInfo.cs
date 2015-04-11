@@ -349,7 +349,7 @@ namespace Common
     /// <summary>
     /// 压力终端远传命令参数
     /// </summary>
-    public enum GPRS_WRITE
+    public enum PreTer_WRITE
     {
         /// <summary>
         /// 设置时间

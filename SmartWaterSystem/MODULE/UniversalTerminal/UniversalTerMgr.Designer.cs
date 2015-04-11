@@ -82,7 +82,7 @@
             this.txtCollectType = new DevExpress.XtraEditors.TextEdit();
             this.labelControl11 = new DevExpress.XtraEditors.LabelControl();
             this.txtTypeName = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
+            this.lblMaxMeasureR = new DevExpress.XtraEditors.LabelControl();
             this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -616,7 +616,7 @@
             this.groupBox6.Controls.Add(this.txtCollectType);
             this.groupBox6.Controls.Add(this.labelControl11);
             this.groupBox6.Controls.Add(this.txtTypeName);
-            this.groupBox6.Controls.Add(this.labelControl7);
+            this.groupBox6.Controls.Add(this.lblMaxMeasureR);
             this.groupBox6.Controls.Add(this.labelControl10);
             this.groupBox6.Controls.Add(this.labelControl8);
             this.groupBox6.Location = new System.Drawing.Point(320, 30);
@@ -710,11 +710,11 @@
             // 
             // labelControl9
             // 
-            this.labelControl9.Location = new System.Drawing.Point(6, 397);
+            this.labelControl9.Location = new System.Drawing.Point(41, 397);
             this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(100, 14);
+            this.labelControl9.Size = new System.Drawing.Size(52, 14);
             this.labelControl9.TabIndex = 109;
-            this.labelControl9.Text = "仪表最大测量范围:";
+            this.labelControl9.Text = "最大量程:";
             // 
             // txtCollectType
             // 
@@ -740,13 +740,13 @@
             this.txtTypeName.Size = new System.Drawing.Size(73, 20);
             this.txtTypeName.TabIndex = 2;
             // 
-            // labelControl7
+            // lblMaxMeasureR
             // 
-            this.labelControl7.Location = new System.Drawing.Point(17, 371);
-            this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(76, 14);
-            this.labelControl7.TabIndex = 109;
-            this.labelControl7.Text = "最大测量范围:";
+            this.lblMaxMeasureR.Location = new System.Drawing.Point(17, 371);
+            this.lblMaxMeasureR.Name = "lblMaxMeasureR";
+            this.lblMaxMeasureR.Size = new System.Drawing.Size(76, 14);
+            this.lblMaxMeasureR.TabIndex = 109;
+            this.lblMaxMeasureR.Text = "最大测量范围:";
             // 
             // labelControl10
             // 
@@ -1083,7 +1083,7 @@
         private DevExpress.XtraEditors.TextEdit txtUnit;
         private DevExpress.XtraEditors.TextEdit txtMaxMeasureR;
         private DevExpress.XtraEditors.TextEdit txtTypeName;
-        private DevExpress.XtraEditors.LabelControl labelControl7;
+        private DevExpress.XtraEditors.LabelControl lblMaxMeasureR;
         private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraTreeList.TreeList treeCollectType;
         private DevExpress.XtraEditors.TextEdit txtMaxMeasureRFlag;

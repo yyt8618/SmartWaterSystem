@@ -112,5 +112,27 @@ namespace SmartWaterSystem
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        private void cbType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbType.SelectedIndex == 0)  //模拟
+            {
+                lblMaxMeasureR.Text = "最大测量范围:";
+                txtMaxMeasureR.Enabled = true;
+                txtMaxMeasureRFlag.Enabled = true;
+            }
+            else if (cbType.SelectedIndex == 1) //脉冲
+            {
+                lblMaxMeasureR.Text = "单位脉冲大小:";
+                txtMaxMeasureR.Enabled = true;
+                txtMaxMeasureRFlag.Enabled = false;
+            }
+            else if (cbType.SelectedIndex == 2) //RS485
+            {
+                lblMaxMeasureR.Text = "最大测量范围:";
+                txtMaxMeasureR.Enabled = false;
+                txtMaxMeasureRFlag.Enabled = false;
+            }
+        }
     }
 }

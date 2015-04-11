@@ -688,6 +688,13 @@ namespace Protocol
 
         public bool SetSimulateInterval(short Id, DataTable dt)
         {
+            Package package = GetSimulateIntervalPackage(Id, dt);
+
+            return Write(package);
+        }
+
+        public Package GetSimulateIntervalPackage(short Id, DataTable dt)
+        {
             Package package = new Package();
             package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
@@ -717,10 +724,17 @@ namespace Protocol
             package.Data = data;
             package.CS = package.CreateCS();
 
-            return Write(package);
+            return package;
         }
 
         public bool SetPluseInterval(short Id, DataTable dt)
+        {
+            Package package = GetPluseIntervalPackage(Id, dt);
+
+            return Write(package);
+        }
+
+        public Package GetPluseIntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
             package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
@@ -748,10 +762,17 @@ namespace Protocol
             package.Data = data;
             package.CS = package.CreateCS();
 
-            return Write(package);
+            return package;
         }
 
         public bool SetRS485Interval(short Id, DataTable dt)
+        {
+            Package package = GetRS485IntervalPackage(Id, dt);
+
+            return Write(package);
+        }
+
+        public Package GetRS485IntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
             package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
@@ -779,7 +800,7 @@ namespace Protocol
             package.Data = data;
             package.CS = package.CreateCS();
 
-            return Write(package);
+            return package;
         }
 
         public bool SetModbusProtocol(short Id, DataTable dt)
@@ -791,8 +812,10 @@ namespace Protocol
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_MODBUSPROTOCOL;
             List<byte> lstdata = new List<byte>();
             byte[] data;
-            foreach (DataRow dr in dt.Rows)
+            int i=0;
+            for(;i<dt.Rows.Count;i++)
             {
+                DataRow dr = dt.Rows[i];
                 if (dr["baud"] != DBNull.Value && dr["ID"] != DBNull.Value && dr["funcode"] != DBNull.Value&&
                     dr["regbeginaddr"] != DBNull.Value && dr["regcount"] != DBNull.Value )
                 {
@@ -837,7 +860,7 @@ namespace Protocol
                     {
                         data = BitConverter.GetBytes(Convert.ToInt16(regcount.Substring(2), 16));
                         lstdata.Add(data[1]);
-                        lstdata.Add(data[0]);
+                        lstdata.Add(data[0]); 
                     }
                     else
                     {
@@ -846,6 +869,11 @@ namespace Protocol
                         lstdata.Add(data[0]);
                     }
                 }
+            }
+            for (; i < 8; i++)
+            {
+                lstdata.Add(0x03);
+                lstdata.AddRange(new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });  //补齐8行
             }
 
             data = lstdata.ToArray();

@@ -221,9 +221,7 @@ namespace DAL
                 str_typeid += "'" + typeid + "',";
             }
             str_typeid = str_typeid.Substring(0, str_typeid.Length - 1);
-            string SQL = @"SELECT [TerminalID],[Simulate1],[Simulate2],[Simulate1Zero],[Simulate2Zero],[Pluse1],[Pluse2],
-                        [Pluse3],[Pluse4],[Pluse5],[RS485_1],[RS485_2],[RS485_3],[RS485_4],[RS485_5],[RS485_6],[RS485_7],
-                        [RS485_8],[CollTime],[UnloadTime],[TypeTableID],[TableColumnName] FROM UniversalTerData 
+            string SQL = @"SELECT [TerminalID],[DataValue],[Simulate1Zero],[Simulate2Zero],[CollTime],[UnloadTime],[TypeTableID] FROM UniversalTerData 
                         WHERE ID IN(SELECT Max(ID) FROM UniversalTerData WHERE TypeTableID IN(" + str_typeid + ") GROUP BY TypeTableID)";
             DataTable dt_select = SQLHelper.ExecuteDataTable(SQL, null);
 
@@ -245,7 +243,7 @@ namespace DAL
                         {
                             int tabledid = Convert.ToInt32(dr_tmp["TypeTableID"]);
                             int index = lstTypeID.IndexOf(tabledid)+1;
-                            dr["column"+index] = dr_tmp[dr_tmp["TableColumnName"].ToString().Trim()];
+                            dr["column" + index] = dr_tmp["DataValue"];
                         }
                     }
 

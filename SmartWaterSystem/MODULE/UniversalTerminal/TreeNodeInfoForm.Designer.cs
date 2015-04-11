@@ -35,14 +35,12 @@
             this.txtUnit = new DevExpress.XtraEditors.TextEdit();
             this.txtMaxMeasureRFlag = new DevExpress.XtraEditors.TextEdit();
             this.txtMaxMeasureR = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
+            this.lblMaxMeasureRFlag = new DevExpress.XtraEditors.LabelControl();
             this.txtName = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
+            this.lblMaxMeasureR = new DevExpress.XtraEditors.LabelControl();
             this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.label3 = new System.Windows.Forms.Label();
             this.cbFrameWidth = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -84,6 +82,7 @@
             this.cbType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbType.Size = new System.Drawing.Size(86, 20);
             this.cbType.TabIndex = 0;
+            this.cbType.SelectedIndexChanged += new System.EventHandler(this.cbType_SelectedIndexChanged);
             // 
             // labelControl2
             // 
@@ -128,13 +127,13 @@
             this.txtMaxMeasureR.Size = new System.Drawing.Size(86, 20);
             this.txtMaxMeasureR.TabIndex = 3;
             // 
-            // labelControl9
+            // lblMaxMeasureRFlag
             // 
-            this.labelControl9.Location = new System.Drawing.Point(2, 112);
-            this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(100, 14);
-            this.labelControl9.TabIndex = 128;
-            this.labelControl9.Text = "仪表最大测量范围:";
+            this.lblMaxMeasureRFlag.Location = new System.Drawing.Point(50, 112);
+            this.lblMaxMeasureRFlag.Name = "lblMaxMeasureRFlag";
+            this.lblMaxMeasureRFlag.Size = new System.Drawing.Size(52, 14);
+            this.lblMaxMeasureRFlag.TabIndex = 128;
+            this.lblMaxMeasureRFlag.Text = "最大量程:";
             // 
             // txtName
             // 
@@ -144,13 +143,13 @@
             this.txtName.Size = new System.Drawing.Size(86, 20);
             this.txtName.TabIndex = 1;
             // 
-            // labelControl7
+            // lblMaxMeasureR
             // 
-            this.labelControl7.Location = new System.Drawing.Point(26, 86);
-            this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(76, 14);
-            this.labelControl7.TabIndex = 127;
-            this.labelControl7.Text = "最大测量范围:";
+            this.lblMaxMeasureR.Location = new System.Drawing.Point(26, 86);
+            this.lblMaxMeasureR.Name = "lblMaxMeasureR";
+            this.lblMaxMeasureR.Size = new System.Drawing.Size(76, 14);
+            this.lblMaxMeasureR.TabIndex = 127;
+            this.lblMaxMeasureR.Text = "最大测量范围:";
             // 
             // labelControl10
             // 
@@ -176,26 +175,6 @@
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "保存";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(192, 86);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 14);
-            this.label1.TabIndex = 134;
-            this.label1.Text = "如:20m";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(192, 112);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 14);
-            this.label2.TabIndex = 134;
-            this.label2.Text = "如:FFF";
             // 
             // labelControl1
             // 
@@ -241,14 +220,12 @@
             this.Controls.Add(this.txtMaxMeasureR);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.labelControl2);
             this.Controls.Add(this.labelControl6);
             this.Controls.Add(this.labelControl1);
-            this.Controls.Add(this.labelControl9);
-            this.Controls.Add(this.labelControl7);
+            this.Controls.Add(this.lblMaxMeasureRFlag);
+            this.Controls.Add(this.lblMaxMeasureR);
             this.Controls.Add(this.labelControl10);
             this.Controls.Add(this.labelControl8);
             this.MaximizeBox = false;
@@ -279,14 +256,12 @@
         private DevExpress.XtraEditors.TextEdit txtUnit;
         private DevExpress.XtraEditors.TextEdit txtMaxMeasureRFlag;
         private DevExpress.XtraEditors.TextEdit txtMaxMeasureR;
-        private DevExpress.XtraEditors.LabelControl labelControl9;
+        private DevExpress.XtraEditors.LabelControl lblMaxMeasureRFlag;
         private DevExpress.XtraEditors.TextEdit txtName;
-        private DevExpress.XtraEditors.LabelControl labelControl7;
+        private DevExpress.XtraEditors.LabelControl lblMaxMeasureR;
         private DevExpress.XtraEditors.LabelControl labelControl10;
         private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraEditors.SimpleButton btnSave;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.ComboBoxEdit cbFrameWidth;

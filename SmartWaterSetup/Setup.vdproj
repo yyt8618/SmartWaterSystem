@@ -5621,7 +5621,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SupervisoryCpt"
         "ProductCode" = "8:{4C0632F8-E5AE-4D7C-A7EC-BB8BA1D195FA}"
-        "PackageCode" = "8:{CE61A43C-FA88-4A74-9181-3575702C06A5}"
+        "PackageCode" = "8:{10AD3965-005C-4E7A-89A9-194EA6A521A8}"
         "UpgradeCode" = "8:{EB14AC90-7783-4AB3-9296-B4D7C00026CE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

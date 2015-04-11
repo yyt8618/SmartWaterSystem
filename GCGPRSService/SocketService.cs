@@ -273,13 +273,13 @@ namespace GCGPRSService
                                 }
                                 else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
                                 {
-                                    string str_frame = ByteToString(arr, bytesRead);
+                                    string str_frame = ConvertHelper.ByteToString(arr, bytesRead);
 #if debug
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据:" + str_frame));
 #else
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据"));
 #endif
-
+                                    bool bNeedCheckTime = false;  //是否需要校时
                                     #region 解析数据
                                     if (pack.ID3 == (byte)DEV_TYPE.Data_CTRL)
                                     {
@@ -352,6 +352,7 @@ namespace GCGPRSService
                                                 GPRSPreDataEntity data = new GPRSPreDataEntity();
                                                 data.PreValue = pressuevalue;
                                                 data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                 framedata.lstPreData.Add(data);
                                             }
 
@@ -406,10 +407,11 @@ namespace GCGPRSService
                                                 data.Reverse_FlowValue = reverse_flowvalue;
                                                 data.Instant_FlowValue = instant_flowvalue;
                                                 data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                 framedata.lstFlowData.Add(data);
                                             }
                                             GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
-                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertPreValue);
+                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_ALARMINFO)  //从站向主站发送设备报警信息
                                         {
@@ -445,6 +447,7 @@ namespace GCGPRSService
                                             minute = Convert.ToInt16(pack.Data[5]);
                                             sec = Convert.ToInt16(pack.Data[6]);
 
+                                            bNeedCheckTime = NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
                                             OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}]{1}|时间({2})",
                                                  pack.DevID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
                                         }
@@ -453,9 +456,21 @@ namespace GCGPRSService
                                     else if (pack.ID3 == (byte)DEV_TYPE.UNIVERSAL_CTRL)
                                     {
                                         #region 通用终端
-                                        if (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM1)  //接受通用终端发送的模拟1路数据
+                                        if ((pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM1) || (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM2))  //接受通用终端发送的模拟数据
                                         {
-                                            #region 通用终端模拟1路
+                                            #region 通用终端模拟数据
+                                            string name = "";
+                                            string sequence = "";
+                                            if (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM1)
+                                            {
+                                                name = "1";
+                                                sequence = "1";
+                                            }
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM2)
+                                            {
+                                                name = "2";
+                                                sequence = "2";
+                                            }
                                             int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
                                             GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
                                             framedata.TerId = pack.DevID.ToString();
@@ -468,83 +483,7 @@ namespace GCGPRSService
                                             DataRow[] dr_TerminalDataConfig = null;
                                             if (GlobalValue.Instance.UniversalDataConfig != null && GlobalValue.Instance.UniversalDataConfig.Rows.Count > 0)
                                             {
-                                                dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + framedata.TerId + "' AND Sequence='1'"); //WayType
-                                            }
-                                            if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
-                                            {
-                                                float MaxMeasureRange = dr_TerminalDataConfig[0]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRange"]) : 0;
-                                                float MaxMeasureRangeFlag = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
-                                                int datawidth = dr_TerminalDataConfig[0]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[0]["FrameWidth"]) : 0;
-                                                int precision = dr_TerminalDataConfig[0]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[0]["precision"]) : 0;
-                                                if (MaxMeasureRangeFlag > 0 && datawidth > 0)
-                                                {
-                                                    int loopdatalen = 6 + datawidth;  //循环部分数据宽度 = 时间(6)+配置长度
-                                                    int dataindex = (pack.DataLength - 2 - 1) % loopdatalen;
-                                                    if (dataindex != 0)
-                                                        throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+"+loopdatalen+"*n)规则");
-                                                    dataindex = (pack.DataLength - 2 - 1) / loopdatalen;
-                                                    for (int i = 0; i < dataindex; i++)
-                                                    {
-                                                        year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
-                                                        month = Convert.ToInt16(pack.Data[i * 8 + 4]);
-                                                        day = Convert.ToInt16(pack.Data[i * 8 + 5]);
-                                                        hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
-                                                        minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
-                                                        sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
-
-                                                        if (datawidth == 2)
-                                                            datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
-                                                        else if (datawidth == 4)
-                                                            datavalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 8 + 12], pack.Data[i * 8 + 11], pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
-
-                                                        datavalue = (MaxMeasureRange / MaxMeasureRangeFlag) * (datavalue - calibration);  //根据设置和校准值计算
-                                                        datavalue = Convert.ToSingle(datavalue.ToString("F" + precision));  //精度调整
-                                                        if (datavalue < 0)
-                                                            datavalue = 0;
-                                                        OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]模拟一路|校准值({2})|采集时间({3})|{4}:{5}{6}",
-                                                            i, pack.DevID, calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString())));
-
-                                                        GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
-                                                        data.Sim1 = datavalue;
-                                                        data.TypeTableID = Convert.ToInt32(dr_TerminalDataConfig[0]["ID"]);
-                                                        data.TableColumnName = "Simulate1";
-                                                        try
-                                                        {
-                                                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                                                        }
-                                                        catch { data.ColTime = ConstValue.MinDateTime; }
-                                                        framedata.lstData.Add(data);
-                                                    }
-                                                    GlobalValue.Instance.GPRS_UniversalFrameData.Enqueue(framedata);  //通知存储线程处理
-                                                    GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertUniversalValue);
-                                                }
-                                                else
-                                                {
-                                                    OnSendMsg(new SocketEventArgs("通用终端[" + framedata.TerId + "]数据帧解析规则配置错误,数据未能解析！"));
-                                                }
-                                            }
-                                            else
-                                            {
-                                                OnSendMsg(new SocketEventArgs("通用终端[" + framedata.TerId + "]未配置数据帧解析规则,数据未能解析！"));
-                                            }
-                                            #endregion
-                                        }
-                                        else if (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM2)  //接受通用终端发送的模拟2路数据
-                                        {
-                                            #region 通用终端模拟2路
-                                            int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
-                                            GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
-                                            framedata.ModifyTime = DateTime.Now;
-                                            framedata.Frame = str_frame;
-
-                                            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                            float datavalue = 0;
-
-                                            DataRow[] dr_TerminalDataConfig = null;
-                                            if (GlobalValue.Instance.UniversalDataConfig != null && GlobalValue.Instance.UniversalDataConfig.Rows.Count > 0)
-                                            {
-                                                dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + framedata.TerId + "' AND Sequence='2'"); //WayType
+                                                dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + framedata.TerId + "' AND Sequence='" + sequence + "'"); //WayType
                                             }
                                             if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
                                             {
@@ -577,18 +516,19 @@ namespace GCGPRSService
                                                         datavalue = Convert.ToSingle(datavalue.ToString("F" + precision));  //精度调整
                                                         if (datavalue < 0)
                                                             datavalue = 0;
-                                                        OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]模拟二路|校准值({2})|采集时间({3})|{4}:{5}{6}",
-                                                            i, pack.DevID, calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString())));
+                                                        OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}",
+                                                            i, pack.DevID, name, calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString())));
 
                                                         GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
-                                                        data.Sim1 = datavalue;
+                                                        data.DataValue = datavalue;
+                                                        data.Sim1Zero = calibration;
                                                         data.TypeTableID = Convert.ToInt32(dr_TerminalDataConfig[0]["ID"]);
-                                                        data.TableColumnName = "Simulate2";
                                                         try
                                                         {
                                                             data.ColTime = new DateTime(year, month, day, hour, minute, sec);
                                                         }
                                                         catch { data.ColTime = ConstValue.MinDateTime; }
+                                                        bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                         framedata.lstData.Add(data);
                                                     }
                                                     GlobalValue.Instance.GPRS_UniversalFrameData.Enqueue(framedata);  //通知存储线程处理
@@ -630,11 +570,11 @@ namespace GCGPRSService
                                                 string[] Names = new string[waycount];
                                                 string[] Units = new string[waycount];
                                                 int[] config_ids = new int[waycount];
-                                                
+
                                                 int topdatawidth = 0;
                                                 for (int i = 0; i < waycount; i++)
                                                 {
-                                                    PluseUnits[i]=dr_TerminalDataConfig[i]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[i]["MaxMeasureRange"]) : 0;  //每个脉冲对应的单位采集量
+                                                    PluseUnits[i] = dr_TerminalDataConfig[i]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[i]["MaxMeasureRange"]) : 0;  //每个脉冲对应的单位采集量
                                                     DataWidths[i] = dr_TerminalDataConfig[i]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[i]["FrameWidth"]) : 0;
                                                     Precisions[i] = dr_TerminalDataConfig[i]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["precision"]) : 0;
                                                     Names[i] = dr_TerminalDataConfig[i]["Name"] != DBNull.Value ? dr_TerminalDataConfig[i]["Name"].ToString().Trim() : "";
@@ -659,45 +599,34 @@ namespace GCGPRSService
                                                         minute = Convert.ToInt16(pack.Data[i * loopdatalen + 7]);
                                                         sec = Convert.ToInt16(pack.Data[i * loopdatalen + 8]);
 
+                                                        int freindex = 0;
                                                         for (int j = 0; j < waycount; j++)
                                                         {
                                                             if (DataWidths[j] == 2)
-                                                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 10], pack.Data[i * loopdatalen + 9] }, 0);
+                                                            {
+                                                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 10 + freindex], pack.Data[i * loopdatalen + 9 + freindex] }, 0);
+                                                                freindex += 2;
+                                                            }
                                                             else if (DataWidths[j] == 4)
-                                                                datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 12], pack.Data[i * loopdatalen + 11], pack.Data[i * loopdatalen + 10], pack.Data[i * loopdatalen + 9] }, 0);
+                                                            {
+                                                                datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 12 + freindex], pack.Data[i * loopdatalen + 11 + freindex], pack.Data[i * loopdatalen + 10 + freindex], pack.Data[i * loopdatalen + 9 + freindex] }, 0);
+                                                                freindex += 4;
+                                                            }
 
                                                             datavalue = PluseUnits[j] * datavalue;  //脉冲计数*单位脉冲值
                                                             datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
                                                             OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]脉冲{2}路|采集时间({3})|{4}:{5}{6}",
-                                                                i, pack.DevID,j+1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
+                                                                i, pack.DevID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
 
                                                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
-                                                            if (j == 0)
-                                                            {
-                                                                data.Pluse1 = datavalue; data.TableColumnName = "Pluse1";
-                                                            }
-                                                            else if (j == 1)
-                                                            {
-                                                                data.Pluse2 = datavalue; data.TableColumnName = "Pluse2";
-                                                            }
-                                                            else if (j == 2)
-                                                            {
-                                                                data.Pluse3 = datavalue; data.TableColumnName = "Pluse3";
-                                                            }
-                                                            else if (j == 3)
-                                                            {
-                                                                data.Pluse4 = datavalue; data.TableColumnName = "Pluse4";
-                                                            }
-                                                            else if (j == 4)
-                                                            {
-                                                                data.Pluse5 = datavalue; data.TableColumnName = "Pluse5";
-                                                            }
+                                                            data.DataValue = datavalue;
                                                             data.TypeTableID = Convert.ToInt32(config_ids[j]);
                                                             try
                                                             {
                                                                 data.ColTime = new DateTime(year, month, day, hour, minute, sec);
                                                             }
                                                             catch { data.ColTime = ConstValue.MinDateTime; }
+                                                            bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                             framedata.lstData.Add(data);
                                                         }
                                                     }
@@ -715,9 +644,54 @@ namespace GCGPRSService
                                             }
                                             #endregion
                                         }
-                                        else if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4851)  //接受通用终端发送的RS485 1路数据
+                                        else if ((pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4851) || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4852)
+                                            || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4853) || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4854)
+                                            || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4855) || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4856)
+                                            || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4857) || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4858))//接受通用终端发送的RS485 数据
                                         {
                                             #region 通用终端RS485 1路数据
+                                            string name = "";
+                                            string sequence = "";
+                                            if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4851)
+                                            {
+                                                name = "1";
+                                                sequence = "9";
+                                            }
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4852)
+                                            {
+                                                name = "2";
+                                                sequence = "10";
+                                            }
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4853)
+                                            {
+                                                name = "3";
+                                                sequence = "11";
+                                            }
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4854)
+                                            {
+                                                name = "4";
+                                                sequence = "12";
+                                            }
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4855)
+                                            {
+                                                name = "5";
+                                                sequence = "13";
+                                            }
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4856)
+                                            {
+                                                name = "6";
+                                                sequence = "14";
+                                            }
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4857)
+                                            {
+                                                name = "7";
+                                                sequence = "15";
+                                            }
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4858)
+                                            {
+                                                name = "8";
+                                                sequence = "16";
+                                            }
                                             int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
                                             GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
                                             framedata.TerId = pack.DevID.ToString();
@@ -732,7 +706,7 @@ namespace GCGPRSService
                                             bool ConfigHaveChild = false;
                                             if (GlobalValue.Instance.UniversalDataConfig != null && GlobalValue.Instance.UniversalDataConfig.Rows.Count > 0)
                                             {
-                                                dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + framedata.TerId + "' AND Sequence='9'"); //WayType
+                                                dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + framedata.TerId + "' AND Sequence='" + sequence + "'"); //WayType
                                                 if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
                                                 {
                                                     dr_DataConfig_Child = GlobalValue.Instance.UniversalDataConfig.Select("ParentID='" + dr_TerminalDataConfig[0]["ID"].ToString().Trim() + "'", "Sequence");
@@ -758,7 +732,7 @@ namespace GCGPRSService
                                                 for (int i = 0; i < waycount; i++)
                                                 {
                                                     MaxMeasureRanges[i] = dr_TerminalDataConfig[i]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[i]["MaxMeasureRange"]) : 0;
-                                                    MaxMeasureRangeFlags[i]=dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
+                                                    MaxMeasureRangeFlags[i] = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
                                                     DataWidths[i] = dr_TerminalDataConfig[i]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[i]["FrameWidth"]) : 0;
                                                     Precisions[i] = dr_TerminalDataConfig[i]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["precision"]) : 0;
                                                     Names[i] = dr_TerminalDataConfig[i]["Name"] != DBNull.Value ? dr_TerminalDataConfig[i]["Name"].ToString().Trim() : "";
@@ -769,7 +743,7 @@ namespace GCGPRSService
 
                                                 if (topdatawidth > 0)
                                                 {
-                                                    int loopdatalen = 6 + topdatawidth ;  //循环部分数据宽度
+                                                    int loopdatalen = 6 + topdatawidth;  //循环部分数据宽度
                                                     int dataindex = (pack.DataLength - 2 - 1) % loopdatalen;
                                                     if (dataindex != 0)
                                                         throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+" + loopdatalen + "*n)规则");
@@ -783,45 +757,34 @@ namespace GCGPRSService
                                                         minute = Convert.ToInt16(pack.Data[i * loopdatalen + 7]);
                                                         sec = Convert.ToInt16(pack.Data[i * loopdatalen + 8]);
 
+                                                        int freindex = 0;
                                                         for (int j = 0; j < waycount; j++)
                                                         {
                                                             if (DataWidths[j] == 2)
-                                                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 10], pack.Data[i * loopdatalen + 9] }, 0);
+                                                            {
+                                                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 10 + freindex], pack.Data[i * loopdatalen + 9 + freindex] }, 0);
+                                                                freindex += 2;
+                                                            }
                                                             else if (DataWidths[j] == 4)
-                                                                datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 12], pack.Data[i * loopdatalen + 11], pack.Data[i * loopdatalen + 10], pack.Data[i * loopdatalen + 9] }, 0);
+                                                            {
+                                                                datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 12 + freindex], pack.Data[i * loopdatalen + 11 + freindex], pack.Data[i * loopdatalen + 10 + freindex], pack.Data[i * loopdatalen + 9 + freindex] }, 0);
+                                                                freindex += 4;
+                                                            }
 
                                                             //datavalue = MaxMeasureRanges[j] * datavalue;  
                                                             datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
-                                                            OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]RS485 1路|采集时间({2})|{3}:{4}{5}",
-                                                                i, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
+                                                            OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]RS485 {2}路|采集时间({3})|{4}:{5}{6}",
+                                                                i, pack.DevID, name, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
 
                                                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
-                                                            if (j == 0)
-                                                            {
-                                                                data.Pluse1 = datavalue; data.TableColumnName = "Pluse1";
-                                                            }
-                                                            else if (j == 1)
-                                                            {
-                                                                data.Pluse2 = datavalue; data.TableColumnName = "Pluse2";
-                                                            }
-                                                            else if (j == 2)
-                                                            {
-                                                                data.Pluse3 = datavalue; data.TableColumnName = "Pluse3";
-                                                            }
-                                                            else if (j == 3)
-                                                            {
-                                                                data.Pluse4 = datavalue; data.TableColumnName = "Pluse4";
-                                                            }
-                                                            else if (j == 4)
-                                                            {
-                                                                data.Pluse5 = datavalue; data.TableColumnName = "Pluse5";
-                                                            }
+                                                            data.DataValue = datavalue;
                                                             data.TypeTableID = Convert.ToInt32(config_ids[j]);
                                                             try
                                                             {
                                                                 data.ColTime = new DateTime(year, month, day, hour, minute, sec);
                                                             }
                                                             catch { data.ColTime = ConstValue.MinDateTime; }
+                                                            bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                             framedata.lstData.Add(data);
                                                         }
                                                     }
@@ -845,52 +808,105 @@ namespace GCGPRSService
 
                                     Package response = new Package();
                                     response.DevID = pack.DevID;
-                                    if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0  && pack.IsFinal)
-                                    {
-                                        for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
-                                        {
-                                            if (GlobalValue.Instance.lstGprsCmd[i].DeviceId == (int)pack.DevID)
-                                            {
-                                                response.DevType = pack.DevType;
-                                                response.C0 = 0x48;  //主站发出的应答帧，有后续命令
-                                                response.C1 = (byte)pack.C1;
-                                                response.DataLength = 0;
-                                                response.Data = null;
-                                                response.CS = response.CreateCS();
 
-                                                byte[] bsenddata = response.ToArray();
+                                    #region 发送后续命令帧
+                                    if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0) || bNeedCheckTime) && pack.IsFinal)
+                                    {
+                                        #region 回复响应帧
+                                        response.DevType = pack.DevType;
+                                        response.C0 = 0x48;  //主站发出的应答帧，有后续命令
+                                        response.C1 = (byte)pack.C1;
+                                        response.DataLength = 0;
+                                        response.Data = null;
+                                        response.CS = response.CreateCS();
+
+                                        byte[] bsenddata = response.ToArray();
 #if debug
-                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ByteToString(bsenddata, bsenddata.Length)));
+                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
-                                                SendObject sendObj = new SendObject();
-                                                sendObj.workSocket = handler;
-                                                sendObj.IsFinal = false;
-                                                handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                        SendObject sendObj = new SendObject();
+                                        sendObj.workSocket = handler;
+                                        sendObj.IsFinal = false;
+                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                        #endregion
 
-                                                response.C0 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].CtrlCode);
-                                                response.C1 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].FunCode);
-                                                response.Data = StringToByte(GlobalValue.Instance.lstGprsCmd[i].Data);
-                                                response.DataLength = response.Data.Length;
-                                                byte[] bsenddata_cmd = response.ToArray();
-#if debug
-                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ByteToString(bsenddata_cmd, bsenddata_cmd.Length)));
-#else
-                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧"));
-#endif
-                                                sendObj = new SendObject();
-                                                sendObj.workSocket = handler;
-                                                sendObj.IsFinal = true;
-                                                handler.BeginSend(bsenddata_cmd, 0, bsenddata_cmd.Length, 0, new AsyncCallback(SendCallback), sendObj);
-
-                                                GPRSCmdFlag flag = new GPRSCmdFlag();
-                                                flag.Index = i;
-                                                flag.TableId = GlobalValue.Instance.lstGprsCmd[i].TableId;
-                                                GlobalValue.Instance.lstSendedCmdId.Add(flag);
-                                                GlobalValue.Instance.SocketSQLMag.Send(SQLType.UpdateSendParmFlag);
-                                                break;
+                                        List<Package> lstCommandPack = new List<Package>();
+                                        if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                        {
+                                            for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
+                                            {
+                                                if (GlobalValue.Instance.lstGprsCmd[i].DeviceId == (int)pack.DevID && GlobalValue.Instance.lstGprsCmd[i].DevTypeId == (int)pack.DevType)
+                                                {
+                                                    Package CommandPack = new Package();
+                                                    CommandPack.DevID = pack.DevID;
+                                                    CommandPack.DevType = pack.DevType;
+                                                    CommandPack.C0 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].CtrlCode);
+                                                    CommandPack.C1 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].FunCode);
+                                                    CommandPack.Data = ConvertHelper.StringToByte(GlobalValue.Instance.lstGprsCmd[i].Data);
+                                                    CommandPack.DataLength = CommandPack.Data.Length;
+                                                    //CommandPack.CS = CommandPack.CreateCS();
+                                                    lstCommandPack.Add(CommandPack);
+                                                }
                                             }
+                                        }
+
+                                        if (bNeedCheckTime)
+                                        {
+                                            Package pack_time = new Package();
+                                            pack_time.DevType = pack.DevType;
+                                            pack_time.DevID = pack.DevID;
+                                            pack_time.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                                            if (pack.DevType == DEV_TYPE.PRESS_CTRL)
+                                                pack_time.C1 = (byte)NOISE_LOG_COMMAND.WRITE_TIME;
+                                            else if (pack.DevType == DEV_TYPE.Data_CTRL)
+                                                pack_time.C1 = (byte)PreTer_WRITE.WRITE_TIME;
+                                            else if (pack.DevType == DEV_TYPE.UNIVERSAL_CTRL)
+                                                pack_time.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
+                                            byte[] data = new byte[6];
+                                            data[0] = (byte)(DateTime.Now.Year - 2000);
+                                            data[1] = (byte)DateTime.Now.Month;
+                                            data[2] = (byte)DateTime.Now.Day;
+                                            data[3] = (byte)DateTime.Now.Hour;
+                                            data[4] = (byte)DateTime.Now.Minute;
+                                            data[5] = (byte)DateTime.Now.Second;
+                                            pack_time.DataLength = data.Length;
+                                            pack_time.Data = data;
+                                            //pack_time.CS = pack_time.CreateCS();
+
+                                            lstCommandPack.Add(pack_time);
+                                        }
+
+                                        for (int i = 0; i < lstCommandPack.Count; i++)
+                                        {
+                                            Package commandpack = lstCommandPack[i];
+                                            if (i != (lstCommandPack.Count - 1))
+                                                commandpack.C0 = ((byte)(commandpack.C0 | 0x08));  //不是最后一个帧
+                                            commandpack.CS = commandpack.CreateCS();
+                                            bsenddata = commandpack.ToArray();
+#if debug
+                                            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+#else
+                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
+#endif
+                                            sendObj = new SendObject();
+                                            sendObj.workSocket = handler;
+                                            sendObj.IsFinal = (i == (lstCommandPack.Count - 1)) ? true : false;
+                                            handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+
+                                            for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
+                                            {
+                                                if (GlobalValue.Instance.lstGprsCmd[j].DevTypeId == (int)commandpack.DevType && GlobalValue.Instance.lstGprsCmd[j].FunCode == commandpack.C1
+                                                    && GlobalValue.Instance.lstGprsCmd[j].DeviceId == commandpack.DevID)
+                                                {
+                                                    GPRSCmdFlag flag = new GPRSCmdFlag();
+                                                    flag.Index = i;
+                                                    flag.TableId = GlobalValue.Instance.lstGprsCmd[j].TableId;
+                                                    GlobalValue.Instance.lstSendedCmdId.Add(flag);
+                                                }
+                                            }
+                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.UpdateSendParmFlag);
                                         }
                                     }
                                     else
@@ -904,7 +920,7 @@ namespace GCGPRSService
 
                                         byte[] bsenddata = response.ToArray();
 #if debug
-                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ByteToString(bsenddata, bsenddata.Length)));
+                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -913,6 +929,7 @@ namespace GCGPRSService
                                         sendObj.IsFinal = pack.IsFinal;
                                         handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                     }
+                                    #endregion
 
                                     if (!pack.IsFinal)
                                     {
@@ -928,7 +945,7 @@ namespace GCGPRSService
             {
                 if (bytesRead > 0)
                 {
-                    string str_buffer = ByteToString(state.buffer, bytesRead);
+                    string str_buffer = ConvertHelper.ByteToString(state.buffer, bytesRead);
 #if debug
                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() +" "+ argex.Message + ",错误数据:" + str_buffer));
 #else
@@ -946,26 +963,6 @@ namespace GCGPRSService
                 handler.Close();
             }
         }
-
-        private string ByteToString(byte[] lstByte, int len)
-        {
-            string StringOut = "";
-            for (int i = 0; i < len; i++)
-            {
-                StringOut = StringOut + String.Format("{0:X2} ", lstByte[i]);
-            }
-            return StringOut;
-        }
-
-        public byte[] StringToByte(string InString)
-        {
-            List<Byte> lstBt = new List<byte>();
-            for (int i = 0; i <= InString.Length - 1; i += 2)
-            {
-                lstBt.Add(Convert.ToByte(("0x" + InString[i] + InString[i + 1]), 16));
-            }
-            return lstBt.ToArray();
-        }   
 
         private void SendCallback(IAsyncResult ar)
         {
@@ -985,6 +982,23 @@ namespace GCGPRSService
                 logger.ErrorException(DateTime.Now.ToString() + " SendCallback", e); ;
                 OnSendMsg(new SocketEventArgs(e.ToString()));
             }
+        }
+
+        /// <summary>
+        /// 是否需要校时判断
+        /// </summary>
+        /// <returns></returns>
+        private bool NeedCheckTime(DateTime devTime)
+        {
+            TimeSpan ts = DateTime.Now - (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));   //0点校时
+            if (Math.Abs(ts.TotalMinutes) < 10)
+                return true;
+
+            ts = DateTime.Now - devTime;   //设备时间与服务器时间相差两小时校时
+            if (Math.Abs(ts.TotalMinutes) > 120)
+                return true;
+
+            return false;
         }
     }
 

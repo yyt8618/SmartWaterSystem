@@ -248,5 +248,31 @@ namespace Common
             return f;
         }
         #endregion
+
+
+        public static string ByteToString(byte[] lstByte, int len)
+        {
+            string StringOut = "";
+            for (int i = 0; i < len; i++)
+            {
+                StringOut = StringOut + String.Format("{0:X2} ", lstByte[i]);
+            }
+            return StringOut;
+        }
+
+        public static byte[] StringToByte(string InString)
+        {
+            InString = InString.Trim();
+            List<Byte> lstBt = new List<byte>();
+            for (int i = 0; i <= InString.Length - 1; i += 2)
+            {
+                if (((i+1) <= InString.Length - 1) && InString[i] == ' ')
+                {
+                    i++;
+                }
+                lstBt.Add(Convert.ToByte(("0x" + InString[i] + InString[i + 1]), 16));
+            }
+            return lstBt.ToArray();
+        }
     }
 }

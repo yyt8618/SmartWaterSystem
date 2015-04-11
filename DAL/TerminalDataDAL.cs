@@ -226,38 +226,17 @@ namespace DAL
                     command_frame.Connection = SQLHelper.Conn;
                     command_frame.Transaction = trans;
 
-                    string SQL_Data = @"INSERT INTO UniversalTerData([TerminalID],[Simulate1],[Simulate2],[Simulate1Zero],[Simulate2Zero],
-                                            [Pluse1],[Pluse2],[Pluse3],[Pluse4],[Pluse5],[RS485_1],[RS485_2],
-                                            [RS485_3],[RS485_4],[RS485_5],[RS485_6],[RS485_7],[RS485_8],[CollTime],[UnloadTime],TypeTableID,TableColumnName) 
-                                            VALUES(@terId,@sim1,@sim2,@sim1zero,@sim2zero,@pluse1,@pluse2,@pluse3,@pluse4,@pluse5,
-                                            @rs4851,@rs4852,@rs4853,@rs4854,@rs4855,@rs4856,@rs4857,@rs4858,@coltime,@UploadTime,@tableid,@columnname)";
+                    string SQL_Data = @"INSERT INTO UniversalTerData([TerminalID],[DataValue],[Simulate1Zero],[Simulate2Zero],[CollTime],[UnloadTime],TypeTableID) 
+                                            VALUES(@terId,@datavalue,@sim1zero,@sim2zero,@coltime,@UploadTime,@tableid)";
                     SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@terId",SqlDbType.Int),
-                    new SqlParameter("@sim1",SqlDbType.Decimal),
-                    new SqlParameter("@sim2",SqlDbType.Decimal),
+                    new SqlParameter("@datavalue",SqlDbType.Decimal),
                     new SqlParameter("@sim1zero",SqlDbType.Decimal),
                     new SqlParameter("@sim2zero",SqlDbType.Decimal),
-
-                    new SqlParameter("@pluse1",SqlDbType.Decimal),
-                    new SqlParameter("@pluse2",SqlDbType.Decimal),
-                    new SqlParameter("@pluse3",SqlDbType.Decimal),
-                    new SqlParameter("@pluse4",SqlDbType.Decimal),
-                    new SqlParameter("@pluse5",SqlDbType.Decimal),
-
-                    new SqlParameter("@rs4851",SqlDbType.Decimal),
-                    new SqlParameter("@rs4852",SqlDbType.Decimal),
-                    new SqlParameter("@rs4853",SqlDbType.Decimal),
-                    new SqlParameter("@rs4854",SqlDbType.Decimal),
-                    new SqlParameter("@rs4855",SqlDbType.Decimal),
-
-                    new SqlParameter("@rs4856",SqlDbType.Decimal),
-                    new SqlParameter("@rs4857",SqlDbType.Decimal),
-                    new SqlParameter("@rs4858",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
-                    new SqlParameter("@UploadTime",SqlDbType.DateTime),
 
-                    new SqlParameter("@tableid",SqlDbType.Int),
-                    new SqlParameter("@columnname",SqlDbType.NVarChar,20)
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime),
+                    new SqlParameter("@tableid",SqlDbType.Int)
                 };
                     SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_Data;
@@ -278,31 +257,13 @@ namespace DAL
                         for (int i = 0; i < entity.lstData.Count; i++)
                         {
                             parms_data[0].Value = entity.TerId;
-                            parms_data[1].Value = entity.lstData[i].Sim1;
-                            parms_data[2].Value = entity.lstData[i].Sim2;
-                            parms_data[3].Value = entity.lstData[i].Sim1Zero;
-                            parms_data[4].Value = entity.lstData[i].Sim2Zero;
+                            parms_data[1].Value = entity.lstData[i].DataValue;
+                            parms_data[2].Value = entity.lstData[i].Sim1Zero;
+                            parms_data[3].Value = entity.lstData[i].Sim2Zero;
+                            parms_data[4].Value = entity.lstData[i].ColTime;
 
-                            parms_data[5].Value = entity.lstData[i].Pluse1;
-                            parms_data[6].Value = entity.lstData[i].Pluse2;
-                            parms_data[7].Value = entity.lstData[i].Pluse3;
-                            parms_data[8].Value = entity.lstData[i].Pluse4;
-                            parms_data[9].Value = entity.lstData[i].Pluse5;
-
-                            parms_data[10].Value = entity.lstData[i].RS4851;
-                            parms_data[11].Value = entity.lstData[i].RS4852;
-                            parms_data[12].Value = entity.lstData[i].RS4853;
-                            parms_data[13].Value = entity.lstData[i].RS4854;
-                            parms_data[14].Value = entity.lstData[i].RS4855;
-
-                            parms_data[15].Value = entity.lstData[i].RS4856;
-                            parms_data[16].Value = entity.lstData[i].RS4857;
-                            parms_data[17].Value = entity.lstData[i].RS4858;
-                            parms_data[18].Value = entity.lstData[i].ColTime;
-                            parms_data[19].Value = entity.ModifyTime;
-
-                            parms_data[20].Value = entity.lstData[i].TypeTableID;
-                            parms_data[21].Value = entity.lstData[i].TableColumnName;
+                            parms_data[5].Value = entity.ModifyTime;
+                            parms_data[6].Value = entity.lstData[i].TypeTableID;
 
                             command_predata.ExecuteNonQuery();
                         }
@@ -594,7 +555,7 @@ namespace DAL
         public DataTable GetUniversalDataConfig()
         {
             string SQL = @"SELECT Type.ID,Config.TerminalID,Config.Sequence,Type.[Level],Type.[ParentID],Type.[WayType],Type.[Name],Type.[MaxMeasureRange],Type.[MaxMeasureRangeFlag],Type.[FrameWidth],Type.[Precision],Type.[Unit]
-                        FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE Config.PointID=Type.ID";
+                        FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE Config.PointID=Type.ID OR Config.PointID=Type.ParentID";
 
             DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
             return dt;
@@ -602,8 +563,7 @@ namespace DAL
 
         public List<UniversalDetailDataEntity> GetUniversalDetail(string TerminalID, int typeId, DateTime minTime, DateTime maxTime, int interval)
         {
-            string SQL = @"SELECT [Simulate1],[Simulate2],[Pluse1],[Pluse2],[Pluse3],[Pluse4],[Pluse5],
-  [RS485_1],[RS485_2],[RS485_3],[RS485_4],[RS485_5],[RS485_6],[RS485_7],[RS485_8],CollTime,[TableColumnName] FROM UniversalTerData 
+            string SQL = @"SELECT [DataValue],CollTime FROM UniversalTerData 
   WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalID=@TerId AND TypeTableID=@typeId  ORDER BY CollTime";
 
             SqlParameter[] parms = new SqlParameter[]{
@@ -625,16 +585,12 @@ namespace DAL
                 List<UniversalDetailDataEntity> lstData = new List<UniversalDetailDataEntity>();
                 while (reader.Read())
                 {
-                    if (reader["TableColumnName"] != DBNull.Value)
-                    {
-                        string columnname = reader["TableColumnName"].ToString().Trim();
-                        UniversalDetailDataEntity entity = new UniversalDetailDataEntity();
+                    UniversalDetailDataEntity entity = new UniversalDetailDataEntity();
 
-                        entity.Data = reader[columnname] != DBNull.Value ? Convert.ToDecimal(reader[columnname]) : 0;
-                        entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : ConstValue.MinDateTime;
+                    entity.Data = reader["DataValue"] != DBNull.Value ? Convert.ToDecimal(reader["DataValue"]) : 0;
+                    entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : ConstValue.MinDateTime;
 
-                        lstData.Add(entity);
-                    }
+                    lstData.Add(entity);
                 }
                 return lstData;
             }
@@ -650,6 +606,35 @@ namespace DAL
                 return obj_name.ToString().Trim();
             }
             return "";
+        }
+
+        public void InsertDevGPRSParm(int devId, int DevTypeId, int ctrlCode, int Funcode, string DataValue)
+        {
+            string SQL_Insert = @"INSERT INTO ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
+                                @DeviceId,@DevTypeId,@CtrlCode,@FunCode,@DataValue,@DataLenth,@SetDate,@SendedFlag)";
+            SqlParameter[] parms = new SqlParameter[]{
+                    new SqlParameter("DeviceId",SqlDbType.Int),
+                    new SqlParameter("DevTypeId",SqlDbType.Int),
+                    new SqlParameter("CtrlCode",SqlDbType.Int),
+                    new SqlParameter("FunCode",SqlDbType.Int),
+                    new SqlParameter("DataValue",SqlDbType.VarChar,512),
+
+                    new SqlParameter("DataLenth",SqlDbType.Int),
+                    new SqlParameter("SetDate",SqlDbType.DateTime),
+                    new SqlParameter("SendedFlag",SqlDbType.Int)
+                };
+
+            parms[0].Value = devId;
+            parms[1].Value = DevTypeId;
+            parms[2].Value = ctrlCode;
+            parms[3].Value = Funcode;
+            parms[4].Value = DataValue;
+
+            parms[5].Value = DataValue.Length;
+            parms[6].Value = DateTime.Now;
+            parms[7].Value = 0;
+
+            SQLHelper.ExecuteNonQuery(SQL_Insert, parms);
         }
 
     }

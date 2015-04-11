@@ -69,7 +69,6 @@ namespace SmartWaterSystem
             this.c1Chart1 = new C1.Win.C1Chart.C1Chart();
             this.txtCurSeriesValue = new DevExpress.XtraEditors.TextEdit();
             this.colorPanel_static1 = new Common.ColorPanel_static();
-            this.colorPanel1 = new Common.ColorPanel();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRemark.Properties)).BeginInit();
@@ -445,7 +444,7 @@ namespace SmartWaterSystem
             this.c1Chart1.Location = new System.Drawing.Point(1, 3);
             this.c1Chart1.Name = "c1Chart1";
             this.c1Chart1.PropBag = resources.GetString("c1Chart1.PropBag");
-            this.c1Chart1.Size = new System.Drawing.Size(597, 364);
+            this.c1Chart1.Size = new System.Drawing.Size(591, 364);
             this.c1Chart1.TabIndex = 61;
             this.c1Chart1.Paint += new System.Windows.Forms.PaintEventHandler(this.c1Chart1_Paint);
             this.c1Chart1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.c1Chart1_MouseMove);
@@ -461,18 +460,10 @@ namespace SmartWaterSystem
             // 
             // colorPanel_static1
             // 
-            this.colorPanel_static1.Location = new System.Drawing.Point(622, 12);
+            this.colorPanel_static1.Location = new System.Drawing.Point(598, 59);
             this.colorPanel_static1.Name = "colorPanel_static1";
-            this.colorPanel_static1.Size = new System.Drawing.Size(10, 15);
+            this.colorPanel_static1.Size = new System.Drawing.Size(57, 268);
             this.colorPanel_static1.TabIndex = 64;
-            this.colorPanel_static1.Visible = false;
-            // 
-            // colorPanel1
-            // 
-            this.colorPanel1.Location = new System.Drawing.Point(598, 59);
-            this.colorPanel1.Name = "colorPanel1";
-            this.colorPanel1.Size = new System.Drawing.Size(57, 268);
-            this.colorPanel1.TabIndex = 62;
             // 
             // FrmDataAnalysis
             // 
@@ -482,7 +473,6 @@ namespace SmartWaterSystem
             this.ClientSize = new System.Drawing.Size(659, 605);
             this.Controls.Add(this.colorPanel_static1);
             this.Controls.Add(this.txtCurSeriesValue);
-            this.Controls.Add(this.colorPanel1);
             this.Controls.Add(this.c1Chart1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -564,7 +554,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.TextEdit txtEnergyValue;
         private System.Windows.Forms.Label label18;
         private C1.Win.C1Chart.C1Chart c1Chart1;
-        private ColorPanel colorPanel1;
         private DevExpress.XtraEditors.TextEdit txtCurSeriesValue;
         private System.Windows.Forms.PictureBox PicBox;
         private ColorPanel_static colorPanel_static1;

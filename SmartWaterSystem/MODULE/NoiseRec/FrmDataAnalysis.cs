@@ -88,7 +88,7 @@ namespace SmartWaterSystem
                     c1Chart1.ChartGroups[0].ChartData.SeriesList.RemoveAt(seriescount);  //将多余的Series移除，总计35个
                 }
 
-                this.colorPanel1.SetColorPanel((int)Math.Ceiling(min), (int)Math.Ceiling(min + interval), (int)Math.Ceiling(min + interval * 2),
+                colorPanel_static1.SetColorPanel((int)Math.Ceiling(min), (int)Math.Ceiling(min + interval), (int)Math.Ceiling(min + interval * 2),
                     (int)Math.Ceiling(min + interval * 3), (int)Math.Ceiling(max));  //set colorpanel mark
                 C1.Win.C1Chart.Axis axisX = (C1.Win.C1Chart.Axis)c1Chart1.ChartArea.AxisX;
                 axisX.Max = 0.1 * (30 - seriescount) + 1.52;
