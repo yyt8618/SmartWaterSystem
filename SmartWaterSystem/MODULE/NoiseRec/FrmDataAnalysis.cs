@@ -139,8 +139,8 @@ namespace SmartWaterSystem
 			txtNum.Text = data.UploadFlag.ToString();
             txtEnergyValue.Text = Recorder.Result.EnergyValue.ToString("f2");
 
-            txtLeakNoise.Text = Recorder.Result.LeakAmplitude.ToString();
-            txtLeakHz.Text = Recorder.Result.LeakFrequency.ToString();
+            txtLeakNoise.Text = leak_amp.ToString();// Recorder.Result.LeakAmplitude.ToString();
+            txtLeakHz.Text = leak_frq.ToString(); // Recorder.Result.LeakFrequency.ToString();
 
             if (Recorder.Result.IsLeak == 1)
             {

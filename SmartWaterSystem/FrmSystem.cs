@@ -11,6 +11,7 @@ using System.Threading;
 using Microsoft.Data.ConnectionUI;
 using Common;
 using Entity;
+using System.Messaging;
 
 namespace SmartWaterSystem
 {
@@ -155,7 +156,6 @@ namespace SmartWaterSystem
                         GlobalValue.SQLSyncMgr.SQLSyncEvent += new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
                         GlobalValue.SQLSyncMgr.Start();
 
-
                         SQLSynctimer.Interval =60 * 1000;
                         SQLSynctimer.Tick += new EventHandler(SQLSynctimer_Tick);
                         SQLSynctimer.Enabled = true;
@@ -167,6 +167,18 @@ namespace SmartWaterSystem
 
                 GlobalValue.SerialPortMgr.SerialPortEvent += new SerialPortHandle(SerialPortMgr_SerialPortEvent);
                 GlobalValue.SerialPortMgr.Start();
+
+                //检查消息队列是否按照
+                try
+                {
+                    if (MessageQueue.Exists(ConstValue.MSMQPathToUI)) ;
+
+                    GlobalValue.MSMQMgr.Start();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    XtraMessageBox.Show(ex.Message + ",远传终端监控和招测将不能使用!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
                 SplashScreenManager.CloseForm();
 
@@ -274,19 +286,25 @@ namespace SmartWaterSystem
                 }
                 else if (t.Name == "IUniversalTerParm")  //通用终端参数设置和读取
                 {
-                    NBG_GSMT.Visible = true;
-                    navBarGSMParm.Visible = true;
+                    NBG_UniversalT.Visible = true;
+                    navBarUniversalParm.Visible = true;
                 }
                 else if (t.Name == "IUniversalTerMgr")   //通用终端管理
                 {
-                    NBG_GSMT.Visible = true;
-                    navBarGSMMgr.Visible = true;
+                    NBG_UniversalT.Visible = true;
+                    navBarUniversalMgr.Visible = true;
                 }
                 else if (t.Name == "IUniversalTerMonitor")   //通用终端数据展示
                 {
-                    navBarGSMMonitor.Visible = true;
-                    navBarGSMMonitor.Visible = true;
+                    NBG_UniversalT.Visible = true;
+                    navBarUniversalMonitor.Visible = true;
                 }
+                else if (t.Name == "IUniversalCallData")   //通用终端招测
+                {
+                    NBG_UniversalT.Visible = true;
+                    navBarUniversalCallData.Visible = true;
+                }
+
             }
         }
 
@@ -327,17 +345,17 @@ namespace SmartWaterSystem
             navBarPreTerStoppage.Visible = isVisiable;
 
             //通用终端
-            NBG_GSMT.Visible = isVisiable;
+            NBG_UniversalT.Visible = isVisiable;
             //通用终端参数配置和读取
-            navBarGSMParm.Visible = isVisiable;
+            navBarUniversalParm.Visible = isVisiable;
             //通用终端管理
-            navBarGSMMgr.Visible = isVisiable;
+            navBarUniversalMgr.Visible = isVisiable;
             //通用终端列表监控、趋势图
-            navBarGSMMonitor.Visible = isVisiable;
+            navBarUniversalMonitor.Visible = isVisiable;
             //通用终端报表、历史数据查询
-            navBarGSMReport.Visible = isVisiable;
+            navBarUniversalReport.Visible = isVisiable;
             //通用终端故障统计分析
-            navBarGSMStoppage.Visible = isVisiable;
+            navBarUniversalStoppage.Visible = isVisiable;
 
 
         }
@@ -503,19 +521,24 @@ namespace SmartWaterSystem
             LoadView(typeof(NoiseEnergyAnalysis));
         }
 
-        private void navBarGSMParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarUniversalParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(UniversalTerParm));
         }
 
-        private void navBarGSMMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarUniversalMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(UniversalTerMgr));
         }
 
-        private void navBarGSMMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarUniversalMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(UniversalTerMonitor));
+        }
+
+        private void navBarUniversalCallData_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(UniversalCallData));
         }
         #endregion
 
@@ -830,6 +853,9 @@ namespace SmartWaterSystem
 
                 GlobalValue.SerialPortMgr.Stop();
                 GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortMgr_SerialPortEvent);
+                Thread.Sleep(100);
+
+                GlobalValue.MSMQMgr.Stop();
                 Thread.Sleep(100);
             }
             catch { }

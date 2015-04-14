@@ -145,8 +145,8 @@
             this.groupBox3.Controls.Add(this.cbArith);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.txtDCCompLen);
@@ -159,16 +159,16 @@
             // 
             // txtMaxStandardAMP
             // 
-            this.txtMaxStandardAMP.Location = new System.Drawing.Point(142, 62);
+            this.txtMaxStandardAMP.Location = new System.Drawing.Point(360, 59);
             this.txtMaxStandardAMP.Name = "txtMaxStandardAMP";
             this.txtMaxStandardAMP.Properties.Mask.EditMask = "f0";
             this.txtMaxStandardAMP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtMaxStandardAMP.Size = new System.Drawing.Size(66, 20);
-            this.txtMaxStandardAMP.TabIndex = 2;
+            this.txtMaxStandardAMP.TabIndex = 3;
             // 
             // txtMinStandardAMP
             // 
-            this.txtMinStandardAMP.Location = new System.Drawing.Point(370, 62);
+            this.txtMinStandardAMP.Location = new System.Drawing.Point(151, 59);
             this.txtMinStandardAMP.Name = "txtMinStandardAMP";
             this.txtMinStandardAMP.Properties.Mask.EditMask = "f0";
             this.txtMinStandardAMP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -196,7 +196,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(230, 65);
+            this.label8.Location = new System.Drawing.Point(11, 62);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(139, 14);
             this.label8.TabIndex = 85;
@@ -205,7 +205,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(5, 65);
+            this.label7.Location = new System.Drawing.Point(223, 62);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(139, 14);
             this.label7.TabIndex = 85;
@@ -245,7 +245,7 @@
             this.txtDCCompLen.Properties.Mask.EditMask = "f0";
             this.txtDCCompLen.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtDCCompLen.Size = new System.Drawing.Size(66, 20);
-            this.txtDCCompLen.TabIndex = 3;
+            this.txtDCCompLen.TabIndex = 4;
             // 
             // txtLeakHZ
             // 

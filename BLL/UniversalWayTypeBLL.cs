@@ -112,11 +112,11 @@ namespace BLL
         /// 获得配置的全部PointID(不区分ID)
         /// </summary>
         /// <returns></returns>
-        public List<UniversalWayTypeEntity> GetAllConfigPointID()
+        public List<UniversalWayTypeEntity> GetConfigPointID(string id)
         {
             try
             {
-                return dal.GetAllConfigPointID();
+                return dal.GetConfigPointID(id);
             }
             catch (Exception ex)
             {

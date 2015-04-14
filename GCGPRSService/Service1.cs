@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Threading;
 using System.Messaging;
 using Common;
+using Entity;
+using Newtonsoft.Json;
 
 namespace GCGPRSService
 {
     public partial class Service1 : ServiceBase
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("Service1");
-        string QueuePath = ".\\private$\\GcGPRS";
-        Thread t_send=null;
+        Thread t_msmq_receive=null;
 
         public Service1()
         {
@@ -41,12 +36,80 @@ namespace GCGPRSService
 
             GlobalValue.Instance.SocketMag.cmdEvent += new cmdEventHandle(socketService_cmdEvent);
             GlobalValue.Instance.SocketMag.T_Listening();
+
+            t_msmq_receive = new Thread(new ThreadStart(MSMQReceiveThread));
+            t_msmq_receive.Start();
+        }
+
+        private void MSMQReceiveThread()  //MSMQ接受线程,用于招测命令接收
+        {
+            try
+            {
+                if (MessageQueue.Exists(ConstValue.MSMQPathToService))
+                {
+                    MessageQueue.Delete(ConstValue.MSMQPathToService);
+                }
+                while (true)
+                {
+                    t_msmq_receive.Join(2000);
+                    ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
+                    if (serviceController1 != null)
+                    {
+                        MessageQueue MQueue;
+                        if (MessageQueue.Exists(ConstValue.MSMQPathToService))
+                        {
+                            MQueue = new MessageQueue(ConstValue.MSMQPathToService);
+                        }
+                        else
+                        {
+                            MQueue = MessageQueue.Create(ConstValue.MSMQPathToService);
+                            MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
+                            MQueue.Label = "GCGprsMSMQ";
+                        }
+
+                        //一次读取全部消息,但是不去除读过的消息
+                        System.Messaging.Message[] Msg = MQueue.GetAllMessages();
+                        //删除所有消息
+                        MQueue.Purge();
+
+                        foreach (System.Messaging.Message m in Msg)
+                        {
+                            m.Formatter = new BinaryMessageFormatter();
+                            try
+                            {
+                                MSMQEntity msmqMsg = (MSMQEntity)JsonConvert.DeserializeObject(m.Body.ToString(), typeof(MSMQEntity));
+                                if (msmqMsg != null)
+                                {
+                                    if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Cmd_Online)
+                                        GlobalValue.Instance.SocketMag.SetOnLineClient(msmqMsg.DevType, msmqMsg.DevId, msmqMsg.AllowOnline);
+                                    else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Get_OnLineState)
+                                        GlobalValue.Instance.SocketMag.GetTerminalOnLineState();
+                                    //Other
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.ErrorException("解析数据异常", ex);
+                                MSMQEntity msmqMsg = new MSMQEntity();
+                                msmqMsg.MsgType = ConstValue.MSMQTYPE.Message;
+                                msmqMsg.Msg = "解析JSON数据异常(MSMQ)";
+                                SendMessage(JsonConvert.SerializeObject(msmqMsg));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("MSMQReceiveThread", ex);
+                SendMessage("创建接受消息队列失败!");
+            }
         }
 
         protected override void OnStop()
         {
-            if (t_send != null)
-                t_send.Abort();
+            if (t_msmq_receive != null)
+                t_msmq_receive.Abort();
 
             GlobalValue.Instance.SocketSQLMag.Stop();
 
@@ -56,24 +119,27 @@ namespace GCGPRSService
 
         void socketService_cmdEvent(object sender, SocketEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.Msg))
+            if (!string.IsNullOrEmpty(e.JsonMsg))
             {
-                SendMessage(e.Msg);
+                SendMessage(e.JsonMsg);
             }
         }
 
+        /// <summary>
+        /// 发送到UI
+        /// </summary>
+        /// <param name="msg"></param>
         void SendMessage(string msg)
         {
             try
             {
                 MessageQueue MQueue;
-
-                if (!MessageQueue.Exists(QueuePath))
+                if (!MessageQueue.Exists(ConstValue.MSMQPathToUI))
                 {
                     return;
                 }
 
-                MQueue = new MessageQueue(QueuePath);
+                MQueue = new MessageQueue(ConstValue.MSMQPathToUI);
 
                 Message Msg = new Message();
                 Msg.Body = msg;

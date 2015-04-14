@@ -106,6 +106,7 @@ namespace SmartWaterSystem
             this.cb_pluse_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.btnReset = new DevExpress.XtraEditors.SimpleButton();
             this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
+            this.btnSetPluseBasic = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).BeginInit();
@@ -459,20 +460,20 @@ namespace SmartWaterSystem
             // btnEnableCollect
             // 
             this.btnEnableCollect.Enabled = false;
-            this.btnEnableCollect.Location = new System.Drawing.Point(504, 462);
+            this.btnEnableCollect.Location = new System.Drawing.Point(502, 462);
             this.btnEnableCollect.Name = "btnEnableCollect";
             this.btnEnableCollect.Size = new System.Drawing.Size(88, 26);
-            this.btnEnableCollect.TabIndex = 7;
+            this.btnEnableCollect.TabIndex = 8;
             this.btnEnableCollect.Text = "启动采集";
             this.btnEnableCollect.Click += new System.EventHandler(this.btnEnableCollect_Click);
             // 
             // btnCheckingTime
             // 
             this.btnCheckingTime.Enabled = false;
-            this.btnCheckingTime.Location = new System.Drawing.Point(402, 462);
+            this.btnCheckingTime.Location = new System.Drawing.Point(399, 462);
             this.btnCheckingTime.Name = "btnCheckingTime";
             this.btnCheckingTime.Size = new System.Drawing.Size(88, 26);
-            this.btnCheckingTime.TabIndex = 6;
+            this.btnCheckingTime.TabIndex = 7;
             this.btnCheckingTime.Text = "校时";
             this.btnCheckingTime.Click += new System.EventHandler(this.btnCheckingTime_Click);
             // 
@@ -620,10 +621,10 @@ namespace SmartWaterSystem
             // btnReadParm
             // 
             this.btnReadParm.Enabled = false;
-            this.btnReadParm.Location = new System.Drawing.Point(606, 462);
+            this.btnReadParm.Location = new System.Drawing.Point(605, 462);
             this.btnReadParm.Name = "btnReadParm";
             this.btnReadParm.Size = new System.Drawing.Size(88, 26);
-            this.btnReadParm.TabIndex = 8;
+            this.btnReadParm.TabIndex = 9;
             this.btnReadParm.Text = "读取设备参数";
             this.btnReadParm.Click += new System.EventHandler(this.btnReadParm_Click);
             // 
@@ -633,7 +634,7 @@ namespace SmartWaterSystem
             this.btnSetParm.Location = new System.Drawing.Point(708, 462);
             this.btnSetParm.Name = "btnSetParm";
             this.btnSetParm.Size = new System.Drawing.Size(88, 26);
-            this.btnSetParm.TabIndex = 9;
+            this.btnSetParm.TabIndex = 10;
             this.btnSetParm.Text = "设置设备参数";
             this.btnSetParm.Click += new System.EventHandler(this.btnSetParm_Click);
             // 
@@ -995,17 +996,17 @@ namespace SmartWaterSystem
             // btnReset
             // 
             this.btnReset.Enabled = false;
-            this.btnReset.Location = new System.Drawing.Point(300, 462);
+            this.btnReset.Location = new System.Drawing.Point(296, 462);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(88, 26);
-            this.btnReset.TabIndex = 5;
+            this.btnReset.TabIndex = 6;
             this.btnReset.Text = "复位";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // SwitchComunication
             // 
             this.SwitchComunication.EditValue = true;
-            this.SwitchComunication.Location = new System.Drawing.Point(176, 462);
+            this.SwitchComunication.Location = new System.Drawing.Point(29, 462);
             this.SwitchComunication.Name = "SwitchComunication";
             this.SwitchComunication.Properties.OffText = "GPRS";
             this.SwitchComunication.Properties.OnText = "串口";
@@ -1013,12 +1014,23 @@ namespace SmartWaterSystem
             this.SwitchComunication.TabIndex = 11;
             this.SwitchComunication.Click += new System.EventHandler(this.SwitchComunication_Click);
             // 
+            // btnSetPluseBasic
+            // 
+            this.btnSetPluseBasic.Enabled = false;
+            this.btnSetPluseBasic.Location = new System.Drawing.Point(193, 462);
+            this.btnSetPluseBasic.Name = "btnSetPluseBasic";
+            this.btnSetPluseBasic.Size = new System.Drawing.Size(88, 26);
+            this.btnSetPluseBasic.TabIndex = 5;
+            this.btnSetPluseBasic.Text = "设置脉冲基准";
+            this.btnSetPluseBasic.Click += new System.EventHandler(this.btnSetPluseBasic_Click);
+            // 
             // UniversalTerParm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.SwitchComunication);
             this.Controls.Add(this.btnEnableCollect);
+            this.Controls.Add(this.btnSetPluseBasic);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnCheckingTime);
             this.Controls.Add(this.btnSetParm);
@@ -1175,6 +1187,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.SimpleButton btnCalibrationSimualte2;
         private DevExpress.XtraEditors.SimpleButton btnCalibrationSimualte1;
         private DevExpress.XtraEditors.CheckEdit ceSimulate2State;
+        private DevExpress.XtraEditors.SimpleButton btnSetPluseBasic;
 
     }
 }

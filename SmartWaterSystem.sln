@@ -61,6 +61,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SmartWaterSetup", "SmartWat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalTerMonitor", "IUniversalTerMonitor\UniversalTerMonitor.csproj", "{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalCallData", "UniversalCallData\UniversalCallData.csproj", "{65CC7412-1A62-4A77-8A91-D00DE5D2D234}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -440,6 +442,18 @@ Global
 		{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}.Release|Win32.ActiveCfg = Release|Any CPU
 		{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}.Release|x86.ActiveCfg = Release|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Release|Win32.ActiveCfg = Release|Any CPU
+		{65CC7412-1A62-4A77-8A91-D00DE5D2D234}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

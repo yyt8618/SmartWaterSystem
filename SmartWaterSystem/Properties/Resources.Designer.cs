@@ -242,6 +242,13 @@ namespace SmartWaterSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap UninversalCallData {
+            get {
+                object obj = ResourceManager.GetObject("UninversalCallData", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap UniversalTerMgr {
             get {
                 object obj = ResourceManager.GetObject("UniversalTerMgr", resourceCulture);
@@ -315,6 +322,20 @@ namespace SmartWaterSystem.Properties {
         internal static System.Drawing.Bitmap Welcome {
             get {
                 object obj = ResourceManager.GetObject("Welcome", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap 亮灯16x25 {
+            get {
+                object obj = ResourceManager.GetObject("亮灯16x25", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap 灭灯16x25 {
+            get {
+                object obj = ResourceManager.GetObject("灭灯16x25", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

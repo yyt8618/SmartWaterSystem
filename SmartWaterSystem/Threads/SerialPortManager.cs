@@ -39,7 +39,9 @@ namespace SmartWaterSystem
         UniversalSetBasicInfo,      //通用终端设置基本信息,包括手机号、通信方式、波特率、ip、端口号
         UniversalReadBaicInfo,       //通用终端读取基本信息，包括手机号、通信方式、波特率、ip、端口号
         UniversalCalibrationSimualte1, //通用终端校准第一路模拟量
-        UniversalCalibrationSimualte2  //通用终端校准第二路模拟量
+        UniversalCalibrationSimualte2,  //通用终端校准第二路模拟量
+        
+        UniversalPluseBasic,    //通用终端设置脉冲基准数
     }
 
     public class SerialPortEventArgs : EventArgs
@@ -112,7 +114,7 @@ namespace SmartWaterSystem
     public class SerialPortManager:SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 20;
+        private const int eventcount = 21;
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -466,6 +468,40 @@ namespace SmartWaterSystem
                         }
                         #endregion
                         break;
+                    case (uint)SerialPortType.UniversalPluseBasic:
+                        #region 设置通用终端脉冲基准数
+                        {
+                            try
+                            {
+                                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic1)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲一路基准..."));
+                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic1,1);
+                                }
+                                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic2)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲二路基准..."));
+                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic2, 2);
+                                }
+                                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic3)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲三路基准..."));
+                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic3, 3);
+                                }
+                                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic4)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲四路基准..."));
+                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic4, 4);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        break;
+                        #endregion
                 }
                 OnSerialPortEvent(new SerialPortEventArgs((SerialPortType)evt, result ? TransStatus.Success : TransStatus.Fail, msg, obj));
             }

@@ -222,5 +222,78 @@ namespace Entity
             set { _RS485Protocol = value; }
         }
 
+        private bool _SetPluseBasic1 = false;
+        /// <summary>
+        /// 是否设置第一路脉冲基准数
+        /// </summary>
+        public bool SetPluseBasic1
+        {
+            get { return _SetPluseBasic1; }
+            set { _SetPluseBasic1 = value; }
+        }
+        private bool _SetPluseBasic2 = false;
+        /// <summary>
+        /// 是否设置第二路脉冲基准数
+        /// </summary>
+        public bool SetPluseBasic2
+        {
+            get { return _SetPluseBasic2; }
+            set { _SetPluseBasic2 = value; }
+        }
+        private bool _SetPluseBasic3 = false;
+        /// <summary>
+        /// 是否设置第三路脉冲基准数
+        /// </summary>
+        public bool SetPluseBasic3
+        {
+            get { return _SetPluseBasic3; }
+            set { _SetPluseBasic3 = value; }
+        }
+        private bool _SetPluseBasic4 = false;
+        /// <summary>
+        /// 是否设置第四路脉冲基准数
+        /// </summary>
+        public bool SetPluseBasic4
+        {
+            get { return _SetPluseBasic4; }
+            set { _SetPluseBasic4 = value; }
+        }
+        private UInt32 _PluseBasic1 = 0;
+        /// <summary>
+        /// 第一路脉冲基准数
+        /// </summary>
+        public UInt32 PluseBasic1
+        {
+            get { return _PluseBasic1; }
+            set { _PluseBasic1 = value; }
+        }
+        private UInt32 _PluseBasic2 = 0;
+        /// <summary>
+        /// 第二路脉冲基准数
+        /// </summary>
+        public UInt32 PluseBasic2
+        {
+            get { return _PluseBasic2; }
+            set { _PluseBasic2 = value; }
+        }
+        private UInt32 _PluseBasic3 = 0;
+        /// <summary>
+        /// 第三路脉冲基准数
+        /// </summary>
+        public UInt32 PluseBasic3
+        {
+            get { return _PluseBasic3; }
+            set { _PluseBasic3 = value; }
+        }
+        private UInt32 _PluseBasic4 = 0;
+        /// <summary>
+        /// 第四路脉冲基准数
+        /// </summary>
+        public UInt32 PluseBasic4
+        {
+            get { return _PluseBasic4; }
+            set { _PluseBasic4 = value; }
+        }
+
     }
 }

@@ -106,11 +106,11 @@ namespace Common
         /// <summary>
         /// 设备类型
         /// </summary>
-        public DEV_TYPE DevType
+        public Entity.ConstValue.DEV_TYPE DevType
         {
             get
             {
-                return (DEV_TYPE)ID3;
+                return (Entity.ConstValue.DEV_TYPE)ID3;
             }
             set
             {

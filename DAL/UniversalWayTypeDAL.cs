@@ -150,13 +150,13 @@ namespace DAL
         }
 
         /// <summary>
-        /// 获得配置的全部PointID(不区分ID)
+        /// 获得配置的PointID(不区分ID),id为空时，获取全部
         /// </summary>
         /// <returns></returns>
-        public List<UniversalWayTypeEntity> GetAllConfigPointID()
+        public List<UniversalWayTypeEntity> GetConfigPointID(string id)
         {
-            string SQL_Point = @"SELECT ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,SyncState,ModifyTime 
-                                FROM UniversalTerWayType WHERE ID IN (SELECT DISTINCT PointID FROM UniversalTerWayConfig) ORDER BY WayType,Sequence";
+            string SQL_Point = string.Format(@"SELECT ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,SyncState,ModifyTime 
+                                FROM UniversalTerWayType WHERE ID IN (SELECT DISTINCT PointID FROM UniversalTerWayConfig {0}) ORDER BY WayType,Sequence", string.IsNullOrEmpty(id) ? "" : "WHERE TerminalID='" + id.Trim() + "'");
             List<UniversalWayTypeEntity> lst = new List<UniversalWayTypeEntity>();
             using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL_Point, null))
             {

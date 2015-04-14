@@ -1107,6 +1107,84 @@ namespace SmartWaterSystem
             }
         }
 
+        /// <summary>
+        /// 设置脉冲基准数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSetPluseBasic_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtID.Text))
+            {
+                XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            }
+            GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
+            PluseBasicInputForm PluseBasicForm = new PluseBasicInputForm();
+            if (DialogResult.OK != PluseBasicForm.ShowDialog())
+            {
+                return;
+            }
+            GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniversalSerialPortOptData.SetPluseBasic1 = PluseBasicForm.SetPluseBasic1;
+            GlobalValue.UniversalSerialPortOptData.SetPluseBasic2 = PluseBasicForm.SetPluseBasic2;
+            GlobalValue.UniversalSerialPortOptData.SetPluseBasic3 = PluseBasicForm.SetPluseBasic3;
+            GlobalValue.UniversalSerialPortOptData.SetPluseBasic4 = PluseBasicForm.SetPluseBasic4;
+            GlobalValue.UniversalSerialPortOptData.PluseBasic1 = PluseBasicForm.PluseBasic1;
+            GlobalValue.UniversalSerialPortOptData.PluseBasic2 = PluseBasicForm.PluseBasic2;
+            GlobalValue.UniversalSerialPortOptData.PluseBasic3 = PluseBasicForm.PluseBasic3;
+            GlobalValue.UniversalSerialPortOptData.PluseBasic4 = PluseBasicForm.PluseBasic4;
+
+            if (SwitchComunication.IsOn)
+            {
+                EnableControls(false);
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", "正在设置脉冲基准...");
+                BeginSerialPortDelegate();
+                Application.DoEvents();
+                SetStaticItem("正在设置脉冲基准...");
+                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalPluseBasic);
+            }
+            else
+            {
+                TerminalDataBLL terBll = new TerminalDataBLL();
+                List<Package> lstPack = new List<Package>();
+                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic1)
+                {
+                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic1,1);
+                    lstPack.Add(pack);
+                }
+                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic2)
+                {
+                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic2, 2);
+                    lstPack.Add(pack);
+                }
+                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic3)
+                {
+                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic3, 3);
+                    lstPack.Add(pack);
+                }
+                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic4)
+                {
+                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic4, 4);
+                    lstPack.Add(pack);
+                }
+
+                foreach (Package pack in lstPack)
+                {
+                    if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
+                    {
+                        XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+                ceCollectSimulate.Checked = false; ceCollectPluse.Checked = false; ceCollectRS485.Checked = false;
+                XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
         {
             if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalReset)
@@ -1337,10 +1415,35 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("校准第二路模拟量失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalPluseBasic)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    XtraMessageBox.Show("设置脉冲基准成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("设置脉冲基准失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void EnableControls(bool enable)
         {
+            btnSetPluseBasic.Enabled = enable;
             btnReset.Enabled = enable;
             btnCheckingTime.Enabled = enable;
             btnEnableCollect.Enabled = enable;
@@ -1451,6 +1554,7 @@ namespace SmartWaterSystem
         {
             if (SwitchComunication.IsOn)  //串口
             {
+                btnSetPluseBasic.Enabled = Enabled;
                 btnReset.Enabled = Enabled;
                 btnCheckingTime.Enabled = Enabled;
                 btnEnableCollect.Enabled = Enabled;
@@ -1475,6 +1579,7 @@ namespace SmartWaterSystem
 
         private void SetSerialPortCtrlStatus()
         {
+            btnSetPluseBasic.Enabled = GlobalValue.portUtil.IsOpen;
             btnReset.Enabled = GlobalValue.portUtil.IsOpen;
             btnCheckingTime.Enabled = GlobalValue.portUtil.IsOpen;
             btnEnableCollect.Enabled = GlobalValue.portUtil.IsOpen;
@@ -1526,6 +1631,7 @@ namespace SmartWaterSystem
 
         private void SetGprsCtrlStatus()
         {
+            btnSetPluseBasic.Enabled = true;
             btnReset.Enabled = false;
             btnCheckingTime.Enabled = false;
             btnEnableCollect.Enabled = false;
@@ -1601,6 +1707,8 @@ namespace SmartWaterSystem
                 txtPort.Text = "";
             }
         }
+
+        
 
 
         

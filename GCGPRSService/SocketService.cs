@@ -8,22 +8,33 @@ using System.Net;
 using Common;
 using Entity;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace GCGPRSService
 {
     public class SocketEventArgs : EventArgs
     {
-        private string _msg = "";
-        public string Msg
+        private string _jsonmsg = "";
+        public string JsonMsg
         {
-            get { return _msg; }
-            set { _msg = value; }
+            get { return _jsonmsg; }
+            set { _jsonmsg = value; }
+        }
+
+        public SocketEventArgs(Entity.ConstValue.MSMQTYPE MsgType, string msg)
+        {
+            MSMQEntity msmqEntity = new MSMQEntity();
+            msmqEntity.MsgType = MsgType;
+            msmqEntity.Msg = msg;
+            _jsonmsg=JsonConvert.SerializeObject(msmqEntity);
         }
 
         public SocketEventArgs(string msg)
         {
-            if (!msg.EndsWith("\r\n"))
-                _msg = msg + "\r\n";
+            MSMQEntity msmqEntity = new MSMQEntity();
+            msmqEntity.MsgType = Entity.ConstValue.MSMQTYPE.Message;
+            msmqEntity.Msg = msg;
+            _jsonmsg = JsonConvert.SerializeObject(msmqEntity);
         }
     }
 
@@ -49,6 +60,8 @@ namespace GCGPRSService
         public Socket workSocket = null;
         //Is Last Frame
         public bool IsFinal = true;
+        public Entity.ConstValue.DEV_TYPE DevType;
+        public short DevID;
     }
 
     public delegate void cmdEventHandle(object sender, SocketEventArgs e);
@@ -62,13 +75,15 @@ namespace GCGPRSService
         Thread t_send;
         Socket listener;
         bool isRunning = false;
+        List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
+        int SQL_Interval = 180;  //数据更新时间间隔(second)
+        int OnLineState_Interval = 5*60; //终端在线状态更新时间间隔(second)
 
         public virtual void OnSendMsg(SocketEventArgs e)
         {
             if (cmdEvent != null)
                 cmdEvent(this, e);
         }
-
 
         public void T_Listening()
         {
@@ -85,13 +100,35 @@ namespace GCGPRSService
             t_send.Start();
         }
 
+
         private void Send_Thread()
         {
             while (true)
             {
-                Thread.Sleep(180 * 1000);
-                GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
-                GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
+                Thread.Sleep(1000);
+                if (SQL_Interval-- == 0)
+                {
+                    SQL_Interval = 180;
+                    GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
+                    GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
+                }
+                if (OnLineState_Interval-- == 0)
+                {
+                    OnLineState_Interval = 5*60;
+                    MSMQEntity msmqEntity = new MSMQEntity();
+                    msmqEntity.lstOnLine = new List<OnLineTerEntity>();
+                    List<CallSocketEntity> lstOnLine = new List<CallSocketEntity>();
+                    foreach (CallSocketEntity client in lstClient)
+                    {
+                        if (client.ClientSocket != null && client.ClientSocket.Connected)
+                        {
+                            msmqEntity.lstOnLine.Add(new OnLineTerEntity(client.DevType, client.TerId));
+                            lstOnLine.Add(client);
+                        }
+                    }
+                    lstClient = lstOnLine;  //将意外断开连接的的去除
+                    OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, JsonConvert.SerializeObject(msmqEntity)));
+                }
             }
         }
 
@@ -205,6 +242,7 @@ namespace GCGPRSService
             }
         }
 
+        List<Socket> clients = new List<Socket>();
         private void AcceptCallback(IAsyncResult ar)
         {
             Socket handler = null;
@@ -217,6 +255,7 @@ namespace GCGPRSService
                 //OnSendMsg(new SocketEventArgs("AcceptCallback线程ID为:  " + Thread.CurrentThread.ManagedThreadId.ToString()));
                 state.workSocket = handler;
                 handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                //listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
             }
             catch (Exception ex)
             {
@@ -245,7 +284,9 @@ namespace GCGPRSService
             int bytesRead = 0;
             try
             {
-                // Read data from the client socket.     
+                // Read data from the client socket.  
+                if (!handler.Connected)
+                    return;
                 bytesRead = handler.EndReceive(ar);
                 if (bytesRead > 0)
                 {
@@ -281,7 +322,7 @@ namespace GCGPRSService
 #endif
                                     bool bNeedCheckTime = false;  //是否需要校时
                                     #region 解析数据
-                                    if (pack.ID3 == (byte)DEV_TYPE.Data_CTRL)
+                                    if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL)
                                     {
                                         #region 压力终端
                                         if (pack.C1 == (byte)GPRS_READ.READ_PREDATA)  //从站向主站发送压力采集数据
@@ -453,7 +494,7 @@ namespace GCGPRSService
                                         }
                                         #endregion
                                     }
-                                    else if (pack.ID3 == (byte)DEV_TYPE.UNIVERSAL_CTRL)
+                                    else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
                                     {
                                         #region 通用终端
                                         if ((pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM1) || (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM2))  //接受通用终端发送的模拟数据
@@ -809,6 +850,20 @@ namespace GCGPRSService
                                     Package response = new Package();
                                     response.DevID = pack.DevID;
 
+                                    foreach (CallSocketEntity callentity in lstClient)
+                                    {
+                                        if (callentity.DevType == pack.DevType && callentity.TerId == pack.DevID)
+                                        {
+                                            callentity.ClientSocket = handler;
+
+                                            //将在线信息发送给UI更新
+                                            MSMQEntity msmqEntity = new MSMQEntity();
+                                            msmqEntity.lstOnLine = new List<OnLineTerEntity>();
+                                            msmqEntity.lstOnLine.Add(new OnLineTerEntity(callentity.DevType, callentity.TerId));
+                                            OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, JsonConvert.SerializeObject(msmqEntity)));
+                                        }
+                                    }
+
                                     #region 发送后续命令帧
                                     if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0) || bNeedCheckTime) && pack.IsFinal)
                                     {
@@ -829,6 +884,9 @@ namespace GCGPRSService
                                         SendObject sendObj = new SendObject();
                                         sendObj.workSocket = handler;
                                         sendObj.IsFinal = false;
+                                        sendObj.DevType= pack.DevType;
+                                        sendObj.DevID = pack.DevID;
+
                                         handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                         #endregion
 
@@ -858,11 +916,11 @@ namespace GCGPRSService
                                             pack_time.DevType = pack.DevType;
                                             pack_time.DevID = pack.DevID;
                                             pack_time.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                                            if (pack.DevType == DEV_TYPE.PRESS_CTRL)
+                                            if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)
                                                 pack_time.C1 = (byte)NOISE_LOG_COMMAND.WRITE_TIME;
-                                            else if (pack.DevType == DEV_TYPE.Data_CTRL)
+                                            else if (pack.DevType == Entity.ConstValue.DEV_TYPE.Data_CTRL)
                                                 pack_time.C1 = (byte)PreTer_WRITE.WRITE_TIME;
-                                            else if (pack.DevType == DEV_TYPE.UNIVERSAL_CTRL)
+                                            else if (pack.DevType == Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
                                                 pack_time.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
                                             byte[] data = new byte[6];
                                             data[0] = (byte)(DateTime.Now.Year - 2000);
@@ -893,6 +951,8 @@ namespace GCGPRSService
                                             sendObj = new SendObject();
                                             sendObj.workSocket = handler;
                                             sendObj.IsFinal = (i == (lstCommandPack.Count - 1)) ? true : false;
+                                            sendObj.DevType = pack.DevType;
+                                            sendObj.DevID = pack.DevID;
                                             handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
 
                                             for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
@@ -927,14 +987,16 @@ namespace GCGPRSService
                                         SendObject sendObj = new SendObject();
                                         sendObj.workSocket = handler;
                                         sendObj.IsFinal = pack.IsFinal;
+                                        sendObj.DevType = pack.DevType;
+                                        sendObj.DevID = pack.DevID;
                                         handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                     }
                                     #endregion
 
-                                    if (!pack.IsFinal)
-                                    {
+                                    //if (!pack.IsFinal)
+                                    //{
                                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
-                                    }
+                                    //}
                                 }
                             }
                         }
@@ -953,14 +1015,22 @@ namespace GCGPRSService
 #endif
                 }
                 logger.ErrorException("ReadCallback",argex);
-                handler.Shutdown(SocketShutdown.Both);
-                handler.Close();
+                try
+                {
+                    handler.Shutdown(SocketShutdown.Both);
+                    handler.Close();
+                }
+                catch { }
             }
             catch (Exception ex)
             {
                 logger.ErrorException("ReadCallback", ex);
-                handler.Shutdown(SocketShutdown.Both);
-                handler.Close();
+                try
+                {
+                    handler.Shutdown(SocketShutdown.Both);
+                    handler.Close();
+                }
+                catch { }
             }
         }
 
@@ -971,15 +1041,30 @@ namespace GCGPRSService
                 //OnSendMsg(new SocketEventArgs("SendCallback线程ID为:   " + Thread.CurrentThread.ManagedThreadId.ToString()));
                 Socket handler = ((SendObject)ar.AsyncState).workSocket;
                 int bytesSent = handler.EndSend(ar);
-                if (((SendObject)ar.AsyncState).IsFinal)  //如果是最后一帧，则关闭socket
+
+                bool AllowOnLine = false;
+                foreach (CallSocketEntity callentity in lstClient)
+                {
+                    if (callentity.DevType == ((SendObject)ar.AsyncState).DevType && callentity.TerId == ((SendObject)ar.AsyncState).DevID)
+                    {
+                        AllowOnLine = true;
+                        break;
+                    }
+                }
+                if ((!AllowOnLine) && ((SendObject)ar.AsyncState).IsFinal)
                 {
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
                 }
+                //if (((SendObject)ar.AsyncState).IsFinal)  //如果是最后一帧，则关闭socket
+                //{
+                    //handler.Shutdown(SocketShutdown.Both);
+                    //handler.Close();
+                //}
             }
             catch (Exception e)
             {
-                logger.ErrorException(DateTime.Now.ToString() + " SendCallback", e); ;
+                logger.ErrorException(DateTime.Now.ToString() + " SendCallback", e);
                 OnSendMsg(new SocketEventArgs(e.ToString()));
             }
         }
@@ -999,6 +1084,58 @@ namespace GCGPRSService
                 return true;
 
             return false;
+        }
+
+        public void GetTerminalOnLineState()
+        {
+            OnLineState_Interval = 1;  //利用定时器，直接修改时间间隔
+        }
+
+        public void SetOnLineClient(ConstValue.DEV_TYPE DevType,short DevId,bool AllowOnline)
+        {
+            if (lstClient != null)
+            {
+                int index = -1;
+                for (int i =0;i<lstClient.Count;i++)
+                {
+                    if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId == DevId))
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                if (AllowOnline)
+                {
+                    if (index != -1)  //已存在不添加
+                        ;
+                    else
+                    {
+                        CallSocketEntity client = new CallSocketEntity();
+                        client.DevType = DevType;
+                        client.TerId = DevId;
+                        lstClient.Add(client);
+                    }
+                }
+                else
+                {
+                    if (index > -1)  //已存在移除
+                    {
+                        if (lstClient[index].ClientSocket != null && lstClient[index].ClientSocket.Connected)
+                        {
+                            try
+                            {
+                                lstClient[index].ClientSocket.Shutdown(SocketShutdown.Both);
+                                lstClient[index].ClientSocket.Close();
+                            }
+                            catch { }
+                            finally
+                            {
+                                lstClient[index].ClientSocket = null;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

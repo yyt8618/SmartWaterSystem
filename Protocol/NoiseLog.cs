@@ -25,7 +25,7 @@ namespace Protocol
         public bool WriteTime(short id, DateTime time)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_TIME;
@@ -52,7 +52,7 @@ namespace Protocol
         public bool WriteWireless(short id, int sfpl, int wxsl, int fsgl, int cksl, int hxsj)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_WIRELESS;
@@ -121,7 +121,7 @@ namespace Protocol
         public bool WriteStartEndTime(short id, int start = 2, int end = 4)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_START_END_TIME;
@@ -143,7 +143,7 @@ namespace Protocol
         public bool WriteInterval(short id, int interval = 12)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_INTERVAL;
@@ -164,7 +164,7 @@ namespace Protocol
         public bool WriteRemoteSwitch(short id, bool IsOpen)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_REMOTE_SWITCH;
@@ -184,7 +184,7 @@ namespace Protocol
         public bool WriteRemoteSendTime(short id, int time)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_REMOTE_SEND_TIME;
@@ -208,7 +208,7 @@ namespace Protocol
         public byte[] ReadTime(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.READ_TIME;
@@ -249,7 +249,7 @@ namespace Protocol
         public int[] ReadWireless(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.READ_WIRELESS;
@@ -294,7 +294,7 @@ namespace Protocol
         public byte[] ReadStartEndTime(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.READ_START_END_TIME;
@@ -335,7 +335,7 @@ namespace Protocol
         public int ReadInterval(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.READ_INTERVAL;
@@ -375,7 +375,7 @@ namespace Protocol
         public bool ReadRemote(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.READ_REMOTE;
@@ -416,7 +416,7 @@ namespace Protocol
         public byte ReadRemoteSendTime(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.READ_REMOTE_SEND_TIME;
@@ -457,7 +457,7 @@ namespace Protocol
         public short ReadNoiseLogID()
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.READ_NOISE_LOG_ID;
             package.DataLength = 0;
@@ -493,7 +493,7 @@ namespace Protocol
         public int ReadNoiseLogFullID()
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             //package.DevID = 0x04000000;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.READ_NOISE_LOG_ID;
@@ -536,7 +536,7 @@ namespace Protocol
             originaldata = null;
 
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.CTRL_START_OR_STOP;
@@ -595,7 +595,7 @@ namespace Protocol
         public bool ClearData(short id)
         {
             Package clear = new Package();
-            clear.DevType = DEV_TYPE.NOISE_LOG;
+            clear.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             clear.DevID = id;
             clear.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             clear.C1 = (byte)NOISE_LOG_COMMAND.CTRL_CLEAR_FLASH;
@@ -717,7 +717,7 @@ namespace Protocol
         {
 
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_LOG;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.DevID = id;
 

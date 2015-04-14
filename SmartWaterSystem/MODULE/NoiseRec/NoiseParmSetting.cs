@@ -97,14 +97,7 @@ namespace SmartWaterSystem
                 txtMax2.SelectAll();
                 return;
             }
-
-            if (string.IsNullOrEmpty(txtMaxStandardAMP.Text) || Convert.ToDecimal(txtMaxStandardAMP.Text) <= 0)
-            {
-                DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的最大静态漏水标准幅度值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtMaxStandardAMP.Focus();
-                txtMaxStandardAMP.SelectAll();
-                return;
-            }
+            
             if (string.IsNullOrEmpty(txtMinStandardAMP.Text) || Convert.ToDecimal(txtMinStandardAMP.Text) <= 0)
             {
                 DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的最小静态漏水标准幅度值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -112,6 +105,21 @@ namespace SmartWaterSystem
                 txtMinStandardAMP.SelectAll();
                 return;
             }
+            if (string.IsNullOrEmpty(txtMaxStandardAMP.Text) || Convert.ToDecimal(txtMaxStandardAMP.Text) <= 0)
+            {
+                DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的最大静态漏水标准幅度值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtMaxStandardAMP.Focus();
+                txtMaxStandardAMP.SelectAll();
+                return;
+            }
+            if (Convert.ToDecimal(txtMaxStandardAMP.Text) < Convert.ToDecimal(txtMinStandardAMP.Text))
+            {
+                DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的最大静态漏水标准幅度值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtMaxStandardAMP.Focus();
+                txtMaxStandardAMP.SelectAll();
+                return;
+            }
+
             if (string.IsNullOrEmpty(txtDCCompLen.Text) || Convert.ToDecimal(txtDCCompLen.Text) <= 0)
             {
                 DevExpress.XtraEditors.XtraMessageBox.Show("请输入有效的直流分量值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -7,6 +7,7 @@ using Utility;
 using System.Threading;
 using System.Management;
 using Common;
+using Entity;
 
 
 namespace Protocol
@@ -374,7 +375,7 @@ namespace Protocol
                 serialPort.DiscardInBuffer();   //清空接收缓冲区    
 
                 Package package = new Package();
-                package.DevType = DEV_TYPE.NOISE_LOG;
+                package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
                 package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
                 package.DevID = id;
 
@@ -453,7 +454,7 @@ namespace Protocol
                                     //AppendBufLine("第{0}帧:{1}", pack.DataNum, pack);
 
                                     Package response = new Package();
-                                    response.DevType = DEV_TYPE.NOISE_LOG;
+                                    response.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
                                     response.DevID = pack.DevID;
                                     response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE;
                                     response.C1 = (byte)NOISE_LOG_COMMAND.SEND_RESPONSE_DATA;
@@ -610,7 +611,7 @@ namespace Protocol
                                     AppendBufLine("第{0}帧:{1}", pack.DataNum, pack);
 
                                     Package response = new Package();
-                                    response.DevType = DEV_TYPE.NOISE_LOG;
+                                    response.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
                                     response.DevID = pack.DevID;
                                     response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE;
                                     response.C1 = (byte)NOISE_LOG_COMMAND.SEND_RESPONSE_DATA_ORIGITY;

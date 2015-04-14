@@ -222,6 +222,22 @@ namespace Common
         /// 设置从站通信方式
         /// </summary>
         SET_COMTYPE = 0x2a,
+        /// <summary>
+        /// 设置第一路脉冲基准数
+        /// </summary>
+        SET_PLUSEBASIC1 = 0x1c,
+        /// <summary>
+        /// 设置第二路脉冲基准数
+        /// </summary>
+        SET_PLUSEBASIC2 = 0x1d,
+        /// <summary>
+        /// 设置第三路脉冲基准数
+        /// </summary>
+        SET_PLUSEBASIC3 = 0x1f,
+        /// <summary>
+        /// 设置第四路脉冲基准数
+        /// </summary>
+        SET_PLUSEBASIC4 = 0x20,
         #endregion
 
         #region 读取
@@ -308,41 +324,6 @@ namespace Common
         /// 由从站发出的应答帧 如：从站应答主站读取终端采集时间间隔。0x1
         /// </summary>
         RESPONSE_BY_SLAVE = 0x1,
-    }
-
-    /// <summary>
-    /// 设备类型
-    /// </summary>
-    public enum DEV_TYPE
-    {
-        /// <summary>
-        /// 数据采集终端
-        /// </summary>
-        Data_CTRL = 0x00,
-        /// <summary>
-        /// 压力控制器
-        /// </summary>
-        PRESS_CTRL = 0x01,
-        /// <summary>
-        /// 通用终端
-        /// </summary>
-        UNIVERSAL_CTRL = 0x02,
-        /// <summary>
-        /// 便携式压力控制终端
-        /// </summary>
-        MOBELE_PRESSURE = 0x03,
-        /// <summary>
-        /// 噪音记录仪
-        /// </summary>
-        NOISE_LOG = 0x04,
-        /// <summary>
-        /// 数据远传控制器
-        /// </summary>
-        NOISE_CTRL = 0x05,
-        /// <summary>
-        /// 巡视仪
-        /// </summary>
-        NOISE_TOUR = 0x06
     }
 
     #region 远传命令

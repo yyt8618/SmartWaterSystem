@@ -347,7 +347,6 @@ namespace SmartWaterSystem
         {
             List<double> lst_data = new List<double>();
             double[] min_amp = new double[FourierData.Count - DCComponentLen];
-            double[] frq=null;
             for (int i = 0; i < FourierData.Count-DCComponentLen; i++)
             {
                 min_amp[i] = FourierData[i].Min();
@@ -375,7 +374,7 @@ namespace SmartWaterSystem
                 //double[] low_amp =null;
                 //double[] high_amp = null;
 
-                Data2Amp_LH(lst_data.ToArray(), out frq,out lst_max_am[i], out lst_maxamp[i], out lst_maxfrq[i], leakvalue);
+                Data2Amp_LH(DCComponentLen, lst_data.ToArray(), out lst_max_am[i], out lst_maxamp[i], out lst_maxfrq[i], leakvalue);
             }
 
             //根据幅度去掉最小，最大值
@@ -522,7 +521,7 @@ namespace SmartWaterSystem
         /// <summary>
         /// 按低频和高频段返回
         /// </summary>
-        private static void Data2Amp_LH(double[] data, out double[] frq,out double max_am, out double max_amp, out double max_frq,double leakvalue)
+        private static void Data2Amp_LH(int DCComponentLen,double[] data, out double max_am, out double max_amp, out double max_frq,double leakvalue)
         {
             double max1 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Max1));
             double max2 = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.Max2));
@@ -531,11 +530,14 @@ namespace SmartWaterSystem
             double f = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.LeakHZ_Template));
             List<double> lst_low_amp = new List<double>();
             List<double> lst_high_amp = new List<double>();
-            frq = new double[data.Length];
+            List<double> lst_low_frq = new List<double>();
+            List<double> lst_high_frq = new List<double>();
+            List<double> lst_low_data = new List<double>();
+            List<double> lst_high_data = new List<double>();
 
             for (int i = 0; i < data.Length; i++)
             {
-                double hz = i * cDis;
+                double hz = (i + DCComponentLen) * cDis;  //去除了DCComponentLen长度的直流分量
 
                 if (hz >= 0 && hz <= f)
                 {
@@ -546,7 +548,8 @@ namespace SmartWaterSystem
                     else if (per > 1)
                         per = 1;
                     lst_low_amp.Add(Math.Round(per * 100));
-                    frq[i] = hz;
+                    lst_low_frq.Add(hz);
+                    lst_low_data.Add(data[i]);
                 }
                 else if (hz >= (f + 1) && hz < 1000)
                 {
@@ -557,7 +560,8 @@ namespace SmartWaterSystem
                     else if (per > 1)
                         per = 1;
                     lst_high_amp.Add(Math.Round(per * 100));
-                    frq[i] = hz;
+                    lst_high_frq.Add(hz);
+                    lst_high_data.Add(data[i]);
                 }
             }
 
@@ -572,8 +576,8 @@ namespace SmartWaterSystem
             {
                 max_amp = tmphigh_amp;
                 index=lst_high_amp.IndexOf(max_amp);
-                max_frq = frq[lst_low_amp.Count + index];
-                max_am = data[lst_low_amp.Count + index];
+                max_frq = lst_high_frq[index];
+                max_am = lst_high_data[index];
             }
             else
             {
@@ -581,22 +585,22 @@ namespace SmartWaterSystem
                 {
                     max_amp = tmplow_amp;
                     index = lst_low_amp.IndexOf(max_amp);
-                    max_frq = frq[index];
-                    max_am = data[index];
+                    max_frq = lst_low_frq[index];
+                    max_am = lst_low_data[index];
                 }
                 else if (tmplow_amp < tmphigh_amp)
                 {
                     max_amp = tmphigh_amp;
                     index = lst_high_amp.IndexOf(max_amp);
-                    max_frq = frq[lst_low_amp.Count + index];
-                    max_am = data[lst_low_amp.Count + index];
+                    max_frq = lst_high_frq[index];
+                    max_am = lst_high_data[index];
                 }
                 else
                 {
                     max_amp = tmplow_amp;
                     index = lst_low_amp.IndexOf(max_amp);
-                    max_frq = frq[index];
-                    max_am = data[index];
+                    max_frq = lst_low_frq[index];
+                    max_am = lst_low_data[index];
                 }
             }
         }
@@ -736,8 +740,8 @@ namespace SmartWaterSystem
             min_amp = max_amps[minvalue_index[0]];
             min_frq = max_frqs[minvalue_index[0]];
 
-            if (min_amp < leakvalue)
-            { min_amp = 0; min_frq = 0; }
+            //if (min_amp < leakvalue)
+            //{ min_amp = 0; min_frq = 0; }
             //漏水幅度、频率(分高低频,如果只有低频有，取低频段中最小频率对应的值，如果高频有，则取高频段中最小频率对应的值)
             if (max_frqs[maxvalue_index[0]] <= divid_hz)  //低频有,获得低频段最小频率对应的值
             {

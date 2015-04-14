@@ -71,12 +71,13 @@
             this.navBarNoiseFFT = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarNoiseCompare = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarNoiseEnergy = new DevExpress.XtraNavBar.NavBarItem();
-            this.NBG_GSMT = new DevExpress.XtraNavBar.NavBarGroup();
-            this.navBarGSMParm = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGSMMgr = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGSMMonitor = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGSMReport = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGSMStoppage = new DevExpress.XtraNavBar.NavBarItem();
+            this.NBG_UniversalT = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarUniversalParm = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarUniversalMgr = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarUniversalMonitor = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarUniversalReport = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarUniversalStoppage = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarUniversalCallData = new DevExpress.XtraNavBar.NavBarItem();
             this.NBG_ValveSwitch = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarValveParm = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarValveMonitor = new DevExpress.XtraNavBar.NavBarItem();
@@ -328,7 +329,7 @@
             this.navBarControl1.Groups.AddRange(new DevExpress.XtraNavBar.NavBarGroup[] {
             this.NBG_Noise,
             this.NBG_PreT,
-            this.NBG_GSMT,
+            this.NBG_UniversalT,
             this.NBG_ValveSwitch,
             this.NBG_ProtablePreT});
             this.navBarControl1.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] {
@@ -345,11 +346,11 @@
             this.navBarPreTerReport,
             this.navBarPreTerAlarm,
             this.navBarPreTerStoppage,
-            this.navBarGSMParm,
-            this.navBarGSMMgr,
-            this.navBarGSMMonitor,
-            this.navBarGSMReport,
-            this.navBarGSMStoppage,
+            this.navBarUniversalParm,
+            this.navBarUniversalMgr,
+            this.navBarUniversalMonitor,
+            this.navBarUniversalReport,
+            this.navBarUniversalStoppage,
             this.navBarProtablePreTer,
             this.navBarValveParm,
             this.navBarValveMonitor,
@@ -359,7 +360,8 @@
             this.navBarNoiseParmSet,
             this.navBarNoiseFFT,
             this.navBarNoiseCompare,
-            this.navBarNoiseEnergy});
+            this.navBarNoiseEnergy,
+            this.navBarUniversalCallData});
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
@@ -490,49 +492,57 @@
             this.navBarNoiseEnergy.Name = "navBarNoiseEnergy";
             this.navBarNoiseEnergy.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarNoiseEnergy_LinkClicked);
             // 
-            // NBG_GSMT
+            // NBG_UniversalT
             // 
-            this.NBG_GSMT.Caption = "通用终端";
-            this.NBG_GSMT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
-            this.NBG_GSMT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMParm),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMMgr),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMMonitor),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMReport),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarGSMStoppage)});
-            this.NBG_GSMT.LargeImage = global::SmartWaterSystem.Properties.Resources.GsmTerminal;
-            this.NBG_GSMT.Name = "NBG_GSMT";
+            this.NBG_UniversalT.Caption = "通用终端";
+            this.NBG_UniversalT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
+            this.NBG_UniversalT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalParm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMgr),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMonitor),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalReport),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalStoppage),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalCallData)});
+            this.NBG_UniversalT.LargeImage = global::SmartWaterSystem.Properties.Resources.GsmTerminal;
+            this.NBG_UniversalT.Name = "NBG_UniversalT";
             // 
-            // navBarGSMParm
+            // navBarUniversalParm
             // 
-            this.navBarGSMParm.Caption = "参数配置和读取";
-            this.navBarGSMParm.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTerParm;
-            this.navBarGSMParm.Name = "navBarGSMParm";
-            this.navBarGSMParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMParm_LinkClicked);
+            this.navBarUniversalParm.Caption = "参数配置和读取";
+            this.navBarUniversalParm.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTerParm;
+            this.navBarUniversalParm.Name = "navBarUniversalParm";
+            this.navBarUniversalParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarUniversalParm_LinkClicked);
             // 
-            // navBarGSMMgr
+            // navBarUniversalMgr
             // 
-            this.navBarGSMMgr.Caption = "终端配置和管理";
-            this.navBarGSMMgr.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTerMgr1;
-            this.navBarGSMMgr.Name = "navBarGSMMgr";
-            this.navBarGSMMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMMgr_LinkClicked);
+            this.navBarUniversalMgr.Caption = "终端配置和管理";
+            this.navBarUniversalMgr.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTerMgr1;
+            this.navBarUniversalMgr.Name = "navBarUniversalMgr";
+            this.navBarUniversalMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarUniversalMgr_LinkClicked);
             // 
-            // navBarGSMMonitor
+            // navBarUniversalMonitor
             // 
-            this.navBarGSMMonitor.Caption = "列表监控、趋势图";
-            this.navBarGSMMonitor.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTermonitor;
-            this.navBarGSMMonitor.Name = "navBarGSMMonitor";
-            this.navBarGSMMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarGSMMonitor_LinkClicked);
+            this.navBarUniversalMonitor.Caption = "列表监控、趋势图";
+            this.navBarUniversalMonitor.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTermonitor;
+            this.navBarUniversalMonitor.Name = "navBarUniversalMonitor";
+            this.navBarUniversalMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarUniversalMonitor_LinkClicked);
             // 
-            // navBarGSMReport
+            // navBarUniversalReport
             // 
-            this.navBarGSMReport.Caption = "报表、历史数据查询";
-            this.navBarGSMReport.Name = "navBarGSMReport";
+            this.navBarUniversalReport.Caption = "报表、历史数据查询";
+            this.navBarUniversalReport.Name = "navBarUniversalReport";
             // 
-            // navBarGSMStoppage
+            // navBarUniversalStoppage
             // 
-            this.navBarGSMStoppage.Caption = "故障统计分析";
-            this.navBarGSMStoppage.Name = "navBarGSMStoppage";
+            this.navBarUniversalStoppage.Caption = "故障统计分析";
+            this.navBarUniversalStoppage.Name = "navBarUniversalStoppage";
+            // 
+            // navBarUniversalCallData
+            // 
+            this.navBarUniversalCallData.Caption = "实时招测";
+            this.navBarUniversalCallData.LargeImage = global::SmartWaterSystem.Properties.Resources.UninversalCallData;
+            this.navBarUniversalCallData.Name = "navBarUniversalCallData";
+            this.navBarUniversalCallData.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarUniversalCallData_LinkClicked);
             // 
             // NBG_ValveSwitch
             // 
@@ -692,7 +702,7 @@
         private DevExpress.XtraNavBar.NavBarSeparatorItem navBarSeparatorItem3;
         private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
         private DevExpress.XtraNavBar.NavBarGroup NBG_PreT;
-        private DevExpress.XtraNavBar.NavBarGroup NBG_GSMT;
+        private DevExpress.XtraNavBar.NavBarGroup NBG_UniversalT;
         private DevExpress.XtraNavBar.NavBarGroup NBG_ValveSwitch;
         private DevExpress.XtraNavBar.NavBarGroup NBG_ProtablePreT;
         private DevExpress.XtraNavBar.NavBarItem navBarNoiseMap;
@@ -702,11 +712,11 @@
         private DevExpress.XtraNavBar.NavBarItem navBarPreTerReport;
         private DevExpress.XtraNavBar.NavBarItem navBarPreTerAlarm;
         private DevExpress.XtraNavBar.NavBarItem navBarPreTerStoppage;
-        private DevExpress.XtraNavBar.NavBarItem navBarGSMParm;
-        private DevExpress.XtraNavBar.NavBarItem navBarGSMMgr;
-        private DevExpress.XtraNavBar.NavBarItem navBarGSMMonitor;
-        private DevExpress.XtraNavBar.NavBarItem navBarGSMReport;
-        private DevExpress.XtraNavBar.NavBarItem navBarGSMStoppage;
+        private DevExpress.XtraNavBar.NavBarItem navBarUniversalParm;
+        private DevExpress.XtraNavBar.NavBarItem navBarUniversalMgr;
+        private DevExpress.XtraNavBar.NavBarItem navBarUniversalMonitor;
+        private DevExpress.XtraNavBar.NavBarItem navBarUniversalReport;
+        private DevExpress.XtraNavBar.NavBarItem navBarUniversalStoppage;
         private DevExpress.XtraNavBar.NavBarItem navBarProtablePreTer;
         private DevExpress.XtraNavBar.NavBarItem navBarValveParm;
         private DevExpress.XtraNavBar.NavBarItem navBarValveMonitor;
@@ -724,6 +734,7 @@
         private DevExpress.XtraBars.BarButtonItem barBtnSetDBConnect;
         private System.Windows.Forms.Timer SQLSynctimer;
         private DevExpress.XtraBars.BarButtonItem barBtnGPRSConsole;
+        private DevExpress.XtraNavBar.NavBarItem navBarUniversalCallData;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

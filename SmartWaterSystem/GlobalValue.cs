@@ -23,6 +23,7 @@ namespace SmartWaterSystem
 
 
         public static SQLSyncManager SQLSyncMgr = new SQLSyncManager();
+        public static MSMQManager MSMQMgr = new MSMQManager();
         public static SerialPortManager SerialPortMgr = new SerialPortManager();
         public static UniversalLog Universallog = new UniversalLog();                            //通用终端串口操作对象
 

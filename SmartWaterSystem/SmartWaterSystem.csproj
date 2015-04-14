@@ -115,6 +115,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\netchartdir_cp.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=1.0.0.505, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\NLog.dll</HintPath>
@@ -271,6 +274,18 @@
     <Compile Include="MODULE\UniversalTerminal\UniversalTerMgr.Designer.cs">
       <DependentUpon>UniversalTerMgr.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalCallData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalCallData.Designer.cs">
+      <DependentUpon>UniversalCallData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\PluseBasicInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\PluseBasicInputForm.Designer.cs">
+      <DependentUpon>PluseBasicInputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FrmSysVoiceSet.cs">
@@ -309,6 +324,7 @@
     <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.Designer.cs">
       <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
     </Compile>
+    <Compile Include="Threads\MSMQManager.cs" />
     <Compile Include="Threads\SQLSyncManager.cs" />
     <Compile Include="Threads\SerialPortManager.cs" />
     <Compile Include="WelcomSplash.cs">
@@ -392,6 +408,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerMgr.resx">
       <DependentUpon>UniversalTerMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalCallData.resx">
+      <DependentUpon>UniversalCallData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\PluseBasicInputForm.resx">
+      <DependentUpon>PluseBasicInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -522,6 +544,10 @@
       <Project>{CBDF6FF1-FDC4-42BE-A21A-A5559DC20F6F}</Project>
       <Name>Protocol</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UniversalCallData\UniversalCallData.csproj">
+      <Project>{65CC7412-1A62-4A77-8A91-D00DE5D2D234}</Project>
+      <Name>UniversalCallData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UniversalTerMgr\UniversalTerMgr.csproj">
       <Project>{68C2F608-9553-463D-B638-EC636C6CA59C}</Project>
       <Name>UniversalTerMgr</Name>
@@ -534,6 +560,9 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
+    <None Include="Resources\UninversalCallData.png" />
+    <None Include="Resources\灭灯16x25.png" />
+    <None Include="Resources\亮灯16x25.png" />
     <None Include="Resources\GPRSConsole.png" />
     <None Include="Resources\UniversalTermonitor.png" />
     <None Include="Resources\leak\leak7.ico" />

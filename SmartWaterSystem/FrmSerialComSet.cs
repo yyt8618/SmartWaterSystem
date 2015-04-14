@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using Common;
+using Entity;
 
 namespace SmartWaterSystem
 {
@@ -43,7 +44,7 @@ namespace SmartWaterSystem
             cbSerialPort.Properties.ShowHeader = false;
             cbSerialPort.Properties.ShowFooter = false;
 
-            List<Protocol.SerialInfoEntity> lstSerial = Protocol.SerialPortUtil.GetInstance().MulGetHardwareInfo(Protocol.SerialPortUtil.HardwareEnum.Win32_PnPEntity);
+            List<SerialInfoEntity> lstSerial = Protocol.SerialPortUtil.GetInstance().MulGetHardwareInfo(Protocol.SerialPortUtil.HardwareEnum.Win32_PnPEntity);
             //List<Protocol.SerialInfoEntity> lstpnp = Protocol.SerialPortUtil.GetInstance().MulGetHardwareInfo(Protocol.SerialPortUtil.HardwareEnum.Win32_PnPEntity);
             //if (lstpnp != null && lstpnp.Count > 0)
             //{

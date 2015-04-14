@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallSocketEntity.cs" />
     <Compile Include="ConstValue.cs" />
     <Compile Include="DistanceController.cs" />
     <Compile Include="Enums.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="GPRSCmdFlag.cs" />
     <Compile Include="GPRSFlowFrameDataEntity.cs" />
     <Compile Include="GPRSPreFrameDataEntity.cs" />
+    <Compile Include="MSMQEntity.cs" />
     <Compile Include="NoiseData.cs" />
     <Compile Include="NoiseRecorder.cs" />
     <Compile Include="NoiseRecorderGroup.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="PreDetailDataEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NoiseSerialPortOptEntity.cs" />
+    <Compile Include="SerialInfoEntity.cs" />
     <Compile Include="SyncIdsEntity.cs" />
     <Compile Include="TerminalConfigEntity.cs" />
     <Compile Include="UniversalSerialPortOptEntity.cs" />

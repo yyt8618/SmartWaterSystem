@@ -12,7 +12,7 @@ namespace Protocol
         public bool Reset(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.RESET;
@@ -28,7 +28,7 @@ namespace Protocol
         public bool SetTime(short Id, DateTime dt)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
@@ -49,7 +49,7 @@ namespace Protocol
         public bool EnableCollect(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.EnableCollect;
@@ -64,7 +64,7 @@ namespace Protocol
         public short ReadId()
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             //package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_ID;
@@ -93,7 +93,7 @@ namespace Protocol
         public DateTime ReadTime(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_TIME;
@@ -122,7 +122,7 @@ namespace Protocol
         public string ReadCellPhone(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_CELLPHONE;
@@ -155,7 +155,7 @@ namespace Protocol
         public bool ReadModbusExeFlag(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_MODBUSEXEFLAG;
@@ -183,7 +183,7 @@ namespace Protocol
         public int ReadBaud(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_BAUD;
@@ -211,7 +211,7 @@ namespace Protocol
         public int ReadComType(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_COMTYPE;
@@ -239,7 +239,7 @@ namespace Protocol
         public int[] ReadIP(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_IP;
@@ -283,7 +283,7 @@ namespace Protocol
         public int ReadPort(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_PORT;
@@ -321,7 +321,7 @@ namespace Protocol
         public byte ReadCollectConfig(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_COLLECTCONFIG;
@@ -349,7 +349,7 @@ namespace Protocol
         public DataTable ReadSimualteInterval(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMINTERVAL;
@@ -391,7 +391,7 @@ namespace Protocol
         public DataTable ReadPluseInterval(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_PLUSEINTERVAL;
@@ -432,7 +432,7 @@ namespace Protocol
         public DataTable ReadRS485Interval(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_485INTERVAL;
@@ -473,7 +473,7 @@ namespace Protocol
         public DataTable ReadModbusProtocol(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_MODBUSPROTOCOL;
@@ -526,7 +526,7 @@ namespace Protocol
         public bool CalibartionSimulate1(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.CalibartionSimualte1;
@@ -541,7 +541,7 @@ namespace Protocol
         public bool CalibartionSimulate2(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.CalibartionSimualte2;
@@ -556,7 +556,7 @@ namespace Protocol
         public bool SetID(short Id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             //package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
@@ -576,7 +576,7 @@ namespace Protocol
         public bool SetCellPhone(short Id,string phonenum)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
@@ -591,7 +591,7 @@ namespace Protocol
         public bool SetModbusExeFlag(short Id, bool flag)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_MODBUSEXEFLAG;
@@ -607,7 +607,7 @@ namespace Protocol
         public bool SetComType(short Id, int flag)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_COMTYPE;
@@ -630,7 +630,7 @@ namespace Protocol
             if (!string.IsNullOrEmpty(ip))
                 ip = ip.Substring(0, ip.Length - 1);
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_IP;
@@ -654,7 +654,7 @@ namespace Protocol
         {
             string str_port = port.ToString();
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_PORT;
@@ -673,7 +673,7 @@ namespace Protocol
         public bool SetCollectConfig(short Id, byte config)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_COLLECTCONFIG;
@@ -696,7 +696,7 @@ namespace Protocol
         public Package GetSimulateIntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMINTERVAL;
@@ -737,7 +737,7 @@ namespace Protocol
         public Package GetPluseIntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEINTERVAL;
@@ -775,7 +775,7 @@ namespace Protocol
         public Package GetRS485IntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_485INTERVAL;
@@ -806,7 +806,7 @@ namespace Protocol
         public bool SetModbusProtocol(short Id, DataTable dt)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_MODBUSPROTOCOL;
@@ -884,6 +884,56 @@ namespace Protocol
             return Write(package);
         }
 
+        /// <summary>
+        /// 设置第?路脉冲基准数
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="value">基准数</param>
+        /// <param name="waytype">1:第一路脉冲,2:第二路脉冲,3:第三路脉冲,4:第四路脉冲</param>
+        /// <returns></returns>
+        public bool SetPluseBasic(short Id,UInt32 value,int waytype)
+        {
+            Package package = GetPluseBasicPackage(Id,value,waytype);
+
+            return Write(package);
+        }
+
+        /// <summary>
+        /// 获得第?路脉冲基准数数据包
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="value">基准数</param>
+        /// <param name="waytype">1:第一路脉冲,2:第二路脉冲,3:第三路脉冲,4:第四路脉冲</param>
+        /// <returns></returns>
+        public Package GetPluseBasicPackage(short Id, UInt32 value, int waytype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            if (waytype == 1)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEBASIC1;
+            else if (waytype == 2)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEBASIC2;
+            else if (waytype == 3)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEBASIC3;
+            else if (waytype == 4)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEBASIC4;
+            byte[] data = BitConverter.GetBytes(value);
+            List<byte> lstdata = new List<byte>();
+            if (data.Length == 4)
+            {
+                lstdata.Add(data[3]);
+                lstdata.Add(data[2]);
+                lstdata.Add(data[1]);
+                lstdata.Add(data[0]);
+            }
+            package.DataLength = data.Length;
+            package.Data = lstdata.ToArray();
+            package.CS = package.CreateCS();
+
+            return package;
+        }
 
     }
 }

@@ -20,7 +20,7 @@ namespace Protocol
         public bool NoiseTourWrite(int Pl, int speed, int comSpeed)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_TOUR;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_TOUR;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_TOUR_COMMAND.SETTING;
 
@@ -52,7 +52,7 @@ namespace Protocol
         {
 
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_TOUR;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_TOUR;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_TOUR_COMMAND.READ_WIRELESS;
@@ -94,7 +94,7 @@ namespace Protocol
         public short ReadNoiseTourID()
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_TOUR;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_TOUR;
             //package.DevID = 0x06000000;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_TOUR_COMMAND.READ_NOISE_TOUR_ID;
@@ -130,7 +130,7 @@ namespace Protocol
         public int ReadNoiseTourFullID()
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_TOUR;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_TOUR;
             //package.DevID = 0x06000000;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_TOUR_COMMAND.READ_NOISE_TOUR_ID;

@@ -1,5 +1,5 @@
 ﻿
-namespace Protocol
+namespace Entity
 {
     public class SerialInfoEntity
     {

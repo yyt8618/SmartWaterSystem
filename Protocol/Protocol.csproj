@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\SerialInfoEntity.cs" />
     <Compile Include="SerialPortRW.cs" />
     <Compile Include="NoiseCtrl.cs" />
     <Compile Include="NoiseLog.cs" />
@@ -61,6 +60,10 @@
     <ProjectReference Include="..\DBUtility\Utility.csproj">
       <Project>{3BB68F7C-6C07-4890-9851-C73CE00C17F5}</Project>
       <Name>Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{A73A7A63-11C8-40BC-AA44-0ACD23F00A0B}</Project>
+      <Name>Entity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

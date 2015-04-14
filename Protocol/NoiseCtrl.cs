@@ -22,7 +22,7 @@ namespace Protocol
         public bool WriteTime(short id, DateTime time)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_TIME;
@@ -49,7 +49,7 @@ namespace Protocol
         public bool WriteWireless(short id, int sfpl, int wxsl, int fsgl, int cksl, int hxsj)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_WIRELESS;
@@ -116,7 +116,7 @@ namespace Protocol
         public bool WriteGPRSBaurate(short id, int baudrate = 9600)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_GPRS_BAUDRATE;
@@ -137,7 +137,7 @@ namespace Protocol
         public bool Write_IP(short id, string ip)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_IP;
@@ -165,7 +165,7 @@ namespace Protocol
         public bool WritePortName(short id, string portName)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_PORT;
@@ -194,14 +194,14 @@ namespace Protocol
         public bool WriteCtrlToNoiseLogID(short ctrlID, short logID)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = ctrlID;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_CTRL_NOISE_LOG_ID;
             package.DataLength = 4;
             byte[] data = new byte[package.DataLength];
 
-            string str = Convert.ToString((byte)DEV_TYPE.NOISE_LOG, 16).PadLeft(2, '0') + Convert.ToString(logID, 16).PadLeft(2, '0');
+            string str = Convert.ToString((byte)Entity.ConstValue.DEV_TYPE.NOISE_LOG, 16).PadLeft(2, '0') + Convert.ToString(logID, 16).PadLeft(2, '0');
             if (str.Length != 4)
             {
                 throw new Exception("记录仪ID长度溢出");
@@ -230,7 +230,7 @@ namespace Protocol
         public int[] ReadWireless(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.READ_WIRELESS;
@@ -274,7 +274,7 @@ namespace Protocol
         public int ReadGPRSBaudrate(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.READ_GPRS_BAUDRATE;
@@ -315,7 +315,7 @@ namespace Protocol
         public string ReadIP(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.READ_IP;
@@ -362,7 +362,7 @@ namespace Protocol
         public string ReadPort(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.READ_PORT;
@@ -408,7 +408,7 @@ namespace Protocol
         public int ReadCtrlNoisLogID(short id)
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.READ_CTRL_NOISE_LOG_ID;
@@ -449,7 +449,7 @@ namespace Protocol
         public short ReadNoiseCtrlID()
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             //package.DevID = 0x05000000;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.READ_NOISE_CTRL_ID;
@@ -488,7 +488,7 @@ namespace Protocol
         public int ReadNoiseCtrlFullID()
         {
             Package package = new Package();
-            package.DevType = DEV_TYPE.NOISE_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             //package.DevID = 0x05000000;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.READ_NOISE_CTRL_ID;

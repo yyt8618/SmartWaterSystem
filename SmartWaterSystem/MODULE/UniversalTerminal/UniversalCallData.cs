@@ -6,15 +6,19 @@ using DevExpress.XtraEditors;
 using BLL;
 using Entity;
 using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace SmartWaterSystem
 {
-    public partial class UniversalTerMonitor : BaseView, IUniversalTerMonitor
+    public partial class UniversalCallData : BaseView, IUniversalCallData
     {
-        NLog.Logger logger = NLog.LogManager.GetLogger("UniversalTerMonitor");
+        NLog.Logger logger = NLog.LogManager.GetLogger("UniversalCallData");
         UniversalWayTypeBLL typeBll = new UniversalWayTypeBLL();
         List<int> lst_datacolumnIdIndex = new List<int>();  //数据列id索引
-        public UniversalTerMonitor()
+        string currentTerId = "";       //当前选中的终端编号
+        public UniversalCallData()
         {
             InitializeComponent();
         }
@@ -24,16 +28,29 @@ namespace SmartWaterSystem
             timer1.Interval = 20 * 1000;
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Enabled = true;
-            //repositoryItemCheckEdit3
-            InitGrid();
+
+            GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+            ShowGridTerData(null);
+
+            //获取终端在线状态
+            MSMQEntity msmqEntity = new MSMQEntity();
+            msmqEntity.MsgType = ConstValue.MSMQTYPE.Get_OnLineState;
+            GlobalValue.MSMQMgr.SendMessage(msmqEntity);
+        }
+
+        void MSMQMgr_MSMQEvent(object sender, MSMQEventArgs e)
+        {
+            if (e.msmqEntity != null && e.msmqEntity.MsgType == ConstValue.MSMQTYPE.Data_OnLineState)
+            {
+                InvokeShowGridTerData(e.msmqEntity.lstOnLine);
+            }
         }
 
         void timer1_Tick(object sender, EventArgs e)
         {
-            ShowTerData();
         }
 
-        private void SetGridDataProperties()
+        private void SetGridDataProperties(string id)
         {
             lst_datacolumnIdIndex = new List<int>();
 
@@ -47,10 +64,6 @@ namespace SmartWaterSystem
             advBandedGridView1.OptionsView.ColumnAutoWidth = true;
             advBandedGridView1.IndicatorWidth = 27;
             advBandedGridView1.OptionsView.ShowFooter = true;
-            ////表头折行设置
-            //advBandedGridView1.ColumnPanelRowHeight = 40;
-            //advBandedGridView1.OptionsView.AllowHtmlDrawHeaders = true;
-            //advBandedGridView1.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             ////表头及行内容居中显示
             advBandedGridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             advBandedGridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -60,25 +73,25 @@ namespace SmartWaterSystem
             view.BeginDataUpdate();
             view.Bands.Clear();
 
-            BandedGridColumn columnId = new BandedGridColumn();
-            columnId.Caption = "ID";
-            columnId.Name = "gridColumn0";
-            columnId.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            columnId.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            columnId.OptionsColumn.AllowMove = false;
-            columnId.OptionsEditForm.StartNewRow = true;
-            columnId.OptionsFilter.AllowAutoFilter = false;
-            columnId.OptionsFilter.AllowFilter = false;
-            columnId.Visible = true;
-            columnId.VisibleIndex = 0;
-            columnId.Width = 40;
-            columnId.FieldName = "TerminalID";
+            //BandedGridColumn columnId = new BandedGridColumn();
+            //columnId.Caption = "ID";
+            //columnId.Name = "gridColumn0";
+            //columnId.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            //columnId.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            //columnId.OptionsColumn.AllowMove = false;
+            //columnId.OptionsEditForm.StartNewRow = true;
+            //columnId.OptionsFilter.AllowAutoFilter = false;
+            //columnId.OptionsFilter.AllowFilter = false;
+            //columnId.Visible = true;
+            //columnId.VisibleIndex = 0;
+            //columnId.Width = 40;
+            //columnId.FieldName = "TerminalID";
 
-            GridBand bandID = view.Bands.AddBand("ID"); 
-            bandID.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            bandID.Columns.Add(columnId);
+            //GridBand bandID = view.Bands.AddBand("ID"); 
+            //bandID.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            //bandID.Columns.Add(columnId);
 
-            List<UniversalWayTypeEntity> lst_TypeWay_Parent = typeBll.GetConfigPointID("");
+            List<UniversalWayTypeEntity> lst_TypeWay_Parent = typeBll.GetConfigPointID(id.ToString());
             if (lst_TypeWay_Parent != null)
             {
                 int index = 0;
@@ -109,7 +122,7 @@ namespace SmartWaterSystem
                                 column_child.VisibleIndex = index - 1;
                                 column_child.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                                 column_child.FieldName = "column" + index;
-                                column_child.Tag = ChildNode.ID;
+                                //column_child.Tag = ChildNode.ID;
                                 bandChild.Columns.Add(column_child);
                                 GridBand bandUnit=bandChild.Children.AddBand(ChildNode.Unit);
                                 bandUnit.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -134,7 +147,7 @@ namespace SmartWaterSystem
                         column_parent.VisibleIndex = index - 1;
                         column_parent.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                         column_parent.FieldName = "column" + index;
-                        column_parent.Tag = ParentNode.ID;
+                        //column_parent.Tag = ParentNode.ID;
                         bandParent.Columns.Add(column_parent);
                         GridBand bandUnit = bandParent.Children.AddBand(ParentNode.Unit);
                         bandUnit.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -148,100 +161,12 @@ namespace SmartWaterSystem
             view.EndUpdate();   //结束视图的编辑
         }
 
-        private void InitGrid()
+        private void ShowTerData(string id)
         {
-            try
+            if (lst_datacolumnIdIndex.Count > 0 && lst_datacolumnIdIndex != null && !string.IsNullOrEmpty(id))
             {
-                SetGridDataProperties();
-                //binding data
-                InitGridData();
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException("InitGridData", ex);
-                XtraMessageBox.Show("初始化列表发生错误!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void InitGridData()
-        {
-            ShowGridTerData();
-            //ShowTerData();
-        }
-
-        private void ShowGridTerData()
-        {
-            gridControlTer.DataSource = null;
-            DataTable dt = typeBll.GetTerminalID_Configed();
-
-            DataTable dt_bind = new DataTable("BindTable");
-            DataColumn col = dt_bind.Columns.Add("checked");
-            col.DataType = System.Type.GetType("System.Boolean");
-            dt_bind.Columns.Add("TerminalID");
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                dt_bind.Rows.Add(new object[] { false, dr["TerminalID"].ToString().Trim() });
-            }
-            gridControlTer.DataSource = dt_bind;
-        }
-
-        public void UpdateView()
-        {
-            SetGridDataProperties();
-            List<string> lst_selectIds = new List<string>();
-            DataTable dt = gridControlTer.DataSource as DataTable;
-            if (dt != null && dt.Rows.Count > 0)
-            {
-                foreach (DataRow dr in dt.Rows)
-                {
-                    if (dr["checked"] != DBNull.Value)
-                    {
-                        if (Convert.ToBoolean(dr["checked"]))
-                        {
-                            lst_selectIds.Add(dr["TerminalID"].ToString().Trim());
-                        }
-                    }
-                }
-            }
-
-            gridControlTer.DataSource = null;
-            DataTable dt_config = typeBll.GetTerminalID_Configed();
-
-            DataTable dt_bind = new DataTable("BindTable");
-            DataColumn col = dt_bind.Columns.Add("checked");
-            col.DataType = System.Type.GetType("System.Boolean");
-            dt_bind.Columns.Add("TerminalID");
-
-            foreach (DataRow dr in dt_config.Rows)
-            {
-                bool select = false;
-                foreach (string terid in lst_selectIds)
-                {
-                    if (terid == dr["TerminalID"].ToString().Trim())
-                    {
-                        select = true;
-                    }
-                }
-                dt_bind.Rows.Add(new object[] { select, dr["TerminalID"].ToString().Trim() });
-            }
-            gridControlTer.DataSource = dt_bind;
-            gridControlTer.RefreshDataSource();
-            ShowTerData();
-        }
-
-        private void ShowTerData()
-        {
-            List<string> lst_terid = new List<string>();
-            for (int i = 0; i < gridViewTer.RowCount; i++)
-            {
-                object obj = gridViewTer.GetRowCellValue(i, "checked");
-                if (obj != null && Convert.ToBoolean(obj))
-                    lst_terid.Add(gridViewTer.GetRowCellValue(i, "TerminalID").ToString().Trim());
-            }
-
-            if (lst_datacolumnIdIndex.Count > 0 && lst_datacolumnIdIndex != null && lst_terid.Count > 0)
-            {
+                List<string> lst_terid = new List<string>();
+                lst_terid.Add(id);
                 DataTable dt = typeBll.GetTerminalDataToShow(lst_terid, lst_datacolumnIdIndex);
                 gridControl_data.DataSource = dt;
                 gridControl_data.RefreshDataSource();
@@ -250,6 +175,79 @@ namespace SmartWaterSystem
             {
                 gridControl_data.DataSource = null;
                 gridControl_data.RefreshDataSource();
+            }
+        }
+
+        private delegate void ShowGridTerDataHandler(List<OnLineTerEntity> lstOnLine);
+        private void InvokeShowGridTerData(List<OnLineTerEntity> lstOnLine)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((ShowGridTerDataHandler)delegate(List<OnLineTerEntity>  onlinedata)
+                {
+                    ShowGridTerData(onlinedata);
+                }, lstOnLine);
+            }
+            else
+            {
+                ShowGridTerData(lstOnLine);
+            }
+
+        }
+
+        private void ShowGridTerData(List<OnLineTerEntity> lstOnLine)
+        {
+            gridControlTer.DataSource = null;
+            DataTable dt = typeBll.GetTerminalID_Configed();
+            DataTable dt_bind = new DataTable("BindTable");
+            DataColumn col = dt_bind.Columns.Add("img");
+            col.DataType = System.Type.GetType("System.Byte[]");
+            dt_bind.Columns.Add("TerminalID");
+            dt_bind.Columns.Add("IsOnLine");  //是否在线状态标志 1:在线,0:不在线
+            int selectIndex = -1;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string terid = dt.Rows[i]["TerminalID"].ToString().Trim();
+                bool online = false;
+                if (lstOnLine != null)
+                {
+                    foreach (OnLineTerEntity terentity in lstOnLine)
+                    {
+                        if (terentity.DevType == ConstValue.DEV_TYPE.UNIVERSAL_CTRL && terentity.DevId.ToString() == terid)
+                        {
+                            online = true;
+                            break;
+                        }
+                    }
+                }
+                if (online)
+                    dt_bind.Rows.Add(new object[] { Bitmap2Byte(SmartWaterSystem.Properties.Resources.亮灯16x25), terid,1 });
+                else
+                    dt_bind.Rows.Add(new object[] { Bitmap2Byte(SmartWaterSystem.Properties.Resources.灭灯16x25), terid,0 });
+
+                if (currentTerId == terid)
+                {
+                    selectIndex = i;
+                }
+            }
+            gridControlTer.DataSource = dt_bind;
+            gridControlTer.RefreshDataSource();
+
+            if (selectIndex!= -1)
+            {
+                gridViewTer.SelectRow(selectIndex);
+            }
+        }
+
+        byte[] Bitmap2Byte(Bitmap bitmap)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                bitmap.Save(stream, ImageFormat.Png);
+                byte[] data = new byte[stream.Length];
+                stream.Seek(0, SeekOrigin.Begin);
+                stream.Read(data, 0, Convert.ToInt32(stream.Length));
+                return data;
             }
         }
 
@@ -270,29 +268,40 @@ namespace SmartWaterSystem
             }
         }
 
-        private void gridViewTer_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
+        private void gridViewTer_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
         {
-            ShowTerData();
-        }
-
-        private void gridViewTer_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
-        {
-            if (e.Column.Caption == "选择")
+            if (e.RowHandle > -1 && e.Column.Caption == "终端编号")
             {
-                ShowTerData();
+                currentTerId = e.CellValue.ToString().Trim();
+                if (!string.IsNullOrEmpty(currentTerId))
+                {
+                    SetGridDataProperties(currentTerId);
+                    ShowTerData(currentTerId);
+                }
             }
         }
 
-        private void advBandedGridView1_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
+        private void btnOnLine_Click(object sender, EventArgs e)
         {
-            if (e.RowHandle > -1 && e.Column.Tag != null && e.CellValue!=null)
+            if (string.IsNullOrEmpty(currentTerId))
             {
-                string terId = advBandedGridView1.GetRowCellValue(e.RowHandle, "TerminalID").ToString().Trim();
-                UniversalChartForm.TerminalID = terId;
-                UniversalChartForm.TypeId = Convert.ToInt32(e.Column.Tag);
-                UniversalChartForm.ColumnName = e.Column.Caption.Trim();
-                UniversalChartForm detailForm = new UniversalChartForm();
-                detailForm.ShowDialog();
+                XtraMessageBox.Show("请选择操作的终端!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            MSMQEntity msmqEntity = new MSMQEntity();
+            msmqEntity.MsgType = ConstValue.MSMQTYPE.Cmd_Online;
+            msmqEntity.DevId = Convert.ToInt16(currentTerId);
+            msmqEntity.DevType = ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            msmqEntity.AllowOnline = true;
+            GlobalValue.MSMQMgr.SendMessage(msmqEntity);
+        }
+
+        private void btnCallData_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(currentTerId))
+            {
+                XtraMessageBox.Show("请选择操作的终端!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
         }
 
