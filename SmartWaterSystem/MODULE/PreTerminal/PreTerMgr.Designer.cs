@@ -28,228 +28,448 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl8 = new DevExpress.XtraEditors.GroupControl();
-            this.textEdit2 = new DevExpress.XtraEditors.TextEdit();
-            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
-            this.textEdit4 = new DevExpress.XtraEditors.TextEdit();
-            this.comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboBoxEditPower = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.simpleButton7 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
+            this.cboxSlopeAlarm = new System.Windows.Forms.CheckBox();
+            this.cboxPreAlarm = new System.Windows.Forms.CheckBox();
+            this.btnDel = new System.Windows.Forms.Button();
+            this.btnAddModify = new System.Windows.Forms.Button();
+            this.txtSlopeUpLimit = new System.Windows.Forms.TextBox();
+            this.txtPreUpLimite = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtSlopeLowLimit = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtPreLowLimit = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtRemark = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtTerminalName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtTerminalID = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lstTerminalConfigView = new System.Windows.Forms.ListView();
+            this.colTerminalID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colTerminalName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colPreLowLimit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colPreUpLimit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colPreSlopeLowLimit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colPreSlopeUpLimit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colAddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colRemark = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colEnablePreAlarm = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colEnableSlopeAlarm = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.colorPickSlopeUpLimit = new DevExpress.XtraEditors.ColorPickEdit();
+            this.colorPickPreLowLimit = new DevExpress.XtraEditors.ColorPickEdit();
+            this.label11 = new System.Windows.Forms.Label();
+            this.colorPickSlopeLowLimit = new DevExpress.XtraEditors.ColorPickEdit();
+            this.label9 = new System.Windows.Forms.Label();
+            this.colorPickPreUpLimit = new DevExpress.XtraEditors.ColorPickEdit();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtAddress = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).BeginInit();
             this.groupControl8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
+            this.groupControl3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
+            this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickSlopeUpLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickPreLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickSlopeLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickPreUpLimit.Properties)).BeginInit();
             this.SuspendLayout();
-            // 
-            // gridControl1
-            // 
-            this.gridControl1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl1.Location = new System.Drawing.Point(14, 80);
-            this.gridControl1.MainView = this.gridView1;
-            this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(772, 400);
-            this.gridControl1.TabIndex = 2;
-            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
-            // 
-            // gridView1
-            // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn1,
-            this.gridColumn2,
-            this.gridColumn3});
-            this.gridView1.GridControl = this.gridControl1;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView1.OptionsSelection.MultiSelect = true;
-            this.gridView1.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
-            this.gridView1.OptionsSelection.ShowCheckBoxSelectorInColumnHeader = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView1.OptionsView.ShowGroupPanel = false;
-            // 
-            // gridColumn1
-            // 
-            this.gridColumn1.Caption = "压力点";
-            this.gridColumn1.Name = "gridColumn1";
-            this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 1;
-            this.gridColumn1.Width = 70;
-            // 
-            // gridColumn2
-            // 
-            this.gridColumn2.Caption = "区";
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 2;
-            this.gridColumn2.Width = 70;
-            // 
-            // gridColumn3
-            // 
-            this.gridColumn3.Caption = "安装地点";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 3;
-            this.gridColumn3.Width = 20;
             // 
             // groupControl8
             // 
-            this.groupControl8.Controls.Add(this.gridControl1);
-            this.groupControl8.Controls.Add(this.textEdit2);
-            this.groupControl8.Controls.Add(this.textEdit1);
-            this.groupControl8.Controls.Add(this.textEdit4);
-            this.groupControl8.Controls.Add(this.comboBoxEdit1);
-            this.groupControl8.Controls.Add(this.comboBoxEditPower);
-            this.groupControl8.Controls.Add(this.labelControl2);
-            this.groupControl8.Controls.Add(this.simpleButton7);
-            this.groupControl8.Controls.Add(this.simpleButton2);
-            this.groupControl8.Controls.Add(this.simpleButton1);
-            this.groupControl8.Controls.Add(this.labelControl7);
-            this.groupControl8.Controls.Add(this.labelControl5);
-            this.groupControl8.Controls.Add(this.labelControl4);
-            this.groupControl8.Controls.Add(this.labelControl3);
-            this.groupControl8.Controls.Add(this.labelControl1);
-            this.groupControl8.Location = new System.Drawing.Point(3, 6);
+            this.groupControl8.Controls.Add(this.groupControl3);
+            this.groupControl8.Controls.Add(this.groupControl2);
+            this.groupControl8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl8.Location = new System.Drawing.Point(0, 0);
             this.groupControl8.Name = "groupControl8";
-            this.groupControl8.Size = new System.Drawing.Size(791, 485);
+            this.groupControl8.Size = new System.Drawing.Size(797, 494);
             this.groupControl8.TabIndex = 4;
             this.groupControl8.Text = "压力终端配置与管理";
             // 
-            // textEdit2
+            // groupControl3
             // 
-            this.textEdit2.Location = new System.Drawing.Point(265, 53);
-            this.textEdit2.Name = "textEdit2";
-            this.textEdit2.Size = new System.Drawing.Size(518, 20);
-            this.textEdit2.TabIndex = 109;
+            this.groupControl3.Controls.Add(this.cboxSlopeAlarm);
+            this.groupControl3.Controls.Add(this.cboxPreAlarm);
+            this.groupControl3.Controls.Add(this.btnDel);
+            this.groupControl3.Controls.Add(this.btnAddModify);
+            this.groupControl3.Controls.Add(this.txtSlopeUpLimit);
+            this.groupControl3.Controls.Add(this.txtPreUpLimite);
+            this.groupControl3.Controls.Add(this.label6);
+            this.groupControl3.Controls.Add(this.label4);
+            this.groupControl3.Controls.Add(this.txtSlopeLowLimit);
+            this.groupControl3.Controls.Add(this.label5);
+            this.groupControl3.Controls.Add(this.txtPreLowLimit);
+            this.groupControl3.Controls.Add(this.label3);
+            this.groupControl3.Controls.Add(this.txtAddress);
+            this.groupControl3.Controls.Add(this.txtRemark);
+            this.groupControl3.Controls.Add(this.label8);
+            this.groupControl3.Controls.Add(this.label7);
+            this.groupControl3.Controls.Add(this.txtTerminalName);
+            this.groupControl3.Controls.Add(this.label2);
+            this.groupControl3.Controls.Add(this.txtTerminalID);
+            this.groupControl3.Controls.Add(this.label1);
+            this.groupControl3.Controls.Add(this.lstTerminalConfigView);
+            this.groupControl3.Location = new System.Drawing.Point(3, 21);
+            this.groupControl3.Name = "groupControl3";
+            this.groupControl3.Size = new System.Drawing.Size(789, 289);
+            this.groupControl3.TabIndex = 0;
+            this.groupControl3.Text = "终端设置";
             // 
-            // textEdit1
+            // cboxSlopeAlarm
             // 
-            this.textEdit1.Location = new System.Drawing.Point(248, 28);
-            this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Size = new System.Drawing.Size(89, 20);
-            this.textEdit1.TabIndex = 109;
+            this.cboxSlopeAlarm.AutoSize = true;
+            this.cboxSlopeAlarm.Location = new System.Drawing.Point(200, 56);
+            this.cboxSlopeAlarm.Name = "cboxSlopeAlarm";
+            this.cboxSlopeAlarm.Size = new System.Drawing.Size(98, 18);
+            this.cboxSlopeAlarm.TabIndex = 5;
+            this.cboxSlopeAlarm.Text = "启用斜率报警";
+            this.cboxSlopeAlarm.UseVisualStyleBackColor = true;
+            this.cboxSlopeAlarm.CheckedChanged += new System.EventHandler(this.cboxSlopeAlarm_CheckedChanged);
             // 
-            // textEdit4
+            // cboxPreAlarm
             // 
-            this.textEdit4.Location = new System.Drawing.Point(84, 28);
-            this.textEdit4.Name = "textEdit4";
-            this.textEdit4.Size = new System.Drawing.Size(89, 20);
-            this.textEdit4.TabIndex = 109;
+            this.cboxPreAlarm.AutoSize = true;
+            this.cboxPreAlarm.Location = new System.Drawing.Point(200, 28);
+            this.cboxPreAlarm.Name = "cboxPreAlarm";
+            this.cboxPreAlarm.Size = new System.Drawing.Size(98, 18);
+            this.cboxPreAlarm.TabIndex = 1;
+            this.cboxPreAlarm.Text = "启用压力报警";
+            this.cboxPreAlarm.UseVisualStyleBackColor = true;
+            this.cboxPreAlarm.CheckedChanged += new System.EventHandler(this.cboxPreAlarm_CheckedChanged);
             // 
-            // comboBoxEdit1
+            // btnDel
             // 
-            this.comboBoxEdit1.Location = new System.Drawing.Point(167, 53);
-            this.comboBoxEdit1.Name = "comboBoxEdit1";
-            this.comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.btnDel.Location = new System.Drawing.Point(587, 109);
+            this.btnDel.Name = "btnDel";
+            this.btnDel.Size = new System.Drawing.Size(75, 23);
+            this.btnDel.TabIndex = 11;
+            this.btnDel.Text = "删除";
+            this.btnDel.UseVisualStyleBackColor = true;
+            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
+            // 
+            // btnAddModify
+            // 
+            this.btnAddModify.Location = new System.Drawing.Point(587, 81);
+            this.btnAddModify.Name = "btnAddModify";
+            this.btnAddModify.Size = new System.Drawing.Size(75, 23);
+            this.btnAddModify.TabIndex = 10;
+            this.btnAddModify.Text = "添加/修改";
+            this.btnAddModify.UseVisualStyleBackColor = true;
+            this.btnAddModify.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // txtSlopeUpLimit
+            // 
+            this.txtSlopeUpLimit.Location = new System.Drawing.Point(562, 54);
+            this.txtSlopeUpLimit.MaxLength = 8;
+            this.txtSlopeUpLimit.Name = "txtSlopeUpLimit";
+            this.txtSlopeUpLimit.Size = new System.Drawing.Size(100, 22);
+            this.txtSlopeUpLimit.TabIndex = 7;
+            // 
+            // txtPreUpLimite
+            // 
+            this.txtPreUpLimite.Location = new System.Drawing.Point(562, 26);
+            this.txtPreUpLimite.MaxLength = 8;
+            this.txtPreUpLimite.Name = "txtPreUpLimite";
+            this.txtPreUpLimite.Size = new System.Drawing.Size(100, 22);
+            this.txtPreUpLimite.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(479, 58);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(83, 14);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "压力斜率上限:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(503, 30);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 14);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "压力上限:";
+            // 
+            // txtSlopeLowLimit
+            // 
+            this.txtSlopeLowLimit.Location = new System.Drawing.Point(378, 54);
+            this.txtSlopeLowLimit.MaxLength = 8;
+            this.txtSlopeLowLimit.Name = "txtSlopeLowLimit";
+            this.txtSlopeLowLimit.Size = new System.Drawing.Size(100, 22);
+            this.txtSlopeLowLimit.TabIndex = 6;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(295, 58);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(83, 14);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "压力斜率下限:";
+            // 
+            // txtPreLowLimit
+            // 
+            this.txtPreLowLimit.Location = new System.Drawing.Point(378, 27);
+            this.txtPreLowLimit.MaxLength = 8;
+            this.txtPreLowLimit.Name = "txtPreLowLimit";
+            this.txtPreLowLimit.Size = new System.Drawing.Size(100, 22);
+            this.txtPreLowLimit.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(319, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 14);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "压力下限:";
+            // 
+            // txtRemark
+            // 
+            this.txtRemark.Location = new System.Drawing.Point(94, 110);
+            this.txtRemark.MaxLength = 300;
+            this.txtRemark.Name = "txtRemark";
+            this.txtRemark.Size = new System.Drawing.Size(468, 22);
+            this.txtRemark.TabIndex = 9;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(39, 114);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(51, 14);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "备    注:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(39, 86);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 14);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "地    址:";
+            // 
+            // txtTerminalName
+            // 
+            this.txtTerminalName.Location = new System.Drawing.Point(94, 54);
+            this.txtTerminalName.MaxLength = 200;
+            this.txtTerminalName.Name = "txtTerminalName";
+            this.txtTerminalName.Size = new System.Drawing.Size(100, 22);
+            this.txtTerminalName.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(39, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 14);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "终端名称:";
+            // 
+            // txtTerminalID
+            // 
+            this.txtTerminalID.Location = new System.Drawing.Point(94, 26);
+            this.txtTerminalID.MaxLength = 5;
+            this.txtTerminalID.Name = "txtTerminalID";
+            this.txtTerminalID.Size = new System.Drawing.Size(100, 22);
+            this.txtTerminalID.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(40, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 14);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "终端ID:";
+            // 
+            // lstTerminalConfigView
+            // 
+            this.lstTerminalConfigView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colTerminalID,
+            this.colTerminalName,
+            this.colPreLowLimit,
+            this.colPreUpLimit,
+            this.colPreSlopeLowLimit,
+            this.colPreSlopeUpLimit,
+            this.colAddress,
+            this.colRemark,
+            this.colEnablePreAlarm,
+            this.colEnableSlopeAlarm});
+            this.lstTerminalConfigView.FullRowSelect = true;
+            this.lstTerminalConfigView.Location = new System.Drawing.Point(38, 138);
+            this.lstTerminalConfigView.MultiSelect = false;
+            this.lstTerminalConfigView.Name = "lstTerminalConfigView";
+            this.lstTerminalConfigView.Size = new System.Drawing.Size(624, 139);
+            this.lstTerminalConfigView.TabIndex = 12;
+            this.lstTerminalConfigView.TabStop = false;
+            this.lstTerminalConfigView.UseCompatibleStateImageBehavior = false;
+            this.lstTerminalConfigView.View = System.Windows.Forms.View.Details;
+            this.lstTerminalConfigView.SelectedIndexChanged += new System.EventHandler(this.lstTerminalConfigView_SelectedIndexChanged);
+            // 
+            // colTerminalID
+            // 
+            this.colTerminalID.Text = "终端ID";
+            // 
+            // colTerminalName
+            // 
+            this.colTerminalName.Text = "终端名称";
+            this.colTerminalName.Width = 61;
+            // 
+            // colPreLowLimit
+            // 
+            this.colPreLowLimit.Text = "压力下限";
+            this.colPreLowLimit.Width = 80;
+            // 
+            // colPreUpLimit
+            // 
+            this.colPreUpLimit.Text = "压力上限";
+            this.colPreUpLimit.Width = 87;
+            // 
+            // colPreSlopeLowLimit
+            // 
+            this.colPreSlopeLowLimit.Text = "压力斜率下限";
+            this.colPreSlopeLowLimit.Width = 90;
+            // 
+            // colPreSlopeUpLimit
+            // 
+            this.colPreSlopeUpLimit.Text = "压力斜率上限";
+            this.colPreSlopeUpLimit.Width = 94;
+            // 
+            // colAddress
+            // 
+            this.colAddress.Text = "地址";
+            this.colAddress.Width = 137;
+            // 
+            // colRemark
+            // 
+            this.colRemark.Text = "备注";
+            this.colRemark.Width = 118;
+            // 
+            // colEnablePreAlarm
+            // 
+            this.colEnablePreAlarm.Text = "压力报警";
+            this.colEnablePreAlarm.Width = 0;
+            // 
+            // colEnableSlopeAlarm
+            // 
+            this.colEnableSlopeAlarm.Text = "斜率报警";
+            this.colEnableSlopeAlarm.Width = 0;
+            // 
+            // groupControl2
+            // 
+            this.groupControl2.Controls.Add(this.colorPickSlopeUpLimit);
+            this.groupControl2.Controls.Add(this.colorPickPreLowLimit);
+            this.groupControl2.Controls.Add(this.label11);
+            this.groupControl2.Controls.Add(this.colorPickSlopeLowLimit);
+            this.groupControl2.Controls.Add(this.label9);
+            this.groupControl2.Controls.Add(this.colorPickPreUpLimit);
+            this.groupControl2.Controls.Add(this.label10);
+            this.groupControl2.Controls.Add(this.label12);
+            this.groupControl2.Location = new System.Drawing.Point(3, 316);
+            this.groupControl2.Name = "groupControl2";
+            this.groupControl2.Size = new System.Drawing.Size(789, 87);
+            this.groupControl2.TabIndex = 1;
+            this.groupControl2.Text = "颜色配置";
+            // 
+            // colorPickSlopeUpLimit
+            // 
+            this.colorPickSlopeUpLimit.EditValue = System.Drawing.Color.Empty;
+            this.colorPickSlopeUpLimit.Location = new System.Drawing.Point(409, 55);
+            this.colorPickSlopeUpLimit.Name = "colorPickSlopeUpLimit";
+            this.colorPickSlopeUpLimit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEdit1.Properties.Items.AddRange(new object[] {
-            "停止",
-            "启动"});
-            this.comboBoxEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxEdit1.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxEdit1.TabIndex = 108;
+            this.colorPickSlopeUpLimit.Size = new System.Drawing.Size(100, 20);
+            this.colorPickSlopeUpLimit.TabIndex = 3;
+            this.colorPickSlopeUpLimit.EditValueChanged += new System.EventHandler(this.colorPickSlopeUpLimit_EditValueChanged);
             // 
-            // comboBoxEditPower
+            // colorPickPreLowLimit
             // 
-            this.comboBoxEditPower.Location = new System.Drawing.Point(84, 54);
-            this.comboBoxEditPower.Name = "comboBoxEditPower";
-            this.comboBoxEditPower.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.colorPickPreLowLimit.EditValue = System.Drawing.Color.Empty;
+            this.colorPickPreLowLimit.Location = new System.Drawing.Point(119, 30);
+            this.colorPickPreLowLimit.Name = "colorPickPreLowLimit";
+            this.colorPickPreLowLimit.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+            this.colorPickPreLowLimit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditPower.Properties.Items.AddRange(new object[] {
-            "停止",
-            "启动"});
-            this.comboBoxEditPower.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxEditPower.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxEditPower.TabIndex = 108;
+            this.colorPickPreLowLimit.Properties.ColorDialogOptions.ShowArrows = DevExpress.XtraEditors.ShowArrows.False;
+            this.colorPickPreLowLimit.Size = new System.Drawing.Size(100, 20);
+            this.colorPickPreLowLimit.TabIndex = 0;
+            this.colorPickPreLowLimit.EditValueChanged += new System.EventHandler(this.colorPickPreLowLimit_EditValueChanged);
             // 
-            // labelControl2
+            // label11
             // 
-            this.labelControl2.Location = new System.Drawing.Point(178, 31);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(52, 14);
-            this.labelControl2.TabIndex = 1;
-            this.labelControl2.Text = "设备编号:";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(354, 34);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(59, 14);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "压力上限:";
             // 
-            // simpleButton7
+            // colorPickSlopeLowLimit
             // 
-            this.simpleButton7.Location = new System.Drawing.Point(715, 25);
-            this.simpleButton7.Name = "simpleButton7";
-            this.simpleButton7.Size = new System.Drawing.Size(68, 23);
-            this.simpleButton7.TabIndex = 107;
-            this.simpleButton7.Text = "删除";
+            this.colorPickSlopeLowLimit.EditValue = System.Drawing.Color.Empty;
+            this.colorPickSlopeLowLimit.Location = new System.Drawing.Point(119, 55);
+            this.colorPickSlopeLowLimit.Name = "colorPickSlopeLowLimit";
+            this.colorPickSlopeLowLimit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.colorPickSlopeLowLimit.Size = new System.Drawing.Size(100, 20);
+            this.colorPickSlopeLowLimit.TabIndex = 2;
+            this.colorPickSlopeLowLimit.EditValueChanged += new System.EventHandler(this.colorPickSlopeLowLimit_EditValueChanged);
             // 
-            // simpleButton2
+            // label9
             // 
-            this.simpleButton2.Location = new System.Drawing.Point(641, 25);
-            this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(68, 23);
-            this.simpleButton2.TabIndex = 107;
-            this.simpleButton2.Text = "修改";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(63, 34);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 14);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "压力下限:";
             // 
-            // simpleButton1
+            // colorPickPreUpLimit
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(567, 25);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(68, 23);
-            this.simpleButton1.TabIndex = 107;
-            this.simpleButton1.Text = "新增";
+            this.colorPickPreUpLimit.EditValue = System.Drawing.Color.Empty;
+            this.colorPickPreUpLimit.Location = new System.Drawing.Point(409, 30);
+            this.colorPickPreUpLimit.Name = "colorPickPreUpLimit";
+            this.colorPickPreUpLimit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.colorPickPreUpLimit.Size = new System.Drawing.Size(100, 20);
+            this.colorPickPreUpLimit.TabIndex = 1;
+            this.colorPickPreUpLimit.EditValueChanged += new System.EventHandler(this.colorPickPreUpLimit_EditValueChanged);
             // 
-            // labelControl7
+            // label10
             // 
-            this.labelControl7.Location = new System.Drawing.Point(236, 57);
-            this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(24, 14);
-            this.labelControl7.TabIndex = 1;
-            this.labelControl7.Text = "详细";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(40, 59);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(83, 14);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "压力斜率下限:";
             // 
-            // labelControl5
+            // label12
             // 
-            this.labelControl5.Location = new System.Drawing.Point(153, 57);
-            this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(12, 14);
-            this.labelControl5.TabIndex = 1;
-            this.labelControl5.Text = "路";
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(330, 59);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(83, 14);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "压力斜率上限:";
             // 
-            // labelControl4
+            // txtAddress
             // 
-            this.labelControl4.Location = new System.Drawing.Point(72, 57);
-            this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(12, 14);
-            this.labelControl4.TabIndex = 1;
-            this.labelControl4.Text = "区";
-            // 
-            // labelControl3
-            // 
-            this.labelControl3.Location = new System.Drawing.Point(14, 59);
-            this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(52, 14);
-            this.labelControl3.TabIndex = 1;
-            this.labelControl3.Text = "安装地点:";
-            // 
-            // labelControl1
-            // 
-            this.labelControl1.Location = new System.Drawing.Point(14, 31);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(64, 14);
-            this.labelControl1.TabIndex = 1;
-            this.labelControl1.Text = "压力终端ID:";
+            this.txtAddress.Location = new System.Drawing.Point(94, 81);
+            this.txtAddress.MaxLength = 300;
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(468, 22);
+            this.txtAddress.TabIndex = 8;
             // 
             // PreTerMgr
             // 
@@ -258,42 +478,67 @@
             this.Controls.Add(this.groupControl8);
             this.Name = "PreTerMgr";
             this.Size = new System.Drawing.Size(797, 494);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            this.Load += new System.EventHandler(this.PreTerMgr_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).EndInit();
             this.groupControl8.ResumeLayout(false);
-            this.groupControl8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
+            this.groupControl3.ResumeLayout(false);
+            this.groupControl3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
+            this.groupControl2.ResumeLayout(false);
+            this.groupControl2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickSlopeUpLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickPreLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickSlopeLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickPreUpLimit.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraEditors.GroupControl groupControl8;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditPower;
-        private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.TextEdit textEdit1;
-        private DevExpress.XtraEditors.TextEdit textEdit4;
-        private DevExpress.XtraEditors.LabelControl labelControl2;
-        private DevExpress.XtraEditors.TextEdit textEdit2;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit1;
-        private DevExpress.XtraEditors.LabelControl labelControl7;
-        private DevExpress.XtraEditors.LabelControl labelControl5;
-        private DevExpress.XtraEditors.LabelControl labelControl4;
-        private DevExpress.XtraEditors.LabelControl labelControl3;
-        private DevExpress.XtraEditors.SimpleButton simpleButton7;
-        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.ColorPickEdit colorPickSlopeUpLimit;
+        private DevExpress.XtraEditors.ColorPickEdit colorPickPreLowLimit;
+        private DevExpress.XtraEditors.ColorPickEdit colorPickSlopeLowLimit;
+        private DevExpress.XtraEditors.ColorPickEdit colorPickPreUpLimit;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label11;
+        private DevExpress.XtraEditors.GroupControl groupControl3;
+        private System.Windows.Forms.CheckBox cboxSlopeAlarm;
+        private System.Windows.Forms.CheckBox cboxPreAlarm;
+        private System.Windows.Forms.Button btnDel;
+        private System.Windows.Forms.Button btnAddModify;
+        private System.Windows.Forms.TextBox txtSlopeUpLimit;
+        private System.Windows.Forms.TextBox txtPreUpLimite;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtSlopeLowLimit;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtPreLowLimit;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtRemark;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtTerminalName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtTerminalID;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListView lstTerminalConfigView;
+        private System.Windows.Forms.ColumnHeader colTerminalID;
+        private System.Windows.Forms.ColumnHeader colTerminalName;
+        private System.Windows.Forms.ColumnHeader colPreLowLimit;
+        private System.Windows.Forms.ColumnHeader colPreUpLimit;
+        private System.Windows.Forms.ColumnHeader colPreSlopeLowLimit;
+        private System.Windows.Forms.ColumnHeader colPreSlopeUpLimit;
+        private System.Windows.Forms.ColumnHeader colAddress;
+        private System.Windows.Forms.ColumnHeader colRemark;
+        private System.Windows.Forms.ColumnHeader colEnablePreAlarm;
+        private System.Windows.Forms.ColumnHeader colEnableSlopeAlarm;
+        private DevExpress.XtraEditors.GroupControl groupControl2;
+        private System.Windows.Forms.TextBox txtAddress;
 
     }
 }

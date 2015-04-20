@@ -38,25 +38,32 @@ namespace SmartWaterSystem
                 return;
             }
 
-            if (!string.IsNullOrEmpty(txtPluseBasic1.Text) && Convert.ToUInt32(txtPluseBasic1.Text) > 0)
+            if (!string.IsNullOrEmpty(txtPluseBasic1.Text) && Convert.ToUInt32(txtPluseBasic1.Text) >= 0)
             {
                 SetPluseBasic1 = true;
                 PluseBasic1 = Convert.ToUInt32(txtPluseBasic1.Text);
             }
-            if (!string.IsNullOrEmpty(txtPluseBasic2.Text) && Convert.ToUInt32(txtPluseBasic2.Text) > 0)
+            if (!string.IsNullOrEmpty(txtPluseBasic2.Text) && Convert.ToUInt32(txtPluseBasic2.Text) >= 0)
             {
                 SetPluseBasic2 = true;
-                PluseBasic1 = Convert.ToUInt32(txtPluseBasic2.Text);
+                PluseBasic2 = Convert.ToUInt32(txtPluseBasic2.Text);
             }
-            if (!string.IsNullOrEmpty(txtPluseBasic3.Text) && Convert.ToUInt32(txtPluseBasic3.Text) > 0)
+            if (!string.IsNullOrEmpty(txtPluseBasic3.Text) && Convert.ToUInt32(txtPluseBasic3.Text) >= 0)
             {
                 SetPluseBasic3 = true;
-                PluseBasic1 = Convert.ToUInt32(txtPluseBasic3.Text);
+                PluseBasic3 = Convert.ToUInt32(txtPluseBasic3.Text);
             }
-            if (!string.IsNullOrEmpty(txtPluseBasic4.Text) && Convert.ToUInt32(txtPluseBasic4.Text) > 0)
+            if (!string.IsNullOrEmpty(txtPluseBasic4.Text) && Convert.ToUInt32(txtPluseBasic4.Text) >= 0)
             {
                 SetPluseBasic4 = true;
-                PluseBasic1 = Convert.ToUInt32(txtPluseBasic4.Text);
+                PluseBasic4 = Convert.ToUInt32(txtPluseBasic4.Text);
+            }
+
+            if (!SetPluseBasic1 && !SetPluseBasic2 && !SetPluseBasic3 && !SetPluseBasic4)
+            {
+                XtraMessageBox.Show("请输入至少一个基准数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtPluseBasic1.Focus();
+                return;
             }
 
             this.DialogResult = DialogResult.OK;
@@ -98,6 +105,11 @@ namespace SmartWaterSystem
             }
             else
                 e.Handled = true;
+        }
+
+        private void btnCancle_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
     }

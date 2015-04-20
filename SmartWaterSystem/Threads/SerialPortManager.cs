@@ -204,11 +204,14 @@ namespace SmartWaterSystem
                                 result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
                                 if (!result)
                                     break;
-                                NoiseCtrl ctrl = new NoiseCtrl();
-                                result = ctrl.Write_IP(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.IP);
-                                if (!result)
-                                    break;
-                                result = ctrl.WritePortName(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Port.ToString());
+                                if (GlobalValue.NoiseSerialPortOptData.RemoteSwitch)
+                                {
+                                    NoiseCtrl ctrl = new NoiseCtrl();
+                                    result = ctrl.Write_IP(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.IP);
+                                    if (!result)
+                                        break;
+                                    result = ctrl.WritePortName(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Port.ToString());
+                                }
                             }
                             catch (Exception ex)
                             {

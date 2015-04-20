@@ -41,10 +41,10 @@ namespace SmartWaterSystem
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemPictureEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemImageEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_data)).BeginInit();
@@ -196,14 +196,6 @@ namespace SmartWaterSystem
             this.gridColumn2.VisibleIndex = 1;
             this.gridColumn2.Width = 57;
             // 
-            // repositoryItemCheckEdit1
-            // 
-            this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
-            // 
-            // repositoryItemImageEdit1
-            // 
-            this.repositoryItemImageEdit1.Name = "repositoryItemImageEdit1";
-            // 
             // gridColumn3
             // 
             this.gridColumn3.Caption = "IsOnLine";
@@ -221,6 +213,14 @@ namespace SmartWaterSystem
             this.gridColumn3.OptionsColumn.TabStop = false;
             this.gridColumn3.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn3.OptionsFilter.AllowFilter = false;
+            // 
+            // repositoryItemCheckEdit1
+            // 
+            this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
+            // 
+            // repositoryItemImageEdit1
+            // 
+            this.repositoryItemImageEdit1.Name = "repositoryItemImageEdit1";
             // 
             // UniversalCallData
             // 

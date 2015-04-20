@@ -39,6 +39,7 @@ namespace Common
         public const string StopBits = "StopBits";
         public const string LeakVoice = "LeakVoice";
         public const string RecorderVoice = "RecorderVoice";
+        public const string CallDataEnable = "CallData";
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
@@ -64,7 +65,8 @@ namespace Common
             {SettingKeys.PreSlopeLowLimitColor,""},
             {SettingKeys.PreSlopeUpLimitColor,""},
             {SettingKeys.GPRS_IP,""},
-            {SettingKeys.GPRS_PORT,""}
+            {SettingKeys.GPRS_PORT,""},
+            {SettingKeys.CallDataEnable,"false"}
         };
     }
 

@@ -115,9 +115,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\netchartdir_cp.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\DLL\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NLog, Version=1.0.0.505, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\NLog.dll</HintPath>
@@ -126,7 +123,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\DLL\SQLite_x86\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\DLL\SQLite_x86_bundle\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
@@ -208,6 +205,12 @@
     <Compile Include="MODULE\NoiseRec\NoiseParmSetting.Designer.cs">
       <DependentUpon>NoiseParmSetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\PreTerminal\ParmConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\ParmConfigForm.Designer.cs">
+      <DependentUpon>ParmConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\PreTerminal\PreTerParm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -243,6 +246,12 @@
     </Compile>
     <Compile Include="MODULE\PreTerminal\PreTerStoppage.Designer.cs">
       <DependentUpon>PreTerStoppage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerChartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerChartForm.Designer.cs">
+      <DependentUpon>PreTerChartForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\UniversalTerminal\UniversalChartForm.cs">
       <SubType>Form</SubType>
@@ -376,6 +385,9 @@
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseParmSetting.resx">
       <DependentUpon>NoiseParmSetting.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\ParmConfigForm.resx">
+      <DependentUpon>ParmConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerParm.resx">
       <DependentUpon>PreTerParm.cs</DependentUpon>
     </EmbeddedResource>
@@ -393,6 +405,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerStoppage.resx">
       <DependentUpon>PreTerStoppage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerChartForm.resx">
+      <DependentUpon>PreTerChartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalChartForm.resx">
       <DependentUpon>UniversalChartForm.cs</DependentUpon>
@@ -544,10 +559,6 @@
       <Project>{CBDF6FF1-FDC4-42BE-A21A-A5559DC20F6F}</Project>
       <Name>Protocol</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UniversalCallData\UniversalCallData.csproj">
-      <Project>{65CC7412-1A62-4A77-8A91-D00DE5D2D234}</Project>
-      <Name>UniversalCallData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UniversalTerMgr\UniversalTerMgr.csproj">
       <Project>{68C2F608-9553-463D-B638-EC636C6CA59C}</Project>
       <Name>UniversalTerMgr</Name>
@@ -560,7 +571,7 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
-    <None Include="Resources\UninversalCallData.png" />
+    <None Include="Resources\PreTerMonitor.png" />
     <None Include="Resources\灭灯16x25.png" />
     <None Include="Resources\亮灯16x25.png" />
     <None Include="Resources\GPRSConsole.png" />

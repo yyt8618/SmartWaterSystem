@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using System.Collections;
 using System.Media;
@@ -91,7 +90,10 @@ namespace SmartWaterSystem
                 colorPanel_static1.SetColorPanel((int)Math.Ceiling(min), (int)Math.Ceiling(min + interval), (int)Math.Ceiling(min + interval * 2),
                     (int)Math.Ceiling(min + interval * 3), (int)Math.Ceiling(max));  //set colorpanel mark
                 C1.Win.C1Chart.Axis axisX = (C1.Win.C1Chart.Axis)c1Chart1.ChartArea.AxisX;
-                axisX.Max = 0.1 * (30 - seriescount) + 1.52;
+                if (seriescount > 1)
+                    axisX.Max = 0.1 * (30 - seriescount) + 1.52;
+                else
+                    axisX.Max = 15;
 
                 c1Chart1.ChartArea.AxisY.ValueLabels.Add(Recorder.LeakValue, "");
                 c1Chart1.ChartArea.AxisY.ValueLabels[0].Appearance = ValueLabelAppearanceEnum.TriangleMarker;
@@ -278,24 +280,32 @@ namespace SmartWaterSystem
         }
 
         private Color GetColor(double min, double max, double Value)
-        {  //目前算法只支持  蓝->红->黄顺序
-            if (colors == null || colors.Length == 0)
-                return Color.AliceBlue ;
-
-            if (Value >= max)
-                return colors[0];
-            if (Value <= min)
-                return colors[2];
-
-            if (Value < ((max - min) / 2))  //colors[2] ~ colors[1]
+        {
+            try
             {
-                double per = Value / ((max - min)/2);  //计算区间百分比
-                return Color.FromArgb((int)Math.Ceiling(per * 255), 0, 255 - (int)Math.Ceiling(per * 255));
+                //目前算法只支持  蓝->红->黄顺序
+                if (colors == null || colors.Length == 0)
+                    return Color.AliceBlue;
+
+                if (Value >= max)
+                    return colors[0];
+                if (Value <= min)
+                    return colors[2];
+
+                if (Value < ((max - min) / 2))  //colors[2] ~ colors[1]
+                {
+                    double per = Value / ((max - min) / 2);  //计算区间百分比
+                    return Color.FromArgb((int)Math.Ceiling(per * 255), 0, 255 - (int)Math.Ceiling(per * 255));
+                }
+                else  //colors[1] ~ colors[0]
+                {
+                    double per = (Value - (max - min) / 2) / ((max - min) / 2); 
+                    return Color.FromArgb(255, (int)Math.Ceiling(per * 255), 0);
+                }
             }
-            else  //colors[1] ~ colors[0]
+            catch (Exception ex)
             {
-                double per = (Value - (max - min) / 2) / ((max - min) / 2);
-                return Color.FromArgb(255, (int)Math.Ceiling(per * 255), 0);
+                return colors[0];
             }
         }
 

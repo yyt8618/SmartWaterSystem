@@ -28,342 +28,500 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraCharts.XYDiagram xyDiagram1 = new DevExpress.XtraCharts.XYDiagram();
-            DevExpress.XtraCharts.Series series1 = new DevExpress.XtraCharts.Series();
-            DevExpress.XtraCharts.LineSeriesView lineSeriesView1 = new DevExpress.XtraCharts.LineSeriesView();
-            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.components = new System.ComponentModel.Container();
             this.groupControl8 = new DevExpress.XtraEditors.GroupControl();
-            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
-            this.dateEdit1 = new DevExpress.XtraEditors.DateEdit();
-            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-            this.timeEdit1 = new DevExpress.XtraEditors.DateEdit();
-            this.groupControl9 = new DevExpress.XtraEditors.GroupControl();
-            this.comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            this.textEdit4 = new DevExpress.XtraEditors.TextEdit();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
-            this.comboBoxEditPower = new DevExpress.XtraEditors.ComboBoxEdit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.btnClrPreUpLimit = new System.Windows.Forms.Button();
+            this.btnClrSlopeUpLimit = new System.Windows.Forms.Button();
+            this.btnClrSlopeLowLimit = new System.Windows.Forms.Button();
+            this.btnClrPreLowLimit = new System.Windows.Forms.Button();
+            this.btnParmConfig = new DevExpress.XtraEditors.SimpleButton();
+            this.btnConfig = new DevExpress.XtraEditors.SimpleButton();
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.gridControlTer = new DevExpress.XtraGrid.GridControl();
+            this.lstTerminalListView = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ceCallData = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.ImageComboBox_Online = new DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox();
+            this.repositoryItemPictureEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.gridControl_Data = new DevExpress.XtraGrid.GridControl();
+            this.lstDataView = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.repositoryItemCheckEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.repositoryItemImageComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox();
+            this.repositoryItemPictureEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).BeginInit();
             this.groupControl8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties.CalendarTimeProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.timeEdit1.Properties.CalendarTimeProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.timeEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl9)).BeginInit();
-            this.groupControl9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lstTerminalListView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCallData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageComboBox_Online)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemPictureEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
+            this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_Data)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lstDataView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemPictureEdit2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // gridControl1
-            // 
-            this.gridControl1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl1.Location = new System.Drawing.Point(5, 77);
-            this.gridControl1.MainView = this.gridView1;
-            this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(318, 378);
-            this.gridControl1.TabIndex = 2;
-            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
-            // 
-            // gridView1
-            // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn1,
-            this.gridColumn2,
-            this.gridColumn3});
-            this.gridView1.GridControl = this.gridControl1;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView1.OptionsSelection.MultiSelect = true;
-            this.gridView1.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
-            this.gridView1.OptionsSelection.ShowCheckBoxSelectorInColumnHeader = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView1.OptionsView.ShowGroupPanel = false;
-            // 
-            // gridColumn1
-            // 
-            this.gridColumn1.Caption = "压力点";
-            this.gridColumn1.Name = "gridColumn1";
-            this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 1;
-            this.gridColumn1.Width = 70;
-            // 
-            // gridColumn2
-            // 
-            this.gridColumn2.Caption = "区";
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 2;
-            this.gridColumn2.Width = 70;
-            // 
-            // gridColumn3
-            // 
-            this.gridColumn3.Caption = "安装地点";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 3;
-            this.gridColumn3.Width = 20;
             // 
             // groupControl8
             // 
-            this.groupControl8.Controls.Add(this.groupControl1);
-            this.groupControl8.Controls.Add(this.groupControl9);
-            this.groupControl8.Location = new System.Drawing.Point(3, 6);
+            this.groupControl8.Controls.Add(this.labelControl4);
+            this.groupControl8.Controls.Add(this.labelControl3);
+            this.groupControl8.Controls.Add(this.labelControl2);
+            this.groupControl8.Controls.Add(this.labelControl1);
+            this.groupControl8.Controls.Add(this.btnClrPreUpLimit);
+            this.groupControl8.Controls.Add(this.btnClrSlopeUpLimit);
+            this.groupControl8.Controls.Add(this.btnClrSlopeLowLimit);
+            this.groupControl8.Controls.Add(this.btnClrPreLowLimit);
+            this.groupControl8.Controls.Add(this.btnParmConfig);
+            this.groupControl8.Controls.Add(this.btnConfig);
+            this.groupControl8.Location = new System.Drawing.Point(3, 3);
             this.groupControl8.Name = "groupControl8";
-            this.groupControl8.Size = new System.Drawing.Size(791, 485);
-            this.groupControl8.TabIndex = 4;
-            this.groupControl8.Text = "压力终端监控";
-            // 
-            // groupControl1
-            // 
-            this.groupControl1.Controls.Add(this.chartControl1);
-            this.groupControl1.Controls.Add(this.labelControl2);
-            this.groupControl1.Controls.Add(this.labelControl7);
-            this.groupControl1.Controls.Add(this.dateEdit1);
-            this.groupControl1.Controls.Add(this.simpleButton2);
-            this.groupControl1.Controls.Add(this.timeEdit1);
-            this.groupControl1.Location = new System.Drawing.Point(339, 25);
-            this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(447, 455);
-            this.groupControl1.TabIndex = 111;
-            this.groupControl1.Text = "趋势图";
-            // 
-            // chartControl1
-            // 
-            xyDiagram1.AxisX.VisibleInPanesSerializable = "-1";
-            xyDiagram1.AxisY.VisibleInPanesSerializable = "-1";
-            this.chartControl1.Diagram = xyDiagram1;
-            this.chartControl1.Location = new System.Drawing.Point(5, 77);
-            this.chartControl1.Name = "chartControl1";
-            series1.Name = "Series 1";
-            series1.View = lineSeriesView1;
-            this.chartControl1.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
-        series1};
-            this.chartControl1.Size = new System.Drawing.Size(437, 373);
-            this.chartControl1.TabIndex = 111;
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Location = new System.Drawing.Point(5, 54);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(52, 14);
-            this.labelControl2.TabIndex = 1;
-            this.labelControl2.Text = "结束时间:";
-            // 
-            // labelControl7
-            // 
-            this.labelControl7.Location = new System.Drawing.Point(5, 32);
-            this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(52, 14);
-            this.labelControl7.TabIndex = 1;
-            this.labelControl7.Text = "起始时间:";
-            // 
-            // dateEdit1
-            // 
-            this.dateEdit1.EditValue = new System.DateTime(2014, 12, 25, 0, 0, 0, 0);
-            this.dateEdit1.Location = new System.Drawing.Point(63, 52);
-            this.dateEdit1.Name = "dateEdit1";
-            this.dateEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dateEdit1.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dateEdit1.Properties.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
-            this.dateEdit1.Properties.Mask.EditMask = "T";
-            this.dateEdit1.Properties.ReadOnly = true;
-            this.dateEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
-            this.dateEdit1.Size = new System.Drawing.Size(195, 19);
-            this.dateEdit1.TabIndex = 109;
-            // 
-            // simpleButton2
-            // 
-            this.simpleButton2.Location = new System.Drawing.Point(276, 28);
-            this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(68, 43);
-            this.simpleButton2.TabIndex = 107;
-            this.simpleButton2.Text = "查询";
-            // 
-            // timeEdit1
-            // 
-            this.timeEdit1.EditValue = new System.DateTime(2014, 12, 25, 0, 0, 0, 0);
-            this.timeEdit1.Location = new System.Drawing.Point(63, 30);
-            this.timeEdit1.Name = "timeEdit1";
-            this.timeEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.timeEdit1.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.timeEdit1.Properties.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
-            this.timeEdit1.Properties.Mask.EditMask = "T";
-            this.timeEdit1.Properties.ReadOnly = true;
-            this.timeEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
-            this.timeEdit1.Size = new System.Drawing.Size(195, 19);
-            this.timeEdit1.TabIndex = 109;
-            // 
-            // groupControl9
-            // 
-            this.groupControl9.Controls.Add(this.comboBoxEdit1);
-            this.groupControl9.Controls.Add(this.gridControl1);
-            this.groupControl9.Controls.Add(this.labelControl1);
-            this.groupControl9.Controls.Add(this.simpleButton1);
-            this.groupControl9.Controls.Add(this.labelControl3);
-            this.groupControl9.Controls.Add(this.textEdit4);
-            this.groupControl9.Controls.Add(this.labelControl4);
-            this.groupControl9.Controls.Add(this.labelControl5);
-            this.groupControl9.Controls.Add(this.comboBoxEditPower);
-            this.groupControl9.Location = new System.Drawing.Point(5, 25);
-            this.groupControl9.Name = "groupControl9";
-            this.groupControl9.Size = new System.Drawing.Size(328, 455);
-            this.groupControl9.TabIndex = 110;
-            this.groupControl9.Text = "压力点";
-            // 
-            // comboBoxEdit1
-            // 
-            this.comboBoxEdit1.Location = new System.Drawing.Point(165, 51);
-            this.comboBoxEdit1.Name = "comboBoxEdit1";
-            this.comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEdit1.Properties.Items.AddRange(new object[] {
-            "停止",
-            "启动"});
-            this.comboBoxEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxEdit1.Size = new System.Drawing.Size(68, 20);
-            this.comboBoxEdit1.TabIndex = 108;
-            // 
-            // labelControl1
-            // 
-            this.labelControl1.Location = new System.Drawing.Point(5, 28);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(64, 14);
-            this.labelControl1.TabIndex = 1;
-            this.labelControl1.Text = "压力终端ID:";
-            // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Location = new System.Drawing.Point(243, 24);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(80, 47);
-            this.simpleButton1.TabIndex = 107;
-            this.simpleButton1.Text = "查询";
-            // 
-            // labelControl3
-            // 
-            this.labelControl3.Location = new System.Drawing.Point(5, 54);
-            this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(52, 14);
-            this.labelControl3.TabIndex = 1;
-            this.labelControl3.Text = "安装地点:";
-            // 
-            // textEdit4
-            // 
-            this.textEdit4.Location = new System.Drawing.Point(82, 25);
-            this.textEdit4.Name = "textEdit4";
-            this.textEdit4.Size = new System.Drawing.Size(151, 20);
-            this.textEdit4.TabIndex = 109;
+            this.groupControl8.Size = new System.Drawing.Size(791, 61);
+            this.groupControl8.TabIndex = 0;
+            this.groupControl8.Text = "颜色图示/配置";
             // 
             // labelControl4
             // 
-            this.labelControl4.Location = new System.Drawing.Point(70, 54);
+            this.labelControl4.Location = new System.Drawing.Point(340, 34);
             this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(12, 14);
-            this.labelControl4.TabIndex = 1;
-            this.labelControl4.Text = "区";
+            this.labelControl4.Size = new System.Drawing.Size(60, 14);
+            this.labelControl4.TabIndex = 29;
+            this.labelControl4.Text = "斜率上限：";
             // 
-            // labelControl5
+            // labelControl3
             // 
-            this.labelControl5.Location = new System.Drawing.Point(151, 54);
-            this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(12, 14);
-            this.labelControl5.TabIndex = 1;
-            this.labelControl5.Text = "路";
+            this.labelControl3.Location = new System.Drawing.Point(230, 34);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(60, 14);
+            this.labelControl3.TabIndex = 29;
+            this.labelControl3.Text = "斜率下限：";
             // 
-            // comboBoxEditPower
+            // labelControl2
             // 
-            this.comboBoxEditPower.Location = new System.Drawing.Point(82, 51);
-            this.comboBoxEditPower.Name = "comboBoxEditPower";
-            this.comboBoxEditPower.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.labelControl2.Location = new System.Drawing.Point(120, 34);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(60, 14);
+            this.labelControl2.TabIndex = 29;
+            this.labelControl2.Text = "压力上限：";
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Location = new System.Drawing.Point(10, 34);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(60, 14);
+            this.labelControl1.TabIndex = 29;
+            this.labelControl1.Text = "压力下限：";
+            // 
+            // btnClrPreUpLimit
+            // 
+            this.btnClrPreUpLimit.Enabled = false;
+            this.btnClrPreUpLimit.Location = new System.Drawing.Point(182, 33);
+            this.btnClrPreUpLimit.Name = "btnClrPreUpLimit";
+            this.btnClrPreUpLimit.Size = new System.Drawing.Size(17, 16);
+            this.btnClrPreUpLimit.TabIndex = 25;
+            this.btnClrPreUpLimit.UseVisualStyleBackColor = true;
+            // 
+            // btnClrSlopeUpLimit
+            // 
+            this.btnClrSlopeUpLimit.Enabled = false;
+            this.btnClrSlopeUpLimit.Location = new System.Drawing.Point(402, 33);
+            this.btnClrSlopeUpLimit.Name = "btnClrSlopeUpLimit";
+            this.btnClrSlopeUpLimit.Size = new System.Drawing.Size(17, 16);
+            this.btnClrSlopeUpLimit.TabIndex = 26;
+            this.btnClrSlopeUpLimit.UseVisualStyleBackColor = true;
+            // 
+            // btnClrSlopeLowLimit
+            // 
+            this.btnClrSlopeLowLimit.Enabled = false;
+            this.btnClrSlopeLowLimit.Location = new System.Drawing.Point(292, 33);
+            this.btnClrSlopeLowLimit.Name = "btnClrSlopeLowLimit";
+            this.btnClrSlopeLowLimit.Size = new System.Drawing.Size(17, 16);
+            this.btnClrSlopeLowLimit.TabIndex = 27;
+            this.btnClrSlopeLowLimit.UseVisualStyleBackColor = true;
+            // 
+            // btnClrPreLowLimit
+            // 
+            this.btnClrPreLowLimit.Enabled = false;
+            this.btnClrPreLowLimit.Location = new System.Drawing.Point(72, 33);
+            this.btnClrPreLowLimit.Name = "btnClrPreLowLimit";
+            this.btnClrPreLowLimit.Size = new System.Drawing.Size(17, 16);
+            this.btnClrPreLowLimit.TabIndex = 28;
+            this.btnClrPreLowLimit.UseVisualStyleBackColor = true;
+            // 
+            // btnParmConfig
+            // 
+            this.btnParmConfig.Location = new System.Drawing.Point(672, 30);
+            this.btnParmConfig.Name = "btnParmConfig";
+            this.btnParmConfig.Size = new System.Drawing.Size(66, 23);
+            this.btnParmConfig.TabIndex = 1;
+            this.btnParmConfig.Text = "参数配置";
+            this.btnParmConfig.Click += new System.EventHandler(this.btnParmConfig_Click);
+            // 
+            // btnConfig
+            // 
+            this.btnConfig.Location = new System.Drawing.Point(600, 30);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(66, 23);
+            this.btnConfig.TabIndex = 0;
+            this.btnConfig.Text = "终端配置";
+            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+            // 
+            // groupControl1
+            // 
+            this.groupControl1.Controls.Add(this.gridControlTer);
+            this.groupControl1.Controls.Add(this.simpleButton2);
+            this.groupControl1.Controls.Add(this.simpleButton1);
+            this.groupControl1.Location = new System.Drawing.Point(0, 71);
+            this.groupControl1.Name = "groupControl1";
+            this.groupControl1.Size = new System.Drawing.Size(162, 420);
+            this.groupControl1.TabIndex = 1;
+            this.groupControl1.Text = "终端设备列表";
+            // 
+            // gridControlTer
+            // 
+            this.gridControlTer.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControlTer.Location = new System.Drawing.Point(5, 45);
+            this.gridControlTer.MainView = this.lstTerminalListView;
+            this.gridControlTer.Name = "gridControlTer";
+            this.gridControlTer.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemCheckEdit1,
+            this.ceCallData,
+            this.ImageComboBox_Online,
+            this.repositoryItemPictureEdit1});
+            this.gridControlTer.Size = new System.Drawing.Size(152, 370);
+            this.gridControlTer.TabIndex = 0;
+            this.gridControlTer.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.lstTerminalListView});
+            // 
+            // lstTerminalListView
+            // 
+            this.lstTerminalListView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn1,
+            this.gridColumn2});
+            this.lstTerminalListView.GridControl = this.gridControlTer;
+            this.lstTerminalListView.Name = "lstTerminalListView";
+            this.lstTerminalListView.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.lstTerminalListView.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.lstTerminalListView.OptionsCustomization.AllowFilter = false;
+            this.lstTerminalListView.OptionsCustomization.AllowSort = false;
+            this.lstTerminalListView.OptionsFilter.AllowFilterEditor = false;
+            this.lstTerminalListView.OptionsHint.ShowFooterHints = false;
+            this.lstTerminalListView.OptionsMenu.EnableColumnMenu = false;
+            this.lstTerminalListView.OptionsMenu.EnableFooterMenu = false;
+            this.lstTerminalListView.OptionsMenu.EnableGroupPanelMenu = false;
+            this.lstTerminalListView.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.lstTerminalListView.OptionsMenu.ShowGroupSortSummaryItems = false;
+            this.lstTerminalListView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.lstTerminalListView.OptionsSelection.EnableAppearanceFocusedRow = false;
+            this.lstTerminalListView.OptionsView.ShowGroupPanel = false;
+            this.lstTerminalListView.OptionsView.ShowIndicator = false;
+            this.lstTerminalListView.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.lstTerminalListView_CellValueChanged);
+            // 
+            // gridColumn1
+            // 
+            this.gridColumn1.Caption = "选择";
+            this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit1;
+            this.gridColumn1.FieldName = "checked";
+            this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.OptionsColumn.ShowCaption = false;
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 0;
+            this.gridColumn1.Width = 22;
+            // 
+            // repositoryItemCheckEdit1
+            // 
+            this.repositoryItemCheckEdit1.AutoHeight = false;
+            this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
+            // 
+            // gridColumn2
+            // 
+            this.gridColumn2.Caption = "终端号";
+            this.gridColumn2.FieldName = "TerminalID";
+            this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.OptionsColumn.AllowEdit = false;
+            this.gridColumn2.OptionsColumn.AllowMove = false;
+            this.gridColumn2.OptionsColumn.ReadOnly = true;
+            this.gridColumn2.Visible = true;
+            this.gridColumn2.VisibleIndex = 1;
+            this.gridColumn2.Width = 50;
+            // 
+            // ceCallData
+            // 
+            this.ceCallData.AutoHeight = false;
+            this.ceCallData.Name = "ceCallData";
+            this.ceCallData.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            // 
+            // ImageComboBox_Online
+            // 
+            this.ImageComboBox_Online.AutoHeight = false;
+            this.ImageComboBox_Online.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditPower.Properties.Items.AddRange(new object[] {
-            "停止",
-            "启动"});
-            this.comboBoxEditPower.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxEditPower.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxEditPower.TabIndex = 108;
+            this.ImageComboBox_Online.Name = "ImageComboBox_Online";
+            // 
+            // repositoryItemPictureEdit1
+            // 
+            this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
+            this.repositoryItemPictureEdit1.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Location = new System.Drawing.Point(84, 21);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(60, 20);
+            this.simpleButton2.TabIndex = 2;
+            this.simpleButton2.Text = "反选";
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(18, 21);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(60, 20);
+            this.simpleButton1.TabIndex = 1;
+            this.simpleButton1.Text = "全选";
+            // 
+            // groupControl2
+            // 
+            this.groupControl2.Controls.Add(this.gridControl_Data);
+            this.groupControl2.Location = new System.Drawing.Point(168, 71);
+            this.groupControl2.Name = "groupControl2";
+            this.groupControl2.Size = new System.Drawing.Size(626, 420);
+            this.groupControl2.TabIndex = 2;
+            this.groupControl2.Text = "终端监控";
+            // 
+            // gridControl_Data
+            // 
+            this.gridControl_Data.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl_Data.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_Data.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_Data.MainView = this.lstDataView;
+            this.gridControl_Data.Name = "gridControl_Data";
+            this.gridControl_Data.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemCheckEdit2,
+            this.repositoryItemCheckEdit3,
+            this.repositoryItemImageComboBox1,
+            this.repositoryItemPictureEdit2});
+            this.gridControl_Data.Size = new System.Drawing.Size(622, 391);
+            this.gridControl_Data.TabIndex = 1;
+            this.gridControl_Data.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.lstDataView});
+            // 
+            // lstDataView
+            // 
+            this.lstDataView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn3,
+            this.gridColumn4,
+            this.gridColumn5,
+            this.gridColumn6,
+            this.gridColumn7,
+            this.gridColumn8});
+            this.lstDataView.GridControl = this.gridControl_Data;
+            this.lstDataView.Name = "lstDataView";
+            this.lstDataView.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.lstDataView.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.lstDataView.OptionsCustomization.AllowFilter = false;
+            this.lstDataView.OptionsCustomization.AllowSort = false;
+            this.lstDataView.OptionsFilter.AllowFilterEditor = false;
+            this.lstDataView.OptionsHint.ShowFooterHints = false;
+            this.lstDataView.OptionsMenu.EnableColumnMenu = false;
+            this.lstDataView.OptionsMenu.EnableFooterMenu = false;
+            this.lstDataView.OptionsMenu.EnableGroupPanelMenu = false;
+            this.lstDataView.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.lstDataView.OptionsMenu.ShowGroupSortSummaryItems = false;
+            this.lstDataView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.lstDataView.OptionsSelection.EnableAppearanceFocusedRow = false;
+            this.lstDataView.OptionsView.ShowGroupPanel = false;
+            this.lstDataView.OptionsView.ShowIndicator = false;
+            this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
+            // 
+            // gridColumn3
+            // 
+            this.gridColumn3.Caption = "终端编号";
+            this.gridColumn3.FieldName = "TerminalID";
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.OptionsColumn.AllowEdit = false;
+            this.gridColumn3.OptionsColumn.AllowMove = false;
+            this.gridColumn3.OptionsColumn.ReadOnly = true;
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 0;
+            this.gridColumn3.Width = 78;
+            // 
+            // gridColumn4
+            // 
+            this.gridColumn4.Caption = "终端名称";
+            this.gridColumn4.FieldName = "TerminalName";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.OptionsColumn.AllowEdit = false;
+            this.gridColumn4.OptionsColumn.AllowMove = false;
+            this.gridColumn4.OptionsColumn.ReadOnly = true;
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 1;
+            this.gridColumn4.Width = 76;
+            // 
+            // gridColumn5
+            // 
+            this.gridColumn5.Caption = "压力值";
+            this.gridColumn5.FieldName = "PreValue";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.OptionsColumn.AllowEdit = false;
+            this.gridColumn5.OptionsColumn.AllowMove = false;
+            this.gridColumn5.OptionsColumn.ReadOnly = true;
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 2;
+            this.gridColumn5.Width = 115;
+            // 
+            // gridColumn6
+            // 
+            this.gridColumn6.Caption = "正向流量";
+            this.gridColumn6.FieldName = "ForwardFlowValue";
+            this.gridColumn6.Name = "gridColumn6";
+            this.gridColumn6.OptionsColumn.AllowEdit = false;
+            this.gridColumn6.OptionsColumn.AllowMove = false;
+            this.gridColumn6.OptionsColumn.ReadOnly = true;
+            this.gridColumn6.Visible = true;
+            this.gridColumn6.VisibleIndex = 3;
+            this.gridColumn6.Width = 115;
+            // 
+            // gridColumn7
+            // 
+            this.gridColumn7.Caption = "反向流量";
+            this.gridColumn7.FieldName = "ReverseFlowValue";
+            this.gridColumn7.Name = "gridColumn7";
+            this.gridColumn7.OptionsColumn.AllowEdit = false;
+            this.gridColumn7.OptionsColumn.AllowMove = false;
+            this.gridColumn7.OptionsColumn.ReadOnly = true;
+            this.gridColumn7.Visible = true;
+            this.gridColumn7.VisibleIndex = 4;
+            this.gridColumn7.Width = 115;
+            // 
+            // gridColumn8
+            // 
+            this.gridColumn8.Caption = "瞬时流量";
+            this.gridColumn8.FieldName = "InstantFlowValue";
+            this.gridColumn8.Name = "gridColumn8";
+            this.gridColumn8.OptionsColumn.AllowEdit = false;
+            this.gridColumn8.OptionsColumn.AllowMove = false;
+            this.gridColumn8.OptionsColumn.ReadOnly = true;
+            this.gridColumn8.Visible = true;
+            this.gridColumn8.VisibleIndex = 5;
+            this.gridColumn8.Width = 121;
+            // 
+            // repositoryItemCheckEdit2
+            // 
+            this.repositoryItemCheckEdit2.AutoHeight = false;
+            this.repositoryItemCheckEdit2.Name = "repositoryItemCheckEdit2";
+            // 
+            // repositoryItemCheckEdit3
+            // 
+            this.repositoryItemCheckEdit3.AutoHeight = false;
+            this.repositoryItemCheckEdit3.Name = "repositoryItemCheckEdit3";
+            this.repositoryItemCheckEdit3.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            // 
+            // repositoryItemImageComboBox1
+            // 
+            this.repositoryItemImageComboBox1.AutoHeight = false;
+            this.repositoryItemImageComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemImageComboBox1.Name = "repositoryItemImageComboBox1";
+            // 
+            // repositoryItemPictureEdit2
+            // 
+            this.repositoryItemPictureEdit2.Name = "repositoryItemPictureEdit2";
+            this.repositoryItemPictureEdit2.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
             // 
             // PreTerMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupControl2);
+            this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.groupControl8);
             this.Name = "PreTerMonitor";
             this.Size = new System.Drawing.Size(797, 494);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            this.Load += new System.EventHandler(this.PreTerMonitor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).EndInit();
             this.groupControl8.ResumeLayout(false);
+            this.groupControl8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
-            this.groupControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(series1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties.CalendarTimeProperties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.timeEdit1.Properties.CalendarTimeProperties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.timeEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl9)).EndInit();
-            this.groupControl9.ResumeLayout(false);
-            this.groupControl9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lstTerminalListView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCallData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageComboBox_Online)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemPictureEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
+            this.groupControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_Data)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lstDataView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemPictureEdit2)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraEditors.GroupControl groupControl8;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditPower;
-        private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.TextEdit textEdit4;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit1;
-        private DevExpress.XtraEditors.LabelControl labelControl5;
+        private DevExpress.XtraEditors.SimpleButton btnParmConfig;
+        private DevExpress.XtraEditors.SimpleButton btnConfig;
         private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraEditors.LabelControl labelControl3;
-        private DevExpress.XtraEditors.GroupControl groupControl9;
-        private DevExpress.XtraEditors.GroupControl groupControl1;
-        private DevExpress.XtraEditors.LabelControl labelControl7;
-        private DevExpress.XtraEditors.SimpleButton simpleButton2;
-        private DevExpress.XtraEditors.DateEdit timeEdit1;
-        private DevExpress.XtraCharts.ChartControl chartControl1;
         private DevExpress.XtraEditors.LabelControl labelControl2;
-        private DevExpress.XtraEditors.DateEdit dateEdit1;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private System.Windows.Forms.Button btnClrPreUpLimit;
+        private System.Windows.Forms.Button btnClrSlopeUpLimit;
+        private System.Windows.Forms.Button btnClrSlopeLowLimit;
+        private System.Windows.Forms.Button btnClrPreLowLimit;
+        private DevExpress.XtraEditors.GroupControl groupControl1;
+        private DevExpress.XtraEditors.GroupControl groupControl2;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraGrid.GridControl gridControlTer;
+        private DevExpress.XtraGrid.Views.Grid.GridView lstTerminalListView;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit repositoryItemPictureEdit1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit ceCallData;
+        private DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox ImageComboBox_Online;
+        private System.Windows.Forms.Timer timer1;
+        private DevExpress.XtraGrid.GridControl gridControl_Data;
+        private DevExpress.XtraGrid.Views.Grid.GridView lstDataView;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit3;
+        private DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox repositoryItemImageComboBox1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit repositoryItemPictureEdit2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
 
     }
 }

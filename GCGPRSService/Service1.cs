@@ -4,7 +4,6 @@ using System.Threading;
 using System.Messaging;
 using Common;
 using Entity;
-using Newtonsoft.Json;
 
 namespace GCGPRSService
 {
@@ -17,7 +16,6 @@ namespace GCGPRSService
         {
             InitializeComponent();
             this.CanStop = true;
-           
         }
 
         protected override void OnStart(string[] args)
@@ -77,13 +75,17 @@ namespace GCGPRSService
                             m.Formatter = new BinaryMessageFormatter();
                             try
                             {
-                                MSMQEntity msmqMsg = (MSMQEntity)JsonConvert.DeserializeObject(m.Body.ToString(), typeof(MSMQEntity));
+                                MSMQEntity msmqMsg = (MSMQEntity)m.Body;// (MSMQEntity)JsonConvert.DeserializeObject(m.Body.ToString(), typeof(MSMQEntity));
                                 if (msmqMsg != null)
                                 {
                                     if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Cmd_Online)
                                         GlobalValue.Instance.SocketMag.SetOnLineClient(msmqMsg.DevType, msmqMsg.DevId, msmqMsg.AllowOnline);
                                     else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Get_OnLineState)
                                         GlobalValue.Instance.SocketMag.GetTerminalOnLineState();
+                                    else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Cmd_CallData && msmqMsg.CallDataType != null)
+                                    {
+                                        GlobalValue.Instance.SocketMag.ClientCallData(msmqMsg.DevType, msmqMsg.DevId, msmqMsg.CallDataType);
+                                    }
                                     //Other
                                 }
                             }
@@ -93,7 +95,7 @@ namespace GCGPRSService
                                 MSMQEntity msmqMsg = new MSMQEntity();
                                 msmqMsg.MsgType = ConstValue.MSMQTYPE.Message;
                                 msmqMsg.Msg = "解析JSON数据异常(MSMQ)";
-                                SendMessage(JsonConvert.SerializeObject(msmqMsg));
+                                SendMessage(msmqMsg);
                             }
                         }
                     }
@@ -119,9 +121,36 @@ namespace GCGPRSService
 
         void socketService_cmdEvent(object sender, SocketEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.JsonMsg))
+            if (e.JsonMsg!=null)
             {
                 SendMessage(e.JsonMsg);
+            }
+        }
+
+        /// <summary>
+        /// 发送到UI
+        /// </summary>
+        /// <param name="msg"></param>
+        void SendMessage(MSMQEntity msg)
+        {
+            try
+            {
+                MessageQueue MQueue;
+                if (!MessageQueue.Exists(ConstValue.MSMQPathToUI))
+                {
+                    return;
+                }
+
+                MQueue = new MessageQueue(ConstValue.MSMQPathToUI);
+
+                Message Msg = new Message();
+                Msg.Body = msg;
+                Msg.Formatter = new BinaryMessageFormatter();
+                MQueue.Send(Msg);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("SendMessage", ex);
             }
         }
 
@@ -141,8 +170,12 @@ namespace GCGPRSService
 
                 MQueue = new MessageQueue(ConstValue.MSMQPathToUI);
 
+                MSMQEntity mEntity = new MSMQEntity();
+                mEntity.MsgType = ConstValue.MSMQTYPE.Message;
+                mEntity.Msg = msg;
+
                 Message Msg = new Message();
-                Msg.Body = msg;
+                Msg.Body = mEntity;
                 Msg.Formatter = new BinaryMessageFormatter();
                 MQueue.Send(Msg);
             }

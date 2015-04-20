@@ -1,10 +1,7 @@
-﻿using System;
+﻿using System.Net.Sockets;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Sockets;
 
-namespace Entity
+namespace Common
 {
     public class CallSocketEntity
     {
@@ -38,5 +35,14 @@ namespace Entity
             set { _id = value; }
         }
 
+        private List<Package> _lstWaitSendCmd = new List<Package>();
+        /// <summary>
+        /// 待发送数据列表
+        /// </summary>
+        public List<Package> lstWaitSendCmd
+        {
+            get { return _lstWaitSendCmd; }
+            set { _lstWaitSendCmd = value; }
+        }
     }
 }

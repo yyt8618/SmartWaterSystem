@@ -12,18 +12,17 @@ namespace SmartWaterSystem
         public FrmGPRSConsole()
         {
             InitializeComponent();
-        }
-
-        private void FrmGPRSConsole_Load(object sender, EventArgs e)
-        {
-            FrmGPRSConsole.CheckForIllegalCrossThreadCalls = false;
 
             timerCtrl.Interval = 100;
             timerCtrl.Tick += new EventHandler(timerCtrl_Tick);
             timerCtrl.Enabled = true;
 
             GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+        }
 
+        private void FrmGPRSConsole_Load(object sender, EventArgs e)
+        {
+            FrmGPRSConsole.CheckForIllegalCrossThreadCalls = false;
             ShowCtrlMsg();
 
             txtControl.SelectionStart = txtControl.Text.Length;

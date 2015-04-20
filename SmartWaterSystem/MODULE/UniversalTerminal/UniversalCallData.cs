@@ -21,15 +21,16 @@ namespace SmartWaterSystem
         public UniversalCallData()
         {
             InitializeComponent();
-        }
 
-        private void UniversalTerParm_Load(object sender, EventArgs e)
-        {
             timer1.Interval = 20 * 1000;
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Enabled = true;
 
             GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+        }
+
+        private void UniversalTerParm_Load(object sender, EventArgs e)
+        {
             ShowGridTerData(null);
 
             //获取终端在线状态

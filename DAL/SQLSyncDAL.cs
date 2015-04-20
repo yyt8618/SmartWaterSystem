@@ -214,6 +214,7 @@ namespace DAL
         #region 同步PreTerConfig Table
         public void UpdateSQL_PreTerConfig()
         {
+
         }
         #endregion
 

@@ -299,7 +299,55 @@ namespace Common
         /// <summary>
         /// 从站第2路模拟量零点值校准
         /// </summary>
-        CalibartionSimualte2= 0x4F
+        CalibartionSimualte2= 0x4F,
+        /// <summary>
+        /// 开启永久在线 0x01：表示开启 0x00表示关闭永久在线
+        /// </summary>
+        OnLine = 0x70,
+        /// <summary>
+        /// 招测模拟一路
+        /// </summary>
+        CallData_Sim1= 0x78,
+        /// <summary>
+        /// 招测招测模拟二路
+        /// </summary>
+        CallData_Sim2 = 0x79,
+        /// <summary>
+        /// 招测脉冲量
+        /// </summary>
+        CallData_Pluse = 0x71,
+        /// <summary>
+        /// 招测RS485 1路
+        /// </summary>
+        CallData_RS4851 = 0x7a,
+        /// <summary>
+        /// 招测RS485 2路
+        /// </summary>
+        CallData_RS4852 = 0x7b,
+        /// <summary>
+        /// 招测RS485 3路
+        /// </summary>
+        CallData_RS4853 = 0x7c,
+        /// <summary>
+        /// 招测RS485 4路
+        /// </summary>
+        CallData_RS4854 = 0x7d,
+        /// <summary>
+        /// 招测RS485 5路
+        /// </summary>
+        CallData_RS4855 = 0x7e,
+        /// <summary>
+        /// 招测RS485 6路
+        /// </summary>
+        CallData_RS4856 = 0x7f,
+        /// <summary>
+        /// 招测RS485 7路
+        /// </summary>
+        CallData_RS4857 = 0x80,
+        /// <summary>
+        /// 招测RS485 8路
+        /// </summary>
+        CallData_RS4858 = 0x81
         #endregion
     }
 

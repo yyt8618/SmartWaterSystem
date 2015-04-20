@@ -32,9 +32,9 @@ namespace Entity
             None,
             Message,
             Cmd_Online,  //是否在线命令
-            Cmd_Calldata,  //招测数据
             Data_OnLineState, //招测终端在线状态
-            Get_OnLineState  //获取终端在线状态
+            Get_OnLineState,  //获取终端在线状态
+            Cmd_CallData      //招测数据
         }
 
         /// <summary>

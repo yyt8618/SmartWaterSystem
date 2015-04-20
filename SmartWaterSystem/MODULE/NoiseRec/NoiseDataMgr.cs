@@ -109,6 +109,7 @@ namespace SmartWaterSystem
             dt.Columns.Add("频率");
             dt.Columns.Add("读取时间");
             dt.Columns.Add("漏水状态");
+            dt.Columns.Add("漏水概率");
             for (int i = 0; i < gp.RecorderList.Count; i++)
             {
                 if (gp.RecorderList[i].Result != null)
@@ -119,7 +120,7 @@ namespace SmartWaterSystem
                         str = "不漏水";
                     else if (re.IsLeak == 1)
                         str = "漏水";
-                    dt.Rows.Add(new object[] { GlobalValue.recorderList[i].ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str });
+                    dt.Rows.Add(new object[] { GlobalValue.recorderList[i].ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str,(re.LeakProbability*100).ToString("f1")+"%" });
                 }
 
             }
@@ -144,6 +145,7 @@ namespace SmartWaterSystem
             dt.Columns.Add("频率");
             dt.Columns.Add("读取时间");
             dt.Columns.Add("漏水状态");
+            dt.Columns.Add("漏水概率");
             if (rec.Result != null)
             {
                 NoiseResult re = rec.Result;
@@ -153,7 +155,7 @@ namespace SmartWaterSystem
                 else if (re.IsLeak == 1)
                     str = "漏水";
 
-                dt.Rows.Add(new object[] { rec.ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str });
+                dt.Rows.Add(new object[] { rec.ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str, (re.LeakProbability * 100).ToString("f1") + "%" });
             }
 
             // 绑定数据
@@ -488,7 +490,7 @@ namespace SmartWaterSystem
                     double[] max_am = null;
                     // 计算每一个频段下的最小幅度
                     NoiseDataHandler.InitData(data.Count);//result[key].Length / spanCount);
-                    NoiseDataHandler.AmpCalc(data, ref amp, ref frq,ref max_am,recorder.LeakValue);
+                    NoiseDataHandler.AmpCalc(data, ref amp, ref frq, ref max_am, recorder.LeakValue);
 
                     NoiseData da = new NoiseData();
                     da.RecorderID = recorder.ID;
@@ -500,15 +502,19 @@ namespace SmartWaterSystem
                     da.Amplitude = amp;
                     da.UploadFlag = result[key].Length / spanCount;
                     recorder.Data = da;
-                    
+
                     double[] ru = new double[2];
                     double energyvalue = 0;
-                    int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data_isleak1, out energyvalue);
-                   // int isLeak2 = NoiseDataHandler.IsLeak2(amp, recorder.LeakValue, ref ru);
+                    double leakprobability = 0;
+                    int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data_isleak1, out energyvalue, out leakprobability);
+                    // int isLeak2 = NoiseDataHandler.IsLeak2(amp, recorder.LeakValue, ref ru);
+
+                    double max_amp, max_frq, min_amp, min_frq;//, leak_amp, leak_frq;
+                    int leaktmp = NoiseDataHandler.IsLeak3(amp, frq, recorder.LeakValue, out max_amp, out max_frq, out min_amp, out min_frq, out ru[0], out ru[1]);
                     if (-1 == isLeak1)
                     {
-                        double max_amp, max_frq, min_amp, min_frq;//, leak_amp, leak_frq;
-                        isLeak1 = NoiseDataHandler.IsLeak3(amp,frq, recorder.LeakValue,out max_amp,out max_frq,out min_amp,out min_frq,out ru[0],out ru[1]);
+                        isLeak1 = leaktmp;
+                        leakprobability += ru[0] * 0.5/100;
                     }
 
                     NoiseResult re = new NoiseResult();
@@ -520,6 +526,7 @@ namespace SmartWaterSystem
                     re.UploadTime = DateTime.Now;
                     re.ReadTime = recorder.Data.ReadTime;
                     re.EnergyValue = energyvalue;
+                    re.LeakProbability = leakprobability;
                     recorder.Result = re;
 
                     for (int i = 0; i < GlobalValue.recorderList.Count; i++)

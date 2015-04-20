@@ -207,6 +207,13 @@ namespace SmartWaterSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap PreTerMonitor {
+            get {
+                object obj = ResourceManager.GetObject("PreTerMonitor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap right {
             get {
                 object obj = ResourceManager.GetObject("right", resourceCulture);
@@ -238,13 +245,6 @@ namespace SmartWaterSystem.Properties {
         internal static System.Drawing.Bitmap sql {
             get {
                 object obj = ResourceManager.GetObject("sql", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap UninversalCallData {
-            get {
-                object obj = ResourceManager.GetObject("UninversalCallData", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -45,9 +45,8 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\SQLite_x86\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\DLL\SQLite_x86_bundle\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
@@ -94,6 +93,7 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="CommandInfo.cs" />
+    <Compile Include="Socket\CallSocketEntity.cs" />
     <Compile Include="Socket\ConvertHelper.cs" />
     <Compile Include="Socket\Package.cs" />
     <Compile Include="Socket\PackageDefine.cs" />

@@ -40,10 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CallSocketEntity.cs" />
+    <Compile Include="CallDataTypeEntity.cs" />
     <Compile Include="ConstValue.cs" />
     <Compile Include="DistanceController.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="FlowDataEntity.cs" />
     <Compile Include="GPRSCmdEntity.cs" />
     <Compile Include="GPRSCmdFlag.cs" />
     <Compile Include="GPRSFlowFrameDataEntity.cs" />

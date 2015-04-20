@@ -299,11 +299,6 @@ namespace SmartWaterSystem
                     NBG_UniversalT.Visible = true;
                     navBarUniversalMonitor.Visible = true;
                 }
-                else if (t.Name == "IUniversalCallData")   //通用终端招测
-                {
-                    NBG_UniversalT.Visible = true;
-                    navBarUniversalCallData.Visible = true;
-                }
 
             }
         }

@@ -331,7 +331,7 @@ namespace Protocol
             }
         }
 
-        public Package SendPackage(Package package, int timeout = 5, int times = 3)
+        public Package SendPackage(Package package, int timeout = 2, int times = 3)
         {
             try
             {

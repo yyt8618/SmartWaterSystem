@@ -196,6 +196,14 @@ namespace SmartWaterSystem
 
                         short[] Originaldata = null;
                         GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
+                        if (Originaldata == null)  //没有读到标准值，重试2次
+                        {
+                            GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
+                        }
+                        if (Originaldata == null)
+                        {
+                            GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
+                        }
 
                         NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
                                              where item.ID == id

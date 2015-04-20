@@ -235,5 +235,35 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// 获取压力数据，包括最新和次新数据
+        /// </summary>
+        public List<PreDataEntity> GetPreDataTop2(List<int> terminalids)
+        {
+            try
+            {
+                return dal.GetPreDataTop2(terminalids);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetPreDataTop2", ex);
+                return null;
+            }
+        }
+
+        public List<FlowDataEntity> GetFlowDataTop2(List<int> terminalids)
+        {
+            try
+            {
+                return dal.GetFlowDataTop2(terminalids);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetFlowDataTop2", ex);
+                return null;
+            }
+        }
+
+
     }
 }

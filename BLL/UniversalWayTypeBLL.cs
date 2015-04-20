@@ -155,5 +155,21 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// 获得从UniversalTerWayConfig表中的第?路数据,-1为无效数据
+        /// </summary>
+        public int GetCofingSequence(string Terid, string pointid)
+        {
+            try
+            {
+                return dal.GetCofingSequence(Terid, pointid);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetCofingSequence", ex);
+                return -1;
+            }
+        }
+
     }
 }

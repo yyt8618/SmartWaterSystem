@@ -386,7 +386,8 @@ namespace Common
                         [MinLeakValue]   NVARCHAR(300)   NULL        DEFAULT '',         --
                         [MinFrequencyValue] NVARCHAR(300)   NULL        DEFAULT '',      --
                         [IsLeak]         INT             NULL        DEFAULT 0,
-                        [EnergyValue]    NVARCHAR(15)    NULL        DEFAULT 0,
+                        [EnergyValue]    NVARCHAR(15)    NULL        DEFAULT 0,          --能量强度
+                        [LeakProbability]  NVARCHAR(15)    NULL        DEFAULT 0,          --漏水概率
                         [ESA]            INT             NULL        DEFAULT 0,
                         [CollTime]       DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
                         [UnloadTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
@@ -521,6 +522,7 @@ namespace Common
 	                    [PreLowLimit]		[NUMERIC](8,5)	NOT NULL DEFAULT 0,			--压力下限值
 	                    [PreSlopeUpLimit]   [NUMERIC](8,5)  NOT NULL DEFAULT 0,			--压力斜率上限值
 	                    [PreSlopeLowLimit]  [NUMERIC](8,5)  NOT NULL DEFAULT 0,			--压力斜率下限值
+                        [SyncState]         INT             NULL     DEFAULT 1 ,        --0:已同步,1:新增未同步,-1:删除未同步
 	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
                     )";
         }

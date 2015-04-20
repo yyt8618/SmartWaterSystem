@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Text;
 using System.Linq;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using Protocol;
 using Common;
 using Entity;
 
@@ -67,9 +63,9 @@ namespace SmartWaterSystem
                     DataRow dr = dt.NewRow();
                     dr["KeyFieldName"] = tFlag;
                     dr["ParentFieldName"] = DBNull.Value;
-                    dr["ID"] = GlobalValue.groupList[i].ID;
+                    dr["ID"] = GlobalValue.groupList[i].Name;  //注意这里与Name字段是相反的,主要是显示的时候用名称,子节点用终端号
                     dr["Remark"] = GlobalValue.groupList[i].Remark;
-                    dr["Name"] = GlobalValue.groupList[i].Name;
+                    dr["Name"] = GlobalValue.groupList[i].ID;
                     cFlag = tFlag + 1;
                     pFlag = tFlag;
                     dt.Rows.Add(dr);
@@ -183,16 +179,16 @@ namespace SmartWaterSystem
             if (e.Node.Level == 0)
             {
                 DataRowView drv = treeList1.GetDataRecordByNode(e.Node) as DataRowView;
-                txtGroupID.Text = drv["ID"].ToString();
-                txtGroupName.Text = drv["Name"].ToString();
+                txtGroupID.Text = drv["Name"].ToString();
+                txtGroupName.Text = drv["ID"].ToString();
                 txtGroupNote.Text = drv["Remark"].ToString();
 
                 btnAlterGroupSet.Enabled = true;
 
-                if (listBoxRec.Items.Count == 0)
-                    btnImportRec.Enabled = false;
-                else
+                if (listBoxRec.SelectedItems!=null && listBoxRec.SelectedItems.Count>0)
                     btnImportRec.Enabled = true;
+                else
+                    btnImportRec.Enabled = false;
 
                 if (e.Node.Nodes.Count > 0)
                     groupControl3.Enabled = true;
@@ -338,6 +334,8 @@ namespace SmartWaterSystem
         {
             if (treeList1.Selection != null)
             {
+                if (treeList1.Selection.Count == 0)
+                    return;
                 if (treeList1.Selection[0].Level == 1)
                     return;
 
@@ -354,8 +352,10 @@ namespace SmartWaterSystem
                 }
 
                 NoiseRecorderGroup gp = (from temp in GlobalValue.groupList
-                                         where temp.ID == Convert.ToInt32(treeList1.Selection[0].GetValue("ID"))
+                                         where temp.ID == Convert.ToInt32(treeList1.Selection[0].GetValue("Name"))
                                          select temp).ToList()[0];
+                if (gp == null)
+                    return;
 
                 for (int i = 0; i < listBoxRec.SelectedItems.Count; i++)
                 {
@@ -391,7 +391,7 @@ namespace SmartWaterSystem
                     if (item.Level == 1)
                     {
                         int recID = Convert.ToInt32(item.GetValue("ID"));
-                        int gID = Convert.ToInt32(item.ParentNode.GetValue("ID"));
+                        int gID = Convert.ToInt32(item.ParentNode.GetValue("Name"));
 
                         for (int i = 0; i < GlobalValue.recorderList.Count; i++)
                         {
@@ -675,6 +675,17 @@ namespace SmartWaterSystem
         {
             btnSaveGroupSet.Enabled = Enabled;
             btnReadTemplate.Enabled = Enabled;
+        }
+
+        private void listBoxRec_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (treeList1.Selection != null && treeList1.Selection.Count > 0)
+            {
+                if (listBoxRec.SelectedItems != null && listBoxRec.SelectedItems.Count > 0 && (treeList1.Selection[0].Level == 0))
+                    btnImportRec.Enabled = true;
+                else
+                    btnImportRec.Enabled = false;
+            }
         }
     }
 }

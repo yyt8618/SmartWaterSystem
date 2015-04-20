@@ -55,6 +55,7 @@
             this.gridColumnFrq = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnReadTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnState = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumnProbality = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.popupMenu = new DevExpress.XtraBars.PopupMenu(this.components);
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
@@ -300,7 +301,8 @@
             this.gridColumnAmp,
             this.gridColumnFrq,
             this.gridColumnReadTime,
-            this.gridColumnState});
+            this.gridColumnState,
+            this.gridColumnProbality});
             this.gridViewResultList.GridControl = this.gridControlResult;
             this.gridViewResultList.Name = "gridViewResultList";
             this.gridViewResultList.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -343,8 +345,6 @@
             this.gridColumnAmp.FieldName = "幅度";
             this.gridColumnAmp.Name = "gridColumnAmp";
             this.gridColumnAmp.OptionsColumn.AllowEdit = false;
-            this.gridColumnAmp.Visible = true;
-            this.gridColumnAmp.VisibleIndex = 1;
             this.gridColumnAmp.Width = 55;
             // 
             // gridColumnFrq
@@ -355,8 +355,6 @@
             this.gridColumnFrq.FieldName = "频率";
             this.gridColumnFrq.Name = "gridColumnFrq";
             this.gridColumnFrq.OptionsColumn.AllowEdit = false;
-            this.gridColumnFrq.Visible = true;
-            this.gridColumnFrq.VisibleIndex = 2;
             this.gridColumnFrq.Width = 64;
             // 
             // gridColumnReadTime
@@ -366,7 +364,7 @@
             this.gridColumnReadTime.Name = "gridColumnReadTime";
             this.gridColumnReadTime.OptionsColumn.AllowEdit = false;
             this.gridColumnReadTime.Visible = true;
-            this.gridColumnReadTime.VisibleIndex = 3;
+            this.gridColumnReadTime.VisibleIndex = 1;
             this.gridColumnReadTime.Width = 140;
             // 
             // gridColumnState
@@ -375,7 +373,16 @@
             this.gridColumnState.FieldName = "漏水状态";
             this.gridColumnState.Name = "gridColumnState";
             this.gridColumnState.Visible = true;
-            this.gridColumnState.VisibleIndex = 4;
+            this.gridColumnState.VisibleIndex = 2;
+            // 
+            // gridColumnProbality
+            // 
+            this.gridColumnProbality.Caption = "漏水概率";
+            this.gridColumnProbality.FieldName = "漏水概率";
+            this.gridColumnProbality.Name = "gridColumnProbality";
+            this.gridColumnProbality.OptionsColumn.AllowEdit = false;
+            this.gridColumnProbality.Visible = true;
+            this.gridColumnProbality.VisibleIndex = 3;
             // 
             // repositoryItemCheckEdit1
             // 
@@ -527,5 +534,6 @@
         public DevExpress.XtraEditors.SimpleButton btnReadFromFold;
         public DevExpress.XtraEditors.SimpleButton btnOpenFold;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit3;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumnProbality;
     }
 }

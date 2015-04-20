@@ -59,5 +59,10 @@ namespace Entity
         /// 能量值
         /// </summary>
         public double EnergyValue { get; set; }
+
+        /// <summary>
+        /// 漏水概率
+        /// </summary>
+        public double LeakProbability { get; set; }
     }
 }

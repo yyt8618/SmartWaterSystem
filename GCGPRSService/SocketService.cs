@@ -8,14 +8,13 @@ using System.Net;
 using Common;
 using Entity;
 using System.Data;
-using Newtonsoft.Json;
 
 namespace GCGPRSService
 {
     public class SocketEventArgs : EventArgs
     {
-        private string _jsonmsg = "";
-        public string JsonMsg
+        private MSMQEntity _jsonmsg;// = "";
+        public MSMQEntity JsonMsg
         {
             get { return _jsonmsg; }
             set { _jsonmsg = value; }
@@ -26,7 +25,13 @@ namespace GCGPRSService
             MSMQEntity msmqEntity = new MSMQEntity();
             msmqEntity.MsgType = MsgType;
             msmqEntity.Msg = msg;
-            _jsonmsg=JsonConvert.SerializeObject(msmqEntity);
+            _jsonmsg = msmqEntity; // JsonConvert.SerializeObject(msmqEntity);
+        }
+
+        public SocketEventArgs(Entity.ConstValue.MSMQTYPE MsgType, MSMQEntity msg)
+        {
+            msg.MsgType = MsgType;
+            _jsonmsg = msg;
         }
 
         public SocketEventArgs(string msg)
@@ -34,7 +39,12 @@ namespace GCGPRSService
             MSMQEntity msmqEntity = new MSMQEntity();
             msmqEntity.MsgType = Entity.ConstValue.MSMQTYPE.Message;
             msmqEntity.Msg = msg;
-            _jsonmsg = JsonConvert.SerializeObject(msmqEntity);
+            _jsonmsg = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
+        }
+
+        public SocketEventArgs(MSMQEntity msg)
+        {
+            _jsonmsg = msg;
         }
     }
 
@@ -78,6 +88,7 @@ namespace GCGPRSService
         List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
         int SQL_Interval = 180;  //数据更新时间间隔(second)
         int OnLineState_Interval = 5*60; //终端在线状态更新时间间隔(second)
+
 
         public virtual void OnSendMsg(SocketEventArgs e)
         {
@@ -127,7 +138,7 @@ namespace GCGPRSService
                         }
                     }
                     lstClient = lstOnLine;  //将意外断开连接的的去除
-                    OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, JsonConvert.SerializeObject(msmqEntity)));
+                    OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
                 }
             }
         }
@@ -310,11 +321,11 @@ namespace GCGPRSService
                             {
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
                                 {
-                                    //getReadResponse = true;
+                                    
                                 }
                                 else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
                                 {
-                                    string str_frame = ConvertHelper.ByteToString(arr, bytesRead);
+                                    string str_frame = ConvertHelper.ByteToString(arr, arr.Length);
 #if debug
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据:" + str_frame));
 #else
@@ -497,7 +508,8 @@ namespace GCGPRSService
                                     else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
                                     {
                                         #region 通用终端
-                                        if ((pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM1) || (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM2))  //接受通用终端发送的模拟数据
+                                        if ((pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM1) || (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM2) ||
+                                            (pack.C1 == (byte)UNIVERSAL_COMMAND.CalibartionSimualte1) || (pack.C1 == (byte)UNIVERSAL_COMMAND.CalibartionSimualte2))  //接受通用终端发送的模拟数据(包含招测数据)
                                         {
                                             #region 通用终端模拟数据
                                             string name = "";
@@ -507,9 +519,19 @@ namespace GCGPRSService
                                                 name = "1";
                                                 sequence = "1";
                                             }
+                                            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CalibartionSimualte1)
+                                            {
+                                                name = "招测1";
+                                                sequence = "1";
+                                            }
                                             else if (pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_SIM2)
                                             {
                                                 name = "2";
+                                                sequence = "2";
+                                            }
+                                            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CalibartionSimualte2)
+                                            {
+                                                name = "招测2";
                                                 sequence = "2";
                                             }
                                             int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
@@ -849,23 +871,29 @@ namespace GCGPRSService
 
                                     Package response = new Package();
                                     response.DevID = pack.DevID;
-
+                                    List<Package> lstCommandPack = new List<Package>();
+                                    CallSocketEntity currentSocketEntity = null;
                                     foreach (CallSocketEntity callentity in lstClient)
                                     {
                                         if (callentity.DevType == pack.DevType && callentity.TerId == pack.DevID)
                                         {
+                                            currentSocketEntity = callentity;
                                             callentity.ClientSocket = handler;
-
+                                            if (callentity.lstWaitSendCmd != null && callentity.lstWaitSendCmd.Count > 0)
+                                            {
+                                                lstCommandPack.AddRange(callentity.lstWaitSendCmd.ToArray());
+                                            }
                                             //将在线信息发送给UI更新
                                             MSMQEntity msmqEntity = new MSMQEntity();
                                             msmqEntity.lstOnLine = new List<OnLineTerEntity>();
                                             msmqEntity.lstOnLine.Add(new OnLineTerEntity(callentity.DevType, callentity.TerId));
-                                            OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, JsonConvert.SerializeObject(msmqEntity)));
+                                            OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
                                         }
                                     }
 
                                     #region 发送后续命令帧
-                                    if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0) || bNeedCheckTime) && pack.IsFinal)
+                                    if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0) 
+                                        || bNeedCheckTime || lstCommandPack.Count>0) && pack.IsFinal )
                                     {
                                         #region 回复响应帧
                                         response.DevType = pack.DevType;
@@ -890,7 +918,6 @@ namespace GCGPRSService
                                         handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                         #endregion
 
-                                        List<Package> lstCommandPack = new List<Package>();
                                         if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
                                         {
                                             for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
@@ -993,6 +1020,10 @@ namespace GCGPRSService
                                     }
                                     #endregion
 
+                                    if (currentSocketEntity != null)   //如果有需要发送的帧数据，在最后认为已经发送完，清除
+                                    {
+                                        currentSocketEntity.lstWaitSendCmd = new List<Package>();
+                                    }
                                     //if (!pack.IsFinal)
                                     //{
                                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
@@ -1038,7 +1069,6 @@ namespace GCGPRSService
         {
             try
             {
-                //OnSendMsg(new SocketEventArgs("SendCallback线程ID为:   " + Thread.CurrentThread.ManagedThreadId.ToString()));
                 Socket handler = ((SendObject)ar.AsyncState).workSocket;
                 int bytesSent = handler.EndSend(ar);
 
@@ -1091,12 +1121,124 @@ namespace GCGPRSService
             OnLineState_Interval = 1;  //利用定时器，直接修改时间间隔
         }
 
-        public void SetOnLineClient(ConstValue.DEV_TYPE DevType,short DevId,bool AllowOnline)
+        /// <summary>
+        /// 终端在线，下线
+        /// </summary>
+        /// <param name="DevType"></param>
+        /// <param name="DevId"></param>
+        /// <param name="AllowOnline"></param>
+        public void SetOnLineClient(ConstValue.DEV_TYPE DevType, short DevId, bool AllowOnline)
+        {
+            if (lstClient == null)
+            {
+                lstClient = new List<CallSocketEntity>();
+            }
+
+            int index = -1;
+            for (int i = 0; i < lstClient.Count; i++)
+            {
+                if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId == DevId))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (AllowOnline)
+            {
+                CallSocketEntity client = null;
+                if (index != -1)  //已存在不添加
+                    client = lstClient[index];
+                else
+                {
+                    client = new CallSocketEntity();
+                    client.DevType = DevType;
+                    client.TerId = DevId;
+                    lstClient.Add(client);
+                }
+                Package package = new Package();
+                package.DevType = DevType;
+                package.DevID = DevId;
+                package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                package.C1 = (byte)UNIVERSAL_COMMAND.OnLine;
+                package.DataLength = 1;
+                byte[] data = new byte[package.DataLength];
+                data[0] = (byte)0x01;
+                package.Data = data;
+                package.CS = package.CreateCS();
+                if (client.ClientSocket != null && client.ClientSocket.Connected)  //已连接，不发送，未连接马上发送
+                {
+                    ;
+                }
+                else
+                {
+                    client.lstWaitSendCmd = new List<Package>();
+                    client.lstWaitSendCmd.Add(package);
+                }
+            }
+            else
+            {
+                if (index > -1)  //已存在移除
+                {
+                    if (lstClient[index].ClientSocket != null && lstClient[index].ClientSocket.Connected)
+                    {
+                        try
+                        {
+                            Package package = new Package();
+                            package.DevType = DevType;
+                            package.DevID = DevId;
+                            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                            package.C1 = (byte)UNIVERSAL_COMMAND.OnLine;
+                            package.DataLength = 1;
+                            byte[] data = new byte[package.DataLength];
+                            data[0] = (byte)0x01;
+                            package.Data = data;
+                            package.CS = package.CreateCS();
+
+                            if (lstClient[index].ClientSocket != null && lstClient[index].ClientSocket.Connected)  //已连接，马上发送下线命令
+                            {
+                                try
+                                {
+                                    SendPackage(lstClient[index].ClientSocket, package, "离线命令");
+                                    Thread.Sleep(10);
+                                    lstClient[index].ClientSocket.Shutdown(SocketShutdown.Both);
+                                    lstClient[index].ClientSocket.Close();
+                                    lstClient[index].ClientSocket = null;
+                                }
+                                catch
+                                {
+                                    lstClient[index].lstWaitSendCmd = new List<Package>();
+                                    lstClient[index].lstWaitSendCmd.Add(package);
+                                }
+                            }
+                            else
+                            {
+                                lstClient[index].lstWaitSendCmd = new List<Package>();
+                                lstClient[index].lstWaitSendCmd.Add(package);
+                            }
+                            
+                        }
+                        catch { }
+                        finally
+                        {
+                            lstClient[index].ClientSocket = null;
+                        }
+                    }
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 终端招测数据
+        /// </summary>
+        /// <param name="DevType"></param>
+        /// <param name="DevId"></param>
+        /// <param name="?"></param>
+        public void ClientCallData(ConstValue.DEV_TYPE DevType, short DevId, CallDataTypeEntity calldataType)
         {
             if (lstClient != null)
             {
                 int index = -1;
-                for (int i =0;i<lstClient.Count;i++)
+                for (int i = 0; i < lstClient.Count; i++)
                 {
                     if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId == DevId))
                     {
@@ -1104,39 +1246,196 @@ namespace GCGPRSService
                         break;
                     }
                 }
-                if (AllowOnline)
+
+                if (index > -1)
                 {
-                    if (index != -1)  //已存在不添加
-                        ;
-                    else
+                    List<Package> lstpack = new List<Package>();
+                    #region lstpack.Add
+                    if (calldataType.GetSim1)
                     {
-                        CallSocketEntity client = new CallSocketEntity();
-                        client.DevType = DevType;
-                        client.TerId = DevId;
-                        lstClient.Add(client);
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_Sim1;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
                     }
-                }
-                else
-                {
-                    if (index > -1)  //已存在移除
+                    if (calldataType.GetSim2)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_Sim2;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetPluse)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_Pluse;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetRS4851)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4851;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetRS4852)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4852;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetRS4853)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4853;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetRS4854)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4854;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetRS4855)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4855;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetRS4856)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4856;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetRS4857)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4857;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    if (calldataType.GetRS4858)
+                    {
+                        Package package = new Package();
+                        package.DevType = DevType;
+                        package.DevID = DevId;
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4858;
+                        package.DataLength = 0;
+                        byte[] data = new byte[package.DataLength];
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstpack.Add(package);
+                    }
+                    #endregion
+
+                    foreach (Package package in lstpack)
                     {
                         if (lstClient[index].ClientSocket != null && lstClient[index].ClientSocket.Connected)
                         {
                             try
                             {
-                                lstClient[index].ClientSocket.Shutdown(SocketShutdown.Both);
-                                lstClient[index].ClientSocket.Close();
+                                SendPackage(lstClient[index].ClientSocket, package, "招测数据命令");
                             }
-                            catch { }
-                            finally
+                            catch
                             {
-                                lstClient[index].ClientSocket = null;
+                                lstClient[index].lstWaitSendCmd = new List<Package>();
+                                lstClient[index].lstWaitSendCmd.Add(package);
                             }
+                        }
+                        else
+                        {
+                            lstClient[index].lstWaitSendCmd = new List<Package>();
+                            lstClient[index].lstWaitSendCmd.Add(package);
                         }
                     }
                 }
             }
         }
+
+        private void SendPackage(Socket handler,Package pack,string prompt)
+        {
+            byte[] bsenddata = pack.ToArray();
+#if debug
+            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送" + prompt + "帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+#else
+                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送" + prompt + "帧"));
+#endif
+            SendObject sendObj = new SendObject();
+            sendObj.workSocket = handler;
+            sendObj.IsFinal = pack.IsFinal;
+            sendObj.DevType = pack.DevType;
+            sendObj.DevID = pack.DevID;
+            handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+        }
+
     }
 
 }

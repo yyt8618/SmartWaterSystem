@@ -118,11 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="leak3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\leak\leak3.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Welcome.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="亮灯16x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\亮灯16x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DataCompare2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataCompare2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -139,9 +136,6 @@
   <data name="DataCompare" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataCompare.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="voice2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\voice2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -153,6 +147,9 @@
   </data>
   <data name="leak2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak\leak2.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="leak1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\leak\leak1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SerialPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -166,14 +163,8 @@
   <data name="SerialPortConfig1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPortConfig1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="灭灯16x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\灭灯16x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DisableSerialPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisableSerialPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="亮灯16x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\亮灯16x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Welcome.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Voice" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Voice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -193,11 +184,14 @@
   <data name="voice1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\voice1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="NoiseRecorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Products\NoiseRecorder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="wait" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wait.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="leak_tuming" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\leak_tuming.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="leak3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\leak\leak3.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GsmTerminal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Products\GsmTerminal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,25 +211,31 @@
   <data name="voice3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\voice3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="leak1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\leak\leak1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DisableSerialPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DisableSerialPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="leak6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak\leak6.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="NoiseRecorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Products\NoiseRecorder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="leak_tuming" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\leak_tuming.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UniversalTerMgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UniversalTerMgr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="leak4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\leak\leak4.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="灭灯16x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\灭灯16x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="companylogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\companylogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UninversalCallData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UninversalCallData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="leak4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\leak\leak4.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreTerMonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PreTerMonitor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

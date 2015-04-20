@@ -255,5 +255,17 @@ namespace DAL
             else
                 return null;
         }
+
+        public int GetCofingSequence(string Terid,string pointid)
+        {
+            string SQL = "SELECT Sequence FROM UniversalTerWayConfig WHERE PointID ='"+pointid+"' AND TerminalID='"+Terid+"'";
+            object obj_sequence=SQLiteHelper.ExecuteScalar(SQL,null);
+            if(obj_sequence!=null)
+            {
+                return Convert.ToInt32(obj_sequence);
+            }
+            return -1;
+        }
+
     }
 }

@@ -11,9 +11,11 @@ namespace SmartWaterSystem
 {
     public partial class PreTerParm : BaseView,IPreTerParm
     {
-        public PreTerParm(FrmSystem parentform)
+        public PreTerParm()
         {
             InitializeComponent();
         }
+
+
     }
 }

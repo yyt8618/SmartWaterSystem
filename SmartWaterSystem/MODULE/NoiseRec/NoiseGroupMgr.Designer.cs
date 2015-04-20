@@ -32,9 +32,9 @@
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.simpleButtonUnSelect = new DevExpress.XtraEditors.SimpleButton();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumnName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumnID = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumnName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.simpleButtonSelectAll = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.txtGroupNote = new DevExpress.XtraEditors.MemoEdit();
@@ -123,9 +123,9 @@
             // treeList1
             // 
             this.treeList1.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumnName,
             this.treeListColumnID,
-            this.treeListColumn1,
-            this.treeListColumnName});
+            this.treeListColumn1});
             this.treeList1.Location = new System.Drawing.Point(2, 22);
             this.treeList1.Name = "treeList1";
             this.treeList1.OptionsView.ShowCheckBoxes = true;
@@ -134,9 +134,22 @@
             this.treeList1.AfterFocusNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeList1_AfterFocusNode);
             this.treeList1.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeList1_AfterCheckNode);
             // 
+            // treeListColumnName
+            // 
+            this.treeListColumnName.Caption = "名称";
+            this.treeListColumnName.FieldName = "Name";
+            this.treeListColumnName.MinWidth = 32;
+            this.treeListColumnName.Name = "treeListColumnName";
+            this.treeListColumnName.OptionsColumn.AllowEdit = false;
+            this.treeListColumnName.OptionsColumn.AllowMove = false;
+            this.treeListColumnName.OptionsColumn.AllowSort = false;
+            this.treeListColumnName.OptionsFilter.AllowAutoFilter = false;
+            this.treeListColumnName.OptionsFilter.AllowFilter = false;
+            this.treeListColumnName.Width = 104;
+            // 
             // treeListColumnID
             // 
-            this.treeListColumnID.Caption = "编号";
+            this.treeListColumnID.Caption = "名称";
             this.treeListColumnID.FieldName = "ID";
             this.treeListColumnID.MinWidth = 32;
             this.treeListColumnID.Name = "treeListColumnID";
@@ -144,6 +157,7 @@
             this.treeListColumnID.OptionsColumn.ReadOnly = true;
             this.treeListColumnID.Visible = true;
             this.treeListColumnID.VisibleIndex = 0;
+            this.treeListColumnID.Width = 95;
             // 
             // treeListColumn1
             // 
@@ -154,12 +168,7 @@
             this.treeListColumn1.OptionsColumn.ReadOnly = true;
             this.treeListColumn1.Visible = true;
             this.treeListColumn1.VisibleIndex = 1;
-            // 
-            // treeListColumnName
-            // 
-            this.treeListColumnName.Caption = "名称";
-            this.treeListColumnName.FieldName = "Name";
-            this.treeListColumnName.Name = "treeListColumnName";
+            this.treeListColumn1.Width = 109;
             // 
             // simpleButtonSelectAll
             // 
@@ -198,11 +207,12 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(16, 35);
+            this.label18.Location = new System.Drawing.Point(17, 114);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(55, 14);
             this.label18.TabIndex = 84;
             this.label18.Text = "分组编号";
+            this.label18.Visible = false;
             // 
             // btnDeleteGroup
             // 
@@ -216,10 +226,10 @@
             // 
             // txtGroupName
             // 
-            this.txtGroupName.Location = new System.Drawing.Point(242, 33);
+            this.txtGroupName.Location = new System.Drawing.Point(87, 33);
             this.txtGroupName.Name = "txtGroupName";
             this.txtGroupName.Properties.Mask.EditMask = "f0";
-            this.txtGroupName.Size = new System.Drawing.Size(61, 20);
+            this.txtGroupName.Size = new System.Drawing.Size(216, 20);
             this.txtGroupName.TabIndex = 88;
             // 
             // btnAddGroup
@@ -234,7 +244,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(171, 35);
+            this.label2.Location = new System.Drawing.Point(17, 36);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 14);
             this.label2.TabIndex = 87;
@@ -252,13 +262,14 @@
             // 
             // txtGroupID
             // 
-            this.txtGroupID.Location = new System.Drawing.Point(87, 33);
+            this.txtGroupID.Location = new System.Drawing.Point(20, 131);
             this.txtGroupID.Name = "txtGroupID";
             this.txtGroupID.Properties.Mask.EditMask = "f0";
             this.txtGroupID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtGroupID.Properties.ReadOnly = true;
             this.txtGroupID.Size = new System.Drawing.Size(61, 20);
             this.txtGroupID.TabIndex = 85;
+            this.txtGroupID.Visible = false;
             // 
             // label13
             // 
@@ -574,6 +585,7 @@
             this.listBoxRec.Size = new System.Drawing.Size(120, 189);
             this.listBoxRec.TabIndex = 62;
             this.listBoxRec.ToolTip = "记录仪编号";
+            this.listBoxRec.SelectedIndexChanged += new System.EventHandler(this.listBoxRec_SelectedIndexChanged);
             // 
             // btnDelRecFromGroup
             // 

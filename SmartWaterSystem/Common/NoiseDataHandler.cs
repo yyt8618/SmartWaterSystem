@@ -611,9 +611,10 @@ namespace SmartWaterSystem
         /// <param name="data">噪声原始数据32个值一组</param>
         /// <param name="standvalue">静态漏水标准幅度值</param>
         /// <returns></returns>
-        public static int IsLeak1(int GroupID, int RecorderID, List<double[]> lstdatas, out double energyvalue)
+        public static int IsLeak1(int GroupID, int RecorderID, List<double[]> lstdatas, out double energyvalue, out double leakprobability)
         {
             energyvalue = 0;  //能量值
+            leakprobability = 0; //漏水概率
             double maxstandvalue = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.MaxStandardAMP));
             double minstandvalue = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.MinStandardAMP));
             short[] standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);
@@ -660,11 +661,20 @@ namespace SmartWaterSystem
             sw.Close();
 
             if (energyvalue >= maxstandvalue)
+            {
                 isleak = 1;
+                leakprobability = 1;
+            }
             else if (energyvalue <= minstandvalue)
+            {
                 isleak = 0;
+                leakprobability = 0;
+            }
             else
+            {
                 isleak = -1;
+                leakprobability = 0.5 * (energyvalue - minstandvalue) / (maxstandvalue - minstandvalue);  //能量强度权重50%
+            }
 
             return isleak;
         }
@@ -672,12 +682,16 @@ namespace SmartWaterSystem
         /// <summary>
         /// 漏水判断(根据漏水噪声幅度判断,IsLeak1方法辅助办法) 1：漏水 0:不漏水
         /// </summary>
-        public static int IsLeak3(double[] max_amps,double[] max_frqs,int leakvalue,
+        public static int IsLeak3(double[] amps,double[] frqs,int leakvalue,
             out double max_amp,out double max_frq,out double min_amp,out double min_frq,out double leak_amp,out double leak_frq)
         {
             max_amp = 0; max_frq = 0; min_amp = 0; min_frq = 0; leak_amp = 0; leak_frq = 0;
-            if (max_amps == null || max_amps.Length == 0)
+            if (amps == null || amps.Length == 0)
                 return 0;
+            double[] max_amps = new double[amps.Length];
+            amps.CopyTo(max_amps, 0);
+            double[] max_frqs = new double[frqs.Length];
+            frqs.CopyTo(max_frqs, 0);
 
             int divid_hz = Settings.Instance.GetInt(SettingKeys.LeakHZ_Template);  //频率分界值
             //按频率从低到高排列,幅度同样根据频率排序

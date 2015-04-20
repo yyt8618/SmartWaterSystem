@@ -4,7 +4,6 @@ using System.Threading;
 using System.ServiceProcess;
 using System.Messaging;
 using Entity;
-using Newtonsoft.Json;
 
 namespace SmartWaterSystem
 {
@@ -107,7 +106,7 @@ namespace SmartWaterSystem
                 MQueue = new MessageQueue(ConstValue.MSMQPathToService);
 
                 Message Msg = new Message();
-                Msg.Body = JsonConvert.SerializeObject(msmqEntity);
+                Msg.Body = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
                 Msg.Formatter = new BinaryMessageFormatter();
                 MQueue.Send(Msg);
             }
@@ -169,9 +168,8 @@ namespace SmartWaterSystem
                             foreach (System.Messaging.Message m in Msg)
                             {
                                 m.Formatter = new BinaryMessageFormatter();
-                                string msg = m.Body.ToString();
-
-                                MSMQEntity msmqEntity = (MSMQEntity)Newtonsoft.Json.JsonConvert.DeserializeObject(msg, typeof(MSMQEntity));
+                                //string msg = m.Body.ToString();
+                                MSMQEntity msmqEntity = (MSMQEntity)m.Body; // (MSMQEntity)Newtonsoft.Json.JsonConvert.DeserializeObject(msg, typeof(MSMQEntity));
                                 OnMSMQEvent(new MSMQEventArgs(msmqEntity));
                             }
                         }

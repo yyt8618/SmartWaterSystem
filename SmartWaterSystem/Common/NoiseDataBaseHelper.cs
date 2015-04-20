@@ -91,7 +91,7 @@ namespace SmartWaterSystem
                         }
                     }
 
-                    sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,COllTime,UnloadTime,HistoryFlag,EnergyValue FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
+                    sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,COllTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
                     using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(sql, null))
                     {
                         if (reader.Read())
@@ -105,6 +105,7 @@ namespace SmartWaterSystem
                             rec.Result.LeakAmplitude = Convert.ToDouble(reader["MinLeakValue"]);
                             rec.Result.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
                             rec.Result.EnergyValue = Convert.ToDouble(reader["EnergyValue"]);
+                            rec.Result.LeakProbability = Convert.ToDouble(reader["LeakProbability"]);
                             //rec.Result.UploadFlag = (int)reSet.Rows[0]["HistoryFlag"];
                         }
                     }
@@ -554,9 +555,9 @@ namespace SmartWaterSystem
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime, EnergyValue) 
-                    VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}',{9})",
-                    result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime, result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime, result.EnergyValue.ToString("f4"));
+                sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime, EnergyValue, LeakProbability) 
+                    VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}',{9}, {10})",
+                    result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime, result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime, result.EnergyValue.ToString("f4"), result.LeakProbability.ToString("f4"));
                 query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }

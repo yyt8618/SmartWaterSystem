@@ -50,7 +50,7 @@ namespace DAL
                     command_frame.Connection = SQLHelper.Conn;
                     command_frame.Transaction = trans;
 
-                    string SQL_PreData = "INSERT INTO Pressure_Real(TerimanlID,PressValue,CollTime,UnloadTime,HistoryFlag) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0)";
+                    string SQL_PreData = "INSERT INTO Pressure_Real(TerminalID,PressValue,CollTime,UnloadTime,HistoryFlag) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0)";
                     SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@prevalue",SqlDbType.Decimal),
@@ -432,7 +432,6 @@ namespace DAL
             }
         }
 
-
         /// <summary>
         /// 保存通用终端配置
         /// </summary>
@@ -635,6 +634,215 @@ namespace DAL
             parms[7].Value = 0;
 
             SQLHelper.ExecuteNonQuery(SQL_Insert, parms);
+        }
+
+        public List<PreDataEntity> GetPreDataTop2(List<int> terminalids)
+        {
+            if (terminalids == null || terminalids.Count == 0)
+                return null;
+            string str_ids = "";
+            foreach (int id in terminalids)
+            {
+                str_ids += "'" + id + "',";
+            }
+            if (str_ids.EndsWith(","))
+                str_ids = str_ids.Substring(0, str_ids.Length - 1); ;
+            //MT_CollDeviceType_ID=1 是压力终端
+            string SQL = string.Format(@"SELECT r.TrmlID,r.Config_Name,v.PressValue,v.CollTime,c.TerminalName,c.PreLowLimit,c.PreUpperLimit,c.PreSlopeLowLimit,c.PreSlopeUpLimit,c.Address,c.EnablePreAlarm,c.EnableSlopeAlarm FROM DL_Pressure_Real v,EN_TrmlCollRelate r,TerminalConfig c WHERE 
+                                            v.EN_CollPoint_ID=r.EN_CollPoint_ID AND R.MT_CollDeviceType_ID=1 AND r.TrmlID=c.TerminalID AND c.TerminalID IN({0}) AND 
+                                            v.CollTime IN (SELECT TOP 2 CollTime FROM DL_Pressure_Real 
+                                            WHERE v.EN_CollPoint_ID = EN_CollPoint_ID ORDER BY EN_CollPoint_ID,CollTime DESC)", str_ids);
+
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
+            {
+                List<PreDataEntity> lstData = new List<PreDataEntity>();
+                int index = -1;
+                bool exist;
+                int terminalid;
+                DateTime coltime;
+                decimal prevalue;
+
+                while (reader.Read())
+                {
+                    prevalue = reader["PressValue"] != DBNull.Value ? Convert.ToDecimal(reader["PressValue"]) : 0;
+                    terminalid = reader["TrmlID"] != DBNull.Value ? Convert.ToInt32(reader["TrmlID"]) : 0;
+                    coltime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : DateTime.Now;
+                    exist = false;
+                    for (index = 0; index < lstData.Count; index++)
+                    {
+                        if (lstData[index].TerminalID == terminalid)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+
+                    if (exist)
+                    {
+                        if (lstData[index].NewestCollTime != ConstValue.MinDateTime)
+                        {
+                            if (coltime < lstData[index].NewestCollTime)
+                            {
+                                lstData[index].PreValueLastbutone = prevalue;
+                                lstData[index].CollTimeLastbutone = coltime;
+                            }
+                            else
+                            {
+                                DateTime tmpdt = lstData[index].NewestCollTime;
+                                decimal tmppredata = lstData[index].NewestPressueValue;
+
+                                lstData[index].NewestCollTime = coltime;
+                                lstData[index].NewestPressueValue = prevalue;
+
+                                lstData[index].CollTimeLastbutone = tmpdt;
+                                lstData[index].PreValueLastbutone = tmppredata;
+                            }
+                        }
+                        else
+                        {
+                            lstData[index].NewestCollTime = coltime;
+                            lstData[index].NewestPressueValue = prevalue;
+                        }
+                    }
+                    else
+                    {
+                        PreDataEntity entity = new PreDataEntity();
+                        entity.TerminalID = reader["TrmlID"] != DBNull.Value ? Convert.ToInt32(reader["TrmlID"]) : 0;
+                        entity.ConfigName = reader["Config_Name"] != DBNull.Value ? reader["Config_Name"].ToString() : "";
+                        entity.TerminalName = reader["TerminalName"] != DBNull.Value ? reader["TerminalName"].ToString() : "";
+
+                        entity.EnablePreAlarm = reader["EnablePreAlarm"] != DBNull.Value ? (Convert.ToInt32(reader["EnablePreAlarm"]) == 1 ? true : false) : true;
+                        entity.EnableSlopeAlarm = reader["EnableSlopeAlarm"] != DBNull.Value ? (Convert.ToInt32(reader["EnableSlopeAlarm"]) == 1 ? true : false) : true;
+
+                        if (entity.EnablePreAlarm)
+                        {
+                            entity.PreLowLimit = reader["PreLowLimit"] != DBNull.Value ? Convert.ToDecimal(reader["PreLowLimit"]) : 0;
+                            entity.PreUpLimit = reader["PreUpperLimit"] != DBNull.Value ? Convert.ToDecimal(reader["PreUpperLimit"]) : 0;
+                        }
+                        if (entity.EnableSlopeAlarm)
+                        {
+                            entity.PreSlopeLowLimit = reader["PreSlopeLowLimit"] != DBNull.Value ? Convert.ToDecimal(reader["PreSlopeLowLimit"]) : 0;
+                            entity.PreSlopeUpLimit = reader["PreSlopeUpLimit"] != DBNull.Value ? Convert.ToDecimal(reader["PreSlopeUpLimit"]) : 0;
+                        }
+
+                        entity.NewestCollTime = coltime;
+                        entity.NewestPressueValue = prevalue;
+
+                        entity.Addr = reader["Address"] != DBNull.Value ? reader["Address"].ToString() : "";
+
+                        lstData.Add(entity);
+                    }
+
+                }
+                return lstData;
+            }
+            return null;
+        }
+
+        public List<FlowDataEntity> GetFlowDataTop2(List<int> terminalids)
+        {
+            if (terminalids == null || terminalids.Count == 0)
+                return null;
+            string str_ids = "";
+            foreach (int id in terminalids)
+            {
+                str_ids += "'" + id + "',";
+            }
+            if (str_ids.EndsWith(","))
+                str_ids = str_ids.Substring(0, str_ids.Length - 1); ;
+            //MT_CollDeviceType_ID=1 是压力终端
+            string SQL = string.Format(@"SELECT r.TrmlID,r.Config_Name,f.FlowValue,f.FlowInverted,f.FlowInstant,f.CollTime,c.TerminalName,c.PreLowLimit,c.PreUpperLimit,c.PreSlopeLowLimit,c.PreSlopeUpLimit,c.Address,c.EnablePreAlarm,c.EnableSlopeAlarm 
+                                        FROM DL_Flow_Real f,EN_TrmlCollRelate r,TerminalConfig c WHERE 
+                                        f.EN_CollPoint_ID=r.EN_CollPoint_ID AND R.MT_CollDeviceType_ID=1 AND r.TrmlID=c.TerminalID AND c.TerminalID IN({0}) AND 
+                                        f.CollTime IN (SELECT TOP 2 CollTime FROM DL_Flow_Real  
+                                        WHERE f.EN_CollPoint_ID = EN_CollPoint_ID ORDER BY EN_CollPoint_ID,CollTime DESC)", str_ids);
+
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
+            {
+                List<FlowDataEntity> lstData = new List<FlowDataEntity>();
+                int index = -1;
+                bool exist;
+                int terminalid;
+                DateTime coltime;
+                decimal forwardflowvalue;
+                decimal reverseflowvalue;
+                decimal instantflowvalue;
+
+                while (reader.Read())
+                {
+                    forwardflowvalue = reader["FlowValue"] != DBNull.Value ? Convert.ToDecimal(reader["FlowValue"]) : 0;
+                    reverseflowvalue = reader["FlowInverted"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInverted"]) : 0;
+                    instantflowvalue = reader["FlowInstant"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInstant"]) : 0;
+                    terminalid = reader["TrmlID"] != DBNull.Value ? Convert.ToInt32(reader["TrmlID"]) : 0;
+                    coltime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : DateTime.Now;
+                    exist = false;
+                    for (index = 0; index < lstData.Count; index++)
+                    {
+                        if (lstData[index].TerminalID == terminalid)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+
+                    if (exist)
+                    {
+                        if (lstData[index].NewestCollTime != ConstValue.MinDateTime)
+                        {
+                            if (coltime < lstData[index].NewestCollTime)
+                            {
+                                lstData[index].ForwardFlowLastbutone = forwardflowvalue;
+                                lstData[index].ReverseFlowLastbutone = reverseflowvalue;
+                                lstData[index].InstantFlowLastbutone = instantflowvalue;
+                                lstData[index].CollTimeLastbutone = coltime;
+                            }
+                            else
+                            {
+                                DateTime tmpdt = lstData[index].NewestCollTime;
+                                decimal tmpforwardflowdata = lstData[index].NewestForwardFlowValue;
+                                decimal tmpreverseflowdata = lstData[index].NewestReverseFlowValue;
+                                decimal tmpinstantflowdata = lstData[index].NewestInstantFlowValue;
+
+                                lstData[index].NewestCollTime = coltime;
+                                lstData[index].NewestForwardFlowValue = forwardflowvalue;
+                                lstData[index].NewestReverseFlowValue = reverseflowvalue;
+                                lstData[index].NewestInstantFlowValue = instantflowvalue;
+
+                                lstData[index].CollTimeLastbutone = tmpdt;
+                                lstData[index].ForwardFlowLastbutone = tmpforwardflowdata;
+                                lstData[index].ReverseFlowLastbutone = tmpreverseflowdata;
+                                lstData[index].InstantFlowLastbutone = tmpinstantflowdata;
+                            }
+                        }
+                        else
+                        {
+                            lstData[index].NewestCollTime = coltime;
+                            lstData[index].NewestForwardFlowValue = forwardflowvalue;
+                            lstData[index].NewestReverseFlowValue = reverseflowvalue;
+                            lstData[index].NewestInstantFlowValue = instantflowvalue;
+                        }
+                    }
+                    else
+                    {
+                        FlowDataEntity entity = new FlowDataEntity();
+                        entity.TerminalID = reader["TrmlID"] != DBNull.Value ? Convert.ToInt32(reader["TrmlID"]) : 0;
+                        entity.ConfigName = reader["Config_Name"] != DBNull.Value ? reader["Config_Name"].ToString() : "";
+                        entity.TerminalName = reader["TerminalName"] != DBNull.Value ? reader["TerminalName"].ToString() : "";
+
+                        entity.NewestCollTime = coltime;
+                        entity.NewestForwardFlowValue = forwardflowvalue;
+                        entity.NewestReverseFlowValue = reverseflowvalue;
+                        entity.NewestInstantFlowValue = instantflowvalue;
+
+                        entity.Addr = reader["Address"] != DBNull.Value ? reader["Address"].ToString() : "";
+
+                        lstData.Add(entity);
+                    }
+
+                }
+                return lstData;
+            }
+            return null;
         }
 
     }
