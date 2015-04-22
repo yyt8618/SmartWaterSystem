@@ -7,6 +7,9 @@ using BLL;
 using Common;
 using DevExpress.XtraEditors;
 using Entity;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using DevExpress.XtraEditors.Drawing;
+using DevExpress.Utils;
 
 namespace SmartWaterSystem
 {
@@ -47,11 +50,11 @@ namespace SmartWaterSystem
                 ShowTerData();
             }
 
-            this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
-            for (int i = 0; i < lstDataView.RowCount; i++)
-            {
-                lstDataView.RefreshRow(i);
-            }
+            //this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
+            //for (int i = 0; i < lstDataView.RowCount; i++)
+            //{
+            //    lstDataView.RefreshRow(i);
+            //}
         }
 
         private void InitView()
@@ -329,8 +332,6 @@ namespace SmartWaterSystem
 
         private void lstDataView_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
-            //this.lstDataView.CustomDrawCell -= new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
-            //this.lstDataView.BeginUpdate();
             if (e.Column.Caption == "压力值")
             {
                 /*  Colors[0] = cPreLowLimit;
@@ -340,10 +341,6 @@ namespace SmartWaterSystem
                 int rowhandle = e.RowHandle;
                 if (lstDataView.GetRow(rowhandle)!=null)
                 {
-                    if ((lstDataView.RowCount - 1) == rowhandle)
-                    {
-                        this.lstDataView.CustomDrawCell -= new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
-                    }
                     string strcolors = lstDataView.GetRowCellValue(rowhandle, "Colors").ToString();
                     if (!string.IsNullOrEmpty(strcolors))
                     {
@@ -360,21 +357,29 @@ namespace SmartWaterSystem
                         
                         if(lstcols.Count>0)
                         {
-                            string str_curcolor = lstDataView.GetRowCellValue(rowhandle, "CurColor").ToString();
-                            if (string.IsNullOrEmpty(str_curcolor))
+                            e.Handled = true;
+                            int width = (int)(e.Bounds.Width / lstcols.Count);
+
+                            for (int i = 0; i < lstcols.Count; i++)
                             {
-                                e.Appearance.BackColor = Colors[lstcols[0]];
-                                lstDataView.SetRowCellValue(rowhandle, "CurColor", lstcols[0]);
+                                Rectangle rect = new Rectangle(e.Bounds.X + width * i, e.Bounds.Y, width, e.Bounds.Height);
+                                Brush b = new SolidBrush(Colors[lstcols[i]]);
+                                e.Graphics.FillRectangle(b, rect);
                             }
-                            else
+
+                            GridCellInfo cell = e.Cell as GridCellInfo;
+                            Point offset = cell.CellValueRect.Location;
+                            BaseEditPainter pb = cell.ViewInfo.Painter as BaseEditPainter;
+                            if (!offset.IsEmpty)
+                                cell.ViewInfo.Offset(offset.X, offset.Y);
+                            try
                             {
-                                int curcolor = Convert.ToInt32(str_curcolor);
-                                int curindex=lstcols.IndexOf(curcolor);
-                                curindex++;
-                                if (curindex >= lstcols.Count)
-                                    curindex = 0;
-                                e.Appearance.BackColor = Colors[lstcols[curindex]];
-                                lstDataView.SetRowCellValue(rowhandle, "CurColor", lstcols[curindex]);
+                                pb.Draw(new ControlGraphicsInfoArgs(cell.ViewInfo, e.Cache, cell.Bounds));
+                            }
+                            finally
+                            {
+                                if (!offset.IsEmpty)
+                                    cell.ViewInfo.Offset(-offset.X, -offset.Y);
                             }
                         }
                         else
@@ -388,8 +393,6 @@ namespace SmartWaterSystem
                     }
                 }
             }
-            //this.lstDataView.EndUpdate();
-            //this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
         }
 
         private void btnSelectAllTer_Click(object sender, EventArgs e)

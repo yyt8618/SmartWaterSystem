@@ -1,6 +1,6 @@
 ﻿namespace SmartWaterSystem
 {
-    partial class TreeNodeInfoForm
+    partial class UniversalTreeNodeInfoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -234,7 +234,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Load += new System.EventHandler(this.TreeNodeInfoForm_Load);
+            this.Load += new System.EventHandler(this.UniversalTreeNodeInfoForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.cbPrecision.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnit.Properties)).EndInit();

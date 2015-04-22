@@ -7,10 +7,10 @@ using System.Text.RegularExpressions;
 
 namespace SmartWaterSystem
 {
-    public partial class TreeNodeInfoForm : DevExpress.XtraEditors.XtraForm
+    public partial class UniversalTreeNodeInfoForm : DevExpress.XtraEditors.XtraForm
     {
         public static UniversalWayTypeEntity entity = null;
-        public TreeNodeInfoForm(bool typeEnable, int selectedindex)
+        public UniversalTreeNodeInfoForm(bool typeEnable, int selectedindex)
         {
             InitializeComponent();
 
@@ -18,7 +18,7 @@ namespace SmartWaterSystem
             cbType.SelectedIndex = selectedindex;
         }
 
-        private void TreeNodeInfoForm_Load(object sender, EventArgs e)
+        private void UniversalTreeNodeInfoForm_Load(object sender, EventArgs e)
         {
             if (cbType.Enabled)
                 cbType.Focus();
@@ -44,7 +44,7 @@ namespace SmartWaterSystem
             }
 
             UniversalWayTypeBLL bll = new UniversalWayTypeBLL();
-            int findresult=bll.TypeExist(((UniversalCollectType)cbType.SelectedIndex),txtName.Text);
+            int findresult=bll.TypeExist(((UniversalCollectType)cbType.SelectedIndex),txtName.Text,TerType.UniversalTer);
             if (-1 == findresult)
             {
                 XtraMessageBox.Show("检查采集名称发生异常,请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);

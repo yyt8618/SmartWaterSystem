@@ -76,7 +76,7 @@ namespace SmartWaterSystem
         {
             ClearComboboxValue();
 
-            lstComboboxdata = WayTypebll.Select("WHERE Level = '1' AND SyncState!=-1 ORDER BY WayType,Name");
+            lstComboboxdata = WayTypebll.Select("WHERE Level = '1' AND SyncState!=-1 AND TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,Name");
             if (lstComboboxdata != null && lstComboboxdata.Count > 0)
             {
                 foreach (UniversalWayTypeEntity entity in lstComboboxdata)
@@ -116,7 +116,7 @@ namespace SmartWaterSystem
         #region TreeList
         private void LoadTreeList()
         {
-            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE SyncState !=-1 ORDER BY WayType,Sequence");
+            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE SyncState !=-1 AND TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,Sequence");
             if (lstNodedata != null && lstNodedata.Count > 0)
             {
                 treeCollectType.BeginUnboundLoad();
@@ -260,7 +260,7 @@ namespace SmartWaterSystem
                 if (currentNode.Level == 0)
                     formtypeEnable = false;
             }
-            TreeNodeInfoForm dialogform = new TreeNodeInfoForm(formtypeEnable, selectedindex);
+            UniversalTreeNodeInfoForm dialogform = new UniversalTreeNodeInfoForm(formtypeEnable, selectedindex);
             if (DialogResult.OK != dialogform.ShowDialog())
             {
                 return;
@@ -290,7 +290,7 @@ namespace SmartWaterSystem
                 nodeentity.Sequence = 0;
             else
             {
-                int sequence =WayTypebll.GetMaxSequence(nodeentity.ParentID);
+                int sequence =WayTypebll.GetMaxSequence(nodeentity.ParentID,TerType.UniversalTer);
                 if (sequence == -1)
                 {
                     XtraMessageBox.Show("读取数据库最大Sequence失败,请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -302,7 +302,7 @@ namespace SmartWaterSystem
                 nodeentity.Sequence = sequence + 1;
             }
             nodeentity.SyncState = 1;
-            int saveresult = WayTypebll.Insert(nodeentity);
+            int saveresult = WayTypebll.Insert(nodeentity,TerType.UniversalTer);
             if (-1 == saveresult)
             {
                 XtraMessageBox.Show("保存数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -619,7 +619,7 @@ namespace SmartWaterSystem
             }
             if (DialogResult.Yes == XtraMessageBox.Show("确定要删除[ID:" + txtID.Text + "]终端信息?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Information))
             {
-                if ((Terbll.DeleteTer(TerType.UniversalTer, txtID.Text) == 1) && (Terbll.DeleteUniversalWayTypeConfig_TerID(Convert.ToInt32(txtID.Text)) == 1))
+                if ((Terbll.DeleteTer(TerType.UniversalTer, txtID.Text) == 1) && (Terbll.DeleteUniversalWayTypeConfig_TerID(Convert.ToInt32(txtID.Text),TerType.UniversalTer) == 1))
                 {
                     XtraMessageBox.Show("删除成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
@@ -1134,7 +1134,7 @@ namespace SmartWaterSystem
                 
                 WayTypeControlsDefault();
 
-                List<UniversalWayTypeConfigEntity> lstWayTypeConfig = Terbll.GetUniversalWayTypeConfig(Convert.ToInt32(txtID.Text));
+                List<UniversalWayTypeConfigEntity> lstWayTypeConfig = Terbll.GetUniversalWayTypeConfig(Convert.ToInt32(txtID.Text),TerType.UniversalTer);
                 if (lstWayTypeConfig != null && lstWayTypeConfig.Count > 0)
                 {
                     foreach (UniversalWayTypeConfigEntity entity in lstWayTypeConfig)

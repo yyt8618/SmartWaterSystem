@@ -37,7 +37,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show(ex.Message, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -381,7 +381,7 @@ namespace SmartWaterSystem
         {
             try
             {
-                //DialogResult dr = MessageBox.Show("确定移除该记录仪？", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                //DialogResult dr = XtraMessageBox.Show("确定移除该记录仪？", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 //if (dr == System.Windows.Forms.DialogResult.Yes)
                 //{
 
@@ -425,7 +425,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show("移除失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show("移除失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

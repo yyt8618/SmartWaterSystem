@@ -35,7 +35,6 @@ namespace SmartWaterSystem
             this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
             this.txtPort = new DevExpress.XtraEditors.TextEdit();
             this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
-            this.cePluseState = new DevExpress.XtraEditors.CheckEdit();
             this.cemodbusprotocolstatus = new DevExpress.XtraEditors.CheckEdit();
             this.ceRS485State = new DevExpress.XtraEditors.CheckEdit();
             this.ceSimulate2State = new DevExpress.XtraEditors.CheckEdit();
@@ -54,7 +53,6 @@ namespace SmartWaterSystem
             this.ceIP = new DevExpress.XtraEditors.CheckEdit();
             this.ceModbusExeFlag = new DevExpress.XtraEditors.CheckEdit();
             this.ceCollectRS485 = new DevExpress.XtraEditors.CheckEdit();
-            this.ceCollectPluse = new DevExpress.XtraEditors.CheckEdit();
             this.ceCollectSimulate = new DevExpress.XtraEditors.CheckEdit();
             this.btnEnableCollect = new DevExpress.XtraEditors.SimpleButton();
             this.btnCheckingTime = new DevExpress.XtraEditors.SimpleButton();
@@ -95,18 +93,8 @@ namespace SmartWaterSystem
             this.cb_RS485_coltime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn15 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.cb_RS485_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.groupControl5 = new DevExpress.XtraEditors.GroupControl();
-            this.gridControl_Pluse = new DevExpress.XtraGrid.GridControl();
-            this.gridView_Pluse = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cb_pluse_starttime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.gridColumn16 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cb_pluse_coltime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.gridColumn17 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cb_pluse_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.btnReset = new DevExpress.XtraEditors.SimpleButton();
             this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
-            this.btnSetPluseBasic = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).BeginInit();
@@ -115,7 +103,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
             this.groupControl7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cemodbusprotocolstatus.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2State.Properties)).BeginInit();
@@ -134,7 +121,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
@@ -160,13 +146,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_starttime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_coltime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_sendtime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
-            this.groupControl5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl_Pluse)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView_Pluse)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_starttime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).BeginInit();
             this.SuspendLayout();
             // 
@@ -212,7 +191,7 @@ namespace SmartWaterSystem
             // 
             // ceColConfig
             // 
-            this.ceColConfig.Location = new System.Drawing.Point(460, 53);
+            this.ceColConfig.Location = new System.Drawing.Point(463, 53);
             this.ceColConfig.Name = "ceColConfig";
             this.ceColConfig.Properties.Caption = "采集功能配置";
             this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
@@ -231,27 +210,15 @@ namespace SmartWaterSystem
             // 
             // groupControl7
             // 
-            this.groupControl7.Controls.Add(this.cePluseState);
             this.groupControl7.Controls.Add(this.cemodbusprotocolstatus);
             this.groupControl7.Controls.Add(this.ceRS485State);
             this.groupControl7.Controls.Add(this.ceSimulate2State);
             this.groupControl7.Controls.Add(this.ceSimulate1State);
-            this.groupControl7.Location = new System.Drawing.Point(556, 24);
+            this.groupControl7.Location = new System.Drawing.Point(579, 24);
             this.groupControl7.Name = "groupControl7";
             this.groupControl7.ShowCaption = false;
-            this.groupControl7.Size = new System.Drawing.Size(230, 53);
+            this.groupControl7.Size = new System.Drawing.Size(207, 53);
             this.groupControl7.TabIndex = 18;
-            // 
-            // cePluseState
-            // 
-            this.cePluseState.Enabled = false;
-            this.cePluseState.Location = new System.Drawing.Point(101, 5);
-            this.cePluseState.Name = "cePluseState";
-            this.cePluseState.Properties.Caption = "脉冲量";
-            this.cePluseState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePluseState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cePluseState.Size = new System.Drawing.Size(60, 19);
-            this.cePluseState.TabIndex = 1;
             // 
             // cemodbusprotocolstatus
             // 
@@ -267,7 +234,7 @@ namespace SmartWaterSystem
             // ceRS485State
             // 
             this.ceRS485State.Enabled = false;
-            this.ceRS485State.Location = new System.Drawing.Point(162, 5);
+            this.ceRS485State.Location = new System.Drawing.Point(101, 5);
             this.ceRS485State.Name = "ceRS485State";
             this.ceRS485State.Properties.Caption = "RS485";
             this.ceRS485State.Properties.LookAndFeel.SkinName = "Seven Classic";
@@ -426,7 +393,7 @@ namespace SmartWaterSystem
             // 
             // ceCollectRS485
             // 
-            this.ceCollectRS485.Location = new System.Drawing.Point(4, 2);
+            this.ceCollectRS485.Location = new System.Drawing.Point(4, 0);
             this.ceCollectRS485.Name = "ceCollectRS485";
             this.ceCollectRS485.Properties.Caption = "采集RS485";
             this.ceCollectRS485.Properties.LookAndFeel.SkinName = "Seven Classic";
@@ -434,17 +401,6 @@ namespace SmartWaterSystem
             this.ceCollectRS485.Size = new System.Drawing.Size(117, 19);
             this.ceCollectRS485.TabIndex = 3;
             this.ceCollectRS485.CheckedChanged += new System.EventHandler(this.ceCollectRS485_CheckedChanged);
-            // 
-            // ceCollectPluse
-            // 
-            this.ceCollectPluse.Location = new System.Drawing.Point(2, 2);
-            this.ceCollectPluse.Name = "ceCollectPluse";
-            this.ceCollectPluse.Properties.Caption = "采集脉冲量";
-            this.ceCollectPluse.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceCollectPluse.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceCollectPluse.Size = new System.Drawing.Size(87, 19);
-            this.ceCollectPluse.TabIndex = 2;
-            this.ceCollectPluse.CheckedChanged += new System.EventHandler(this.ceCollectPluse_CheckedChanged);
             // 
             // ceCollectSimulate
             // 
@@ -483,14 +439,14 @@ namespace SmartWaterSystem
             this.groupControl4.Controls.Add(this.gridControl_485protocol);
             this.groupControl4.Location = new System.Drawing.Point(402, 86);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(395, 186);
+            this.groupControl4.Size = new System.Drawing.Size(395, 374);
             this.groupControl4.TabIndex = 4;
             // 
             // gridControl_485protocol
             // 
             this.gridControl_485protocol.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_485protocol.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_485protocol.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_485protocol.Location = new System.Drawing.Point(2, 22);
             this.gridControl_485protocol.MainView = this.gridView_485protocol;
             this.gridControl_485protocol.Name = "gridControl_485protocol";
             this.gridControl_485protocol.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -499,7 +455,7 @@ namespace SmartWaterSystem
             this.txt_485protocol_regbeginaddr,
             this.txt_485protocol_regcount,
             this.cb_485protocol_baud});
-            this.gridControl_485protocol.Size = new System.Drawing.Size(391, 157);
+            this.gridControl_485protocol.Size = new System.Drawing.Size(391, 350);
             this.gridControl_485protocol.TabIndex = 4;
             this.gridControl_485protocol.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_485protocol});
@@ -671,7 +627,7 @@ namespace SmartWaterSystem
             // 
             this.gridControl_Simulate.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_Simulate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Simulate.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_Simulate.Location = new System.Drawing.Point(2, 22);
             this.gridControl_Simulate.MainView = this.gridView_Simulate;
             this.gridControl_Simulate.Name = "gridControl_Simulate";
             this.gridControl_Simulate.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -679,7 +635,7 @@ namespace SmartWaterSystem
             this.cb_sim_coltime1,
             this.cb_sim_sendtime,
             this.cb_sim_coltime2});
-            this.gridControl_Simulate.Size = new System.Drawing.Size(391, 157);
+            this.gridControl_Simulate.Size = new System.Drawing.Size(391, 162);
             this.gridControl_Simulate.TabIndex = 1;
             this.gridControl_Simulate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Simulate});
@@ -787,7 +743,7 @@ namespace SmartWaterSystem
             // 
             this.groupControl3.Controls.Add(this.ceCollectRS485);
             this.groupControl3.Controls.Add(this.gridControl_RS485);
-            this.groupControl3.Location = new System.Drawing.Point(402, 274);
+            this.groupControl3.Location = new System.Drawing.Point(6, 274);
             this.groupControl3.Name = "groupControl3";
             this.groupControl3.Size = new System.Drawing.Size(395, 186);
             this.groupControl3.TabIndex = 3;
@@ -796,14 +752,14 @@ namespace SmartWaterSystem
             // 
             this.gridControl_RS485.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_RS485.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_RS485.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_RS485.Location = new System.Drawing.Point(2, 22);
             this.gridControl_RS485.MainView = this.gridView_RS485;
             this.gridControl_RS485.Name = "gridControl_RS485";
             this.gridControl_RS485.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_RS485_starttime,
             this.cb_RS485_coltime,
             this.cb_RS485_sendtime});
-            this.gridControl_RS485.Size = new System.Drawing.Size(391, 157);
+            this.gridControl_RS485.Size = new System.Drawing.Size(391, 162);
             this.gridControl_RS485.TabIndex = 3;
             this.gridControl_RS485.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_RS485});
@@ -888,111 +844,6 @@ namespace SmartWaterSystem
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cb_RS485_sendtime.Name = "cb_RS485_sendtime";
             // 
-            // groupControl5
-            // 
-            this.groupControl5.Controls.Add(this.ceCollectPluse);
-            this.groupControl5.Controls.Add(this.gridControl_Pluse);
-            this.groupControl5.Location = new System.Drawing.Point(6, 274);
-            this.groupControl5.Name = "groupControl5";
-            this.groupControl5.Size = new System.Drawing.Size(395, 186);
-            this.groupControl5.TabIndex = 2;
-            // 
-            // gridControl_Pluse
-            // 
-            this.gridControl_Pluse.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl_Pluse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Pluse.Location = new System.Drawing.Point(2, 27);
-            this.gridControl_Pluse.MainView = this.gridView_Pluse;
-            this.gridControl_Pluse.Name = "gridControl_Pluse";
-            this.gridControl_Pluse.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.cb_pluse_starttime,
-            this.cb_pluse_coltime,
-            this.cb_pluse_sendtime});
-            this.gridControl_Pluse.Size = new System.Drawing.Size(391, 157);
-            this.gridControl_Pluse.TabIndex = 3;
-            this.gridControl_Pluse.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView_Pluse});
-            // 
-            // gridView_Pluse
-            // 
-            this.gridView_Pluse.ActiveFilterEnabled = false;
-            this.gridView_Pluse.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn5,
-            this.gridColumn16,
-            this.gridColumn17});
-            this.gridView_Pluse.GridControl = this.gridControl_Pluse;
-            this.gridView_Pluse.IndicatorWidth = 30;
-            this.gridView_Pluse.Name = "gridView_Pluse";
-            this.gridView_Pluse.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView_Pluse.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
-            this.gridView_Pluse.OptionsCustomization.AllowColumnMoving = false;
-            this.gridView_Pluse.OptionsCustomization.AllowGroup = false;
-            this.gridView_Pluse.OptionsCustomization.AllowSort = false;
-            this.gridView_Pluse.OptionsFilter.AllowFilterEditor = false;
-            this.gridView_Pluse.OptionsView.ShowGroupPanel = false;
-            this.gridView_Pluse.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView_Pluse.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridView_CustomDrawRowIndicator);
-            this.gridView_Pluse.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_Pluse_CustomRowCellEdit);
-            this.gridView_Pluse.CustomRowCellEditForEditing += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_Pluse_CustomRowCellEditForEditing);
-            // 
-            // gridColumn5
-            // 
-            this.gridColumn5.Caption = "起始时间";
-            this.gridColumn5.ColumnEdit = this.cb_pluse_starttime;
-            this.gridColumn5.FieldName = "starttime";
-            this.gridColumn5.Name = "gridColumn5";
-            this.gridColumn5.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn5.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn5.OptionsColumn.AllowMove = false;
-            this.gridColumn5.OptionsEditForm.StartNewRow = true;
-            this.gridColumn5.OptionsFilter.AllowAutoFilter = false;
-            this.gridColumn5.OptionsFilter.AllowFilter = false;
-            this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 0;
-            // 
-            // cb_pluse_starttime
-            // 
-            this.cb_pluse_starttime.AutoHeight = false;
-            this.cb_pluse_starttime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cb_pluse_starttime.Name = "cb_pluse_starttime";
-            // 
-            // gridColumn16
-            // 
-            this.gridColumn16.Caption = "采集时间间隔";
-            this.gridColumn16.ColumnEdit = this.cb_pluse_coltime;
-            this.gridColumn16.FieldName = "collecttime";
-            this.gridColumn16.Name = "gridColumn16";
-            this.gridColumn16.OptionsFilter.AllowAutoFilter = false;
-            this.gridColumn16.OptionsFilter.AllowFilter = false;
-            this.gridColumn16.Visible = true;
-            this.gridColumn16.VisibleIndex = 1;
-            // 
-            // cb_pluse_coltime
-            // 
-            this.cb_pluse_coltime.AutoHeight = false;
-            this.cb_pluse_coltime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cb_pluse_coltime.Name = "cb_pluse_coltime";
-            // 
-            // gridColumn17
-            // 
-            this.gridColumn17.Caption = "发送时间间隔";
-            this.gridColumn17.ColumnEdit = this.cb_pluse_sendtime;
-            this.gridColumn17.FieldName = "sendtime";
-            this.gridColumn17.Name = "gridColumn17";
-            this.gridColumn17.OptionsFilter.AllowAutoFilter = false;
-            this.gridColumn17.OptionsFilter.AllowFilter = false;
-            this.gridColumn17.Visible = true;
-            this.gridColumn17.VisibleIndex = 2;
-            // 
-            // cb_pluse_sendtime
-            // 
-            this.cb_pluse_sendtime.AutoHeight = false;
-            this.cb_pluse_sendtime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cb_pluse_sendtime.Name = "cb_pluse_sendtime";
-            // 
             // btnReset
             // 
             this.btnReset.Enabled = false;
@@ -1014,29 +865,17 @@ namespace SmartWaterSystem
             this.SwitchComunication.TabIndex = 11;
             this.SwitchComunication.Click += new System.EventHandler(this.SwitchComunication_Click);
             // 
-            // btnSetPluseBasic
-            // 
-            this.btnSetPluseBasic.Enabled = false;
-            this.btnSetPluseBasic.Location = new System.Drawing.Point(193, 462);
-            this.btnSetPluseBasic.Name = "btnSetPluseBasic";
-            this.btnSetPluseBasic.Size = new System.Drawing.Size(88, 26);
-            this.btnSetPluseBasic.TabIndex = 5;
-            this.btnSetPluseBasic.Text = "设置脉冲基准";
-            this.btnSetPluseBasic.Click += new System.EventHandler(this.btnSetPluseBasic_Click);
-            // 
             // OLWQParm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.SwitchComunication);
             this.Controls.Add(this.btnEnableCollect);
-            this.Controls.Add(this.btnSetPluseBasic);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnCheckingTime);
             this.Controls.Add(this.btnSetParm);
             this.Controls.Add(this.btnReadParm);
             this.Controls.Add(this.groupControl3);
-            this.Controls.Add(this.groupControl5);
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl4);
             this.Controls.Add(this.groupControl1);
@@ -1051,7 +890,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
             this.groupControl7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cemodbusprotocolstatus.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2State.Properties)).EndInit();
@@ -1070,7 +908,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceCollectPluse.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectSimulate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
@@ -1096,13 +933,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_starttime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_coltime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_RS485_sendtime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).EndInit();
-            this.groupControl5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl_Pluse)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView_Pluse)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_starttime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).EndInit();
             this.ResumeLayout(false);
 
@@ -1133,11 +963,9 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit ceColConfig;
         private DevExpress.XtraEditors.GroupControl groupControl2;
         private DevExpress.XtraEditors.GroupControl groupControl3;
-        private DevExpress.XtraEditors.GroupControl groupControl5;
         private DevExpress.XtraEditors.CheckEdit cePort;
         private DevExpress.XtraEditors.GroupControl groupControl7;
         private DevExpress.XtraEditors.CheckEdit ceCollectRS485;
-        private DevExpress.XtraEditors.CheckEdit ceCollectPluse;
         private DevExpress.XtraEditors.CheckEdit ceCollectSimulate;
         private DevExpress.XtraEditors.SimpleButton btnReset;
         private DevExpress.XtraEditors.TextEdit txtTime;
@@ -1149,14 +977,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_coltime1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_sendtime;
-        private DevExpress.XtraGrid.GridControl gridControl_Pluse;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView_Pluse;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pluse_starttime;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn16;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pluse_coltime;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn17;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pluse_sendtime;
         private DevExpress.XtraGrid.GridControl gridControl_RS485;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView_RS485;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
@@ -1180,14 +1000,12 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.ToggleSwitch SwitchComunication;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_coltime2;
-        private DevExpress.XtraEditors.CheckEdit cePluseState;
         private DevExpress.XtraEditors.CheckEdit ceRS485State;
         private DevExpress.XtraEditors.CheckEdit ceSimulate1State;
         private DevExpress.XtraEditors.CheckEdit cemodbusprotocolstatus;
         private DevExpress.XtraEditors.SimpleButton btnCalibrationSimualte2;
         private DevExpress.XtraEditors.SimpleButton btnCalibrationSimualte1;
         private DevExpress.XtraEditors.CheckEdit ceSimulate2State;
-        private DevExpress.XtraEditors.SimpleButton btnSetPluseBasic;
 
     }
 }

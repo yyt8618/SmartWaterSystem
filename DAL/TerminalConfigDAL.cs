@@ -71,14 +71,14 @@ namespace DAL
                 string SQL_Config = @"INSERT INTO PreTerConfig(TerminalID,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm) VALUES(
                 @TerminalID,@PreUpperLimit,@PreLowLimit,@PreSlopeUpLimit,@PreSlopeLowLimit,@EnablePreAlarm,@EnableSlopeAlarm)";
                 SQLiteParameter[] parms = new SQLiteParameter[]{
-                new SQLiteParameter("@TerminalID",SqlDbType.Int),
-                new SQLiteParameter("@PreUpperLimit",SqlDbType.Decimal),
-                new SQLiteParameter("@PreLowLimit",SqlDbType.Decimal),
-                new SQLiteParameter("@PreSlopeUpLimit",SqlDbType.Decimal),
-                new SQLiteParameter("@PreSlopeLowLimit",SqlDbType.Decimal),
+                new SQLiteParameter("@TerminalID",DbType.Int32),
+                new SQLiteParameter("@PreUpperLimit",DbType.Decimal),
+                new SQLiteParameter("@PreLowLimit",DbType.Single),
+                new SQLiteParameter("@PreSlopeUpLimit",DbType.Single),
+                new SQLiteParameter("@PreSlopeLowLimit",DbType.Single),
 
-                new SQLiteParameter("@EnablePreAlarm",SqlDbType.Int),
-                new SQLiteParameter("@EnableSlopeAlarm",SqlDbType.Int),
+                new SQLiteParameter("@EnablePreAlarm",DbType.Int32),
+                new SQLiteParameter("@EnableSlopeAlarm",DbType.Int32),
 
             };
                 parms[0].Value = entity.TerminalID;

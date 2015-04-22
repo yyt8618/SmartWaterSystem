@@ -319,7 +319,7 @@
             // 
             this.gridControl_Data.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_Data.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Data.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_Data.Location = new System.Drawing.Point(2, 22);
             this.gridControl_Data.MainView = this.lstDataView;
             this.gridControl_Data.Name = "gridControl_Data";
             this.gridControl_Data.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -327,7 +327,7 @@
             this.repositoryItemCheckEdit3,
             this.repositoryItemImageComboBox1,
             this.repositoryItemPictureEdit2});
-            this.gridControl_Data.Size = new System.Drawing.Size(622, 391);
+            this.gridControl_Data.Size = new System.Drawing.Size(622, 396);
             this.gridControl_Data.TabIndex = 1;
             this.gridControl_Data.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.lstDataView});
@@ -361,6 +361,7 @@
             this.lstDataView.OptionsView.ShowGroupPanel = false;
             this.lstDataView.OptionsView.ShowIndicator = false;
             this.lstDataView.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.lstDataView_RowCellClick);
+            this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
             // 
             // gridColumn3
             // 

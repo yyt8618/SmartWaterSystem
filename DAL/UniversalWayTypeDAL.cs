@@ -23,9 +23,9 @@ namespace DAL
             }
         }
 
-        public int GetMaxSequence(int parentId)
+        public int GetMaxSequence(int parentId, TerType terType)
         {
-            string SQL = "SELECT MAX(Sequence) FROM UniversalTerWayType WHERE ParentId='"+parentId+"'";
+            string SQL = "SELECT MAX(Sequence) FROM UniversalTerWayType WHERE ParentId='" + parentId + "' AND TerminalType='" + ((int)terType).ToString() + "'";
             object obj = SQLiteHelper.ExecuteScalar(SQL, null);
             if (obj != null && obj != DBNull.Value)
             {
@@ -37,9 +37,9 @@ namespace DAL
             }
         }
 
-        public int TypeExist(UniversalCollectType type, string name)
+        public int TypeExist(UniversalCollectType type, string name, TerType terType)
         {
-            string SQL = "SELECT COUNT(1) FROM UniversalTerWayType WHERE SyncState<>-1 AND WayType='" + (int)type + "' AND Name='" + name + "'";
+            string SQL = "SELECT COUNT(1) FROM UniversalTerWayType WHERE SyncState<>-1 AND WayType='" + (int)type + "' AND Name='" + name + "' AND TerminalType='" + ((int)terType).ToString() + "'";
             object obj = SQLiteHelper.ExecuteScalar(SQL, null);
             if (obj != null && obj != DBNull.Value)
             {
@@ -51,14 +51,14 @@ namespace DAL
             }
         }
 
-        public int Insert(UniversalWayTypeEntity entity)
+        public int Insert(UniversalWayTypeEntity entity,TerType terType)
         {
             if (entity == null)
                 return 0;
 
             string SQL = @"INSERT INTO 
-                            UniversalTerWayType(ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,SyncState,ModifyTime) VALUES(
-                            @ID,@Level,@ParentID,@WayType,@Name,@FrameWidth,@Sequence,@MaxMeasureRange,@MaxMeasureRangeFlag,@Precision,@Unit,@SyncState,@ModifyTime)";
+                            UniversalTerWayType(ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,SyncState,ModifyTime,TerminalType) VALUES(
+                            @ID,@Level,@ParentID,@WayType,@Name,@FrameWidth,@Sequence,@MaxMeasureRange,@MaxMeasureRangeFlag,@Precision,@Unit,@SyncState,@ModifyTime,@terType)";
             SQLiteParameter[] parms = new SQLiteParameter[]{
                 new SQLiteParameter("@ID",DbType.Int32),
                 new SQLiteParameter("@Level",DbType.Int32),
@@ -74,7 +74,8 @@ namespace DAL
 
                 new SQLiteParameter("@Unit",DbType.String),
                 new SQLiteParameter("@SyncState",DbType.Int32),
-                new SQLiteParameter("@ModifyTime",DbType.DateTime)
+                new SQLiteParameter("@ModifyTime",DbType.DateTime),
+                new SQLiteParameter("@terType",DbType.Int32)
             };
             parms[0].Value = entity.ID;
             parms[1].Value = entity.Level;
@@ -91,6 +92,7 @@ namespace DAL
             parms[10].Value = entity.Unit;
             parms[11].Value = entity.SyncState;
             parms[12].Value = entity.ModifyTime;
+            parms[13].Value = (int)terType;
 
             SQLiteHelper.ExecuteNonQuery(SQL, parms);
             return 1;
@@ -153,10 +155,11 @@ namespace DAL
         /// 获得配置的PointID(不区分ID),id为空时，获取全部
         /// </summary>
         /// <returns></returns>
-        public List<UniversalWayTypeEntity> GetConfigPointID(string id)
+        public List<UniversalWayTypeEntity> GetConfigPointID(string id,TerType terType)
         {
             string SQL_Point = string.Format(@"SELECT ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,SyncState,ModifyTime 
-                                FROM UniversalTerWayType WHERE ID IN (SELECT DISTINCT PointID FROM UniversalTerWayConfig {0}) ORDER BY WayType,Sequence", string.IsNullOrEmpty(id) ? "" : "WHERE TerminalID='" + id.Trim() + "'");
+                                FROM UniversalTerWayType WHERE ID IN (SELECT DISTINCT PointID FROM UniversalTerWayConfig WHERE TerminalType='{0}' {1}) AND TerminalType='{2}' ORDER BY WayType,Sequence", 
+                                     (int)terType,(string.IsNullOrEmpty(id) ? "" : "AND TerminalID='" + id.Trim() + "'"),(int)terType);
             List<UniversalWayTypeEntity> lst = new List<UniversalWayTypeEntity>();
             using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL_Point, null))
             {
@@ -201,9 +204,9 @@ namespace DAL
             return false;
         }
 
-        public DataTable GetTerminalID_Configed()
+        public DataTable GetTerminalID_Configed(TerType terType)
         {
-            string SQL = "SELECT DISTINCT TerminalID FROM UniversalTerWayConfig WHERE SyncState<>-1 ORDER BY TerminalID";
+            string SQL = "SELECT DISTINCT TerminalID FROM UniversalTerWayConfig WHERE SyncState<>-1 AND TerminalType='"+((int)terType).ToString()+"' ORDER BY TerminalID";
             DataTable dt = SQLiteHelper.ExecuteDataTable(SQL, null);
             return dt;
         }
@@ -256,9 +259,9 @@ namespace DAL
                 return null;
         }
 
-        public int GetCofingSequence(string Terid,string pointid)
+        public int GetCofingSequence(string Terid,string pointid,TerType terType)
         {
-            string SQL = "SELECT Sequence FROM UniversalTerWayConfig WHERE PointID ='"+pointid+"' AND TerminalID='"+Terid+"'";
+            string SQL = "SELECT Sequence FROM UniversalTerWayConfig WHERE PointID ='" + pointid + "' AND TerminalID='" + Terid + "' AND TerminalType='"+((int)terType).ToString()+"'";
             object obj_sequence=SQLiteHelper.ExecuteScalar(SQL,null);
             if(obj_sequence!=null)
             {

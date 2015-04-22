@@ -123,7 +123,7 @@ namespace SmartWaterSystem
             bandID.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             bandID.Columns.Add(columnId);
 
-            List<UniversalWayTypeEntity> lst_TypeWay_Parent = typeBll.GetConfigPointID("");
+            List<UniversalWayTypeEntity> lst_TypeWay_Parent = typeBll.GetConfigPointID("",TerType.OLWQTer);
             if (lst_TypeWay_Parent != null)
             {
                 int index = 0;
@@ -134,7 +134,7 @@ namespace SmartWaterSystem
                     bandParent.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                     if (ParentNode.HaveChild)  //have child
                     {
-                        List<UniversalWayTypeEntity> lst_TypeWay_Child = typeBll.Select("WHERE ParentID='" + ParentNode.ID + "' ORDER BY Sequence");
+                        List<UniversalWayTypeEntity> lst_TypeWay_Child = typeBll.Select("WHERE ParentID='" + ParentNode.ID + "' AND TerminalType='" + ((int)TerType.OLWQTer).ToString() + "' ORDER BY Sequence");
                         if (lst_TypeWay_Child != null)
                         {
                             foreach (UniversalWayTypeEntity ChildNode in lst_TypeWay_Child)
@@ -234,7 +234,7 @@ namespace SmartWaterSystem
         private void ShowGridTerData(List<OnLineTerEntity> lstOnLine)
         {
             gridControlTer.DataSource = null;
-            DataTable dt = typeBll.GetTerminalID_Configed();
+            DataTable dt = typeBll.GetTerminalID_Configed(TerType.OLWQTer);
 
             DataTable dt_bind = new DataTable("BindTable");
             DataColumn col_check1 = dt_bind.Columns.Add("checked");
@@ -302,7 +302,7 @@ namespace SmartWaterSystem
             }
 
             gridControlTer.DataSource = null;
-            DataTable dt_config = typeBll.GetTerminalID_Configed();
+            DataTable dt_config = typeBll.GetTerminalID_Configed(TerType.OLWQTer);
 
             DataTable dt_bind = new DataTable("BindTable");
             DataColumn col_check1 = dt_bind.Columns.Add("checked");
@@ -450,7 +450,7 @@ namespace SmartWaterSystem
                     msmqEntity.DevId = Convert.ToInt16(currentTerid);
                     msmqEntity.DevType = ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
                     msmqEntity.CallDataType = new CallDataTypeEntity();
-                    int config_Seq = typeBll.GetCofingSequence(currentTerid.Trim(), gb1.Tag.ToString().Trim());
+                    int config_Seq = typeBll.GetCofingSequence(currentTerid.Trim(), gb1.Tag.ToString().Trim(),TerType.OLWQTer);
                     if (config_Seq == -1)
                     {
                         return;

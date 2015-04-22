@@ -384,7 +384,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -421,7 +421,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -741,7 +741,7 @@ namespace SmartWaterSystem
             //        }
             //        catch (Exception ex)
             //        {
-            //            MessageBox.Show(ex.ToString());
+            //            XtraMessageBox.Show(ex.ToString());
             //        }
             //    }
             //}
@@ -795,7 +795,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                XtraMessageBox.Show(ex.Message);
                 return null;
             }
         }
@@ -818,7 +818,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                XtraMessageBox.Show(ex.Message);
                 return null;
             }
         }

@@ -229,6 +229,12 @@
     <Compile Include="MODULE\OLWQ\OLWQParm.Designer.cs">
       <DependentUpon>OLWQParm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQTreeNodeInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQTreeNodeInfoForm.Designer.cs">
+      <DependentUpon>OLWQTreeNodeInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\PreTerminal\PreParmConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -283,11 +289,11 @@
     <Compile Include="MODULE\UniversalTerminal\UniversalChartForm.Designer.cs">
       <DependentUpon>UniversalChartForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MODULE\UniversalTerminal\TreeNodeInfoForm.cs">
+    <Compile Include="MODULE\UniversalTerminal\UniversalTreeNodeInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MODULE\UniversalTerminal\TreeNodeInfoForm.Designer.cs">
-      <DependentUpon>TreeNodeInfoForm.cs</DependentUpon>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTreeNodeInfoForm.Designer.cs">
+      <DependentUpon>UniversalTreeNodeInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\UniversalTerminal\UniversalTerParm.cs">
       <SubType>UserControl</SubType>
@@ -415,6 +421,9 @@
     <EmbeddedResource Include="MODULE\OLWQ\OLWQParm.resx">
       <DependentUpon>OLWQParm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQTreeNodeInfoForm.resx">
+      <DependentUpon>OLWQTreeNodeInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreParmConfigForm.resx">
       <DependentUpon>PreParmConfigForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -442,8 +451,8 @@
     <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalChartForm.resx">
       <DependentUpon>UniversalChartForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\UniversalTerminal\TreeNodeInfoForm.resx">
-      <DependentUpon>TreeNodeInfoForm.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTreeNodeInfoForm.resx">
+      <DependentUpon>UniversalTreeNodeInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerParm.resx">
       <DependentUpon>UniversalTerParm.cs</DependentUpon>

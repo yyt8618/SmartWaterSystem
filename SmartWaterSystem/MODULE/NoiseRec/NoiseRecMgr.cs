@@ -992,7 +992,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show(ex.Message, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

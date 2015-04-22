@@ -133,11 +133,11 @@ namespace BLL
             }
         }
 
-        public int DeleteUniversalWayTypeConfig_TerID(int TerminalID)
+        public int DeleteUniversalWayTypeConfig_TerID(int TerminalID,TerType terType)
         {
             try
             {
-                dal.DeleteUniversalWayTypeConfig_TerID(TerminalID);
+                dal.DeleteUniversalWayTypeConfig_TerID(TerminalID, terType);
                 return 1;
             }
             catch (Exception ex)
@@ -152,11 +152,11 @@ namespace BLL
         /// </summary>
         /// <param name="TerminalID"></param>
         /// <returns></returns>
-        public List<UniversalWayTypeConfigEntity> GetUniversalWayTypeConfig(int TerminalID)
+        public List<UniversalWayTypeConfigEntity> GetUniversalWayTypeConfig(int TerminalID, TerType terType)
         {
             try
             {
-                return dal.GetUniversalWayTypeConfig(TerminalID);
+                return dal.GetUniversalWayTypeConfig(TerminalID, terType);
             }
             catch (Exception ex)
             {
@@ -179,11 +179,11 @@ namespace BLL
             }
         }
 
-        public DataTable GetUniversalDataConfig()
+        public DataTable GetUniversalDataConfig(TerType terType)
         {
             try
             {
-                return dal.GetUniversalDataConfig();
+                return dal.GetUniversalDataConfig(terType);
             }
             catch (Exception ex)
             {

@@ -271,7 +271,7 @@ namespace Common
             array.Add(CreateTableGroupRecorder());
             array.Add(CreateTableRecorderSet());
             array.Add(CreateTableStandData());
-            array.Add(CreateTableUniversalTerConfig());
+            //array.Add(CreateTableUniversalTerConfig());
             array.Add(CreateTablePreTerConfig());
             array.Add(CreateTableGPRSTerminal());
             array.Add(CreateTableUniversalTerWayType());
@@ -518,24 +518,24 @@ namespace Common
 	                    [TerminalID]		[INT] NOT NULL,								--终端ID
 	                    [EnablePreAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用压力报警 0:不启用,1:启用
 	                    [EnableSlopeAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用斜率报警 0:不启用,1:启用
-	                    [PreUpperLimit]		[NUMERIC](8,5)	NOT NULL DEFAULT 0,			--压力上限值
-	                    [PreLowLimit]		[NUMERIC](8,5)	NOT NULL DEFAULT 0,			--压力下限值
-	                    [PreSlopeUpLimit]   [NUMERIC](8,5)  NOT NULL DEFAULT 0,			--压力斜率上限值
-	                    [PreSlopeLowLimit]  [NUMERIC](8,5)  NOT NULL DEFAULT 0,			--压力斜率下限值
+	                    [PreUpperLimit]		NUMERIC(8, 5)	NOT NULL DEFAULT 0,			--压力上限值
+	                    [PreLowLimit]		NUMERIC(8, 5)	NOT NULL DEFAULT 0,			--压力下限值
+	                    [PreSlopeUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--压力斜率上限值
+	                    [PreSlopeLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--压力斜率下限值
                         [SyncState]         INT             NULL     DEFAULT 1 ,        --0:已同步,1:新增未同步,-1:删除未同步
 	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
                     )";
         }
 
-        private string CreateTableUniversalTerConfig()
-        {
-            return @"CREATE TABLE [UniversalTerConfig]
-                    (
-	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
-	                    [TerminalID]		[INT] NOT NULL,								--终端ID
-	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
-                    )";
-        }
+//        private string CreateTableUniversalTerConfig()
+//        {
+//            return @"CREATE TABLE [UniversalTerConfig]
+//                    (
+//	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+//	                    [TerminalID]		[INT] NOT NULL,								--终端ID
+//	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
+//                    )";
+//        }
 
         /// <summary>
         /// 第几路采集类型(通用终端)
@@ -546,6 +546,7 @@ namespace Common
             return @"CREATE TABLE [UniversalTerWayType]
                     (
 	                    [ID]                [INT]           NOT NULL,
+                        [TerminalType]      [INT]           NOT NULL,                           --终端类型 ,通用终端和在线水质
 	                    [Level]             [INT]           NOT NULL,                           --从1开始
 	                    [ParentID]          [INT]           NOT NULL    DEFAULT -1,
                         [WayType]           [INT]           NOT NULL,
@@ -570,6 +571,7 @@ namespace Common
                     (
 	                    [ID]                [INT]           NOT NULL,
                         [TerminalID]		[INT]           NOT NULL,								--终端ID
+                        [TerminalType]      [INT]           NOT NULL,                               --终端类型 ,通用终端和在线水质
                         [Sequence]          [INT]           NOT NULL,                               --对应顺序序号
 	                    [PointID]           [INT]           NOT NULL,
                         [SyncState]         [INT]           NULL        DEFAULT 1,                  --0:已同步,1:新增未同步,-1:删除未同步

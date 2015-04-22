@@ -27,7 +27,7 @@ namespace SmartWaterSystem
             dtpStart.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             dtpEnd.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
 
-            lstDetailView.Columns[1].Text = dataBll.GetTerminalName(TerminalID, TerType.UniversalTer);
+            lstDetailView.Columns[1].Text = dataBll.GetTerminalName(TerminalID, TerType.OLWQTer);
 
             groupBoxList.Visible = true;
             groupBoxChart.Visible = false;

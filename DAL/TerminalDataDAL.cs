@@ -167,29 +167,17 @@ namespace DAL
 
                         command_frame.ExecuteNonQuery();
 
-                        //en_point_id = "";
-                        //foreach (DataRow dr in dt_PointID.Rows)
-                        //{
-                        //    if (dr["TerminalID"].ToString() == entity.TerId)
-                        //    {
-                        //        en_point_id = dr["ID"].ToString();
-                        //        break;
-                        //    }
-                        //}
-                        //if (!string.IsNullOrEmpty(en_point_id))
-                        //{
-                            for (int i = 0; i < entity.lstFlowData.Count; i++)
-                            {
-                                parms_predata[0].Value = entity.TerId;
-                                parms_predata[1].Value = entity.lstFlowData[i].Forward_FlowValue;
-                                parms_predata[2].Value = entity.lstFlowData[i].Reverse_FlowValue;
-                                parms_predata[3].Value = entity.lstFlowData[i].Instant_FlowValue;
-                                parms_predata[4].Value = entity.lstFlowData[i].ColTime;
-                                parms_predata[5].Value = entity.ModifyTime;
+                        for (int i = 0; i < entity.lstFlowData.Count; i++)
+                        {
+                            parms_predata[0].Value = entity.TerId;
+                            parms_predata[1].Value = entity.lstFlowData[i].Forward_FlowValue;
+                            parms_predata[2].Value = entity.lstFlowData[i].Reverse_FlowValue;
+                            parms_predata[3].Value = entity.lstFlowData[i].Instant_FlowValue;
+                            parms_predata[4].Value = entity.lstFlowData[i].ColTime;
+                            parms_predata[5].Value = entity.ModifyTime;
 
-                                command_predata.ExecuteNonQuery();
-                            }
-                        //}
+                            command_predata.ExecuteNonQuery();
+                        }
                     }
                     trans.Commit();
 
@@ -475,8 +463,8 @@ namespace DAL
                     foreach (UniversalWayTypeConfigEntity config in lstPointID)
                     {
                         configeMaxId++;
-                        command.CommandText = string.Format("INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID) VALUES('{0}','{1}','{2}','{3}')",
-                            configeMaxId, terminalid,config.Sequence, config.PointID);
+                        command.CommandText = string.Format("INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID,TerminalType) VALUES('{0}','{1}','{2}','{3}','{4}')",
+                            configeMaxId, terminalid, config.Sequence, config.PointID, (int)terType);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -498,9 +486,9 @@ namespace DAL
             SQLiteHelper.ExecuteNonQuery(SQL, null);
         }
 
-        public void DeleteUniversalWayTypeConfig_TerID(int TerminalID)
+        public void DeleteUniversalWayTypeConfig_TerID(int TerminalID,TerType terType)
         {
-            string SQL_Ter = "SELECT Distinct PointID FROM UniversalTerWayConfig WHERE TerminalID='"+TerminalID+"'";
+            string SQL_Ter = "SELECT Distinct PointID FROM UniversalTerWayConfig WHERE TerminalID='" + TerminalID + "' AND TerminalType='"+((int)terType).ToString()+"'";
             List<string> lstPoint = new List<string>();
             using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL_Ter, null))
             {
@@ -514,7 +502,7 @@ namespace DAL
                 foreach (string pointid in lstPoint)
                 {
                     string SQL = "";
-                    string SQL_SELECT = "SELECT COUNT(1) FROM UniversalTerWayConfig WHERE SyncState=-1 AND PointID='" + pointid + "' AND TerminalID='" + TerminalID + "'";
+                    string SQL_SELECT = "SELECT COUNT(1) FROM UniversalTerWayConfig WHERE SyncState=-1 AND PointID='" + pointid + "' AND TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
                     object obj_exist = SQLiteHelper.ExecuteScalar(SQL_SELECT, null);
                     bool exist = false;
                     if (obj_exist != null && obj_exist != DBNull.Value)
@@ -522,17 +510,17 @@ namespace DAL
                         exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
                     }
                     if (exist)
-                        SQL = "DELETE FROM UniversalTerWayConfig WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "'";
+                        SQL = "DELETE FROM UniversalTerWayConfig WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
                     else
-                        SQL = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "'";
+                        SQL = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
                     SQLiteHelper.ExecuteNonQuery(SQL, null);
                 }
             }
         }
 
-        public List<UniversalWayTypeConfigEntity> GetUniversalWayTypeConfig(int TerminalID)
+        public List<UniversalWayTypeConfigEntity> GetUniversalWayTypeConfig(int TerminalID,TerType terType)
         {
-            string SQL = "SELECT id,Sequence,PointID,SyncState,ModifyTime FROM UniversalTerWayConfig WHERE TerminalID='" + TerminalID + "' AND SyncState!=-1";
+            string SQL = "SELECT id,Sequence,PointID,SyncState,ModifyTime FROM UniversalTerWayConfig WHERE TerminalID='" + TerminalID + "' AND SyncState!=-1 AND TerminalType='" + ((int)terType).ToString() + "'";
             
             using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL, null))
             {
@@ -554,10 +542,10 @@ namespace DAL
             return null;
         }
 
-        public DataTable GetUniversalDataConfig()
+        public DataTable GetUniversalDataConfig(TerType terType)
         {
             string SQL = @"SELECT Type.ID,Config.TerminalID,Config.Sequence,Type.[Level],Type.[ParentID],Type.[WayType],Type.[Name],Type.[MaxMeasureRange],Type.[MaxMeasureRangeFlag],Type.[FrameWidth],Type.[Precision],Type.[Unit]
-                        FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE Config.PointID=Type.ID OR Config.PointID=Type.ParentID";
+                        FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE Config.PointID=Type.ID OR Config.PointID=Type.ParentID AND Config.TerminalType=Type.TerminalType AND Config.TerminalType='"+((int)terType).ToString()+"'";
 
             DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
             return dt;

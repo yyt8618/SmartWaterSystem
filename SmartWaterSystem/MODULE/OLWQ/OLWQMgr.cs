@@ -42,13 +42,6 @@ namespace SmartWaterSystem
             cbSimulate2.Properties.Items.Clear();
             cbSimulate3.Properties.Items.Clear();
 
-            //pluse
-            cbPluse1.Properties.Items.Clear();
-            cbPluse2.Properties.Items.Clear();
-            cbPluse3.Properties.Items.Clear();
-            cbPluse4.Properties.Items.Clear();
-            cbPluse5.Properties.Items.Clear();
-
             //RS485
             cbRS485_1.Properties.Items.Clear();
             cbRS485_2.Properties.Items.Clear();
@@ -63,7 +56,7 @@ namespace SmartWaterSystem
         private void LoadTerminalData()
         {
             gridControls.DataSource = null;
-            DataTable dt_ter = Terbll.GetTerInfo(TerType.UniversalTer);
+            DataTable dt_ter = Terbll.GetTerInfo(TerType.OLWQTer);
             if (dt_ter != null && dt_ter.Rows.Count > 0)
             {
                 gridTer.BeginDataUpdate();
@@ -76,7 +69,7 @@ namespace SmartWaterSystem
         {
             ClearComboboxValue();
 
-            lstComboboxdata = WayTypebll.Select("WHERE Level = '1' AND SyncState!=-1 ORDER BY WayType,Name");
+            lstComboboxdata = WayTypebll.Select("WHERE Level = '1' AND SyncState!=-1 AND TerminalType='" + ((int)TerType.OLWQTer).ToString() + "' ORDER BY WayType,Name");
             if (lstComboboxdata != null && lstComboboxdata.Count > 0)
             {
                 foreach (UniversalWayTypeEntity entity in lstComboboxdata)
@@ -87,15 +80,6 @@ namespace SmartWaterSystem
                         cbSimulate1.Properties.Items.Add(entity.Name); cbSimulate1.Tag = (cbSimulate1.Tag != null ? cbSimulate1.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
                         cbSimulate2.Properties.Items.Add(entity.Name); cbSimulate2.Tag = (cbSimulate2.Tag != null ? cbSimulate2.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
                         cbSimulate3.Properties.Items.Add(entity.Name); cbSimulate3.Tag = (cbSimulate3.Tag != null ? cbSimulate3.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                    }
-                    else if (entity.WayType == UniversalCollectType.Pluse)
-                    {
-                        //pluse
-                        cbPluse1.Properties.Items.Add(entity.Name); cbPluse1.Tag = (cbPluse1.Tag != null ? cbPluse1.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                        cbPluse2.Properties.Items.Add(entity.Name); cbPluse2.Tag = (cbPluse2.Tag != null ? cbPluse2.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                        cbPluse3.Properties.Items.Add(entity.Name); cbPluse3.Tag = (cbPluse3.Tag != null ? cbPluse3.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                        cbPluse4.Properties.Items.Add(entity.Name); cbPluse4.Tag = (cbPluse4.Tag != null ? cbPluse4.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                        cbPluse5.Properties.Items.Add(entity.Name); cbPluse5.Tag = (cbPluse5.Tag != null ? cbPluse5.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
                     }
                     else
                     {
@@ -116,7 +100,7 @@ namespace SmartWaterSystem
         #region TreeList
         private void LoadTreeList()
         {
-            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE SyncState !=-1 ORDER BY WayType,Sequence");
+            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE SyncState !=-1 AND TerminalType='" + ((int)TerType.OLWQTer).ToString() + "' ORDER BY WayType,Sequence");
             if (lstNodedata != null && lstNodedata.Count > 0)
             {
                 treeCollectType.BeginUnboundLoad();
@@ -260,7 +244,7 @@ namespace SmartWaterSystem
                 if (currentNode.Level == 0)
                     formtypeEnable = false;
             }
-            TreeNodeInfoForm dialogform = new TreeNodeInfoForm(formtypeEnable, selectedindex);
+            OLWQTreeNodeInfoForm dialogform = new OLWQTreeNodeInfoForm(formtypeEnable, selectedindex);
             if (DialogResult.OK != dialogform.ShowDialog())
             {
                 return;
@@ -290,7 +274,7 @@ namespace SmartWaterSystem
                 nodeentity.Sequence = 0;
             else
             {
-                int sequence =WayTypebll.GetMaxSequence(nodeentity.ParentID);
+                int sequence =WayTypebll.GetMaxSequence(nodeentity.ParentID,TerType.OLWQTer);
                 if (sequence == -1)
                 {
                     XtraMessageBox.Show("读取数据库最大Sequence失败,请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -302,7 +286,7 @@ namespace SmartWaterSystem
                 nodeentity.Sequence = sequence + 1;
             }
             nodeentity.SyncState = 1;
-            int saveresult = WayTypebll.Insert(nodeentity);
+            int saveresult = WayTypebll.Insert(nodeentity,TerType.OLWQTer);
             if (-1 == saveresult)
             {
                 XtraMessageBox.Show("保存数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -377,39 +361,6 @@ namespace SmartWaterSystem
             if (!ceSimulate3.Checked)
                 cbSimulate3.SelectedIndex = -1;
         }
-        #endregion
-
-        #region Pluse Visiable
-        private void cePluse1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!cePluse1.Checked)
-                cbPluse1.SelectedIndex = -1;
-        }
-
-        private void cePluse2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!cePluse2.Checked)
-                cbPluse2.SelectedIndex = -1;
-        }
-
-        private void cePluse3_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!cePluse3.Checked)
-                cbPluse3.SelectedIndex = -1;
-        }
-
-        private void cePluse4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!cePluse4.Checked)
-                cbPluse4.SelectedIndex = -1;
-        }
-
-        private void cePluse5_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!cePluse5.Checked)
-                cbPluse5.SelectedIndex = -1;
-        }
-
         #endregion
 
         #region RS485 Visiable
@@ -619,7 +570,7 @@ namespace SmartWaterSystem
             }
             if (DialogResult.Yes == XtraMessageBox.Show("确定要删除[ID:" + txtID.Text + "]终端信息?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Information))
             {
-                if ((Terbll.DeleteTer(TerType.UniversalTer, txtID.Text) == 1) && (Terbll.DeleteUniversalWayTypeConfig_TerID(Convert.ToInt32(txtID.Text)) == 1))
+                if ((Terbll.DeleteTer(TerType.UniversalTer, txtID.Text) == 1) && (Terbll.DeleteUniversalWayTypeConfig_TerID(Convert.ToInt32(txtID.Text),TerType.OLWQTer) == 1))
                 {
                     XtraMessageBox.Show("删除成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
@@ -737,126 +688,6 @@ namespace SmartWaterSystem
                     {
                         XtraMessageBox.Show("请选择模拟3路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         cbSimulate3.Focus();
-                        return;
-                    }
-                }
-            }
-
-            if (cePluse1.Checked)
-            {
-                if (cbPluse1.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请选择脉冲1路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbPluse1.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbPluse1.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(4, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择脉冲1路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbPluse1.Focus();
-                        return;
-                    }
-                }
-            }
-
-            if (cePluse2.Checked )
-            {
-                if (cbPluse2.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请选择脉冲2路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbPluse2.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbPluse2.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(5, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择脉冲2路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbPluse2.Focus();
-                        return;
-                    }
-                }
-            }
-
-            if (cePluse3.Checked)
-            {
-                if (cbPluse3.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请选择脉冲3路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbPluse3.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbPluse3.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(6, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择脉冲3路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbPluse3.Focus();
-                        return;
-                    }
-                }
-            }
-
-            if (cePluse4.Checked)
-            {
-                if (cbPluse4.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请选择脉冲4路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbPluse4.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbPluse4.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(7, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择脉冲4路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbPluse4.Focus();
-                        return;
-                    }
-                }
-            }
-
-            if (cePluse5.Checked)
-            {
-                if (cbPluse5.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请选择脉冲5路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbPluse5.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbPluse5.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(8, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择脉冲5路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbPluse5.Focus();
                         return;
                     }
                 }
@@ -1055,7 +886,7 @@ namespace SmartWaterSystem
             }
             #endregion
 
-            int saveresult=Terbll.SaveTerInfo(Convert.ToInt32(txtID.Text), txtName.Text, txtAddr.Text, txtRemark.Text,TerType.UniversalTer, lstPointID);
+            int saveresult=Terbll.SaveTerInfo(Convert.ToInt32(txtID.Text), txtName.Text, txtAddr.Text, txtRemark.Text,TerType.OLWQTer, lstPointID);
             if (saveresult == 1)
             {
                 XtraMessageBox.Show("保存成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1088,11 +919,6 @@ namespace SmartWaterSystem
             ceSimulate1.Checked = false;
             ceSimulate2.Checked = false;
             ceSimulate3.Checked = false;
-            cePluse1.Checked = false;
-            cePluse2.Checked = false;
-            cePluse3.Checked = false;
-            cePluse4.Checked = false;
-            cePluse5.Checked = false;
             ceRS485_1.Checked = false;
             ceRS485_2.Checked = false;
             ceRS485_3.Checked = false;
@@ -1105,11 +931,6 @@ namespace SmartWaterSystem
             cbSimulate1.SelectedIndex = -1;
             cbSimulate2.SelectedIndex = -1;
             cbSimulate3.SelectedIndex = -1;
-            cbPluse1.SelectedIndex = -1;
-            cbPluse2.SelectedIndex = -1;
-            cbPluse3.SelectedIndex = -1;
-            cbPluse4.SelectedIndex = -1;
-            cbPluse5.SelectedIndex = -1;
             cbRS485_1.SelectedIndex = -1;
             cbRS485_2.SelectedIndex = -1;
             cbRS485_3.SelectedIndex = -1;
@@ -1134,7 +955,7 @@ namespace SmartWaterSystem
                 
                 WayTypeControlsDefault();
 
-                List<UniversalWayTypeConfigEntity> lstWayTypeConfig = Terbll.GetUniversalWayTypeConfig(Convert.ToInt32(txtID.Text));
+                List<UniversalWayTypeConfigEntity> lstWayTypeConfig = Terbll.GetUniversalWayTypeConfig(Convert.ToInt32(txtID.Text),TerType.OLWQTer);
                 if (lstWayTypeConfig != null && lstWayTypeConfig.Count > 0)
                 {
                     foreach (UniversalWayTypeConfigEntity entity in lstWayTypeConfig)
@@ -1152,26 +973,6 @@ namespace SmartWaterSystem
                             case 3:
                                 ceSimulate3.Checked = true;
                                 FindWayTypeConfig(cbSimulate3, entity.PointID);
-                                break;
-                            case 4:
-                                cePluse1.Checked = true;
-                                FindWayTypeConfig(cbPluse1, entity.PointID);
-                                break;
-                            case 5:
-                                cePluse2.Checked = true;
-                                FindWayTypeConfig(cbPluse2, entity.PointID);
-                                break;
-                            case 6:
-                                cePluse3.Checked = true;
-                                FindWayTypeConfig(cbPluse3, entity.PointID);
-                                break;
-                            case 7:
-                                cePluse4.Checked = true;
-                                FindWayTypeConfig(cbPluse4, entity.PointID);
-                                break;
-                            case 8:
-                                cePluse5.Checked = true;
-                                FindWayTypeConfig(cbPluse5, entity.PointID);
                                 break;
                             case 9:
                                 ceRS485_1.Checked = true;

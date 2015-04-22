@@ -25,11 +25,11 @@ namespace BLL
         }
 
         //获取最大Sequence
-        public int GetMaxSequence(int parentId)
+        public int GetMaxSequence(int parentId, TerType terType)
         {
             try
             {
-                return dal.GetMaxSequence(parentId);
+                return dal.GetMaxSequence(parentId,terType);
             }
             catch (Exception ex)
             {
@@ -38,11 +38,11 @@ namespace BLL
             }
         }
 
-        public int TypeExist(UniversalCollectType type, string name)
+        public int TypeExist(UniversalCollectType type, string name, TerType terType)
         {
             try
             {
-                return dal.TypeExist(type, name);
+                return dal.TypeExist(type, name,terType);
             }
             catch (Exception ex)
             {
@@ -51,11 +51,11 @@ namespace BLL
             }
         }
 
-        public int Insert(UniversalWayTypeEntity entity)
+        public int Insert(UniversalWayTypeEntity entity, TerType terType)
         {
             try
             {
-                return dal.Insert(entity);
+                return dal.Insert(entity,terType);
             }
             catch (Exception ex)
             {
@@ -112,11 +112,11 @@ namespace BLL
         /// 获得配置的全部PointID(不区分ID)
         /// </summary>
         /// <returns></returns>
-        public List<UniversalWayTypeEntity> GetConfigPointID(string id)
+        public List<UniversalWayTypeEntity> GetConfigPointID(string id, TerType terType)
         {
             try
             {
-                return dal.GetConfigPointID(id);
+                return dal.GetConfigPointID(id,terType);
             }
             catch (Exception ex)
             {
@@ -125,11 +125,11 @@ namespace BLL
             }
         }
 
-        public DataTable GetTerminalID_Configed()
+        public DataTable GetTerminalID_Configed(TerType terType)
         {
             try
             {
-                return dal.GetTerminalID_Configed();
+                return dal.GetTerminalID_Configed(terType);
             }
             catch (Exception ex)
             {
@@ -158,11 +158,11 @@ namespace BLL
         /// <summary>
         /// 获得从UniversalTerWayConfig表中的第?路数据,-1为无效数据
         /// </summary>
-        public int GetCofingSequence(string Terid, string pointid)
+        public int GetCofingSequence(string Terid, string pointid, TerType terType)
         {
             try
             {
-                return dal.GetCofingSequence(Terid, pointid);
+                return dal.GetCofingSequence(Terid, pointid, terType);
             }
             catch (Exception ex)
             {

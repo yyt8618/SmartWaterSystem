@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DevExpress.XtraEditors;
 
 namespace SmartWaterSystem
 {
@@ -91,7 +92,7 @@ namespace SmartWaterSystem
             catch (Exception ex)
             {
                 logger.ErrorException("ShowCtrlMsg", ex);
-                MessageBox.Show("输出消息时发生异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show("输出消息时发生异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -412,7 +412,7 @@ namespace DAL
                 command.Transaction = trans;
 
                 //本地新增数据更新到服务器
-                string str_SQLite_Addtion = "SELECT ID,TerminalID,Sequence,PointID FROM UniversalTerWayConfig WHERE SyncState=1";
+                string str_SQLite_Addtion = "SELECT ID,TerminalID,Sequence,PointID,TerminalType FROM UniversalTerWayConfig WHERE SyncState=1";
                 DataTable dt_sql = SQLiteHelper.ExecuteDataTable(str_SQLite_Addtion, null);
                 if ((dt_sql != null) && dt_sql.Rows.Count > 0)
                 {
@@ -423,13 +423,14 @@ namespace DAL
                     object obj_maxid = command.ExecuteScalar();
                     long maxid = (obj_maxid != null && obj_maxid != DBNull.Value) ? Convert.ToInt64(obj_maxid) : 0;
 
-                    command.CommandText = "INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID) VALUES(@id,@TerminalID,@Sequence,@PointID)";
+                    command.CommandText = "INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID,TerminalType) VALUES(@id,@TerminalID,@Sequence,@PointID,@terType)";
                     command.Parameters.Clear();
                     SqlParameter[] parms = new SqlParameter[]{
                         new SqlParameter("@id",SqlDbType.BigInt),
                         new SqlParameter("@TerminalID",SqlDbType.Int),
                         new SqlParameter("@Sequence",SqlDbType.Int),
-                        new SqlParameter("@PointID",SqlDbType.Int)
+                        new SqlParameter("@PointID",SqlDbType.Int),
+                        new SqlParameter("@terType",SqlDbType.Int)
                     };
                     command.Parameters.AddRange(parms);
 
@@ -441,6 +442,7 @@ namespace DAL
                         parms[1].Value = dr["TerminalID"];
                         parms[2].Value = dr["Sequence"];
                         parms[3].Value = dr["PointID"];
+                        parms[4].Value = dr["TerminalType"];
 
                         command.ExecuteNonQuery();
                         ht_insert.Add(new SyncIdsEntity(dr["ID"].ToString(), maxid));
@@ -520,20 +522,21 @@ namespace DAL
                 {
                     str_SQLite_addtion_ids = str_SQLite_addtion_ids.Substring(0, str_SQLite_addtion_ids.Length - 1);
                     command.Parameters.Clear();
-                    command.CommandText = "SELECT ID,TerminalID,Sequence,PointID FROM UniversalTerWayConfig WHERE ID IN(" + str_SQLite_addtion_ids + ")";
+                    command.CommandText = "SELECT ID,TerminalID,Sequence,PointID,TerminalType FROM UniversalTerWayConfig WHERE ID IN(" + str_SQLite_addtion_ids + ")";
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     dt_sql = new DataTable();
                     adapter.Fill(dt_sql);
                     if (dt_sql != null && dt_sql.Rows.Count > 0)
                     {
-                        string str_SQLite_Insert = @"INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID,SyncState) VALUES(
-                                                        @ID,@TerminalID,@Sequence,@PointID,@SyncState)";
+                        string str_SQLite_Insert = @"INSERT INTO UniversalTerWayConfig(ID,TerminalID,Sequence,PointID,SyncState,TerminalType) VALUES(
+                                                        @ID,@TerminalID,@Sequence,@PointID,@SyncState,@terType)";
                         SQLiteParameter[] parms_sqlite = new SQLiteParameter[]{
                                 new SQLiteParameter("@ID",DbType.Int32),
                                 new SQLiteParameter("@TerminalID",DbType.Int32),
                                 new SQLiteParameter("@Sequence",DbType.Int32),
                                 new SQLiteParameter("@PointID",DbType.Int32),
-                                new SQLiteParameter("@SyncState",DbType.Int32) };
+                                new SQLiteParameter("@SyncState",DbType.Int32),
+                                new SQLiteParameter("@terType",DbType.Int32) };
 
                         foreach (DataRow dr in dt_sql.Rows)
                         {
@@ -542,6 +545,7 @@ namespace DAL
                             parms_sqlite[2].Value = dr["Sequence"];
                             parms_sqlite[3].Value = dr["PointID"];
                             parms_sqlite[4].Value = 0;
+                            parms_sqlite[5].Value = dr["TerminalType"];
 
                             SQLiteHelper.ExecuteNonQuery(str_SQLite_Insert, parms_sqlite);
                         }
@@ -573,7 +577,7 @@ namespace DAL
                 command.Transaction = trans;
 
                 //本地新增数据更新到服务器
-                string str_SQLite_Addtion = "SELECT ID,Level,ParentID,WayType,Name,MaxMeasureRange,MaxMeasureRangeFlag,FrameWidth,Sequence,Precision,Unit FROM UniversalTerWayType WHERE SyncState=1";
+                string str_SQLite_Addtion = "SELECT ID,Level,ParentID,WayType,Name,MaxMeasureRange,MaxMeasureRangeFlag,FrameWidth,Sequence,Precision,Unit,TerminalType FROM UniversalTerWayType WHERE SyncState=1";
                 DataTable dt_sql = SQLiteHelper.ExecuteDataTable(str_SQLite_Addtion, null);
                 if ((dt_sql != null) && dt_sql.Rows.Count > 0)
                 {
@@ -585,7 +589,7 @@ namespace DAL
                     long maxid = (obj_maxid != null && obj_maxid != DBNull.Value) ? Convert.ToInt64(obj_maxid) : 0;
                     long parentid;
 
-                    command.CommandText = "INSERT INTO UniversalTerWayType(ID,Level,ParentID,WayType,Name,MaxMeasureRange,MaxMeasureRangeFlag,FrameWidth,Sequence,Precision,Unit) VALUES(@id,@level,@parentid,@waytype,@name,@maxrange,@maxrangeflag,@FrameWidth,@Sequence,@precision,@unit)";
+                    command.CommandText = "INSERT INTO UniversalTerWayType(ID,Level,ParentID,WayType,Name,MaxMeasureRange,MaxMeasureRangeFlag,FrameWidth,Sequence,Precision,Unit,TerminalType) VALUES(@id,@level,@parentid,@waytype,@name,@maxrange,@maxrangeflag,@FrameWidth,@Sequence,@precision,@unit,@terType)";
                     command.Parameters.Clear();
                     SqlParameter[] parms = new SqlParameter[]{
                         new SqlParameter("@id",SqlDbType.BigInt),
@@ -600,7 +604,8 @@ namespace DAL
                         new SqlParameter("@Sequence",SqlDbType.Int),
                         new SqlParameter("@precision",SqlDbType.Int),
 
-                        new SqlParameter("@unit",SqlDbType.NChar,20)
+                        new SqlParameter("@unit",SqlDbType.NChar,20),
+                        new SqlParameter("@terType",SqlDbType.Int)
                     };
                     command.Parameters.AddRange(parms);
 
@@ -626,6 +631,7 @@ namespace DAL
                             parms[9].Value = p_dr["Precision"];
 
                             parms[10].Value = p_dr["Unit"];
+                            parms[11].Value = p_dr["TerminalType"];
                             command.ExecuteNonQuery();
                             ht_insert.Add(new SyncIdsEntity(p_dr["ID"].ToString(), maxid));
 
@@ -648,6 +654,7 @@ namespace DAL
                                     parms[9].Value = c_dr["Precision"];
 
                                     parms[10].Value = c_dr["Unit"];
+                                    parms[11].Value = c_dr["TerminalType"];
                                     command.ExecuteNonQuery();
                                     ht_insert.Add(new SyncIdsEntity(c_dr["ID"].ToString(), maxid));
                                     have_parent_child_ids.Add(c_dr["ID"].ToString());
@@ -690,6 +697,7 @@ namespace DAL
                             parms[9].Value = c_dr["Precision"];
 
                             parms[10].Value = c_dr["Unit"];
+                            parms[11].Value = c_dr["TerminalType"];
                             command.ExecuteNonQuery();
                             ht_insert.Add(new SyncIdsEntity(c_dr["ID"].ToString(), maxid));
                         }
@@ -769,14 +777,14 @@ namespace DAL
                 {
                     str_SQLite_addtion_ids = str_SQLite_addtion_ids.Substring(0, str_SQLite_addtion_ids.Length - 1);
                     command.Parameters.Clear();
-                    command.CommandText = "SELECT ID,Level,ParentID,WayType,Name,MaxMeasureRange,MaxMeasureRangeFlag,FrameWidth,Sequence,Precision,Unit FROM UniversalTerWayType WHERE ID IN(" + str_SQLite_addtion_ids + ")";
+                    command.CommandText = "SELECT ID,Level,ParentID,WayType,Name,MaxMeasureRange,MaxMeasureRangeFlag,FrameWidth,Sequence,Precision,Unit,TerminalType FROM UniversalTerWayType WHERE ID IN(" + str_SQLite_addtion_ids + ")";
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     dt_sql = new DataTable();
                     adapter.Fill(dt_sql);
                     if (dt_sql != null && dt_sql.Rows.Count > 0)
                     {
-                        string str_SQLite_Insert = @"INSERT INTO UniversalTerWayType(ID,Level,ParentID,WayType,Name,MaxMeasureRange,MaxMeasureRangeFlag,FrameWidth,Sequence,Precision,Unit,SyncState) VALUES(
-                                                        @ID,@Level,@ParentID,@WayType,@Name,@MaxMeasureRange,@MaxMeasureRangeFlag,@FrameWidth,@Sequence,@Precision,@Unit,@SyncState)";
+                        string str_SQLite_Insert = @"INSERT INTO UniversalTerWayType(ID,Level,ParentID,WayType,Name,MaxMeasureRange,MaxMeasureRangeFlag,FrameWidth,Sequence,Precision,Unit,SyncState,TerminalType) VALUES(
+                                                        @ID,@Level,@ParentID,@WayType,@Name,@MaxMeasureRange,@MaxMeasureRangeFlag,@FrameWidth,@Sequence,@Precision,@Unit,@SyncState,@terType)";
                         SQLiteParameter[] parms_sqlite = new SQLiteParameter[]{
                                 new SQLiteParameter("@ID",DbType.Int32),
                                 new SQLiteParameter("@Level",DbType.Int32),
@@ -789,8 +797,10 @@ namespace DAL
                                 new SQLiteParameter("@FrameWidth",DbType.Int32),
                                 new SQLiteParameter("@Sequence",DbType.Int32),
                                 new SQLiteParameter("@Precision",DbType.Int32),
+
                                 new SQLiteParameter("@Unit",DbType.String),
-                                new SQLiteParameter("@SyncState",DbType.Int32) };
+                                new SQLiteParameter("@SyncState",DbType.Int32),
+                                new SQLiteParameter("@terType",DbType.Int32) };
 
                         foreach (DataRow dr in dt_sql.Rows)
                         {
@@ -807,6 +817,7 @@ namespace DAL
                             parms_sqlite[9].Value = dr["Precision"];
                             parms_sqlite[10].Value = dr["Unit"];
                             parms_sqlite[11].Value = 0;
+                            parms_sqlite[12].Value = dr["TerminalType"];
 
                             SQLiteHelper.ExecuteNonQuery(str_SQLite_Insert, parms_sqlite);
                         }
