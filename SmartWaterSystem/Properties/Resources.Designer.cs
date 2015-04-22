@@ -193,9 +193,44 @@ namespace SmartWaterSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap OLWQ {
+            get {
+                object obj = ResourceManager.GetObject("OLWQ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap OLWQMgr {
+            get {
+                object obj = ResourceManager.GetObject("OLWQMgr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap OLWQMonitor {
+            get {
+                object obj = ResourceManager.GetObject("OLWQMonitor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap OLWQParm {
+            get {
+                object obj = ResourceManager.GetObject("OLWQParm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap PortablePreTerminal {
             get {
                 object obj = ResourceManager.GetObject("PortablePreTerminal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PreTerMgr {
+            get {
+                object obj = ResourceManager.GetObject("PreTerMgr", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -210,6 +245,13 @@ namespace SmartWaterSystem.Properties {
         internal static System.Drawing.Bitmap PreTerMonitor {
             get {
                 object obj = ResourceManager.GetObject("PreTerMonitor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PreTerParm {
+            get {
+                object obj = ResourceManager.GetObject("PreTerParm", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

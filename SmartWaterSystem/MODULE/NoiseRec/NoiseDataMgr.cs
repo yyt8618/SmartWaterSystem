@@ -712,7 +712,7 @@ namespace SmartWaterSystem
         {
             if (GlobalValue.recorderList.Count > 0)
             {
-                MDIView.LoadView(typeof(NoiseDataCompare));
+                GlobalValue.MainForm.LoadView(typeof(NoiseDataCompare));
             }
             else
             {

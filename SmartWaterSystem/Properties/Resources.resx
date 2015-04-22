@@ -118,8 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="亮灯16x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\亮灯16x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="OLWQParm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OLWQParm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Welcome.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DataCompare2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataCompare2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -157,17 +160,29 @@
   <data name="GPRSConsole" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GPRSConsole.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="OLWQMonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OLWQMonitor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="PortablePreTerminal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Products\PortablePreTerminal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SerialPortConfig1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPortConfig1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Welcome.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PreTerMonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PreTerMonitor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OLWQMgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OLWQMgr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="亮灯16x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\亮灯16x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Voice" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Voice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreTerParm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PreTerParm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SerialPortConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPortConfig.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,6 +232,9 @@
   <data name="leak6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak\leak6.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PreTerMgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PreTerMgr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="right" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -235,7 +253,7 @@
   <data name="leak4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak\leak4.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PreTerMonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PreTerMonitor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="OLWQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Products\OLWQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -205,11 +205,35 @@
     <Compile Include="MODULE\NoiseRec\NoiseParmSetting.Designer.cs">
       <DependentUpon>NoiseParmSetting.cs</DependentUpon>
     </Compile>
-    <Compile Include="MODULE\PreTerminal\ParmConfigForm.cs">
+    <Compile Include="MODULE\OLWQ\OLWQChartForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MODULE\PreTerminal\ParmConfigForm.Designer.cs">
-      <DependentUpon>ParmConfigForm.cs</DependentUpon>
+    <Compile Include="MODULE\OLWQ\OLWQChartForm.Designer.cs">
+      <DependentUpon>OLWQChartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQMgr.Designer.cs">
+      <DependentUpon>OLWQMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQMonitor.Designer.cs">
+      <DependentUpon>OLWQMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQParm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQParm.Designer.cs">
+      <DependentUpon>OLWQParm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreParmConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreParmConfigForm.Designer.cs">
+      <DependentUpon>PreParmConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\PreTerminal\PreTerParm.cs">
       <SubType>UserControl</SubType>
@@ -282,12 +306,6 @@
     </Compile>
     <Compile Include="MODULE\UniversalTerminal\UniversalTerMgr.Designer.cs">
       <DependentUpon>UniversalTerMgr.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MODULE\UniversalTerminal\UniversalCallData.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MODULE\UniversalTerminal\UniversalCallData.Designer.cs">
-      <DependentUpon>UniversalCallData.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\UniversalTerminal\PluseBasicInputForm.cs">
       <SubType>Form</SubType>
@@ -385,8 +403,20 @@
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseParmSetting.resx">
       <DependentUpon>NoiseParmSetting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\PreTerminal\ParmConfigForm.resx">
-      <DependentUpon>ParmConfigForm.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQChartForm.resx">
+      <DependentUpon>OLWQChartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQMgr.resx">
+      <DependentUpon>OLWQMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQMonitor.resx">
+      <DependentUpon>OLWQMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQParm.resx">
+      <DependentUpon>OLWQParm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreParmConfigForm.resx">
+      <DependentUpon>PreParmConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerParm.resx">
       <DependentUpon>PreTerParm.cs</DependentUpon>
@@ -423,9 +453,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerMgr.resx">
       <DependentUpon>UniversalTerMgr.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalCallData.resx">
-      <DependentUpon>UniversalCallData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\PluseBasicInputForm.resx">
       <DependentUpon>PluseBasicInputForm.cs</DependentUpon>
@@ -531,6 +558,18 @@
       <Project>{8744926E-0AF2-4F41-81D3-98004974856B}</Project>
       <Name>NoiseRecMgr</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OLWQMgr\OLWQMgr.csproj">
+      <Project>{7ACDC110-2CBA-4054-8DCE-1B113139F233}</Project>
+      <Name>OLWQMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OLWQMonitor\OLWQMonitor.csproj">
+      <Project>{F5E9543A-555D-43D0-8560-48137D2D95C8}</Project>
+      <Name>OLWQMonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OLWQParm\OLWQParm.csproj">
+      <Project>{FC09A207-5505-4DBC-8012-35D025627A60}</Project>
+      <Name>OLWQParm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PreTerAlarm\PreTerAlarm.csproj">
       <Project>{CFE8708A-7EB0-45D8-BD79-0EDCCA20E94F}</Project>
       <Name>PreTerAlarm</Name>
@@ -571,6 +610,11 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
+    <None Include="Resources\PreTerMgr.png" />
+    <None Include="Resources\OLWQMonitor.png" />
+    <None Include="Resources\OLWQMgr.png" />
+    <None Include="Resources\OLWQParm.png" />
+    <None Include="Resources\PreTerParm.png" />
     <None Include="Resources\PreTerMonitor.png" />
     <None Include="Resources\灭灯16x25.png" />
     <None Include="Resources\亮灯16x25.png" />

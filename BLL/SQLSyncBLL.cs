@@ -52,5 +52,19 @@ namespace BLL
                 return false;
             }
         }
+
+        public bool UpdateSQL_PreTerConfig()
+        {
+            try
+            {
+                dal.UpdateSQL_PreTerConfig();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("UpdateSQL_PreTerConfig", ex);
+                return false;
+            }
+        }
     }
 }

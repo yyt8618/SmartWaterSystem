@@ -59,9 +59,6 @@
             this.navBarPreTerParm = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarPreTerMgr = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarPreTerMonitor = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarPreTerReport = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarPreTerAlarm = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarPreTerStoppage = new DevExpress.XtraNavBar.NavBarItem();
             this.NBG_Noise = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarNoiseDataManager = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarNoiseRecorderManager = new DevExpress.XtraNavBar.NavBarItem();
@@ -75,8 +72,6 @@
             this.navBarUniversalParm = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarUniversalMgr = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarUniversalMonitor = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarUniversalReport = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarUniversalStoppage = new DevExpress.XtraNavBar.NavBarItem();
             this.NBG_ValveSwitch = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarValveParm = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarValveMonitor = new DevExpress.XtraNavBar.NavBarItem();
@@ -85,12 +80,17 @@
             this.navBarValveStoppage = new DevExpress.XtraNavBar.NavBarItem();
             this.NBG_ProtablePreT = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarProtablePreTer = new DevExpress.XtraNavBar.NavBarItem();
+            this.NBG_OLWQ = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarOLWQParm = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarOLWQMgr = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarOLWQMonitor = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarSeparatorItem1 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarSeparatorItem2 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarSeparatorItem3 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.SQLSynctimer = new System.Windows.Forms.Timer(this.components);
+            this.navBarGroup1 = new DevExpress.XtraNavBar.NavBarGroup();
             ((System.ComponentModel.ISupportInitialize)(this.panelControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -330,7 +330,8 @@
             this.NBG_PreT,
             this.NBG_UniversalT,
             this.NBG_ValveSwitch,
-            this.NBG_ProtablePreT});
+            this.NBG_ProtablePreT,
+            this.NBG_OLWQ});
             this.navBarControl1.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] {
             this.navBarNoiseDataManager,
             this.navBarSeparatorItem1,
@@ -342,14 +343,9 @@
             this.navBarPreTerParm,
             this.navBarPreTerMgr,
             this.navBarPreTerMonitor,
-            this.navBarPreTerReport,
-            this.navBarPreTerAlarm,
-            this.navBarPreTerStoppage,
             this.navBarUniversalParm,
             this.navBarUniversalMgr,
             this.navBarUniversalMonitor,
-            this.navBarUniversalReport,
-            this.navBarUniversalStoppage,
             this.navBarProtablePreTer,
             this.navBarValveParm,
             this.navBarValveMonitor,
@@ -359,7 +355,10 @@
             this.navBarNoiseParmSet,
             this.navBarNoiseFFT,
             this.navBarNoiseCompare,
-            this.navBarNoiseEnergy});
+            this.navBarNoiseEnergy,
+            this.navBarOLWQParm,
+            this.navBarOLWQMgr,
+            this.navBarOLWQMonitor});
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
@@ -371,27 +370,25 @@
             // NBG_PreT
             // 
             this.NBG_PreT.Caption = "压力终端";
-            this.NBG_PreT.Expanded = true;
             this.NBG_PreT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.NBG_PreT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerParm),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerMgr),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerMonitor),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerReport),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerAlarm),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerStoppage)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerMonitor)});
             this.NBG_PreT.LargeImage = global::SmartWaterSystem.Properties.Resources.PreTerminal;
             this.NBG_PreT.Name = "NBG_PreT";
             // 
             // navBarPreTerParm
             // 
             this.navBarPreTerParm.Caption = "终端参数配置和读取";
+            this.navBarPreTerParm.LargeImage = global::SmartWaterSystem.Properties.Resources.PreTerParm;
             this.navBarPreTerParm.Name = "navBarPreTerParm";
             this.navBarPreTerParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerParm_LinkClicked);
             // 
             // navBarPreTerMgr
             // 
             this.navBarPreTerMgr.Caption = "终端配置和管理";
+            this.navBarPreTerMgr.LargeImage = global::SmartWaterSystem.Properties.Resources.PreTerMgr;
             this.navBarPreTerMgr.Name = "navBarPreTerMgr";
             this.navBarPreTerMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerMgr_LinkClicked);
             // 
@@ -401,24 +398,6 @@
             this.navBarPreTerMonitor.LargeImage = global::SmartWaterSystem.Properties.Resources.PreTerMonitor;
             this.navBarPreTerMonitor.Name = "navBarPreTerMonitor";
             this.navBarPreTerMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerMonitor_LinkClicked);
-            // 
-            // navBarPreTerReport
-            // 
-            this.navBarPreTerReport.Caption = "报表、历史数据查询";
-            this.navBarPreTerReport.Name = "navBarPreTerReport";
-            this.navBarPreTerReport.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerReport_LinkClicked);
-            // 
-            // navBarPreTerAlarm
-            // 
-            this.navBarPreTerAlarm.Caption = "报警统计分析";
-            this.navBarPreTerAlarm.Name = "navBarPreTerAlarm";
-            this.navBarPreTerAlarm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerAlarm_LinkClicked);
-            // 
-            // navBarPreTerStoppage
-            // 
-            this.navBarPreTerStoppage.Caption = "故障统计分析";
-            this.navBarPreTerStoppage.Name = "navBarPreTerStoppage";
-            this.navBarPreTerStoppage.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPreTerStoppage_LinkClicked);
             // 
             // NBG_Noise
             // 
@@ -499,9 +478,7 @@
             this.NBG_UniversalT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalParm),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMgr),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMonitor),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalReport),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalStoppage)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMonitor)});
             this.NBG_UniversalT.LargeImage = global::SmartWaterSystem.Properties.Resources.GsmTerminal;
             this.NBG_UniversalT.Name = "NBG_UniversalT";
             // 
@@ -525,16 +502,6 @@
             this.navBarUniversalMonitor.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTermonitor;
             this.navBarUniversalMonitor.Name = "navBarUniversalMonitor";
             this.navBarUniversalMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarUniversalMonitor_LinkClicked);
-            // 
-            // navBarUniversalReport
-            // 
-            this.navBarUniversalReport.Caption = "报表、历史数据查询";
-            this.navBarUniversalReport.Name = "navBarUniversalReport";
-            // 
-            // navBarUniversalStoppage
-            // 
-            this.navBarUniversalStoppage.Caption = "故障统计分析";
-            this.navBarUniversalStoppage.Name = "navBarUniversalStoppage";
             // 
             // NBG_ValveSwitch
             // 
@@ -588,6 +555,38 @@
             this.navBarProtablePreTer.Caption = "参数配置与读取";
             this.navBarProtablePreTer.Name = "navBarProtablePreTer";
             // 
+            // NBG_OLWQ
+            // 
+            this.NBG_OLWQ.Caption = "在线水质";
+            this.NBG_OLWQ.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsText;
+            this.NBG_OLWQ.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarOLWQParm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarOLWQMgr),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarOLWQMonitor)});
+            this.NBG_OLWQ.LargeImage = global::SmartWaterSystem.Properties.Resources.OLWQ;
+            this.NBG_OLWQ.Name = "NBG_OLWQ";
+            // 
+            // navBarOLWQParm
+            // 
+            this.navBarOLWQParm.Caption = "参数配置和读取";
+            this.navBarOLWQParm.LargeImage = global::SmartWaterSystem.Properties.Resources.OLWQParm;
+            this.navBarOLWQParm.Name = "navBarOLWQParm";
+            this.navBarOLWQParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarOLWQParm_LinkClicked);
+            // 
+            // navBarOLWQMgr
+            // 
+            this.navBarOLWQMgr.Caption = "终端配置和管理";
+            this.navBarOLWQMgr.LargeImage = global::SmartWaterSystem.Properties.Resources.OLWQMgr;
+            this.navBarOLWQMgr.Name = "navBarOLWQMgr";
+            this.navBarOLWQMgr.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarOLWQMgr_LinkClicked);
+            // 
+            // navBarOLWQMonitor
+            // 
+            this.navBarOLWQMonitor.Caption = "列表监控、趋势图";
+            this.navBarOLWQMonitor.LargeImage = global::SmartWaterSystem.Properties.Resources.OLWQMonitor;
+            this.navBarOLWQMonitor.Name = "navBarOLWQMonitor";
+            this.navBarOLWQMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarOLWQMonitor_LinkClicked);
+            // 
             // navBarSeparatorItem1
             // 
             this.navBarSeparatorItem1.CanDrag = false;
@@ -631,6 +630,17 @@
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.ShowCaptionButton = false;
             this.ribbonPageGroup1.Text = "工具";
+            // 
+            // navBarGroup1
+            // 
+            this.navBarGroup1.Caption = "通用终端";
+            this.navBarGroup1.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
+            this.navBarGroup1.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalParm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMgr),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMonitor)});
+            this.navBarGroup1.LargeImage = global::SmartWaterSystem.Properties.Resources.GsmTerminal;
+            this.navBarGroup1.Name = "navBarGroup1";
             // 
             // FrmSystem
             // 
@@ -701,14 +711,9 @@
         private DevExpress.XtraNavBar.NavBarItem navBarPreTerParm;
         private DevExpress.XtraNavBar.NavBarItem navBarPreTerMgr;
         private DevExpress.XtraNavBar.NavBarItem navBarPreTerMonitor;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTerReport;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTerAlarm;
-        private DevExpress.XtraNavBar.NavBarItem navBarPreTerStoppage;
         private DevExpress.XtraNavBar.NavBarItem navBarUniversalParm;
         private DevExpress.XtraNavBar.NavBarItem navBarUniversalMgr;
         private DevExpress.XtraNavBar.NavBarItem navBarUniversalMonitor;
-        private DevExpress.XtraNavBar.NavBarItem navBarUniversalReport;
-        private DevExpress.XtraNavBar.NavBarItem navBarUniversalStoppage;
         private DevExpress.XtraNavBar.NavBarItem navBarProtablePreTer;
         private DevExpress.XtraNavBar.NavBarItem navBarValveParm;
         private DevExpress.XtraNavBar.NavBarItem navBarValveMonitor;
@@ -726,6 +731,11 @@
         private DevExpress.XtraBars.BarButtonItem barBtnSetDBConnect;
         private System.Windows.Forms.Timer SQLSynctimer;
         private DevExpress.XtraBars.BarButtonItem barBtnGPRSConsole;
+        private DevExpress.XtraNavBar.NavBarGroup NBG_OLWQ;
+        private DevExpress.XtraNavBar.NavBarItem navBarOLWQParm;
+        private DevExpress.XtraNavBar.NavBarItem navBarOLWQMgr;
+        private DevExpress.XtraNavBar.NavBarItem navBarOLWQMonitor;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroup1;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

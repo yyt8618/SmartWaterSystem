@@ -12,19 +12,19 @@ using System.Text.RegularExpressions;
 
 namespace SmartWaterSystem
 {
-    public partial class UniversalTerMgr : BaseView, IUniversalTerMgr
+    public partial class OLWQMgr : BaseView, IOLWQMgr
     {
         UniversalWayTypeBLL WayTypebll = new UniversalWayTypeBLL();
         TerminalDataBLL Terbll = new TerminalDataBLL();
         TreeListNode currentNode;  //当前操作的Node
         List<UniversalWayTypeEntity> lstComboboxdata = null;  //ComboboxEdit 控件数据源
 
-        public UniversalTerMgr()
+        public OLWQMgr()
         {
             InitializeComponent();
         }
 
-        private void UniversalTerParm_Load(object sender, EventArgs e)
+        private void OLWQMgr_Load(object sender, EventArgs e)
         {
             BindCombobox();
             LoadTreeList();

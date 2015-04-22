@@ -3,18 +3,19 @@ using System.Data;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using Common;
+using DevExpress.XtraEditors;
 
 namespace SmartWaterSystem
 {
-    public partial class ParmConfigForm : DevExpress.XtraEditors.XtraForm
+    public partial class PreParmConfigForm : DevExpress.XtraEditors.XtraForm
     {
         public static string TerminalID;
-        public ParmConfigForm()
+        public PreParmConfigForm()
         {
             InitializeComponent();
         }
 
-        private void ParmConfigForm_Load(object sender, EventArgs e)
+        private void PreParmConfigForm_Load(object sender, EventArgs e)
         {
             txtDeviceId.Text = TerminalID;
         }
@@ -23,10 +24,10 @@ namespace SmartWaterSystem
         {
             try
             {
-                string SQL_Del = "UPDATE DL_ParamToDev SET SendedFlag=1 WHERE DeviceId='" + txtDeviceId.Text + "' AND DevTypeId=0";
+                string SQL_Del = "UPDATE ParamToDev SET SendedFlag=1 WHERE DeviceId='" + txtDeviceId.Text + "' AND DevTypeId=0";
                 SQLHelper.ExecuteNonQuery(SQL_Del);
                 //cbSendInterval.Text
-                string SQL_Insert = @"INSERT INTO DL_ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
+                string SQL_Insert = @"INSERT INTO ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
                                 @DeviceId,@DevTypeId,@CtrlCode,@FunCode,@DataValue,@DataLenth,@SetDate,@SendedFlag)";
                 SqlParameter[] parms = new SqlParameter[]{
                     new SqlParameter("DeviceId",SqlDbType.Int),
@@ -64,13 +65,13 @@ namespace SmartWaterSystem
                 int result=SQLHelper.ExecuteNonQuery(SQL_Insert, parms);
                 if (result > 0)
                 {
-                    GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm);
-                    MessageBox.Show("设置成功");
+                    //GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm);
+                    XtraMessageBox.Show("设置成功");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
 

@@ -214,7 +214,181 @@ namespace DAL
         #region 同步PreTerConfig Table
         public void UpdateSQL_PreTerConfig()
         {
+            SqlTransaction trans = null;
+            try
+            {
+                trans = SQLHelper.GetTransaction();
+                SqlCommand command = new SqlCommand();
+                command.CommandType = CommandType.Text;
+                command.Connection = SQLHelper.Conn;
+                command.Transaction = trans;
 
+                //本地新增数据更新到服务器
+                string str_SQLite_Addtion = "SELECT ID,TerminalID,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm FROM PreTerConfig WHERE SyncState=1";
+                DataTable dt_sql = SQLiteHelper.ExecuteDataTable(str_SQLite_Addtion, null);
+                if ((dt_sql != null) && dt_sql.Rows.Count > 0)
+                {
+                    //id以SQL数据库中为准，如果离线数据库(SQLite)中有过更新时，先更新到SQL，并将最大ID加一作为当前ID，并将SQLite上的ID更新为SQL上一样的ID
+                    string str_GetSQLMaxID = "SELECT MAX(ID) FROM PreTerConfig";
+                    command.CommandText = str_GetSQLMaxID;
+                    command.Parameters.Clear();
+                    object obj_maxid = command.ExecuteScalar();
+                    long maxid = (obj_maxid != null && obj_maxid != DBNull.Value) ? Convert.ToInt64(obj_maxid) : 0;
+
+                    command.CommandText = "INSERT INTO PreTerConfig(ID,TerminalID,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm) VALUES(@id,@TerminalID,@PreUpperLimit,@PreLowLimit,@PreSlopeUpLimit,@PreSlopeLowLimit,@EnablePreAlarm,@EnableSlopeAlarm)";
+                    command.Parameters.Clear();
+                    SqlParameter[] parms = new SqlParameter[]{
+                        new SqlParameter("@id",SqlDbType.BigInt),
+                        new SqlParameter("@TerminalID",SqlDbType.Int),
+                        new SqlParameter("@PreUpperLimit",SqlDbType.Float),
+                        new SqlParameter("@PreLowLimit",SqlDbType.Float),
+                        new SqlParameter("@PreSlopeUpLimit",SqlDbType.Float),
+
+                        new SqlParameter("@PreSlopeLowLimit",SqlDbType.Float),
+                        new SqlParameter("@EnablePreAlarm",SqlDbType.Int),
+                        new SqlParameter("@EnableSlopeAlarm",SqlDbType.Int)
+                    };
+                    command.Parameters.AddRange(parms);
+
+                    List<SyncIdsEntity> ht_insert = new List<SyncIdsEntity>();  //local server
+                    foreach (DataRow dr in dt_sql.Rows)
+                    {
+                        maxid++;
+                        parms[0].Value = maxid;
+                        parms[1].Value = dr["TerminalID"];
+                        parms[2].Value = dr["PreUpperLimit"];
+                        parms[3].Value = dr["PreLowLimit"];
+                        parms[4].Value = dr["PreSlopeUpLimit"];
+
+                        parms[5].Value = dr["PreSlopeLowLimit"];
+                        parms[6].Value = dr["EnablePreAlarm"];
+                        parms[7].Value = dr["EnableSlopeAlarm"];
+
+                        command.ExecuteNonQuery();
+                        ht_insert.Add(new SyncIdsEntity(dr["ID"].ToString(), maxid));
+                    }
+
+                    //将新增过的数据ID更新，将Flag更新
+                    string SQL_Update_Local = "UPDATE PreTerConfig SET ID = @newid, SyncState=0 WHERE ID=@oldid";
+                    SQLiteParameter[] parms_update_local = new SQLiteParameter[]{
+                                new SQLiteParameter("@oldid",DbType.Int32),
+                                new SQLiteParameter("@newid",DbType.Int32)
+                            };
+                    foreach (SyncIdsEntity identry in ht_insert)
+                    {
+                        parms_update_local[0].Value = identry.localid;
+                        parms_update_local[1].Value = identry.serverid;
+                        SQLiteHelper.ExecuteNonQuery(SQL_Update_Local, parms_update_local);
+                    }
+                }
+
+                //本地删除更新至服务器
+                string str_SQLite_Del = "SELECT DISTINCT ID FROM PreTerConfig WHERE SyncState=-1";
+                SQLiteDataReader read_del = SQLiteHelper.ExecuteReader(str_SQLite_Del, null);
+                string str_sql_delid = "";
+                while (read_del.Read())
+                {
+                    str_sql_delid += "'" + read_del["Id"].ToString() + "',";
+                }
+                if (!string.IsNullOrEmpty(str_sql_delid))
+                {
+                    str_sql_delid = str_sql_delid.Substring(0, str_sql_delid.Length - 1);
+                    command.CommandText = "DELETE FROM PreTerConfig WHERE ID in (" + str_sql_delid + ")";
+                    command.Parameters.Clear();
+                    command.ExecuteNonQuery();
+                }
+                read_del.Close();
+
+                //获得服务器上所有ID
+                List<int> lst_sql_ids = new List<int>();
+                string str_SQL_Exist = "SELECT ID FROM PreTerConfig";
+                command.CommandText = str_SQL_Exist;
+                command.Parameters.Clear();
+                SqlDataReader sql_reader = command.ExecuteReader();
+                while (sql_reader.Read())
+                {
+                    lst_sql_ids.Add(Convert.ToInt32(sql_reader[0]));
+                }
+                sql_reader.Close();
+                //得到本地已存在且同步过的ID
+                List<int> lst_sqlite = new List<int>();
+                string str_SQLite_Exist = "SELECT DISTINCT ID FROM PreTerConfig";  //WHERE SyncState=0
+                SQLiteDataReader sqlite_reader = SQLiteHelper.ExecuteReader(str_SQLite_Exist, null);
+                int id;
+                while (sqlite_reader.Read())
+                {
+                    id = Convert.ToInt32(sqlite_reader[0]);
+                    lst_sqlite.Add(id);
+                }
+                sqlite_reader.Close();
+                foreach (int id_tmp in lst_sqlite)
+                {
+                    if (!lst_sql_ids.Contains(id_tmp))  //本地有，服务器上不存在，从本地删除掉
+                    {
+                        str_SQLite_Del = "DELETE FROM PreTerConfig WHERE ID='" + id_tmp + "'";
+                        SQLiteHelper.ExecuteNonQuery(str_SQLite_Del, null);
+                    }
+                }
+                string str_SQLite_addtion_ids = "";
+                foreach (int id_tmp in lst_sql_ids)
+                {
+                    if (!lst_sqlite.Contains(id_tmp)) //服务器有，本地没有，更新至本地
+                    {
+                        str_SQLite_addtion_ids += "'" + id_tmp + "',";
+                    }
+                }
+
+                if (str_SQLite_addtion_ids.Length > 0)
+                {
+                    str_SQLite_addtion_ids = str_SQLite_addtion_ids.Substring(0, str_SQLite_addtion_ids.Length - 1);
+                    command.Parameters.Clear();
+                    command.CommandText = "SELECT ID,TerminalID,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm FROM PreTerConfig WHERE ID IN(" + str_SQLite_addtion_ids + ")";
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    dt_sql = new DataTable();
+                    adapter.Fill(dt_sql);
+                    if (dt_sql != null && dt_sql.Rows.Count > 0)
+                    {
+                        string str_SQLite_Insert = @"INSERT INTO PreTerConfig(ID,TerminalID,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm,SyncState) VALUES(
+                                                        @ID,@TerminalID,@PreUpperLimit,@PreLowLimit,@PreSlopeUpLimit,@PreSlopeLowLimit,@EnablePreAlarm,@EnableSlopeAlarm,@SyncState)";
+                        SQLiteParameter[] parms_sqlite = new SQLiteParameter[]{
+                                new SQLiteParameter("@ID",DbType.Int32),
+                                new SQLiteParameter("@TerminalID",DbType.Int32),
+                                new SQLiteParameter("@PreUpperLimit",SqlDbType.Float),
+                                new SQLiteParameter("@PreLowLimit",SqlDbType.Float),
+                                new SQLiteParameter("@PreSlopeUpLimit",SqlDbType.Float),
+
+                                new SQLiteParameter("@PreSlopeLowLimit",SqlDbType.Float),
+                                new SQLiteParameter("@EnablePreAlarm",SqlDbType.Int),
+                                new SQLiteParameter("@EnableSlopeAlarm",SqlDbType.Int),
+                                new SQLiteParameter("@SyncState",DbType.Int32) };
+
+                        foreach (DataRow dr in dt_sql.Rows)
+                        {
+                            parms_sqlite[0].Value = dr["ID"];
+                            parms_sqlite[1].Value = dr["TerminalID"];
+                            parms_sqlite[2].Value = dr["PreUpperLimit"];
+                            parms_sqlite[3].Value = dr["PreLowLimit"];
+                            parms_sqlite[4].Value = dr["PreSlopeUpLimit"];
+
+                            parms_sqlite[5].Value = dr["PreSlopeLowLimit"];
+                            parms_sqlite[6].Value = dr["EnablePreAlarm"];
+                            parms_sqlite[7].Value = dr["EnableSlopeAlarm"];
+                            parms_sqlite[8].Value = 0;
+
+                            SQLiteHelper.ExecuteNonQuery(str_SQLite_Insert, parms_sqlite);
+                        }
+                    }
+                }
+
+                //UpdateSQL
+                //先删除后插入，不使用update,使其id这样更新也不同，方便同步时区分 
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                if (trans != null)
+                    trans.Rollback();
+            }
         }
         #endregion
 

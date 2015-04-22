@@ -21,6 +21,14 @@ namespace SmartWaterSystem
         internal static List<int> reReadIdList = new List<int>();                                // 需要重新读取的记录仪ID集合
         internal static string Text = "自来水管道分析系统";
 
+        #region 系统主界面
+        private static FrmSystem _mainForm;
+        public static FrmSystem MainForm
+        {
+            get { return _mainForm; }
+            set { _mainForm = value; }
+        }
+        #endregion
 
         public static SQLSyncManager SQLSyncMgr = new SQLSyncManager();
         public static MSMQManager MSMQMgr = new MSMQManager();

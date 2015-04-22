@@ -35,6 +35,7 @@ namespace SmartWaterSystem
             // 读取数据库 初始化界面
             try
             {
+                GlobalValue.MainForm = this;
                 SkinHelper.InitSkinGallery(this.ribbonGalleryBarItem1);
 
                 SplashScreenManager.ShowForm(typeof(WelcomSplash));
@@ -201,6 +202,7 @@ namespace SmartWaterSystem
         void SQLSynctimer_Tick(object sender, EventArgs e)
         {
             GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
             GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
             GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
         }
@@ -269,21 +271,6 @@ namespace SmartWaterSystem
                     NBG_PreT.Visible = true;
                     navBarPreTerMonitor.Visible = true;
                 }
-                else if (t.Name=="IPreTerReportHistory")  //压力终端报表、历史数据查询
-                {
-                    NBG_PreT.Visible = true;
-                    navBarPreTerReport.Visible = true;
-                }
-                else if (t.Name=="IPreTerAlarm")  //压力终端报警统计分析
-                {
-                    NBG_PreT.Visible = true;
-                    navBarPreTerAlarm.Visible = true;
-                }
-                else if (t.Name=="IPreTerStoppage")  //压力终端故障统计分析
-                {
-                    NBG_PreT.Visible = true;
-                    navBarPreTerStoppage.Visible = true;
-                }
                 else if (t.Name == "IUniversalTerParm")  //通用终端参数设置和读取
                 {
                     NBG_UniversalT.Visible = true;
@@ -299,7 +286,21 @@ namespace SmartWaterSystem
                     NBG_UniversalT.Visible = true;
                     navBarUniversalMonitor.Visible = true;
                 }
-
+                else if (t.Name == "IOLWQMgr")   //在线水质
+                {
+                    NBG_OLWQ.Visible = true;
+                    navBarOLWQMgr.Visible = true;
+                }
+                else if (t.Name == "IOLWQMonitor")   //在线水质
+                {
+                    NBG_OLWQ.Visible = true;
+                    navBarOLWQMonitor.Visible = true;
+                }
+                else if (t.Name == "IOLWQParm")   //在线水质
+                {
+                    NBG_OLWQ.Visible = true;
+                    navBarOLWQParm.Visible = true;
+                }
             }
         }
 
@@ -332,12 +333,6 @@ namespace SmartWaterSystem
             navBarPreTerMgr.Visible = isVisiable;
             //压力终端实时列表监控、趋势图
             navBarPreTerMonitor.Visible = isVisiable;
-            //压力终端报表、历史数据查询
-            navBarPreTerReport.Visible = isVisiable;
-            //压力终端报警统计分析
-            navBarPreTerAlarm.Visible = isVisiable;
-            //压力终端故障统计分析
-            navBarPreTerStoppage.Visible = isVisiable;
 
             //通用终端
             NBG_UniversalT.Visible = isVisiable;
@@ -347,11 +342,12 @@ namespace SmartWaterSystem
             navBarUniversalMgr.Visible = isVisiable;
             //通用终端列表监控、趋势图
             navBarUniversalMonitor.Visible = isVisiable;
-            //通用终端报表、历史数据查询
-            navBarUniversalReport.Visible = isVisiable;
-            //通用终端故障统计分析
-            navBarUniversalStoppage.Visible = isVisiable;
 
+            //在线水质
+            NBG_OLWQ.Visible = isVisiable;
+            navBarOLWQMgr.Visible = isVisiable;
+            navBarOLWQMonitor.Visible = isVisiable;
+            navBarOLWQParm.Visible = isVisiable;
 
         }
 
@@ -475,20 +471,6 @@ namespace SmartWaterSystem
             LoadView(typeof(PreTerMonitor));
         }
 
-        private void navBarPreTerReport_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(PreTerReportHistory));
-        }
-
-        private void navBarPreTerAlarm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(PreTerAlarm));
-        }
-
-        private void navBarPreTerStoppage_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
-        {
-            LoadView(typeof(PreTerStoppage));
-        }
         private void navBarNoiseParmSet_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(NoiseParmSetting));
@@ -531,9 +513,19 @@ namespace SmartWaterSystem
             LoadView(typeof(UniversalTerMonitor));
         }
 
-        private void navBarUniversalCallData_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        private void navBarOLWQParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            LoadView(typeof(UniversalCallData));
+            LoadView(typeof(OLWQParm));
+        }
+
+        private void navBarOLWQMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(OLWQMgr));
+        }
+
+        private void navBarOLWQMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(OLWQMonitor));
         }
         #endregion
 
@@ -791,7 +783,7 @@ namespace SmartWaterSystem
                 {
                     newView = (BaseView)Activator.CreateInstance(targetType);
                     panelControlMain.Controls.Add(newView);
-                    newView.MDIView = this;
+                    //newView.MDIView = this;
                 }
                 currentView = newView;
                 newView.Visible = true;
@@ -855,6 +847,7 @@ namespace SmartWaterSystem
             }
             catch { }
         }
+
 
         
 

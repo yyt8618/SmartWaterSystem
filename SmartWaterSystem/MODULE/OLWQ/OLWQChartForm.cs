@@ -9,31 +9,30 @@ using DevExpress.XtraEditors;
 
 namespace SmartWaterSystem
 {
-    public partial class PreTerChartForm : DevExpress.XtraEditors.XtraForm
+    public partial class OLWQChartForm : DevExpress.XtraEditors.XtraForm
     {
         TerminalDataBLL dataBll = new TerminalDataBLL();
-        List<PreDetailDataEntity> lstData = null;
+        List<UniversalDetailDataEntity> lstData = null;
         public static string TerminalID = "";
-        public static string TerminalName = "";
+        public static int TypeId;
+        public static string ColumnName = "";
 
-        public PreTerChartForm()
+        public OLWQChartForm()
         {
             InitializeComponent();
         }
 
-        private void PreTerChartForm_Load(object sender, EventArgs e)
+        private void OLWQChartForm_Load(object sender, EventArgs e)
         {
             dtpStart.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             dtpEnd.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
 
-            lstDetailView.Columns[1].Text = TerminalName;
+            lstDetailView.Columns[1].Text = dataBll.GetTerminalName(TerminalID, TerType.UniversalTer);
 
             groupBoxList.Visible = true;
             groupBoxChart.Visible = false;
 
             cbInterval.SelectedIndex = 0;
-            cbDataType.SelectedIndex = 0;
-            //btnAnalysis_Click(null, null);
         }
 
         private void btnAnalysis_Click(object sender, EventArgs e)
@@ -44,32 +43,32 @@ namespace SmartWaterSystem
             {
                 return;
             }
-            if (lstData != null && lstData.Count > 0)
+            if(lstData!=null && lstData.Count>0)
             {
                 int maxvalue_index = 0;
                 int minvalue_index = 0;
 
-                decimal tmpmin, tmpmax, tmpaverage = 0;
-                tmpmin = tmpmax = lstData[0].PreData;
+                decimal tmpmin, tmpmax, tmpaverage=0;
+                tmpmin = tmpmax = lstData[0].Data;
                 for (int i = 0; i < lstData.Count; i++)
                 {
-                    if (tmpmin > lstData[i].PreData)
+                    if (tmpmin > lstData[i].Data)
                     {
                         minvalue_index = i;
-                        tmpmin = lstData[i].PreData;
+                        tmpmin = lstData[i].Data;
                     }
-                    if (tmpmax < lstData[i].PreData)
+                    if (tmpmax < lstData[i].Data)
                     {
                         maxvalue_index = i;
-                        tmpmax = lstData[i].PreData;
+                        tmpmax = lstData[i].Data;
                     }
-                    tmpaverage += lstData[i].PreData;
+                    tmpaverage += lstData[i].Data;
                 }
                 tmpaverage = tmpaverage / lstData.Count;  //计算平均值
 
                 ListViewItem maxvalueItem = new ListViewItem(new string[]{
                     "最高",
-                    lstData[maxvalue_index].PreData.ToString()
+                    lstData[maxvalue_index].Data.ToString()
                 });
                 ListViewItem maxtimeItem = new ListViewItem(new string[]{
                     "出现时间",
@@ -78,7 +77,7 @@ namespace SmartWaterSystem
 
                 ListViewItem minxvalueItem = new ListViewItem(new string[]{
                     "最低",
-                    lstData[minvalue_index].PreData.ToString()
+                    lstData[minvalue_index].Data.ToString()
                 });
                 ListViewItem mintimeItem = new ListViewItem(new string[]{
                     "出现时间",
@@ -101,7 +100,7 @@ namespace SmartWaterSystem
                 {
                     ListViewItem item = new ListViewItem(new string[]{
                         lstData[i].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                        lstData[i].PreData.ToString()
+                        lstData[i].Data.ToString()
                     });
                     lstDetailView.Items.Add(item);
                 }
@@ -125,14 +124,7 @@ namespace SmartWaterSystem
             }
             lstDetailView.Items.Clear();
             int interval = Convert.ToInt32(cbInterval.Text);
-            if (cbDataType.SelectedIndex == 0)
-                lstData = dataBll.GetPreDetail(TerminalID, dtpStart.Value, dtpEnd.Value, interval);
-            else if (cbDataType.SelectedIndex == 1)
-                lstData = dataBll.GetFlowDetail(TerminalID, dtpStart.Value, dtpEnd.Value, interval, 1);
-            else if (cbDataType.SelectedIndex == 2)
-                lstData = dataBll.GetFlowDetail(TerminalID, dtpStart.Value, dtpEnd.Value, interval, 2);
-            else if (cbDataType.SelectedIndex == 3)
-                lstData = dataBll.GetFlowDetail(TerminalID, dtpStart.Value, dtpEnd.Value, interval, 3);
+            lstData = dataBll.GetUniversalDetail(TerminalID,TypeId, dtpStart.Value, dtpEnd.Value, interval);
 
             if (lstData != null && lstData.Count > 0)
             {
@@ -140,7 +132,7 @@ namespace SmartWaterSystem
             }
             else
             {
-                XtraMessageBox.Show("没有"+cbDataType.Text+"数据,请修改条件!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                XtraMessageBox.Show("没有"+ColumnName+"数据,请修改条件!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dtpStart.Focus();
                 return false;
             }
@@ -170,28 +162,20 @@ namespace SmartWaterSystem
                 try
                 {
                     DataTable flowTable = new DataTable();
-                    flowTable.Columns.Add("PressValue");
+                    flowTable.Columns.Add("DataValue");
                     flowTable.Columns.Add("CollTime");
 
                     for (int i = 1; i < lstData.Count; i++)
                     {
                         DataRow row = flowTable.Rows.Add();
-                        row["PressValue"] = lstData[i].PreData;
+                        row["DataValue"] = lstData[i].Data;
                         row["CollTime"] = lstData[i].CollTime;
                     }
 
                     chart.DataSource = flowTable;
-                    if (cbDataType.SelectedIndex == 0)
-                        chart.Series[0].Name = "压力";
-                    else if (cbDataType.SelectedIndex == 1)
-                        chart.Series[0].Name = "正向流量";
-                    else if (cbDataType.SelectedIndex == 2)
-                        chart.Series[0].Name = "反向流量";
-                    else if (cbDataType.SelectedIndex == 3)
-                        chart.Series[0].Name = "瞬时流量";
-
+                    chart.Series[0].Name = ColumnName;
                     chart.Series[0].XValueMember = "CollTime";
-                    chart.Series[0].YValueMembers = "PressValue";
+                    chart.Series[0].YValueMembers = "DataValue";
                     chart.Series[1].Enabled = false;
                     chart.ResetAutoValues();
                     chart.Legends[0].Enabled = true;

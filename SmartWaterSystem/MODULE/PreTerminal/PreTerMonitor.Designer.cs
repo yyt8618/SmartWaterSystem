@@ -49,8 +49,8 @@
             this.ceCallData = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.ImageComboBox_Online = new DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox();
             this.repositoryItemPictureEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
-            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnUnSelectAllTer = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSelectAllTer = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl_Data = new DevExpress.XtraGrid.GridControl();
             this.lstDataView = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -60,6 +60,8 @@
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemImageComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox();
@@ -192,8 +194,8 @@
             // groupControl1
             // 
             this.groupControl1.Controls.Add(this.gridControlTer);
-            this.groupControl1.Controls.Add(this.simpleButton2);
-            this.groupControl1.Controls.Add(this.simpleButton1);
+            this.groupControl1.Controls.Add(this.btnUnSelectAllTer);
+            this.groupControl1.Controls.Add(this.btnSelectAllTer);
             this.groupControl1.Location = new System.Drawing.Point(0, 71);
             this.groupControl1.Name = "groupControl1";
             this.groupControl1.Size = new System.Drawing.Size(162, 420);
@@ -286,21 +288,23 @@
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             this.repositoryItemPictureEdit1.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
             // 
-            // simpleButton2
+            // btnUnSelectAllTer
             // 
-            this.simpleButton2.Location = new System.Drawing.Point(84, 21);
-            this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(60, 20);
-            this.simpleButton2.TabIndex = 2;
-            this.simpleButton2.Text = "反选";
+            this.btnUnSelectAllTer.Location = new System.Drawing.Point(84, 21);
+            this.btnUnSelectAllTer.Name = "btnUnSelectAllTer";
+            this.btnUnSelectAllTer.Size = new System.Drawing.Size(60, 20);
+            this.btnUnSelectAllTer.TabIndex = 2;
+            this.btnUnSelectAllTer.Text = "反选";
+            this.btnUnSelectAllTer.Click += new System.EventHandler(this.btnUnSelectAllTer_Click);
             // 
-            // simpleButton1
+            // btnSelectAllTer
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(18, 21);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(60, 20);
-            this.simpleButton1.TabIndex = 1;
-            this.simpleButton1.Text = "全选";
+            this.btnSelectAllTer.Location = new System.Drawing.Point(18, 21);
+            this.btnSelectAllTer.Name = "btnSelectAllTer";
+            this.btnSelectAllTer.Size = new System.Drawing.Size(60, 20);
+            this.btnSelectAllTer.TabIndex = 1;
+            this.btnSelectAllTer.Text = "全选";
+            this.btnSelectAllTer.Click += new System.EventHandler(this.btnSelectAllTer_Click);
             // 
             // groupControl2
             // 
@@ -336,7 +340,9 @@
             this.gridColumn5,
             this.gridColumn6,
             this.gridColumn7,
-            this.gridColumn8});
+            this.gridColumn8,
+            this.gridColumn9,
+            this.gridColumn10});
             this.lstDataView.GridControl = this.gridControl_Data;
             this.lstDataView.Name = "lstDataView";
             this.lstDataView.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -354,7 +360,7 @@
             this.lstDataView.OptionsSelection.EnableAppearanceFocusedRow = false;
             this.lstDataView.OptionsView.ShowGroupPanel = false;
             this.lstDataView.OptionsView.ShowIndicator = false;
-            this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
+            this.lstDataView.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.lstDataView_RowCellClick);
             // 
             // gridColumn3
             // 
@@ -428,6 +434,34 @@
             this.gridColumn8.VisibleIndex = 5;
             this.gridColumn8.Width = 121;
             // 
+            // gridColumn9
+            // 
+            this.gridColumn9.Caption = "颜色列表";
+            this.gridColumn9.FieldName = "Colors";
+            this.gridColumn9.Name = "gridColumn9";
+            this.gridColumn9.OptionsColumn.AllowEdit = false;
+            this.gridColumn9.OptionsColumn.AllowFocus = false;
+            this.gridColumn9.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn9.OptionsColumn.AllowMove = false;
+            this.gridColumn9.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn9.OptionsColumn.ReadOnly = true;
+            this.gridColumn9.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn9.OptionsFilter.AllowFilter = false;
+            // 
+            // gridColumn10
+            // 
+            this.gridColumn10.Caption = "当前颜色";
+            this.gridColumn10.FieldName = "CurColor";
+            this.gridColumn10.Name = "gridColumn10";
+            this.gridColumn10.OptionsColumn.AllowEdit = false;
+            this.gridColumn10.OptionsColumn.AllowFocus = false;
+            this.gridColumn10.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn10.OptionsColumn.AllowMove = false;
+            this.gridColumn10.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn10.OptionsColumn.ReadOnly = true;
+            this.gridColumn10.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn10.OptionsFilter.AllowFilter = false;
+            // 
             // repositoryItemCheckEdit2
             // 
             this.repositoryItemCheckEdit2.AutoHeight = false;
@@ -499,8 +533,8 @@
         private System.Windows.Forms.Button btnClrPreLowLimit;
         private DevExpress.XtraEditors.GroupControl groupControl1;
         private DevExpress.XtraEditors.GroupControl groupControl2;
-        private DevExpress.XtraEditors.SimpleButton simpleButton2;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton btnUnSelectAllTer;
+        private DevExpress.XtraEditors.SimpleButton btnSelectAllTer;
         private DevExpress.XtraGrid.GridControl gridControlTer;
         private DevExpress.XtraGrid.Views.Grid.GridView lstTerminalListView;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
@@ -522,6 +556,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
 
     }
 }

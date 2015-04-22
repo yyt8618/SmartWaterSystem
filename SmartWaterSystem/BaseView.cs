@@ -11,14 +11,6 @@ namespace SmartWaterSystem
 {
     public partial class BaseView : DevExpress.XtraEditors.XtraUserControl
     {
-        #region 变量
-        private FrmSystem _MDIView;
-        public FrmSystem MDIView
-        {
-            get { return _MDIView; }
-            set { _MDIView = value; }
-        }
-        #endregion
 
         public BaseView()
         {
@@ -55,37 +47,37 @@ namespace SmartWaterSystem
         #region 公共方法
         protected void DisableRibbonBar()
         {
-            this.MDIView.DisableRibbonBar();
+            GlobalValue.MainForm.DisableRibbonBar();
         }
 
         protected void EnableRibbonBar()
         {
-            this.MDIView.EnableRibbonBar();
+            GlobalValue.MainForm.EnableRibbonBar();
         }
 
         protected void DisableNavigateBar()
         {
-            this.MDIView.DisableNavigateBar();
+            GlobalValue.MainForm.DisableNavigateBar();
         }
 
         protected void EnableNavigateBar()
         {
-            this.MDIView.EnableNavigateBar();
+            GlobalValue.MainForm.EnableNavigateBar();
         }
 
         protected void ShowWaitForm(string title, string prompt)
         {
-            this.MDIView.ShowWaitForm(title, prompt);
+            GlobalValue.MainForm.ShowWaitForm(title, prompt);
         }
 
         protected void HideWaitForm()
         {
-            this.MDIView.HideWaitForm();
+            GlobalValue.MainForm.HideWaitForm();
         }
 
         protected void ShowDialog(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
-            this.MDIView.ShowDialog(text, caption, buttons, icon);
+            GlobalValue.MainForm.ShowDialog(text, caption, buttons, icon);
         }
 
         /// <summary>
@@ -93,7 +85,7 @@ namespace SmartWaterSystem
         /// </summary>
         protected void SetStaticItem(string msg)
         {
-            this.MDIView.barStaticItemWait.Caption = msg;
+            GlobalValue.MainForm.barStaticItemWait.Caption = msg;
         }
         #endregion
 

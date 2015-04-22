@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Common;
 using Entity;
 using System.Text.RegularExpressions;
 using BLL;
+using DevExpress.XtraEditors;
 
 namespace SmartWaterSystem
 {
@@ -18,7 +15,7 @@ namespace SmartWaterSystem
         NLog.Logger logger = NLog.LogManager.GetLogger("PreTerMgr");
         TerminalConfigBLL configBLL = new TerminalConfigBLL();
 
-        //public static MainForm main = null;
+        public PreTerMonitor MonitorView = null;
 
         public PreTerMgr()
         {
@@ -27,6 +24,7 @@ namespace SmartWaterSystem
 
         private void PreTerMgr_Load(object sender, EventArgs e)
         {
+            MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
             InitView();
         }
 
@@ -55,7 +53,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show("初始化拾色器失败!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show("初始化拾色器失败!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 logger.ErrorException("InitColor", ex);
 
             }
@@ -72,7 +70,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show("清除界面数据发生异常,ex:" + ex.Message, "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show("清除界面数据发生异常,ex:" + ex.Message, "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 logger.ErrorException("ClearControls", ex);
             }
         }
@@ -157,13 +155,13 @@ namespace SmartWaterSystem
                     if (!String.IsNullOrEmpty(lstTerminalConfigView.Items[selectCol[0]].SubItems[0].Text))
                     {
                         txtTerminalID.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[0].Text;
-                        txtTerminalName.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[1].Text;
+                        txtTerminalName.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[1].Text.Trim();
                         txtPreLowLimit.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[2].Text;
                         txtPreUpLimite.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[3].Text;
                         txtSlopeLowLimit.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[4].Text;
                         txtSlopeUpLimit.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[5].Text;
-                        txtAddress.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[6].Text;
-                        txtRemark.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[7].Text;
+                        txtAddress.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[6].Text.Trim();
+                        txtRemark.Text = lstTerminalConfigView.Items[selectCol[0]].SubItems[7].Text.Trim();
                         cboxPreAlarm.Checked = lstTerminalConfigView.Items[selectCol[0]].SubItems[8].Text.ToLower() == "true" ? true : false;
                         cboxSlopeAlarm.Checked = lstTerminalConfigView.Items[selectCol[0]].SubItems[9].Text.ToLower() == "true" ? true : false;
                     }
@@ -176,21 +174,30 @@ namespace SmartWaterSystem
             if (Validate())
             {
                 TerminalConfigEntity entity = null;
-                if (configBLL.IsExist(txtTerminalID.Text.Trim()))
+                if (configBLL.IsExist(txtTerminalID.Text.Trim(), 1) || configBLL.IsExist(txtTerminalID.Text.Trim(), 0))
                 {
-                    if (DialogResult.Yes == MessageBox.Show("终端编号[" + txtTerminalID.Text + "]已经存在,是否更新?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+                    if (DialogResult.Yes == XtraMessageBox.Show("终端编号[" + txtTerminalID.Text + "]已经存在,是否更新?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
                     {
                         entity = GetEntity();
                         if (configBLL.Modify(entity))
                         {
-                            MessageBox.Show("更新成功!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            main.UpdateListView();
+                            XtraMessageBox.Show("更新成功!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+                            if (MonitorView != null)
+                            {
+                                MonitorView.ShowTerList(false, true);
+                                MonitorView.ShowTerData();
+                            }
+
                             ClearConfigControls();
                             GetConfigFromDB();
+                            
+                            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
                         }
                         else
                         {
-                            MessageBox.Show("更新失败!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            XtraMessageBox.Show("更新失败!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                     else
@@ -198,19 +205,31 @@ namespace SmartWaterSystem
                 }
                 else
                 {
-                    if (DialogResult.Yes == MessageBox.Show("是否新增终端编号[" + txtTerminalID.Text + "]?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+                    if (DialogResult.Yes == XtraMessageBox.Show("是否新增终端编号[" + txtTerminalID.Text + "]?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
                     {
                         entity = GetEntity();
                         if (configBLL.Insert(entity))
                         {
-                            MessageBox.Show("新增成功!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            main.AddTerminalListView(entity.TerminalID, entity.TerminalName);
+                            XtraMessageBox.Show("新增成功!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+                            if (MonitorView != null)
+                            {
+                                MonitorView.ShowTerList(false,true);
+                                MonitorView.ShowTerData();
+                            }
+
+                            ClearConfigControls();
+                            GetConfigFromDB();
+
+                            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
+
                             ClearConfigControls();
                             GetConfigFromDB();
                         }
                         else
                         {
-                            MessageBox.Show("新增失败!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            XtraMessageBox.Show("新增失败!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                     else
@@ -225,31 +244,42 @@ namespace SmartWaterSystem
             ListView.SelectedIndexCollection selectCol = lstTerminalConfigView.SelectedIndices;
             if (selectCol != null && selectCol.Count > 0)
             {
-                if (DialogResult.Yes == MessageBox.Show("确定要删除该数据?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+                if (DialogResult.Yes == XtraMessageBox.Show("确定要删除该数据?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
                 {
-                    if (configBLL.Delete(lstTerminalConfigView.Items[selectCol[0]].SubItems[0].Text))
+                    if (configBLL.DeletePreTer(lstTerminalConfigView.Items[selectCol[0]].SubItems[0].Text))
                     {
-                        MessageBox.Show("删除成功", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        main.DelTerminalListView(lstTerminalConfigView.Items[selectCol[0]].SubItems[0].Text);
-                        main.UpdateListView();
+                        XtraMessageBox.Show("删除成功", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+                        if (MonitorView != null)
+                        {
+                            MonitorView.ShowTerList(false,true);
+                            MonitorView.ShowTerData();
+                        }
+
+                        ClearConfigControls();
+                        GetConfigFromDB();
+
+                        GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                        GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
+
                         ClearConfigControls();
                         GetConfigFromDB();
                     }
                     else
                     {
-                        MessageBox.Show("删除失败", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        XtraMessageBox.Show("删除失败", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
             else
-                MessageBox.Show("请选择一条数据操作", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                XtraMessageBox.Show("请选择一条数据操作", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private bool Validate()
         {
             if (!Regex.IsMatch(txtTerminalID.Text, @"^\d+$"))
             {
-                MessageBox.Show("请填写合法的终端编号", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                XtraMessageBox.Show("请填写合法的终端编号", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtTerminalID.SelectAll();
                 txtTerminalID.Focus();
                 return false;
@@ -257,7 +287,7 @@ namespace SmartWaterSystem
 
             if (string.IsNullOrEmpty(txtTerminalName.Text))
             {
-                MessageBox.Show("请填写合法的终端名称", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                XtraMessageBox.Show("请填写合法的终端名称", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtTerminalName.SelectAll();
                 txtTerminalName.Focus();
                 return false;
@@ -267,7 +297,7 @@ namespace SmartWaterSystem
             {
                 if (!Regex.IsMatch(txtPreLowLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
                 {
-                    MessageBox.Show("请填写合法的终端压力下限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show("请填写合法的终端压力下限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtPreLowLimit.SelectAll();
                     txtPreLowLimit.Focus();
                     return false;
@@ -278,7 +308,7 @@ namespace SmartWaterSystem
             {
                 if (!Regex.IsMatch(txtPreUpLimite.Text, @"^\d{1,4}(.\d{1,4})?$"))
                 {
-                    MessageBox.Show("请填写合法的终端压力上限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show("请填写合法的终端压力上限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtPreUpLimite.SelectAll();
                     txtPreUpLimite.Focus();
                     return false;
@@ -289,7 +319,7 @@ namespace SmartWaterSystem
             {
                 if (!Regex.IsMatch(txtSlopeLowLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
                 {
-                    MessageBox.Show("请填写合法的斜率下限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show("请填写合法的斜率下限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtSlopeLowLimit.SelectAll();
                     txtSlopeLowLimit.Focus();
                     return false;
@@ -300,7 +330,7 @@ namespace SmartWaterSystem
             {
                 if (!Regex.IsMatch(txtSlopeUpLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
                 {
-                    MessageBox.Show("请填写合法的斜率上限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show("请填写合法的斜率上限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtSlopeUpLimit.SelectAll();
                     txtSlopeUpLimit.Focus();
                     return false;
@@ -346,43 +376,37 @@ namespace SmartWaterSystem
             return entity;
         }
 
-        private void CancelSelectList()
-        {
-            if (lstTerminalConfigView.Items.Count > 0)
-            {
-                this.lstTerminalConfigView.SelectedIndexChanged -= new System.EventHandler(this.lstTerminalConfigView_SelectedIndexChanged);
-                for (int i = 0; i < lstTerminalConfigView.Items.Count; i++)
-                {
-                    lstTerminalConfigView.Items[i].Selected = false;
-                }
-                this.lstTerminalConfigView.SelectedIndexChanged += new System.EventHandler(this.lstTerminalConfigView_SelectedIndexChanged);
-            }
-        }
-
-
         private void colorPickPreLowLimit_EditValueChanged(object sender, EventArgs e)
         {
             Settings.Instance.SetValue(SettingKeys.PreLowLimitColor, colorPickPreLowLimit.Color.ToArgb());
-            main.UpdateColorsConfig();
+            MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+            if (MonitorView != null)
+                MonitorView.UpdateColorsConfig();
         }
 
         private void colorPickSlopeLowLimit_EditValueChanged(object sender, EventArgs e)
         {
             Settings.Instance.SetValue(SettingKeys.PreSlopeLowLimitColor, colorPickSlopeLowLimit.Color.ToArgb());
-            main.UpdateColorsConfig();
+            MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+            if (MonitorView != null)
+                MonitorView.UpdateColorsConfig();
         }
 
         private void colorPickPreUpLimit_EditValueChanged(object sender, EventArgs e)
         {
             Settings.Instance.SetValue(SettingKeys.PreUpLimtColor, colorPickPreUpLimit.Color.ToArgb());
-            main.UpdateColorsConfig();
+            MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+            if (MonitorView != null)
+                MonitorView.UpdateColorsConfig();
         }
 
 
         private void colorPickSlopeUpLimit_EditValueChanged(object sender, EventArgs e)
         {
             Settings.Instance.SetValue(SettingKeys.PreSlopeUpLimitColor, colorPickSlopeUpLimit.Color.ToArgb());
-            main.UpdateColorsConfig();
+            MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+            if (MonitorView != null)
+                MonitorView.UpdateColorsConfig();
         }
 
         private void cboxPreAlarm_CheckedChanged(object sender, EventArgs e)

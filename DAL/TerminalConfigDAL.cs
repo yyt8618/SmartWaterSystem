@@ -10,12 +10,14 @@ namespace DAL
 {
     public class TerminalConfigDAL
     {
+        TerminalDataDAL terDal = new TerminalDataDAL();
+
         public List<TerminalConfigEntity> GetAllPreTerminals()
         {
             lock (ConstValue.obj)
             {
-                string SQL = @"SELECT Ter.TerminalID,Ter.TerminalName,Ter.[Address],Ter.Remark,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm FROM Terminal Ter, [TerminalConfig] Config 
-                WHERE Ter.TerminalID=Config.TerminalID AND Ter.SyncState<>-1 ORDER BY TerminalName";
+                string SQL = @"SELECT DISTINCT Ter.TerminalID,Ter.TerminalName,Ter.[Address],Ter.Remark,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm FROM Terminal Ter, [PreTerConfig] Config 
+                WHERE Ter.TerminalID=Config.TerminalID AND Ter.SyncState<>-1 AND Ter.TerminalType='" +(int)TerType.PreTer+"' ORDER BY TerminalName";
                 using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL, null))
                 {
                     List<TerminalConfigEntity> lstConfig = new List<TerminalConfigEntity>();
@@ -52,7 +54,7 @@ namespace DAL
 
         public bool IsExist(string TerminalID,int SyncState)
         {
-            string SQL = "SELECT COUNT(1) FROM TerminalConfig WHERE TerminalID='" + TerminalID + "' AND SyncState='"+SyncState+"'";
+            string SQL = "SELECT COUNT(1) FROM PreTerConfig WHERE TerminalID='" + TerminalID + "' AND SyncState='" + SyncState + "'";
 
             object obj_count = SQLiteHelper.ExecuteScalar(SQL);
             if (obj_count != null && obj_count != DBNull.Value)
@@ -66,19 +68,17 @@ namespace DAL
         {
             try
             {
-                SqlCommand command_config = new SqlCommand();
-
-                string SQL_Config = @"INSERT INTO TerminalConfig(TerminalID,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm) VALUES(
+                string SQL_Config = @"INSERT INTO PreTerConfig(TerminalID,PreUpperLimit,PreLowLimit,PreSlopeUpLimit,PreSlopeLowLimit,EnablePreAlarm,EnableSlopeAlarm) VALUES(
                 @TerminalID,@PreUpperLimit,@PreLowLimit,@PreSlopeUpLimit,@PreSlopeLowLimit,@EnablePreAlarm,@EnableSlopeAlarm)";
-                SqlParameter[] parms = new SqlParameter[]{
-                new SqlParameter("@TerminalID",SqlDbType.Int),
-                new SqlParameter("@PreUpperLimit",SqlDbType.Decimal),
-                new SqlParameter("@PreLowLimit",SqlDbType.Decimal),
-                new SqlParameter("@PreSlopeUpLimit",SqlDbType.Decimal),
-                new SqlParameter("@PreSlopeLowLimit",SqlDbType.Decimal),
+                SQLiteParameter[] parms = new SQLiteParameter[]{
+                new SQLiteParameter("@TerminalID",SqlDbType.Int),
+                new SQLiteParameter("@PreUpperLimit",SqlDbType.Decimal),
+                new SQLiteParameter("@PreLowLimit",SqlDbType.Decimal),
+                new SQLiteParameter("@PreSlopeUpLimit",SqlDbType.Decimal),
+                new SQLiteParameter("@PreSlopeLowLimit",SqlDbType.Decimal),
 
-                new SqlParameter("@EnablePreAlarm",SqlDbType.Int),
-                new SqlParameter("@EnableSlopeAlarm",SqlDbType.Int),
+                new SQLiteParameter("@EnablePreAlarm",SqlDbType.Int),
+                new SQLiteParameter("@EnableSlopeAlarm",SqlDbType.Int),
 
             };
                 parms[0].Value = entity.TerminalID;
@@ -90,12 +90,9 @@ namespace DAL
                 parms[5].Value = entity.EnablePreAlarm ? 1 : 0;
                 parms[6].Value = entity.EnableSlopeAlarm ? 1 : 0;
 
-                command_config.Connection = SQLHelper.Conn;
-                command_config.CommandText = SQL_Config;
-                command_config.CommandType = CommandType.Text;
-                command_config.Parameters.AddRange(parms);
+                SQLiteHelper.ExecuteNonQuery(SQL_Config, parms);
 
-                command_config.ExecuteNonQuery();
+                terDal.SaveTerInfo(entity.TerminalID, entity.TerminalName, entity.TerminalAddr, entity.Remark, TerType.PreTer, null, false);
                 return true;
             }
             catch (Exception ex)
@@ -106,27 +103,35 @@ namespace DAL
 
         public bool Modify(TerminalConfigEntity entity)
         {
-            if (Delete(entity.TerminalID.ToString()))
+            if (DeletePreTer(entity.TerminalID.ToString()))
             {
                 Insert(entity);
             }
             return true;
         }
 
-        public bool Delete(string TerminalID)
+        public bool DeletePreTer(string TerminalID)
+        {
+            DeletePreTerConfig(TerminalID);
+
+            terDal.DeleteTer(TerType.PreTer, TerminalID);
+
+            return true;
+        }
+
+        public bool DeletePreTerConfig(string TerminalID)
         {
             string SQL = "";
-            if (IsExist(TerminalID, -1))
+            if (IsExist(TerminalID, 1))
             {
-                SQL = "DELETE FROM TerminalConfig WHERE SyncState=-1 AND TerminalID='" + TerminalID + "'";
+                SQL = "DELETE FROM PreTerConfig WHERE SyncState=-1 AND TerminalID='" + TerminalID + "'";
             }
             else
             {
-                SQL = "UPDATE TerminalConfig SET SyncState=-1 WHERE TerminalID='" + TerminalID + "'";
+                SQL = "UPDATE PreTerConfig SET SyncState=-1 WHERE TerminalID='" + TerminalID + "'";
             }
 
-            SQLHelper.ExecuteNonQuery(SQL, null);
-
+            SQLiteHelper.ExecuteNonQuery(SQL, null);
             return true;
         }
 

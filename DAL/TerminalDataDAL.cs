@@ -387,7 +387,7 @@ namespace DAL
             }
         }
 
-        public void DeleteTer(TerType type, int TerminalID)
+        public void DeleteTer(TerType type, string TerminalID)
         {
             string SQL = "";
             string SQL_SELECT = "SELECT COUNT(1) FROM Terminal WHERE SyncState=1 AND TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
@@ -398,7 +398,7 @@ namespace DAL
                 exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
             }
             if (exist)
-                SQL = "DELETE FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
+                SQL = "DELETE FROM Terminal WHERE SyncState=1 AND TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
             else
                 SQL = "UPDATE Terminal SET SyncState=-1 WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
             SQLiteHelper.ExecuteNonQuery(SQL, null);
@@ -433,10 +433,10 @@ namespace DAL
         }
 
         /// <summary>
-        /// 保存通用终端配置
+        /// 保存终端配置
         /// </summary>
         /// <returns></returns>
-        public int SaveUniversalTerConfig(int terminalid, string name, string addr, string remark, List<UniversalWayTypeConfigEntity> lstPointID)
+        public int SaveTerInfo(int terminalid, string name, string addr, string remark,TerType terType, List<UniversalWayTypeConfigEntity> lstPointID,bool needmodify = true)
         {
             SQLiteTransaction trans = null;
             try
@@ -446,14 +446,17 @@ namespace DAL
                 command.Connection = SQLiteHelper.Conn;
                 command.Transaction = trans;
 
-                command.CommandText = "DELETE FROM Terminal WHERE SyncState<>0 AND TerminalType='" + (int)TerType.UniversalTer + "' AND TerminalID='" + terminalid + "'";
-                command.ExecuteNonQuery();
+                if (needmodify)
+                {
+                    command.CommandText = "DELETE FROM Terminal WHERE SyncState=1 AND TerminalType='" + (int)terType + "' AND TerminalID='" + terminalid + "'";
+                    command.ExecuteNonQuery();
 
-                command.CommandText = "UPDATE Terminal SET SyncState=-1 WHERE TerminalType='" + (int)TerType.UniversalTer + "' AND TerminalID='" + terminalid + "'";
-                command.ExecuteNonQuery();
+                    command.CommandText = "UPDATE Terminal SET SyncState=-1 WHERE TerminalType='" + (int)terType + "' AND TerminalID='" + terminalid + "'";
+                    command.ExecuteNonQuery();
+                }
 
                 command.CommandText = string.Format("INSERT INTO Terminal(ID,TerminalID,TerminalName,TerminalType,Address,Remark) VALUES('{0}','{1}','{2}','{3}','{4}','{5}')",
-                                                         GetTerminalTableMaxId() + 1, terminalid, name.Trim(), (int)TerType.UniversalTer, addr.Trim(), remark.Trim());
+                                                         GetTerminalTableMaxId() + 1, terminalid, name.Trim(), (int)terType, addr.Trim(), remark.Trim());
                 command.ExecuteNonQuery();
 
                 //Update UniversalTerConfig Table
@@ -560,6 +563,77 @@ namespace DAL
             return dt;
         }
 
+        public List<PreDetailDataEntity> GetPreDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval)
+        {
+            string SQL = @"SELECT PressValue,CollTime FROM Pressure_Real 
+            WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalID=@TerId  ORDER BY CollTime";
+
+            SqlParameter[] parms = new SqlParameter[]{
+                new SqlParameter("@TerId",SqlDbType.Int),
+                new SqlParameter("@mintime",SqlDbType.DateTime),
+                new SqlParameter("@maxtime",SqlDbType.DateTime),
+                new SqlParameter("@interval",SqlDbType.Int)
+            };
+
+            parms[0].Value = TerminalID;
+            parms[1].Value = minTime;
+            parms[2].Value = maxTime;
+            parms[3].Value = interval;
+
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, parms))
+            {
+                List<PreDetailDataEntity> lstData = new List<PreDetailDataEntity>();
+                while (reader.Read())
+                {
+                    PreDetailDataEntity entity = new PreDetailDataEntity();
+                    entity.PreData = reader["PressValue"] != DBNull.Value ? Convert.ToDecimal(reader["PressValue"]) : 0;
+                    entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : ConstValue.MinDateTime;
+
+                    lstData.Add(entity);
+                }
+                return lstData;
+            }
+            return null;
+        }
+
+        public List<PreDetailDataEntity> GetFlowDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval, int datatype)
+        {
+            string SQL = @"SELECT FlowValue,FlowInverted,FlowInstant,CollTime FROM Flow_Real 
+            WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalIDID=@TerId  ORDER BY CollTime";
+
+            SqlParameter[] parms = new SqlParameter[]{
+                new SqlParameter("@TerId",SqlDbType.Int),
+                new SqlParameter("@mintime",SqlDbType.DateTime),
+                new SqlParameter("@maxtime",SqlDbType.DateTime),
+                new SqlParameter("@interval",SqlDbType.Int)
+            };
+
+            parms[0].Value = TerminalID;
+            parms[1].Value = minTime;
+            parms[2].Value = maxTime;
+            parms[3].Value = interval;
+
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, parms))
+            {
+                List<PreDetailDataEntity> lstData = new List<PreDetailDataEntity>();
+                while (reader.Read())
+                {
+                    PreDetailDataEntity entity = new PreDetailDataEntity();
+                    if (datatype == 1)  //正向流量
+                        entity.PreData = reader["FlowValue"] != DBNull.Value ? Convert.ToDecimal(reader["FlowValue"]) : 0;
+                    else if (datatype == 2)  //反向流量
+                        entity.PreData = reader["FlowInverted"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInverted"]) : 0;
+                    else if (datatype == 3)  //瞬时流量
+                        entity.PreData = reader["FlowInstant"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInstant"]) : 0;
+                    entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : ConstValue.MinDateTime;
+
+                    lstData.Add(entity);
+                }
+                return lstData;
+            }
+            return null;
+        }
+
         public List<UniversalDetailDataEntity> GetUniversalDetail(string TerminalID, int typeId, DateTime minTime, DateTime maxTime, int interval)
         {
             string SQL = @"SELECT [DataValue],CollTime FROM UniversalTerData 
@@ -648,10 +722,10 @@ namespace DAL
             if (str_ids.EndsWith(","))
                 str_ids = str_ids.Substring(0, str_ids.Length - 1); ;
             //MT_CollDeviceType_ID=1 是压力终端
-            string SQL = string.Format(@"SELECT r.TrmlID,r.Config_Name,v.PressValue,v.CollTime,c.TerminalName,c.PreLowLimit,c.PreUpperLimit,c.PreSlopeLowLimit,c.PreSlopeUpLimit,c.Address,c.EnablePreAlarm,c.EnableSlopeAlarm FROM DL_Pressure_Real v,EN_TrmlCollRelate r,TerminalConfig c WHERE 
-                                            v.EN_CollPoint_ID=r.EN_CollPoint_ID AND R.MT_CollDeviceType_ID=1 AND r.TrmlID=c.TerminalID AND c.TerminalID IN({0}) AND 
-                                            v.CollTime IN (SELECT TOP 2 CollTime FROM DL_Pressure_Real 
-                                            WHERE v.EN_CollPoint_ID = EN_CollPoint_ID ORDER BY EN_CollPoint_ID,CollTime DESC)", str_ids);
+            string SQL = string.Format(@"SELECT t.TerminalID,t.TerminalName,t.Address,v.PressValue,v.CollTime,c.PreLowLimit,c.PreUpperLimit,c.PreSlopeLowLimit,c.PreSlopeUpLimit,c.EnablePreAlarm,c.EnableSlopeAlarm FROM Pressure_Real v,PreTerConfig c,Terminal t WHERE 
+                                            v.TerminalID=c.TerminalID AND t.TerminalType = {0} AND c.TerminalID=t.TerminalID AND t.TerminalID IN({1}) AND 
+                                            v.CollTime IN (SELECT TOP 2 CollTime FROM Pressure_Real 
+                                            WHERE v.TerminalID = TerminalID ORDER BY TerminalID,CollTime DESC)", ((int)TerType.PreTer).ToString(),str_ids);
 
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
@@ -665,7 +739,7 @@ namespace DAL
                 while (reader.Read())
                 {
                     prevalue = reader["PressValue"] != DBNull.Value ? Convert.ToDecimal(reader["PressValue"]) : 0;
-                    terminalid = reader["TrmlID"] != DBNull.Value ? Convert.ToInt32(reader["TrmlID"]) : 0;
+                    terminalid = reader["TerminalID"] != DBNull.Value ? Convert.ToInt32(reader["TerminalID"]) : 0;
                     coltime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : DateTime.Now;
                     exist = false;
                     for (index = 0; index < lstData.Count; index++)
@@ -707,8 +781,7 @@ namespace DAL
                     else
                     {
                         PreDataEntity entity = new PreDataEntity();
-                        entity.TerminalID = reader["TrmlID"] != DBNull.Value ? Convert.ToInt32(reader["TrmlID"]) : 0;
-                        entity.ConfigName = reader["Config_Name"] != DBNull.Value ? reader["Config_Name"].ToString() : "";
+                        entity.TerminalID = reader["TerminalID"] != DBNull.Value ? Convert.ToInt32(reader["TerminalID"]) : 0;
                         entity.TerminalName = reader["TerminalName"] != DBNull.Value ? reader["TerminalName"].ToString() : "";
 
                         entity.EnablePreAlarm = reader["EnablePreAlarm"] != DBNull.Value ? (Convert.ToInt32(reader["EnablePreAlarm"]) == 1 ? true : false) : true;
@@ -751,11 +824,11 @@ namespace DAL
             if (str_ids.EndsWith(","))
                 str_ids = str_ids.Substring(0, str_ids.Length - 1); ;
             //MT_CollDeviceType_ID=1 是压力终端
-            string SQL = string.Format(@"SELECT r.TrmlID,r.Config_Name,f.FlowValue,f.FlowInverted,f.FlowInstant,f.CollTime,c.TerminalName,c.PreLowLimit,c.PreUpperLimit,c.PreSlopeLowLimit,c.PreSlopeUpLimit,c.Address,c.EnablePreAlarm,c.EnableSlopeAlarm 
-                                        FROM DL_Flow_Real f,EN_TrmlCollRelate r,TerminalConfig c WHERE 
-                                        f.EN_CollPoint_ID=r.EN_CollPoint_ID AND R.MT_CollDeviceType_ID=1 AND r.TrmlID=c.TerminalID AND c.TerminalID IN({0}) AND 
-                                        f.CollTime IN (SELECT TOP 2 CollTime FROM DL_Flow_Real  
-                                        WHERE f.EN_CollPoint_ID = EN_CollPoint_ID ORDER BY EN_CollPoint_ID,CollTime DESC)", str_ids);
+            string SQL = string.Format(@"SELECT t.TerminalID,t.TerminalName,t.Address,f.FlowValue,f.FlowInverted,f.FlowInstant,f.CollTime,c.PreLowLimit,c.PreUpperLimit,c.PreSlopeLowLimit,c.PreSlopeUpLimit,c.EnablePreAlarm,c.EnableSlopeAlarm 
+                                        FROM Flow_Real f,PreTerConfig c,Terminal t WHERE 
+                                        f.TerminalID=c.TerminalID AND t.TerminalType = {0} AND c.TerminalID=t.TerminalID AND c.TerminalID IN({1}) AND 
+                                        f.CollTime IN (SELECT TOP 2 CollTime FROM Flow_Real  
+                                        WHERE f.TerminalID = TerminalID ORDER BY TerminalID,CollTime DESC)", ((int)TerType.PreTer).ToString(),str_ids);
 
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
@@ -773,7 +846,7 @@ namespace DAL
                     forwardflowvalue = reader["FlowValue"] != DBNull.Value ? Convert.ToDecimal(reader["FlowValue"]) : 0;
                     reverseflowvalue = reader["FlowInverted"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInverted"]) : 0;
                     instantflowvalue = reader["FlowInstant"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInstant"]) : 0;
-                    terminalid = reader["TrmlID"] != DBNull.Value ? Convert.ToInt32(reader["TrmlID"]) : 0;
+                    terminalid = reader["TerminalID"] != DBNull.Value ? Convert.ToInt32(reader["TerminalID"]) : 0;
                     coltime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : DateTime.Now;
                     exist = false;
                     for (index = 0; index < lstData.Count; index++)
@@ -825,8 +898,8 @@ namespace DAL
                     else
                     {
                         FlowDataEntity entity = new FlowDataEntity();
-                        entity.TerminalID = reader["TrmlID"] != DBNull.Value ? Convert.ToInt32(reader["TrmlID"]) : 0;
-                        entity.ConfigName = reader["Config_Name"] != DBNull.Value ? reader["Config_Name"].ToString() : "";
+                        entity.TerminalID = reader["TerminalID"] != DBNull.Value ? Convert.ToInt32(reader["TerminalID"]) : 0;
+                        //entity.ConfigName = reader["Config_Name"] != DBNull.Value ? reader["Config_Name"].ToString() : "";
                         entity.TerminalName = reader["TerminalName"] != DBNull.Value ? reader["TerminalName"].ToString() : "";
 
                         entity.NewestCollTime = coltime;

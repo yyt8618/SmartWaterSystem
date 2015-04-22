@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using BLL;
 using Common;
@@ -21,6 +18,8 @@ namespace SmartWaterSystem
         Color cPreLowLimit, cPreUpLimit, cPreSlopeLowLimit, cPreSlopeUpLimit, cDefault;  //报警颜色变量
         bool IsFlashColor;  //是否刷新颜色(循环显示颜色),1秒刷新一次
         int SecsCount = 60;  //计时器秒数,每60秒刷新一次列表数据
+        Color[] Colors = new Color[4];
+        List<string> lst_checkedTerId = new List<string>();  //记录已经选中的终端编号
 
         public PreTerMonitor()
         {
@@ -47,19 +46,42 @@ namespace SmartWaterSystem
                 SecsCount = 60;
                 ShowTerData();
             }
-            //UpdateListViewColor();
+
+            this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
+            for (int i = 0; i < lstDataView.RowCount; i++)
+            {
+                lstDataView.RefreshRow(i);
+            }
         }
 
         private void InitView()
         {
             ShowTerList();
-
             UpdateColorsConfig();
         }
 
-
-        public void ShowTerList(bool bchecked = false)
+        public void ShowTerList(bool allchecked = false,bool prechecked = false)
         {
+            if (prechecked)
+            {
+                lst_checkedTerId = new List<string>();
+                DataTable preDt = gridControlTer.DataSource as DataTable;
+                if (preDt != null && preDt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < preDt.Rows.Count; i++)
+                    {
+                        if (Convert.ToBoolean(preDt.Rows[i]["checked"]))
+                        {
+                            string str_terid = preDt.Rows[i]["TerminalID"].ToString().Trim();
+                            if (!lst_checkedTerId.Contains(str_terid))
+                            {
+                                lst_checkedTerId.Add(str_terid);
+                            }
+                        }
+                    }
+                }
+            }
+            
             gridControlTer.DataSource = null;
             DataTable dt = dataBll.GetTerInfo(Entity.TerType.PreTer);
 
@@ -70,16 +92,31 @@ namespace SmartWaterSystem
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 string terid = dt.Rows[i]["TerminalID"].ToString().Trim();
-                dt_bind.Rows.Add(new object[] { bchecked, terid });
+                if (prechecked)
+                {
+                    if (lst_checkedTerId.Contains(terid))
+                    {
+                        dt_bind.Rows.Add(new object[] { true, terid });
+                    }
+                    else
+                    {
+                        dt_bind.Rows.Add(new object[] { false, terid });
+                    }
+                }
+                else
+                {
+                    dt_bind.Rows.Add(new object[] { allchecked, terid });
+                }
             }
             gridControlTer.DataSource = dt_bind;
             gridControlTer.RefreshDataSource();
         }
 
-        private void ShowTerData()
+        public void ShowTerData()
         {
             try
             {
+                gridControl_Data.DataSource = null;
                 List<int> lstTerId = new List<int>();
                 for (int i = 0; i < lstTerminalListView.RowCount; i++)
                 {
@@ -93,14 +130,6 @@ namespace SmartWaterSystem
                 }
 
                 IsFlashColor = false;
-                //int index = -1;
-                //foreach (int terid in lstTerId)
-                //{
-                //    if (isExistDataList(terid, out index) == 1)
-                //    {
-                //        lstTerId.Remove(terid);
-                //    }
-                //}
 
                 List<PreDataEntity> lstPreData = dataBll.GetPreDataTop2(lstTerId);
                 List<FlowDataEntity> lstFlowData = dataBll.GetFlowDataTop2(lstTerId);
@@ -111,36 +140,35 @@ namespace SmartWaterSystem
                 dt.Columns.Add("ForwardFlowValue");
                 dt.Columns.Add("ReverseFlowValue");
                 dt.Columns.Add("InstantFlowValue");
+                dt.Columns.Add("Colors");
+                dt.Columns.Add("CurColor");
 
                 if (lstPreData != null && lstPreData.Count > 0)
                 {
                     foreach (PreDataEntity data in lstPreData)
                     {
-                        dt.Rows.Add(new object[] { 
+                        string str_colors = GetAlarmColor(data, data.EnablePreAlarm, data.EnableSlopeAlarm);
+                        if (!string.IsNullOrEmpty(str_colors))
+                        {
+                            dt.Rows.Add(new object[] { 
                             data.TerminalID.ToString(),
                             data.TerminalName,
                             data.NewestPressueValue.ToString("f3"),
-                            "无","无","无"
-                        });
-                        //ItemTagEntity tagEntity = new ItemTagEntity();
-                        //List<Color> lstColor = GetAlarmColor(data, data.EnablePreAlarm, data.EnableSlopeAlarm);
-                        //tagEntity.lstColor = lstColor;
-                        //tagEntity.Addr = data.Addr;
-                        //item.Tag = tagEntity;
-                        //判读是否发出警报
-                        //if (lstColor != null && lstColor.Count > 0)
-                        //{
-                        //    item.BackColor = lstColor[0];
-                        //}
-                        //else
-                        //{
-                        //    //set default backcolor
-                        //    item.BackColor = cDefault;
-                        //}
-
-                        //lstDataView.Items.Add(item);
-                        //lstItems.Add(item);
-                        //lstTerId.Remove(data.TerminalID);
+                            "无","无","无",
+                            str_colors,""
+                            });
+                        }
+                        else
+                        {
+                            dt.Rows.Add(new object[] { 
+                            data.TerminalID.ToString(),
+                            data.TerminalName,
+                            data.NewestPressueValue.ToString("f3"),
+                            "无","无","无",
+                            "",""
+                            });
+                        }
+                        lstTerId.Remove(data.TerminalID);
                     }
                 }
                 if (lstFlowData != null && lstFlowData.Count > 0)
@@ -164,7 +192,8 @@ namespace SmartWaterSystem
                             "无",
                             data.NewestForwardFlowValue.ToString("f3"),
                             data.NewestReverseFlowValue.ToString("f3"),
-                            data.NewestInstantFlowValue.ToString("f3")
+                            data.NewestInstantFlowValue.ToString("f3"),
+                            "",""
                             });
                             //ItemTagEntity tagEntity = new ItemTagEntity();
                             //tagEntity.lstColor = null;
@@ -173,7 +202,7 @@ namespace SmartWaterSystem
                             ////set default backcolor
                             //item.BackColor = cDefault;
                             //lstItems.Add(item);
-                            //lstTerId.Remove(data.TerminalID);
+                            lstTerId.Remove(data.TerminalID);
                         }
                         else
                         {
@@ -194,7 +223,8 @@ namespace SmartWaterSystem
                         "无",
                         "无",
                         "无",
-                        "无"
+                        "无",
+                        "",""
                         });
                     }
                 }
@@ -207,7 +237,6 @@ namespace SmartWaterSystem
                 logger.ErrorException("AddItem", ex);
                 IsFlashColor = true;
             }
-
         }
 
         public void UpdateColorsConfig()
@@ -221,61 +250,31 @@ namespace SmartWaterSystem
             btnClrPreUpLimit.BackColor = cPreUpLimit;
             btnClrSlopeLowLimit.BackColor = cPreSlopeLowLimit;
             btnClrSlopeUpLimit.BackColor = cPreSlopeUpLimit;
+
+            Colors[0] = cPreLowLimit;
+            Colors[1] = cPreUpLimit;
+            Colors[2] = cPreSlopeLowLimit;
+            Colors[3] = cPreSlopeUpLimit;
         }
 
-        /// <summary>
-        /// 刷新每行颜色
-        /// </summary>
-        //private void UpdateListViewColor()
-        //{
-        //    if (IsFlashColor)
-        //    {
-        //        lstDataView.BeginUpdate();
-        //        foreach (ListViewItem item in lstDataView.Items)
-        //        {
-        //            if (item.Tag != null)
-        //            {
-        //                ItemTagEntity tagEntity = (ItemTagEntity)item.Tag;
-        //                List<Color> lstColor = tagEntity.lstColor;
-        //                if (lstColor != null && lstColor.Count > 1)
-        //                {
-        //                    for (int i = 0; i < lstColor.Count; i++)
-        //                    {
-        //                        if (lstColor[i] == item.BackColor)
-        //                        {
-        //                            if ((i + 1) < lstColor.Count)
-        //                            {
-        //                                item.BackColor = lstColor[i + 1];
-        //                                break;
-        //                            }
-        //                            else
-        //                            {
-        //                                item.BackColor = lstColor[0];
-        //                                break;
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        lstDataView.EndUpdate();
-        //    }
-        //}
-
-        private List<Color> GetAlarmColor(PreDataEntity PreData, bool enablePreAlarm, bool enableSlopeAlarm)
+        private string GetAlarmColor(PreDataEntity PreData, bool enablePreAlarm, bool enableSlopeAlarm)
         {
             try
             {
-                List<Color> lstColor = new List<Color>();
+                /*  Colors[1] = cPreLowLimit;
+                    Colors[2] = cPreUpLimit;
+                    Colors[3] = cPreSlopeLowLimit;
+                    Colors[4] = cPreSlopeUpLimit;*/
+                string strColor = "";
                 if (enablePreAlarm)
                 {
                     if (PreData.PreLowLimit > PreData.NewestPressueValue)
                     {
-                        lstColor.Add(cPreLowLimit);
+                        strColor = "0,";
                     }
                     if (PreData.PreUpLimit < PreData.NewestPressueValue)
                     {
-                        lstColor.Add(cPreUpLimit);
+                        strColor += "1,";
                     }
                 }
                 if (enableSlopeAlarm)
@@ -283,57 +282,41 @@ namespace SmartWaterSystem
                     decimal preabs = Math.Abs(PreData.NewestPressueValue - PreData.PreValueLastbutone);
                     if (PreData.PreSlopeLowLimit > preabs)
                     {
-                        lstColor.Add(cPreSlopeLowLimit);
+                        strColor += "2,";
                     }
                     if (PreData.PreSlopeUpLimit < preabs)
                     {
-                        lstColor.Add(cPreSlopeUpLimit);
+                        strColor += "3,";
                     }
                 }
-                return lstColor;
+                return strColor;
             }
             catch (Exception ex)
             {
                 logger.ErrorException("GetAlarmColor", ex);
                 XtraMessageBox.Show("显示颜色错误,请联系管理员", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                return "";
             }
         }
 
-        //private void lstDataView_ItemActivate(object sender, EventArgs e)
-        //{
-        //    if (lstDataView.FocusedItem.SubItems[2].Text.Trim() == "无压力数据" && lstDataView.FocusedItem.SubItems[3].Text.Trim() == "无压力数据" &&
-        //        lstDataView.FocusedItem.SubItems[4].Text.Trim() == "无压力数据" && lstDataView.FocusedItem.SubItems[5].Text.Trim() == "无压力数据")
-        //    {
-        //        XtraMessageBox.Show(string.Format("终端[{0}]无数据!", lstDataView.FocusedItem.SubItems[0].Text), "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //        return;
-        //    }
-        //    DetailForm.TerminalID = lstDataView.FocusedItem.SubItems[0].Text;
-        //    DetailForm.TerminalName = lstDataView.FocusedItem.SubItems[1].Text;
-        //    DetailForm detailForm = new DetailForm();
-        //    detailForm.ShowDialog();
-        //}
-
         private void btnConfig_Click(object sender, EventArgs e)
         {
-            //ConfigForm.main = this;
-            //ConfigForm configform = new ConfigForm();
-            //configform.ShowDialog();
+            GlobalValue.MainForm.LoadView(typeof(PreTerMgr));
         }
 
         private void btnParmConfig_Click(object sender, EventArgs e)
         {
-            //ListView.SelectedIndexCollection selectCol = lstDataView.SelectedIndices;
-            //if (selectCol != null && selectCol.Count > 0)
-            //{
-            //    ParmConfigForm.TerminalID = lstDataView.Items[selectCol[0]].SubItems[0].Text;
-            //    ParmConfigForm parmconfigform = new ParmConfigForm();
-            //    parmconfigform.ShowDialog();
-            //}
-            //else
-            //{
-            //    XtraMessageBox.Show("请选择一个终端操作!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
+            DataRow dr=lstDataView.GetFocusedDataRow();
+            if (dr != null && dr["TerminalID"] !=DBNull.Value)
+            {
+                PreParmConfigForm.TerminalID = dr["TerminalID"].ToString().Trim();
+                PreParmConfigForm parmconfigform = new PreParmConfigForm();
+                parmconfigform.ShowDialog();
+            }
+            else
+            {
+                XtraMessageBox.Show("请选择一个终端操作!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void lstTerminalListView_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
@@ -346,11 +329,110 @@ namespace SmartWaterSystem
 
         private void lstDataView_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
+            //this.lstDataView.CustomDrawCell -= new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
+            //this.lstDataView.BeginUpdate();
             if (e.Column.Caption == "压力值")
             {
-                e.Appearance.BackColor = Color.DodgerBlue;
+                /*  Colors[0] = cPreLowLimit;
+                    Colors[1] = cPreUpLimit;
+                    Colors[2] = cPreSlopeLowLimit;
+                    Colors[3] = cPreSlopeUpLimit;*/
+                int rowhandle = e.RowHandle;
+                if (lstDataView.GetRow(rowhandle)!=null)
+                {
+                    if ((lstDataView.RowCount - 1) == rowhandle)
+                    {
+                        this.lstDataView.CustomDrawCell -= new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
+                    }
+                    string strcolors = lstDataView.GetRowCellValue(rowhandle, "Colors").ToString();
+                    if (!string.IsNullOrEmpty(strcolors))
+                    {
+                        string[] cols = strcolors.Split(',');
+                        List<int> lstcols = new List<int>();
+                        if (cols != null && cols.Length > 0)
+                        {
+                            for (int i = 0; i < cols.Length; i++)
+                            {
+                                if (!string.IsNullOrEmpty(cols[i].Trim()))
+                                    lstcols.Add(Convert.ToInt32(cols[i]));
+                            }
+                        }
+                        
+                        if(lstcols.Count>0)
+                        {
+                            string str_curcolor = lstDataView.GetRowCellValue(rowhandle, "CurColor").ToString();
+                            if (string.IsNullOrEmpty(str_curcolor))
+                            {
+                                e.Appearance.BackColor = Colors[lstcols[0]];
+                                lstDataView.SetRowCellValue(rowhandle, "CurColor", lstcols[0]);
+                            }
+                            else
+                            {
+                                int curcolor = Convert.ToInt32(str_curcolor);
+                                int curindex=lstcols.IndexOf(curcolor);
+                                curindex++;
+                                if (curindex >= lstcols.Count)
+                                    curindex = 0;
+                                e.Appearance.BackColor = Colors[lstcols[curindex]];
+                                lstDataView.SetRowCellValue(rowhandle, "CurColor", lstcols[curindex]);
+                            }
+                        }
+                        else
+                        {
+                            e.Appearance.BackColor = cDefault;
+                        }
+                    }
+                    else
+                    {
+                        e.Appearance.BackColor = cDefault;
+                    }
+                }
+            }
+            //this.lstDataView.EndUpdate();
+            //this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
+        }
+
+        private void btnSelectAllTer_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstTerminalListView.RowCount; i++)
+            {
+                if (lstTerminalListView.GetRowCellValue(i, "checked") != null)
+                {
+                    lstTerminalListView.SetRowCellValue(i, "checked", true);
+                }
             }
         }
+
+        private void btnUnSelectAllTer_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstTerminalListView.RowCount; i++)
+            {
+                if (lstTerminalListView.GetRowCellValue(i, "checked") != null)
+                {
+                    if ((bool)lstTerminalListView.GetRowCellValue(i, "checked"))
+                    {
+                        lstTerminalListView.SetRowCellValue(i, "checked", false);
+                    }
+                    else
+                    {
+                        lstTerminalListView.SetRowCellValue(i, "checked", true);
+                    }
+                }
+            }
+        }
+
+        private void lstDataView_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
+        {
+            if (e.RowHandle > -1 && e.CellValue != null)
+            {
+                string terId = lstDataView.GetRowCellValue(e.RowHandle, "TerminalID").ToString().Trim();
+                PreTerChartForm.TerminalID = terId;
+                PreTerChartForm.TerminalName = e.Column.Caption.Trim();
+                PreTerChartForm detailForm = new PreTerChartForm();
+                detailForm.ShowDialog();
+            }
+        }
+
 
 
         

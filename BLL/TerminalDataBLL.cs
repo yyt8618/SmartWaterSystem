@@ -106,15 +106,15 @@ namespace BLL
         /// <summary>
         /// 保存通用终端配置 -1:保存异常,1:保存成功
         /// </summary>
-        public int SaveUniversalTerConfig(int terminalid, string name, string addr, string remark, List<UniversalWayTypeConfigEntity> lstPointID)
+        public int SaveTerInfo(int terminalid, string name, string addr, string remark, TerType terType, List<UniversalWayTypeConfigEntity> lstPointID)
         {
             try
             {
-                return dal.SaveUniversalTerConfig(terminalid, name, addr, remark, lstPointID);
+                return dal.SaveTerInfo(terminalid, name, addr, remark,terType, lstPointID);
             }
             catch (Exception ex)
             {
-                logger.ErrorException("SaveUniversalTerConfig", ex);
+                logger.ErrorException("SaveTerInfo", ex);
                 return -1;
             }
         }
@@ -165,7 +165,7 @@ namespace BLL
             }
         }
 
-        public int DeleteTer(TerType type, int TerminalID)
+        public int DeleteTer(TerType type, string TerminalID)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                logger.ErrorException("GetUniversalWayTypeConfig", ex);
+                logger.ErrorException("DeleteTer", ex);
                 return -1;
             }
         }
@@ -188,6 +188,38 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("GetUniversalDataConfig()", ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 获取指定时间范围的终端压力数据
+        /// </summary>
+        public List<PreDetailDataEntity> GetPreDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval)
+        {
+            try
+            {
+                return dal.GetPreDetail(TerminalID, minTime, maxTime, interval);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetPreDetail", ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 获取指定时间范围的终端流量数据
+        /// </summary>
+        public List<PreDetailDataEntity> GetFlowDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval, int datatype)
+        {
+            try
+            {
+                return dal.GetFlowDetail(TerminalID, minTime, maxTime, interval, datatype);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetFlowDetail", ex);
                 return null;
             }
         }

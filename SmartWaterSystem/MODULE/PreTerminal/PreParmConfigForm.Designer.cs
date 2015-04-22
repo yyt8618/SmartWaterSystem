@@ -1,6 +1,6 @@
 ﻿namespace SmartWaterSystem
 {
-    partial class ParmConfigForm
+    partial class PreParmConfigForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -139,7 +139,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "压力参数设置";
-            this.Load += new System.EventHandler(this.ParmConfigForm_Load);
+            this.Load += new System.EventHandler(this.PreParmConfigForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

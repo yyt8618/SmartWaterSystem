@@ -9,6 +9,7 @@ namespace SmartWaterSystem
     {
         None = 0,
         SyncTerminal,
+        SyncPreTerConfig,
         SyncUpdate_UniversalTerWayType,
         SyncUpdate_UniversalTerWayConfig
         //Sync
@@ -60,7 +61,7 @@ namespace SmartWaterSystem
     public delegate void SQLSyncEventHandler(object sender, SQLSyncEventArgs e);
     public class SQLSyncManager
     {
-        private const uint eventcount = 4;
+        private const uint eventcount = 5;
 
         public event SQLSyncEventHandler SQLSyncEvent;
         private IntPtr[] hEvent = new IntPtr[eventcount];
@@ -123,6 +124,22 @@ namespace SmartWaterSystem
                             if (SQLHelper.TryConn(SQLHelper.ConnectionString))
                             {
                                 bool res = syncBll.UpdateSQL_Terminal();
+                                if (res)
+                                    result = 1;
+                                else
+                                    result = -1;
+                            }
+                            else
+                            {
+                                result = 1;
+                            }
+                        }
+                        break;
+                    case (uint)SqlSyncType.SyncPreTerConfig:
+                        {
+                            if (SQLHelper.TryConn(SQLHelper.ConnectionString))
+                            {
+                                bool res = syncBll.UpdateSQL_PreTerConfig();
                                 if (res)
                                     result = 1;
                                 else

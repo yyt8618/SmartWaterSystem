@@ -32,11 +32,11 @@ namespace BLL
         /// </summary>
         /// <param name="TerminalID"></param>
         /// <returns></returns>
-        public bool IsExist(string TerminalID)
+        public bool IsExist(string TerminalID, int SyncState)
         {
             try
             {
-                return dal.IsExist(TerminalID);
+                return dal.IsExist(TerminalID, SyncState);
             }
             catch (Exception ex)
             {
@@ -80,11 +80,11 @@ namespace BLL
         /// <summary>
         /// 根据终端编号删除一条记录
         /// </summary>
-        public bool Delete(string TerminalID)
+        public bool DeletePreTer(string TerminalID)
         {
             try
             {
-                return dal.Delete(TerminalID);
+                return dal.DeletePreTer(TerminalID);
             }
             catch (Exception ex)
             {
@@ -93,20 +93,5 @@ namespace BLL
             }
         }
 
-        /// <summary>
-        /// 获取全部的地址(去重)
-        /// </summary>
-        public List<string> GetAddresses()
-        {
-            try
-            {
-                return dal.GetAddresses();
-            }
-            catch (Exception ex)
-            {
-                return null;
-                logger.ErrorException("GetAddresses", ex);
-            }
-        }
     }
 }
