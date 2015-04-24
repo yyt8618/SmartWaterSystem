@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.Sockets;
 using System.Threading;
 using System.Net;
@@ -82,13 +80,13 @@ namespace GCGPRSService
         public ManualResetEvent allDone = new ManualResetEvent(false);
         public event cmdEventHandle cmdEvent;
         Thread t_socket;
-        Thread t_send;
+        Thread t_Interval;
         Socket listener;
         bool isRunning = false;
         List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
-        int SQL_Interval = 180;  //数据更新时间间隔(second)
-        int OnLineState_Interval = 5*60; //终端在线状态更新时间间隔(second)
-
+        int SQL_Interval = 3 * 60;  //数据更新时间间隔(second)
+        int OnLineState_Interval = 5 * 60; //终端在线状态更新时间间隔(second)
+        int CheckThread_Interval = 2 * 60; //检查线程状态间隔(second)
 
         public virtual void OnSendMsg(SocketEventArgs e)
         {
@@ -98,28 +96,29 @@ namespace GCGPRSService
 
         public void T_Listening()
         {
-            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启Socket监听线程!"));
-            isRunning = true;
-            t_socket = new Thread(new ThreadStart(StartListening));
-            t_socket.Start();
-
             OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启数据库线程!"));
             GlobalValue.Instance.SocketSQLMag.SQLEvent += new SQLHandle(sqlmanager_SQLEvent);
             GlobalValue.Instance.SocketSQLMag.Start();
 
-            t_send = new Thread(new ThreadStart(Send_Thread));
-            t_send.Start();
+            t_Interval = new Thread(new ThreadStart(Interval_Thread));
+            t_Interval.Start();
+
+            CheckThread_Interval = 1;  //开启socket线程
+
+            MSMQEntity msmqEntity = new MSMQEntity();
+            msmqEntity.lstOnLine = new List<OnLineTerEntity>();
+            OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
         }
 
 
-        private void Send_Thread()
+        private void Interval_Thread()
         {
             while (true)
             {
                 Thread.Sleep(1000);
                 if (SQL_Interval-- == 0)
                 {
-                    SQL_Interval = 180;
+                    SQL_Interval = 3 * 60;
                     GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
                     GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
                 }
@@ -131,7 +130,32 @@ namespace GCGPRSService
                     List<CallSocketEntity> lstOnLine = new List<CallSocketEntity>();
                     foreach (CallSocketEntity client in lstClient)
                     {
+                        bool add = false;
                         if (client.ClientSocket != null && client.ClientSocket.Connected)
+                        {
+                            try
+                            {
+                                if (client.ClientSocket.Poll(1, SelectMode.SelectRead))
+                                {
+                                    //byte[] temp = new byte[1024];
+                                    //int nRead = client.ClientSocket.Receive(temp);
+                                    //if (nRead == 0)
+                                    //{
+
+                                    //}
+                                    //else
+                                    //    add = true;
+                                }
+                                else
+                                    add = true;
+                            }
+                            catch
+                            {
+                                add = false;
+                            }
+                        }
+
+                        if (add)
                         {
                             msmqEntity.lstOnLine.Add(new OnLineTerEntity(client.DevType, client.TerId));
                             lstOnLine.Add(client);
@@ -139,6 +163,17 @@ namespace GCGPRSService
                     }
                     lstClient = lstOnLine;  //将意外断开连接的的去除
                     OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
+                }
+                if (CheckThread_Interval-- == 0)
+                {
+                    CheckThread_Interval = 2 * 60;
+                    if (t_socket == null || (t_socket != null && !t_socket.IsAlive))
+                    {
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启Socket监听线程!"));
+                        isRunning = true;
+                        t_socket = new Thread(new ThreadStart(StartListening));
+                        t_socket.Start();
+                    }
                 }
             }
         }
@@ -185,7 +220,7 @@ namespace GCGPRSService
             try
             {
                 isRunning = false;
-                if (listener != null && listener.Connected)
+                if (listener != null )
                 {
                     listener.Shutdown(SocketShutdown.Both);
                     System.Threading.Thread.Sleep(10);
@@ -196,8 +231,8 @@ namespace GCGPRSService
                 if (t_socket != null && t_socket.IsAlive)
                     t_socket.Abort();
 
-                if (t_send != null && t_send.IsAlive)
-                    t_send.Abort();
+                if (t_Interval != null && t_Interval.IsAlive)
+                    t_Interval.Abort();
             }
             catch(Exception e)
             {
@@ -207,6 +242,7 @@ namespace GCGPRSService
 
         private void StartListening()
         {
+            Settings.Instance.Read();
             string ip = Settings.Instance.GetString(SettingKeys.GPRS_IP);
             if (string.IsNullOrEmpty(ip))
             {
@@ -243,6 +279,13 @@ namespace GCGPRSService
                     // Wait until a connection is made before continuing.     
                     allDone.WaitOne();
                 }
+            }
+            catch (SocketException sockEx)
+            {
+                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止! Exp:"+sockEx.Message));
+                logger.ErrorException("StartListening", sockEx);
+                if (t_socket != null && t_socket.IsAlive)
+                    t_socket.Abort();
             }
             catch (Exception e)
             {
@@ -295,9 +338,7 @@ namespace GCGPRSService
             int bytesRead = 0;
             try
             {
-                // Read data from the client socket.  
-                if (!handler.Connected)
-                    return;
+                // Read data from the client socket. 
                 bytesRead = handler.EndReceive(ar);
                 if (bytesRead > 0)
                 {
@@ -321,7 +362,7 @@ namespace GCGPRSService
                             {
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
                                 {
-                                    
+
                                 }
                                 else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
                                 {
@@ -892,8 +933,8 @@ namespace GCGPRSService
                                     }
 
                                     #region 发送后续命令帧
-                                    if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0) 
-                                        || bNeedCheckTime || lstCommandPack.Count>0) && pack.IsFinal )
+                                    if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                        || bNeedCheckTime || lstCommandPack.Count > 0) && pack.IsFinal)
                                     {
                                         #region 回复响应帧
                                         response.DevType = pack.DevType;
@@ -912,7 +953,7 @@ namespace GCGPRSService
                                         SendObject sendObj = new SendObject();
                                         sendObj.workSocket = handler;
                                         sendObj.IsFinal = false;
-                                        sendObj.DevType= pack.DevType;
+                                        sendObj.DevType = pack.DevType;
                                         sendObj.DevID = pack.DevID;
 
                                         handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
@@ -1026,7 +1067,7 @@ namespace GCGPRSService
                                     }
                                     //if (!pack.IsFinal)
                                     //{
-                                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                                     //}
                                 }
                             }
@@ -1040,18 +1081,41 @@ namespace GCGPRSService
                 {
                     string str_buffer = ConvertHelper.ByteToString(state.buffer, bytesRead);
 #if debug
-                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() +" "+ argex.Message + ",错误数据:" + str_buffer));
+                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " " + argex.Message + ",错误数据:" + str_buffer));
 #else
                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() +" "+ argex.Message));
 #endif
                 }
-                logger.ErrorException("ReadCallback",argex);
+                logger.ErrorException("ReadCallback", argex);
                 try
                 {
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
                 }
                 catch { }
+            }
+            catch (SocketException sockex)
+            {
+                foreach(CallSocketEntity callsocket in lstClient)
+                {
+                    if (callsocket.ClientSocket.Equals(handler))
+                    {
+                        string str_devtype = "";
+                        if (callsocket.DevType == ConstValue.DEV_TYPE.Data_CTRL)
+                        {
+                            str_devtype = "终端";
+                        }
+                        else if (callsocket.DevType == ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
+                        {
+                            str_devtype = "通用终端";
+                        }
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " " + str_devtype + "[" + callsocket.TerId + "]下线!"));
+                        callsocket.ClientSocket = null;
+
+                        OnLineState_Interval = 1;  //发送下线消息
+                        break;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -1165,7 +1229,7 @@ namespace GCGPRSService
                 data[0] = (byte)0x01;
                 package.Data = data;
                 package.CS = package.CreateCS();
-                if (client.ClientSocket != null && client.ClientSocket.Connected)  //已连接，不发送，未连接马上发送
+                if (client.ClientSocket != null)  //已连接，不发送，未连接马上发送
                 {
                     ;
                 }
@@ -1179,7 +1243,7 @@ namespace GCGPRSService
             {
                 if (index > -1)  //已存在移除
                 {
-                    if (lstClient[index].ClientSocket != null && lstClient[index].ClientSocket.Connected)
+                    if (lstClient[index].ClientSocket != null)
                     {
                         try
                         {
@@ -1194,7 +1258,7 @@ namespace GCGPRSService
                             package.Data = data;
                             package.CS = package.CreateCS();
 
-                            if (lstClient[index].ClientSocket != null && lstClient[index].ClientSocket.Connected)  //已连接，马上发送下线命令
+                            if (lstClient[index].ClientSocket != null)  //已连接，马上发送下线命令
                             {
                                 try
                                 {
@@ -1398,7 +1462,7 @@ namespace GCGPRSService
 
                     foreach (Package package in lstpack)
                     {
-                        if (lstClient[index].ClientSocket != null && lstClient[index].ClientSocket.Connected)
+                        if (lstClient[index].ClientSocket != null)
                         {
                             try
                             {

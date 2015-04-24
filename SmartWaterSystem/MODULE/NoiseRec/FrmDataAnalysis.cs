@@ -91,7 +91,7 @@ namespace SmartWaterSystem
                     (int)Math.Ceiling(min + interval * 3), (int)Math.Ceiling(max));  //set colorpanel mark
                 C1.Win.C1Chart.Axis axisX = (C1.Win.C1Chart.Axis)c1Chart1.ChartArea.AxisX;
                 if (seriescount > 1)
-                    axisX.Max = 0.1 * (30 - seriescount) + 1.52;
+                    axisX.Max = 0.1 * (30 - seriescount) + 1.71;
                 else
                     axisX.Max = 15;
 
@@ -229,6 +229,8 @@ namespace SmartWaterSystem
                 case ChartRegionEnum.ChartArea:
                 case ChartRegionEnum.ChartLabel:
                 case ChartRegionEnum.PlotArea:
+                    txtCurSeriesValue.Text = "";
+                    txtCurFrqValue.Text = "";
                     AddBarValueLabel(e.X, e.Y);
                     break;
 
@@ -259,6 +261,8 @@ namespace SmartWaterSystem
                     if (s == oldSeries && p == oldPoint)
                         return;
                     txtCurSeriesValue.Text = ((grp.ChartData[s].Y[p])).ToString();
+                    if (data.Frequency!=null && s < data.Frequency.Length)
+                        txtCurFrqValue.Text = data.Frequency[s].ToString();
                     return;
                 }
             }

@@ -4,6 +4,9 @@ using System.Threading;
 using System.Messaging;
 using Common;
 using Entity;
+using System.Diagnostics;
+using System.Reflection;
+using System.IO;
 
 namespace GCGPRSService
 {
@@ -27,6 +30,7 @@ namespace GCGPRSService
                 this.OnStop();
                 return;
             }
+
             SQLHelper.ConnectionString = Settings.Instance.GetString(SettingKeys.DBString);
 
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
@@ -37,6 +41,27 @@ namespace GCGPRSService
 
             t_msmq_receive = new Thread(new ThreadStart(MSMQReceiveThread));
             t_msmq_receive.Start();
+
+            if (Settings.Instance.GetBool(SettingKeys.ServiceMonitorEnable))
+            {
+                try
+                {
+                    ProcessStartInfo monitorInfo = new ProcessStartInfo();
+                    monitorInfo.FileName = "GCGPRSServiceMonitor.exe";
+                    monitorInfo.WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    Process.Start(monitorInfo);
+                    SendMessage(DateTime.Now.ToString() + " 启用服务监控成功!");
+                }
+                catch (Exception ex)
+                {
+                    logger.ErrorException("启用服务监控失败[OnStart]", ex);
+                    SendMessage(DateTime.Now.ToString() + " 启用服务监控失败!");
+                }
+            }
+            else
+            {
+                SendMessage(DateTime.Now.ToString() + " 配置不启用服务监控!");
+            }
         }
 
         private void MSMQReceiveThread()  //MSMQ接受线程,用于招测命令接收

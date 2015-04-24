@@ -174,7 +174,7 @@ namespace GCGPRSService
                     case (uint)SQLType.GetUniversalConfig:
                         {
                             #region 获取解析帧的配置数据
-                            GlobalValue.Instance.UniversalDataConfig = dataBll.GetUniversalDataConfig();
+                            GlobalValue.Instance.UniversalDataConfig = dataBll.GetUniversalDataConfig(TerType.UniversalTer);
                             #endregion
                         }
                         break;

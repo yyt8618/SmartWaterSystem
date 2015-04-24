@@ -50,6 +50,11 @@ namespace Common
         public const string PreSlopeUpLimitColor = "PreSlopeUpLimitColor";
         public const string GPRS_IP = "GPRSIP";
         public const string GPRS_PORT = "GPRSPORT";
+
+        /// <summary>
+        /// 服务监控是否打开
+        /// </summary>
+        public const string ServiceMonitorEnable = "ServiceMonitorEnable";
     }
 
     /// <summary>
@@ -66,7 +71,8 @@ namespace Common
             {SettingKeys.PreSlopeUpLimitColor,""},
             {SettingKeys.GPRS_IP,""},
             {SettingKeys.GPRS_PORT,""},
-            {SettingKeys.CallDataEnable,"false"}
+            {SettingKeys.CallDataEnable,"false"},
+            {SettingKeys.ServiceMonitorEnable,"true"}
         };
     }
 

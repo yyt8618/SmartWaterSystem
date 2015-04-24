@@ -68,7 +68,10 @@ namespace SmartWaterSystem
             this.label12 = new System.Windows.Forms.Label();
             this.c1Chart1 = new C1.Win.C1Chart.C1Chart();
             this.txtCurSeriesValue = new DevExpress.XtraEditors.TextEdit();
+            this.txtCurFrqValue = new DevExpress.XtraEditors.TextEdit();
             this.colorPanel_static1 = new Common.ColorPanel_static();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRemark.Properties)).BeginInit();
@@ -93,6 +96,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxNoise.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.c1Chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCurSeriesValue.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCurFrqValue.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -117,7 +121,7 @@ namespace SmartWaterSystem
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Location = new System.Drawing.Point(1, 373);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(381, 225);
+            this.groupBox1.Size = new System.Drawing.Size(387, 225);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.Text = "记录仪参数";
             // 
@@ -311,9 +315,9 @@ namespace SmartWaterSystem
             this.groupBox2.Controls.Add(this.label18);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Location = new System.Drawing.Point(388, 373);
+            this.groupBox2.Location = new System.Drawing.Point(394, 373);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(261, 225);
+            this.groupBox2.Size = new System.Drawing.Size(272, 225);
             this.groupBox2.TabIndex = 56;
             this.groupBox2.Text = "数据分析";
             // 
@@ -451,31 +455,63 @@ namespace SmartWaterSystem
             // 
             // txtCurSeriesValue
             // 
-            this.txtCurSeriesValue.Location = new System.Drawing.Point(604, 347);
+            this.txtCurSeriesValue.EditValue = "100";
+            this.txtCurSeriesValue.Location = new System.Drawing.Point(595, 307);
             this.txtCurSeriesValue.Name = "txtCurSeriesValue";
             this.txtCurSeriesValue.Properties.ReadOnly = true;
-            this.txtCurSeriesValue.Size = new System.Drawing.Size(48, 20);
+            this.txtCurSeriesValue.Size = new System.Drawing.Size(54, 20);
             this.txtCurSeriesValue.TabIndex = 63;
             this.txtCurSeriesValue.TabStop = false;
             // 
+            // txtCurFrqValue
+            // 
+            this.txtCurFrqValue.EditValue = "1234.56";
+            this.txtCurFrqValue.Location = new System.Drawing.Point(595, 333);
+            this.txtCurFrqValue.Name = "txtCurFrqValue";
+            this.txtCurFrqValue.Properties.ReadOnly = true;
+            this.txtCurFrqValue.Size = new System.Drawing.Size(54, 20);
+            this.txtCurFrqValue.TabIndex = 63;
+            this.txtCurFrqValue.TabStop = false;
+            // 
             // colorPanel_static1
             // 
-            this.colorPanel_static1.Location = new System.Drawing.Point(598, 59);
+            this.colorPanel_static1.Location = new System.Drawing.Point(598, 17);
             this.colorPanel_static1.Name = "colorPanel_static1";
             this.colorPanel_static1.Size = new System.Drawing.Size(57, 268);
             this.colorPanel_static1.TabIndex = 64;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(650, 336);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(22, 14);
+            this.label13.TabIndex = 43;
+            this.label13.Text = "HZ";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(650, 310);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(19, 14);
+            this.label19.TabIndex = 43;
+            this.label19.Text = "%";
             // 
             // FrmDataAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(659, 605);
+            this.ClientSize = new System.Drawing.Size(672, 605);
+            this.Controls.Add(this.txtCurFrqValue);
             this.Controls.Add(this.colorPanel_static1);
             this.Controls.Add(this.txtCurSeriesValue);
             this.Controls.Add(this.c1Chart1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label13);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FrmDataAnalysis";
             this.ShowIcon = false;
@@ -512,7 +548,9 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxNoise.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.c1Chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCurSeriesValue.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCurFrqValue.Properties)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -557,6 +595,9 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.TextEdit txtCurSeriesValue;
         private System.Windows.Forms.PictureBox PicBox;
         private ColorPanel_static colorPanel_static1;
+        private DevExpress.XtraEditors.TextEdit txtCurFrqValue;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label19;
 
 
     }

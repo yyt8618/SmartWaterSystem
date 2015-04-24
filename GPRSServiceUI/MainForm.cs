@@ -8,6 +8,7 @@ using Microsoft.Data.ConnectionUI;
 using System.Text.RegularExpressions;
 using System.IO;
 using Common;
+using Entity;
 
 namespace GPRSServiceUI
 {
@@ -18,7 +19,6 @@ namespace GPRSServiceUI
 
         Thread t1;
         string QueuePath = ".\\private$\\GcGPRS";
-        string ServiceName = "GCGPRSService";
 
         public MainForm()
         {
@@ -31,7 +31,7 @@ namespace GPRSServiceUI
 
             InitConfig();
 
-            ServiceController serviceController1 = ServiceManager.GetService(ServiceName);
+            ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
             SetButtonStatus(serviceController1);
 
             timerCtrl.Interval = 100;
@@ -128,7 +128,7 @@ namespace GPRSServiceUI
             {
                 t1.Join(1000);
 
-                ServiceController serviceController1 = ServiceManager.GetService(ServiceName);
+                ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
 
                 SetButtonStatus(serviceController1);
 
@@ -221,7 +221,7 @@ namespace GPRSServiceUI
                     SetCtrlMsg("服务程序不存在，请重新安装\r\n");
                 if (ServiceManager.InstallServie(servicePath))
                 {
-                    SetCtrlMsg(DateTime.Now.ToString() + " "+ServiceManager.GetServiceInfo(ServiceName));
+                    SetCtrlMsg(DateTime.Now.ToString() + " " + ServiceManager.GetServiceInfo(ConstValue.MSMQServiceName));
                     MessageBox.Show("服务安装成功");
                 }
                 else
@@ -236,7 +236,7 @@ namespace GPRSServiceUI
             }
             finally
             {
-                ServiceController serviceController1 = ServiceManager.GetService(ServiceName);
+                ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
                 SetButtonStatus(serviceController1);
             }
         }
@@ -268,7 +268,7 @@ namespace GPRSServiceUI
             }
             finally
             {
-                ServiceController serviceController1 = ServiceManager.GetService(ServiceName);
+                ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
                 SetButtonStatus(serviceController1);
             }
         }
@@ -277,7 +277,7 @@ namespace GPRSServiceUI
         {
             try
             {
-                if (ServiceManager.StartService(ServiceName))
+                if (ServiceManager.StartService(ConstValue.MSMQServiceName))
                 {
                     SetCtrlMsg(DateTime.Now.ToString() + " 服务启动成功\r\n");
                 }
@@ -293,7 +293,7 @@ namespace GPRSServiceUI
             }
             finally
             {
-                ServiceController serviceController1 = ServiceManager.GetService(ServiceName);
+                ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
                 SetButtonStatus(serviceController1);
             }
         }
@@ -302,7 +302,7 @@ namespace GPRSServiceUI
         {
             try
             {
-                if (ServiceManager.StopService(ServiceName))
+                if (ServiceManager.StopService(ConstValue.MSMQServiceName))
                 {
                     SetCtrlMsg(DateTime.Now.ToString() + " 服务成功停止\r\n");
                 }
@@ -318,7 +318,7 @@ namespace GPRSServiceUI
             }
             finally
             {
-                ServiceController serviceController1 = ServiceManager.GetService(ServiceName);
+                ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
                 SetButtonStatus(serviceController1);
             }
         }
@@ -340,7 +340,7 @@ namespace GPRSServiceUI
                 string dbconnect = dialog.ConnectionString;
                 Settings.Instance.SetValue(SettingKeys.DBString, dbconnect);
 
-                ServiceController serviceController1 = ServiceManager.GetService(ServiceName);
+                ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
                 if ((serviceController1 != null) && (serviceController1.Status == ServiceControllerStatus.Running))
                 {
                     btnStop_Click(null, null);
@@ -381,7 +381,7 @@ namespace GPRSServiceUI
             Settings.Instance.SetValue(SettingKeys.GPRS_IP, txtGPRSIP.Text);
             Settings.Instance.SetValue(SettingKeys.GPRS_PORT, txtGPRSPort.Text);
 
-            ServiceController serviceController1 = ServiceManager.GetService(ServiceName);
+            ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
             if ((serviceController1 != null) && (serviceController1.Status == ServiceControllerStatus.Running))
             {
                 btnStop_Click(null, null);

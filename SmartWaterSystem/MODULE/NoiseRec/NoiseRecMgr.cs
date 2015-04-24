@@ -196,13 +196,10 @@ namespace SmartWaterSystem
 
                         short[] Originaldata = null;
                         GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
-                        if (Originaldata == null)  //没有读到标准值，重试2次
+                        if (Originaldata == null || (Originaldata != null && (NoiseDataHandler.GetAverage(Originaldata)<500)))  //没有读到标准值，重试2次
                         {
-                            GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
-                        }
-                        if (Originaldata == null)
-                        {
-                            GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
+                            ShowDialog("读取启动标准值失败,请重试!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            isError = true;
                         }
 
                         NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()

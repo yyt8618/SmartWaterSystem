@@ -236,6 +236,7 @@ namespace SmartWaterSystem
                 if (string.IsNullOrEmpty(txtGroupName.Text) || string.IsNullOrEmpty(txtGroupNote.Text))
                 {
                     XtraMessageBox.Show("分组名称/分组备注未输入！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
                 NoiseRecorderGroup newGrp = new NoiseRecorderGroup();

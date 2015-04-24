@@ -42,7 +42,7 @@ namespace Common
             // lbMax
             // 
             this.lbMax.AutoSize = true;
-            this.lbMax.Location = new System.Drawing.Point(12, 4);
+            this.lbMax.Location = new System.Drawing.Point(12, 0);
             this.lbMax.Name = "lbMax";
             this.lbMax.Size = new System.Drawing.Size(23, 12);
             this.lbMax.TabIndex = 1;

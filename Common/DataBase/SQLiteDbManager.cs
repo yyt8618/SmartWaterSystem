@@ -366,8 +366,8 @@ namespace Common
                         [OriginalData]   NVARCHAR(200)   NULL        DEFAULT '',         --
                         --[MaxAmp]         NVARCHAR(200)   NULL        DEFAULT '',         --分析后的每组最大幅度值(%)
                         --[MaxFrq]         NVARCHAR(200)   NULL        DEFAULT '',         --分析后的每组最大频率值(HZ),与MaxAmp一一对应
-                        [CollTime]       DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
-                        [UnloadTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
+                        [CollTime]       NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime')),  --时间
+                        [UnloadTime]     NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime')),  --时间
                         [HistoryFlag]    INT             NULL        DEFAULT 0           --
                      )";
         }
@@ -389,8 +389,8 @@ namespace Common
                         [EnergyValue]    NVARCHAR(15)    NULL        DEFAULT 0,          --能量强度
                         [LeakProbability]  NVARCHAR(15)    NULL        DEFAULT 0,          --漏水概率
                         [ESA]            INT             NULL        DEFAULT 0,
-                        [CollTime]       DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
-                        [UnloadTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),  --时间
+                        [CollTime]       NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime')),  --时间
+                        [UnloadTime]     NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime')),  --时间
                         [HistoryFlag]    INT             NULL        DEFAULT 0           --
                      )";
         }
@@ -423,7 +423,7 @@ namespace Common
                         [GroupId]        INTEGER PRIMARY KEY         NOT NULL,           --组ID
                         [Name]           NVARCHAR(30)    NULL        DEFAULT '',         --
                         [Remark]         NVARCHAR(100)   NULL        DEFAULT '',         --备注
-                        [ModifyTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime'))
+                        [ModifyTime]     NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime'))
                      )";
         }
 
@@ -437,7 +437,7 @@ namespace Common
                      (
                         [ID]             INTEGER PRIMARY KEY         AUTOINCREMENT,
                         [RecorderId]     NVARCHAR(15)    NULL        DEFAULT 0,          --组ID
-                        [AddDate]        DATETIME        NULL        DEFAULT (datetime('now', 'localtime')),
+                        [AddDate]        NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime')),
                         [Remark]         NVARCHAR(100)   NULL        DEFAULT '',         --备注
                         [GroupState]     INT             NULL        DEFAULT 0
                      )";
@@ -454,7 +454,7 @@ namespace Common
                         [ID]             INTEGER PRIMARY KEY         AUTOINCREMENT,
                         [GroupId]        NVARCHAR(15)    NULL        DEFAULT 0,          --组ID
                         [RecorderId]     INT             NULL        DEFAULT 0,
-                        [ModifyTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime'))
+                        [ModifyTime]     NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime'))
                      )";
         }
 
@@ -489,7 +489,7 @@ namespace Common
                         [GroupId]        NVARCHAR(15)    NULL        DEFAULT 0,          --组ID
                         [RecorderId]     INT             NULL        DEFAULT 0,
                         [data]           NVARCHAR(300)   NULL        DEFAULT '',
-                        [CreateTime]     DATETIME        NULL        DEFAULT (datetime('now', 'localtime'))
+                        [CreateTime]     NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime'))
                      )";
         }
 
@@ -505,7 +505,7 @@ namespace Common
 	                    [Address]			NVARCHAR(200)	NOT NULL DEFAULT '',		--地址
 	                    [Remark]			NVARCHAR(200)	NOT NULL DEFAULT '',		--备注
                         [SyncState]         INT             NULL        DEFAULT 1 ,     --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
+	                    [ModifyTime]		NVARCHAR(25)	NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
                     )";
         }
 
@@ -523,7 +523,7 @@ namespace Common
 	                    [PreSlopeUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--压力斜率上限值
 	                    [PreSlopeLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--压力斜率下限值
                         [SyncState]         INT             NULL     DEFAULT 1 ,        --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
+	                    [ModifyTime]		NVARCHAR(25)    NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
                     )";
         }
 
@@ -558,7 +558,7 @@ namespace Common
 	                    [Precision]         [INT]           NULL,
 	                    [Unit]              NVARCHAR(20)    NULL,
                         [SyncState]         INT             NULL        DEFAULT 1,              --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
+	                    [ModifyTime]        NVARCHAR(25)    NOT NULL    DEFAULT (datetime('now', 'localtime'))
                     )";
         }
         /// <summary>
@@ -575,7 +575,7 @@ namespace Common
                         [Sequence]          [INT]           NOT NULL,                               --对应顺序序号
 	                    [PointID]           [INT]           NOT NULL,
                         [SyncState]         [INT]           NULL        DEFAULT 1,                  --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]        [DATETIME]      NOT NULL    DEFAULT (datetime('now', 'localtime'))
+	                    [ModifyTime]        NVARCHAR(25)    NOT NULL    DEFAULT (datetime('now', 'localtime'))
                     )";
         }
         #endregion

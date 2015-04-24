@@ -37,8 +37,8 @@
             this.cbArith = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtDCCompLen = new DevExpress.XtraEditors.TextEdit();
@@ -159,7 +159,7 @@
             // 
             // txtMaxStandardAMP
             // 
-            this.txtMaxStandardAMP.Location = new System.Drawing.Point(360, 59);
+            this.txtMaxStandardAMP.Location = new System.Drawing.Point(360, 64);
             this.txtMaxStandardAMP.Name = "txtMaxStandardAMP";
             this.txtMaxStandardAMP.Properties.Mask.EditMask = "f0";
             this.txtMaxStandardAMP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -168,7 +168,7 @@
             // 
             // txtMinStandardAMP
             // 
-            this.txtMinStandardAMP.Location = new System.Drawing.Point(151, 59);
+            this.txtMinStandardAMP.Location = new System.Drawing.Point(151, 64);
             this.txtMinStandardAMP.Name = "txtMinStandardAMP";
             this.txtMinStandardAMP.Properties.Mask.EditMask = "f0";
             this.txtMinStandardAMP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -179,15 +179,16 @@
             // 
             this.cbArith.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbArith.Enabled = false;
-            this.cbArith.Location = new System.Drawing.Point(325, 30);
+            this.cbArith.Location = new System.Drawing.Point(325, 31);
             this.cbArith.Name = "cbArith";
             this.cbArith.Size = new System.Drawing.Size(92, 22);
             this.cbArith.TabIndex = 1;
+            this.cbArith.Visible = false;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 91);
+            this.label9.Location = new System.Drawing.Point(21, 96);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(79, 14);
             this.label9.TabIndex = 85;
@@ -196,34 +197,35 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(11, 62);
+            this.label8.Location = new System.Drawing.Point(11, 67);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(139, 14);
             this.label8.TabIndex = 85;
             this.label8.Text = "最小静态漏水标准幅度值";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(224, 35);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(55, 14);
+            this.label6.TabIndex = 85;
+            this.label6.Text = "分析算法";
+            this.label6.Visible = false;
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(223, 62);
+            this.label7.Location = new System.Drawing.Point(223, 67);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(139, 14);
             this.label7.TabIndex = 85;
             this.label7.Text = "最大静态漏水标准幅度值";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(224, 34);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(55, 14);
-            this.label6.TabIndex = 85;
-            this.label6.Text = "分析算法";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(21, 30);
+            this.label5.Location = new System.Drawing.Point(21, 35);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 14);
             this.label5.TabIndex = 82;
@@ -232,7 +234,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(194, 30);
+            this.label4.Location = new System.Drawing.Point(194, 35);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 14);
             this.label4.TabIndex = 84;
@@ -240,7 +242,7 @@
             // 
             // txtDCCompLen
             // 
-            this.txtDCCompLen.Location = new System.Drawing.Point(122, 88);
+            this.txtDCCompLen.Location = new System.Drawing.Point(122, 93);
             this.txtDCCompLen.Name = "txtDCCompLen";
             this.txtDCCompLen.Properties.Mask.EditMask = "f0";
             this.txtDCCompLen.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -249,7 +251,7 @@
             // 
             // txtLeakHZ
             // 
-            this.txtLeakHZ.Location = new System.Drawing.Point(122, 27);
+            this.txtLeakHZ.Location = new System.Drawing.Point(122, 32);
             this.txtLeakHZ.Name = "txtLeakHZ";
             this.txtLeakHZ.Properties.Mask.EditMask = "f0";
             this.txtLeakHZ.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;

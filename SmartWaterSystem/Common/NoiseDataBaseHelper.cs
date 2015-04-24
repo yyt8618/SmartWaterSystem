@@ -52,6 +52,7 @@ namespace SmartWaterSystem
                     rec.LeakValue = Convert.ToInt32(recSet.Rows[0]["LeakValue"]);
 
                     sql = "SELECT GroupId,RecorderId,leakValue,FrequencyValue,OriginalData,CollTime,UnloadTime,HistoryFlag FROM DL_Noise_Real WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
+                    //DataTable dt_test = SQLiteHelper.ExecuteDataTable(sql, null);
                     using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(sql, null))
                     {
                         if (reader.Read())

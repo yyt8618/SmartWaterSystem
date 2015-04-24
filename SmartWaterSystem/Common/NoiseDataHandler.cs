@@ -797,7 +797,7 @@ namespace SmartWaterSystem
             return average;
         }
 
-        private static double GetAverage(short[] datas)
+        public static double GetAverage(short[] datas)
         {
             double average = 0;
             if (datas != null && datas.Length > 0)
