@@ -69,9 +69,9 @@ namespace SmartWaterSystem
             this.c1Chart1 = new C1.Win.C1Chart.C1Chart();
             this.txtCurSeriesValue = new DevExpress.XtraEditors.TextEdit();
             this.txtCurFrqValue = new DevExpress.XtraEditors.TextEdit();
-            this.colorPanel_static1 = new Common.ColorPanel_static();
             this.label13 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.colorPanel_static1 = new Common.ColorPanel_static();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRemark.Properties)).BeginInit();
@@ -473,13 +473,6 @@ namespace SmartWaterSystem
             this.txtCurFrqValue.TabIndex = 63;
             this.txtCurFrqValue.TabStop = false;
             // 
-            // colorPanel_static1
-            // 
-            this.colorPanel_static1.Location = new System.Drawing.Point(598, 17);
-            this.colorPanel_static1.Name = "colorPanel_static1";
-            this.colorPanel_static1.Size = new System.Drawing.Size(57, 268);
-            this.colorPanel_static1.TabIndex = 64;
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -497,6 +490,13 @@ namespace SmartWaterSystem
             this.label19.Size = new System.Drawing.Size(19, 14);
             this.label19.TabIndex = 43;
             this.label19.Text = "%";
+            // 
+            // colorPanel_static1
+            // 
+            this.colorPanel_static1.Location = new System.Drawing.Point(598, 17);
+            this.colorPanel_static1.Name = "colorPanel_static1";
+            this.colorPanel_static1.Size = new System.Drawing.Size(57, 284);
+            this.colorPanel_static1.TabIndex = 64;
             // 
             // FrmDataAnalysis
             // 

@@ -1000,7 +1000,7 @@ namespace SmartWaterSystem
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(88, 26);
             this.btnReset.TabIndex = 6;
-            this.btnReset.Text = "复位";
+            this.btnReset.Text = "设备复位";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // SwitchComunication

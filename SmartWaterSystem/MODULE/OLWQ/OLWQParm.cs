@@ -492,6 +492,10 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
+            if (DialogResult.No == XtraMessageBox.Show("确定复位?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+            {
+                return;
+            }
             if (SwitchComunication.IsOn)
             {
                 GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
@@ -687,6 +691,10 @@ namespace SmartWaterSystem
                     bool haveset = false;
                     if (ceID.Checked)
                     {
+                        if (DialogResult.No == XtraMessageBox.Show("设置设备编号会初始化设备参数,是否继续?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+                        {
+                            return;
+                        }
                         GlobalValue.UniversalSerialPortOptData.IsOptID = ceID.Checked;
                         GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
                         haveset = true;

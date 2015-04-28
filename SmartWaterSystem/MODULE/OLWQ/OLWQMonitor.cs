@@ -434,6 +434,7 @@ namespace SmartWaterSystem
             if (string.IsNullOrEmpty(terminalid))
             {
                 XtraMessageBox.Show("请选中一条记录操作!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
 
             GridBand gb1 = hit.Band;

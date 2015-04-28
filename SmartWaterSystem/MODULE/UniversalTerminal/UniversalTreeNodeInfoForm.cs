@@ -129,8 +129,8 @@ namespace SmartWaterSystem
             }
             else if (cbType.SelectedIndex == 2) //RS485
             {
-                lblMaxMeasureR.Text = "最大测量范围:";
-                txtMaxMeasureR.Enabled = false;
+                lblMaxMeasureR.Text = "系数:";
+                txtMaxMeasureR.Enabled = true;
                 txtMaxMeasureRFlag.Enabled = false;
             }
         }

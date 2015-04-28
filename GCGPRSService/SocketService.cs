@@ -127,9 +127,22 @@ namespace GCGPRSService
                     OnLineState_Interval = 5*60;
                     MSMQEntity msmqEntity = new MSMQEntity();
                     msmqEntity.lstOnLine = new List<OnLineTerEntity>();
-                    List<CallSocketEntity> lstOnLine = new List<CallSocketEntity>();
+                    //List<CallSocketEntity> lstOnLine = new List<CallSocketEntity>();
                     foreach (CallSocketEntity client in lstClient)
                     {
+                        //如果重试次数大于0并且发送时间与当前时间相差不超过一天，保留
+                        if (client.lstWaitSendCmd != null && client.lstWaitSendCmd.Count > 0)
+                        {
+                            List<SendPackageEntity> lst_save_Pack = new List<SendPackageEntity>();
+                            for (int i = 0; i < client.lstWaitSendCmd.Count; i++)
+                            {
+                                TimeSpan ts = DateTime.Now - client.lstWaitSendCmd[i].SendTime;
+                                if ((client.lstWaitSendCmd[i].SendCount > -1) && (Math.Abs(ts.TotalHours) < 24))
+                                    lst_save_Pack.Add(client.lstWaitSendCmd[i]);
+                            }
+                            client.lstWaitSendCmd = lst_save_Pack;
+                        }
+                        //在线检查
                         bool add = false;
                         if (client.ClientSocket != null && client.ClientSocket.Connected)
                         {
@@ -158,10 +171,10 @@ namespace GCGPRSService
                         if (add)
                         {
                             msmqEntity.lstOnLine.Add(new OnLineTerEntity(client.DevType, client.TerId));
-                            lstOnLine.Add(client);
+                            //lstOnLine.Add(client);
                         }
                     }
-                    lstClient = lstOnLine;  //将意外断开连接的的去除
+                    //lstClient = lstOnLine;  //将意外断开连接的的去除
                     OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
                 }
                 if (CheckThread_Interval-- == 0)
@@ -296,7 +309,6 @@ namespace GCGPRSService
             }
         }
 
-        List<Socket> clients = new List<Socket>();
         private void AcceptCallback(IAsyncResult ar)
         {
             Socket handler = null;
@@ -362,7 +374,31 @@ namespace GCGPRSService
                             {
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
                                 {
-
+                                    foreach (CallSocketEntity callentity in lstClient)
+                                    {
+                                        if (callentity.DevType == pack.DevType && callentity.TerId == pack.DevID && callentity.lstWaitSendCmd!=null)
+                                        {
+                                            List<SendPackageEntity> lst_save_pack = new List<SendPackageEntity>();
+                                            for (int i = 0; i < callentity.lstWaitSendCmd.Count; i++)  //收到响应帧
+                                            {
+                                                /* CommandPack.DevID = pack.DevID;
+                                                    CommandPack.DevType = pack.DevType;
+                                                    CommandPack.C0 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].CtrlCode);
+                                                    CommandPack.C1 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].FunCode);
+                                                    CommandPack.Data = ConvertHelper.StringToByte(GlobalValue.Instance.lstGprsCmd[i].Data);
+                                                    CommandPack.DataLength = CommandPack.Data.Length;*/
+                                                if (callentity.lstWaitSendCmd[i].SendPackage.C0 == pack.C0 &&
+                                                    callentity.lstWaitSendCmd[i].SendPackage.C1 == pack.C1 &&
+                                                    callentity.lstWaitSendCmd[i].SendPackage.Data == pack.Data)
+                                                {
+                                                    ;
+                                                }
+                                                else
+                                                    lst_save_pack.Add(callentity.lstWaitSendCmd[i]);
+                                            }
+                                            callentity.lstWaitSendCmd = lst_save_pack;
+                                        }
+                                    }
                                 }
                                 else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
                                 {
@@ -753,7 +789,7 @@ namespace GCGPRSService
                                             || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4855) || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4856)
                                             || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4857) || (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4858))//接受通用终端发送的RS485 数据
                                         {
-                                            #region 通用终端RS485 1路数据
+                                            #region 通用终端RS485 ?路数据
                                             string name = "";
                                             string sequence = "";
                                             if (pack.C1 == (byte)GPRS_READ.READ_UNVERSAL_RS4851)
@@ -875,7 +911,7 @@ namespace GCGPRSService
                                                                 freindex += 4;
                                                             }
 
-                                                            //datavalue = MaxMeasureRanges[j] * datavalue;  
+                                                            datavalue = MaxMeasureRanges[j] * datavalue;  //系数
                                                             datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
                                                             OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]RS485 {2}路|采集时间({3})|{4}:{5}{6}",
                                                                 i, pack.DevID, name, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
@@ -922,7 +958,12 @@ namespace GCGPRSService
                                             callentity.ClientSocket = handler;
                                             if (callentity.lstWaitSendCmd != null && callentity.lstWaitSendCmd.Count > 0)
                                             {
-                                                lstCommandPack.AddRange(callentity.lstWaitSendCmd.ToArray());
+                                                for (int i = 0; i < callentity.lstWaitSendCmd.Count; i++)
+                                                {
+                                                    lstCommandPack.Add(callentity.lstWaitSendCmd[i].SendPackage);
+                                                    callentity.lstWaitSendCmd[i].SendCount--;
+                                                    callentity.lstWaitSendCmd[i].SendTime = DateTime.Now;
+                                                }
                                             }
                                             //将在线信息发送给UI更新
                                             MSMQEntity msmqEntity = new MSMQEntity();
@@ -1061,14 +1102,11 @@ namespace GCGPRSService
                                     }
                                     #endregion
 
-                                    if (currentSocketEntity != null)   //如果有需要发送的帧数据，在最后认为已经发送完，清除
-                                    {
-                                        currentSocketEntity.lstWaitSendCmd = new List<Package>();
-                                    }
-                                    //if (!pack.IsFinal)
+                                    //if (currentSocketEntity != null)   //如果有需要发送的帧数据，在最后认为已经发送完，清除
                                     //{
-                                    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                    //    currentSocketEntity.lstWaitSendCmd = new List<Package>();
                                     //}
+                                    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                                 }
                             }
                         }
@@ -1141,7 +1179,7 @@ namespace GCGPRSService
                 {
                     if (callentity.DevType == ((SendObject)ar.AsyncState).DevType && callentity.TerId == ((SendObject)ar.AsyncState).DevID)
                     {
-                        AllowOnLine = true;
+                        AllowOnLine = callentity.AllowOnLine;
                         break;
                     }
                 }
@@ -1150,11 +1188,6 @@ namespace GCGPRSService
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
                 }
-                //if (((SendObject)ar.AsyncState).IsFinal)  //如果是最后一帧，则关闭socket
-                //{
-                    //handler.Shutdown(SocketShutdown.Both);
-                    //handler.Close();
-                //}
             }
             catch (Exception e)
             {
@@ -1229,14 +1262,17 @@ namespace GCGPRSService
                 data[0] = (byte)0x01;
                 package.Data = data;
                 package.CS = package.CreateCS();
+
+                client.AllowOnLine = true;
                 if (client.ClientSocket != null)  //已连接，不发送，未连接马上发送
                 {
                     ;
                 }
                 else
                 {
-                    client.lstWaitSendCmd = new List<Package>();
-                    client.lstWaitSendCmd.Add(package);
+                    if (client.lstWaitSendCmd == null)
+                        client.lstWaitSendCmd = new List<SendPackageEntity>();
+                    client.lstWaitSendCmd.Add(new SendPackageEntity(package));
                 }
             }
             else
@@ -1258,6 +1294,8 @@ namespace GCGPRSService
                             package.Data = data;
                             package.CS = package.CreateCS();
 
+                            lstClient[index].AllowOnLine = false;
+
                             if (lstClient[index].ClientSocket != null)  //已连接，马上发送下线命令
                             {
                                 try
@@ -1270,14 +1308,16 @@ namespace GCGPRSService
                                 }
                                 catch
                                 {
-                                    lstClient[index].lstWaitSendCmd = new List<Package>();
-                                    lstClient[index].lstWaitSendCmd.Add(package);
+                                    if (lstClient[index].lstWaitSendCmd == null)
+                                        lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
+                                    lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(package));
                                 }
                             }
                             else
                             {
-                                lstClient[index].lstWaitSendCmd = new List<Package>();
-                                lstClient[index].lstWaitSendCmd.Add(package);
+                                if (lstClient[index].lstWaitSendCmd == null)
+                                    lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
+                                lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(package));
                             }
                             
                         }
@@ -1470,14 +1510,16 @@ namespace GCGPRSService
                             }
                             catch
                             {
-                                lstClient[index].lstWaitSendCmd = new List<Package>();
-                                lstClient[index].lstWaitSendCmd.Add(package);
+                                if (lstClient[index].lstWaitSendCmd == null)
+                                    lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
+                                lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(package));
                             }
                         }
                         else
                         {
-                            lstClient[index].lstWaitSendCmd = new List<Package>();
-                            lstClient[index].lstWaitSendCmd.Add(package);
+                            if (lstClient[index].lstWaitSendCmd == null)
+                                lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
+                            lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(package));
                         }
                     }
                 }

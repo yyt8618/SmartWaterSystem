@@ -42,7 +42,7 @@ namespace Common
             // lbMax
             // 
             this.lbMax.AutoSize = true;
-            this.lbMax.Location = new System.Drawing.Point(12, 0);
+            this.lbMax.Location = new System.Drawing.Point(12, 4);
             this.lbMax.Name = "lbMax";
             this.lbMax.Size = new System.Drawing.Size(23, 12);
             this.lbMax.TabIndex = 1;
@@ -51,7 +51,7 @@ namespace Common
             // lbMidMax
             // 
             this.lbMidMax.AutoSize = true;
-            this.lbMidMax.Location = new System.Drawing.Point(12, 56);
+            this.lbMidMax.Location = new System.Drawing.Point(12, 58);
             this.lbMidMax.Name = "lbMidMax";
             this.lbMidMax.Size = new System.Drawing.Size(23, 12);
             this.lbMidMax.TabIndex = 1;
@@ -60,7 +60,7 @@ namespace Common
             // lbMidlle
             // 
             this.lbMidlle.AutoSize = true;
-            this.lbMidlle.Location = new System.Drawing.Point(12, 108);
+            this.lbMidlle.Location = new System.Drawing.Point(12, 112);
             this.lbMidlle.Name = "lbMidlle";
             this.lbMidlle.Size = new System.Drawing.Size(23, 12);
             this.lbMidlle.TabIndex = 1;
@@ -69,7 +69,7 @@ namespace Common
             // lbMinMid
             // 
             this.lbMinMid.AutoSize = true;
-            this.lbMinMid.Location = new System.Drawing.Point(12, 160);
+            this.lbMinMid.Location = new System.Drawing.Point(12, 166);
             this.lbMinMid.Name = "lbMinMid";
             this.lbMinMid.Size = new System.Drawing.Size(23, 12);
             this.lbMinMid.TabIndex = 1;
@@ -78,7 +78,7 @@ namespace Common
             // lbMin
             // 
             this.lbMin.AutoSize = true;
-            this.lbMin.Location = new System.Drawing.Point(13, 215);
+            this.lbMin.Location = new System.Drawing.Point(11, 220);
             this.lbMin.Name = "lbMin";
             this.lbMin.Size = new System.Drawing.Size(29, 12);
             this.lbMin.TabIndex = 1;
@@ -88,9 +88,9 @@ namespace Common
             // 
             this.pictureBox1.Image = global::SmartWaterSystem.Properties.Resources.ColorPanel;
             this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 6);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(10, 237);
+            this.pictureBox1.Size = new System.Drawing.Size(10, 229);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
@@ -106,7 +106,7 @@ namespace Common
             this.Controls.Add(this.lbMax);
             this.DoubleBuffered = true;
             this.Name = "ColorPanel_static";
-            this.Size = new System.Drawing.Size(48, 229);
+            this.Size = new System.Drawing.Size(44, 241);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

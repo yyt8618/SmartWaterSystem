@@ -108,9 +108,7 @@ namespace GCGPRSService
                                     else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Get_OnLineState)
                                         GlobalValue.Instance.SocketMag.GetTerminalOnLineState();
                                     else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Cmd_CallData && msmqMsg.CallDataType != null)
-                                    {
                                         GlobalValue.Instance.SocketMag.ClientCallData(msmqMsg.DevType, msmqMsg.DevId, msmqMsg.CallDataType);
-                                    }
                                     //Other
                                 }
                             }
@@ -129,7 +127,7 @@ namespace GCGPRSService
             catch (Exception ex)
             {
                 logger.ErrorException("MSMQReceiveThread", ex);
-                SendMessage("创建接受消息队列失败!");
+                //SendMessage("创建接受消息队列失败!");
             }
         }
 

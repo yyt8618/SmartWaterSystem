@@ -9,6 +9,7 @@ using Protocol;
 using Common;
 using Entity;
 using System.Net;
+using System.IO;
 
 namespace SmartWaterSystem
 {
@@ -198,9 +199,17 @@ namespace SmartWaterSystem
                         GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
                         if (Originaldata == null || (Originaldata != null && (NoiseDataHandler.GetAverage(Originaldata)<500)))  //没有读到标准值，重试2次
                         {
-                            ShowDialog("读取启动标准值失败,请重试!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ShowDialog("启动失败,请重试!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             isError = true;
                         }
+
+                        StreamWriter sw = new StreamWriter(string.Format("{0}启动值.txt", GlobalValue.TestPath));
+                        for (int i = 0; i < Originaldata.Length; i++)
+                        {
+                            sw.WriteLine(Originaldata[i]);
+                        }
+                        sw.Flush();
+                        sw.Close();
 
                         NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
                                              where item.ID == id

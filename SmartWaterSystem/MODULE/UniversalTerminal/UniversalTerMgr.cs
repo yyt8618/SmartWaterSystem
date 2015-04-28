@@ -231,7 +231,8 @@ namespace SmartWaterSystem
                             }
                             else if (entity.WayType == UniversalCollectType.RS485) //RS485
                             {
-                                lblMaxMeasureR.Text = "最大测量范围:";
+                                lblMaxMeasureR.Text = "系数:";
+                                txtMaxMeasureRFlag.Text = "------";
                             }
                         }
                         
