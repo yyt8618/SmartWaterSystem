@@ -197,13 +197,20 @@ namespace SmartWaterSystem
 
                         short[] Originaldata = null;
                         GlobalValue.Noiselog.CtrlStartOrStop(id, true, out Originaldata);
-                        if (Originaldata == null || (Originaldata != null && (NoiseDataHandler.GetAverage(Originaldata)<500)))  //没有读到标准值，重试2次
+                        if (Originaldata == null || (Originaldata != null && (NoiseDataHandler.GetAverage(Originaldata) < 450)))  //没有读到标准值，重试2次
                         {
-                            ShowDialog("启动失败,请重试!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            string startvalue = "";
+                            if(Originaldata!=null)
+                                foreach (double d in Originaldata)
+                                {
+                                    startvalue+=d.ToString()+" ";
+                                }
+                            ShowDialog("启动失败,请重试["+startvalue+"]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             isError = true;
                         }
 
-                        StreamWriter sw = new StreamWriter(string.Format("{0}启动值.txt", GlobalValue.TestPath));
+                        string path = string.Format(Application.StartupPath + @"\Data\记录仪{0}\", id);
+                        StreamWriter sw = new StreamWriter(string.Format("{0}启动值.txt", path));
                         for (int i = 0; i < Originaldata.Length; i++)
                         {
                             sw.WriteLine(Originaldata[i]);

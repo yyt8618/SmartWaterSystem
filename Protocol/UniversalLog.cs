@@ -872,7 +872,6 @@ namespace Protocol
             }
             for (; i < 8; i++)
             {
-                lstdata.Add(0x03);
                 lstdata.AddRange(new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });  //补齐8行
             }
 
