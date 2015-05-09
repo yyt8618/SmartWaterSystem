@@ -351,6 +351,171 @@ namespace Common
         #endregion
     }
 
+    public enum OLWQ_COMMAND
+    {
+        #region 设置
+        /// <summary>
+        /// 设置时间
+        /// </summary>
+        SET_TIME = 0x10,
+        /// <summary>
+        /// 设置从站浊度时间间隔
+        /// </summary>
+        SET_TURBIDITYINTERVAL = 0x11,
+        
+        /// <summary>
+        /// 设置从站浊度上限值
+        /// </summary>
+        SET_TURBIDITYUPLIMIT = 0x12,
+
+        /// <summary>
+        /// 设置从站余氯下限值
+        /// </summary>
+        SET_RESIDUALCLLOWLIMIT = 0x13,
+
+        /// <summary>
+        /// 设置从站余氯采集时间间隔
+        /// </summary>
+        SET_RESIDUALCLINTERVAL = 0x14,
+
+        /// <summary>
+        /// 设置从站余氯校准值
+        /// </summary>
+        SET_RESIDUALCLSTANDVALUE = 0x16,
+
+        /// <summary>
+        /// 终端采集功能配置:、0X01浊度、0x02――余氯  0x04：ph    0x80：电导率
+        /// </summary>
+        SET_COLLECTCONFIG = 0x17,
+        /// <summary>
+        /// 设置从站ID
+        /// </summary>
+        SET_ID = 0x18,
+        /// <summary>
+        /// 设置从站IP
+        /// </summary>
+        SET_IP = 0x19,
+        /// <summary>
+        /// 设置从站端口号
+        /// </summary>
+        SET_PORT = 0x1a,
+
+        /// <summary>
+        /// 设置从站PH间隔
+        /// </summary>
+        SET_PH_INTERVAL = 0x1b,
+
+        /// <summary>
+        /// 设置从站清洗时间间隔 1c
+        /// </summary>
+        SET_CLEARINTERVAL = 0x1c,
+
+        /// <summary>
+        /// 设置从站余氯零点值
+        /// </summary>
+        SET_RESIDUALCLZERO = 0x1f,
+
+        /// <summary>
+        /// 设置从站余氯灵敏度
+        /// </summary>
+        SET_RESIDUALCLSENSITIVITY =0x20,
+
+        /// <summary>
+        /// 设置从站供电方式 01表示电池02表示市电
+        /// </summary>
+        SET_POWERSUPPLYTYPE = 0x21,
+
+        /// <summary>
+        /// 设置从站电导率采集发送时间间隔
+        /// </summary>
+        SET_CONDUCTIVITYINTERVAL = 0x1d,
+        #endregion
+
+        #region 读取
+        /// <summary>
+        /// 读取从站时间
+        /// </summary>
+        READ_TIME = 0x40,
+        /// <summary>
+        /// 读取从站浊度时间间隔
+        /// </summary>
+        READ_TURBIDITYINTERVAL = 0x41,
+
+        /// <summary>
+        /// 读取从站余氯时间间隔
+        /// </summary>
+        READ_RESIDUALCLINTERVAL = 0x44,
+
+        /// <summary>
+        /// 读取从站ph采集时间间隔
+        /// </summary>
+        READ_PHINTERVAL = 0x4b,
+
+        /// <summary>
+        /// 读取从站电导率采集时间间隔
+        /// </summary>
+        READ_CONDUCTIVITY = 0x50,
+
+        /// <summary>
+        /// 读取从站采集功能配置
+        /// </summary>
+        READ_COLLECTCONFIG = 0x47,
+
+        /// <summary>
+        /// 读取从站余氯下限值
+        /// </summary>
+        READ_RESIDUALCLLOWLIMIT = 0x43,
+
+        /// <summary>
+        /// 读取从站浊度上限值
+        /// </summary>
+        READ_TURBIDITYUPLIMIT = 0x42,
+
+        /// <summary>
+        /// 读取从站余氯校准值
+        /// </summary>
+        READ_RESIDUALCLSTANDVALUE = 0x46,
+
+        /// <summary>
+        /// 读取从站清洗时间间隔
+        /// </summary>
+        READ_CLEARINTERVAL = 0x4c,
+
+        /// <summary>
+        /// 读取从余氯零点值
+        /// </summary>
+        READ_RESIDUALCLZERO = 0x4d,
+
+        /// <summary>
+        /// 读取从站余氯灵敏度
+        /// </summary>
+        READ_RESIDUALCLSENSITIVITY = 0x4e,
+
+        /// <summary>
+        /// 读取从站供电方式
+        /// </summary>
+        READ_POWERSUPPLYTYPE = 0x4f,
+
+        /// <summary>
+        /// 读取从站
+        /// </summary>
+        READ_ID = 0x48,
+        READ_IP = 0x49,
+        READ_PORT = 0x4a,
+        #endregion
+
+        #region 控制命令
+        /// <summary>
+        /// 复位命令
+        /// </summary>
+        RESET = 0x72,
+        /// <summary>
+        /// 启动终端采集功能命令
+        /// </summary>
+        EnableCollect = 0x73
+        #endregion
+    }
+
     /// <summary>
     /// 控制码类型
     /// </summary>
@@ -531,7 +696,23 @@ namespace Common
         /// <summary>
         /// 通用终端发送RS485 8路数据
         /// </summary>
-        READ_UNVERSAL_RS4858 = 0xAA
+        READ_UNVERSAL_RS4858 = 0xAA,
+        /// <summary>
+        /// 水质终端发送浊度数据
+        /// </summary>
+        READ_TURBIDITY=0xA0,
+        /// <summary>
+        /// 水质终端发送余氯数据
+        /// </summary>
+        READ_RESIDUALCL=0xA1,
+        /// <summary>
+        /// 水质终端发送PH数据
+        /// </summary>
+        READ_PH = 0xA2,
+        /// <summary>
+        /// 水质终端发送电导率数据
+        /// </summary>
+        READ_CONDUCTIVITY=0xA3
     }
 
     public enum GPRS_CTRL

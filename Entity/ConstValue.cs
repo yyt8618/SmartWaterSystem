@@ -69,7 +69,11 @@ namespace Entity
             /// <summary>
             /// 巡视仪
             /// </summary>
-            NOISE_TOUR = 0x06
+            NOISE_TOUR = 0x06,
+            /// <summary>
+            /// 水质终端
+            /// </summary>
+            OLWQ_CTRL= 0x07
         }
 
     }

@@ -135,6 +135,37 @@ namespace SmartWaterSystem
             //求出32个数值中最小数值，将32个数值分别减去最小数值，得到新的32个数值
             SpSubMinValue(ref data);
 
+            #region 去掉一个突变的最大
+            int remove_index = -1;
+            if (data.Count > 3)
+            {
+                List<double> lst_ave = new List<double>();
+                for (int i = 0; i < data.Count; i++)
+                {
+                    lst_ave.Add(GetAverage(data[i]));
+                }
+                int max_index = 0;
+                double maxvalue = lst_ave[0];
+                double ave_butone = lst_ave[0];
+                for (int i = 1; i < lst_ave.Count; i++)
+                {
+                    if (maxvalue < lst_ave[i])
+                    {
+                        maxvalue = lst_ave[i];
+                        max_index = i;
+                    }
+                    ave_butone += lst_ave[i];
+                }
+                ave_butone -= maxvalue;
+                ave_butone = ave_butone / (lst_ave.Count - 1);
+                ave_butone = maxvalue / (maxvalue + ave_butone) * 100;
+                if (ave_butone > 85)
+                {
+                    remove_index = max_index;
+                }
+            }
+            #endregion
+
             for (int index = 0; index < data.Count; index++)
             {
                 double[] real_Part = new double[num];// 实数部分
@@ -157,9 +188,12 @@ namespace SmartWaterSystem
                 tmp_fourier = PowerSpectralCacl(real_Part, vir_Part, num);
                 tmp_fourier = Skip(tmp_fourier, DCComponentLen);
 
-                for (int i = 0; i < num/2; i++)
+                if (!(remove_index > -1 && remove_index == index))
                 {
-                    FourierData[i][index] = tmp_fourier[i];
+                    for (int i = 0; i < num / 2; i++)
+                    {
+                        FourierData[i][index] = tmp_fourier[i];
+                    }
                 }
 
                 //////////////////////////////////////////////////////////////////////////////////////////
@@ -181,6 +215,11 @@ namespace SmartWaterSystem
             //    MinimumAmpCalc2(ref min_amp, ref min_frq);
             //else if (c == 2)
             //    MinimumAmpCalc(ref min_amp, ref min_frq);
+
+            if (remove_index > -1)
+            {
+                data.RemoveAt(remove_index);
+            }
             MinimumAmpCalc(DCComponentLen, data.Count, leakvalue, out max_amp, out max_frq, out max_am);
             return true;
         }

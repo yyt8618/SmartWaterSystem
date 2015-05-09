@@ -5,15 +5,15 @@ using System.Data;
 
 namespace Protocol
 {
-    public class UniversalLog : SerialPortRW
+    public class OLWQLog : SerialPortRW
     {
         public bool Reset(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.RESET;
+            package.C1 = (byte)OLWQ_COMMAND.RESET;
             package.DataLength = 1;
             byte[] data = new byte[package.DataLength];
             data[0] = (byte)2;
@@ -26,10 +26,10 @@ namespace Protocol
         public bool SetTime(short Id, DateTime dt)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
+            package.C1 = (byte)OLWQ_COMMAND.SET_TIME;
             byte[] data = new byte[6];
             data[0] = (byte)(dt.Year-2000);
             data[1] = (byte)dt.Month;
@@ -47,10 +47,10 @@ namespace Protocol
         public bool EnableCollect(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.EnableCollect;
+            package.C1 = (byte)OLWQ_COMMAND.EnableCollect;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -62,10 +62,10 @@ namespace Protocol
         public short ReadId()
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             //package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_ID;
+            package.C1 = (byte)OLWQ_COMMAND.READ_ID;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -91,10 +91,10 @@ namespace Protocol
         public DateTime ReadTime(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_TIME;
+            package.C1 = (byte)OLWQ_COMMAND.READ_TIME;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -117,130 +117,13 @@ namespace Protocol
                 Convert.ToInt32(result.Data[3]), Convert.ToInt32(result.Data[4]), Convert.ToInt32(result.Data[5]));
         }
 
-        public string ReadCellPhone(short Id)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_CELLPHONE;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            Package result = Read(package);
-            if (!result.IsSuccess || result.Data == null)
-            {
-                throw new Exception("获取失败");
-            }
-            if (result.Data.Length == 0)
-            {
-                throw new Exception("无数据");
-            }
-            if (result.Data.Length != 11)
-            {
-                throw new Exception("数据损坏");
-            }
-            string number = "";
-            for (int i = 0; i < result.DataLength; i++)
-            {
-                number += (char)result.Data[i];
-            }
-            return number;
-        }
-
-        public bool ReadModbusExeFlag(short Id)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_MODBUSEXEFLAG;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            Package result = Read(package);
-            if (!result.IsSuccess || result.Data == null)
-            {
-                throw new Exception("获取失败");
-            }
-            if (result.Data.Length == 0)
-            {
-                throw new Exception("无数据");
-            }
-            if (result.Data.Length != 1)
-            {
-                throw new Exception("数据损坏");
-            }
-            return (Convert.ToInt32(result.Data[0]) == 1) ? true : false;
-        }
-
-        public int ReadBaud(short Id)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_BAUD;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            Package result = Read(package);
-            if (!result.IsSuccess || result.Data == null)
-            {
-                throw new Exception("获取失败");
-            }
-            if (result.Data.Length == 0)
-            {
-                throw new Exception("无数据");
-            }
-            if (result.Data.Length != 4)
-            {
-                throw new Exception("数据损坏");
-            }
-            return Convert.ToInt32(result.Data);
-        }
-
-        public int ReadComType(short Id)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_COMTYPE;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            Package result = Read(package);
-            if (!result.IsSuccess || result.Data == null)
-            {
-                throw new Exception("获取失败");
-            }
-            if (result.Data.Length == 0)
-            {
-                throw new Exception("无数据");
-            }
-            if (result.Data.Length != 1)
-            {
-                throw new Exception("数据损坏");
-            }
-            return Convert.ToInt32(result.Data[0]);
-        }
-
         public int[] ReadIP(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_IP;
+            package.C1 = (byte)OLWQ_COMMAND.READ_IP;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -281,10 +164,10 @@ namespace Protocol
         public int ReadPort(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_PORT;
+            package.C1 = (byte)OLWQ_COMMAND.READ_PORT;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -316,13 +199,209 @@ namespace Protocol
             return Convert.ToInt32(tmp);
         }
 
+        public ushort ReadResidualClLowLimit(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_RESIDUALCLLOWLIMIT;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToUInt16(new byte[]{ result.Data[1],result.Data[0]}, 0);
+        }
+
+        public ushort ReadResidualClZero(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_RESIDUALCLZERO;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToUInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+
+        public ushort ReadResidualClStandValue(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_RESIDUALCLSTANDVALUE;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToUInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+
+        public ushort ReadResidualClSensitivity(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_RESIDUALCLSENSITIVITY;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToUInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+
+        public ushort ReadClearInterval(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_CLEARINTERVAL;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToUInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+
+        public int ReadTurbidityUpLimit(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_TURBIDITYUPLIMIT;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToUInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+
+        public ushort ReadPowerSupplyType(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_POWERSUPPLYTYPE;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToUInt16(result.Data[0]);
+        }
+
         public byte ReadCollectConfig(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_COLLECTCONFIG;
+            package.C1 = (byte)OLWQ_COMMAND.READ_COLLECTCONFIG;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -344,13 +423,13 @@ namespace Protocol
             return result.Data[0];
         }
 
-        public DataTable ReadSimualteInterval(short Id)
+        public DataTable ReadResidualClInterval(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMINTERVAL;
+            package.C1 = (byte)OLWQ_COMMAND.READ_RESIDUALCLINTERVAL;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -365,34 +444,32 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if ((result.Data.Length%7) !=0)
+            if ((result.Data.Length%5) !=0)
             {
                 throw new Exception("数据损坏");
             }
-            DataTable dt_simulate = new DataTable();
-            dt_simulate.Columns.Add("starttime");
-            dt_simulate.Columns.Add("collecttime1");
-            dt_simulate.Columns.Add("collecttime2");
-            dt_simulate.Columns.Add("sendtime");
-            for (int i = 0; i < result.DataLength; i+=7)
+            DataTable dt_rcl = new DataTable();
+            dt_rcl.Columns.Add("starttime");
+            dt_rcl.Columns.Add("collecttime");
+            dt_rcl.Columns.Add("sendtime");
+            for (int i = 0; i < result.DataLength; i+=5)
             {
-                DataRow dr = dt_simulate.NewRow();
+                DataRow dr = dt_rcl.NewRow();
                 dr["starttime"] = Convert.ToInt32(result.Data[i]);
                 dr["sendtime"] = BitConverter.ToInt16(new byte[]{result.Data[i+2],result.Data[i+1]}, 0);
-                dr["collecttime1"] = BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
-                dr["collecttime2"] = BitConverter.ToInt16(new byte[] { result.Data[i + 6], result.Data[i + 5] }, 0);
-                dt_simulate.Rows.Add(dr);
+                dr["collecttime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
+                dt_rcl.Rows.Add(dr);
             }
 
-            return dt_simulate;
+            return dt_rcl;
         }
-        public DataTable ReadPluseInterval(short Id)
+        public DataTable ReadTurbidityInterval(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_PLUSEINTERVAL;
+            package.C1 = (byte)OLWQ_COMMAND.READ_TURBIDITYINTERVAL;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -411,29 +488,29 @@ namespace Protocol
             {
                 throw new Exception("数据损坏");
             }
-            DataTable dt_pluse = new DataTable();
-            dt_pluse.Columns.Add("starttime");
-            dt_pluse.Columns.Add("collecttime");
-            dt_pluse.Columns.Add("sendtime");
+            DataTable dt_tur = new DataTable();
+            dt_tur.Columns.Add("starttime");
+            dt_tur.Columns.Add("collecttime");
+            dt_tur.Columns.Add("sendtime");
             for (int i = 0; i < result.DataLength; i += 5)
             {
-                DataRow dr = dt_pluse.NewRow();
+                DataRow dr = dt_tur.NewRow();
                 dr["starttime"] = Convert.ToInt32(result.Data[i]);
                 dr["sendtime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 2], result.Data[i + 1] }, 0);
                 dr["collecttime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
-                dt_pluse.Rows.Add(dr);
+                dt_tur.Rows.Add(dr);
             }
 
-            return dt_pluse;
+            return dt_tur;
         }
 
-        public DataTable ReadRS485Interval(short Id)
+        public DataTable ReadPHInterval(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_485INTERVAL;
+            package.C1 = (byte)OLWQ_COMMAND.READ_PHINTERVAL;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -452,29 +529,29 @@ namespace Protocol
             {
                 throw new Exception("数据损坏");
             }
-            DataTable dt_rs485 = new DataTable();
-            dt_rs485.Columns.Add("starttime");
-            dt_rs485.Columns.Add("collecttime");
-            dt_rs485.Columns.Add("sendtime");
+            DataTable dt_ph = new DataTable();
+            dt_ph.Columns.Add("starttime");
+            dt_ph.Columns.Add("collecttime");
+            dt_ph.Columns.Add("sendtime");
             for (int i = 0; i < result.DataLength; i += 5)
             {
-                DataRow dr = dt_rs485.NewRow();
+                DataRow dr = dt_ph.NewRow();
                 dr["starttime"] = Convert.ToInt32(result.Data[i]);
                 dr["sendtime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 2], result.Data[i + 1] }, 0);
                 dr["collecttime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
-                dt_rs485.Rows.Add(dr);
+                dt_ph.Rows.Add(dr);
             }
 
-            return dt_rs485;
+            return dt_ph;
         }
 
-        public DataTable ReadModbusProtocol(short Id)
+        public DataTable ReadConductivityInterval(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_MODBUSPROTOCOL;
+            package.C1 = (byte)OLWQ_COMMAND.READ_CONDUCTIVITY;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -489,75 +566,33 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if ((result.Data.Length % 7) != 0)
+            if ((result.Data.Length % 5) != 0)
             {
                 throw new Exception("数据损坏");
             }
-            DataTable dt_485protocol = new DataTable();
-            dt_485protocol.Columns.Add("baud");
-            dt_485protocol.Columns.Add("ID");
-            dt_485protocol.Columns.Add("funcode");
-            dt_485protocol.Columns.Add("regbeginaddr");
-            dt_485protocol.Columns.Add("regcount");
-            for (int i = 0; i < result.DataLength; i += 7)
+            DataTable dt_cond = new DataTable();
+            dt_cond.Columns.Add("starttime");
+            dt_cond.Columns.Add("collecttime");
+            dt_cond.Columns.Add("sendtime");
+            for (int i = 0; i < result.DataLength; i += 5)
             {
-                DataRow dr = dt_485protocol.NewRow();
-                int baud = Convert.ToInt32(result.Data[i]);
-                if (baud == 0)
-                    dr["baud"] = 1200;
-                else if (baud == 1)
-                    dr["baud"] = 2400;
-                else if (baud == 2)
-                    dr["baud"] = 4800;
-                else if (baud == 3)
-                    dr["baud"] = 9600;
-                dr["ID"] = Convert.ToInt32(result.Data[i+1]);
-                dr["funcode"] = "0x"+String.Format("{0:X2}", result.Data[i + 2]);
-                dr["regbeginaddr"] = "0x" + String.Format("{0:X2}", result.Data[i + 4]) + String.Format("{0:X2}", result.Data[i + 3]);//BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
-                dr["regcount"] = BitConverter.ToInt16(new byte[] { result.Data[i + 6], result.Data[i + 5] }, 0);
-                dt_485protocol.Rows.Add(dr);
+                DataRow dr = dt_cond.NewRow();
+                dr["starttime"] = Convert.ToInt32(result.Data[i]);
+                dr["sendtime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 2], result.Data[i + 1] }, 0);
+                dr["collecttime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
+                dt_cond.Rows.Add(dr);
             }
 
-            return dt_485protocol;
-        }
-
-        public bool CalibartionSimulate1(short Id)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.CalibartionSimualte1;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool CalibartionSimulate2(short Id)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.CalibartionSimualte2;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
+            return dt_cond;
         }
 
         public bool SetID(short Id)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             //package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
+            package.C1 = (byte)OLWQ_COMMAND.SET_ID;
             byte[] data = BitConverter.GetBytes((int)Id);
             List<byte> lstbyte = new List<byte>();
             for(int i = data.Length-1; i>= 0;i--)
@@ -566,53 +601,6 @@ namespace Protocol
             }
             package.DataLength = data.Length;
             package.Data = lstbyte.ToArray();
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetCellPhone(short Id,string phonenum)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
-            byte[] data = BitConverter.GetBytes((int)Id);
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetModbusExeFlag(short Id, bool flag)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_MODBUSEXEFLAG;
-            package.DataLength = 1;
-            byte[] data = new byte[package.DataLength];
-            data[0] = (flag ? (byte)0x01 : (byte)0x00);
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetComType(short Id, int flag)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_COMTYPE;
-            package.DataLength = 1;
-            byte[] data = new byte[package.DataLength];
-            data[0] = (byte)flag;
-            package.Data = data;
             package.CS = package.CreateCS();
 
             return Write(package);
@@ -628,10 +616,10 @@ namespace Protocol
             if (!string.IsNullOrEmpty(ip))
                 ip = ip.Substring(0, ip.Length - 1);
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_IP;
+            package.C1 = (byte)OLWQ_COMMAND.SET_IP;
             package.DataLength = 15;
             byte[] data = new byte[package.DataLength];
             //if (ip.Length != 15)
@@ -652,10 +640,10 @@ namespace Protocol
         {
             string str_port = port.ToString();
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PORT;
+            package.C1 = (byte)OLWQ_COMMAND.SET_PORT;
             byte[] data = new byte[str_port.Length];
             for (int i = 0; i < str_port.Length; i++)
             {
@@ -671,10 +659,10 @@ namespace Protocol
         public bool SetCollectConfig(short Id, byte config)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_COLLECTCONFIG;
+            package.C1 = (byte)OLWQ_COMMAND.SET_COLLECTCONFIG;
             byte[] data = new byte[1];
             data[0] = config;
             package.DataLength = data.Length;
@@ -684,61 +672,20 @@ namespace Protocol
             return Write(package);
         }
 
-        public bool SetSimulateInterval(short Id, DataTable dt)
+        public bool SetResidualClInterval(short Id, DataTable dt)
         {
-            Package package = GetSimulateIntervalPackage(Id, dt);
+            Package package = GetResidualClIntervalPackage(Id, dt);
 
             return Write(package);
         }
 
-        public Package GetSimulateIntervalPackage(short Id, DataTable dt)
+        public Package GetResidualClIntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMINTERVAL;
-            List<byte> lstdata = new List<byte>();
-            byte[] data;
-            foreach (DataRow dr in dt.Rows)
-            {
-                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["collecttime1"] != DBNull.Value && dr["collecttime2"] != DBNull.Value)
-                {
-                    lstdata.Add(Convert.ToByte(dr["starttime"]));
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime1"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime2"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                }
-            }
-
-            data = lstdata.ToArray();
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return package;
-        }
-
-        public bool SetPluseInterval(short Id, DataTable dt)
-        {
-            Package package = GetPluseIntervalPackage(Id, dt);
-
-            return Write(package);
-        }
-
-        public Package GetPluseIntervalPackage(short Id, DataTable dt)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEINTERVAL;
+            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLINTERVAL;
             List<byte> lstdata = new List<byte>();
             byte[] data;
             foreach (DataRow dr in dt.Rows)
@@ -763,20 +710,20 @@ namespace Protocol
             return package;
         }
 
-        public bool SetRS485Interval(short Id, DataTable dt)
+        public bool SetTurbidityInterval(short Id, DataTable dt)
         {
-            Package package = GetRS485IntervalPackage(Id, dt);
+            Package package = GetTurbidityIntervalPackage(Id, dt);
 
             return Write(package);
         }
 
-        public Package GetRS485IntervalPackage(short Id, DataTable dt)
+        public Package GetTurbidityIntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_485INTERVAL;
+            package.C1 = (byte)OLWQ_COMMAND.SET_TURBIDITYINTERVAL;
             List<byte> lstdata = new List<byte>();
             byte[] data;
             foreach (DataRow dr in dt.Rows)
@@ -801,76 +748,34 @@ namespace Protocol
             return package;
         }
 
-        public bool SetModbusProtocol(short Id, DataTable dt)
+        public bool SetPHInterval(short Id, DataTable dt)
+        {
+            Package package = GetPHIntervalPackage(Id, dt);
+
+            return Write(package);
+        }
+
+        public Package GetPHIntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_MODBUSPROTOCOL;
+            package.C1 = (byte)OLWQ_COMMAND.SET_PH_INTERVAL;
             List<byte> lstdata = new List<byte>();
             byte[] data;
-            int i=0;
-            for(;i<dt.Rows.Count;i++)
+            foreach (DataRow dr in dt.Rows)
             {
-                DataRow dr = dt.Rows[i];
-                if (dr["baud"] != DBNull.Value && dr["ID"] != DBNull.Value && dr["funcode"] != DBNull.Value&&
-                    dr["regbeginaddr"] != DBNull.Value && dr["regcount"] != DBNull.Value )
+                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["collecttime"] != DBNull.Value)
                 {
-                    int baud = Convert.ToInt32(dr["baud"]);
-                    if (baud == 1200)
-                        lstdata.Add(0x00);
-                    else if (baud == 2400)
-                        lstdata.Add(0x01);
-                    else if (baud == 4800)
-                        lstdata.Add(0x02);
-                    else if (baud == 9600)
-                        lstdata.Add(0x03);
-
-                    string id = dr["ID"].ToString().Trim();
-                    if (id.StartsWith("0x")&&id.Length>2)
-                        lstdata.Add(Convert.ToByte(id.Substring(2), 16));
-                    else
-                        lstdata.Add(Convert.ToByte(dr["ID"]));
-
-                    string funcode = dr["funcode"].ToString().Trim();
-                    if (funcode.StartsWith("0x") && funcode.Length > 2)
-                        lstdata.Add(Convert.ToByte(funcode.Substring(2), 16));
-                    else
-                        lstdata.Add(Convert.ToByte(dr["funcode"]));
-
-                    string regbeginaddr = dr["regbeginaddr"].ToString().Trim();
-                    if (regbeginaddr.StartsWith("0x") && regbeginaddr.Length > 2)
-                    {
-                        data = BitConverter.GetBytes(Convert.ToInt16(regbeginaddr.Substring(2), 16));
-                        lstdata.Add(data[1]);
-                        lstdata.Add(data[0]);
-                    }
-                    else
-                    {
-                        data = BitConverter.GetBytes(Convert.ToInt16(dr["regbeginaddr"]));
-                        lstdata.Add(data[1]);
-                        lstdata.Add(data[0]);
-                    }
-
-                    string regcount = dr["regcount"].ToString().Trim();
-                    if (regcount.StartsWith("0x") && regcount.Length > 2)
-                    {
-                        data = BitConverter.GetBytes(Convert.ToInt16(regcount.Substring(2), 16));
-                        lstdata.Add(data[1]);
-                        lstdata.Add(data[0]); 
-                    }
-                    else
-                    {
-                        data = BitConverter.GetBytes(Convert.ToInt16(dr["regcount"]));
-                        lstdata.Add(data[1]);
-                        lstdata.Add(data[0]);
-                    }
+                    lstdata.Add(Convert.ToByte(dr["starttime"]));
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
                 }
-            }
-            for (; i < 8; i++)
-            {
-                lstdata.AddRange(new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });  //补齐8行
             }
 
             data = lstdata.ToArray();
@@ -878,59 +783,183 @@ namespace Protocol
             package.Data = data;
             package.CS = package.CreateCS();
 
-            return Write(package);
+            return package;
         }
 
-        /// <summary>
-        /// 设置第?路脉冲基准数
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="value">基准数</param>
-        /// <param name="waytype">1:第一路脉冲,2:第二路脉冲,3:第三路脉冲,4:第四路脉冲</param>
-        /// <returns></returns>
-        public bool SetPluseBasic(short Id,UInt32 value,int waytype)
+        public bool SetConductivityInterval(short Id, DataTable dt)
         {
-            Package package = GetPluseBasicPackage(Id,value,waytype);
+            Package package = GetConductivityIntervalPackage(Id, dt);
 
             return Write(package);
         }
 
-        /// <summary>
-        /// 获得第?路脉冲基准数数据包
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="value">基准数</param>
-        /// <param name="waytype">1:第一路脉冲,2:第二路脉冲,3:第三路脉冲,4:第四路脉冲</param>
-        /// <returns></returns>
-        public Package GetPluseBasicPackage(short Id, UInt32 value, int waytype)
+        public Package GetConductivityIntervalPackage(short Id, DataTable dt)
         {
             Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            if (waytype == 1)
-                package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEBASIC1;
-            else if (waytype == 2)
-                package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEBASIC2;
-            else if (waytype == 3)
-                package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEBASIC3;
-            else if (waytype == 4)
-                package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEBASIC4;
+            package.C1 = (byte)OLWQ_COMMAND.SET_CONDUCTIVITYINTERVAL;
+            List<byte> lstdata = new List<byte>();
+            byte[] data;
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["collecttime"] != DBNull.Value)
+                {
+                    lstdata.Add(Convert.ToByte(dr["starttime"]));
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                }
+            }
+
+            data = lstdata.ToArray();
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return package;
+        }
+
+        public bool SetResidualClLowLimit(short Id, ushort value)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLLOWLIMIT;
             byte[] data = BitConverter.GetBytes(value);
-            List<byte> lstdata = new List<byte>();
-            if (data.Length == 4)
+            List<byte> lstbyte = new List<byte>();
+            for (int i = data.Length - 1; i >= 0; i--)
             {
-                lstdata.Add(data[3]);
-                lstdata.Add(data[2]);
-                lstdata.Add(data[1]);
-                lstdata.Add(data[0]);
+                lstbyte.Add(data[i]);
             }
             package.DataLength = data.Length;
-            package.Data = lstdata.ToArray();
+            package.Data = lstbyte.ToArray();
             package.CS = package.CreateCS();
 
-            return package;
+            return Write(package);
         }
+
+        public bool SetResidualClZero(short Id, ushort value)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLZERO;
+            byte[] data = BitConverter.GetBytes(value);
+            List<byte> lstbyte = new List<byte>();
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                lstbyte.Add(data[i]);
+            }
+            package.DataLength = data.Length;
+            package.Data = lstbyte.ToArray();
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetResidualClStandValue(short Id, ushort StandValue)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLSTANDVALUE;
+            byte[] data = BitConverter.GetBytes(StandValue);
+            List<byte> lstbyte = new List<byte>();
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                lstbyte.Add(data[i]);
+            }
+            package.DataLength = data.Length;
+            package.Data = lstbyte.ToArray();
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetResidualClSensitivity(short Id, ushort value)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLSENSITIVITY;
+            byte[] data = BitConverter.GetBytes(value);
+            List<byte> lstbyte = new List<byte>();
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                lstbyte.Add(data[i]);
+            }
+            package.DataLength = data.Length;
+            package.Data = lstbyte.ToArray();
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetClearInterval(short Id, ushort value)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_CLEARINTERVAL;
+            byte[] data = BitConverter.GetBytes(value);
+            List<byte> lstbyte = new List<byte>();
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                lstbyte.Add(data[i]);
+            }
+            package.DataLength = data.Length;
+            package.Data = lstbyte.ToArray();
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetTurbidityUpLimit(short Id, ushort value)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_TURBIDITYUPLIMIT;
+            byte[] data = BitConverter.GetBytes(value);
+            List<byte> lstbyte = new List<byte>();
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                lstbyte.Add(data[i]);
+            }
+            package.DataLength = data.Length;
+            package.Data = lstbyte.ToArray();
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetPowerSupplyType(short Id, ushort value)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_POWERSUPPLYTYPE;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = (value == 0 ? (byte)0x01 : (byte)0x02);
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
 
     }
 }

@@ -302,6 +302,8 @@ namespace Protocol
                         bytes.Add(byteItem);
                         if (byteItem == PackageDefine.EndByte && bytes.Count >= PackageDefine.MinLenth)
                         {
+                            if (bytes[0] == (byte)0x00)
+                                bytes.RemoveAt(0);
                             byte[] arr = bytes.ToArray();
                             int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);//数据域长度
 
@@ -331,7 +333,7 @@ namespace Protocol
             }
         }
 
-        public Package SendPackage(Package package, int timeout = 2, int times = 3)
+        public Package SendPackage(Package package, int timeout = 3, int times = 2)
         {
             try
             {

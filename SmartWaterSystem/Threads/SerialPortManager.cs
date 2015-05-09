@@ -32,7 +32,7 @@ namespace SmartWaterSystem
         UniversalSetCollectConfig,  //设置通用终端采集配置功能
         UniversalSetSim_Interval,  //设置通用终端模拟量时间间隔
         UniversalSetPluse_Interval, //设置通用终端脉冲量时间间隔
-        UnviersalSet485_Interval,  //设置通用终端RS485时间间隔
+        UniversalSet485_Interval,  //设置通用终端RS485时间间隔
         UnviversalSetModbusProtocol,   //设置通用终端Modbus协议
 
         UniversalSetModbusExeFlag,     //设置通用终端Modbus执行标志
@@ -42,6 +42,20 @@ namespace SmartWaterSystem
         UniversalCalibrationSimualte2,  //通用终端校准第二路模拟量
         
         UniversalPluseBasic,    //通用终端设置脉冲基准数
+
+        OLWQReset, //水质终端复位
+        OLWQSetTime,   //设置水质终端时间
+        OLWQSetEnableCollect, //设置水质终端启用采集
+
+        //OLWQSetCollectConfig,  //设置水质终端采集配置功能
+        //OLWQSetResidualCl_Interval, //设置水质终端余氯时间间隔
+        //OLWQSetTurbidity_Interval,  //设置水质终端浊度时间间隔
+        //OLWQSetPH_Interval,         //设置水质终端PH时间间隔
+        //OLWQSetConductivity_Interval,//设置水质终端电导率时间间隔
+
+        OLWQSetBasicInfo,      //水质终端设置基本信息,包括通信方式、波特率、ip、端口号
+        OLWQReadBaicInfo,       //水质终端读取基本信息，包括通信方式、波特率、ip、端口号
+        
     }
 
     public class SerialPortEventArgs : EventArgs
@@ -114,7 +128,7 @@ namespace SmartWaterSystem
     public class SerialPortManager:SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 21;
+        private const int eventcount = 26;
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -227,7 +241,7 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                result = GlobalValue.Universallog.Reset(GlobalValue.UniversalSerialPortOptData.ID);
+                                result = GlobalValue.Universallog.Reset(GlobalValue.SerialPortOptData.ID);
                             }
                             catch (Exception ex)
                             {
@@ -242,7 +256,7 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                result = GlobalValue.Universallog.SetTime(GlobalValue.UniversalSerialPortOptData.ID, DateTime.Now);
+                                result = GlobalValue.Universallog.SetTime(GlobalValue.SerialPortOptData.ID, DateTime.Now);
                             }
                             catch (Exception ex)
                             {
@@ -257,7 +271,7 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                result = GlobalValue.Universallog.EnableCollect(GlobalValue.UniversalSerialPortOptData.ID);
+                                result = GlobalValue.Universallog.EnableCollect(GlobalValue.SerialPortOptData.ID);
                             }
                             catch (Exception ex)
                             {
@@ -272,79 +286,79 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                if (GlobalValue.UniversalSerialPortOptData.IsOptID)  //没有ID时，只读写ID
+                                if (GlobalValue.SerialPortOptData.IsOptID)  //没有ID时，只读写ID
                                 {
-                                    GlobalValue.UniversalSerialPortOptData.ID = GlobalValue.Universallog.ReadId();
+                                    GlobalValue.SerialPortOptData.ID = GlobalValue.Universallog.ReadId();
                                 }
                                 else
                                 {
                                     //if (GlobalValue.UniversalSerialPortOptData.ID > 0)
                                     //{
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOptDT)
+                                        if (GlobalValue.SerialPortOptData.IsOptDT)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo,"正在读取设备时间..."));
-                                            GlobalValue.UniversalSerialPortOptData.DT = GlobalValue.Universallog.ReadTime(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.DT = GlobalValue.Universallog.ReadTime(GlobalValue.SerialPortOptData.ID);
                                         }
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOptCellPhone)
+                                        if (GlobalValue.SerialPortOptData.IsOptCellPhone)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取报警手机号码..."));
-                                            GlobalValue.UniversalSerialPortOptData.CellPhone = GlobalValue.Universallog.ReadCellPhone(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.CellPhone = GlobalValue.Universallog.ReadCellPhone(GlobalValue.SerialPortOptData.ID);
                                         }
                                         //if (GlobalValue.UniversalSerialPortOptData.IsOptmodbusExeFlag)
                                         //{
                                         //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取Modbus执行标识..."));
                                         //    GlobalValue.UniversalSerialPortOptData.ModbusExeFlag = GlobalValue.Universallog.ReadModbusExeFlag(GlobalValue.UniversalSerialPortOptData.ID);
                                         //}
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOptComType)
+                                        if (GlobalValue.SerialPortOptData.IsOptComType)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取终端通信方式..."));
-                                            GlobalValue.UniversalSerialPortOptData.ComType = GlobalValue.Universallog.ReadComType(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.ComType = GlobalValue.Universallog.ReadComType(GlobalValue.SerialPortOptData.ID);
                                         }
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOptIP)
+                                        if (GlobalValue.SerialPortOptData.IsOptIP)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取终端通信IP地址..."));
-                                            GlobalValue.UniversalSerialPortOptData.IP = GlobalValue.Universallog.ReadIP(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.IP = GlobalValue.Universallog.ReadIP(GlobalValue.SerialPortOptData.ID);
                                         }
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOptPort)
+                                        if (GlobalValue.SerialPortOptData.IsOptPort)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取终端通信端口号..."));
-                                            GlobalValue.UniversalSerialPortOptData.Port = GlobalValue.Universallog.ReadPort(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.Port = GlobalValue.Universallog.ReadPort(GlobalValue.SerialPortOptData.ID);
                                         }
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOpt_CollectConfig)
+                                        if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取终端采集配置..."));
-                                            byte data = GlobalValue.Universallog.ReadCollectConfig(GlobalValue.UniversalSerialPortOptData.ID);
+                                            byte data = GlobalValue.Universallog.ReadCollectConfig(GlobalValue.SerialPortOptData.ID);
                                             if ((data & 0x02) == 0x02)
-                                                GlobalValue.UniversalSerialPortOptData.Collect_Pluse = true;
+                                                GlobalValue.SerialPortOptData.Collect_Pluse = true;
                                             if ((data & 0x04) == 0x04)
-                                                GlobalValue.UniversalSerialPortOptData.Collect_Simulate1 = true;
+                                                GlobalValue.SerialPortOptData.Collect_Simulate1 = true;
                                             if ((data & 0x08) == 0x08)
-                                                GlobalValue.UniversalSerialPortOptData.Collect_Simulate2 = true;
+                                                GlobalValue.SerialPortOptData.Collect_Simulate2 = true;
                                             if ((data & 0x10) == 0x10)
-                                                GlobalValue.UniversalSerialPortOptData.Collect_RS485 = true;
+                                                GlobalValue.SerialPortOptData.Collect_RS485 = true;
 
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取modbus执行标识..."));
-                                            GlobalValue.UniversalSerialPortOptData.ModbusExeFlag= GlobalValue.Universallog.ReadModbusExeFlag(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.ModbusExeFlag= GlobalValue.Universallog.ReadModbusExeFlag(GlobalValue.SerialPortOptData.ID);
                                         }
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval)
+                                        if (GlobalValue.SerialPortOptData.IsOpt_SimualteInterval)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取终端模拟量时间间隔..."));
-                                            GlobalValue.UniversalSerialPortOptData.Simulate_Interval = GlobalValue.Universallog.ReadSimualteInterval(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.Simulate_Interval = GlobalValue.Universallog.ReadSimualteInterval(GlobalValue.SerialPortOptData.ID);
                                         }
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOpt_PluseInterval)
+                                        if (GlobalValue.SerialPortOptData.IsOpt_PluseInterval)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取终端脉冲量时间间隔..."));
-                                            GlobalValue.UniversalSerialPortOptData.Pluse_Interval = GlobalValue.Universallog.ReadPluseInterval(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.Pluse_Interval = GlobalValue.Universallog.ReadPluseInterval(GlobalValue.SerialPortOptData.ID);
                                         }
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Interval)
+                                        if (GlobalValue.SerialPortOptData.IsOpt_RS485Interval)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取终端RS485时间间隔..."));
-                                            GlobalValue.UniversalSerialPortOptData.RS485_Interval = GlobalValue.Universallog.ReadRS485Interval(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.RS485_Interval = GlobalValue.Universallog.ReadRS485Interval(GlobalValue.SerialPortOptData.ID);
                                         }
-                                        if (GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Protocol)
+                                        if (GlobalValue.SerialPortOptData.IsOpt_RS485Protocol)
                                         {
                                             OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在读取终端modbus协议..."));
-                                            GlobalValue.UniversalSerialPortOptData.RS485Protocol = GlobalValue.Universallog.ReadModbusProtocol(GlobalValue.UniversalSerialPortOptData.ID);
+                                            GlobalValue.SerialPortOptData.RS485Protocol = GlobalValue.Universallog.ReadModbusProtocol(GlobalValue.SerialPortOptData.ID);
                                         }
                                     //}
                                 }
@@ -363,73 +377,73 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                if (GlobalValue.UniversalSerialPortOptData.IsOptID)  //没有ID时，只读写ID
+                                if (GlobalValue.SerialPortOptData.IsOptID)  //没有ID时，只读写ID
                                 {
-                                    result = GlobalValue.Universallog.SetID(GlobalValue.UniversalSerialPortOptData.ID);
+                                    result = GlobalValue.Universallog.SetID(GlobalValue.SerialPortOptData.ID);
                                 }
                                 else
                                 {
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOptCellPhone)  //暂时不使用
+                                    if (GlobalValue.SerialPortOptData.IsOptCellPhone)  //暂时不使用
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置报警手机号码..."));
-                                        result = GlobalValue.Universallog.SetCellPhone(GlobalValue.UniversalSerialPortOptData.ID,GlobalValue.UniversalSerialPortOptData.CellPhone);
+                                        result = GlobalValue.Universallog.SetCellPhone(GlobalValue.SerialPortOptData.ID,GlobalValue.SerialPortOptData.CellPhone);
                                     }
                                     //if (GlobalValue.UniversalSerialPortOptData.IsOptmodbusExeFlag)
                                     //{
                                     //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置Modbus执行标识..."));
                                     //    result = GlobalValue.Universallog.SetModbusExeFlag(GlobalValue.UniversalSerialPortOptData.ID,GlobalValue.UniversalSerialPortOptData.ModbusExeFlag);
                                     //}
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOptComType)
+                                    if (GlobalValue.SerialPortOptData.IsOptComType)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置终端通信方式..."));
-                                        result = GlobalValue.Universallog.SetComType(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.ComType);
+                                        result = GlobalValue.Universallog.SetComType(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ComType);
                                     }
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOptIP)
+                                    if (GlobalValue.SerialPortOptData.IsOptIP)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置终端通信IP地址..."));
-                                        result = GlobalValue.Universallog.SetIP(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.IP);
+                                        result = GlobalValue.Universallog.SetIP(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.IP);
                                     }
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOptPort)
+                                    if (GlobalValue.SerialPortOptData.IsOptPort)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置终端通信端口号..."));
-                                        result = GlobalValue.Universallog.SetPort(GlobalValue.UniversalSerialPortOptData.ID,GlobalValue.UniversalSerialPortOptData.Port);
+                                        result = GlobalValue.Universallog.SetPort(GlobalValue.SerialPortOptData.ID,GlobalValue.SerialPortOptData.Port);
                                     }
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_CollectConfig)
+                                    if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置终端采集配置..."));
                                         Int16 data = 0;
-                                        if (GlobalValue.UniversalSerialPortOptData.Collect_Pluse)
+                                        if (GlobalValue.SerialPortOptData.Collect_Pluse)
                                             data |= 0x02;
-                                        if (GlobalValue.UniversalSerialPortOptData.Collect_Simulate1)
+                                        if (GlobalValue.SerialPortOptData.Collect_Simulate1)
                                             data |= 0x04;
-                                        if (GlobalValue.UniversalSerialPortOptData.Collect_Simulate2)
+                                        if (GlobalValue.SerialPortOptData.Collect_Simulate2)
                                             data |= 0x08;
-                                        if (GlobalValue.UniversalSerialPortOptData.Collect_RS485)
+                                        if (GlobalValue.SerialPortOptData.Collect_RS485)
                                             data |= 0x10;
-                                        result=GlobalValue.Universallog.SetCollectConfig(GlobalValue.UniversalSerialPortOptData.ID,(byte)data);
+                                        result=GlobalValue.Universallog.SetCollectConfig(GlobalValue.SerialPortOptData.ID,(byte)data);
 
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置Modbus执行标识..."));
-                                        result = GlobalValue.Universallog.SetModbusExeFlag(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.ModbusExeFlag);
+                                        result = GlobalValue.Universallog.SetModbusExeFlag(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ModbusExeFlag);
                                     }
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval)
+                                    if (GlobalValue.SerialPortOptData.IsOpt_SimualteInterval)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置终端模拟量时间间隔..."));
-                                        result = GlobalValue.Universallog.SetSimulateInterval(GlobalValue.UniversalSerialPortOptData.ID,GlobalValue.UniversalSerialPortOptData.Simulate_Interval);
+                                        result = GlobalValue.Universallog.SetSimulateInterval(GlobalValue.SerialPortOptData.ID,GlobalValue.SerialPortOptData.Simulate_Interval);
                                     }
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_PluseInterval)
+                                    if (GlobalValue.SerialPortOptData.IsOpt_PluseInterval)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置终端脉冲量时间间隔..."));
-                                        result = GlobalValue.Universallog.SetPluseInterval(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.Pluse_Interval);
+                                        result = GlobalValue.Universallog.SetPluseInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.Pluse_Interval);
                                     }
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Interval)
+                                    if (GlobalValue.SerialPortOptData.IsOpt_RS485Interval)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置终端RS485时间间隔..."));
-                                        result = GlobalValue.Universallog.SetRS485Interval(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.RS485_Interval);
+                                        result = GlobalValue.Universallog.SetRS485Interval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.RS485_Interval);
                                     }
-                                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Protocol)
+                                    if (GlobalValue.SerialPortOptData.IsOpt_RS485Protocol)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置终端modbus协议..."));
-                                        result = GlobalValue.Universallog.SetModbusProtocol(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.RS485Protocol);
+                                        result = GlobalValue.Universallog.SetModbusProtocol(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.RS485Protocol);
                                     }
                                 }
                             }
@@ -446,7 +460,7 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                result = GlobalValue.Universallog.CalibartionSimulate1(GlobalValue.UniversalSerialPortOptData.ID);
+                                result = GlobalValue.Universallog.CalibartionSimulate1(GlobalValue.SerialPortOptData.ID);
                             }
                             catch (Exception ex)
                             {
@@ -461,7 +475,7 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                result = GlobalValue.Universallog.CalibartionSimulate2(GlobalValue.UniversalSerialPortOptData.ID);
+                                result = GlobalValue.Universallog.CalibartionSimulate2(GlobalValue.SerialPortOptData.ID);
                             }
                             catch (Exception ex)
                             {
@@ -476,25 +490,25 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic1)
+                                if (GlobalValue.SerialPortOptData.SetPluseBasic1)
                                 {
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲一路基准..."));
-                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic1,1);
+                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PluseBasic1,1);
                                 }
-                                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic2)
+                                if (GlobalValue.SerialPortOptData.SetPluseBasic2)
                                 {
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲二路基准..."));
-                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic2, 2);
+                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PluseBasic2, 2);
                                 }
-                                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic3)
+                                if (GlobalValue.SerialPortOptData.SetPluseBasic3)
                                 {
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲三路基准..."));
-                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic3, 3);
+                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PluseBasic3, 3);
                                 }
-                                if (GlobalValue.UniversalSerialPortOptData.SetPluseBasic4)
+                                if (GlobalValue.SerialPortOptData.SetPluseBasic4)
                                 {
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲四路基准..."));
-                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniversalSerialPortOptData.ID, GlobalValue.UniversalSerialPortOptData.PluseBasic4, 4);
+                                    result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PluseBasic4, 4);
                                 }
                             }
                             catch (Exception ex)
@@ -505,6 +519,251 @@ namespace SmartWaterSystem
                         }
                         break;
                         #endregion
+                    case (uint)SerialPortType.OLWQReset:
+                        #region 水质终端复位
+                        {
+                            try
+                            {
+                                result = GlobalValue.OLWQlog.Reset(GlobalValue.SerialPortOptData.ID);
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.OLWQSetTime:
+                        #region 设置水质终端时间
+                        {
+                            try
+                            {
+                                result = GlobalValue.OLWQlog.SetTime(GlobalValue.SerialPortOptData.ID, DateTime.Now);
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.OLWQSetEnableCollect:
+                        #region 水质终端启用采集
+                        {
+                            try
+                            {
+                                result = GlobalValue.OLWQlog.EnableCollect(GlobalValue.SerialPortOptData.ID);
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.OLWQReadBaicInfo:
+                        #region 水质终端读取基础参数
+                        {
+                            try
+                            {
+                                if (GlobalValue.SerialPortOptData.IsOptID)  //没有ID时，只读写ID
+                                {
+                                    GlobalValue.SerialPortOptData.ID = GlobalValue.OLWQlog.ReadId();
+                                }
+                                else
+                                {
+                                    if (GlobalValue.SerialPortOptData.IsOptDT)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取设备时间..."));
+                                        GlobalValue.SerialPortOptData.DT = GlobalValue.OLWQlog.ReadTime(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptIP)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端通信IP地址..."));
+                                        GlobalValue.SerialPortOptData.IP = GlobalValue.OLWQlog.ReadIP(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPort)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端通信端口号..."));
+                                        GlobalValue.SerialPortOptData.Port = GlobalValue.OLWQlog.ReadPort(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptResidualClLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端余氯下限值..."));
+                                        GlobalValue.SerialPortOptData.ResidualClLowLimit = GlobalValue.OLWQlog.ReadResidualClLowLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptResidualClZero)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端余氯零点..."));
+                                        GlobalValue.SerialPortOptData.ResidualClZero = GlobalValue.OLWQlog.ReadResidualClZero(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptResidualClStandValue)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端余氯校准值..."));
+                                        GlobalValue.SerialPortOptData.ResidualClStandValue = GlobalValue.OLWQlog.ReadResidualClStandValue(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptResidualClSensitivity)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端余氯灵敏度..."));
+                                        GlobalValue.SerialPortOptData.ResidualClSensitivity = GlobalValue.OLWQlog.ReadResidualClSensitivity(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptClearInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端清洗间隔..."));
+                                        GlobalValue.SerialPortOptData.ClearInterval = GlobalValue.OLWQlog.ReadClearInterval(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPowerSupplyType)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端供电方式..."));
+                                        GlobalValue.SerialPortOptData.PowerSupplyType = GlobalValue.OLWQlog.ReadPowerSupplyType(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端采集配置..."));
+                                        byte data = GlobalValue.OLWQlog.ReadCollectConfig(GlobalValue.SerialPortOptData.ID);
+                                        if ((data & 0x01) == 0x01)
+                                            GlobalValue.SerialPortOptData.Collect_Turbidity = true;
+                                        if ((data & 0x02) == 0x02)
+                                            GlobalValue.SerialPortOptData.Collect_ResidualC1 = true;
+                                        if ((data & 0x04) == 0x04)
+                                            GlobalValue.SerialPortOptData.Collect_PH = true;
+                                        if ((data & 0x08) == 0x08)
+                                            GlobalValue.SerialPortOptData.Collect_Conductivity = true;
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_ResidualClInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端余氯时间间隔..."));
+                                        GlobalValue.SerialPortOptData.ResidualCl_Interval = GlobalValue.OLWQlog.ReadResidualClInterval(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_TurbidityInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端浊度时间间隔..."));
+                                        GlobalValue.SerialPortOptData.Turbidity_Interval = GlobalValue.OLWQlog.ReadTurbidityInterval(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_PHInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端PH时间间隔..."));
+                                        GlobalValue.SerialPortOptData.PH_Interval = GlobalValue.OLWQlog.ReadPHInterval(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_ConductivityInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端电导率时间间隔..."));
+                                        GlobalValue.SerialPortOptData.Conductivity_Interval = GlobalValue.OLWQlog.ReadConductivityInterval(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                }
+                                result = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.OLWQSetBasicInfo:
+                        #region 设置水质终端基础参数
+                        {
+                            try
+                            {
+                                if (GlobalValue.SerialPortOptData.IsOptID)  //没有ID时，只读写ID
+                                {
+                                    result = GlobalValue.OLWQlog.SetID(GlobalValue.SerialPortOptData.ID);
+                                }
+                                else
+                                {
+                                    if (GlobalValue.SerialPortOptData.IsOptIP)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端通信IP地址..."));
+                                        result = GlobalValue.OLWQlog.SetIP(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.IP);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPort)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端通信端口号..."));
+                                        result = GlobalValue.OLWQlog.SetPort(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.Port);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptResidualClLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置余氯下限值..."));
+                                        result = GlobalValue.OLWQlog.SetResidualClLowLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ResidualClLowLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptResidualClZero)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端零点值..."));
+                                        result = GlobalValue.OLWQlog.SetResidualClZero(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ResidualClZero);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptResidualClStandValue)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端校准值..."));
+                                        result = GlobalValue.OLWQlog.SetResidualClStandValue(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ResidualClStandValue);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptResidualClSensitivity)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端灵敏度..."));
+                                        result = GlobalValue.OLWQlog.SetResidualClSensitivity(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ResidualClSensitivity);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptClearInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端清洗间隔..."));
+                                        result = GlobalValue.OLWQlog.SetClearInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ClearInterval);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度上限..."));
+                                        result = GlobalValue.OLWQlog.SetTurbidityUpLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TurbidityUpLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPowerSupplyType)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端供电方式..."));
+                                        result = GlobalValue.OLWQlog.SetPowerSupplyType(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PowerSupplyType);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端采集配置..."));
+                                        Int16 data = 0;
+                                        if (GlobalValue.SerialPortOptData.Collect_Turbidity)
+                                            data |= 0x01;
+                                        if (GlobalValue.SerialPortOptData.Collect_ResidualC1)
+                                            data |= 0x02;
+                                        if (GlobalValue.SerialPortOptData.Collect_PH)
+                                            data |= 0x04;
+                                        if (GlobalValue.SerialPortOptData.Collect_Conductivity)
+                                            data |= 0x08;
+                                        result = GlobalValue.OLWQlog.SetCollectConfig(GlobalValue.SerialPortOptData.ID, (byte)data);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_ResidualClInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端余氯采集时间间隔..."));
+                                        result = GlobalValue.OLWQlog.SetResidualClInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ResidualCl_Interval);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_TurbidityInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度采集时间间隔..."));
+                                        result = GlobalValue.OLWQlog.SetTurbidityInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.Turbidity_Interval);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_PHInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端PH采集时间间隔..."));
+                                        result = GlobalValue.OLWQlog.SetPHInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PH_Interval);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_ConductivityInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端电导率采集时间间隔..."));
+                                        result = GlobalValue.OLWQlog.SetConductivityInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.Conductivity_Interval);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
                 }
                 OnSerialPortEvent(new SerialPortEventArgs((SerialPortType)evt, result ? TransStatus.Success : TransStatus.Fail, msg, obj));
             }

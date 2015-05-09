@@ -120,11 +120,127 @@ namespace Entity
             set { _port = value; }
         }
 
+        public bool IsOptResidualClLowLimit = false;
+        private ushort _ResidualClLowLimit = 0;
+        /// <summary>
+        /// 余氯下限
+        /// </summary>
+        public ushort ResidualClLowLimit
+        {
+            get { return _ResidualClLowLimit; }
+            set { _ResidualClLowLimit = value; }
+        }
+
+        public bool IsOptResidualClZero = false;
+        private ushort _ResidualClZero = 0;
+        /// <summary>
+        /// 余氯零点值
+        /// </summary>
+        public ushort ResidualClZero
+        {
+            get { return _ResidualClZero; }
+            set { _ResidualClZero = value; }
+        }
+
+        public bool IsOptResidualClStandValue = false;
+        private ushort _ResidualClStandValue = 0;
+        /// <summary>
+        /// 余氯标准值
+        /// </summary>
+        public ushort ResidualClStandValue
+        {
+            get { return _ResidualClStandValue; }
+            set { _ResidualClStandValue = value; }
+        }
+
+        public bool IsOptResidualClSensitivity = false;
+        private ushort _ResidualClSensitivity = 0;
+        /// <summary>
+        /// 余氯灵敏度
+        /// </summary>
+        public ushort ResidualClSensitivity
+        {
+            get { return _ResidualClSensitivity; }
+            set { _ResidualClSensitivity = value; }
+        }
+
+        public bool IsOptClearInterval = false;
+        private ushort _ClearInterval = 0;
+        /// <summary>
+        /// 清洗间隔
+        /// </summary>
+        public ushort ClearInterval
+        {
+            get { return _ClearInterval; }
+            set { _ClearInterval = value; }
+        }
+
+        public bool IsOptTurbidityUpLimit = false;
+        private ushort _TurbidityUpLimit = 0;
+        /// <summary>
+        /// 浊度上限
+        /// </summary>
+        public ushort TurbidityUpLimit
+        {
+            get { return _TurbidityUpLimit; }
+            set { _TurbidityUpLimit = value; }
+        }
+
+        public bool IsOptPowerSupplyType = false;
+        private ushort _PowerSupplyType = 0;
+        /// <summary>
+        /// 供电方式
+        /// </summary>
+        public ushort PowerSupplyType
+        {
+            get { return _PowerSupplyType; }
+            set { _PowerSupplyType = value; }
+        }
+
         /// <summary>
         /// 是否读取/设置采集配置
         /// </summary>
         public bool IsOpt_CollectConfig = false;
 
+        private bool _collect_ResidualC1;
+        /// <summary>
+        /// 是否采集余氯
+        /// </summary>
+        public bool Collect_ResidualC1
+        {
+            get { return _collect_ResidualC1; }
+            set { _collect_ResidualC1 = value; }
+        }
+
+        private bool _collect_Turbidity;
+        /// <summary>
+        /// 是否采集浊度
+        /// </summary>
+        public bool Collect_Turbidity
+        {
+            get { return _collect_Turbidity; }
+            set { _collect_Turbidity = value; }
+        }
+
+        private bool _collect_PH;
+        /// <summary>
+        /// 是否采集PH值
+        /// </summary>
+        public bool Collect_PH
+        {
+            get { return _collect_PH; }
+            set { _collect_PH = value; }
+        }
+
+        private bool _collect_Conductivity;
+        /// <summary>
+        /// 是否采集电导率
+        /// </summary>
+        public bool Collect_Conductivity
+        {
+            get { return _collect_Conductivity; }
+            set { _collect_Conductivity = value; }
+        }
 
         private bool _collect_simulate1;
         /// <summary>
@@ -220,6 +336,62 @@ namespace Entity
         {
             get { return _RS485Protocol; }
             set { _RS485Protocol = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置余氯时间间隔
+        /// </summary>
+        public bool IsOpt_ResidualClInterval = false;
+        private DataTable _ResidualCl_Interval;
+        /// <summary>
+        /// 余氯时间间隔
+        /// </summary>
+        public DataTable ResidualCl_Interval
+        {
+            get { return _ResidualCl_Interval; }
+            set { _ResidualCl_Interval = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置浊度时间间隔
+        /// </summary>
+        public bool IsOpt_TurbidityInterval = false;
+        private DataTable _Turbidity_Interval;
+        /// <summary>
+        /// 浊度时间间隔
+        /// </summary>
+        public DataTable Turbidity_Interval
+        {
+            get { return _Turbidity_Interval; }
+            set { _Turbidity_Interval = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置PH时间间隔
+        /// </summary>
+        public bool IsOpt_PHInterval = false;
+        private DataTable _PH_Interval;
+        /// <summary>
+        /// PH时间间隔
+        /// </summary>
+        public DataTable PH_Interval
+        {
+            get { return _PH_Interval; }
+            set { _PH_Interval = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置电导率时间间隔
+        /// </summary>
+        public bool IsOpt_ConductivityInterval = false;
+        private DataTable _Conductivity_Interval;
+        /// <summary>
+        /// 电导率时间间隔
+        /// </summary>
+        public DataTable Conductivity_Interval
+        {
+            get { return _Conductivity_Interval; }
+            set { _Conductivity_Interval = value; }
         }
 
         private bool _SetPluseBasic1 = false;

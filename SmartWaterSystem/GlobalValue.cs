@@ -34,6 +34,7 @@ namespace SmartWaterSystem
         public static MSMQManager MSMQMgr = new MSMQManager();
         public static SerialPortManager SerialPortMgr = new SerialPortManager();
         public static UniversalLog Universallog = new UniversalLog();                            //通用终端串口操作对象
+        public static OLWQLog OLWQlog = new OLWQLog();                                          //水质终端串口操作对象
 
         private static NoiseSerialPortOptEntity _noiseserialportOptEntity = null;
         /// <summary>
@@ -45,11 +46,11 @@ namespace SmartWaterSystem
             set { _noiseserialportOptEntity = value; }
         }
 
-        private static UniversalSerialPortOptEntity _UniversalSerialPortOptData;
-        public static UniversalSerialPortOptEntity UniversalSerialPortOptData
+        private static UniversalSerialPortOptEntity _SerialPortOptData;
+        public static UniversalSerialPortOptEntity SerialPortOptData
         {
-            get { return _UniversalSerialPortOptData; }
-            set { _UniversalSerialPortOptData = value; }
+            get { return _SerialPortOptData; }
+            set { _SerialPortOptData = value; }
         }
 
         /// <summary>

@@ -63,7 +63,9 @@ namespace DAL
                     long maxid = (obj_maxid != null && obj_maxid != DBNull.Value) ? Convert.ToInt64(obj_maxid) : 0;
 
                     command.CommandText = "INSERT INTO Terminal(ID,TerminalID,TerminalName,TerminalType,Address,Remark) VALUES(@id,@TerminalID,@TerminalName,@TerminalType,@Address,@Remark)";
+                    
                     command.Parameters.Clear();
+                    /*
                     SqlParameter[] parms = new SqlParameter[]{
                         new SqlParameter("@id",SqlDbType.BigInt),
                         new SqlParameter("@TerminalID",SqlDbType.Int),
@@ -73,19 +75,21 @@ namespace DAL
 
                         new SqlParameter("@Remark",SqlDbType.NChar,200)
                     };
-                    command.Parameters.AddRange(parms);
+                    command.Parameters.AddRange(parms);*/
 
                     List<SyncIdsEntity> ht_insert = new List<SyncIdsEntity>();  //local server
                     foreach (DataRow dr in dt_sql.Rows)
                     {
                         maxid++;
-                        parms[0].Value = maxid;
+                        /*parms[0].Value = maxid;
                         parms[1].Value = dr["TerminalID"];
                         parms[2].Value = dr["TerminalName"];
                         parms[3].Value = dr["TerminalType"];
                         parms[4].Value = dr["Address"];
 
-                        parms[5].Value = dr["Remark"];
+                        parms[5].Value = dr["Remark"];*/
+                        command.CommandText = string.Format("INSERT INTO Terminal(ID,TerminalID,TerminalName,TerminalType,Address,Remark) VALUES({0},'{1}','{2}',{3},'{4}','{5}')",
+                        maxid, dr["TerminalID"].ToString().Trim(), dr["TerminalName"].ToString().Trim(), dr["TerminalType"].ToString().Trim(), dr["Address"].ToString().Trim(), dr["Remark"].ToString().Trim());
 
                         command.ExecuteNonQuery();
                         ht_insert.Add(new SyncIdsEntity(dr["ID"].ToString(), maxid));

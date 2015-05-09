@@ -18,71 +18,104 @@ namespace SmartWaterSystem
         {
             InitializeComponent();
 
-            #region Init Simulate GridView
-            cb_sim_starttime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            #region Init ResidualCl GridView
+            cb_ResidualCl_starttime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             for (int i = 0; i < 24; i++)
-                cb_sim_starttime.Items.Add(i);
+                cb_ResidualCl_starttime.Items.Add(i);
 
-            cb_sim_coltime1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_sim_coltime1.Items.Add(1);
-            cb_sim_coltime1.Items.Add(5);
-            cb_sim_coltime1.Items.Add(15);
-            cb_sim_coltime1.Items.Add(30);
-            cb_sim_coltime1.Items.Add(60);
-            cb_sim_coltime1.Items.Add(120);
+            cb_ResidualCl_coltime1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_ResidualCl_coltime1.Items.Add(1);
+            cb_ResidualCl_coltime1.Items.Add(5);
+            cb_ResidualCl_coltime1.Items.Add(15);
+            cb_ResidualCl_coltime1.Items.Add(30);
+            cb_ResidualCl_coltime1.Items.Add(60);
+            cb_ResidualCl_coltime1.Items.Add(120);
 
-            cb_sim_coltime2.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_sim_coltime2.Items.Add(1);
-            cb_sim_coltime2.Items.Add(5);
-            cb_sim_coltime2.Items.Add(15);
-            cb_sim_coltime2.Items.Add(30);
-            cb_sim_coltime2.Items.Add(60);
-            cb_sim_coltime2.Items.Add(120);
-
-            cb_sim_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_sim_sendtime.Items.Add(5);
-            cb_sim_sendtime.Items.Add(15);
-            cb_sim_sendtime.Items.Add(30);
-            cb_sim_sendtime.Items.Add(60);
-            cb_sim_sendtime.Items.Add(120);
-            cb_sim_sendtime.Items.Add(240);
-            cb_sim_sendtime.Items.Add(480);
-            cb_sim_sendtime.Items.Add(720);
-            cb_sim_sendtime.Items.Add(1440);
+            cb_ResidualCl_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_ResidualCl_sendtime.Items.Add(5);
+            cb_ResidualCl_sendtime.Items.Add(15);
+            cb_ResidualCl_sendtime.Items.Add(30);
+            cb_ResidualCl_sendtime.Items.Add(60);
+            cb_ResidualCl_sendtime.Items.Add(120);
+            cb_ResidualCl_sendtime.Items.Add(240);
+            cb_ResidualCl_sendtime.Items.Add(480);
+            cb_ResidualCl_sendtime.Items.Add(720);
+            cb_ResidualCl_sendtime.Items.Add(1440);
             #endregion
 
-            #region Init RS485 GridView
-            cb_RS485_starttime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            #region Init Turbidity GridView
+            cb_Turbidity_starttime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             for (int i = 0; i < 24; i++)
-                cb_RS485_starttime.Items.Add(i);
+                cb_Turbidity_starttime.Items.Add(i);
 
-            cb_RS485_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_RS485_coltime.Items.Add(1);
-            cb_RS485_coltime.Items.Add(5);
-            cb_RS485_coltime.Items.Add(15);
-            cb_RS485_coltime.Items.Add(30);
-            cb_RS485_coltime.Items.Add(60);
-            cb_RS485_coltime.Items.Add(120);
+            cb_Turbidity_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_Turbidity_coltime.Items.Add(1);
+            cb_Turbidity_coltime.Items.Add(5);
+            cb_Turbidity_coltime.Items.Add(15);
+            cb_Turbidity_coltime.Items.Add(30);
+            cb_Turbidity_coltime.Items.Add(60);
+            cb_Turbidity_coltime.Items.Add(120);
 
-            cb_RS485_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_RS485_sendtime.Items.Add(5);
-            cb_RS485_sendtime.Items.Add(15);
-            cb_RS485_sendtime.Items.Add(30);
-            cb_RS485_sendtime.Items.Add(60);
-            cb_RS485_sendtime.Items.Add(120);
-            cb_RS485_sendtime.Items.Add(240);
-            cb_RS485_sendtime.Items.Add(480);
-            cb_RS485_sendtime.Items.Add(720);
-            cb_RS485_sendtime.Items.Add(1440);
+            cb_Turbidity_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_Turbidity_sendtime.Items.Add(5);
+            cb_Turbidity_sendtime.Items.Add(15);
+            cb_Turbidity_sendtime.Items.Add(30);
+            cb_Turbidity_sendtime.Items.Add(60);
+            cb_Turbidity_sendtime.Items.Add(120);
+            cb_Turbidity_sendtime.Items.Add(240);
+            cb_Turbidity_sendtime.Items.Add(480);
+            cb_Turbidity_sendtime.Items.Add(720);
+            cb_Turbidity_sendtime.Items.Add(1440);
             #endregion
 
-            #region Init RS485 Protocol GridView
-            cb_485protocol_baud.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_485protocol_baud.Items.AddRange(new int[] { 1200, 2400, 4800, 9600});//, 14400, 19200, 38400, 56000, 57600, 115200});
-            txt_485protocol_ID.KeyPress += new KeyPressEventHandler(txt_485protocol_onebyte_KeyPress);
-            txt_485protocol_funcode.KeyPress += new KeyPressEventHandler(txt_485protocol_onebyte_KeyPress);
-            txt_485protocol_regbeginaddr.KeyPress += new KeyPressEventHandler(txt_485protocol_twobyte_KeyPress);
-            txt_485protocol_regcount.KeyPress += new KeyPressEventHandler(txt_485protocol_twobyte_KeyPress);
+            #region Init PH GridView
+            cb_PH_starttime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            for (int i = 0; i < 24; i++)
+                cb_PH_starttime.Items.Add(i);
+            
+            cb_PH_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_PH_coltime.Items.Add(1);
+            cb_PH_coltime.Items.Add(5);
+            cb_PH_coltime.Items.Add(15);
+            cb_PH_coltime.Items.Add(30);
+            cb_PH_coltime.Items.Add(60);
+            cb_PH_coltime.Items.Add(120);
+
+            cb_PH_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_PH_sendtime.Items.Add(5);
+            cb_PH_sendtime.Items.Add(15);
+            cb_PH_sendtime.Items.Add(30);
+            cb_PH_sendtime.Items.Add(60);
+            cb_PH_sendtime.Items.Add(120);
+            cb_PH_sendtime.Items.Add(240);
+            cb_PH_sendtime.Items.Add(480);
+            cb_PH_sendtime.Items.Add(720);
+            cb_PH_sendtime.Items.Add(1440);
+            #endregion
+
+            #region Init Conductivity GridView
+            cb_Conductivity_starttime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            for (int i = 0; i < 24; i++)
+                cb_Conductivity_starttime.Items.Add(i);
+
+            cb_Conductivity_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_Conductivity_coltime.Items.Add(1);
+            cb_Conductivity_coltime.Items.Add(5);
+            cb_Conductivity_coltime.Items.Add(15);
+            cb_Conductivity_coltime.Items.Add(30);
+            cb_Conductivity_coltime.Items.Add(60);
+            cb_Conductivity_coltime.Items.Add(120);
+
+            cb_Conductivity_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_Conductivity_sendtime.Items.Add(5);
+            cb_Conductivity_sendtime.Items.Add(15);
+            cb_Conductivity_sendtime.Items.Add(30);
+            cb_Conductivity_sendtime.Items.Add(60);
+            cb_Conductivity_sendtime.Items.Add(120);
+            cb_Conductivity_sendtime.Items.Add(240);
+            cb_Conductivity_sendtime.Items.Add(480);
+            cb_Conductivity_sendtime.Items.Add(720);
+            cb_Conductivity_sendtime.Items.Add(1440);
             #endregion
         }
 
@@ -91,27 +124,30 @@ namespace SmartWaterSystem
             InitGridView();
             InitControls();
 
-            cbComType.SelectedIndex = 1;
+            cbPowersupplyType.SelectedIndex = 0;
         }
 
 
         private void InitGridView()
         {
-            gridControl_Simulate.DataSource = null;
-
-            gridControl_RS485.DataSource = null;
+            gridControl_ResidualCl.DataSource = null;
+            gridControl_Turbidity.DataSource = null;
+            gridControl_PH.DataSource = null;
+            gridControl_Conductivity.DataSource = null;
         }
 
         private void InitControls()
         {
             ceColConfig.Checked = false;
-            ceCollectSimulate.Checked = false;
-            ceCollectRS485.Checked = false;
-            gridControl_Simulate.Enabled = false;
-            gridControl_RS485.Enabled = false;
 
-            ceModbusExeFlag.Checked = false;
-            gridControl_485protocol.Enabled = false;
+            ceResidualClInterval.Checked = false;
+            ceTurbidityInterval.Checked = false;
+            cePHInterval.Checked = false;
+            ceConductivityInterval.Checked = false;
+            gridControl_ResidualCl.Enabled = false;
+            gridControl_Turbidity.Enabled = false;
+            gridControl_PH.Enabled = false;
+            gridControl_Conductivity.Enabled = false;
         }
 
         #region IP
@@ -195,13 +231,13 @@ namespace SmartWaterSystem
         }
         #endregion
 
-        #region 485Protocol txt Event
+        #region 1-2byte unshort txt Event
         /// <summary>
         /// 限制最大1byte (<=255)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void txt_485protocol_onebyte_KeyPress(object sender, KeyPressEventArgs e)
+        void txt_onebyte_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextEdit txtbox = (TextEdit)sender;
             if (e.KeyChar == '\b') //backspace
@@ -241,7 +277,7 @@ namespace SmartWaterSystem
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void txt_485protocol_twobyte_KeyPress(object sender, KeyPressEventArgs e)
+        void txt_twobyte_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextEdit txtbox = (TextEdit)sender;
             if (e.KeyChar == '\b') //backspace
@@ -284,67 +320,9 @@ namespace SmartWaterSystem
             }
         }
 
-        #region Simulate GridView
-        int simulaterowindex = -1;
-        private void gridView_Simulate_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
-        {
-            if (e.RowHandle > -1)
-            {
-                GridView gridview = sender as GridView;
-                if ((!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "starttime").ToString())) &&
-                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "collecttime1").ToString())) &&
-                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "collecttime2").ToString())) &&
-                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "sendtime").ToString())) &&
-                    (gridview.RowCount < 6) && (gridview.RowCount == e.RowHandle + 1))
-                {
-                    gridview.AddNewRow();
-                }
-            }
-        }
-
-        private void gridView_Simulate_CustomRowCellEditForEditing(object sender, CustomRowCellEditEventArgs e)
-        {
-            if (e.RowHandle > -1)
-            {
-                GridView gridview = sender as GridView;
-                simulaterowindex = e.RowHandle;
-                cb_sim_starttime.Items.Clear();
-                if ((gridview.RowCount > simulaterowindex + 1) && (simulaterowindex > -1))
-                {
-                    int starttime = 0;
-                    if ((simulaterowindex - 1) > -1)
-                        starttime = Convert.ToInt32(gridview.GetRowCellValue(simulaterowindex - 1, "starttime")) + 1;
-                    if (starttime < 0)
-                        starttime = 0;
-                    int endtime = 23;
-                    object obj_endtime = gridview.GetRowCellValue(simulaterowindex + 1, "starttime");
-                    if (obj_endtime != DBNull.Value && obj_endtime != null)
-                        endtime = Convert.ToInt32(obj_endtime);
-                    for (int i = starttime; i < endtime; i++)
-                    {
-                        cb_sim_starttime.Items.Add(i);
-                    }
-                }
-                else
-                {
-                    int i = 0;
-                    if (simulaterowindex > 0)
-                    {
-                        if (gridview.GetRowCellValue(simulaterowindex - 1, "starttime") != DBNull.Value && gridview.GetRowCellValue(simulaterowindex - 1, "starttime") != null)
-                            i = Convert.ToInt32(gridview.GetRowCellValue(simulaterowindex - 1, "starttime")) + 1;
-                    }
-                    for (; i < 24; i++)
-                    {
-                        cb_sim_starttime.Items.Add(i);
-                    }
-                }
-            }
-        }
-        #endregion
-
-        #region RS485 GridView
-        int rs485rowindex = -1;
-        private void gridView_RS485_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        #region ResidualCl GridView
+        int ResidualClrowindex = -1;
+        private void gridView_ResidualCl_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
         {
             if (e.RowHandle > -1)
             {
@@ -359,58 +337,212 @@ namespace SmartWaterSystem
             }
         }
 
-        private void gridView_RS485_CustomRowCellEditForEditing(object sender, CustomRowCellEditEventArgs e)
+        private void gridView_ResidualCl_CustomRowCellEditForEditing(object sender, CustomRowCellEditEventArgs e)
         {
             if (e.RowHandle > -1)
             {
                 GridView gridview = sender as GridView;
-                rs485rowindex = e.RowHandle;
-                cb_RS485_starttime.Items.Clear();
-                if ((gridview.RowCount > rs485rowindex + 1) && (rs485rowindex > -1))
+                ResidualClrowindex = e.RowHandle;
+                cb_ResidualCl_starttime.Items.Clear();
+                if ((gridview.RowCount > ResidualClrowindex + 1) && (ResidualClrowindex > -1))
                 {
                     int starttime = 0;
-                    if ((rs485rowindex - 1) > -1)
-                        starttime = Convert.ToInt32(gridview.GetRowCellValue(rs485rowindex - 1, "starttime")) + 1;
+                    if ((ResidualClrowindex - 1) > -1)
+                        starttime = Convert.ToInt32(gridview.GetRowCellValue(ResidualClrowindex - 1, "starttime")) + 1;
                     if (starttime < 0)
                         starttime = 0;
                     int endtime = 23;
-                    object obj_endtime = gridview.GetRowCellValue(rs485rowindex + 1, "starttime");
+                    object obj_endtime = gridview.GetRowCellValue(ResidualClrowindex + 1, "starttime");
                     if (obj_endtime != DBNull.Value && obj_endtime != null)
                         endtime = Convert.ToInt32(obj_endtime);
                     for (int i = starttime; i < endtime; i++)
                     {
-                        cb_RS485_starttime.Items.Add(i);
+                        cb_ResidualCl_starttime.Items.Add(i);
                     }
                 }
                 else
                 {
                     int i = 0;
-                    if (rs485rowindex > 0)
+                    if (ResidualClrowindex > 0)
                     {
-                        if (gridview.GetRowCellValue(rs485rowindex - 1, "starttime") != DBNull.Value && gridview.GetRowCellValue(rs485rowindex - 1, "starttime") != null)
-                            i = Convert.ToInt32(gridview.GetRowCellValue(rs485rowindex - 1, "starttime")) + 1;
+                        if (gridview.GetRowCellValue(ResidualClrowindex - 1, "starttime") != DBNull.Value && gridview.GetRowCellValue(ResidualClrowindex - 1, "starttime") != null)
+                            i = Convert.ToInt32(gridview.GetRowCellValue(ResidualClrowindex - 1, "starttime")) + 1;
                     }
                     for (; i < 24; i++)
                     {
-                        cb_RS485_starttime.Items.Add(i);
+                        cb_ResidualCl_starttime.Items.Add(i);
                     }
                 }
             }
         }
         #endregion
 
-        #region RS485 Protocol
-        private void gridView_485protocol_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        #region Turbidity GridView
+        int Turbidityrowindex = -1;
+        private void gridView_Turbidity_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
         {
             if (e.RowHandle > -1)
             {
                 GridView gridview = sender as GridView;
-                int rowindex = e.RowHandle;
-                if ((!string.IsNullOrEmpty(gridview.GetRowCellValue(rowindex, "baud").ToString())) &&
-                    (gridview.RowCount < 8))
+                if ((!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "starttime").ToString())) &&
+                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "collecttime").ToString())) &&
+                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "sendtime").ToString())) &&
+                    (gridview.RowCount < 6) && (gridview.RowCount == e.RowHandle + 1))
                 {
-                    if ((gridview.RowCount == (rowindex + 1)) && (rowindex > -1))
-                        gridview.AddNewRow();
+                    gridview.AddNewRow();
+                }
+            }
+        }
+
+        private void gridView_Turbidity_CustomRowCellEditForEditing(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.RowHandle > -1)
+            {
+                GridView gridview = sender as GridView;
+                Turbidityrowindex = e.RowHandle;
+                cb_Turbidity_starttime.Items.Clear();
+                if ((gridview.RowCount > Turbidityrowindex + 1) && (Turbidityrowindex > -1))
+                {
+                    int starttime = 0;
+                    if ((Turbidityrowindex - 1) > -1)
+                        starttime = Convert.ToInt32(gridview.GetRowCellValue(Turbidityrowindex - 1, "starttime")) + 1;
+                    if (starttime < 0)
+                        starttime = 0;
+                    int endtime = 23;
+                    object obj_endtime = gridview.GetRowCellValue(Turbidityrowindex + 1, "starttime");
+                    if (obj_endtime != DBNull.Value && obj_endtime != null)
+                        endtime = Convert.ToInt32(obj_endtime);
+                    for (int i = starttime; i < endtime; i++)
+                    {
+                        cb_Turbidity_starttime.Items.Add(i);
+                    }
+                }
+                else
+                {
+                    int i = 0;
+                    if (Turbidityrowindex > 0)
+                    {
+                        if (gridview.GetRowCellValue(Turbidityrowindex - 1, "starttime") != DBNull.Value && gridview.GetRowCellValue(Turbidityrowindex - 1, "starttime") != null)
+                            i = Convert.ToInt32(gridview.GetRowCellValue(Turbidityrowindex - 1, "starttime")) + 1;
+                    }
+                    for (; i < 24; i++)
+                    {
+                        cb_Turbidity_starttime.Items.Add(i);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region PH GridView
+        int PHrowindex = -1;
+        private void gridView_PH_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.RowHandle > -1)
+            {
+                GridView gridview = sender as GridView;
+                if ((!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "starttime").ToString())) &&
+                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "collecttime").ToString())) &&
+                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "sendtime").ToString())) &&
+                    (gridview.RowCount < 6) && (gridview.RowCount == e.RowHandle + 1))
+                {
+                    gridview.AddNewRow();
+                }
+            }
+        }
+
+        private void gridView_PH_CustomRowCellEditForEditing(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.RowHandle > -1)
+            {
+                GridView gridview = sender as GridView;
+                PHrowindex = e.RowHandle;
+                cb_PH_starttime.Items.Clear();
+                if ((gridview.RowCount > PHrowindex + 1) && (PHrowindex > -1))
+                {
+                    int starttime = 0;
+                    if ((PHrowindex - 1) > -1)
+                        starttime = Convert.ToInt32(gridview.GetRowCellValue(PHrowindex - 1, "starttime")) + 1;
+                    if (starttime < 0)
+                        starttime = 0;
+                    int endtime = 23;
+                    object obj_endtime = gridview.GetRowCellValue(PHrowindex + 1, "starttime");
+                    if (obj_endtime != DBNull.Value && obj_endtime != null)
+                        endtime = Convert.ToInt32(obj_endtime);
+                    for (int i = starttime; i < endtime; i++)
+                    {
+                        cb_PH_starttime.Items.Add(i);
+                    }
+                }
+                else
+                {
+                    int i = 0;
+                    if (PHrowindex > 0)
+                    {
+                        if (gridview.GetRowCellValue(PHrowindex - 1, "starttime") != DBNull.Value && gridview.GetRowCellValue(PHrowindex - 1, "starttime") != null)
+                            i = Convert.ToInt32(gridview.GetRowCellValue(PHrowindex - 1, "starttime")) + 1;
+                    }
+                    for (; i < 24; i++)
+                    {
+                        cb_PH_starttime.Items.Add(i);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Conductivity GridView
+        int Conductivityrowindex = -1;
+        private void gridView_Conductivity_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.RowHandle > -1)
+            {
+                GridView gridview = sender as GridView;
+                if ((!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "starttime").ToString())) &&
+                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "collecttime").ToString())) &&
+                    (!string.IsNullOrEmpty(gridview.GetRowCellValue(e.RowHandle, "sendtime").ToString())) &&
+                    (gridview.RowCount < 6) && (gridview.RowCount == e.RowHandle + 1))
+                {
+                    gridview.AddNewRow();
+                }
+            }
+        }
+
+        private void gridView_Conductivity_CustomRowCellEditForEditing(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.RowHandle > -1)
+            {
+                GridView gridview = sender as GridView;
+                Conductivityrowindex = e.RowHandle;
+                cb_Conductivity_starttime.Items.Clear();
+                if ((gridview.RowCount > Conductivityrowindex + 1) && (Conductivityrowindex > -1))
+                {
+                    int starttime = 0;
+                    if ((Conductivityrowindex - 1) > -1)
+                        starttime = Convert.ToInt32(gridview.GetRowCellValue(Conductivityrowindex - 1, "starttime")) + 1;
+                    if (starttime < 0)
+                        starttime = 0;
+                    int endtime = 23;
+                    object obj_endtime = gridview.GetRowCellValue(Conductivityrowindex + 1, "starttime");
+                    if (obj_endtime != DBNull.Value && obj_endtime != null)
+                        endtime = Convert.ToInt32(obj_endtime);
+                    for (int i = starttime; i < endtime; i++)
+                    {
+                        cb_Conductivity_starttime.Items.Add(i);
+                    }
+                }
+                else
+                {
+                    int i = 0;
+                    if (Conductivityrowindex > 0)
+                    {
+                        if (gridview.GetRowCellValue(Conductivityrowindex - 1, "starttime") != DBNull.Value && gridview.GetRowCellValue(Conductivityrowindex - 1, "starttime") != null)
+                            i = Convert.ToInt32(gridview.GetRowCellValue(Conductivityrowindex - 1, "starttime")) + 1;
+                    }
+                    for (; i < 24; i++)
+                    {
+                        cb_Conductivity_starttime.Items.Add(i);
+                    }
                 }
             }
         }
@@ -418,68 +550,81 @@ namespace SmartWaterSystem
 
         private void ceColConfig_CheckedChanged(object sender, EventArgs e)
         {
-            cemodbusprotocolstatus.Enabled = ceColConfig.Checked;
-            ceRS485State.Enabled = ceColConfig.Checked;
-            ceSimulate1State.Enabled = ceColConfig.Checked;
-            ceSimulate2State.Enabled = ceColConfig.Checked;
+            ceTurbidityState.Enabled = ceColConfig.Checked;
+            ceResidualClState.Enabled = ceColConfig.Checked;
+            cePHState.Enabled = ceColConfig.Checked;
+            ceConductivityState.Enabled = ceColConfig.Checked;
 
             if (!ceColConfig.Checked)
             {
-                cemodbusprotocolstatus.Checked = ceColConfig.Checked;
-                ceRS485State.Checked = ceColConfig.Checked;
-                ceSimulate1State.Checked = ceColConfig.Checked;
-                ceSimulate2State.Checked = ceColConfig.Checked;
+                ceTurbidityState.Checked = ceColConfig.Checked;
+                ceResidualClState.Checked = ceColConfig.Checked;
+                cePHState.Checked = ceColConfig.Checked;
+                ceConductivityState.Checked = ceColConfig.Checked;
             }
         }
 
-        private void ceCollectSimulate_CheckedChanged(object sender, EventArgs e)
+        private void ceResidualCl_CheckedChanged(object sender, EventArgs e)
         {
-            gridControl_Simulate.Enabled = ceCollectSimulate.Checked;
-            if (!ceCollectSimulate.Checked)
-                gridControl_Simulate.DataSource = null;
+            gridControl_ResidualCl.Enabled = ceResidualClInterval.Checked;
+            if (!ceResidualClInterval.Checked)
+                gridControl_ResidualCl.DataSource = null;
             else
             {
-                DataTable dt_simulate = new DataTable();
-                dt_simulate.Columns.Add("starttime");
-                dt_simulate.Columns.Add("collecttime1");
-                dt_simulate.Columns.Add("collecttime2");
-                dt_simulate.Columns.Add("sendtime");
-                gridControl_Simulate.DataSource = dt_simulate;
-                gridView_Simulate.AddNewRow();
+                DataTable dt_ResidualCl = new DataTable();
+                dt_ResidualCl.Columns.Add("starttime");
+                dt_ResidualCl.Columns.Add("collecttime");
+                dt_ResidualCl.Columns.Add("sendtime");
+                gridControl_ResidualCl.DataSource = dt_ResidualCl;
+                gridView_ResidualCl.AddNewRow();
             }
         }
 
-        private void ceCollectRS485_CheckedChanged(object sender, EventArgs e)
+        private void ceTurbidityInterval_CheckedChanged(object sender, EventArgs e)
         {
-            gridControl_RS485.Enabled = ceCollectRS485.Checked;
-            if (!ceCollectRS485.Checked)
-                gridControl_RS485.DataSource = null;
+            gridControl_Turbidity.Enabled = ceTurbidityInterval.Checked;
+            if (!ceTurbidityInterval.Checked)
+                gridControl_Turbidity.DataSource = null;
             else
             {
                 DataTable dt_485 = new DataTable();
                 dt_485.Columns.Add("starttime");
                 dt_485.Columns.Add("collecttime");
                 dt_485.Columns.Add("sendtime");
-                gridControl_RS485.DataSource = dt_485;
-                gridView_RS485.AddNewRow();
+                gridControl_Turbidity.DataSource = dt_485;
+                gridView_Turbidity.AddNewRow();
             }
         }
 
-        private void ceModbusExeFlag_CheckedChanged(object sender, EventArgs e)
+        private void cePHInterval_CheckedChanged(object sender, EventArgs e)
         {
-            gridControl_485protocol.Enabled = ceModbusExeFlag.Checked;
-            if (!ceModbusExeFlag.Checked)
-                gridControl_485protocol.DataSource = null;
+            gridControl_PH.Enabled = cePHInterval.Checked;
+            if (!cePHInterval.Checked)
+                gridControl_PH.DataSource = null;
             else
             {
-                DataTable dt_485protocol = new DataTable();
-                dt_485protocol.Columns.Add("baud");
-                dt_485protocol.Columns.Add("ID");
-                dt_485protocol.Columns.Add("funcode");
-                dt_485protocol.Columns.Add("regbeginaddr");
-                dt_485protocol.Columns.Add("regcount");
-                gridControl_485protocol.DataSource = dt_485protocol;
-                gridView_485protocol.AddNewRow();
+                DataTable dt_PH = new DataTable();
+                dt_PH.Columns.Add("starttime");
+                dt_PH.Columns.Add("collecttime");
+                dt_PH.Columns.Add("sendtime");
+                gridControl_PH.DataSource = dt_PH;
+                gridView_PH.AddNewRow();
+            }
+        }
+
+        private void ceConductivityInterval_CheckedChanged(object sender, EventArgs e)
+        {
+            gridControl_Conductivity.Enabled = ceConductivityInterval.Checked;
+            if (!ceConductivityInterval.Checked)
+                gridControl_Conductivity.DataSource = null;
+            else
+            {
+                DataTable dt_Conductivity = new DataTable();
+                dt_Conductivity.Columns.Add("starttime");
+                dt_Conductivity.Columns.Add("collecttime");
+                dt_Conductivity.Columns.Add("sendtime");
+                gridControl_Conductivity.DataSource = dt_Conductivity;
+                gridView_Conductivity.AddNewRow();
             }
         }
 
@@ -498,8 +643,8 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
-                GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
                 DisableRibbonBar();
@@ -508,7 +653,7 @@ namespace SmartWaterSystem
                 BeginSerialPortDelegate();
                 Application.DoEvents();
                 SetStaticItem("正在复位终端...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReset);
+                GlobalValue.SerialPortMgr.Send(SerialPortType.OLWQReset);
             }
             else
             {
@@ -526,8 +671,8 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
-                GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
                 DisableRibbonBar();
@@ -536,7 +681,7 @@ namespace SmartWaterSystem
                 BeginSerialPortDelegate();
                 Application.DoEvents();
                 SetStaticItem("正在设置时间...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetTime);
+                GlobalValue.SerialPortMgr.Send(SerialPortType.OLWQSetTime);
             }
             else
             {
@@ -553,8 +698,8 @@ namespace SmartWaterSystem
             } 
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
-                GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
                 DisableRibbonBar();
@@ -563,7 +708,7 @@ namespace SmartWaterSystem
                 BeginSerialPortDelegate();
                 Application.DoEvents();
                 SetStaticItem("正在启动采集...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetEnableCollect);
+                GlobalValue.SerialPortMgr.Send(SerialPortType.OLWQSetEnableCollect);
             }
             else
             {
@@ -574,11 +719,11 @@ namespace SmartWaterSystem
         {
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
                 bool haveread = false;
                 if (ceID.Checked)
                 {
-                    GlobalValue.UniversalSerialPortOptData.IsOptID = ceID.Checked;
+                    GlobalValue.SerialPortOptData.IsOptID = ceID.Checked;
                     haveread = true;
                 }
                 else
@@ -589,62 +734,86 @@ namespace SmartWaterSystem
                         txtID.Focus();
                         return;
                     }
-                    GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                    GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
                     
                     if (ceTime.Checked)
                     {
-                        GlobalValue.UniversalSerialPortOptData.IsOptDT = ceTime.Checked;
-                        haveread = true;
-                    }
-                    if (ceCellPhone.Checked)
-                    {
-                        GlobalValue.UniversalSerialPortOptData.IsOptCellPhone = ceCellPhone.Checked;
-                        haveread = true;
-                    }
-                    //if (ceModbusExeFlag.Checked)
-                    //{
-                    //    GlobalValue.UniversalSerialPortOptData.IsOptmodbusExeFlag = ceModbusExeFlag.Checked;
-                    //    haveread = true;
-                    //}
-                    //if (ceBaud.Checked)
-                    //    GlobalValue.UniversalSerialPortOptData.IsOptBaud = ceBaud.Checked;
-                    if (ceComType.Checked)
-                    {
-                        GlobalValue.UniversalSerialPortOptData.IsOptComType = ceComType.Checked;
+                        GlobalValue.SerialPortOptData.IsOptDT = ceTime.Checked;
                         haveread = true;
                     }
                     if (ceIP.Checked)
                     {
-                        GlobalValue.UniversalSerialPortOptData.IsOptIP = ceIP.Checked;
+                        GlobalValue.SerialPortOptData.IsOptIP = ceIP.Checked;
                         haveread = true;
                     }
                     if (cePort.Checked)
                     {
-                        GlobalValue.UniversalSerialPortOptData.IsOptPort = cePort.Checked;
+                        GlobalValue.SerialPortOptData.IsOptPort = cePort.Checked;
                         haveread = true;
                     }
+                    if (ceResidualClLowLimit.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptResidualClLowLimit = ceResidualClLowLimit.Checked;
+                        haveread = true;
+                    }
+                    if (ceResidualClZero.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptResidualClZero = ceResidualClZero.Checked;
+                        haveread = true;
+                    }
+                    if (ceResidualClStandValue.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptResidualClStandValue = ceResidualClStandValue.Checked;
+                        haveread = true;
+                    }
+                    if (ceResidualClSensitivity.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptResidualClSensitivity = ceResidualClSensitivity.Checked;
+                        haveread = true;
+                    }
+                    if (ceClearInterval.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptClearInterval = ceClearInterval.Checked;
+                        haveread = true;
+                    }
+                    if (ceTurbidityUpLimit.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit = ceTurbidityUpLimit.Checked;
+                        haveread = true;
+                    }
+                    if (cePowersupplyType.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptPowerSupplyType = cePowersupplyType.Checked;
+                        haveread = true;
+                    }
+
                     if (ceColConfig.Checked){
-                        GlobalValue.UniversalSerialPortOptData.IsOpt_CollectConfig = ceColConfig.Checked;
+                        GlobalValue.SerialPortOptData.IsOpt_CollectConfig = ceColConfig.Checked;
                         haveread = true;
 
-                        ceSimulate1State.Checked =false;
-                        ceSimulate2State.Checked = false;
-                        ceRS485State.Checked = false;
-                        cemodbusprotocolstatus.Checked = false;
+                        cePHState.Checked =false;
+                        ceConductivityState.Checked = false;
+                        ceResidualClState.Checked = false;
+                        ceTurbidityState.Checked = false;
                     }
-                    if (ceCollectSimulate.Checked)
+                    if (ceResidualClInterval.Checked)
                     {
-                        GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval = ceCollectSimulate.Checked;
+                        GlobalValue.SerialPortOptData.IsOpt_ResidualClInterval = ceResidualClInterval.Checked;
                         haveread = true;
                     }
-                    if (ceCollectRS485.Checked)
+                    if (ceTurbidityInterval.Checked)
                     {
-                        GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Interval = ceCollectRS485.Checked;
+                        GlobalValue.SerialPortOptData.IsOpt_TurbidityInterval = ceTurbidityInterval.Checked;
                         haveread = true;
                     }
-                    if (ceModbusExeFlag.Checked)
+                    if (cePHInterval.Checked)
                     {
-                        GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Protocol = ceModbusExeFlag.Checked;
+                        GlobalValue.SerialPortOptData.IsOpt_PHInterval = cePHInterval.Checked;
+                        haveread = true;
+                    }
+                    if (ceConductivityInterval.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOpt_ConductivityInterval = ceConductivityInterval.Checked;
                         haveread = true;
                     }
                 }
@@ -664,7 +833,7 @@ namespace SmartWaterSystem
                 GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
                 Application.DoEvents();
                 SetStaticItem("正在读取...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReadBaicInfo);
+                GlobalValue.SerialPortMgr.Send(SerialPortType.OLWQReadBaicInfo);
             }
             else
             {
@@ -673,12 +842,11 @@ namespace SmartWaterSystem
 
         void SerialPortMgr_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
         {
-            if ((e.OptType == SerialPortType.UniversalReadBaicInfo || e.OptType == SerialPortType.UniversalSetBasicInfo) && !string.IsNullOrEmpty(e.Msg))
+            if ((e.OptType == SerialPortType.OLWQReadBaicInfo || e.OptType == SerialPortType.OLWQSetBasicInfo) && !string.IsNullOrEmpty(e.Msg))
             {
                 ShowWaitForm("", e.Msg);
                 SetStaticItem(e.Msg);
             }
-
         }
 
         private void btnSetParm_Click(object sender, EventArgs e)
@@ -687,7 +855,7 @@ namespace SmartWaterSystem
             {
                 if (Validate())
                 {
-                    GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
+                    GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
                     bool haveset = false;
                     if (ceID.Checked)
                     {
@@ -695,78 +863,108 @@ namespace SmartWaterSystem
                         {
                             return;
                         }
-                        GlobalValue.UniversalSerialPortOptData.IsOptID = ceID.Checked;
-                        GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                        GlobalValue.SerialPortOptData.IsOptID = ceID.Checked;
+                        GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
                         haveset = true;
                     }
                     else
                     {
-                        GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                        GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                        if (ceCellPhone.Checked)
-                        {
-                            GlobalValue.UniversalSerialPortOptData.IsOptCellPhone = ceCellPhone.Checked;
-                            GlobalValue.UniversalSerialPortOptData.CellPhone = txtCellPhone.Text;
-                            haveset = true;
-                        }
-                        //if (ceColConfig.Checked)
-                        //{
-                        //    GlobalValue.UniversalSerialPortOptData.IsOptmodbusExeFlag = ceColConfig.Checked;
-                        //    GlobalValue.UniversalSerialPortOptData.ModbusExeFlag = cemodbusprotocolstatus.Checked;
-                        //    haveset = true;
-                        //}
-                        if (ceComType.Checked)
-                        {
-                            GlobalValue.UniversalSerialPortOptData.IsOptComType = ceComType.Checked;
-                            GlobalValue.UniversalSerialPortOptData.ComType = cbComType.SelectedIndex;
-                            haveset = true;
-                        }
                         if (ceIP.Checked)
                         {
-                            GlobalValue.UniversalSerialPortOptData.IsOptIP = ceIP.Checked;
-                            GlobalValue.UniversalSerialPortOptData.IP = new int[4];
-                            GlobalValue.UniversalSerialPortOptData.IP[0] = Convert.ToInt32(txtNum1.Text);
-                            GlobalValue.UniversalSerialPortOptData.IP[1] = Convert.ToInt32(txtNum2.Text);
-                            GlobalValue.UniversalSerialPortOptData.IP[2] = Convert.ToInt32(txtNum3.Text);
-                            GlobalValue.UniversalSerialPortOptData.IP[3] = Convert.ToInt32(txtNum4.Text);
+                            GlobalValue.SerialPortOptData.IsOptIP = ceIP.Checked;
+                            GlobalValue.SerialPortOptData.IP = new int[4];
+                            GlobalValue.SerialPortOptData.IP[0] = Convert.ToInt32(txtNum1.Text);
+                            GlobalValue.SerialPortOptData.IP[1] = Convert.ToInt32(txtNum2.Text);
+                            GlobalValue.SerialPortOptData.IP[2] = Convert.ToInt32(txtNum3.Text);
+                            GlobalValue.SerialPortOptData.IP[3] = Convert.ToInt32(txtNum4.Text);
                             haveset = true;
                         }
                         if (cePort.Checked)
                         {
-                            GlobalValue.UniversalSerialPortOptData.IsOptPort = cePort.Checked;
-                            GlobalValue.UniversalSerialPortOptData.Port = Convert.ToInt32(txtPort.Text);
+                            GlobalValue.SerialPortOptData.IsOptPort = cePort.Checked;
+                            GlobalValue.SerialPortOptData.Port = Convert.ToInt32(txtPort.Text);
+                            haveset = true;
+                        }
+                        if (ceResidualClLowLimit.Checked)
+                        {
+                            GlobalValue.SerialPortOptData.IsOptResidualClLowLimit = ceResidualClLowLimit.Checked;
+                            GlobalValue.SerialPortOptData.ResidualClLowLimit = Convert.ToUInt16(txtResiduaClLowLimit.Text);
+                            haveset = true;
+                        }
+                        if (ceResidualClZero.Checked)
+                        {
+                            GlobalValue.SerialPortOptData.IsOptResidualClZero = ceResidualClZero.Checked;
+                            GlobalValue.SerialPortOptData.ResidualClZero = Convert.ToUInt16(txtResidualClZero.Text);
+                            haveset = true;
+                        }
+                        if (ceResidualClStandValue.Checked)
+                        {
+                            GlobalValue.SerialPortOptData.IsOptResidualClStandValue = ceResidualClStandValue.Checked;
+                            GlobalValue.SerialPortOptData.ResidualClStandValue = Convert.ToUInt16(txtResidualClStandValue.Text);
+                            haveset = true;
+                        }
+                        if (ceResidualClSensitivity.Checked)
+                        {
+                            GlobalValue.SerialPortOptData.IsOptResidualClSensitivity = ceResidualClSensitivity.Checked;
+                            GlobalValue.SerialPortOptData.ResidualClSensitivity = Convert.ToUInt16(txtResidualClSensitivity.Text);
+                            haveset = true;
+                        }
+                        if (ceClearInterval.Checked)
+                        {
+                            GlobalValue.SerialPortOptData.IsOptClearInterval = ceClearInterval.Checked;
+                            GlobalValue.SerialPortOptData.ClearInterval = Convert.ToUInt16(txtClearInterval.Text);
+                            haveset = true;
+                        }
+                        if (ceTurbidityUpLimit.Checked)
+                        {
+                            GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit = ceTurbidityUpLimit.Checked;
+                            GlobalValue.SerialPortOptData.TurbidityUpLimit = Convert.ToUInt16(txtTurbidityUpLimit.Text);
+                            haveset = true;
+                        }
+                        if (cePowersupplyType.Checked)
+                        {
+                            GlobalValue.SerialPortOptData.IsOptPowerSupplyType = cePowersupplyType.Checked;
+                            GlobalValue.SerialPortOptData.PowerSupplyType = (ushort)(cbPowersupplyType.SelectedIndex+1);
                             haveset = true;
                         }
                         if (ceColConfig.Checked)
                         {
-                            GlobalValue.UniversalSerialPortOptData.IsOpt_CollectConfig = ceColConfig.Checked;
-                            if (ceSimulate1State.Checked)
-                                GlobalValue.UniversalSerialPortOptData.Collect_Simulate1 = true;
-                            if (ceSimulate2State.Checked)
-                                GlobalValue.UniversalSerialPortOptData.Collect_Simulate2 = true;
-                            if (ceRS485State.Checked)
-                                GlobalValue.UniversalSerialPortOptData.Collect_RS485 = true;
+                            GlobalValue.SerialPortOptData.IsOpt_CollectConfig = ceColConfig.Checked;
+                            if (ceTurbidityState.Checked)
+                                GlobalValue.SerialPortOptData.Collect_Turbidity = true;
+                            if (ceResidualClState.Checked)
+                                GlobalValue.SerialPortOptData.Collect_ResidualC1 = true;
+                            if (cePHState.Checked)
+                                GlobalValue.SerialPortOptData.Collect_PH = true;
+                            if (ceConductivityState.Checked)
+                                GlobalValue.SerialPortOptData.Collect_Conductivity = true;
 
-                            //GlobalValue.UniversalSerialPortOptData.IsOptmodbusExeFlag = ceColConfig.Checked;
-                            GlobalValue.UniversalSerialPortOptData.ModbusExeFlag = cemodbusprotocolstatus.Checked;
                             haveset = true;
                         }
-                        if (ceCollectSimulate.Checked)
+                        if (ceResidualClInterval.Checked)
                         {
-                            GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval = ceCollectSimulate.Checked;
-                            GlobalValue.UniversalSerialPortOptData.Simulate_Interval = gridControl_Simulate.DataSource as DataTable;
+                            GlobalValue.SerialPortOptData.IsOpt_ResidualClInterval = ceResidualClInterval.Checked;
+                            GlobalValue.SerialPortOptData.ResidualCl_Interval = gridControl_ResidualCl.DataSource as DataTable;
                             haveset = true;
                         }
-                        if (ceCollectRS485.Checked)
+                        if (cePHInterval.Checked)
                         {
-                            GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Interval = ceCollectRS485.Checked;
-                            GlobalValue.UniversalSerialPortOptData.RS485_Interval =gridControl_RS485.DataSource as DataTable;
+                            GlobalValue.SerialPortOptData.IsOpt_PHInterval = cePHInterval.Checked;
+                            GlobalValue.SerialPortOptData.PH_Interval = gridControl_PH.DataSource as DataTable;
                             haveset = true;
                         }
-                        if (ceModbusExeFlag.Checked)
+                        if (ceTurbidityInterval.Checked)
                         {
-                            GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Protocol = ceModbusExeFlag.Checked;
-                            GlobalValue.UniversalSerialPortOptData.RS485Protocol =gridControl_485protocol.DataSource as DataTable;
+                            GlobalValue.SerialPortOptData.IsOpt_TurbidityInterval = ceTurbidityInterval.Checked;
+                            GlobalValue.SerialPortOptData.Turbidity_Interval =gridControl_Turbidity.DataSource as DataTable;
+                            haveset = true;
+                        }
+                        if (ceConductivityInterval.Checked)
+                        {
+                            GlobalValue.SerialPortOptData.IsOpt_ConductivityInterval = ceConductivityInterval.Checked;
+                            GlobalValue.SerialPortOptData.Conductivity_Interval = gridControl_Conductivity.DataSource as DataTable;
                             haveset = true;
                         }
                     }
@@ -786,135 +984,80 @@ namespace SmartWaterSystem
                     GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
                     Application.DoEvents();
                     SetStaticItem("正在设置...");
-                    GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetBasicInfo);
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.OLWQSetBasicInfo);
                 }
             }
             else
             {
-                #region GPRS校验
-                if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
-                {
-                    XtraMessageBox.Show("请输入设备ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtID.Focus();
-                    return ;
-                }
-                bool haveset = false;
-                if (ceCollectSimulate.Checked)
-                {
-                    DataTable dt = gridControl_Simulate.DataSource as DataTable;
-                    if (dt == null || dt.Rows.Count == 0)
-                    {
-                        XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        gridView_Simulate.Focus();
-                        return ;
-                    }
-                    haveset = true;
-                }
+                //#region GPRS校验
+                //if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
+                //{
+                //    XtraMessageBox.Show("请输入设备ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    txtID.Focus();
+                //    return ;
+                //}
+                //bool haveset = false;
+                //if (ceResidualClInterval.Checked)
+                //{
+                //    DataTable dt = gridControl_ResidualCl.DataSource as DataTable;
+                //    if (dt == null || dt.Rows.Count == 0)
+                //    {
+                //        XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //        gridView_ResidualCl.Focus();
+                //        return ;
+                //    }
+                //    haveset = true;
+                //}
 
-                if (ceCollectRS485.Checked)
-                {
-                    DataTable dt = gridControl_RS485.DataSource as DataTable;
-                    if (dt == null || dt.Rows.Count == 0)
-                    {
-                        XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        gridView_RS485.Focus();
-                        return ;
-                    }
-                    haveset = true;
-                }
-                if (!haveset)
-                {
-                    XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                #endregion
+                //if (ceTurbidityInterval.Checked)
+                //{
+                //    DataTable dt = gridControl_Turbidity.DataSource as DataTable;
+                //    if (dt == null || dt.Rows.Count == 0)
+                //    {
+                //        XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //        gridView_Turbidity.Focus();
+                //        return ;
+                //    }
+                //    haveset = true;
+                //}
+                //if (!haveset)
+                //{
+                //    XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    return;
+                //}
+                //#endregion
 
-                TerminalDataBLL terBll = new TerminalDataBLL();
-                List<Package> lstPack = new List<Package>();
-                if (ceCollectSimulate.Checked)
-                {
-                    DataTable dt = gridControl_Simulate.DataSource as DataTable;
-                    Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(Convert.ToInt16(txtID.Text), dt);
-                    lstPack.Add(pack);
-                }
-                if (ceCollectRS485.Checked)
-                {
-                    DataTable dt = gridControl_RS485.DataSource as DataTable;
-                    Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(Convert.ToInt16(txtID.Text), dt);
-                    lstPack.Add(pack);
-                }
+                //TerminalDataBLL terBll = new TerminalDataBLL();
+                //List<Package> lstPack = new List<Package>();
+                //if (ceResidualClInterval.Checked)
+                //{
+                //    DataTable dt = gridControl_ResidualCl.DataSource as DataTable;
+                //    Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(Convert.ToInt16(txtID.Text), dt);
+                //    lstPack.Add(pack);
+                //}
+                //if (ceTurbidityInterval.Checked)
+                //{
+                //    DataTable dt = gridControl_Turbidity.DataSource as DataTable;
+                //    Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(Convert.ToInt16(txtID.Text), dt);
+                //    lstPack.Add(pack);
+                //}
 
-                foreach (Package pack in lstPack)
-                {
-                    if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
-                    {
-                        XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                }
-                ceCollectSimulate.Checked = false; ceCollectRS485.Checked = false;
-                XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-
-        private void btnCalibrationSimualte1_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtID.Text))
-            {
-                XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtID.Focus();
-                return;
-            }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
-                GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
-
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在校准第一路模拟量...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在校准第一路模拟量...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalCalibrationSimualte1);
-            }
-            else
-            {
-            }
-        }
-
-        private void btnCalibrationSimualte2_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtID.Text))
-            {
-                XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtID.Focus();
-                return;
-            }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniversalSerialPortOptData = new UniversalSerialPortOptEntity();
-                GlobalValue.UniversalSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
-
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在校准第二路模拟量...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在校准第二路模拟量...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalCalibrationSimualte2);
-            }
-            else
-            {
+                //foreach (Package pack in lstPack)
+                //{
+                //    if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
+                //    {
+                //        XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //        return;
+                //    }
+                //}
+                //ceResidualClInterval.Checked = false; ceTurbidityInterval.Checked = false;
+                //XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
         {
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalReset)
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.OLWQReset)
             {
                 this.Enabled = true;
                 HideWaitForm();
@@ -938,7 +1081,7 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("复位失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalSetTime)
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.OLWQSetTime)
             {
                 this.Enabled = true;
                 HideWaitForm();
@@ -962,7 +1105,7 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("设置时间失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalSetEnableCollect)
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.OLWQSetEnableCollect)
             {
                 this.Enabled = true;
                 HideWaitForm();
@@ -986,7 +1129,7 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("设置启动采集失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalReadBaicInfo)
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.OLWQReadBaicInfo)
             {
                 this.Enabled = true;
                 HideWaitForm();
@@ -999,59 +1142,76 @@ namespace SmartWaterSystem
                     EnableNavigateBar();
                     HideWaitForm();
 
-                    if (GlobalValue.UniversalSerialPortOptData.IsOptID)
+                    if (GlobalValue.SerialPortOptData.IsOptID)
                     {
-                        txtID.Text = GlobalValue.UniversalSerialPortOptData.ID.ToString();
+                        txtID.Text = GlobalValue.SerialPortOptData.ID.ToString();
                     }
-                    if (GlobalValue.UniversalSerialPortOptData.IsOptDT)
+                    if (GlobalValue.SerialPortOptData.IsOptDT)
                     {
-                        txtTime.Text = GlobalValue.UniversalSerialPortOptData.DT.ToString();
+                        txtTime.Text = GlobalValue.SerialPortOptData.DT.ToString();
                     }
-                    if (GlobalValue.UniversalSerialPortOptData.IsOptCellPhone)
+                    if (GlobalValue.SerialPortOptData.IsOptIP)
                     {
-                        txtCellPhone.Text = GlobalValue.UniversalSerialPortOptData.CellPhone;
+                        txtNum1.Text = GlobalValue.SerialPortOptData.IP[0].ToString();
+                        txtNum2.Text = GlobalValue.SerialPortOptData.IP[1].ToString();
+                        txtNum3.Text = GlobalValue.SerialPortOptData.IP[2].ToString();
+                        txtNum4.Text = GlobalValue.SerialPortOptData.IP[3].ToString();
                     }
-                    //if (GlobalValue.UniversalSerialPortOptData.IsOptmodbusExeFlag)
-                    //{
-                    //    ceModbusExeFlag.Checked = GlobalValue.UniversalSerialPortOptData.ModbusExeFlag;
-                    //}
-                    //if (GlobalValue.UniversalSerialPortOptData.IsOptBaud)
-                    //{
-                    //    cbBaudRate.Text = GlobalValue.UniversalSerialPortOptData.Baud.ToString();
-                    //}
-                    if (GlobalValue.UniversalSerialPortOptData.IsOptComType)
+                    if (GlobalValue.SerialPortOptData.IsOptPort)
                     {
-                        cbComType.SelectedIndex = GlobalValue.UniversalSerialPortOptData.ComType;
+                        txtPort.Text = GlobalValue.SerialPortOptData.Port.ToString();
                     }
-                    if (GlobalValue.UniversalSerialPortOptData.IsOptIP)
+                    if (GlobalValue.SerialPortOptData.IsOptResidualClLowLimit)
                     {
-                        txtNum1.Text = GlobalValue.UniversalSerialPortOptData.IP[0].ToString();
-                        txtNum2.Text = GlobalValue.UniversalSerialPortOptData.IP[1].ToString();
-                        txtNum3.Text = GlobalValue.UniversalSerialPortOptData.IP[2].ToString();
-                        txtNum4.Text = GlobalValue.UniversalSerialPortOptData.IP[3].ToString();
+                        txtResiduaClLowLimit.Text = GlobalValue.SerialPortOptData.ResidualClLowLimit.ToString();
                     }
-                    if (GlobalValue.UniversalSerialPortOptData.IsOptPort)
+                    if (GlobalValue.SerialPortOptData.IsOptResidualClZero)
                     {
-                        txtPort.Text = GlobalValue.UniversalSerialPortOptData.Port.ToString();
+                        txtResidualClZero.Text = GlobalValue.SerialPortOptData.ResidualClZero.ToString();
                     }
-                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_CollectConfig)
+                    if (GlobalValue.SerialPortOptData.IsOptResidualClStandValue)
                     {
-                        ceSimulate1State.Checked =GlobalValue.UniversalSerialPortOptData.Collect_Simulate1;
-                        ceSimulate2State.Checked = GlobalValue.UniversalSerialPortOptData.Collect_Simulate2;
-                        ceRS485State.Checked = GlobalValue.UniversalSerialPortOptData.Collect_RS485;
-                        cemodbusprotocolstatus.Checked = GlobalValue.UniversalSerialPortOptData.ModbusExeFlag;
+                        txtResidualClStandValue.Text = GlobalValue.SerialPortOptData.ResidualClStandValue.ToString();
                     }
-                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_SimualteInterval)
+                    if (GlobalValue.SerialPortOptData.IsOptResidualClSensitivity)
                     {
-                        gridControl_Simulate.DataSource=GlobalValue.UniversalSerialPortOptData.Simulate_Interval;
+                        txtResidualClSensitivity.Text = GlobalValue.SerialPortOptData.ResidualClSensitivity.ToString();
                     }
-                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Interval)
+                    if (GlobalValue.SerialPortOptData.IsOptClearInterval)
                     {
-                        gridControl_RS485.DataSource = GlobalValue.UniversalSerialPortOptData.RS485_Interval;
+                        txtClearInterval.Text = GlobalValue.SerialPortOptData.ClearInterval.ToString();
                     }
-                    if (GlobalValue.UniversalSerialPortOptData.IsOpt_RS485Protocol)
+                    if (GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit)
                     {
-                        gridControl_485protocol.DataSource = GlobalValue.UniversalSerialPortOptData.RS485Protocol;
+                        txtTurbidityUpLimit.Text = GlobalValue.SerialPortOptData.TurbidityUpLimit.ToString();
+                    }
+                    if (GlobalValue.SerialPortOptData.IsOptPowerSupplyType)
+                    {
+                        cbPowersupplyType.SelectedIndex = GlobalValue.SerialPortOptData.PowerSupplyType-1;
+                    }
+
+                    if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
+                    {
+                        cePHState.Checked =GlobalValue.SerialPortOptData.Collect_PH;
+                        ceConductivityState.Checked = GlobalValue.SerialPortOptData.Collect_Conductivity;
+                        ceResidualClState.Checked = GlobalValue.SerialPortOptData.Collect_ResidualC1;
+                        ceTurbidityState.Checked = GlobalValue.SerialPortOptData.Collect_Turbidity;
+                    }
+                    if (GlobalValue.SerialPortOptData.IsOpt_ResidualClInterval)
+                    {
+                        gridControl_ResidualCl.DataSource=GlobalValue.SerialPortOptData.ResidualCl_Interval;
+                    }
+                    if (GlobalValue.SerialPortOptData.IsOpt_TurbidityInterval)
+                    {
+                        gridControl_Turbidity.DataSource = GlobalValue.SerialPortOptData.Turbidity_Interval;
+                    }
+                    if (GlobalValue.SerialPortOptData.IsOpt_PHInterval)
+                    {
+                        gridControl_PH.DataSource = GlobalValue.SerialPortOptData.PH_Interval;
+                    }
+                    if (GlobalValue.SerialPortOptData.IsOpt_ConductivityInterval)
+                    {
+                        gridControl_Conductivity.DataSource = GlobalValue.SerialPortOptData.Conductivity_Interval;
                     }
 
                     XtraMessageBox.Show("读取设备参数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1065,7 +1225,7 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("读取设备参数失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalSetBasicInfo)
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.OLWQSetBasicInfo)
             {
                 this.Enabled = true;
                 HideWaitForm();
@@ -1089,54 +1249,6 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("设置设备参数失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalCalibrationSimualte1)
-            {
-                this.Enabled = true;
-                HideWaitForm();
-
-                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
-                if (e.TransactStatus == TransStatus.Success)
-                {
-                    EnableControls(true);
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-
-                    XtraMessageBox.Show("校准第一路模拟量成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    EnableControls(true);
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-                    XtraMessageBox.Show("校准第一路模拟量失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalCalibrationSimualte2)
-            {
-                this.Enabled = true;
-                HideWaitForm();
-
-                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
-                if (e.TransactStatus == TransStatus.Success)
-                {
-                    EnableControls(true);
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-
-                    XtraMessageBox.Show("校准第二路模拟量成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    EnableControls(true);
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-                    XtraMessageBox.Show("校准第二路模拟量失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
         }
 
         private void EnableControls(bool enable)
@@ -1146,8 +1258,6 @@ namespace SmartWaterSystem
             btnEnableCollect.Enabled = enable;
             btnReadParm.Enabled = enable;
             btnSetParm.Enabled = enable;
-            btnCalibrationSimualte1.Enabled = enable;
-            btnCalibrationSimualte2.Enabled = enable;
             SwitchComunication.Enabled = enable;
         }
 
@@ -1159,39 +1269,6 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return false;
             }
-
-            if (ceCellPhone.Checked && !Regex.IsMatch(txtCellPhone.Text, @"^1\d{10}$"))
-            {
-                XtraMessageBox.Show("请输入手机号码[1XX XXXX XXXX]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtCellPhone.Focus();
-                return false;
-            }
-
-            if (ceModbusExeFlag.Checked)
-            {
-                DataTable dt = gridControl_485protocol.DataSource as DataTable;
-                if (dt == null || dt.Rows.Count == 0)
-                {
-                    XtraMessageBox.Show("请填写RS485采集modbus协议配置表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    gridView_485protocol.Focus();
-                    return false;
-                }
-            }
-
-            //if (ceBaud.Checked && !Regex.IsMatch(cbBaudRate.Text,@"^$"))
-            //{
-            //    XtraMessageBox.Show("请选择波特率!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    cbBaudRate.Focus();
-            //    return false;
-            //}
-
-            if (ceComType.Checked && string.IsNullOrEmpty(cbComType.Text))
-            {
-                XtraMessageBox.Show("请选择通信方式!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cbComType.Focus();
-                return false;
-            }
-
             if (ceIP.Checked)
             {
                 if (string.IsNullOrEmpty(txtNum1.Text) || string.IsNullOrEmpty(txtNum2.Text) ||
@@ -1203,31 +1280,102 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (cePort.Checked && !Regex.IsMatch(txtPort.Text,@"^\d{3,5}$"))
+            if (cePort.Checked && !Regex.IsMatch(txtPort.Text, @"^\d{3,5}$"))
             {
                 XtraMessageBox.Show("请输入端口号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtPort.Focus();
                 return false;
             }
 
-            if (ceCollectSimulate.Checked)
+            if (ceResidualClLowLimit.Checked && string.IsNullOrEmpty(txtResiduaClLowLimit.Text))
             {
-                DataTable dt = gridControl_Simulate.DataSource as DataTable;
+                XtraMessageBox.Show("请输入余氯下限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtResiduaClLowLimit.Focus();
+                return false;
+            }
+
+            if (ceResidualClZero.Checked && string.IsNullOrEmpty(txtResidualClZero.Text))
+            {
+                XtraMessageBox.Show("请输入余氯零点值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtResidualClZero.Focus();
+                return false;
+            }
+
+            if (ceResidualClStandValue.Checked && string.IsNullOrEmpty(txtResidualClStandValue.Text))
+            {
+                XtraMessageBox.Show("请输入余氯标准值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtResidualClStandValue.Focus();
+                return false;
+            }
+
+            if (ceResidualClSensitivity.Checked && string.IsNullOrEmpty(txtResidualClSensitivity.Text))
+            {
+                XtraMessageBox.Show("请输入余氯灵敏度!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtResidualClSensitivity.Focus();
+                return false;
+            }
+
+            if (ceClearInterval.Checked && string.IsNullOrEmpty(txtClearInterval.Text))
+            {
+                XtraMessageBox.Show("请输入清洗间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtClearInterval.Focus();
+                return false;
+            }
+
+            if (ceTurbidityUpLimit.Checked && string.IsNullOrEmpty(txtTurbidityUpLimit.Text))
+            {
+                XtraMessageBox.Show("请输入合法的浊度上限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTurbidityUpLimit.Focus();
+                return false;
+            }
+
+            if (cePowersupplyType.Checked &&string.IsNullOrEmpty(cbPowersupplyType.Text))
+            {
+                XtraMessageBox.Show("请选择的供电方式!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbPowersupplyType.Focus();
+                return false;
+            }
+
+            if (ceResidualClInterval.Checked)
+            {
+                DataTable dt = gridControl_ResidualCl.DataSource as DataTable;
                 if (dt == null || dt.Rows.Count == 0)
                 {
-                    XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    gridView_Simulate.Focus();
+                    XtraMessageBox.Show("请填写余氯采集时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gridView_ResidualCl.Focus();
                     return false;
                 }
             }
 
-            if (ceCollectRS485.Checked)
+            if (ceTurbidityInterval.Checked)
             {
-                DataTable dt = gridControl_RS485.DataSource as DataTable;
+                DataTable dt = gridControl_Turbidity.DataSource as DataTable;
                 if (dt == null || dt.Rows.Count == 0)
                 {
-                    XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    gridView_RS485.Focus();
+                    XtraMessageBox.Show("请填写浊度采集时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gridView_Turbidity.Focus();
+                    return false;
+                }
+            }
+
+            if (cePHInterval.Checked)
+            {
+                DataTable dt = gridControl_PH.DataSource as DataTable;
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    XtraMessageBox.Show("请填写PH采集时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gridView_PH.Focus();
+                    return false;
+                }
+            }
+
+            if (ceConductivityInterval.Checked)
+            {
+                DataTable dt = gridControl_Conductivity.DataSource as DataTable;
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    XtraMessageBox.Show("请填写电导率采集时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gridView_Conductivity.Focus();
                     return false;
                 }
             }
@@ -1245,8 +1393,6 @@ namespace SmartWaterSystem
                 btnEnableCollect.Enabled = Enabled;
                 btnReadParm.Enabled = Enabled;
                 btnSetParm.Enabled = Enabled;
-                btnCalibrationSimualte1.Enabled = Enabled;
-                btnCalibrationSimualte2.Enabled = Enabled;
             }
         }
 
@@ -1269,24 +1415,10 @@ namespace SmartWaterSystem
             btnEnableCollect.Enabled = GlobalValue.portUtil.IsOpen;
             btnReadParm.Enabled = GlobalValue.portUtil.IsOpen;
             btnSetParm.Enabled = GlobalValue.portUtil.IsOpen;
-            btnCalibrationSimualte1.Enabled = GlobalValue.portUtil.IsOpen;
-            btnCalibrationSimualte2.Enabled = GlobalValue.portUtil.IsOpen;
 
             ceTime.Enabled = true;
             txtTime.Enabled = true;
             txtTime.Text = "";
-            //ceCellPhone.Enabled = true;
-            txtCellPhone.Enabled = true;
-            txtCellPhone.Text = "";
-            ceModbusExeFlag.Enabled = true;
-            ceCollectRS485.Enabled = true;
-            //ceBaud.Enabled = true;
-            //cbBaudRate.Enabled = true;
-            //cbBaudRate.SelectedIndex = -1;
-
-            //ceComType.Enabled = true;
-            cbComType.Enabled = true;
-            cbComType.SelectedIndex = -1;
             ceIP.Enabled = true;
             txtNum1.Enabled = true;
             txtNum1.Text = "";
@@ -1300,15 +1432,35 @@ namespace SmartWaterSystem
             txtPort.Enabled = true;
             txtPort.Text = "";
 
+            txtResiduaClLowLimit.Enabled = true;
+            txtResiduaClLowLimit.Text = "";
+            txtResidualClZero.Enabled = true;
+            txtResidualClZero.Text = "";
+            txtResidualClStandValue.Enabled = true;
+            txtResidualClStandValue.Text = "";
+            txtResidualClSensitivity.Enabled = true;
+            txtResidualClSensitivity.Text = "";
+            txtClearInterval.Enabled = true;
+            txtClearInterval.Text = "";
+            txtTurbidityUpLimit.Enabled = true;
+            txtTurbidityUpLimit.Text = "";
+            cbPowersupplyType.Enabled = true;
+            cbPowersupplyType.SelectedIndex = -1;
+
+            ceTurbidityInterval.Enabled = true;
+            cePHInterval.Enabled = true;
+            ceResidualClInterval.Enabled = true;
+            ceConductivityInterval.Enabled = true;
+
             ceColConfig.Enabled = true;
-            ceSimulate1State.Enabled = true;
-            ceSimulate1State.Checked = false;
-            ceSimulate2State.Enabled = true;
-            ceSimulate2State.Checked = false;
-            ceRS485State.Enabled = true;
-            ceRS485State.Checked = false;
-            cemodbusprotocolstatus.Enabled = true;
-            cemodbusprotocolstatus.Checked = false;
+            cePHState.Enabled = true;
+            cePHState.Checked = false;
+            ceConductivityState.Enabled = true;
+            ceConductivityState.Checked = false;
+            ceResidualClState.Enabled = true;
+            ceResidualClState.Checked = false;
+            ceTurbidityState.Enabled = true;
+            ceTurbidityState.Checked = false;
         }
 
         private void SetGprsCtrlStatus()
@@ -1318,29 +1470,11 @@ namespace SmartWaterSystem
             btnEnableCollect.Enabled = false;
             btnReadParm.Enabled = false;
             btnSetParm.Enabled = true;
-            btnCalibrationSimualte1.Enabled = false;
-            btnCalibrationSimualte2.Enabled = false;
 
             ceTime.Enabled = false;
             ceTime.Checked = false;
             txtTime.Enabled = false;
             txtTime.Text = "";
-            ceCellPhone.Enabled = false;
-            ceCellPhone.Checked = false;
-            txtCellPhone.Enabled = false;
-            txtCellPhone.Text = "";
-            ceModbusExeFlag.Enabled = false;
-            ceModbusExeFlag.Checked = false;
-            //ceCollectRS485.Enabled = false;
-            //ceCollectRS485.Checked = false;
-            //ceBaud.Enabled = false;
-            //ceBaud.Checked = false;
-            //cbBaudRate.Enabled = false;
-            //cbBaudRate.SelectedIndex = -1;
-            ceComType.Enabled = false;
-            ceComType.Checked = false;
-            cbComType.Enabled = false;
-            cbComType.SelectedIndex = -1;
             ceIP.Enabled = false;
             ceIP.Checked = false;
             txtNum1.Enabled = false;
@@ -1356,16 +1490,31 @@ namespace SmartWaterSystem
             txtPort.Enabled = false;
             txtPort.Text = "";
 
+            ceResidualClLowLimit.Enabled = false;
+            ceResidualClLowLimit.Checked = false;
+            ceResidualClZero.Enabled = false;
+            ceResidualClZero.Checked = false;
+            ceResidualClStandValue.Enabled = false;
+            ceResidualClStandValue.Checked = false;
+            ceResidualClSensitivity.Enabled = false;
+            ceResidualClSensitivity.Checked = false;
+            ceClearInterval.Enabled = false;
+            ceClearInterval.Checked = false;
+            ceTurbidityUpLimit.Enabled = false;
+            ceTurbidityUpLimit.Checked = false;
+            cbPowersupplyType.Enabled = false;
+            cbPowersupplyType.SelectedIndex = -1;
+            
             ceColConfig.Enabled = false;
             ceColConfig.Checked = false;
-            ceSimulate1State.Enabled = false;
-            ceSimulate1State.Checked = false;
-            ceSimulate2State.Enabled = false;
-            ceSimulate2State.Checked = false;
-            ceRS485State.Enabled = false;
-            ceRS485State.Checked = false;
-            cemodbusprotocolstatus.Enabled = false;
-            cemodbusprotocolstatus.Checked = false;
+            cePHState.Enabled = false;
+            cePHState.Checked = false;
+            ceConductivityState.Enabled = false;
+            ceConductivityState.Checked = false;
+            ceResidualClState.Enabled = false;
+            ceResidualClState.Checked = false;
+            ceTurbidityState.Enabled = false;
+            ceTurbidityState.Checked = false;
         }
 
         private void ceIP_CheckedChanged(object sender, EventArgs e)
@@ -1384,6 +1533,62 @@ namespace SmartWaterSystem
             if (!cePort.Checked)
             {
                 txtPort.Text = "";
+            }
+        }
+
+        private void ceResidualClLowLimit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ceResidualClLowLimit.Checked)
+            {
+                txtResiduaClLowLimit.Text = "";
+            }
+        }
+
+        private void ceResidualClZero_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ceResidualClZero.Checked)
+            {
+                txtResidualClZero.Text = "";
+            }
+        }
+
+        private void ceResidualClStandValue_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ceResidualClStandValue.Checked)
+            {
+                txtResidualClStandValue.Text = "";
+            }
+        }
+
+        private void ceResidualClSensitivity_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ceResidualClSensitivity.Checked)
+            {
+                txtResidualClSensitivity.Text = "";
+            }
+        }
+
+        private void ceClearInterval_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ceClearInterval.Checked)
+            {
+                txtClearInterval.Text = "";
+            }
+        }
+
+        private void ceTurbidityUpLimit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ceTurbidityUpLimit.Checked)
+            {
+                txtTurbidityUpLimit.Text = "";
+            }
+        }
+
+        private void cePowersupplyType_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!cePowersupplyType.Checked)
+            {
+                cbPowersupplyType.SelectedIndex = -1;
             }
         }
         

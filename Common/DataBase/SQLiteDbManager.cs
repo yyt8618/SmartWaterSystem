@@ -503,7 +503,7 @@ namespace Common
 	                    [TerminalName]		NVARCHAR(200)   NOT NULL,					--终端名称
                         [TerminalType]      [INT]           NOT NULL,                   --终端类型 
 	                    [Address]			NVARCHAR(200)	NOT NULL DEFAULT '',		--地址
-	                    [Remark]			NVARCHAR(200)	NOT NULL DEFAULT '',		--备注
+	                    [Remark]			NVARCHAR(200)	NULL DEFAULT '',		    --备注
                         [SyncState]         INT             NULL        DEFAULT 1 ,     --0:已同步,1:新增未同步,-1:删除未同步
 	                    [ModifyTime]		NVARCHAR(25)	NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
                     )";

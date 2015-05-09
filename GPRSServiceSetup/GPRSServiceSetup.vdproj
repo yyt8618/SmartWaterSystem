@@ -333,6 +333,48 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F874D0C34FAE23A7D4E8FD8B04170F2E"
+        "OwnerKey" = "8:_1DBD9E84AB294F82897726914E52B35A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F874D0C34FAE23A7D4E8FD8B04170F2E"
+        "OwnerKey" = "8:_531275561D674A728E5D1675788BB736"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F874D0C34FAE23A7D4E8FD8B04170F2E"
+        "OwnerKey" = "8:_42AC137528A3493F98DE27212A129EDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F874D0C34FAE23A7D4E8FD8B04170F2E"
+        "OwnerKey" = "8:_9F37B4B56A72E5F7271B7C5FF80E0B67"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F874D0C34FAE23A7D4E8FD8B04170F2E"
+        "OwnerKey" = "8:_ABDE81601119EA3BEAE2DC0E1D8294F0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F874D0C34FAE23A7D4E8FD8B04170F2E"
+        "OwnerKey" = "8:_10D903B267CD52ACA3EC0B98ECAC0686"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F874D0C34FAE23A7D4E8FD8B04170F2E"
+        "OwnerKey" = "8:_23F7DE6BACEBD5E11ED4A2FD72520787"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_42AC137528A3493F98DE27212A129EDC"
         "MsmSig" = "8:_UNDEFINED"
@@ -370,12 +412,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_531275561D674A728E5D1675788BB736"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C8206CEF259C465949CBF825ED45ED2B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -383,12 +419,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E45CB5A01862B3AA53A6BD492B87B80C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_42AC137528A3493F98DE27212A129EDC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -430,25 +460,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9F37B4B56A72E5F7271B7C5FF80E0B67"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_ABDE81601119EA3BEAE2DC0E1D8294F0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_ABDE81601119EA3BEAE2DC0E1D8294F0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_10D903B267CD52ACA3EC0B98ECAC0686"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -466,13 +478,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_23F7DE6BACEBD5E11ED4A2FD72520787"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1DBD9E84AB294F82897726914E52B35A"
+        "OwnerKey" = "8:_F874D0C34FAE23A7D4E8FD8B04170F2E"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1074,6 +1080,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F874D0C34FAE23A7D4E8FD8B04170F2E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DevExpress.Data.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_F874D0C34FAE23A7D4E8FD8B04170F2E"
+                    {
+                    "Name" = "8:DevExpress.Data.v14.1.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DevExpress.Data.v14.1.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2AA5C2E91E5241948BA375F2991AB8EA"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -1142,7 +1179,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPRSService"
         "ProductCode" = "8:{9C91CAAF-B8A8-443E-94FF-A6A46DE2CA71}"
-        "PackageCode" = "8:{23774387-6420-4ADC-8773-EBB1011DF808}"
+        "PackageCode" = "8:{DC7C1C0C-7FA3-4C7C-855B-CBE8D48268AC}"
         "UpgradeCode" = "8:{0DCBBB10-441E-4D6C-9A4E-2EAD640FA763}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
