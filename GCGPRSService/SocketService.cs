@@ -685,32 +685,9 @@ namespace GCGPRSService
                                             }
                                             #endregion
                                         }
-                                        else if ((pack.C1 == (byte)GPRS_READ.READ_TURBIDITY) || (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL) ||
-                                                 (pack.C1 == (byte)GPRS_READ.READ_PH)||(pack.C1 == (byte)GPRS_READ.READ_CONDUCTIVITY))  //接受水质终端发送的脉冲数据
+                                        else if ((pack.C1 == (byte)GPRS_READ.READ_UNIVERSAL_PLUSE))  //接受水质终端发送的脉冲数据
                                         {
                                             #region 通用终端脉冲
-                                            string name = "";
-                                            string sequence = "";
-                                            if (pack.C1 == (byte)GPRS_READ.READ_TURBIDITY)
-                                            {
-                                                name = "浊度";
-                                                sequence = "1";
-                                            }
-                                            else if (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL)
-                                            {
-                                                name = "余氯";
-                                                sequence = "1";
-                                            }
-                                            else if (pack.C1 == (byte)GPRS_READ.READ_PH)
-                                            {
-                                                name = "PH";
-                                                sequence = "2";
-                                            }
-                                            else if (pack.C1 == (byte)GPRS_READ.READ_CONDUCTIVITY)
-                                            {
-                                                name = "电导率";
-                                                sequence = "2";
-                                            }
                                             GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
                                             framedata.TerId = pack.DevID.ToString();
                                             framedata.ModifyTime = DateTime.Now;

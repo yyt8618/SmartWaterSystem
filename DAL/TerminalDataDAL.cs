@@ -1034,10 +1034,25 @@ namespace DAL
             }
             if (str_ids.EndsWith(","))
                 str_ids = str_ids.Substring(0, str_ids.Length - 1);
-            string SQL = string.Format(@"SELECT t.TerminalID,t.TerminalName,t.Address,v.Turbidity,v.ResidualCl,v.PH,v.Conductivity,v.Temperature FROM OLWQ_Real v,Terminal t WHERE 
-                                t.TerminalType = {0} AND t.TerminalID IN({1}) AND v.ID IN (SELECT MAX(ID) FROM OLWQ_Real GROUP BY ValueColumnName)", ((int)TerType.OLWQTer).ToString(), str_ids);
+            string SQL = string.Format(@"SELECT TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,ValueColumnName FROM OLWQ_Real WHERE ID IN(SELECT MAX(ID) FROM OLWQ_Real WHERE TerminalID IN({0}) GROUP BY ValueColumnName)", str_ids);
             DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
-            return dt;
+            string SQL_Ter = string.Format("SELECT DISTINCT TerminalID,TerminalName,'无' Turbidity,'无' ResidualCl,'无' PH,'无' Conductivity,'无' Temperature FROM Terminal WHERE TerminalID IN({0}) AND TerminalType={1}", str_ids,((int)TerType.OLWQTer).ToString());
+            DataTable dt_res = SQLHelper.ExecuteDataTable(SQL_Ter, null);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string terminalid = dr["TerminalID"].ToString().Trim();
+                    string valuetype = dr["ValueColumnName"].ToString().Trim();
+                    DataRow[] dr_res = dt_res.Select("TerminalID='" + terminalid + "'");
+                    if (dr_res != null && dr_res.Length > 0)
+                    {
+                        dr_res[0][valuetype] = dr[valuetype].ToString();
+                    }
+                }
+            }
+
+            return dt_res;
         }
 
     }
