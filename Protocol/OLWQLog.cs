@@ -953,7 +953,7 @@ namespace Protocol
             package.C1 = (byte)OLWQ_COMMAND.SET_POWERSUPPLYTYPE;
             package.DataLength = 1;
             byte[] data = new byte[package.DataLength];
-            data[0] = (value == 0 ? (byte)0x01 : (byte)0x02);
+            data[0] = (value == 1 ? (byte)0x01 : (byte)0x02);
             package.Data = data;
             package.CS = package.CreateCS();
 

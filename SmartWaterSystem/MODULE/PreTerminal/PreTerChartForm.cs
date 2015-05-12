@@ -14,7 +14,6 @@ namespace SmartWaterSystem
         TerminalDataBLL dataBll = new TerminalDataBLL();
         List<PreDetailDataEntity> lstData = null;
         public static string TerminalID = "";
-        public static string TerminalName = "";
 
         public PreTerChartForm()
         {
@@ -25,8 +24,6 @@ namespace SmartWaterSystem
         {
             dtpStart.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             dtpEnd.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
-
-            lstDetailView.Columns[1].Text = TerminalName;
 
             groupBoxList.Visible = true;
             groupBoxChart.Visible = false;
@@ -216,5 +213,10 @@ namespace SmartWaterSystem
             }
         }
         #endregion
+
+        private void cbDataType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lstDetailView.Columns[1].Text = cbDataType.Text;
+        }
     }
 }

@@ -32,10 +32,10 @@ namespace SmartWaterSystem
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.cbPowersupplyType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
-            this.ceResidualClState = new DevExpress.XtraEditors.CheckEdit();
-            this.ceTurbidityState = new DevExpress.XtraEditors.CheckEdit();
             this.ceConductivityState = new DevExpress.XtraEditors.CheckEdit();
             this.cePHState = new DevExpress.XtraEditors.CheckEdit();
+            this.ceResidualClState = new DevExpress.XtraEditors.CheckEdit();
+            this.ceTurbidityState = new DevExpress.XtraEditors.CheckEdit();
             this.txtTurbidityUpLimit = new DevExpress.XtraEditors.TextEdit();
             this.txtTime = new DevExpress.XtraEditors.TextEdit();
             this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
@@ -113,10 +113,10 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cbPowersupplyType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
             this.groupControl7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClState.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityState.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConductivityState.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePHState.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClState.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityState.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTurbidityUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
@@ -238,28 +238,6 @@ namespace SmartWaterSystem
             this.groupControl7.Size = new System.Drawing.Size(104, 53);
             this.groupControl7.TabIndex = 26;
             // 
-            // ceResidualClState
-            // 
-            this.ceResidualClState.Enabled = false;
-            this.ceResidualClState.Location = new System.Drawing.Point(5, 5);
-            this.ceResidualClState.Name = "ceResidualClState";
-            this.ceResidualClState.Properties.Caption = "余氯";
-            this.ceResidualClState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceResidualClState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceResidualClState.Size = new System.Drawing.Size(49, 19);
-            this.ceResidualClState.TabIndex = 0;
-            // 
-            // ceTurbidityState
-            // 
-            this.ceTurbidityState.Enabled = false;
-            this.ceTurbidityState.Location = new System.Drawing.Point(5, 30);
-            this.ceTurbidityState.Name = "ceTurbidityState";
-            this.ceTurbidityState.Properties.Caption = "浊度";
-            this.ceTurbidityState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceTurbidityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceTurbidityState.Size = new System.Drawing.Size(48, 19);
-            this.ceTurbidityState.TabIndex = 2;
-            // 
             // ceConductivityState
             // 
             this.ceConductivityState.Enabled = false;
@@ -281,6 +259,28 @@ namespace SmartWaterSystem
             this.cePHState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.cePHState.Size = new System.Drawing.Size(48, 19);
             this.cePHState.TabIndex = 1;
+            // 
+            // ceResidualClState
+            // 
+            this.ceResidualClState.Enabled = false;
+            this.ceResidualClState.Location = new System.Drawing.Point(5, 5);
+            this.ceResidualClState.Name = "ceResidualClState";
+            this.ceResidualClState.Properties.Caption = "余氯";
+            this.ceResidualClState.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceResidualClState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceResidualClState.Size = new System.Drawing.Size(49, 19);
+            this.ceResidualClState.TabIndex = 0;
+            // 
+            // ceTurbidityState
+            // 
+            this.ceTurbidityState.Enabled = false;
+            this.ceTurbidityState.Location = new System.Drawing.Point(5, 30);
+            this.ceTurbidityState.Name = "ceTurbidityState";
+            this.ceTurbidityState.Properties.Caption = "浊度";
+            this.ceTurbidityState.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceTurbidityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.ceTurbidityState.Size = new System.Drawing.Size(48, 19);
+            this.ceTurbidityState.TabIndex = 2;
             // 
             // txtTurbidityUpLimit
             // 
@@ -591,7 +591,7 @@ namespace SmartWaterSystem
             // 
             this.gridControl_ResidualCl.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_ResidualCl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_ResidualCl.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_ResidualCl.Location = new System.Drawing.Point(2, 22);
             this.gridControl_ResidualCl.MainView = this.gridView_ResidualCl;
             this.gridControl_ResidualCl.Name = "gridControl_ResidualCl";
             this.gridControl_ResidualCl.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -599,7 +599,7 @@ namespace SmartWaterSystem
             this.cb_ResidualCl_coltime1,
             this.cb_ResidualCl_sendtime,
             this.cb_sim_coltime2});
-            this.gridControl_ResidualCl.Size = new System.Drawing.Size(391, 146);
+            this.gridControl_ResidualCl.Size = new System.Drawing.Size(391, 151);
             this.gridControl_ResidualCl.TabIndex = 1;
             this.gridControl_ResidualCl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_ResidualCl});
@@ -704,14 +704,14 @@ namespace SmartWaterSystem
             // 
             this.gridControl_Turbidity.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_Turbidity.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Turbidity.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_Turbidity.Location = new System.Drawing.Point(2, 22);
             this.gridControl_Turbidity.MainView = this.gridView_Turbidity;
             this.gridControl_Turbidity.Name = "gridControl_Turbidity";
             this.gridControl_Turbidity.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_Turbidity_starttime,
             this.cb_Turbidity_coltime,
             this.cb_Turbidity_sendtime});
-            this.gridControl_Turbidity.Size = new System.Drawing.Size(391, 146);
+            this.gridControl_Turbidity.Size = new System.Drawing.Size(391, 151);
             this.gridControl_Turbidity.TabIndex = 1;
             this.gridControl_Turbidity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Turbidity});
@@ -841,14 +841,14 @@ namespace SmartWaterSystem
             // 
             this.gridControl_PH.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_PH.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_PH.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_PH.Location = new System.Drawing.Point(2, 22);
             this.gridControl_PH.MainView = this.gridView_PH;
             this.gridControl_PH.Name = "gridControl_PH";
             this.gridControl_PH.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_PH_starttime,
             this.cb_PH_coltime,
             this.cb_PH_sendtime});
-            this.gridControl_PH.Size = new System.Drawing.Size(391, 146);
+            this.gridControl_PH.Size = new System.Drawing.Size(391, 151);
             this.gridControl_PH.TabIndex = 1;
             this.gridControl_PH.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_PH});
@@ -957,14 +957,14 @@ namespace SmartWaterSystem
             // 
             this.gridControl_Conductivity.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_Conductivity.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Conductivity.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_Conductivity.Location = new System.Drawing.Point(2, 22);
             this.gridControl_Conductivity.MainView = this.gridView_Conductivity;
             this.gridControl_Conductivity.Name = "gridControl_Conductivity";
             this.gridControl_Conductivity.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_Conductivity_starttime,
             this.cb_Conductivity_coltime,
             this.cb_Conductivity_sendtime});
-            this.gridControl_Conductivity.Size = new System.Drawing.Size(391, 146);
+            this.gridControl_Conductivity.Size = new System.Drawing.Size(391, 151);
             this.gridControl_Conductivity.TabIndex = 1;
             this.gridControl_Conductivity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Conductivity});
@@ -1072,10 +1072,10 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cbPowersupplyType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
             this.groupControl7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClState.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityState.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConductivityState.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePHState.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClState.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityState.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTurbidityUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();

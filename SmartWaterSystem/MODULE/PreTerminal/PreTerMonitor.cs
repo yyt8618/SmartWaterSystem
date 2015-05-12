@@ -430,7 +430,6 @@ namespace SmartWaterSystem
             {
                 string terId = lstDataView.GetRowCellValue(e.RowHandle, "TerminalID").ToString().Trim();
                 PreTerChartForm.TerminalID = terId;
-                PreTerChartForm.TerminalName = e.Column.Caption.Trim();
                 PreTerChartForm detailForm = new PreTerChartForm();
                 detailForm.ShowDialog();
             }

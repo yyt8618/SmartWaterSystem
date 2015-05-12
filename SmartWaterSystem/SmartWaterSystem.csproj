@@ -205,12 +205,6 @@
     <Compile Include="MODULE\NoiseRec\NoiseParmSetting.Designer.cs">
       <DependentUpon>NoiseParmSetting.cs</DependentUpon>
     </Compile>
-    <Compile Include="MODULE\OLWQ\OLWQChartForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MODULE\OLWQ\OLWQChartForm.Designer.cs">
-      <DependentUpon>OLWQChartForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MODULE\OLWQ\OLWQMgr.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -229,11 +223,11 @@
     <Compile Include="MODULE\OLWQ\OLWQParm.Designer.cs">
       <DependentUpon>OLWQParm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MODULE\OLWQ\OLWQTreeNodeInfoForm.cs">
+    <Compile Include="MODULE\OLWQ\OLWQChartForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MODULE\OLWQ\OLWQTreeNodeInfoForm.Designer.cs">
-      <DependentUpon>OLWQTreeNodeInfoForm.cs</DependentUpon>
+    <Compile Include="MODULE\OLWQ\OLWQChartForm.Designer.cs">
+      <DependentUpon>OLWQChartForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\PreTerminal\PreParmConfigForm.cs">
       <SubType>Form</SubType>
@@ -409,9 +403,6 @@
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseParmSetting.resx">
       <DependentUpon>NoiseParmSetting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\OLWQ\OLWQChartForm.resx">
-      <DependentUpon>OLWQChartForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\OLWQ\OLWQMgr.resx">
       <DependentUpon>OLWQMgr.cs</DependentUpon>
     </EmbeddedResource>
@@ -421,8 +412,8 @@
     <EmbeddedResource Include="MODULE\OLWQ\OLWQParm.resx">
       <DependentUpon>OLWQParm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\OLWQ\OLWQTreeNodeInfoForm.resx">
-      <DependentUpon>OLWQTreeNodeInfoForm.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQChartForm.resx">
+      <DependentUpon>OLWQChartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreParmConfigForm.resx">
       <DependentUpon>PreParmConfigForm.cs</DependentUpon>

@@ -32,7 +32,14 @@ namespace SmartWaterSystem
             this.components = new System.ComponentModel.Container();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl_data = new DevExpress.XtraGrid.GridControl();
-            this.advBandedGridView1 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
             this.gridControlTer = new DevExpress.XtraGrid.GridControl();
             this.gridViewTer = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -51,7 +58,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_data)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.advBandedGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
             this.groupControl6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).BeginInit();
@@ -76,26 +83,110 @@ namespace SmartWaterSystem
             // 
             this.gridControl_data.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_data.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_data.Location = new System.Drawing.Point(2, 27);
-            this.gridControl_data.MainView = this.advBandedGridView1;
+            this.gridControl_data.Location = new System.Drawing.Point(2, 22);
+            this.gridControl_data.MainView = this.gridView1;
             this.gridControl_data.Name = "gridControl_data";
-            this.gridControl_data.Size = new System.Drawing.Size(674, 454);
+            this.gridControl_data.Size = new System.Drawing.Size(674, 459);
             this.gridControl_data.TabIndex = 1;
             this.gridControl_data.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.advBandedGridView1});
+            this.gridView1});
             // 
-            // advBandedGridView1
+            // gridView1
             // 
-            this.advBandedGridView1.GridControl = this.gridControl_data;
-            this.advBandedGridView1.Name = "advBandedGridView1";
-            this.advBandedGridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            this.advBandedGridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
-            this.advBandedGridView1.OptionsBehavior.ReadOnly = true;
-            this.advBandedGridView1.OptionsView.ShowGroupPanel = false;
-            this.advBandedGridView1.OptionsView.ShowIndicator = false;
-            this.advBandedGridView1.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.advBandedGridView1_RowCellClick);
-            this.advBandedGridView1.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.advBandedGridView1_CustomDrawRowIndicator);
-            this.advBandedGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.advBandedGridView1_MouseDown);
+            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn3,
+            this.gridColumn4,
+            this.gridColumn5,
+            this.gridColumn6,
+            this.gridColumn7,
+            this.gridColumn8,
+            this.gridColumn9});
+            this.gridView1.GridControl = this.gridControl_data;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsBehavior.ReadOnly = true;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
+            this.gridView1.OptionsView.ShowIndicator = false;
+            this.gridView1.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView1_RowCellClick);
+            this.gridView1.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridView1_CustomDrawRowIndicator);
+            // 
+            // gridColumn3
+            // 
+            this.gridColumn3.Caption = "终端编号";
+            this.gridColumn3.FieldName = "TerminalID";
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.OptionsColumn.AllowEdit = false;
+            this.gridColumn3.OptionsColumn.AllowMove = false;
+            this.gridColumn3.OptionsColumn.ReadOnly = true;
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 0;
+            // 
+            // gridColumn4
+            // 
+            this.gridColumn4.Caption = "终端名称";
+            this.gridColumn4.FieldName = "TerminalName";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.OptionsColumn.AllowEdit = false;
+            this.gridColumn4.OptionsColumn.AllowMove = false;
+            this.gridColumn4.OptionsColumn.ReadOnly = true;
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 1;
+            // 
+            // gridColumn5
+            // 
+            this.gridColumn5.Caption = "浊度";
+            this.gridColumn5.FieldName = "Turbidity";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.OptionsColumn.AllowEdit = false;
+            this.gridColumn5.OptionsColumn.AllowMove = false;
+            this.gridColumn5.OptionsColumn.ReadOnly = true;
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 2;
+            // 
+            // gridColumn6
+            // 
+            this.gridColumn6.Caption = "余氯";
+            this.gridColumn6.FieldName = "ResidualCl";
+            this.gridColumn6.Name = "gridColumn6";
+            this.gridColumn6.OptionsColumn.AllowEdit = false;
+            this.gridColumn6.OptionsColumn.AllowMove = false;
+            this.gridColumn6.OptionsColumn.ReadOnly = true;
+            this.gridColumn6.Visible = true;
+            this.gridColumn6.VisibleIndex = 3;
+            // 
+            // gridColumn7
+            // 
+            this.gridColumn7.Caption = "PH";
+            this.gridColumn7.FieldName = "PH";
+            this.gridColumn7.Name = "gridColumn7";
+            this.gridColumn7.OptionsColumn.AllowEdit = false;
+            this.gridColumn7.OptionsColumn.AllowMove = false;
+            this.gridColumn7.OptionsColumn.ReadOnly = true;
+            this.gridColumn7.Visible = true;
+            this.gridColumn7.VisibleIndex = 4;
+            // 
+            // gridColumn8
+            // 
+            this.gridColumn8.Caption = "电导率";
+            this.gridColumn8.FieldName = "Conductivity";
+            this.gridColumn8.Name = "gridColumn8";
+            this.gridColumn8.OptionsColumn.AllowEdit = false;
+            this.gridColumn8.OptionsColumn.AllowMove = false;
+            this.gridColumn8.OptionsColumn.ReadOnly = true;
+            this.gridColumn8.Visible = true;
+            this.gridColumn8.VisibleIndex = 5;
+            // 
+            // gridColumn9
+            // 
+            this.gridColumn9.Caption = "温度";
+            this.gridColumn9.FieldName = "Temperature";
+            this.gridColumn9.Name = "gridColumn9";
+            this.gridColumn9.OptionsColumn.AllowEdit = false;
+            this.gridColumn9.OptionsColumn.AllowMove = false;
+            this.gridColumn9.OptionsColumn.ReadOnly = true;
+            this.gridColumn9.Visible = true;
+            this.gridColumn9.VisibleIndex = 6;
             // 
             // groupControl6
             // 
@@ -110,7 +201,7 @@ namespace SmartWaterSystem
             // 
             this.gridControlTer.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControlTer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlTer.Location = new System.Drawing.Point(2, 27);
+            this.gridControlTer.Location = new System.Drawing.Point(2, 22);
             this.gridControlTer.MainView = this.gridViewTer;
             this.gridControlTer.Name = "gridControlTer";
             this.gridControlTer.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -118,7 +209,7 @@ namespace SmartWaterSystem
             this.ceCallData,
             this.ImageComboBox_Online,
             this.repositoryItemPictureEdit1});
-            this.gridControlTer.Size = new System.Drawing.Size(107, 454);
+            this.gridControlTer.Size = new System.Drawing.Size(107, 459);
             this.gridControlTer.TabIndex = 0;
             this.gridControlTer.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewTer});
@@ -252,19 +343,19 @@ namespace SmartWaterSystem
             this.MenuItem_Offline.Text = "下线";
             this.MenuItem_Offline.Click += new System.EventHandler(this.MenuItem_Offline_Click);
             // 
-            // UniversalTerMonitor
+            // OLWQMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupControl6);
             this.Controls.Add(this.groupControl3);
-            this.Name = "UniversalTerMonitor";
+            this.Name = "OLWQMonitor";
             this.Size = new System.Drawing.Size(797, 494);
-            this.Load += new System.EventHandler(this.UniversalTerParm_Load);
+            this.Load += new System.EventHandler(this.OLWQMonitor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_data)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.advBandedGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
             this.groupControl6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).EndInit();
@@ -283,7 +374,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.GroupControl groupControl3;
         private DevExpress.XtraGrid.GridControl gridControl_data;
         private DevExpress.XtraEditors.GroupControl groupControl6;
-        private DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView advBandedGridView1;
         private System.Windows.Forms.Timer timer1;
         private DevExpress.XtraGrid.GridControl gridControlTer;
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewTer;
@@ -298,6 +388,14 @@ namespace SmartWaterSystem
         private System.Windows.Forms.ContextMenuStrip MenuOnLine;
         private System.Windows.Forms.ToolStripMenuItem MenuItem_Online;
         private System.Windows.Forms.ToolStripMenuItem MenuItem_Offline;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
 
     }
 }

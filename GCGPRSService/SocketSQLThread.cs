@@ -182,6 +182,7 @@ namespace GCGPRSService
                     case (uint)SQLType.InsertOLWQValue:
                         {
                             #region 保存水质终端数据帧至数据库
+                            result = dataBll.InsertGPRSOLWQData(GlobalValue.Instance.GPRS_OLWQFrameData, out msg);
                             #endregion
                         }
                         break;

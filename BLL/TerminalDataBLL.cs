@@ -76,6 +76,23 @@ namespace BLL
             }
         }
 
+        public int InsertGPRSOLWQData(Queue<GPRSOLWQFrameDataEntity> datas, out string msg)
+        {
+            msg = "";
+            try
+            {
+                if (datas.Count == 0)
+                    return 0;
+                return dal.InsertGPRSOLWQData(datas);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("InsertGPRSOLWQData", ex);
+                msg = "保存至数据库发生异常";
+                return -1;
+            }
+        }
+
         public List<GPRSCmdEntity> GetGPRSParm()
         {
             try
@@ -240,6 +257,19 @@ namespace BLL
             }
         }
 
+        public List<OLWQDetailDataEntity> GetOLWQDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval, int datatype)
+        {
+            try
+            {
+                return dal.GetOLWQDetail(TerminalID, minTime, maxTime, interval, datatype);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetOLWQDetail", ex);
+                return null;
+            }
+        }
+
         public string GetTerminalName(string TerminalID, TerType tertype)
         {
             try
@@ -296,6 +326,18 @@ namespace BLL
             }
         }
 
+        public DataTable GetOLWQData(List<string> terminalids)
+        {
+            try
+            {
+                return dal.GetOLWQData(terminalids);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetOLWQData", ex);
+                return null;
+            }
+        }
 
     }
 }

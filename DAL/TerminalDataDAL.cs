@@ -268,6 +268,82 @@ namespace DAL
             }
         }
 
+        public int InsertGPRSOLWQData(Queue<GPRSOLWQFrameDataEntity> datas)
+        {
+            lock (ConstValue.obj)
+            {
+                SqlTransaction trans = null;
+                try
+                {
+                    trans = SQLHelper.GetTransaction();
+
+                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                    SqlParameter[] parms_frame = new SqlParameter[]{
+                new SqlParameter("@dir",SqlDbType.Int),
+                new SqlParameter("@frame",SqlDbType.VarChar,2000),
+                new SqlParameter("@logtime",SqlDbType.DateTime)
+            };
+                    SqlCommand command_frame = new SqlCommand();
+                    command_frame.CommandText = SQL_Frame;
+                    command_frame.Parameters.AddRange(parms_frame);
+                    command_frame.CommandType = CommandType.Text;
+                    command_frame.Connection = SQLHelper.Conn;
+                    command_frame.Transaction = trans;
+
+                    string SQL_Data = "INSERT INTO OLWQ_Real(TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime,UnloadTime) VALUES(@TerId,@Turbidity,@ResidualCl,@PH,@Cond,@Temp,@coltime,@UploadTime)";
+                    SqlParameter[] parms_predata = new SqlParameter[]{
+                    new SqlParameter("@TerId",SqlDbType.Int),
+                    new SqlParameter("@Turbidity",SqlDbType.Decimal),
+                    new SqlParameter("@ResidualCl",SqlDbType.Decimal),
+                    new SqlParameter("@PH",SqlDbType.Decimal),
+                    new SqlParameter("@Cond",SqlDbType.Decimal),
+                    new SqlParameter("@Temp",SqlDbType.Decimal),
+                    new SqlParameter("@coltime",SqlDbType.DateTime),
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime)
+                };
+                    SqlCommand command_data = new SqlCommand();
+                    command_data.CommandText = SQL_Data;
+                    command_data.Parameters.AddRange(parms_predata);
+                    command_data.CommandType = CommandType.Text;
+                    command_data.Connection = SQLHelper.Conn;
+                    command_data.Transaction = trans;
+
+                    while (datas.Count > 0)
+                    {
+                        GPRSOLWQFrameDataEntity entity = datas.Dequeue();
+                        parms_frame[0].Value = 1;
+                        parms_frame[1].Value = entity.Frame;
+                        parms_frame[2].Value = entity.ModifyTime;
+
+                        command_frame.ExecuteNonQuery();
+
+                        for (int i = 0; i < entity.lstOLWQData.Count; i++)
+                        {
+                            parms_predata[0].Value = entity.TerId;
+                            parms_predata[1].Value = entity.lstOLWQData[i].Turbidity;
+                            parms_predata[2].Value = entity.lstOLWQData[i].ResidualCl;
+                            parms_predata[3].Value = entity.lstOLWQData[i].PH;
+                            parms_predata[4].Value = entity.lstOLWQData[i].Conductivity;
+                            parms_predata[5].Value = entity.lstOLWQData[i].Temperature;
+                            parms_predata[6].Value = entity.lstOLWQData[i].ColTime;
+                            parms_predata[7].Value = entity.ModifyTime;
+
+                            command_data.ExecuteNonQuery();
+                        }
+                    }
+                    trans.Commit();
+
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    if (trans != null)
+                        trans.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
         /// <summary>
         /// 获取需要下发的参数
         /// </summary>
@@ -544,7 +620,7 @@ namespace DAL
 
         public DataTable GetUniversalDataConfig(TerType terType)
         {
-            string SQL = @"SELECT Type.ID,Config.TerminalID,Config.Sequence,Type.[Level],Type.[ParentID],Type.[WayType],Type.[Name],Type.[MaxMeasureRange],Type.[MaxMeasureRangeFlag],Type.[FrameWidth],Type.[Precision],Type.[Unit]
+            string SQL = @"SELECT DISTINCT Type.ID,Config.TerminalID,Config.Sequence,Type.[Level],Type.[ParentID],Type.[WayType],Type.[Name],Type.[MaxMeasureRange],Type.[MaxMeasureRangeFlag],Type.[FrameWidth],Type.[Precision],Type.[Unit]
                         FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE Config.PointID=Type.ID OR Config.PointID=Type.ParentID AND Config.TerminalType=Type.TerminalType AND Config.TerminalType='"+((int)terType).ToString()+"'";
 
             DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
@@ -649,6 +725,47 @@ namespace DAL
                     UniversalDetailDataEntity entity = new UniversalDetailDataEntity();
 
                     entity.Data = reader["DataValue"] != DBNull.Value ? Convert.ToDecimal(reader["DataValue"]) : 0;
+                    entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : ConstValue.MinDateTime;
+
+                    lstData.Add(entity);
+                }
+                return lstData;
+            }
+            return null;
+        }
+
+        public List<OLWQDetailDataEntity> GetOLWQDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval, int datatype)
+        {
+            string SQL = @"SELECT Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime FROM OLWQ_Real 
+            WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalIDID=@TerId  ORDER BY CollTime";
+
+            SqlParameter[] parms = new SqlParameter[]{
+                new SqlParameter("@TerId",SqlDbType.Int),
+                new SqlParameter("@mintime",SqlDbType.DateTime),
+                new SqlParameter("@maxtime",SqlDbType.DateTime),
+                new SqlParameter("@interval",SqlDbType.Int)
+            };
+            parms[0].Value = TerminalID;
+            parms[1].Value = minTime;
+            parms[2].Value = maxTime;
+            parms[3].Value = interval;
+
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, parms))
+            {
+                List<OLWQDetailDataEntity> lstData = new List<OLWQDetailDataEntity>();
+                while (reader.Read())
+                {
+                    OLWQDetailDataEntity entity = new OLWQDetailDataEntity();
+                    if (datatype == 0)  //浊度
+                        entity.Value = reader["Turbidity"] != DBNull.Value ? Convert.ToDecimal(reader["Turbidity"]) : 0;
+                    else if (datatype == 1)  //余氯
+                        entity.Value = reader["ResidualCl"] != DBNull.Value ? Convert.ToDecimal(reader["ResidualCl"]) : 0;
+                    else if (datatype == 2)  //PH
+                        entity.Value = reader["PH"] != DBNull.Value ? Convert.ToDecimal(reader["PH"]) : 0;
+                    else if (datatype == 3)  //电导率
+                        entity.Value = reader["Conductivity"] != DBNull.Value ? Convert.ToDecimal(reader["Conductivity"]) : 0;
+                    else if (datatype == 4)  //温度
+                        entity.Value = reader["Temperature"] != DBNull.Value ? Convert.ToDecimal(reader["Temperature"]) : 0;
                     entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : ConstValue.MinDateTime;
 
                     lstData.Add(entity);
@@ -904,6 +1021,23 @@ namespace DAL
                 return lstData;
             }
             return null;
+        }
+
+        public DataTable GetOLWQData(List<string> terminalids)
+        {
+            if (terminalids == null || terminalids.Count == 0)
+                return null;
+            string str_ids = "";
+            foreach (string id in terminalids)
+            {
+                str_ids += "'" + id + "',";
+            }
+            if (str_ids.EndsWith(","))
+                str_ids = str_ids.Substring(0, str_ids.Length - 1);
+            string SQL = string.Format(@"SELECT t.TerminalID,t.TerminalName,t.Address,v.Turbidity,v.ResidualCl,v.PH,v.Conductivity,v.Temperature FROM OLWQ_Real v,Terminal t WHERE 
+                                t.TerminalType = {0} AND t.TerminalID IN({1}) AND v.ID IN (SELECT MAX(ID) FROM OLWQ_Real GROUP BY ValueColumnName)", ((int)TerType.OLWQTer).ToString(), str_ids);
+            DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
+            return dt;
         }
 
     }
