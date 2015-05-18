@@ -837,8 +837,8 @@ namespace SmartWaterSystem
                 DisableNavigateBar();
                 ShowWaitForm("", "正在读取...");
                 BeginSerialPortDelegate();
-                GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
-                GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
+                GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
                 Application.DoEvents();
                 SetStaticItem("正在读取...");
                 GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReadBaicInfo);
@@ -848,7 +848,7 @@ namespace SmartWaterSystem
             }
         }
 
-        void SerialPortMgr_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
+        void SerialPortParm_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
         {
             if ((e.OptType == SerialPortType.UniversalReadBaicInfo || e.OptType == SerialPortType.UniversalSetBasicInfo) && !string.IsNullOrEmpty(e.Msg))
             {
@@ -967,8 +967,8 @@ namespace SmartWaterSystem
                     DisableNavigateBar();
                     ShowWaitForm("", "正在设置...");
                     BeginSerialPortDelegate();
-                    GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
-                    GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
+                    GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                    GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
                     Application.DoEvents();
                     SetStaticItem("正在设置...");
                     GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetBasicInfo);

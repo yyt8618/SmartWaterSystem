@@ -6,6 +6,7 @@ using Protocol;
 using System.Windows.Forms;
 using Entity;
 using Common;
+using System.Data;
 
 namespace SmartWaterSystem
 {
@@ -51,6 +52,16 @@ namespace SmartWaterSystem
         {
             get { return _SerialPortOptData; }
             set { _SerialPortOptData = value; }
+        }
+
+        private static CallDataTypeEntity _SerialPortCallDataType;
+        /// <summary>
+        /// 串口招测类型
+        /// </summary>
+        public static CallDataTypeEntity SerialPortCallDataType
+        {
+            get { return _SerialPortCallDataType; }
+            set { _SerialPortCallDataType = value; }
         }
 
         /// <summary>

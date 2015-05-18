@@ -135,5 +135,15 @@ namespace DAL
             return true;
         }
 
+        public bool ExistUniversalConfig(string terId)
+        {
+            string SQL = "SELECT COUNT(1) FROM UniversalTerWayConfig WHERE TerminalType='" + (int)TerType.UniversalTer + "' AND TerminalID='" + terId + "' AND SyncState<>-1";
+            object obj_count = SQLiteHelper.ExecuteScalar(SQL, null);
+            if (obj_count != null)
+            {
+                return Convert.ToInt32(obj_count) > 0 ? true : false;
+            }
+            return false;
+        }
     }
 }

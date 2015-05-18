@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupControl5 = new DevExpress.XtraEditors.GroupControl();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox_WayConfig = new System.Windows.Forms.GroupBox();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
             this.btnDel = new DevExpress.XtraEditors.SimpleButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -68,7 +68,7 @@
             this.cbSimulate2 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceSimulate2 = new DevExpress.XtraEditors.CheckEdit();
             this.ceSimulate1 = new DevExpress.XtraEditors.CheckEdit();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.groupBox_tree = new System.Windows.Forms.GroupBox();
             this.treeCollectType = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
@@ -85,7 +85,7 @@
             this.lblMaxMeasureR = new DevExpress.XtraEditors.LabelControl();
             this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox_BasicInfo = new System.Windows.Forms.GroupBox();
             this.txtID = new DevExpress.XtraEditors.TextEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
@@ -94,7 +94,7 @@
             this.txtName = new DevExpress.XtraEditors.TextEdit();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
-            this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
+            this.groupControl_TerList = new DevExpress.XtraEditors.GroupControl();
             this.gridControls = new DevExpress.XtraGrid.GridControl();
             this.gridTer = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -105,9 +105,17 @@
             this.menuTree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.新建ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.gridControl_CallData = new DevExpress.XtraGrid.GridControl();
+            this.gridView_CallData = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.btnCallData = new DevExpress.XtraEditors.SimpleButton();
+            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
             this.groupControl5.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.groupBox_WayConfig.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cbPluse5.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPluse4.Properties)).BeginInit();
@@ -143,7 +151,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cbSimulate2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1.Properties)).BeginInit();
-            this.groupBox6.SuspendLayout();
+            this.groupBox_tree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeCollectType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrecision.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnit.Properties)).BeginInit();
@@ -152,42 +160,46 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureR.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCollectType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTypeName.Properties)).BeginInit();
-            this.groupBox4.SuspendLayout();
+            this.groupBox_BasicInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRemark.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAddr.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
-            this.groupControl6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl_TerList)).BeginInit();
+            this.groupControl_TerList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControls)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridTer)).BeginInit();
             this.menuTree.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
+            this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_CallData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_CallData)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl5
             // 
-            this.groupControl5.Controls.Add(this.groupBox5);
-            this.groupControl5.Controls.Add(this.groupBox6);
-            this.groupControl5.Controls.Add(this.groupBox4);
+            this.groupControl5.Controls.Add(this.groupBox_WayConfig);
+            this.groupControl5.Controls.Add(this.groupBox_tree);
+            this.groupControl5.Controls.Add(this.groupBox_BasicInfo);
             this.groupControl5.Location = new System.Drawing.Point(191, 5);
             this.groupControl5.Name = "groupControl5";
             this.groupControl5.Size = new System.Drawing.Size(603, 481);
             this.groupControl5.TabIndex = 1;
             this.groupControl5.Text = "设置";
             // 
-            // groupBox5
+            // groupBox_WayConfig
             // 
-            this.groupBox5.Controls.Add(this.btnSave);
-            this.groupBox5.Controls.Add(this.btnDel);
-            this.groupBox5.Controls.Add(this.groupBox3);
-            this.groupBox5.Controls.Add(this.groupBox2);
-            this.groupBox5.Controls.Add(this.groupBox1);
-            this.groupBox5.Location = new System.Drawing.Point(5, 159);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(309, 317);
-            this.groupBox5.TabIndex = 1;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "采集配置";
+            this.groupBox_WayConfig.Controls.Add(this.btnSave);
+            this.groupBox_WayConfig.Controls.Add(this.btnDel);
+            this.groupBox_WayConfig.Controls.Add(this.groupBox3);
+            this.groupBox_WayConfig.Controls.Add(this.groupBox2);
+            this.groupBox_WayConfig.Controls.Add(this.groupBox1);
+            this.groupBox_WayConfig.Location = new System.Drawing.Point(5, 159);
+            this.groupBox_WayConfig.Name = "groupBox_WayConfig";
+            this.groupBox_WayConfig.Size = new System.Drawing.Size(309, 317);
+            this.groupBox_WayConfig.TabIndex = 1;
+            this.groupBox_WayConfig.TabStop = false;
+            this.groupBox_WayConfig.Text = "采集配置";
             // 
             // btnSave
             // 
@@ -602,29 +614,29 @@
             this.ceSimulate1.TabIndex = 1;
             this.ceSimulate1.CheckedChanged += new System.EventHandler(this.ceSimulate1_CheckedChanged);
             // 
-            // groupBox6
+            // groupBox_tree
             // 
-            this.groupBox6.Controls.Add(this.treeCollectType);
-            this.groupBox6.Controls.Add(this.labelControl2);
-            this.groupBox6.Controls.Add(this.labelControl6);
-            this.groupBox6.Controls.Add(this.txtPrecision);
-            this.groupBox6.Controls.Add(this.txtUnit);
-            this.groupBox6.Controls.Add(this.txtMaxMeasureRFlag);
-            this.groupBox6.Controls.Add(this.txtFrameWidth);
-            this.groupBox6.Controls.Add(this.txtMaxMeasureR);
-            this.groupBox6.Controls.Add(this.labelControl9);
-            this.groupBox6.Controls.Add(this.txtCollectType);
-            this.groupBox6.Controls.Add(this.labelControl11);
-            this.groupBox6.Controls.Add(this.txtTypeName);
-            this.groupBox6.Controls.Add(this.lblMaxMeasureR);
-            this.groupBox6.Controls.Add(this.labelControl10);
-            this.groupBox6.Controls.Add(this.labelControl8);
-            this.groupBox6.Location = new System.Drawing.Point(320, 30);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(278, 446);
-            this.groupBox6.TabIndex = 2;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "采集参数配置";
+            this.groupBox_tree.Controls.Add(this.treeCollectType);
+            this.groupBox_tree.Controls.Add(this.labelControl2);
+            this.groupBox_tree.Controls.Add(this.labelControl6);
+            this.groupBox_tree.Controls.Add(this.txtPrecision);
+            this.groupBox_tree.Controls.Add(this.txtUnit);
+            this.groupBox_tree.Controls.Add(this.txtMaxMeasureRFlag);
+            this.groupBox_tree.Controls.Add(this.txtFrameWidth);
+            this.groupBox_tree.Controls.Add(this.txtMaxMeasureR);
+            this.groupBox_tree.Controls.Add(this.labelControl9);
+            this.groupBox_tree.Controls.Add(this.txtCollectType);
+            this.groupBox_tree.Controls.Add(this.labelControl11);
+            this.groupBox_tree.Controls.Add(this.txtTypeName);
+            this.groupBox_tree.Controls.Add(this.lblMaxMeasureR);
+            this.groupBox_tree.Controls.Add(this.labelControl10);
+            this.groupBox_tree.Controls.Add(this.labelControl8);
+            this.groupBox_tree.Location = new System.Drawing.Point(320, 30);
+            this.groupBox_tree.Name = "groupBox_tree";
+            this.groupBox_tree.Size = new System.Drawing.Size(278, 446);
+            this.groupBox_tree.TabIndex = 2;
+            this.groupBox_tree.TabStop = false;
+            this.groupBox_tree.Text = "采集参数配置";
             // 
             // treeCollectType
             // 
@@ -764,22 +776,22 @@
             this.labelControl8.TabIndex = 109;
             this.labelControl8.Text = "精度:";
             // 
-            // groupBox4
+            // groupBox_BasicInfo
             // 
-            this.groupBox4.Controls.Add(this.txtID);
-            this.groupBox4.Controls.Add(this.labelControl3);
-            this.groupBox4.Controls.Add(this.labelControl1);
-            this.groupBox4.Controls.Add(this.txtRemark);
-            this.groupBox4.Controls.Add(this.txtAddr);
-            this.groupBox4.Controls.Add(this.txtName);
-            this.groupBox4.Controls.Add(this.labelControl4);
-            this.groupBox4.Controls.Add(this.labelControl5);
-            this.groupBox4.Location = new System.Drawing.Point(5, 30);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(309, 112);
-            this.groupBox4.TabIndex = 0;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "基本信息";
+            this.groupBox_BasicInfo.Controls.Add(this.txtID);
+            this.groupBox_BasicInfo.Controls.Add(this.labelControl3);
+            this.groupBox_BasicInfo.Controls.Add(this.labelControl1);
+            this.groupBox_BasicInfo.Controls.Add(this.txtRemark);
+            this.groupBox_BasicInfo.Controls.Add(this.txtAddr);
+            this.groupBox_BasicInfo.Controls.Add(this.txtName);
+            this.groupBox_BasicInfo.Controls.Add(this.labelControl4);
+            this.groupBox_BasicInfo.Controls.Add(this.labelControl5);
+            this.groupBox_BasicInfo.Location = new System.Drawing.Point(5, 30);
+            this.groupBox_BasicInfo.Name = "groupBox_BasicInfo";
+            this.groupBox_BasicInfo.Size = new System.Drawing.Size(309, 112);
+            this.groupBox_BasicInfo.TabIndex = 0;
+            this.groupBox_BasicInfo.TabStop = false;
+            this.groupBox_BasicInfo.Text = "基本信息";
             // 
             // txtID
             // 
@@ -846,14 +858,14 @@
             this.labelControl5.TabIndex = 109;
             this.labelControl5.Text = "备注:";
             // 
-            // groupControl6
+            // groupControl_TerList
             // 
-            this.groupControl6.Controls.Add(this.gridControls);
-            this.groupControl6.Location = new System.Drawing.Point(4, 5);
-            this.groupControl6.Name = "groupControl6";
-            this.groupControl6.Size = new System.Drawing.Size(181, 483);
-            this.groupControl6.TabIndex = 0;
-            this.groupControl6.Text = "终端列表";
+            this.groupControl_TerList.Controls.Add(this.gridControls);
+            this.groupControl_TerList.Location = new System.Drawing.Point(4, 5);
+            this.groupControl_TerList.Name = "groupControl_TerList";
+            this.groupControl_TerList.Size = new System.Drawing.Size(181, 261);
+            this.groupControl_TerList.TabIndex = 0;
+            this.groupControl_TerList.Text = "终端列表";
             // 
             // gridControls
             // 
@@ -862,7 +874,7 @@
             this.gridControls.Location = new System.Drawing.Point(2, 22);
             this.gridControls.MainView = this.gridTer;
             this.gridControls.Name = "gridControls";
-            this.gridControls.Size = new System.Drawing.Size(177, 459);
+            this.gridControls.Size = new System.Drawing.Size(177, 237);
             this.gridControls.TabIndex = 110;
             this.gridControls.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridTer});
@@ -953,18 +965,118 @@
             this.删除ToolStripMenuItem.Text = "删除";
             this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
             // 
+            // groupControl1
+            // 
+            this.groupControl1.Controls.Add(this.gridControl_CallData);
+            this.groupControl1.Controls.Add(this.btnCallData);
+            this.groupControl1.Controls.Add(this.labelControl7);
+            this.groupControl1.Location = new System.Drawing.Point(4, 270);
+            this.groupControl1.Name = "groupControl1";
+            this.groupControl1.Size = new System.Drawing.Size(181, 216);
+            this.groupControl1.TabIndex = 112;
+            // 
+            // gridControl_CallData
+            // 
+            this.gridControl_CallData.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl_CallData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_CallData.Location = new System.Drawing.Point(2, 22);
+            this.gridControl_CallData.MainView = this.gridView_CallData;
+            this.gridControl_CallData.Name = "gridControl_CallData";
+            this.gridControl_CallData.Size = new System.Drawing.Size(177, 192);
+            this.gridControl_CallData.TabIndex = 2;
+            this.gridControl_CallData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView_CallData});
+            // 
+            // gridView_CallData
+            // 
+            this.gridView_CallData.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn3,
+            this.gridColumn4,
+            this.gridColumn8});
+            this.gridView_CallData.GridControl = this.gridControl_CallData;
+            this.gridView_CallData.Name = "gridView_CallData";
+            this.gridView_CallData.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView_CallData.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView_CallData.OptionsBehavior.ReadOnly = true;
+            this.gridView_CallData.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_CallData.OptionsCustomization.AllowFilter = false;
+            this.gridView_CallData.OptionsCustomization.AllowSort = false;
+            this.gridView_CallData.OptionsFilter.AllowFilterEditor = false;
+            this.gridView_CallData.OptionsView.ShowGroupPanel = false;
+            this.gridView_CallData.OptionsView.ShowIndicator = false;
+            // 
+            // gridColumn3
+            // 
+            this.gridColumn3.Caption = "招测类型";
+            this.gridColumn3.FieldName = "CallDataType";
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.OptionsColumn.AllowEdit = false;
+            this.gridColumn3.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn3.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn3.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn3.OptionsColumn.ReadOnly = true;
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 0;
+            this.gridColumn3.Width = 73;
+            // 
+            // gridColumn4
+            // 
+            this.gridColumn4.Caption = "值";
+            this.gridColumn4.FieldName = "CallData";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.OptionsColumn.AllowEdit = false;
+            this.gridColumn4.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsColumn.ReadOnly = true;
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 1;
+            this.gridColumn4.Width = 56;
+            // 
+            // gridColumn8
+            // 
+            this.gridColumn8.Caption = "单位";
+            this.gridColumn8.FieldName = "Unit";
+            this.gridColumn8.Name = "gridColumn8";
+            this.gridColumn8.OptionsColumn.AllowEdit = false;
+            this.gridColumn8.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn8.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn8.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn8.OptionsColumn.ReadOnly = true;
+            this.gridColumn8.Visible = true;
+            this.gridColumn8.VisibleIndex = 2;
+            this.gridColumn8.Width = 46;
+            // 
+            // btnCallData
+            // 
+            this.btnCallData.Location = new System.Drawing.Point(4, 0);
+            this.btnCallData.Name = "btnCallData";
+            this.btnCallData.Size = new System.Drawing.Size(58, 22);
+            this.btnCallData.TabIndex = 3;
+            this.btnCallData.Text = "招测数据";
+            this.btnCallData.Click += new System.EventHandler(this.btnCallData_Click);
+            // 
+            // labelControl7
+            // 
+            this.labelControl7.Location = new System.Drawing.Point(145, 220);
+            this.labelControl7.Name = "labelControl7";
+            this.labelControl7.Size = new System.Drawing.Size(84, 14);
+            this.labelControl7.TabIndex = 1;
+            this.labelControl7.Text = "报表显示内容？";
+            // 
             // UniversalTerMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.groupControl5);
-            this.Controls.Add(this.groupControl6);
+            this.Controls.Add(this.groupControl_TerList);
             this.Name = "UniversalTerMgr";
             this.Size = new System.Drawing.Size(797, 494);
             this.Load += new System.EventHandler(this.UniversalTerParm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).EndInit();
             this.groupControl5.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
+            this.groupBox_WayConfig.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cbPluse5.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPluse4.Properties)).EndInit();
@@ -1000,8 +1112,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cbSimulate2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1.Properties)).EndInit();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
+            this.groupBox_tree.ResumeLayout(false);
+            this.groupBox_tree.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeCollectType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrecision.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnit.Properties)).EndInit();
@@ -1010,17 +1122,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureR.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCollectType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTypeName.Properties)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.groupBox_BasicInfo.ResumeLayout(false);
+            this.groupBox_BasicInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRemark.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAddr.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
-            this.groupControl6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl_TerList)).EndInit();
+            this.groupControl_TerList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControls)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridTer)).EndInit();
             this.menuTree.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
+            this.groupControl1.ResumeLayout(false);
+            this.groupControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_CallData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_CallData)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1028,7 +1145,7 @@
         #endregion
 
         private DevExpress.XtraEditors.GroupControl groupControl5;
-        private DevExpress.XtraEditors.GroupControl groupControl6;
+        private DevExpress.XtraEditors.GroupControl groupControl_TerList;
         private DevExpress.XtraEditors.ComboBoxEdit cbSimulate1;
         private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraEditors.LabelControl labelControl3;
@@ -1073,11 +1190,11 @@
         private DevExpress.XtraEditors.CheckEdit cePluse4;
         private DevExpress.XtraEditors.ComboBoxEdit cbRS485_1;
         private DevExpress.XtraEditors.CheckEdit ceRS485_1;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox_WayConfig;
+        private System.Windows.Forms.GroupBox groupBox_BasicInfo;
         private DevExpress.XtraEditors.SimpleButton btnSave;
         private DevExpress.XtraEditors.SimpleButton btnDel;
-        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.GroupBox groupBox_tree;
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.LabelControl labelControl6;
         private DevExpress.XtraEditors.TextEdit txtUnit;
@@ -1103,6 +1220,14 @@
         private DevExpress.XtraEditors.LabelControl labelControl11;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraEditors.GroupControl groupControl1;
+        private DevExpress.XtraEditors.LabelControl labelControl7;
+        private DevExpress.XtraGrid.GridControl gridControl_CallData;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_CallData;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
+        private DevExpress.XtraEditors.SimpleButton btnCallData;
 
     }
 }

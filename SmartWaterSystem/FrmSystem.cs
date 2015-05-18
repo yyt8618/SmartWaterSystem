@@ -377,13 +377,19 @@ namespace SmartWaterSystem
                             noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                     }
 
-                    UniversalTerParm universalterMgr = (UniversalTerParm)GetView(typeof(UniversalTerParm));
+                    UniversalTerParm universalterParm = (UniversalTerParm)GetView(typeof(UniversalTerParm));
+                    if (universalterParm != null)
+                        universalterParm.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                    UniversalTerMgr universalterMgr = (UniversalTerMgr)GetView(typeof(UniversalTerMgr));
                     if (universalterMgr != null)
                         universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
 
                     OLWQParm OLWQMgr = (OLWQParm)GetView(typeof(OLWQParm));
                     if (OLWQMgr != null)
                         OLWQMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+
                 }
             }
             catch (Exception ex)
@@ -418,7 +424,11 @@ namespace SmartWaterSystem
                             noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                     }
 
-                    UniversalTerParm universalterMgr = (UniversalTerParm)GetView(typeof(UniversalTerParm));
+                    UniversalTerParm universalterParm = (UniversalTerParm)GetView(typeof(UniversalTerParm));
+                    if (universalterParm != null)
+                        universalterParm.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                    UniversalTerMgr universalterMgr = (UniversalTerMgr)GetView(typeof(UniversalTerMgr));
                     if (universalterMgr != null)
                         universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
 

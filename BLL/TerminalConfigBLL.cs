@@ -88,8 +88,21 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                return false;
                 logger.ErrorException("Delete", ex);
+                return false;
+            }
+        }
+
+        public bool ExistUniversalConfig(string terId)
+        {
+            try
+            {
+                return dal.ExistUniversalConfig(terId);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("ExistUniversalConfig", ex);
+                return false;
             }
         }
 

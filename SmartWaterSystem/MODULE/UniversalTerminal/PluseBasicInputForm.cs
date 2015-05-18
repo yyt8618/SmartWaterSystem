@@ -93,7 +93,7 @@ namespace SmartWaterSystem
                     text = text.Insert(txtbox.SelectionStart, e.KeyChar.ToString());
                 }
                 text = text.Insert(txtbox.SelectionStart, e.KeyChar.ToString());
-                if ((Regex.IsMatch(text, @"^\d{1,10}$") && Convert.ToUInt32(text) <= 4294967294)
+                if ((Regex.IsMatch(text, @"^\d{1,10}$") && Convert.ToInt64(text) <= 4294967294)
                     || Regex.IsMatch(text, @"^(0x|0x[0-9a-fA-F]{1,10})$"))
                 {
                     e.Handled = false;

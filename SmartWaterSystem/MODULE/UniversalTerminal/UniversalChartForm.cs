@@ -64,6 +64,12 @@ namespace SmartWaterSystem
                     }
                     tmpaverage += lstData[i].Data;
                 }
+
+                ListViewItem totalvalueItem = new ListViewItem(new string[]{
+                    "合计",
+                    tmpaverage.ToString("f4")
+                });
+
                 tmpaverage = tmpaverage / lstData.Count;  //计算平均值
 
                 ListViewItem maxvalueItem = new ListViewItem(new string[]{
@@ -95,6 +101,7 @@ namespace SmartWaterSystem
                 lstDetailView.Items.Add(minxvalueItem);
                 lstDetailView.Items.Add(mintimeItem);
                 lstDetailView.Items.Add(averagexvalueItem);
+                lstDetailView.Items.Add(totalvalueItem);
 
                 for (int i = 0; i < lstData.Count; i++)
                 {

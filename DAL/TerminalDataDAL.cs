@@ -482,6 +482,7 @@ namespace DAL
             }
         }
 
+
         public int GetUniversalTerWayConfigTableMaxId()
         {
             string SQL = "SELECT MAX(id) FROM UniversalTerWayConfig";

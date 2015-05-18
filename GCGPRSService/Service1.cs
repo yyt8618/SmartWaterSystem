@@ -109,6 +109,8 @@ namespace GCGPRSService
                                         GlobalValue.Instance.SocketMag.GetTerminalOnLineState();
                                     else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Cmd_CallData && msmqMsg.CallDataType != null)
                                         GlobalValue.Instance.SocketMag.ClientCallData(msmqMsg.DevType, msmqMsg.DevId, msmqMsg.CallDataType);
+                                    else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.SQL_Syncing)
+                                        GlobalValue.Instance.SocketMag.SetSQL_SyncingStatus();
                                     //Other
                                 }
                             }

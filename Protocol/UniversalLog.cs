@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common;
 using System.Data;
+using Entity;
 
 namespace Protocol
 {
@@ -519,6 +520,466 @@ namespace Protocol
             }
 
             return dt_485protocol;
+        }
+
+        public DataTable ReadCallData(short Id,DataTable dt_config, CallDataTypeEntity calldataType)
+        {
+            DataTable dt = new DataTable("CallDataTable");
+            dt.Columns.Add("CallDataType");
+            dt.Columns.Add("CallData");
+            dt.Columns.Add("Unit");
+            Package package = new Package();
+            
+            if (calldataType.GetSim1)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_Sim1);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取模拟量1路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("模拟量1路无数据");
+                }
+                AnalysisSim(Id,result,dt_config,ref dt);
+            }
+            if (calldataType.GetSim2)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_Sim2);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取模拟量2路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("模拟量2路无数据");
+                }
+                AnalysisSim(Id, result, dt_config, ref dt);
+            } 
+            if (calldataType.GetPluse)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_Pluse);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取脉冲失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测脉冲无数据");
+                }
+                AnalysisPluse(Id, result, dt_config, ref dt);
+            }
+            if(calldataType.GetRS4851)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4851);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取RS485 1路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测RS485 1路无数据");
+                }
+                AnalysisRS485(Id, result, dt_config, ref dt);
+            }
+            if (calldataType.GetRS4852)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4852);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取RS485 2路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测RS485 2路无数据");
+                }
+                AnalysisRS485(Id, result, dt_config, ref dt);
+            }
+            if (calldataType.GetRS4853)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4853);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取RS485 3路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测RS485 3路无数据");
+                }
+                AnalysisRS485(Id, result, dt_config, ref dt);
+            }
+            if (calldataType.GetRS4854)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4854);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取RS485 4路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测RS485 4路无数据");
+                }
+                AnalysisRS485(Id, result, dt_config, ref dt);
+            }
+            if (calldataType.GetRS4855)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4855);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取RS485 5路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测RS485 5路无数据");
+                }
+                AnalysisRS485(Id, result, dt_config, ref dt);
+            }
+            if (calldataType.GetRS4856)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4856);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取RS485 6路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测RS485 6路无数据");
+                }
+                AnalysisRS485(Id, result, dt_config, ref dt);
+            }
+            if (calldataType.GetRS4857)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4857);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取RS485 7路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测RS485 7路无数据");
+                }
+                AnalysisRS485(Id, result, dt_config, ref dt);
+            }
+            if (calldataType.GetRS4858)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4858);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取RS485 8路失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("招测RS485 8路无数据");
+                }
+                AnalysisRS485(Id, result, dt_config, ref dt);
+            }
+
+            return dt;
+        }
+
+        private void AnalysisSim(short Id, Package pack,DataTable dt_config, ref DataTable dt)
+        {
+            string name = "";
+            string sequence = "";
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim1)
+            {
+                sequence = "1";
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim2)
+            {
+                sequence = "2";
+            }
+            int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
+
+            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+            float datavalue = 0;
+
+            DataRow[] dr_TerminalDataConfig = null;
+            dr_TerminalDataConfig = dt_config.Select("TerminalID='" + Id + "' AND Sequence='" + sequence + "'"); //WayType
+            if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
+            {
+                float MaxMeasureRange = dr_TerminalDataConfig[0]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRange"]) : 0;
+                float MaxMeasureRangeFlag = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
+                int datawidth = dr_TerminalDataConfig[0]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[0]["FrameWidth"]) : 0;
+                int precision = dr_TerminalDataConfig[0]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[0]["precision"]) : 0;
+                name = dr_TerminalDataConfig[0]["Name"] != DBNull.Value ? dr_TerminalDataConfig[0]["Name"].ToString().Trim() : "";
+                if (MaxMeasureRangeFlag > 0 && datawidth > 0)
+                {
+                    int loopdatalen = 6 + datawidth;  //循环部分数据宽度 = 时间(6)+配置长度
+                    int dataindex = (pack.DataLength) % loopdatalen;
+                    if (dataindex != 0)
+                        throw new Exception("帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
+                    dataindex = (pack.DataLength) / loopdatalen;
+                    for (int i = 0; i < dataindex; i++)
+                    {
+                        //year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
+                        //month = Convert.ToInt16(pack.Data[i * 8 + 4]);
+                        //day = Convert.ToInt16(pack.Data[i * 8 + 5]);
+                        //hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
+                        //minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
+                        //sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
+
+                        if (datawidth == 2)
+                            datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 7], pack.Data[i * 8 + 6] }, 0);
+                        else if (datawidth == 4)
+                            datavalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8], pack.Data[i * 8 + 7], pack.Data[i * 8 + 6] }, 0);
+
+                        datavalue = (MaxMeasureRange / MaxMeasureRangeFlag) * (datavalue - calibration);  //根据设置和校准值计算
+                        datavalue = Convert.ToSingle(datavalue.ToString("F" + precision));  //精度调整
+                        if (datavalue < 0)
+                            datavalue = 0;
+
+                        DataRow dr = dt.NewRow();
+                        dr["CallDataType"] = name.Trim();
+                        dr["CallData"] = datavalue;
+                        dr["Unit"] = dr_TerminalDataConfig[0]["Unit"].ToString().Trim();
+                        dt.Rows.Add(dr);
+                    }
+                }
+                else
+                {
+                    throw new Exception("通用终端[" + Id + "]数据帧解析规则配置错误,数据未能解析！");
+                }
+            }
+            else
+            {
+                throw new Exception("通用终端[" + Id + "]未配置数据帧解析规则,数据未能解析！");
+            }
+        }
+
+        private void AnalysisPluse(short Id, Package pack, DataTable dt_config, ref DataTable dt)
+        {
+            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+            float datavalue = 0;
+
+            DataRow[] dr_TerminalDataConfig = null;
+            dr_TerminalDataConfig = dt_config.Select("TerminalID='" + Id + "' AND Sequence IN ('4','5','6','7','8')", "Sequence"); //WayType
+            if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
+            {
+                int waycount = dr_TerminalDataConfig.Length;
+                float[] PluseUnits = new float[waycount];
+                int[] DataWidths = new int[waycount];
+                int[] Precisions = new int[waycount];
+                string[] Names = new string[waycount];
+                string[] Units = new string[waycount];
+                int[] config_ids = new int[waycount];
+
+                int topdatawidth = 0;
+                for (int i = 0; i < waycount; i++)
+                {
+                    PluseUnits[i] = dr_TerminalDataConfig[i]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[i]["MaxMeasureRange"]) : 0;  //每个脉冲对应的单位采集量
+                    DataWidths[i] = dr_TerminalDataConfig[i]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[i]["FrameWidth"]) : 0;
+                    Precisions[i] = dr_TerminalDataConfig[i]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["precision"]) : 0;
+                    Names[i] = dr_TerminalDataConfig[i]["Name"] != DBNull.Value ? dr_TerminalDataConfig[i]["Name"].ToString().Trim() : "";
+                    Units[i] = dr_TerminalDataConfig[i]["Unit"] != DBNull.Value ? dr_TerminalDataConfig[i]["Unit"].ToString().Trim() : "";
+                    config_ids[i] = dr_TerminalDataConfig[i]["ID"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["ID"]) : 0;
+                    topdatawidth += DataWidths[i];
+                }
+
+                if (topdatawidth > 0)
+                {
+                    int loopdatalen = 6 + topdatawidth + (4 - waycount) * 4;  //循环部分数据宽度 = 时间(6)+固定4路*(每路长度)
+                    int dataindex = (pack.DataLength) % loopdatalen;
+                    if (dataindex != 0)
+                        throw new Exception("帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
+                    dataindex = (pack.DataLength) / loopdatalen;
+                    for (int i = 0; i < dataindex; i++)
+                    {
+                        //year = 2000 + Convert.ToInt16(pack.Data[i * loopdatalen + 3]);
+                        //month = Convert.ToInt16(pack.Data[i * loopdatalen + 4]);
+                        //day = Convert.ToInt16(pack.Data[i * loopdatalen + 5]);
+                        //hour = Convert.ToInt16(pack.Data[i * loopdatalen + 6]);
+                        //minute = Convert.ToInt16(pack.Data[i * loopdatalen + 7]);
+                        //sec = Convert.ToInt16(pack.Data[i * loopdatalen + 8]);
+
+                        int freindex = 0;
+                        for (int j = 0; j < waycount; j++)
+                        {
+                            if (DataWidths[j] == 2)
+                            {
+                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
+                                freindex += 2;
+                            }
+                            else if (DataWidths[j] == 4)
+                            {
+                                datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 9 + freindex], pack.Data[i * loopdatalen + 8 + freindex], pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
+                                freindex += 4;
+                            }
+
+                            datavalue = PluseUnits[j] * datavalue;  //脉冲计数*单位脉冲值
+                            datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
+
+                            DataRow dr = dt.NewRow();
+                            dr["CallDataType"] = Names[j].Trim();
+                            dr["CallData"] = datavalue;
+                            dr["Unit"] = Units[j].ToString().Trim();
+                            dt.Rows.Add(dr);
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("通用终端[" + Id + "]数据帧解析规则配置错误,数据未能解析！");
+                }
+            }
+            else
+            {
+                throw new Exception("通用终端[" + Id + "]未配置数据帧解析规则,数据未能解析！");
+            }
+        }
+
+        private void AnalysisRS485(short Id, Package pack, DataTable dt_config, ref DataTable dt)
+        {
+            string sequence = "";
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851)
+            {
+                sequence = "9";
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4852)
+            {
+                sequence = "10";
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4853)
+            {
+                sequence = "11";
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4854)
+            {
+                sequence = "12";
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4855)
+            {
+                sequence = "13";
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4856)
+            {
+                sequence = "14";
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4857)
+            {
+                sequence = "15";
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4858)
+            {
+                sequence = "16";
+            }
+            int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
+
+            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+            float datavalue = 0;
+
+            DataRow[] dr_TerminalDataConfig = null;
+            DataRow[] dr_DataConfig_Child = null;
+            bool ConfigHaveChild = false;
+
+            dr_TerminalDataConfig = dt_config.Select("TerminalID='" + Id + "' AND Sequence='" + sequence + "'"); //WayType
+            if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
+            {
+                dr_DataConfig_Child = dt_config.Select("ParentID='" + dr_TerminalDataConfig[0]["ID"].ToString().Trim() + "'", "Sequence");
+                if (dr_DataConfig_Child != null && dr_DataConfig_Child.Length > 0)
+                {
+                    ConfigHaveChild = true;
+                    dr_TerminalDataConfig = dr_DataConfig_Child;  //有子节点配置时，使用子节点配置
+                }
+            }
+            if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
+            {
+                int waycount = dr_TerminalDataConfig.Length;
+                float[] MaxMeasureRanges = new float[waycount];
+                float[] MaxMeasureRangeFlags = new float[waycount];
+                int[] DataWidths = new int[waycount];
+                int[] Precisions = new int[waycount];
+                string[] Names = new string[waycount];
+                string[] Units = new string[waycount];
+                int[] config_ids = new int[waycount];
+
+                int topdatawidth = 0;
+                for (int i = 0; i < waycount; i++)
+                {
+                    MaxMeasureRanges[i] = dr_TerminalDataConfig[i]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[i]["MaxMeasureRange"]) : 0;
+                    MaxMeasureRangeFlags[i] = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
+                    DataWidths[i] = dr_TerminalDataConfig[i]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[i]["FrameWidth"]) : 0;
+                    Precisions[i] = dr_TerminalDataConfig[i]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["precision"]) : 0;
+                    Names[i] = dr_TerminalDataConfig[i]["Name"] != DBNull.Value ? dr_TerminalDataConfig[i]["Name"].ToString().Trim() : "";
+                    Units[i] = dr_TerminalDataConfig[i]["Unit"] != DBNull.Value ? dr_TerminalDataConfig[i]["Unit"].ToString().Trim() : "";
+                    config_ids[i] = dr_TerminalDataConfig[i]["ID"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["ID"]) : 0;
+                    topdatawidth += DataWidths[i];
+                }
+
+                if (topdatawidth > 0)
+                {
+                    int loopdatalen = 6 + topdatawidth;  //循环部分数据宽度
+                    int dataindex = (pack.DataLength) % loopdatalen;
+                    if (dataindex != 0)
+                        throw new Exception("帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
+                    dataindex = (pack.DataLength) / loopdatalen;
+                    for (int i = 0; i < dataindex; i++)
+                    {
+                        year = 2000 + Convert.ToInt16(pack.Data[i * loopdatalen]);
+                        month = Convert.ToInt16(pack.Data[i * loopdatalen + 1]);
+                        day = Convert.ToInt16(pack.Data[i * loopdatalen + 2]);
+                        hour = Convert.ToInt16(pack.Data[i * loopdatalen + 3]);
+                        minute = Convert.ToInt16(pack.Data[i * loopdatalen + 4]);
+                        sec = Convert.ToInt16(pack.Data[i * loopdatalen + 5]);
+
+                        int freindex = 0;
+                        for (int j = 0; j < waycount; j++)
+                        {
+                            if (DataWidths[j] == 2)
+                            {
+                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
+                                freindex += 2;
+                            }
+                            else if (DataWidths[j] == 4)
+                            {
+                                datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 9 + freindex], pack.Data[i * loopdatalen + 8 + freindex], pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
+                                freindex += 4;
+                            }
+
+                            datavalue = MaxMeasureRanges[j] * datavalue;  //系数
+                            datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
+                            DataRow dr = dt.NewRow();
+                            dr["CallDataType"] = Names[j].Trim();
+                            dr["CallData"] = datavalue;
+                            dr["Unit"] = Units[j].ToString().Trim();
+                            dt.Rows.Add(dr);
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("通用终端[" + Id + "]数据帧解析规则配置错误,数据未能解析！");
+                }
+            }
+            else
+            {
+                throw new Exception("通用终端[" + Id + "]未配置数据帧解析规则,数据未能解析！");
+            }
+        }
+
+        private Package GetCallDataPackage(short Id,UNIVERSAL_COMMAND commandtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL; ;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)commandtype;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+            return package;
         }
 
         public bool CalibartionSimulate1(short Id)

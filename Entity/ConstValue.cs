@@ -34,7 +34,8 @@ namespace Entity
             Cmd_Online,  //是否在线命令
             Data_OnLineState, //招测终端在线状态
             Get_OnLineState,  //获取终端在线状态
-            Cmd_CallData      //招测数据
+            Cmd_CallData,      //招测数据
+            SQL_Syncing       //正在同步SQL数据
         }
 
         /// <summary>

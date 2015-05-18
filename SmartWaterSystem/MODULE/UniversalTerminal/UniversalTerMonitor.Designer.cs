@@ -76,10 +76,10 @@ namespace SmartWaterSystem
             // 
             this.gridControl_data.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_data.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_data.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_data.Location = new System.Drawing.Point(2, 22);
             this.gridControl_data.MainView = this.advBandedGridView1;
             this.gridControl_data.Name = "gridControl_data";
-            this.gridControl_data.Size = new System.Drawing.Size(674, 454);
+            this.gridControl_data.Size = new System.Drawing.Size(674, 459);
             this.gridControl_data.TabIndex = 1;
             this.gridControl_data.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.advBandedGridView1});
@@ -110,7 +110,7 @@ namespace SmartWaterSystem
             // 
             this.gridControlTer.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControlTer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlTer.Location = new System.Drawing.Point(2, 27);
+            this.gridControlTer.Location = new System.Drawing.Point(2, 22);
             this.gridControlTer.MainView = this.gridViewTer;
             this.gridControlTer.Name = "gridControlTer";
             this.gridControlTer.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -118,7 +118,7 @@ namespace SmartWaterSystem
             this.ceCallData,
             this.ImageComboBox_Online,
             this.repositoryItemPictureEdit1});
-            this.gridControlTer.Size = new System.Drawing.Size(107, 454);
+            this.gridControlTer.Size = new System.Drawing.Size(107, 459);
             this.gridControlTer.TabIndex = 0;
             this.gridControlTer.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewTer});

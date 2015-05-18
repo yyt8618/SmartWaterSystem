@@ -84,7 +84,9 @@ namespace GCGPRSService
         Socket listener;
         bool isRunning = false;
         List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
-        int SQL_Interval = 3 * 60;  //数据更新时间间隔(second)
+        int SQL_Interval = 3 * 63;  //数据更新时间间隔(second)
+        DateTime SQLSync_Time = DateTime.Now.AddHours(-1);  //数据库同步时间,-1:才开启，马上同步一次数据
+
         int OnLineState_Interval = 5 * 60; //终端在线状态更新时间间隔(second)
         int CheckThread_Interval = 2 * 60; //检查线程状态间隔(second)
 
@@ -118,9 +120,17 @@ namespace GCGPRSService
                 Thread.Sleep(1000);
                 if (SQL_Interval-- == 0)
                 {
-                    SQL_Interval = 3 * 60;
-                    GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
-                    GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
+                    TimeSpan ts = DateTime.Now - SQLSync_Time;
+                    if (Math.Abs(ts.TotalSeconds) > 10)
+                    {
+                        SQL_Interval = 3 * 63;
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
+                    }
+                    else
+                    {
+                        SQL_Interval = 15;
+                    }
                 }
                 if (OnLineState_Interval-- == 0)
                 {
@@ -1634,6 +1644,14 @@ namespace GCGPRSService
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 更新数据库同步时间
+        /// </summary>
+        public void SetSQL_SyncingStatus()
+        {
+            SQLSync_Time = DateTime.Now;
         }
 
         private void SendPackage(Socket handler,Package pack,string prompt)

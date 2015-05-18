@@ -2,6 +2,7 @@
 using System.Threading;
 using Common;
 using BLL;
+using Entity;
 
 namespace SmartWaterSystem
 {
@@ -106,6 +107,9 @@ namespace SmartWaterSystem
         object obj = null;
         string msg = string.Empty;
         SQLSyncBLL syncBll = new SQLSyncBLL();
+
+        MSMQEntity msmqEntity = new MSMQEntity();
+        
         private void SQLSyncThread()
         {
             while (true)
@@ -114,6 +118,11 @@ namespace SmartWaterSystem
                 result = -1;  //-1:执行失败;1:执行成功;0:无执行返回
                 obj = null;
                 msg = string.Empty;
+                if (evt != (uint)SqlSyncType.None)
+                {
+                    msmqEntity.MsgType = Entity.ConstValue.MSMQTYPE.SQL_Syncing;
+                    GlobalValue.MSMQMgr.SendMessage(msmqEntity);
+                }
                 switch (evt)
                 {
                     case (uint)SqlSyncType.None:
@@ -184,6 +193,7 @@ namespace SmartWaterSystem
                         }
                         break;
                 }
+                
                 OnSQLSyncEvent(new SQLSyncEventArgs((SqlSyncType)evt, result, msg, obj));
             }
         }

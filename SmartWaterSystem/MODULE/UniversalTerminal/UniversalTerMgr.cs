@@ -18,6 +18,7 @@ namespace SmartWaterSystem
         TerminalDataBLL Terbll = new TerminalDataBLL();
         TreeListNode currentNode;  //当前操作的Node
         List<UniversalWayTypeEntity> lstComboboxdata = null;  //ComboboxEdit 控件数据源
+        CallDataTypeEntity callDataType = new CallDataTypeEntity();  //串口招测
 
         public UniversalTerMgr()
         {
@@ -75,7 +76,6 @@ namespace SmartWaterSystem
         private void BindCombobox()
         {
             ClearComboboxValue();
-
             lstComboboxdata = WayTypebll.Select("WHERE Level = '1' AND SyncState!=-1 AND TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,Name");
             if (lstComboboxdata != null && lstComboboxdata.Count > 0)
             {
@@ -1135,6 +1135,7 @@ namespace SmartWaterSystem
                 
                 WayTypeControlsDefault();
 
+                callDataType = new CallDataTypeEntity();
                 List<UniversalWayTypeConfigEntity> lstWayTypeConfig = Terbll.GetUniversalWayTypeConfig(Convert.ToInt32(txtID.Text),TerType.UniversalTer);
                 if (lstWayTypeConfig != null && lstWayTypeConfig.Count > 0)
                 {
@@ -1143,73 +1144,89 @@ namespace SmartWaterSystem
                         switch (entity.Sequence)
                         {
                             case 1:
+                                callDataType.GetSim1 = true;
                                 ceSimulate1.Checked = true;
                                 FindWayTypeConfig(cbSimulate1, entity.PointID);
                                 break;
                             case 2:
+                                callDataType.GetSim2 = true;
                                 ceSimulate2.Checked = true;
                                 FindWayTypeConfig(cbSimulate2, entity.PointID);
                                 break;
                             case 3:
+                                callDataType.GetSim3 = true;
                                 ceSimulate3.Checked = true;
                                 FindWayTypeConfig(cbSimulate3, entity.PointID);
                                 break;
                             case 4:
+                                callDataType.GetPluse = true;
                                 cePluse1.Checked = true;
                                 FindWayTypeConfig(cbPluse1, entity.PointID);
                                 break;
                             case 5:
+                                callDataType.GetPluse = true;
                                 cePluse2.Checked = true;
                                 FindWayTypeConfig(cbPluse2, entity.PointID);
                                 break;
                             case 6:
+                                callDataType.GetPluse = true;
                                 cePluse3.Checked = true;
                                 FindWayTypeConfig(cbPluse3, entity.PointID);
                                 break;
                             case 7:
+                                callDataType.GetPluse = true;
                                 cePluse4.Checked = true;
                                 FindWayTypeConfig(cbPluse4, entity.PointID);
                                 break;
                             case 8:
+                                callDataType.GetPluse = true;
                                 cePluse5.Checked = true;
                                 FindWayTypeConfig(cbPluse5, entity.PointID);
                                 break;
                             case 9:
+                                callDataType.GetRS4851 = true;
                                 ceRS485_1.Checked = true;
                                 ceRS485_1.Visible = true;
                                 FindWayTypeConfig(cbRS485_1, entity.PointID);
                                 break;
                             case 10:
+                                callDataType.GetRS4852 = true;
                                 ceRS485_2.Checked = true;
                                 ceRS485_2.Visible = true;
                                 FindWayTypeConfig(cbRS485_2, entity.PointID);
                                 break;
                             case 11:
+                                callDataType.GetRS4853 = true;
                                 ceRS485_3.Checked = true;
                                 ceRS485_3.Visible = true;
                                 FindWayTypeConfig(cbRS485_3, entity.PointID);
                                 break;
                             case 12:
+                                callDataType.GetRS4854 = true;
                                 ceRS485_4.Checked = true;
                                 ceRS485_4.Visible = true;
                                 FindWayTypeConfig(cbRS485_4, entity.PointID);
                                 break;
                             case 13:
+                                callDataType.GetRS4855 = true;
                                 ceRS485_5.Checked = true;
                                 ceRS485_5.Visible = true;
                                 FindWayTypeConfig(cbRS485_5, entity.PointID);
                                 break;
                             case 14:
+                                callDataType.GetRS4856 = true;
                                 ceRS485_6.Checked = true;
                                 ceRS485_6.Visible = true;
                                 FindWayTypeConfig(cbRS485_6, entity.PointID);
                                 break;
                             case 15:
+                                callDataType.GetRS4857 = true;
                                 ceRS485_7.Checked = true;
                                 ceRS485_7.Visible = true;
                                 FindWayTypeConfig(cbRS485_7, entity.PointID);
                                 break;
                             case 16:
+                                callDataType.GetRS4858 = true;
                                 ceRS485_8.Checked = true;
                                 ceRS485_8.Visible = true;
                                 FindWayTypeConfig(cbRS485_8, entity.PointID);
@@ -1265,6 +1282,98 @@ namespace SmartWaterSystem
                 monitorView.UpdateView();
         }
 
+        private void btnCallData_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtID.Text))
+            {
+                XtraMessageBox.Show("请输入终端编号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            }
+            if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
+            {
+                XtraMessageBox.Show("请输入合法终端编号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            }
+
+            //if (!(new TerminalConfigBLL()).ExistUniversalConfig(txtID.Text.Trim()))
+            //{
+            //    XtraMessageBox.Show("终端["+txtID.Text.Trim()+"]没有配置采集类型,请先配置!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    txtID.Focus();
+            //    return;
+            //}
+            if (GlobalValue.SerialPortOptData == null)
+                GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
+            GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.SerialPortCallDataType = callDataType;
+
+            gridControl_CallData.DataSource = null;
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在招测...");
+            BeginSerialPortDelegate();
+            GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
+            GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
+            Application.DoEvents();
+            SetStaticItem("正在招测...");
+            GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalCallData);
+        }
+
+        private void EnableControls(bool enabled)
+        {
+            groupControl_TerList.Enabled = enabled;
+            groupBox_BasicInfo.Enabled = enabled;
+            groupBox_WayConfig.Enabled = enabled;
+            groupBox_tree.Enabled = enabled;
+        }
+
+        public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
+        {
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalCallData)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    if (e.Tag != null)
+                        gridControl_CallData.DataSource = e.Tag as DataTable;
+
+                    XtraMessageBox.Show("招测成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("招测失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        void SerialPortMgr_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
+        {
+            if (e.OptType == SerialPortType.UniversalCallData && !string.IsNullOrEmpty(e.Msg))
+            {
+                ShowWaitForm("", e.Msg);
+                SetStaticItem(e.Msg);
+            }
+
+        }
+
+        public override void SerialPortEvent(bool Enabled)
+        {
+            btnCallData.Enabled = Enabled;
+        }
         
     }
 }

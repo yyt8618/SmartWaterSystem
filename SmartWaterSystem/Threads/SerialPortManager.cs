@@ -2,6 +2,7 @@
 using Common;
 using System.Threading;
 using Protocol;
+using System.Data;
 
 namespace SmartWaterSystem
 {
@@ -42,6 +43,7 @@ namespace SmartWaterSystem
         UniversalCalibrationSimualte2,  //通用终端校准第二路模拟量
         
         UniversalPluseBasic,    //通用终端设置脉冲基准数
+        UniversalCallData,      //通用终端招测数据(串口)
 
         OLWQReset, //水质终端复位
         OLWQSetTime,   //设置水质终端时间
@@ -128,7 +130,7 @@ namespace SmartWaterSystem
     public class SerialPortManager:SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 26;
+        private const int eventcount = 27;
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -510,6 +512,40 @@ namespace SmartWaterSystem
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置脉冲四路基准..."));
                                     result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PluseBasic4, 4);
                                 }
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        break;
+                        #endregion
+                    case (uint)SerialPortType.UniversalCallData:
+                        #region 读取通用终端招测数据
+                        {
+                            try
+                            {
+                                if (GlobalValue.SerialPortOptData == null || GlobalValue.SerialPortCallDataType == null)
+                                {
+                                    result = false;
+                                    msg = "终端没有配置采集类型,请先配置!";
+                                }
+                                else
+                                {
+                                    DataTable dt_config = (new BLL.TerminalDataBLL()).GetUniversalDataConfig(Entity.TerType.UniversalTer);
+                                    if (dt_config != null && dt_config.Rows.Count > 0)
+                                    {
+                                        obj = GlobalValue.Universallog.ReadCallData(GlobalValue.SerialPortOptData.ID, dt_config, GlobalValue.SerialPortCallDataType);
+                                        result = true;
+                                    }
+                                    else
+                                    {
+                                        result = false;
+                                        msg = "终端没有配置采集参数";
+                                    }
+                                }
+                                
                             }
                             catch (Exception ex)
                             {
