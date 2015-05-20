@@ -98,6 +98,8 @@
             this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.txtStartStandValue = new DevExpress.XtraEditors.TextEdit();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNote.Properties)).BeginInit();
@@ -131,6 +133,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecordList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStartStandValue.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
@@ -140,7 +143,9 @@
             this.groupControl1.Controls.Add(this.txtRecNote);
             this.groupControl1.Controls.Add(this.label18);
             this.groupControl1.Controls.Add(this.btnAddRec);
+            this.groupControl1.Controls.Add(this.txtStartStandValue);
             this.groupControl1.Controls.Add(this.txtLeakValue);
+            this.groupControl1.Controls.Add(this.label4);
             this.groupControl1.Controls.Add(this.label2);
             this.groupControl1.Controls.Add(this.txtRecID);
             this.groupControl1.Controls.Add(this.label13);
@@ -173,10 +178,10 @@
             // 
             // txtRecNote
             // 
-            this.txtRecNote.Location = new System.Drawing.Point(105, 101);
+            this.txtRecNote.Location = new System.Drawing.Point(105, 121);
             this.txtRecNote.Name = "txtRecNote";
             this.txtRecNote.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtRecNote.Size = new System.Drawing.Size(108, 120);
+            this.txtRecNote.Size = new System.Drawing.Size(108, 100);
             this.txtRecNote.TabIndex = 3;
             // 
             // label18
@@ -228,7 +233,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(64, 101);
+            this.label13.Location = new System.Drawing.Point(64, 124);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(31, 14);
             this.label13.TabIndex = 76;
@@ -930,6 +935,24 @@
             // 
             this.timer1.Interval = 1000;
             // 
+            // txtStartStandValue
+            // 
+            this.txtStartStandValue.Location = new System.Drawing.Point(105, 95);
+            this.txtStartStandValue.Name = "txtStartStandValue";
+            this.txtStartStandValue.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtStartStandValue.Properties.MaxLength = 4;
+            this.txtStartStandValue.Size = new System.Drawing.Size(45, 20);
+            this.txtStartStandValue.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(51, 98);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(43, 14);
+            this.label4.TabIndex = 78;
+            this.label4.Text = "启动值";
+            // 
             // NoiseRecMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -976,6 +999,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecordList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStartStandValue.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1051,5 +1075,7 @@
         private DevExpress.XtraEditors.PictureEdit FlagIP;
         private DevExpress.XtraEditors.PictureEdit FlagPort;
         private DevExpress.XtraEditors.PictureEdit FlagRemoteSwitch;
+        private DevExpress.XtraEditors.TextEdit txtStartStandValue;
+        private System.Windows.Forms.Label label4;
     }
 }

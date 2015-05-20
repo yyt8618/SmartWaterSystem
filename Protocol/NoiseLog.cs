@@ -577,7 +577,7 @@ namespace Protocol
                 //bmodifytime=WriteTime(id, DateTime.Now);  //改回时间
                 //if (!bmodifytime)
                 //    return false;
-                originaldata = serialPortUtil.ReadOrigityData(package, 30);
+                originaldata = serialPortUtil.ReadOrigityData(package, 10);
 
                 return true;
             }

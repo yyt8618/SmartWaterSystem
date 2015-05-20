@@ -12,6 +12,8 @@ namespace SmartWaterSystem
     public partial class NoiseGroupMgr : BaseView, INoiseGroupMgr
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("NoiseGroupMgr");
+        List<NoiseRecorder> OptRecList = null;
+        int currentOptRecIndex = -1;
 
         public NoiseGroupMgr()
         {
@@ -471,8 +473,8 @@ namespace SmartWaterSystem
 
         private void btnSaveGroupSet_Click(object sender, EventArgs e)
         {
-            new Action(() =>
-            {
+            //new Action(() =>
+            //{
                 Control cl = sender as Control;
                 try
                 {
@@ -484,7 +486,7 @@ namespace SmartWaterSystem
 
                     if (string.IsNullOrEmpty(txtGroupID.Text))
                     {
-                        DevExpress.XtraEditors.XtraMessageBox.Show("请选择需要操作的分组", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        XtraMessageBox.Show("请选择需要操作的分组", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
                     NoiseRecorderGroup CurrentGroup = (from tmp in GlobalValue.groupList
@@ -492,74 +494,134 @@ namespace SmartWaterSystem
                                                        select tmp).ToList()[0];
                     if (CurrentGroup != null && CurrentGroup.RecorderList != null && CurrentGroup.RecorderList.Count > 0)
                     {
+                        this.Enabled = false;
                         DisableRibbonBar();
                         DisableNavigateBar();
                         ShowWaitForm("", "正在进行批量设置...");
+                        Application.DoEvents();
                         SetStaticItem("正在进行批量设置...");
 
-                        cl.Enabled = false;
-                        short id = 0;
-                        foreach (NoiseRecorder alterRec in CurrentGroup.RecorderList)
-                        {
-                            id = Convert.ToInt16(alterRec.ID);
-                            // 设置记录时间段
-                            GlobalValue.Noiselog.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
-                            alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
+                        //this.Enabled = false;
+                        //cl.Enabled = false;
+                        //short id = 0;
+                        OptRecList = CurrentGroup.RecorderList;
+                        
+                        //foreach (NoiseRecorder alterRec in CurrentGroup.RecorderList)
+                        //{
+                            //NoiseRecorder alterRec = OptRecList[currentOptRecIndex];
+                            //id = Convert.ToInt16(alterRec.ID);
 
-                            // 设置采集间隔
-                            GlobalValue.Noiselog.WriteInterval(id, (int)nUpDownSamSpan.Value);
-                            alterRec.PickSpan = Convert.ToInt32(nUpDownSamSpan.Value);
-
+                            GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
+                            //GlobalValue.NoiseSerialPortOptData.ID = id;
+                            // 设置记录仪时间
+                            GlobalValue.NoiseSerialPortOptData.dt = this.dateTimePicker.Value;
                             // 设置远传通讯时间
-                            GlobalValue.Noiselog.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
-                            alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
-
+                            GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
+                            // 设置记录时间段
+                            GlobalValue.NoiseSerialPortOptData.colstarttime = Convert.ToInt32(txtRecTime.Text);
+                            GlobalValue.NoiseSerialPortOptData.colendtime = Convert.ToInt32(txtRecTime1.Text);
+                            // 设置采集间隔
+                            GlobalValue.NoiseSerialPortOptData.Interval = (int)nUpDownSamSpan.Value;
+                            
                             // 设置远传功能
                             if (comboBoxDist.SelectedIndex == 1)
                             {
-                                GlobalValue.Noiselog.WriteRemoteSwitch(id, true);
-
-                                alterRec.ControlerPower = 1;
-                                //DistanceController alterCtrl = new DistanceController();
-                                //alterCtrl.ID = Convert.ToInt32(txtConId.Text);
-                                //alterCtrl.RecordID = alterRec.ID;
-                                //alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
-                                //alterCtrl.IPAdress = txtConAdress.Text;
-
-                                //NoiseDataBaseHelper.UpdateControler(alterCtrl);
+                                GlobalValue.NoiseSerialPortOptData.RemoteSwitch =true;
                             }
                             else
                             {
-                                GlobalValue.Noiselog.WriteRemoteSwitch(id, false);
-                                alterRec.ControlerPower = 0;
-                            }
-                            short[] origitydata = null;
-                            // 设置开关
-                            if (comboBoxEditPower.SelectedIndex == 1)
-                            {
-                                GlobalValue.Noiselog.CtrlStartOrStop(id, true, out origitydata);
-                                alterRec.Power = 1;
-                            }
-                            else if (comboBoxEditPower.SelectedIndex == 0)
-                            {
-                                GlobalValue.Noiselog.CtrlStartOrStop(id, false, out origitydata);
-                                alterRec.Power = 0;
+                                GlobalValue.NoiseSerialPortOptData.RemoteSwitch = false;
                             }
 
-                            // 设置记录仪时间
-                            GlobalValue.Noiselog.WriteTime(id, this.dateTimePicker.Value);
-
-                            // 更新设置入库
-                            int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
-                            if (query != -1)
+                            foreach (NoiseRecorder alterRec in OptRecList)
                             {
-                                ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
-                                GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                                // 设置开关
+                                if (comboBoxEditPower.SelectedIndex == 1)
+                                {
+                                    alterRec.Power = 1;
+                                }
+                                else if (comboBoxEditPower.SelectedIndex == 0)
+                                {
+                                    alterRec.Power = 0;
+                                }
+
+                                alterRec.CommunicationTime = GlobalValue.NoiseSerialPortOptData.ComTime;
+                                alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
+                                alterRec.PickSpan = GlobalValue.NoiseSerialPortOptData.Interval;
+                                if (comboBoxDist.SelectedIndex == 1)
+                                {
+                                    alterRec.ControlerPower = 1;
+                                }
+                                else
+                                {
+                                    alterRec.ControlerPower = 0;
+                                }
                             }
-                            else
-                                throw new Exception("数据入库发生错误。");
-                        }
+                            GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(OptRecList[0].ID);
+                            currentOptRecIndex = 0;
+                            BeginSerialPortDelegate();
+                            GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                            GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                            GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseBatchWrite);
+
+                            //// 设置记录时间段
+                            //GlobalValue.Noiselog.WriteStartEndTime(id, Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text));
+                            //alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
+
+                            //// 设置采集间隔
+                            //GlobalValue.Noiselog.WriteInterval(id, (int)nUpDownSamSpan.Value);
+                            //alterRec.PickSpan = Convert.ToInt32(nUpDownSamSpan.Value);
+
+                            //// 设置远传通讯时间
+                            //GlobalValue.Noiselog.WriteRemoteSendTime(id, Convert.ToInt32(txtComTime.Text));
+                            //alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
+
+                            //// 设置远传功能
+                            //if (comboBoxDist.SelectedIndex == 1)
+                            //{
+                            //    GlobalValue.Noiselog.WriteRemoteSwitch(id, true);
+
+                            //    alterRec.ControlerPower = 1;
+                            //    //DistanceController alterCtrl = new DistanceController();
+                            //    //alterCtrl.ID = Convert.ToInt32(txtConId.Text);
+                            //    //alterCtrl.RecordID = alterRec.ID;
+                            //    //alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
+                            //    //alterCtrl.IPAdress = txtConAdress.Text;
+
+                            //    //NoiseDataBaseHelper.UpdateControler(alterCtrl);
+                            //}
+                            //else
+                            //{
+                            //    GlobalValue.Noiselog.WriteRemoteSwitch(id, false);
+                            //    alterRec.ControlerPower = 0;
+                            //}
+                            //short[] origitydata = null;
+                            //// 设置开关
+                            //if (comboBoxEditPower.SelectedIndex == 1)
+                            //{
+                            //    GlobalValue.Noiselog.CtrlStartOrStop(id, true, out origitydata);
+                            //    alterRec.Power = 1;
+                            //}
+                            //else if (comboBoxEditPower.SelectedIndex == 0)
+                            //{
+                            //    GlobalValue.Noiselog.CtrlStartOrStop(id, false, out origitydata);
+                            //    alterRec.Power = 0;
+                            //}
+
+                            //// 设置记录仪时间
+                            //GlobalValue.Noiselog.WriteTime(id, this.dateTimePicker.Value);
+
+                            //// 更新设置入库
+                            //int query = NoiseDataBaseHelper.UpdateRecorder(alterRec);
+                            //if (query != -1)
+                            //{
+                            //    ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //    GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                            //    GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                            //}
+                            //else
+                            //    throw new Exception("数据入库发生错误。");
+                        //}
                     }
                     else
                     {
@@ -576,8 +638,7 @@ namespace SmartWaterSystem
                     //alterRec.LeakValue = Convert.ToInt32(txtLeakValue.Text);
                     //alterRec.Remark = txtRecNote.Text;
 
-                    SetStaticItem("当前设置已批量应用到该组设备");
-
+                    //SetStaticItem("当前设置已批量应用到该组设备");
                 }
                 catch (Exception ex)
                 {
@@ -586,12 +647,96 @@ namespace SmartWaterSystem
                 }
                 finally
                 {
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-                    cl.Enabled = true;
+                    //EnableRibbonBar();
+                    //EnableNavigateBar();
+                    //HideWaitForm();
+                    //cl.Enabled = true;
                 }
-            }).BeginInvoke(null, null);
+            //}).BeginInvoke(null, null);
+        }
+
+        public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
+        {
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseBatchWrite)
+            {
+                
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (OptRecList != null && OptRecList.Count > currentOptRecIndex)
+                    {
+                        // 更新设置入库
+                        int query = NoiseDataBaseHelper.UpdateRecorder(OptRecList[currentOptRecIndex]);
+                        if (query != -1)
+                        {
+                            //XtraMessageBox.Show("噪声记录仪[" + currentRec.ID + "]设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                            GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                        }
+                        else
+                            XtraMessageBox.Show("噪声记录仪[" + OptRecList[currentOptRecIndex].ID + "]数据入库发生错误！", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (++currentOptRecIndex < OptRecList.Count)
+                        {
+                            GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(OptRecList[currentOptRecIndex].ID);
+                            GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseBatchWrite);
+                        }
+                        else
+                        {
+                            this.Enabled = true;
+                            GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                            EnableRibbonBar();
+                            EnableNavigateBar();
+                            HideWaitForm();
+                            XtraMessageBox.Show("批量设置噪声记录仪参数成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else
+                {
+                    if (OptRecList != null && OptRecList.Count > currentOptRecIndex)
+                    {
+                        HideWaitForm();
+                        if (DialogResult.Yes == XtraMessageBox.Show("噪声记录仪[" + OptRecList[currentOptRecIndex].ID + "]设置参数失败,是否重试?" + e.Msg, GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+                        {
+                            GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseBatchWrite);
+                        }
+                        else
+                        {
+                            if (++currentOptRecIndex < OptRecList.Count)
+                            {
+                                GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(OptRecList[currentOptRecIndex].ID);
+                                GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseBatchWrite);
+                            }
+                            else
+                            {
+                                this.Enabled = true;
+                                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                                EnableRibbonBar();
+                                EnableNavigateBar();
+                                HideWaitForm();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("噪声记录仪设置参数失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Enabled = true;
+                        GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                        EnableRibbonBar();
+                        EnableNavigateBar();
+                        HideWaitForm();
+                    }
+                }
+            }
+        }
+
+        void SerialPortParm_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
+        {
+            if (e.OptType == SerialPortType.NoiseBatchWrite && !string.IsNullOrEmpty(e.Msg))
+            {
+                ShowWaitForm("", e.Msg);
+                SetStaticItem(e.Msg);
+            }
         }
 
         #region 输入验证

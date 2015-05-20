@@ -275,6 +275,21 @@ namespace SmartWaterSystem
             }
         }
 
+        public static int DeleteStandData(int GroupID, int RecorderID)
+        {
+            try
+            {
+                string SQL = string.Empty;
+                SQL = string.Format(@"DELETE FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
+                SQLiteHelper.ExecuteNonQuery(SQL);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
         /// <summary>
         /// 保存启动时获取的32个数据(用于漏点确定)
         /// </summary>
@@ -286,9 +301,10 @@ namespace SmartWaterSystem
             {
                 if (OriginalData != null && OriginalData.Length == 32)
                 {
-                    string SQL = string.Empty;
-                    SQL = string.Format(@"DELETE FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
-                    SQLiteHelper.ExecuteNonQuery(SQL);
+                    if (DeleteStandData(GroupID, RecorderID) == -1)
+                    {
+                        return -1;
+                    }
 
                     string strDa = string.Empty;
                     for (int i = 0; i < OriginalData.Length; i++)
@@ -299,7 +315,7 @@ namespace SmartWaterSystem
                             strDa += OriginalData[i] + ",";
                     }
 
-                    SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
+                    string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
                           GroupID, RecorderID, strDa);
                     SQLiteHelper.ExecuteNonQuery(SQL);
 

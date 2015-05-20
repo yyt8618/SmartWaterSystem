@@ -54,7 +54,7 @@ namespace Entity
             set { _colTime = value; }
         }
 
-        private float _Turbidity = -1f;
+        private float _Turbidity = 0f;
         /// <summary>
         /// 浊度值
         /// </summary>
@@ -64,7 +64,7 @@ namespace Entity
             set { _Turbidity = value; }
         }
 
-        private float _ResidualCl = -1f;
+        private float _ResidualCl = 0f;
         /// <summary>
         /// 余氯值
         /// </summary>
@@ -74,7 +74,7 @@ namespace Entity
             set { _ResidualCl = value; }
         }
 
-        private float _PH = -1f;
+        private float _PH = 0f;
         /// <summary>
         /// PH值
         /// </summary>
@@ -84,7 +84,7 @@ namespace Entity
             set { _PH = value; }
         }
 
-        private float _Conductivity = -1f;
+        private float _Conductivity = 0f;
         /// <summary>
         /// 电导率值
         /// </summary>
@@ -94,7 +94,7 @@ namespace Entity
             set { _Conductivity = value; }
         }
 
-        private float _temperature = -1f;
+        private float _temperature = 0f;
         /// <summary>
         /// 温度
         /// </summary>
@@ -102,6 +102,16 @@ namespace Entity
         {
             get { return _temperature; }
             set { _temperature = value; }
+        }
+
+        private string _valueColumnName = "";
+        /// <summary>
+        /// 当前值存储字段名
+        /// </summary>
+        public string ValueColumnName
+        {
+            get { return _valueColumnName; }
+            set { _valueColumnName = value; }
         }
     }
 }

@@ -656,7 +656,7 @@ namespace SmartWaterSystem
             leakprobability = 0; //漏水概率
             double maxstandvalue = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.MaxStandardAMP));
             double minstandvalue = Convert.ToDouble(Settings.Instance.GetString(SettingKeys.MinStandardAMP));
-            short[] standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);
+            short[] standdata = NoiseDataBaseHelper.GetStandData(-1, RecorderID);  //GroupID全部取-1，因为ID不重复
 
             if (standdata == null)
                 return -1;

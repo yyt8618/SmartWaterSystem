@@ -121,7 +121,7 @@ namespace GCGPRSService
                 if (SQL_Interval-- == 0)
                 {
                     TimeSpan ts = DateTime.Now - SQLSync_Time;
-                    if (Math.Abs(ts.TotalSeconds) > 10)
+                    if (Math.Abs(ts.TotalSeconds) > 15)
                     {
                         SQL_Interval = 3 * 63;
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
@@ -129,7 +129,7 @@ namespace GCGPRSService
                     }
                     else
                     {
-                        SQL_Interval = 15;
+                        SQL_Interval = 20;
                     }
                 }
                 if (OnLineState_Interval-- == 0)
@@ -234,6 +234,17 @@ namespace GCGPRSService
                 else if (-1 == e.Result)
                 {
                     OnSendMsg(new SocketEventArgs("通用终端数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertOLWQValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("水质终端数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("水质终端数据保存失败:" + e.Msg));
                 }
             }
         }
@@ -975,12 +986,26 @@ namespace GCGPRSService
                                             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
                                             float value = 0;
                                             string name = "";
+                                            string unit = "";
+                                            string valuecolumnname = "";
                                             if (pack.C1 == (byte)GPRS_READ.READ_TURBIDITY)
+                                            {
                                                 name = "浊度";
+                                                unit = "NTU";
+                                                valuecolumnname = "Turbidity";
+                                            }
                                             else if (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL)
+                                            {
                                                 name = "余氯";
+                                                unit = "PPM";
+                                                valuecolumnname = "ResidualCl";
+                                            }
                                             else if (pack.C1 == (byte)GPRS_READ.READ_PH)
+                                            {
                                                 name = "PH";
+                                                unit = "ph";
+                                                valuecolumnname = "PH";
+                                            }
 
                                             for (int i = 0; i < dataindex; i++)
                                             {
@@ -993,6 +1018,7 @@ namespace GCGPRSService
 
                                                 value = (float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
                                                 GPRSOLWQDataEntity data = new GPRSOLWQDataEntity();
+                                                data.ValueColumnName = valuecolumnname;
                                                 if (pack.C1 == (byte)GPRS_READ.READ_TURBIDITY)
                                                 {
                                                     value = value / 100;
@@ -1000,15 +1026,15 @@ namespace GCGPRSService
                                                 }
                                                 else if (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL)
                                                 {
-                                                    data.ResidualCl = value;
+                                                    data.ResidualCl = value/1000;
                                                 }
                                                 else if (pack.C1 == (byte)GPRS_READ.READ_PH)
                                                 {
-                                                    data.PH = value;
+                                                    data.PH = value/100;
                                                 }
 
-                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}",
-                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value)));
+                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}{5}",
+                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value,unit)));
 
                                                 data.ColTime = new DateTime(year, month, day, hour, minute, sec);
                                                 bNeedCheckTime = NeedCheckTime(data.ColTime);
@@ -1020,12 +1046,12 @@ namespace GCGPRSService
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_CONDUCTIVITY)  //从站向主站发送电导率采集数据
                                         {
-                                            int dataindex = (pack.DataLength - 2 - 1) % 10;
+                                            int dataindex = (pack.DataLength - 2 - 1) % 12;
                                             if (dataindex != 0)
                                             {
                                                 throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+10*n)规则");
                                             }
-                                            dataindex = (pack.DataLength - 2 - 1) / 10;
+                                            dataindex = (pack.DataLength - 2 - 1) / 12;
 
                                             GPRSOLWQFrameDataEntity framedata = new GPRSOLWQFrameDataEntity();
                                             framedata.TerId = pack.DevID.ToString();
@@ -1038,22 +1064,23 @@ namespace GCGPRSService
 
                                             for (int i = 0; i < dataindex; i++)
                                             {
-                                                year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
-                                                month = Convert.ToInt16(pack.Data[i * 8 + 4]);
-                                                day = Convert.ToInt16(pack.Data[i * 8 + 5]);
-                                                hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
-                                                minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
-                                                sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
+                                                year = 2000 + Convert.ToInt16(pack.Data[i * 12 + 3]);
+                                                month = Convert.ToInt16(pack.Data[i * 12 + 4]);
+                                                day = Convert.ToInt16(pack.Data[i * 12 + 5]);
+                                                hour = Convert.ToInt16(pack.Data[i * 12 + 6]);
+                                                minute = Convert.ToInt16(pack.Data[i * 12 + 7]);
+                                                sec = Convert.ToInt16(pack.Data[i * 12 + 8]);
 
-                                                Condvalue = ((float)BitConverter.ToInt32(new byte[] { pack.Data[i * 8 + 12], pack.Data[i * 8 + 11], pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0)) / 100;
-                                                Tempvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 14], pack.Data[i * 8 + 13] }, 0)) / 10;
+                                                Condvalue = ((float)BitConverter.ToInt32(new byte[] { pack.Data[i * 12 + 12], pack.Data[i * 12 + 11], pack.Data[i * 12 + 10], pack.Data[i * 12 + 9] }, 0)) / 100;
+                                                Tempvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 12 + 14], pack.Data[i * 12 + 13] }, 0)) / 10;
 
-                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|电导率值:{3},温度:{4}",
-                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Condvalue.ToString("f2"), Tempvalue.ToString("f2"))));
+                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|电导率值:{3}us/cm,温度:{4}℃",
+                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Condvalue.ToString("f2"), Tempvalue.ToString("f1"))));
 
                                                 GPRSOLWQDataEntity data = new GPRSOLWQDataEntity();
                                                 data.Conductivity = Condvalue;
                                                 data.Temperature = Tempvalue;
+                                                data.ValueColumnName = "Conductivity";
                                                 data.ColTime = new DateTime(year, month, day, hour, minute, sec);
                                                 bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                 framedata.lstOLWQData.Add(data);
@@ -1151,6 +1178,8 @@ namespace GCGPRSService
                                                 pack_time.C1 = (byte)PreTer_WRITE.WRITE_TIME;
                                             else if (pack.DevType == Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
                                                 pack_time.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
+                                            else if (pack.DevType == Entity.ConstValue.DEV_TYPE.OLWQ_CTRL)
+                                                pack_time.C1 = (byte)OLWQ_COMMAND.SET_TIME;
                                             byte[] data = new byte[6];
                                             data[0] = (byte)(DateTime.Now.Year - 2000);
                                             data[1] = (byte)DateTime.Now.Month;

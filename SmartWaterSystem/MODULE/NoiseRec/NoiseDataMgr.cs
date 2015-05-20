@@ -12,6 +12,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using System.Threading;
 using System.IO;
 using Entity;
+using System.Collections;
 
 namespace SmartWaterSystem
 {
@@ -20,8 +21,12 @@ namespace SmartWaterSystem
         private bool isReading;
         private List<NoiseRecorder> selectList = new List<NoiseRecorder>();
         private int rowHandle = 0;
+        Queue ReadIdList = new Queue();
+        List<NoiseData> dataList = new List<NoiseData>();
+        List<NoiseResult> resultList = new List<NoiseResult>();
 
         string OriginalFilePath = Application.StartupPath + @"\OriginalDatas\";
+        
 
         public NoiseDataMgr()
         {
@@ -277,90 +282,41 @@ namespace SmartWaterSystem
                 return;
             }
 
-            List<int> readIdList = new List<int>(); // 需要读取的ID列表
-            bool isError = false;
+            List<int> readIdtmp = new List<int>(); // 需要读取的ID列表
+            //bool isError = false;
 
             for (int j = 0; j < selectList.Count; j++)
             {
-                if (!readIdList.Contains(selectList[j].ID))
-                    readIdList.Add(selectList[j].ID);
+                if (!readIdtmp.Contains(selectList[j].ID))
+                    readIdtmp.Add(selectList[j].ID);
             }
             if (selectList.Count != 0)
             {
+                dataList = new List<NoiseData>();
+                resultList = new List<NoiseResult>();
+
                 List<NoiseRecorder> lstSelecttmp = new List<NoiseRecorder>();
                 lstSelecttmp.AddRange(selectList.OrderBy(a => a.ID));
                 selectList = lstSelecttmp;
+                foreach (var id in readIdtmp)
+                {
+                    ReadIdList.Enqueue(id);
+                }
 
                 simpleButtonRead.Enabled = false;
                 simpleButtonSelectAll.Enabled = false;
                 simpleButtonUnSelect.Enabled = false;
-                List<NoiseData> dataList = new List<NoiseData>();
-                List<NoiseResult> resultList = new List<NoiseResult>();
+                
                 GlobalValue.Noiselog.ValueChanged -= new ReadDataChangedEventHandler(log_ValueChanged);
                 GlobalValue.Noiselog.ValueChanged += new ReadDataChangedEventHandler(log_ValueChanged);
 
                 NoiseDataHandler.FourierData.Clear();
                 isReading = true;
-                new Action(() =>
-                {
+                //new Action(() =>
+                //{
                     try
                     {
-                        foreach (var id in readIdList)
-                        {
-                            try
-                            {
-                                DisableRibbonBar();
-                                DisableNavigateBar();
-                                Thread.Sleep(1000);
-                                this.Invoke(new MethodInvoker(() =>
-                                    {
-                                        for (int i = 0; i < gridViewGroupList.RowCount; i++)
-                                        {
-                                            if (gridViewGroupList.GetRowCellValue(i, "选择") != null)
-                                            {
-                                                if (gridViewGroupList.GetRowCellValue(i, "记录仪编号").ToString() == id.ToString())
-                                                {
-                                                    gridViewGroupList.SetRowCellValue(i, "读取进度", 0);
-                                                    this.rowHandle = i;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }));
-
-                                Dictionary<short, short[]> result = new Dictionary<short, short[]>();
-                                SetStaticItem(string.Format("正在读取记录仪{0}...", id));
-                                ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
-                                short[] arr = GlobalValue.Noiselog.Read((short)id);
-                                result.Add((short)id, arr);
-                                CallbackReaded(result, selectList);
-                                GlobalValue.reReadIdList.Remove(id);
-
-                                NoiseRecorder gpRec = (from item in GlobalValue.recorderList.AsEnumerable()
-                                                       where item.ID == id
-                                                       select item).ToList()[0];
-
-                                dataList.Add(gpRec.Data);
-                                resultList.Add(gpRec.Result);
-
-                                BindResult(gpRec);
-                            }
-                            catch (TimeoutException)
-                            {
-                                if (!GlobalValue.reReadIdList.Contains(id))
-                                    GlobalValue.reReadIdList.Add(id);
-                                ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                isError = true;
-                            }
-                            catch (ArgumentNullException)
-                            {
-                                if (!GlobalValue.reReadIdList.Contains(id))
-                                    GlobalValue.reReadIdList.Add(id);
-                                ShowDialog("记录仪" + id + "数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                isError = true;
-                            }
-
-                        }
+                        ReadData(Convert.ToInt16(ReadIdList.Dequeue()));
                     }
                     catch (Exception)
                     {
@@ -368,15 +324,139 @@ namespace SmartWaterSystem
                     }
                     finally
                     {
-                        isReading = false;
-                        SetStaticItem("数据读取完成");
-                        simpleButtonRead.Enabled = true;
-                        simpleButtonSelectAll.Enabled = true;
-                        simpleButtonUnSelect.Enabled = true;
-                        HideWaitForm();
-                        EnableRibbonBar();
-                        EnableNavigateBar();
+                        //isReading = false;
+                        //SetStaticItem("数据读取完成");
+                        //simpleButtonRead.Enabled = true;
+                        //simpleButtonSelectAll.Enabled = true;
+                        //simpleButtonUnSelect.Enabled = true;
+                        //HideWaitForm();
+                        //EnableRibbonBar();
+                        //EnableNavigateBar();
 
+                        //if (dataList.Count != 0)
+                        //{
+                        //    DialogResult dr = XtraMessageBox.Show("已成功读取" + dataList.Count + "条数据，是否保存到数据库？", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        //    if (dr == System.Windows.Forms.DialogResult.Yes)
+                        //    {
+                        //        for (int i = 0; i < dataList.Count; i++)
+                        //        {
+                        //            NoiseDataBaseHelper.AddNoiseData(dataList[i]);
+                        //            NoiseDataBaseHelper.AddNoiseResult(resultList[i]);
+                        //            GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                        //            GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                        //        }
+                        //    }
+                        //}
+                    }
+                //}).BeginInvoke(null, null);
+            }
+            else
+            {
+                XtraMessageBox.Show("请勾选需要读取的记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void ReadData(short id)
+        {
+            try
+            {
+                DisableRibbonBar();
+                DisableNavigateBar();
+                //Thread.Sleep(1000);
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    for (int i = 0; i < gridViewGroupList.RowCount; i++)
+                    {
+                        if (gridViewGroupList.GetRowCellValue(i, "选择") != null)
+                        {
+                            if (gridViewGroupList.GetRowCellValue(i, "记录仪编号").ToString() == id.ToString())
+                            {
+                                gridViewGroupList.SetRowCellValue(i, "读取进度", 0);
+                                this.rowHandle = i;
+                                break;
+                            }
+                        }
+                    }
+                }));
+
+
+                SetStaticItem(string.Format("正在读取记录仪{0}...", id));
+                ShowWaitForm("", string.Format("正在读取记录仪{0}...", id));
+                if (GlobalValue.NoiseSerialPortOptData == null)
+                    GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
+                GlobalValue.NoiseSerialPortOptData.ID = id;
+                BeginSerialPortDelegate();
+                GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseReadData);
+                //Dictionary<short, short[]> result = new Dictionary<short, short[]>();
+                //short[] arr = GlobalValue.Noiselog.Read((short)id);
+                //result.Add((short)id, arr);
+                //CallbackReaded(result, selectList);
+                //GlobalValue.reReadIdList.Remove(id);
+
+                //NoiseRecorder gpRec = (from item in GlobalValue.recorderList.AsEnumerable()
+                //                       where item.ID == id
+                //                       select item).ToList()[0];
+
+                //dataList.Add(gpRec.Data);
+                //resultList.Add(gpRec.Result);
+
+                //BindResult(gpRec);
+            }
+            catch (TimeoutException)
+            {
+                simpleButtonRead.Enabled = true;
+                simpleButtonSelectAll.Enabled = true;
+                simpleButtonUnSelect.Enabled = true;
+                HideWaitForm();
+                EnableRibbonBar();
+                EnableNavigateBar();
+                if (!GlobalValue.reReadIdList.Contains(id))
+                    GlobalValue.reReadIdList.Add(id);
+                ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //isError = true;
+
+            }
+        }
+
+        public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
+        {
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseReadData)
+            {
+                string message = string.Empty;
+                if (e.Tag != null)
+                    message = e.Tag.ToString();
+
+                this.Enabled = true;
+                simpleButtonRead.Enabled = true;
+                simpleButtonSelectAll.Enabled = true;
+                simpleButtonUnSelect.Enabled = true;
+                HideWaitForm();
+                EnableRibbonBar();
+                EnableNavigateBar();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    Dictionary<short, short[]> result = new Dictionary<short, short[]>();
+                    result.Add(GlobalValue.NoiseSerialPortOptData.ID, (short[])e.Tag);
+                    CallbackReaded(result, selectList);
+                    GlobalValue.reReadIdList.Remove(GlobalValue.NoiseSerialPortOptData.ID);
+
+                    NoiseRecorder gpRec = (from item in GlobalValue.recorderList.AsEnumerable()
+                                           where item.ID == GlobalValue.NoiseSerialPortOptData.ID
+                                           select item).ToList()[0];
+                    
+                    dataList.Add(gpRec.Data);
+                    resultList.Add(gpRec.Result);
+
+                    BindResult(gpRec);
+
+                    if (ReadIdList != null && ReadIdList.Count > 0)
+                    {
+                        ReadData(Convert.ToInt16(ReadIdList.Dequeue()));
+                    }
+                    else
+                    {
                         if (dataList.Count != 0)
                         {
                             DialogResult dr = XtraMessageBox.Show("已成功读取" + dataList.Count + "条数据，是否保存到数据库？", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -392,14 +472,36 @@ namespace SmartWaterSystem
                             }
                         }
                     }
-                }).BeginInvoke(null, null);
-            }
-            else
-            {
-                XtraMessageBox.Show("请勾选需要读取的记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    gridViewResultList.RefreshData();
+                }
+                else
+                {
+                    XtraMessageBox.Show("读取数据失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (ReadIdList != null && ReadIdList.Count > 0)
+                    {
+                        ReadData(Convert.ToInt16(ReadIdList.Dequeue()));
+                    }
+                    else
+                    {
+                        if (dataList.Count != 0)
+                        {
+                            DialogResult dr = XtraMessageBox.Show("已成功读取" + dataList.Count + "条数据，是否保存到数据库？", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (dr == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                for (int i = 0; i < dataList.Count; i++)
+                                {
+                                    NoiseDataBaseHelper.AddNoiseData(dataList[i]);
+                                    NoiseDataBaseHelper.AddNoiseResult(resultList[i]);
+                                    GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                                    GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                                }
+                            }
+                        }
+                    }
+                    gridViewResultList.RefreshData();
+                }
             }
         }
-
         // 读取数据响应进度条
         private void log_ValueChanged(object sender, ValueEventArgs e)
         {

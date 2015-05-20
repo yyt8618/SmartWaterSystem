@@ -290,7 +290,7 @@ namespace DAL
                     command_frame.Connection = SQLHelper.Conn;
                     command_frame.Transaction = trans;
 
-                    string SQL_Data = "INSERT INTO OLWQ_Real(TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime,UnloadTime) VALUES(@TerId,@Turbidity,@ResidualCl,@PH,@Cond,@Temp,@coltime,@UploadTime)";
+                    string SQL_Data = "INSERT INTO OLWQ_Real(TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime,UnloadTime,ValueColumnName) VALUES(@TerId,@Turbidity,@ResidualCl,@PH,@Cond,@Temp,@coltime,@UploadTime,@valuename)";
                     SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@Turbidity",SqlDbType.Decimal),
@@ -299,7 +299,8 @@ namespace DAL
                     new SqlParameter("@Cond",SqlDbType.Decimal),
                     new SqlParameter("@Temp",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
-                    new SqlParameter("@UploadTime",SqlDbType.DateTime)
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime),
+                    new SqlParameter("@valuename",SqlDbType.NVarChar)
                 };
                     SqlCommand command_data = new SqlCommand();
                     command_data.CommandText = SQL_Data;
@@ -327,6 +328,7 @@ namespace DAL
                             parms_predata[5].Value = entity.lstOLWQData[i].Temperature;
                             parms_predata[6].Value = entity.lstOLWQData[i].ColTime;
                             parms_predata[7].Value = entity.ModifyTime;
+                            parms_predata[8].Value = entity.lstOLWQData[i].ValueColumnName;
 
                             command_data.ExecuteNonQuery();
                         }
@@ -737,19 +739,32 @@ namespace DAL
 
         public List<OLWQDetailDataEntity> GetOLWQDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval, int datatype)
         {
+            string valuecolumnname = "";
+            if (datatype == 0)  //浊度
+                valuecolumnname = "Turbidity";
+            else if (datatype == 1)  //余氯
+                valuecolumnname = "ResidualCl";
+            else if (datatype == 2)  //PH
+                valuecolumnname = "PH";
+            else if (datatype == 3)  //电导率
+                valuecolumnname = "Conductivity";
+            else if (datatype == 4)  //温度
+                valuecolumnname = "Conductivity";
             string SQL = @"SELECT Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime FROM OLWQ_Real 
-            WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalIDID=@TerId  ORDER BY CollTime";
+            WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalID=@TerId AND ValueColumnName=@valuename  ORDER BY CollTime";
 
             SqlParameter[] parms = new SqlParameter[]{
                 new SqlParameter("@TerId",SqlDbType.Int),
                 new SqlParameter("@mintime",SqlDbType.DateTime),
                 new SqlParameter("@maxtime",SqlDbType.DateTime),
-                new SqlParameter("@interval",SqlDbType.Int)
+                new SqlParameter("@interval",SqlDbType.Int),
+                new SqlParameter("@valuename",SqlDbType.NVarChar)
             };
             parms[0].Value = TerminalID;
             parms[1].Value = minTime;
             parms[2].Value = maxTime;
             parms[3].Value = interval;
+            parms[4].Value = valuecolumnname;
 
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, parms))
             {
@@ -1048,6 +1063,10 @@ namespace DAL
                     DataRow[] dr_res = dt_res.Select("TerminalID='" + terminalid + "'");
                     if (dr_res != null && dr_res.Length > 0)
                     {
+                        if (valuetype.ToLower() == "conductivity")
+                        {
+                            dr_res[0]["Temperature"] = dr["Temperature"].ToString();
+                        }
                         dr_res[0][valuetype] = dr[valuetype].ToString();
                     }
                 }

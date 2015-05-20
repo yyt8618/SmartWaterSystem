@@ -93,6 +93,16 @@ namespace Entity
             set { _port = value; }
         }
 
+        private bool _Enable = false;
+        /// <summary>
+        /// 是否启动
+        /// </summary>
+        public bool Enable
+        {
+            get { return _Enable; }
+            set { _Enable = value; }
+        }
+
         public NoiseSerialPortOptEntity()
         {
         }
