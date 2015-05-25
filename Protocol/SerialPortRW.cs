@@ -30,7 +30,7 @@ namespace Protocol
 
         #endregion
 
-        public Package Read(Package package)
+        public Package Read(Package package,int timeout = 3,int times=2)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Protocol
                 {
                     throw new Exception("串口未打开");
                 }
-                return serialPortUtil.SendPackage(package);
+                return serialPortUtil.SendPackage(package, timeout, times);
             }
             catch (Exception ex)
             {

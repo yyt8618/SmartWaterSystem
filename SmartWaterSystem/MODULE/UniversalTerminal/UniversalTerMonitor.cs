@@ -130,7 +130,7 @@ namespace SmartWaterSystem
                 foreach (UniversalWayTypeEntity ParentNode in lst_TypeWay_Parent)
                 {
                     GridBand bandParent = view.Bands.AddBand(ParentNode.Name);
-                    bandParent.Tag = ParentNode.ID;
+                    bandParent.Tag = ParentNode;
                     bandParent.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                     if (ParentNode.HaveChild)  //have child
                     {
@@ -155,7 +155,7 @@ namespace SmartWaterSystem
                                 column_child.VisibleIndex = index - 1;
                                 column_child.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                                 column_child.FieldName = "column" + index;
-                                column_child.Tag = ChildNode.ID;
+                                column_child.Tag = ChildNode;
                                 bandChild.Columns.Add(column_child);
                                 GridBand bandUnit=bandChild.Children.AddBand(ChildNode.Unit);
                                 bandUnit.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -180,7 +180,7 @@ namespace SmartWaterSystem
                         column_parent.VisibleIndex = index - 1;
                         column_parent.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                         column_parent.FieldName = "column" + index;
-                        column_parent.Tag = ParentNode.ID;
+                        column_parent.Tag = ParentNode;
                         bandParent.Columns.Add(column_parent);
                         GridBand bandUnit = bandParent.Children.AddBand(ParentNode.Unit);
                         bandUnit.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -404,7 +404,8 @@ namespace SmartWaterSystem
             {
                 string terId = advBandedGridView1.GetRowCellValue(e.RowHandle, "TerminalID").ToString().Trim();
                 UniversalChartForm.TerminalID = terId;
-                UniversalChartForm.TypeId = Convert.ToInt32(e.Column.Tag);
+                UniversalChartForm.TypeId = Convert.ToInt32(((UniversalWayTypeEntity)e.Column.Tag).ID);
+                UniversalChartForm.CollectType = ((UniversalWayTypeEntity)e.Column.Tag).WayType;
                 UniversalChartForm.ColumnName = e.Column.Caption.Trim();
                 UniversalChartForm detailForm = new UniversalChartForm();
                 detailForm.ShowDialog();
@@ -448,10 +449,10 @@ namespace SmartWaterSystem
                 {
                     MSMQEntity msmqEntity = new MSMQEntity();
                     msmqEntity.MsgType = ConstValue.MSMQTYPE.Cmd_CallData;
-                    msmqEntity.DevId = Convert.ToInt16(currentTerid);
+                    msmqEntity.DevId = Convert.ToInt16(terminalid);
                     msmqEntity.DevType = ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
                     msmqEntity.CallDataType = new CallDataTypeEntity();
-                    int config_Seq = typeBll.GetCofingSequence(currentTerid.Trim(), gb1.Tag.ToString().Trim(),TerType.UniversalTer);
+                    int config_Seq = typeBll.GetCofingSequence(currentTerid.Trim(), ((UniversalWayTypeEntity)gb1.Tag).ID.ToString().Trim(), TerType.UniversalTer);
                     if (config_Seq == -1)
                     {
                         return;

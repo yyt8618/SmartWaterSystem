@@ -1063,6 +1063,10 @@ namespace SmartWaterSystem
 
         private void btnCalibrationSimualte1_Click(object sender, EventArgs e)
         {
+            if (DialogResult.No == XtraMessageBox.Show("终端出厂已校准，是否继续校准?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(txtID.Text))
             {
                 XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1090,6 +1094,10 @@ namespace SmartWaterSystem
 
         private void btnCalibrationSimualte2_Click(object sender, EventArgs e)
         {
+            if (DialogResult.No == XtraMessageBox.Show("终端出厂已校准，是否继续校准?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(txtID.Text))
             {
                 XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);

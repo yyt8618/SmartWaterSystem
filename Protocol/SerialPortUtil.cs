@@ -302,8 +302,27 @@ namespace Protocol
                         bytes.Add(byteItem);
                         if (byteItem == PackageDefine.EndByte && bytes.Count >= PackageDefine.MinLenth)
                         {
-                            if (bytes[0] == (byte)0x00)
-                                bytes.RemoveAt(0);
+                            //if (bytes[0] == (byte)0x00)
+                            //    bytes.RemoveAt(0);
+
+                            if (bytes[0] != PackageDefine.BeginByte)
+                            {
+                                bool first_BeginByte = false;
+                                for (int i = (bytes.Count - 6); i > 0; i--)
+                                {
+                                    if (bytes[i] == PackageDefine.BeginByte)
+                                    {
+                                        if (!first_BeginByte)
+                                            first_BeginByte = true;
+                                        else
+                                        {
+                                            bytes.RemoveRange(0, i);  //倒过去找，找到第二个开始字节
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
                             byte[] arr = bytes.ToArray();
                             int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);//数据域长度
 

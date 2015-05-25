@@ -575,7 +575,7 @@ namespace Protocol
             if(calldataType.GetRS4851)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4851);
-                Package result = Read(package);
+                Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取RS485 1路失败");
@@ -589,7 +589,7 @@ namespace Protocol
             if (calldataType.GetRS4852)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4852);
-                Package result = Read(package);
+                Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取RS485 2路失败");
@@ -603,7 +603,7 @@ namespace Protocol
             if (calldataType.GetRS4853)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4853);
-                Package result = Read(package);
+                Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取RS485 3路失败");
@@ -617,7 +617,7 @@ namespace Protocol
             if (calldataType.GetRS4854)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4854);
-                Package result = Read(package);
+                Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取RS485 4路失败");
@@ -631,7 +631,7 @@ namespace Protocol
             if (calldataType.GetRS4855)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4855);
-                Package result = Read(package);
+                Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取RS485 5路失败");
@@ -645,7 +645,7 @@ namespace Protocol
             if (calldataType.GetRS4856)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4856);
-                Package result = Read(package);
+                Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取RS485 6路失败");
@@ -659,7 +659,7 @@ namespace Protocol
             if (calldataType.GetRS4857)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4857);
-                Package result = Read(package);
+                Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取RS485 7路失败");
@@ -673,7 +673,7 @@ namespace Protocol
             if (calldataType.GetRS4858)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4858);
-                Package result = Read(package);
+                Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取RS485 8路失败");
@@ -700,7 +700,7 @@ namespace Protocol
             {
                 sequence = "2";
             }
-            int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
+            int calibration = BitConverter.ToInt16(new byte[] { pack.Data[7], pack.Data[6] }, 0);
 
             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
             float datavalue = 0;
@@ -716,10 +716,10 @@ namespace Protocol
                 name = dr_TerminalDataConfig[0]["Name"] != DBNull.Value ? dr_TerminalDataConfig[0]["Name"].ToString().Trim() : "";
                 if (MaxMeasureRangeFlag > 0 && datawidth > 0)
                 {
-                    int loopdatalen = 6 + datawidth;  //循环部分数据宽度 = 时间(6)+配置长度
+                    int loopdatalen = 6+2 + datawidth;  //循环部分数据宽度 = 时间(6)+配置长度
                     int dataindex = (pack.DataLength) % loopdatalen;
                     if (dataindex != 0)
-                        throw new Exception("帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
+                        throw new Exception("招测模拟数据帧长度[" + pack.DataLength + "]不符合[6+2+" + loopdatalen + "*n]规则");
                     dataindex = (pack.DataLength) / loopdatalen;
                     for (int i = 0; i < dataindex; i++)
                     {
@@ -731,9 +731,9 @@ namespace Protocol
                         //sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
 
                         if (datawidth == 2)
-                            datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 7], pack.Data[i * 8 + 6] }, 0);
+                            datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0);
                         else if (datawidth == 4)
-                            datavalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8], pack.Data[i * 8 + 7], pack.Data[i * 8 + 6] }, 0);
+                            datavalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 8 + 11], pack.Data[i * 8 + 10], pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0);
 
                         datavalue = (MaxMeasureRange / MaxMeasureRangeFlag) * (datavalue - calibration);  //根据设置和校准值计算
                         datavalue = Convert.ToSingle(datavalue.ToString("F" + precision));  //精度调整
@@ -792,7 +792,7 @@ namespace Protocol
                     int loopdatalen = 6 + topdatawidth + (4 - waycount) * 4;  //循环部分数据宽度 = 时间(6)+固定4路*(每路长度)
                     int dataindex = (pack.DataLength) % loopdatalen;
                     if (dataindex != 0)
-                        throw new Exception("帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
+                        throw new Exception("脉冲帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
                     dataindex = (pack.DataLength) / loopdatalen;
                     for (int i = 0; i < dataindex; i++)
                     {
@@ -842,37 +842,38 @@ namespace Protocol
         private void AnalysisRS485(short Id, Package pack, DataTable dt_config, ref DataTable dt)
         {
             string sequence = "";
+            string name = "";
             if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851)
             {
-                sequence = "9";
+                sequence = "9";name = "RS485 1路";
             }
             else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4852)
             {
-                sequence = "10";
+                sequence = "10";name = "RS485 2路";
             }
             else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4853)
             {
-                sequence = "11";
+                sequence = "11"; name = "RS485 3路";
             }
             else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4854)
             {
-                sequence = "12";
+                sequence = "12"; name = "RS485 4路";
             }
             else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4855)
             {
-                sequence = "13";
+                sequence = "13"; name = "RS485 5路";
             }
             else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4856)
             {
-                sequence = "14";
+                sequence = "14"; name = "RS485 6路";
             }
             else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4857)
             {
-                sequence = "15";
+                sequence = "15"; name = "RS485 7路";
             }
             else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4858)
             {
-                sequence = "16";
+                sequence = "16"; name = "RS485 8路";
             }
             int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
 
@@ -922,7 +923,7 @@ namespace Protocol
                     int loopdatalen = 6 + topdatawidth;  //循环部分数据宽度
                     int dataindex = (pack.DataLength) % loopdatalen;
                     if (dataindex != 0)
-                        throw new Exception("帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
+                        throw new Exception(name+"帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
                     dataindex = (pack.DataLength) / loopdatalen;
                     for (int i = 0; i < dataindex; i++)
                     {

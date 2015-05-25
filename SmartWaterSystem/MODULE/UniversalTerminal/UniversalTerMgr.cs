@@ -647,7 +647,7 @@ namespace SmartWaterSystem
             {
                 foreach (UniversalWayTypeEntity entity in lstComboboxdata)
                 {
-                    if (entity.Name == WayTypeName)
+                    if (entity.Name.Trim() == WayTypeName.Trim())
                     {
                         return entity.ID;
                     }
@@ -863,7 +863,7 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (ceRS485_1.Checked)
+            if (ceRS485_1.Checked && ceRS485_1.Visible)
             {
                 if (cbRS485_1.SelectedIndex < 0)
                 {
@@ -887,7 +887,7 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (ceRS485_2.Checked)
+            if (ceRS485_2.Checked && ceRS485_2.Visible)
             {
                 if (cbRS485_2.SelectedIndex < 0)
                 {
@@ -911,7 +911,7 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (ceRS485_3.Checked)
+            if (ceRS485_3.Checked && ceRS485_3.Visible)
             {
                 if (cbRS485_3.SelectedIndex < 0)
                 {
@@ -935,7 +935,7 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (ceRS485_4.Checked)
+            if (ceRS485_4.Checked && ceRS485_4.Visible)
             {
                 if (cbRS485_4.SelectedIndex < 0)
                 {
@@ -959,7 +959,7 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (ceRS485_5.Checked)
+            if (ceRS485_5.Checked && ceRS485_5.Visible)
             {
                 if (cbRS485_5.SelectedIndex < 0)
                 {
@@ -983,7 +983,7 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (ceRS485_6.Checked)
+            if (ceRS485_6.Checked && ceRS485_6.Visible)
             {
                 if (cbRS485_6.SelectedIndex < 0)
                 {
@@ -1007,7 +1007,7 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (ceRS485_7.Checked)
+            if (ceRS485_7.Checked && ceRS485_7.Visible)
             {
                 if (cbRS485_7.SelectedIndex < 0)
                 {
@@ -1031,7 +1031,7 @@ namespace SmartWaterSystem
                 }
             }
 
-            if (ceRS485_8.Checked)
+            if (ceRS485_8.Checked && ceRS485_8.Visible)
             {
                 if (cbRS485_8.SelectedIndex < 0)
                 {
@@ -1053,6 +1053,12 @@ namespace SmartWaterSystem
                         return;
                     }
                 }
+            }
+            if (lstPointID != null && lstPointID.Count == 0)
+            {
+                XtraMessageBox.Show("请至少选择一路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbSimulate1.Focus();
+                return;
             }
             #endregion
 

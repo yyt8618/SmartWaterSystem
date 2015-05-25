@@ -16,6 +16,7 @@ namespace SmartWaterSystem
         public static string TerminalID = "";
         public static int TypeId;
         public static string ColumnName = "";
+        public static UniversalCollectType CollectType;
 
         public UniversalChartForm()
         {
@@ -65,10 +66,6 @@ namespace SmartWaterSystem
                     tmpaverage += lstData[i].Data;
                 }
 
-                ListViewItem totalvalueItem = new ListViewItem(new string[]{
-                    "合计",
-                    tmpaverage.ToString("f4")
-                });
 
                 tmpaverage = tmpaverage / lstData.Count;  //计算平均值
 
@@ -95,13 +92,19 @@ namespace SmartWaterSystem
                     tmpaverage.ToString("f4")
                 });
 
+                ListViewItem totalvalueItem = new ListViewItem(new string[]{
+                    "合计",
+                    (lstData[maxvalue_index].Data-lstData[minvalue_index].Data).ToString("f4")
+                });
+
                 lstDetailView.BeginUpdate();
                 lstDetailView.Items.Add(maxvalueItem);
                 lstDetailView.Items.Add(maxtimeItem);
                 lstDetailView.Items.Add(minxvalueItem);
                 lstDetailView.Items.Add(mintimeItem);
                 lstDetailView.Items.Add(averagexvalueItem);
-                lstDetailView.Items.Add(totalvalueItem);
+                if (CollectType == UniversalCollectType.Pluse)
+                    lstDetailView.Items.Add(totalvalueItem);
 
                 for (int i = 0; i < lstData.Count; i++)
                 {

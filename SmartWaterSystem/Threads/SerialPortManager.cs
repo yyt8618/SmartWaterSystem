@@ -64,6 +64,7 @@ namespace SmartWaterSystem
 
         OLWQSetBasicInfo,      //水质终端设置基本信息,包括通信方式、波特率、ip、端口号
         OLWQReadBaicInfo,       //水质终端读取基本信息，包括通信方式、波特率、ip、端口号
+        OLWQCallData,           //水质终端招测数据(串口)
         
     }
 
@@ -137,7 +138,7 @@ namespace SmartWaterSystem
     public class SerialPortManager:SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 33;
+        private const int eventcount = 34;
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -738,8 +739,8 @@ namespace SmartWaterSystem
                                 msg = ex.Message;
                             }
                         }
-                        break;
                         #endregion
+                        break;
                     case (uint)SerialPortType.OLWQReset:
                         #region 水质终端复位
                         {
@@ -976,6 +977,22 @@ namespace SmartWaterSystem
                                         result = GlobalValue.OLWQlog.SetConductivityInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.Conductivity_Interval);
                                     }
                                 }
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.OLWQCallData:
+                        #region 读取水质终端招测数据
+                        {
+                            try
+                            {
+                                //obj = GlobalValue.OLWQlog.ReadCallData(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortCallDataType);
+                                result = true;
                             }
                             catch (Exception ex)
                             {

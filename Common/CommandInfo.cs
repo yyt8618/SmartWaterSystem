@@ -502,6 +502,10 @@ namespace Common
         READ_ID = 0x48,
         READ_IP = 0x49,
         READ_PORT = 0x4a,
+        /// <summary>
+        /// 招测
+        /// </summary>
+        //CallData = 0x64,
         #endregion
 
         #region 控制命令
