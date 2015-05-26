@@ -1179,7 +1179,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPRSService"
         "ProductCode" = "8:{9C91CAAF-B8A8-443E-94FF-A6A46DE2CA71}"
-        "PackageCode" = "8:{DC7C1C0C-7FA3-4C7C-855B-CBE8D48268AC}"
+        "PackageCode" = "8:{A8C21A9E-CF56-47E1-BC3E-3B29389A0EDB}"
         "UpgradeCode" = "8:{0DCBBB10-441E-4D6C-9A4E-2EAD640FA763}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

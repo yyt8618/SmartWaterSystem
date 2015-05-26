@@ -812,6 +812,34 @@ namespace SmartWaterSystem
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端通信端口号..."));
                                         GlobalValue.SerialPortOptData.Port = GlobalValue.OLWQlog.ReadPort(GlobalValue.SerialPortOptData.ID);
                                     }
+                                    if (GlobalValue.SerialPortOptData.IsOptPowerSupplyType)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端供电方式..."));
+                                        GlobalValue.SerialPortOptData.PowerSupplyType = GlobalValue.OLWQlog.ReadPowerSupplyType(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端采集配置..."));
+                                        byte data = GlobalValue.OLWQlog.ReadCollectConfig(GlobalValue.SerialPortOptData.ID);
+                                        if ((data & 0x01) == 0x01)
+                                            GlobalValue.SerialPortOptData.Collect_Turbidity = true;
+                                        if ((data & 0x02) == 0x02)
+                                            GlobalValue.SerialPortOptData.Collect_ResidualC1 = true;
+                                        if ((data & 0x04) == 0x04)
+                                            GlobalValue.SerialPortOptData.Collect_PH = true;
+                                        if ((data & 0x08) == 0x08)
+                                            GlobalValue.SerialPortOptData.Collect_Conductivity = true;
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptClearInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端清洗间隔..."));
+                                        GlobalValue.SerialPortOptData.ClearInterval = GlobalValue.OLWQlog.ReadClearInterval(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端浊度上限..."));
+                                        GlobalValue.SerialPortOptData.TurbidityUpLimit = GlobalValue.OLWQlog.ReadTurbidityUpLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
                                     if (GlobalValue.SerialPortOptData.IsOptResidualClLowLimit)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端余氯下限值..."));
@@ -831,29 +859,6 @@ namespace SmartWaterSystem
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端余氯灵敏度..."));
                                         GlobalValue.SerialPortOptData.ResidualClSensitivity = GlobalValue.OLWQlog.ReadResidualClSensitivity(GlobalValue.SerialPortOptData.ID);
-                                    }
-                                    if (GlobalValue.SerialPortOptData.IsOptClearInterval)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端清洗间隔..."));
-                                        GlobalValue.SerialPortOptData.ClearInterval = GlobalValue.OLWQlog.ReadClearInterval(GlobalValue.SerialPortOptData.ID);
-                                    }
-                                    if (GlobalValue.SerialPortOptData.IsOptPowerSupplyType)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端供电方式..."));
-                                        GlobalValue.SerialPortOptData.PowerSupplyType = GlobalValue.OLWQlog.ReadPowerSupplyType(GlobalValue.SerialPortOptData.ID);
-                                    }
-                                    if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端采集配置..."));
-                                        byte data = GlobalValue.OLWQlog.ReadCollectConfig(GlobalValue.SerialPortOptData.ID);
-                                        if ((data & 0x01) == 0x01)
-                                            GlobalValue.SerialPortOptData.Collect_Turbidity = true;
-                                        if ((data & 0x02) == 0x02)
-                                            GlobalValue.SerialPortOptData.Collect_ResidualC1 = true;
-                                        if ((data & 0x04) == 0x04)
-                                            GlobalValue.SerialPortOptData.Collect_PH = true;
-                                        if ((data & 0x08) == 0x08)
-                                            GlobalValue.SerialPortOptData.Collect_Conductivity = true;
                                     }
                                     if (GlobalValue.SerialPortOptData.IsOpt_ResidualClInterval)
                                     {
@@ -907,6 +912,35 @@ namespace SmartWaterSystem
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端通信端口号..."));
                                         result = GlobalValue.OLWQlog.SetPort(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.Port);
                                     }
+                                    if (GlobalValue.SerialPortOptData.IsOptPowerSupplyType)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端供电方式..."));
+                                        result = GlobalValue.OLWQlog.SetPowerSupplyType(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PowerSupplyType);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端采集配置..."));
+                                        Int16 data = 0;
+                                        if (GlobalValue.SerialPortOptData.Collect_Turbidity)
+                                            data |= 0x01;
+                                        if (GlobalValue.SerialPortOptData.Collect_ResidualC1)
+                                            data |= 0x02;
+                                        if (GlobalValue.SerialPortOptData.Collect_PH)
+                                            data |= 0x04;
+                                        if (GlobalValue.SerialPortOptData.Collect_Conductivity)
+                                            data |= 0x08;
+                                        result = GlobalValue.OLWQlog.SetCollectConfig(GlobalValue.SerialPortOptData.ID, (byte)data);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptClearInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端清洗间隔..."));
+                                        result = GlobalValue.OLWQlog.SetClearInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ClearInterval);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度上限..."));
+                                        result = GlobalValue.OLWQlog.SetTurbidityUpLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TurbidityUpLimit);
+                                    }
                                     if (GlobalValue.SerialPortOptData.IsOptResidualClLowLimit)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置余氯下限值..."));
@@ -926,35 +960,6 @@ namespace SmartWaterSystem
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端灵敏度..."));
                                         result = GlobalValue.OLWQlog.SetResidualClSensitivity(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ResidualClSensitivity);
-                                    }
-                                    if (GlobalValue.SerialPortOptData.IsOptClearInterval)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端清洗间隔..."));
-                                        result = GlobalValue.OLWQlog.SetClearInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ClearInterval);
-                                    }
-                                    if (GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度上限..."));
-                                        result = GlobalValue.OLWQlog.SetTurbidityUpLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TurbidityUpLimit);
-                                    }
-                                    if (GlobalValue.SerialPortOptData.IsOptPowerSupplyType)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端供电方式..."));
-                                        result = GlobalValue.OLWQlog.SetPowerSupplyType(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PowerSupplyType);
-                                    }
-                                    if (GlobalValue.SerialPortOptData.IsOpt_CollectConfig)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端采集配置..."));
-                                        Int16 data = 0;
-                                        if (GlobalValue.SerialPortOptData.Collect_Turbidity)
-                                            data |= 0x01;
-                                        if (GlobalValue.SerialPortOptData.Collect_ResidualC1)
-                                            data |= 0x02;
-                                        if (GlobalValue.SerialPortOptData.Collect_PH)
-                                            data |= 0x04;
-                                        if (GlobalValue.SerialPortOptData.Collect_Conductivity)
-                                            data |= 0x08;
-                                        result = GlobalValue.OLWQlog.SetCollectConfig(GlobalValue.SerialPortOptData.ID, (byte)data);
                                     }
                                     if (GlobalValue.SerialPortOptData.IsOpt_ResidualClInterval)
                                     {

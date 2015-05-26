@@ -30,31 +30,33 @@ namespace SmartWaterSystem
         private void InitializeComponent()
         {
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.groupControl8 = new DevExpress.XtraEditors.GroupControl();
+            this.txtResidualClSensitivity = new DevExpress.XtraEditors.TextEdit();
+            this.ceResidualClSensitivity = new DevExpress.XtraEditors.CheckEdit();
+            this.txtResidualClStandValue = new DevExpress.XtraEditors.TextEdit();
+            this.ceResidualClStandValue = new DevExpress.XtraEditors.CheckEdit();
+            this.txtResidualClZero = new DevExpress.XtraEditors.TextEdit();
+            this.txtResiduaClLowLimit = new DevExpress.XtraEditors.TextEdit();
+            this.ceResidualClZero = new DevExpress.XtraEditors.CheckEdit();
+            this.ceResidualClLowLimit = new DevExpress.XtraEditors.CheckEdit();
+            this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
+            this.txtTurbidityUpLimit = new DevExpress.XtraEditors.TextEdit();
+            this.ceTurbidityUpLimit = new DevExpress.XtraEditors.CheckEdit();
+            this.txtClearInterval = new DevExpress.XtraEditors.TextEdit();
+            this.ceClearInterval = new DevExpress.XtraEditors.CheckEdit();
             this.cbPowersupplyType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
             this.ceConductivityState = new DevExpress.XtraEditors.CheckEdit();
-            this.cePHState = new DevExpress.XtraEditors.CheckEdit();
             this.ceResidualClState = new DevExpress.XtraEditors.CheckEdit();
             this.ceTurbidityState = new DevExpress.XtraEditors.CheckEdit();
-            this.txtTurbidityUpLimit = new DevExpress.XtraEditors.TextEdit();
-            this.txtTime = new DevExpress.XtraEditors.TextEdit();
+            this.cePHState = new DevExpress.XtraEditors.CheckEdit();
             this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
-            this.txtResidualClStandValue = new DevExpress.XtraEditors.TextEdit();
-            this.txtResiduaClLowLimit = new DevExpress.XtraEditors.TextEdit();
-            this.txtResidualClZero = new DevExpress.XtraEditors.TextEdit();
-            this.txtResidualClSensitivity = new DevExpress.XtraEditors.TextEdit();
-            this.txtClearInterval = new DevExpress.XtraEditors.TextEdit();
+            this.txtTime = new DevExpress.XtraEditors.TextEdit();
             this.txtPort = new DevExpress.XtraEditors.TextEdit();
-            this.ceResidualClLowLimit = new DevExpress.XtraEditors.CheckEdit();
             this.ceTime = new DevExpress.XtraEditors.CheckEdit();
             this.txtID = new DevExpress.XtraEditors.TextEdit();
-            this.ceResidualClStandValue = new DevExpress.XtraEditors.CheckEdit();
             this.cePowersupplyType = new DevExpress.XtraEditors.CheckEdit();
-            this.ceTurbidityUpLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.ceResidualClZero = new DevExpress.XtraEditors.CheckEdit();
             this.txtNum4 = new DevExpress.XtraEditors.TextEdit();
-            this.ceResidualClSensitivity = new DevExpress.XtraEditors.CheckEdit();
-            this.ceClearInterval = new DevExpress.XtraEditors.CheckEdit();
             this.cePort = new DevExpress.XtraEditors.CheckEdit();
             this.ceID = new DevExpress.XtraEditors.CheckEdit();
             this.txtNum3 = new DevExpress.XtraEditors.TextEdit();
@@ -110,32 +112,36 @@ namespace SmartWaterSystem
             this.cb_Conductivity_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).BeginInit();
+            this.groupControl8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClSensitivity.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClSensitivity.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClStandValue.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClStandValue.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClZero.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtResiduaClLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClZero.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
+            this.groupControl6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTurbidityUpLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityUpLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtClearInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceClearInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPowersupplyType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
             this.groupControl7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ceConductivityState.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePHState.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceResidualClState.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityState.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTurbidityUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePHState.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClStandValue.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtResiduaClLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClZero.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClSensitivity.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtClearInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClLowLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClStandValue.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePowersupplyType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClZero.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClSensitivity.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceClearInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).BeginInit();
@@ -180,27 +186,16 @@ namespace SmartWaterSystem
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.groupControl8);
+            this.groupControl1.Controls.Add(this.groupControl6);
             this.groupControl1.Controls.Add(this.cbPowersupplyType);
             this.groupControl1.Controls.Add(this.groupControl7);
-            this.groupControl1.Controls.Add(this.txtTurbidityUpLimit);
             this.groupControl1.Controls.Add(this.txtTime);
-            this.groupControl1.Controls.Add(this.ceColConfig);
-            this.groupControl1.Controls.Add(this.txtResidualClStandValue);
-            this.groupControl1.Controls.Add(this.txtResiduaClLowLimit);
-            this.groupControl1.Controls.Add(this.txtResidualClZero);
-            this.groupControl1.Controls.Add(this.txtResidualClSensitivity);
-            this.groupControl1.Controls.Add(this.txtClearInterval);
             this.groupControl1.Controls.Add(this.txtPort);
-            this.groupControl1.Controls.Add(this.ceResidualClLowLimit);
             this.groupControl1.Controls.Add(this.ceTime);
             this.groupControl1.Controls.Add(this.txtID);
-            this.groupControl1.Controls.Add(this.ceResidualClStandValue);
             this.groupControl1.Controls.Add(this.cePowersupplyType);
-            this.groupControl1.Controls.Add(this.ceTurbidityUpLimit);
-            this.groupControl1.Controls.Add(this.ceResidualClZero);
             this.groupControl1.Controls.Add(this.txtNum4);
-            this.groupControl1.Controls.Add(this.ceResidualClSensitivity);
-            this.groupControl1.Controls.Add(this.ceClearInterval);
             this.groupControl1.Controls.Add(this.cePort);
             this.groupControl1.Controls.Add(this.ceID);
             this.groupControl1.Controls.Add(this.txtNum3);
@@ -209,13 +204,155 @@ namespace SmartWaterSystem
             this.groupControl1.Controls.Add(this.ceIP);
             this.groupControl1.Location = new System.Drawing.Point(3, -1);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(791, 94);
+            this.groupControl1.Size = new System.Drawing.Size(791, 116);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
             // 
+            // groupControl8
+            // 
+            this.groupControl8.Controls.Add(this.txtResidualClSensitivity);
+            this.groupControl8.Controls.Add(this.ceResidualClSensitivity);
+            this.groupControl8.Controls.Add(this.txtResidualClStandValue);
+            this.groupControl8.Controls.Add(this.ceResidualClStandValue);
+            this.groupControl8.Controls.Add(this.txtResidualClZero);
+            this.groupControl8.Controls.Add(this.txtResiduaClLowLimit);
+            this.groupControl8.Controls.Add(this.ceResidualClZero);
+            this.groupControl8.Controls.Add(this.ceResidualClLowLimit);
+            this.groupControl8.Location = new System.Drawing.Point(5, 82);
+            this.groupControl8.Name = "groupControl8";
+            this.groupControl8.ShowCaption = false;
+            this.groupControl8.Size = new System.Drawing.Size(781, 24);
+            this.groupControl8.TabIndex = 15;
+            // 
+            // txtResidualClSensitivity
+            // 
+            this.txtResidualClSensitivity.EditValue = "";
+            this.txtResidualClSensitivity.Location = new System.Drawing.Point(713, 2);
+            this.txtResidualClSensitivity.Name = "txtResidualClSensitivity";
+            this.txtResidualClSensitivity.Properties.MaxLength = 5;
+            this.txtResidualClSensitivity.Size = new System.Drawing.Size(58, 20);
+            this.txtResidualClSensitivity.TabIndex = 7;
+            this.txtResidualClSensitivity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
+            // 
+            // ceResidualClSensitivity
+            // 
+            this.ceResidualClSensitivity.Location = new System.Drawing.Point(626, 2);
+            this.ceResidualClSensitivity.Name = "ceResidualClSensitivity";
+            this.ceResidualClSensitivity.Properties.Caption = "余氯灵敏度";
+            this.ceResidualClSensitivity.Size = new System.Drawing.Size(82, 19);
+            this.ceResidualClSensitivity.TabIndex = 6;
+            this.ceResidualClSensitivity.CheckedChanged += new System.EventHandler(this.ceResidualClSensitivity_CheckedChanged);
+            // 
+            // txtResidualClStandValue
+            // 
+            this.txtResidualClStandValue.EditValue = "";
+            this.txtResidualClStandValue.Location = new System.Drawing.Point(502, 2);
+            this.txtResidualClStandValue.Name = "txtResidualClStandValue";
+            this.txtResidualClStandValue.Properties.MaxLength = 5;
+            this.txtResidualClStandValue.Size = new System.Drawing.Size(58, 20);
+            this.txtResidualClStandValue.TabIndex = 5;
+            this.txtResidualClStandValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
+            // 
+            // ceResidualClStandValue
+            // 
+            this.ceResidualClStandValue.Location = new System.Drawing.Point(415, 3);
+            this.ceResidualClStandValue.Name = "ceResidualClStandValue";
+            this.ceResidualClStandValue.Properties.Caption = "余氯校准值";
+            this.ceResidualClStandValue.Size = new System.Drawing.Size(80, 19);
+            this.ceResidualClStandValue.TabIndex = 4;
+            this.ceResidualClStandValue.CheckedChanged += new System.EventHandler(this.ceResidualClStandValue_CheckedChanged);
+            // 
+            // txtResidualClZero
+            // 
+            this.txtResidualClZero.EditValue = "";
+            this.txtResidualClZero.Location = new System.Drawing.Point(291, 2);
+            this.txtResidualClZero.Name = "txtResidualClZero";
+            this.txtResidualClZero.Properties.MaxLength = 5;
+            this.txtResidualClZero.Size = new System.Drawing.Size(58, 20);
+            this.txtResidualClZero.TabIndex = 3;
+            this.txtResidualClZero.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
+            // 
+            // txtResiduaClLowLimit
+            // 
+            this.txtResiduaClLowLimit.EditValue = "";
+            this.txtResiduaClLowLimit.Location = new System.Drawing.Point(73, 2);
+            this.txtResiduaClLowLimit.Name = "txtResiduaClLowLimit";
+            this.txtResiduaClLowLimit.Properties.MaxLength = 5;
+            this.txtResiduaClLowLimit.Size = new System.Drawing.Size(65, 20);
+            this.txtResiduaClLowLimit.TabIndex = 1;
+            this.txtResiduaClLowLimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
+            // 
+            // ceResidualClZero
+            // 
+            this.ceResidualClZero.Location = new System.Drawing.Point(213, 3);
+            this.ceResidualClZero.Name = "ceResidualClZero";
+            this.ceResidualClZero.Properties.Caption = "余氯零点";
+            this.ceResidualClZero.Size = new System.Drawing.Size(71, 19);
+            this.ceResidualClZero.TabIndex = 2;
+            this.ceResidualClZero.CheckedChanged += new System.EventHandler(this.ceResidualClZero_CheckedChanged);
+            // 
+            // ceResidualClLowLimit
+            // 
+            this.ceResidualClLowLimit.Location = new System.Drawing.Point(5, 3);
+            this.ceResidualClLowLimit.Name = "ceResidualClLowLimit";
+            this.ceResidualClLowLimit.Properties.Caption = "余氯下限";
+            this.ceResidualClLowLimit.Size = new System.Drawing.Size(74, 19);
+            this.ceResidualClLowLimit.TabIndex = 0;
+            this.ceResidualClLowLimit.CheckedChanged += new System.EventHandler(this.ceResidualClLowLimit_CheckedChanged);
+            // 
+            // groupControl6
+            // 
+            this.groupControl6.Controls.Add(this.txtTurbidityUpLimit);
+            this.groupControl6.Controls.Add(this.ceTurbidityUpLimit);
+            this.groupControl6.Controls.Add(this.txtClearInterval);
+            this.groupControl6.Controls.Add(this.ceClearInterval);
+            this.groupControl6.Location = new System.Drawing.Point(505, 51);
+            this.groupControl6.Name = "groupControl6";
+            this.groupControl6.ShowCaption = false;
+            this.groupControl6.Size = new System.Drawing.Size(281, 24);
+            this.groupControl6.TabIndex = 14;
+            // 
+            // txtTurbidityUpLimit
+            // 
+            this.txtTurbidityUpLimit.EditValue = "";
+            this.txtTurbidityUpLimit.Location = new System.Drawing.Point(214, 2);
+            this.txtTurbidityUpLimit.Name = "txtTurbidityUpLimit";
+            this.txtTurbidityUpLimit.Properties.MaxLength = 5;
+            this.txtTurbidityUpLimit.Size = new System.Drawing.Size(58, 20);
+            this.txtTurbidityUpLimit.TabIndex = 3;
+            this.txtTurbidityUpLimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
+            // 
+            // ceTurbidityUpLimit
+            // 
+            this.ceTurbidityUpLimit.Location = new System.Drawing.Point(146, 3);
+            this.ceTurbidityUpLimit.Name = "ceTurbidityUpLimit";
+            this.ceTurbidityUpLimit.Properties.Caption = "浊度上限";
+            this.ceTurbidityUpLimit.Size = new System.Drawing.Size(74, 19);
+            this.ceTurbidityUpLimit.TabIndex = 2;
+            this.ceTurbidityUpLimit.CheckedChanged += new System.EventHandler(this.ceTurbidityUpLimit_CheckedChanged);
+            // 
+            // txtClearInterval
+            // 
+            this.txtClearInterval.EditValue = "";
+            this.txtClearInterval.Location = new System.Drawing.Point(74, 2);
+            this.txtClearInterval.Name = "txtClearInterval";
+            this.txtClearInterval.Properties.MaxLength = 5;
+            this.txtClearInterval.Size = new System.Drawing.Size(66, 20);
+            this.txtClearInterval.TabIndex = 1;
+            this.txtClearInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
+            // 
+            // ceClearInterval
+            // 
+            this.ceClearInterval.Location = new System.Drawing.Point(5, 3);
+            this.ceClearInterval.Name = "ceClearInterval";
+            this.ceClearInterval.Properties.Caption = "清洗间隔";
+            this.ceClearInterval.Size = new System.Drawing.Size(71, 19);
+            this.ceClearInterval.TabIndex = 0;
+            this.ceClearInterval.CheckedChanged += new System.EventHandler(this.ceClearInterval_CheckedChanged);
+            // 
             // cbPowersupplyType
             // 
-            this.cbPowersupplyType.Location = new System.Drawing.Point(369, 69);
+            this.cbPowersupplyType.Location = new System.Drawing.Point(728, 25);
             this.cbPowersupplyType.Name = "cbPowersupplyType";
             this.cbPowersupplyType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -224,162 +361,94 @@ namespace SmartWaterSystem
             "市电"});
             this.cbPowersupplyType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPowersupplyType.Size = new System.Drawing.Size(58, 20);
-            this.cbPowersupplyType.TabIndex = 24;
+            this.cbPowersupplyType.TabIndex = 12;
             // 
             // groupControl7
             // 
             this.groupControl7.Controls.Add(this.ceConductivityState);
-            this.groupControl7.Controls.Add(this.cePHState);
             this.groupControl7.Controls.Add(this.ceResidualClState);
             this.groupControl7.Controls.Add(this.ceTurbidityState);
-            this.groupControl7.Location = new System.Drawing.Point(684, 23);
+            this.groupControl7.Controls.Add(this.cePHState);
+            this.groupControl7.Controls.Add(this.ceColConfig);
+            this.groupControl7.Location = new System.Drawing.Point(5, 51);
             this.groupControl7.Name = "groupControl7";
             this.groupControl7.ShowCaption = false;
-            this.groupControl7.Size = new System.Drawing.Size(104, 53);
-            this.groupControl7.TabIndex = 26;
+            this.groupControl7.Size = new System.Drawing.Size(494, 24);
+            this.groupControl7.TabIndex = 13;
             // 
             // ceConductivityState
             // 
             this.ceConductivityState.Enabled = false;
-            this.ceConductivityState.Location = new System.Drawing.Point(49, 30);
+            this.ceConductivityState.Location = new System.Drawing.Point(429, 2);
             this.ceConductivityState.Name = "ceConductivityState";
             this.ceConductivityState.Properties.Caption = "电导率";
             this.ceConductivityState.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceConductivityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceConductivityState.Size = new System.Drawing.Size(58, 19);
-            this.ceConductivityState.TabIndex = 3;
-            // 
-            // cePHState
-            // 
-            this.cePHState.Enabled = false;
-            this.cePHState.Location = new System.Drawing.Point(49, 5);
-            this.cePHState.Name = "cePHState";
-            this.cePHState.Properties.Caption = "PH";
-            this.cePHState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePHState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.cePHState.Size = new System.Drawing.Size(48, 19);
-            this.cePHState.TabIndex = 1;
+            this.ceConductivityState.TabIndex = 4;
             // 
             // ceResidualClState
             // 
             this.ceResidualClState.Enabled = false;
-            this.ceResidualClState.Location = new System.Drawing.Point(5, 5);
+            this.ceResidualClState.Location = new System.Drawing.Point(143, 2);
             this.ceResidualClState.Name = "ceResidualClState";
             this.ceResidualClState.Properties.Caption = "余氯";
             this.ceResidualClState.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceResidualClState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceResidualClState.Size = new System.Drawing.Size(49, 19);
-            this.ceResidualClState.TabIndex = 0;
+            this.ceResidualClState.TabIndex = 1;
             // 
             // ceTurbidityState
             // 
             this.ceTurbidityState.Enabled = false;
-            this.ceTurbidityState.Location = new System.Drawing.Point(5, 30);
+            this.ceTurbidityState.Location = new System.Drawing.Point(334, 2);
             this.ceTurbidityState.Name = "ceTurbidityState";
             this.ceTurbidityState.Properties.Caption = "浊度";
             this.ceTurbidityState.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceTurbidityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceTurbidityState.Size = new System.Drawing.Size(48, 19);
-            this.ceTurbidityState.TabIndex = 2;
+            this.ceTurbidityState.TabIndex = 3;
             // 
-            // txtTurbidityUpLimit
+            // cePHState
             // 
-            this.txtTurbidityUpLimit.EditValue = "";
-            this.txtTurbidityUpLimit.Location = new System.Drawing.Point(215, 69);
-            this.txtTurbidityUpLimit.Name = "txtTurbidityUpLimit";
-            this.txtTurbidityUpLimit.Properties.MaxLength = 5;
-            this.txtTurbidityUpLimit.Size = new System.Drawing.Size(58, 20);
-            this.txtTurbidityUpLimit.TabIndex = 22;
-            this.txtTurbidityUpLimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
-            // 
-            // txtTime
-            // 
-            this.txtTime.Location = new System.Drawing.Point(215, 25);
-            this.txtTime.Name = "txtTime";
-            this.txtTime.Size = new System.Drawing.Size(120, 20);
-            this.txtTime.TabIndex = 3;
+            this.cePHState.Enabled = false;
+            this.cePHState.Location = new System.Drawing.Point(239, 2);
+            this.cePHState.Name = "cePHState";
+            this.cePHState.Properties.Caption = "PH";
+            this.cePHState.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.cePHState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            this.cePHState.Size = new System.Drawing.Size(48, 19);
+            this.cePHState.TabIndex = 2;
             // 
             // ceColConfig
             // 
-            this.ceColConfig.Location = new System.Drawing.Point(594, 48);
+            this.ceColConfig.Location = new System.Drawing.Point(5, 2);
             this.ceColConfig.Name = "ceColConfig";
             this.ceColConfig.Properties.Caption = "采集功能配置";
             this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceColConfig.Size = new System.Drawing.Size(90, 19);
-            this.ceColConfig.TabIndex = 25;
+            this.ceColConfig.TabIndex = 0;
             this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
             // 
-            // txtResidualClStandValue
+            // txtTime
             // 
-            this.txtResidualClStandValue.EditValue = "";
-            this.txtResidualClStandValue.Location = new System.Drawing.Point(369, 47);
-            this.txtResidualClStandValue.Name = "txtResidualClStandValue";
-            this.txtResidualClStandValue.Properties.MaxLength = 5;
-            this.txtResidualClStandValue.Size = new System.Drawing.Size(58, 20);
-            this.txtResidualClStandValue.TabIndex = 16;
-            this.txtResidualClStandValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
-            // 
-            // txtResiduaClLowLimit
-            // 
-            this.txtResiduaClLowLimit.EditValue = "";
-            this.txtResiduaClLowLimit.Location = new System.Drawing.Point(75, 47);
-            this.txtResiduaClLowLimit.Name = "txtResiduaClLowLimit";
-            this.txtResiduaClLowLimit.Properties.MaxLength = 5;
-            this.txtResiduaClLowLimit.Size = new System.Drawing.Size(65, 20);
-            this.txtResiduaClLowLimit.TabIndex = 12;
-            this.txtResiduaClLowLimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
-            // 
-            // txtResidualClZero
-            // 
-            this.txtResidualClZero.EditValue = "";
-            this.txtResidualClZero.Location = new System.Drawing.Point(215, 47);
-            this.txtResidualClZero.Name = "txtResidualClZero";
-            this.txtResidualClZero.Properties.MaxLength = 5;
-            this.txtResidualClZero.Size = new System.Drawing.Size(58, 20);
-            this.txtResidualClZero.TabIndex = 14;
-            this.txtResidualClZero.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
-            // 
-            // txtResidualClSensitivity
-            // 
-            this.txtResidualClSensitivity.EditValue = "";
-            this.txtResidualClSensitivity.Location = new System.Drawing.Point(514, 47);
-            this.txtResidualClSensitivity.Name = "txtResidualClSensitivity";
-            this.txtResidualClSensitivity.Properties.MaxLength = 5;
-            this.txtResidualClSensitivity.Size = new System.Drawing.Size(58, 20);
-            this.txtResidualClSensitivity.TabIndex = 18;
-            this.txtResidualClSensitivity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
-            // 
-            // txtClearInterval
-            // 
-            this.txtClearInterval.EditValue = "";
-            this.txtClearInterval.Location = new System.Drawing.Point(75, 69);
-            this.txtClearInterval.Name = "txtClearInterval";
-            this.txtClearInterval.Properties.MaxLength = 5;
-            this.txtClearInterval.Size = new System.Drawing.Size(66, 20);
-            this.txtClearInterval.TabIndex = 20;
-            this.txtClearInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
+            this.txtTime.Location = new System.Drawing.Point(226, 25);
+            this.txtTime.Name = "txtTime";
+            this.txtTime.Size = new System.Drawing.Size(120, 20);
+            this.txtTime.TabIndex = 3;
             // 
             // txtPort
             // 
             this.txtPort.EditValue = "";
-            this.txtPort.Location = new System.Drawing.Point(602, 25);
+            this.txtPort.Location = new System.Drawing.Point(580, 25);
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(58, 20);
             this.txtPort.TabIndex = 10;
             // 
-            // ceResidualClLowLimit
-            // 
-            this.ceResidualClLowLimit.Location = new System.Drawing.Point(6, 48);
-            this.ceResidualClLowLimit.Name = "ceResidualClLowLimit";
-            this.ceResidualClLowLimit.Properties.Caption = "余氯下限";
-            this.ceResidualClLowLimit.Size = new System.Drawing.Size(74, 19);
-            this.ceResidualClLowLimit.TabIndex = 11;
-            this.ceResidualClLowLimit.CheckedChanged += new System.EventHandler(this.ceResidualClLowLimit_CheckedChanged);
-            // 
             // ceTime
             // 
-            this.ceTime.Location = new System.Drawing.Point(146, 26);
+            this.ceTime.Location = new System.Drawing.Point(157, 26);
             this.ceTime.Name = "ceTime";
             this.ceTime.Properties.Caption = "设备时间";
             this.ceTime.Size = new System.Drawing.Size(75, 19);
@@ -392,41 +461,14 @@ namespace SmartWaterSystem
             this.txtID.Size = new System.Drawing.Size(65, 20);
             this.txtID.TabIndex = 1;
             // 
-            // ceResidualClStandValue
-            // 
-            this.ceResidualClStandValue.Location = new System.Drawing.Point(283, 48);
-            this.ceResidualClStandValue.Name = "ceResidualClStandValue";
-            this.ceResidualClStandValue.Properties.Caption = "余氯校准值";
-            this.ceResidualClStandValue.Size = new System.Drawing.Size(80, 19);
-            this.ceResidualClStandValue.TabIndex = 15;
-            this.ceResidualClStandValue.CheckedChanged += new System.EventHandler(this.ceResidualClStandValue_CheckedChanged);
-            // 
             // cePowersupplyType
             // 
-            this.cePowersupplyType.Location = new System.Drawing.Point(283, 70);
+            this.cePowersupplyType.Location = new System.Drawing.Point(657, 26);
             this.cePowersupplyType.Name = "cePowersupplyType";
             this.cePowersupplyType.Properties.Caption = "供电方式";
             this.cePowersupplyType.Size = new System.Drawing.Size(74, 19);
-            this.cePowersupplyType.TabIndex = 23;
+            this.cePowersupplyType.TabIndex = 11;
             this.cePowersupplyType.CheckedChanged += new System.EventHandler(this.cePowersupplyType_CheckedChanged);
-            // 
-            // ceTurbidityUpLimit
-            // 
-            this.ceTurbidityUpLimit.Location = new System.Drawing.Point(147, 70);
-            this.ceTurbidityUpLimit.Name = "ceTurbidityUpLimit";
-            this.ceTurbidityUpLimit.Properties.Caption = "浊度上限";
-            this.ceTurbidityUpLimit.Size = new System.Drawing.Size(74, 19);
-            this.ceTurbidityUpLimit.TabIndex = 21;
-            this.ceTurbidityUpLimit.CheckedChanged += new System.EventHandler(this.ceTurbidityUpLimit_CheckedChanged);
-            // 
-            // ceResidualClZero
-            // 
-            this.ceResidualClZero.Location = new System.Drawing.Point(146, 48);
-            this.ceResidualClZero.Name = "ceResidualClZero";
-            this.ceResidualClZero.Properties.Caption = "余氯零点";
-            this.ceResidualClZero.Size = new System.Drawing.Size(71, 19);
-            this.ceResidualClZero.TabIndex = 13;
-            this.ceResidualClZero.CheckedChanged += new System.EventHandler(this.ceResidualClZero_CheckedChanged);
             // 
             // txtNum4
             // 
@@ -439,27 +481,9 @@ namespace SmartWaterSystem
             this.txtNum4.Tag = "4";
             this.txtNum4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
             // 
-            // ceResidualClSensitivity
-            // 
-            this.ceResidualClSensitivity.Location = new System.Drawing.Point(434, 48);
-            this.ceResidualClSensitivity.Name = "ceResidualClSensitivity";
-            this.ceResidualClSensitivity.Properties.Caption = "余氯灵敏度";
-            this.ceResidualClSensitivity.Size = new System.Drawing.Size(82, 19);
-            this.ceResidualClSensitivity.TabIndex = 17;
-            this.ceResidualClSensitivity.CheckedChanged += new System.EventHandler(this.ceResidualClSensitivity_CheckedChanged);
-            // 
-            // ceClearInterval
-            // 
-            this.ceClearInterval.Location = new System.Drawing.Point(6, 70);
-            this.ceClearInterval.Name = "ceClearInterval";
-            this.ceClearInterval.Properties.Caption = "清洗间隔";
-            this.ceClearInterval.Size = new System.Drawing.Size(71, 19);
-            this.ceClearInterval.TabIndex = 19;
-            this.ceClearInterval.CheckedChanged += new System.EventHandler(this.ceClearInterval_CheckedChanged);
-            // 
             // cePort
             // 
-            this.cePort.Location = new System.Drawing.Point(544, 26);
+            this.cePort.Location = new System.Drawing.Point(524, 26);
             this.cePort.Name = "cePort";
             this.cePort.Properties.Caption = "端口号";
             this.cePort.Size = new System.Drawing.Size(63, 19);
@@ -509,7 +533,7 @@ namespace SmartWaterSystem
             // 
             // ceIP
             // 
-            this.ceIP.Location = new System.Drawing.Point(344, 26);
+            this.ceIP.Location = new System.Drawing.Point(357, 26);
             this.ceIP.Name = "ceIP";
             this.ceIP.Properties.Caption = "IP";
             this.ceIP.Size = new System.Drawing.Size(35, 19);
@@ -582,9 +606,9 @@ namespace SmartWaterSystem
             // 
             this.groupControl2.Controls.Add(this.ceResidualClInterval);
             this.groupControl2.Controls.Add(this.gridControl_ResidualCl);
-            this.groupControl2.Location = new System.Drawing.Point(4, 100);
+            this.groupControl2.Location = new System.Drawing.Point(4, 121);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(395, 175);
+            this.groupControl2.Size = new System.Drawing.Size(395, 165);
             this.groupControl2.TabIndex = 0;
             // 
             // gridControl_ResidualCl
@@ -599,7 +623,7 @@ namespace SmartWaterSystem
             this.cb_ResidualCl_coltime1,
             this.cb_ResidualCl_sendtime,
             this.cb_sim_coltime2});
-            this.gridControl_ResidualCl.Size = new System.Drawing.Size(391, 151);
+            this.gridControl_ResidualCl.Size = new System.Drawing.Size(391, 141);
             this.gridControl_ResidualCl.TabIndex = 1;
             this.gridControl_ResidualCl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_ResidualCl});
@@ -695,9 +719,9 @@ namespace SmartWaterSystem
             // 
             this.groupControl3.Controls.Add(this.ceTurbidityInterval);
             this.groupControl3.Controls.Add(this.gridControl_Turbidity);
-            this.groupControl3.Location = new System.Drawing.Point(3, 279);
+            this.groupControl3.Location = new System.Drawing.Point(4, 289);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(395, 175);
+            this.groupControl3.Size = new System.Drawing.Size(395, 165);
             this.groupControl3.TabIndex = 2;
             // 
             // gridControl_Turbidity
@@ -711,7 +735,7 @@ namespace SmartWaterSystem
             this.cb_Turbidity_starttime,
             this.cb_Turbidity_coltime,
             this.cb_Turbidity_sendtime});
-            this.gridControl_Turbidity.Size = new System.Drawing.Size(391, 151);
+            this.gridControl_Turbidity.Size = new System.Drawing.Size(391, 141);
             this.gridControl_Turbidity.TabIndex = 1;
             this.gridControl_Turbidity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Turbidity});
@@ -821,9 +845,9 @@ namespace SmartWaterSystem
             // 
             this.groupControl4.Controls.Add(this.cePHInterval);
             this.groupControl4.Controls.Add(this.gridControl_PH);
-            this.groupControl4.Location = new System.Drawing.Point(400, 100);
+            this.groupControl4.Location = new System.Drawing.Point(400, 121);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(395, 175);
+            this.groupControl4.Size = new System.Drawing.Size(395, 165);
             this.groupControl4.TabIndex = 1;
             // 
             // cePHInterval
@@ -848,7 +872,7 @@ namespace SmartWaterSystem
             this.cb_PH_starttime,
             this.cb_PH_coltime,
             this.cb_PH_sendtime});
-            this.gridControl_PH.Size = new System.Drawing.Size(391, 151);
+            this.gridControl_PH.Size = new System.Drawing.Size(391, 141);
             this.gridControl_PH.TabIndex = 1;
             this.gridControl_PH.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_PH});
@@ -937,9 +961,9 @@ namespace SmartWaterSystem
             // 
             this.groupControl5.Controls.Add(this.ceConductivityInterval);
             this.groupControl5.Controls.Add(this.gridControl_Conductivity);
-            this.groupControl5.Location = new System.Drawing.Point(400, 279);
+            this.groupControl5.Location = new System.Drawing.Point(399, 289);
             this.groupControl5.Name = "groupControl5";
-            this.groupControl5.Size = new System.Drawing.Size(395, 175);
+            this.groupControl5.Size = new System.Drawing.Size(395, 165);
             this.groupControl5.TabIndex = 3;
             // 
             // ceConductivityInterval
@@ -964,7 +988,7 @@ namespace SmartWaterSystem
             this.cb_Conductivity_starttime,
             this.cb_Conductivity_coltime,
             this.cb_Conductivity_sendtime});
-            this.gridControl_Conductivity.Size = new System.Drawing.Size(391, 151);
+            this.gridControl_Conductivity.Size = new System.Drawing.Size(391, 141);
             this.gridControl_Conductivity.TabIndex = 1;
             this.gridControl_Conductivity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Conductivity});
@@ -1069,32 +1093,36 @@ namespace SmartWaterSystem
             this.Load += new System.EventHandler(this.OLWQParm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).EndInit();
+            this.groupControl8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClSensitivity.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClSensitivity.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClStandValue.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClStandValue.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClZero.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtResiduaClLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClZero.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
+            this.groupControl6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtTurbidityUpLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityUpLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtClearInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceClearInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPowersupplyType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
             this.groupControl7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ceConductivityState.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePHState.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceResidualClState.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityState.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTurbidityUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePHState.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClStandValue.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtResiduaClLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClZero.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtResidualClSensitivity.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtClearInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClLowLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClStandValue.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePowersupplyType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClZero.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceResidualClSensitivity.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceClearInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).EndInit();
@@ -1220,6 +1248,8 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit cePowersupplyType;
         private DevExpress.XtraEditors.ComboBoxEdit cbPowersupplyType;
         private DevExpress.XtraEditors.TextEdit txtResiduaClLowLimit;
+        private DevExpress.XtraEditors.GroupControl groupControl8;
+        private DevExpress.XtraEditors.GroupControl groupControl6;
 
     }
 }

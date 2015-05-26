@@ -1431,36 +1431,51 @@ namespace SmartWaterSystem
             cePort.Enabled = true;
             txtPort.Enabled = true;
             txtPort.Text = "";
-
-            txtResiduaClLowLimit.Enabled = true;
-            txtResiduaClLowLimit.Text = "";
-            txtResidualClZero.Enabled = true;
-            txtResidualClZero.Text = "";
-            txtResidualClStandValue.Enabled = true;
-            txtResidualClStandValue.Text = "";
-            txtResidualClSensitivity.Enabled = true;
-            txtResidualClSensitivity.Text = "";
-            txtClearInterval.Enabled = true;
-            txtClearInterval.Text = "";
-            txtTurbidityUpLimit.Enabled = true;
-            txtTurbidityUpLimit.Text = "";
+            cePowersupplyType.Enabled = true;
+            cePowersupplyType.Checked = false;
             cbPowersupplyType.Enabled = true;
             cbPowersupplyType.SelectedIndex = -1;
 
+            ceColConfig.Enabled = true;
+            cePHState.Enabled = false;
+            cePHState.Checked = false;
+            ceConductivityState.Enabled = false;
+            ceConductivityState.Checked = false;
+            ceResidualClState.Enabled = false;
+            ceResidualClState.Checked = false;
+            ceTurbidityState.Enabled = false;
+            ceTurbidityState.Checked = false;
+
+            ceClearInterval.Enabled = true;
+            ceClearInterval.Checked = false;
+            txtClearInterval.Enabled = true;
+            txtClearInterval.Text = "";
+            ceTurbidityUpLimit.Enabled = true;
+            ceTurbidityUpLimit.Checked = false;
+            txtTurbidityUpLimit.Enabled = true;
+            txtTurbidityUpLimit.Text = "";
+
+            ceResidualClLowLimit.Enabled = true;
+            ceResidualClLowLimit.Checked = false;
+            txtResiduaClLowLimit.Enabled = true;
+            txtResiduaClLowLimit.Text = "";
+            ceResidualClZero.Enabled = true;
+            ceResidualClZero.Checked = false;
+            txtResidualClZero.Enabled = true;
+            txtResidualClZero.Text = "";
+            ceResidualClStandValue.Enabled = true;
+            ceResidualClStandValue.Checked = false;
+            txtResidualClStandValue.Enabled = true;
+            txtResidualClStandValue.Text = "";
+            ceResidualClSensitivity.Enabled = true;
+            ceResidualClSensitivity.Checked = false;
+            txtResidualClSensitivity.Enabled = true;
+            txtResidualClSensitivity.Text = "";
+            
             ceTurbidityInterval.Enabled = true;
             cePHInterval.Enabled = true;
             ceResidualClInterval.Enabled = true;
             ceConductivityInterval.Enabled = true;
-
-            ceColConfig.Enabled = true;
-            cePHState.Enabled = true;
-            cePHState.Checked = false;
-            ceConductivityState.Enabled = true;
-            ceConductivityState.Checked = false;
-            ceResidualClState.Enabled = true;
-            ceResidualClState.Checked = false;
-            ceTurbidityState.Enabled = true;
-            ceTurbidityState.Checked = false;
         }
 
         private void SetGprsCtrlStatus()
@@ -1489,6 +1504,18 @@ namespace SmartWaterSystem
             cePort.Checked = false;
             txtPort.Enabled = false;
             txtPort.Text = "";
+            cePowersupplyType.Enabled = false;
+            cePowersupplyType.Checked = false;
+            cbPowersupplyType.Enabled = false;
+            cbPowersupplyType.SelectedIndex = -1;
+
+            ceColConfig.Enabled = false;
+            ceColConfig.Checked = false;
+
+            ceClearInterval.Enabled = false;
+            ceClearInterval.Checked = false;
+            ceTurbidityUpLimit.Enabled = false;
+            ceTurbidityUpLimit.Checked = false;
 
             ceResidualClLowLimit.Enabled = false;
             ceResidualClLowLimit.Checked = false;
@@ -1498,23 +1525,6 @@ namespace SmartWaterSystem
             ceResidualClStandValue.Checked = false;
             ceResidualClSensitivity.Enabled = false;
             ceResidualClSensitivity.Checked = false;
-            ceClearInterval.Enabled = false;
-            ceClearInterval.Checked = false;
-            ceTurbidityUpLimit.Enabled = false;
-            ceTurbidityUpLimit.Checked = false;
-            cbPowersupplyType.Enabled = false;
-            cbPowersupplyType.SelectedIndex = -1;
-            
-            ceColConfig.Enabled = false;
-            ceColConfig.Checked = false;
-            cePHState.Enabled = false;
-            cePHState.Checked = false;
-            ceConductivityState.Enabled = false;
-            ceConductivityState.Checked = false;
-            ceResidualClState.Enabled = false;
-            ceResidualClState.Checked = false;
-            ceTurbidityState.Enabled = false;
-            ceTurbidityState.Checked = false;
         }
 
         private void ceIP_CheckedChanged(object sender, EventArgs e)

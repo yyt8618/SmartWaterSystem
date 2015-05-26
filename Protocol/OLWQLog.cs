@@ -339,7 +339,7 @@ namespace Protocol
             return BitConverter.ToUInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
         }
 
-        public int ReadTurbidityUpLimit(short Id)
+        public ushort ReadTurbidityUpLimit(short Id)
         {
             Package package = new Package();
             package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
