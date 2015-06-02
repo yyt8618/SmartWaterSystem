@@ -24,6 +24,10 @@ namespace SmartWaterSystem
         bool calldataEnable = false;  //是否开启招测
         string currentTerid = "";       //当前操作的终端编号
         List<OnLineTerEntity> OnLineTers = null;  //在线终端记录
+        Color cLowLimit, cUpLimit, cDefault;  //报警颜色变量
+        List<OLWQConfigEntity> lst_config;    //配置数据
+        bool update_config = false;            //是否在更新配置
+
         public OLWQMonitor()
         {
             InitializeComponent();
@@ -49,6 +53,17 @@ namespace SmartWaterSystem
                 msmqEntity.MsgType = ConstValue.MSMQTYPE.Get_OnLineState;
                 GlobalValue.MSMQMgr.SendMessage(msmqEntity);
             }
+
+            UpdateColorsConfig();
+        }
+
+        public void UpdateColorsConfig()
+        {
+            cLowLimit = Color.FromArgb(Settings.Instance.GetInt(SettingKeys.OLWQLowLimitColor));
+            cUpLimit = Color.FromArgb(Settings.Instance.GetInt(SettingKeys.OLWQUpLimitColor));
+
+            btnClrLowLimit.BackColor = cLowLimit;
+            btnClrUpLimit.BackColor = cUpLimit;
         }
 
         void MSMQMgr_MSMQEvent(object sender, MSMQEventArgs e)
@@ -230,6 +245,16 @@ namespace SmartWaterSystem
 
             if (lst_terid.Count > 0)
             {
+                update_config = true;
+                string ter_where = "";
+                foreach (string terid in lst_terid)
+                {
+                    ter_where += "'" + terid + "',";
+                }
+                ter_where = ter_where.Substring(0, ter_where.Length - 1);
+                lst_config = (new OLWQConfigBLL()).Select("TerminalID IN("+ter_where+") ORDER BY TerminalID");
+                update_config = false;
+
                 DataTable dt = dataBll.GetOLWQData(lst_terid);
                 gridControl_data.DataSource = dt;
                 gridControl_data.RefreshDataSource();
@@ -239,6 +264,7 @@ namespace SmartWaterSystem
                 gridControl_data.DataSource = null;
                 gridControl_data.RefreshDataSource();
             }
+            update_config = false;
         }
 
         private void gridView1_CustomDrawRowIndicator(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
@@ -322,10 +348,70 @@ namespace SmartWaterSystem
         {
             if (e.RowHandle > -1 && e.CellValue != null)
             {
-                string terId = gridView1.GetRowCellValue(e.RowHandle, "TerminalID").ToString().Trim();
+                string terId = gridView_data.GetRowCellValue(e.RowHandle, "TerminalID").ToString().Trim();
                 OLWQChartForm.TerminalID = terId;
                 OLWQChartForm detailForm = new OLWQChartForm();
                 detailForm.ShowDialog();
+            }
+        }
+
+        private void gridView_data_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
+        {
+            if (e.Column.Caption == "浊度(NTU)" || e.Column.Caption == "余氯(PPM)" || e.Column.Caption == "PH(ph)" || e.Column.Caption == "电导率(us/cm)")
+            {
+                if (update_config)
+                    return;
+                int rowhandle = e.RowHandle;
+                if (gridView_data.GetRow(rowhandle) != null)
+                {
+                    if (lst_config != null && lst_config.Count > 0)
+                    {
+                        int config_index = -1;
+                        for(int i = 0; i<lst_config.Count;i++)
+                        {
+                            if (lst_config[i].TerId.Trim() == gridView_data.GetRowCellValue(rowhandle, "TerminalID").ToString().Trim())
+                            {
+                                config_index = i;
+                                break;
+                            }
+                        }
+                        if (config_index == -1)
+                            return;
+
+                        if (e.Column.Caption == "浊度(NTU)" && lst_config[config_index].enableTurbidityAlarm)
+                        {
+                            float turbidity = Convert.ToSingle(gridView_data.GetRowCellValue(rowhandle, "Turbidity"));
+                            if (turbidity < lst_config[config_index].TurbidityLowLimit)
+                                e.Appearance.BackColor = cLowLimit;
+                            else if (turbidity > lst_config[config_index].TurbidityUpLimit)
+                                e.Appearance.BackColor = cUpLimit;
+                        }
+                        else if (e.Column.Caption == "余氯(PPM)" && lst_config[config_index].enableResidualClAlarm)
+                        {
+                            float residualCl = Convert.ToSingle(gridView_data.GetRowCellValue(rowhandle, "ResidualCl"));
+                            if (residualCl < lst_config[config_index].TurbidityLowLimit)
+                                e.Appearance.BackColor = cLowLimit;
+                            else if (residualCl > lst_config[config_index].TurbidityUpLimit)
+                                e.Appearance.BackColor = cUpLimit;
+                        }
+                        else if (e.Column.Caption == "PH(ph)" && lst_config[config_index].enablePHAlarm)
+                        {
+                            float ph = Convert.ToSingle(gridView_data.GetRowCellValue(rowhandle, "PH"));
+                            if (ph < lst_config[config_index].TurbidityLowLimit)
+                                e.Appearance.BackColor = cLowLimit;
+                            else if (ph > lst_config[config_index].TurbidityUpLimit)
+                                e.Appearance.BackColor = cUpLimit;
+                        }
+                        else if (e.Column.Caption == "电导率(us/cm)" && lst_config[config_index].enableConductivityAlarm)
+                        {
+                            float conductivity = Convert.ToSingle(gridView_data.GetRowCellValue(rowhandle, "Conductivity"));
+                            if (conductivity < lst_config[config_index].TurbidityLowLimit)
+                                e.Appearance.BackColor = cLowLimit;
+                            else if (conductivity > lst_config[config_index].TurbidityUpLimit)
+                                e.Appearance.BackColor = cUpLimit;
+                        }
+                    }
+                }
             }
         }
 

@@ -32,7 +32,7 @@ namespace SmartWaterSystem
             this.components = new System.ComponentModel.Container();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl_data = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridView_data = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -55,10 +55,14 @@ namespace SmartWaterSystem
             this.MenuOnLine = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MenuItem_Online = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_Offline = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.btnClrUpLimit = new System.Windows.Forms.Button();
+            this.btnClrLowLimit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_data)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_data)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
             this.groupControl6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).BeginInit();
@@ -73,9 +77,9 @@ namespace SmartWaterSystem
             // groupControl3
             // 
             this.groupControl3.Controls.Add(this.gridControl_data);
-            this.groupControl3.Location = new System.Drawing.Point(119, 5);
+            this.groupControl3.Location = new System.Drawing.Point(119, 27);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(678, 483);
+            this.groupControl3.Size = new System.Drawing.Size(678, 461);
             this.groupControl3.TabIndex = 4;
             this.groupControl3.Text = "数据列表";
             // 
@@ -84,16 +88,16 @@ namespace SmartWaterSystem
             this.gridControl_data.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridControl_data.Location = new System.Drawing.Point(2, 22);
-            this.gridControl_data.MainView = this.gridView1;
+            this.gridControl_data.MainView = this.gridView_data;
             this.gridControl_data.Name = "gridControl_data";
-            this.gridControl_data.Size = new System.Drawing.Size(674, 459);
+            this.gridControl_data.Size = new System.Drawing.Size(674, 437);
             this.gridControl_data.TabIndex = 1;
             this.gridControl_data.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.gridView_data});
             // 
-            // gridView1
+            // gridView_data
             // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridView_data.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn3,
             this.gridColumn4,
             this.gridColumn5,
@@ -101,15 +105,16 @@ namespace SmartWaterSystem
             this.gridColumn7,
             this.gridColumn8,
             this.gridColumn9});
-            this.gridView1.GridControl = this.gridControl_data;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView1.OptionsBehavior.ReadOnly = true;
-            this.gridView1.OptionsView.ShowGroupPanel = false;
-            this.gridView1.OptionsView.ShowIndicator = false;
-            this.gridView1.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView1_RowCellClick);
-            this.gridView1.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridView1_CustomDrawRowIndicator);
+            this.gridView_data.GridControl = this.gridControl_data;
+            this.gridView_data.Name = "gridView_data";
+            this.gridView_data.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView_data.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView_data.OptionsBehavior.ReadOnly = true;
+            this.gridView_data.OptionsView.ShowGroupPanel = false;
+            this.gridView_data.OptionsView.ShowIndicator = false;
+            this.gridView_data.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView1_RowCellClick);
+            this.gridView_data.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridView1_CustomDrawRowIndicator);
+            this.gridView_data.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridView_data_CustomDrawCell);
             // 
             // gridColumn3
             // 
@@ -357,10 +362,48 @@ namespace SmartWaterSystem
             this.MenuItem_Offline.Text = "下线";
             this.MenuItem_Offline.Click += new System.EventHandler(this.MenuItem_Offline_Click);
             // 
+            // labelControl4
+            // 
+            this.labelControl4.Location = new System.Drawing.Point(384, 7);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(36, 14);
+            this.labelControl4.TabIndex = 32;
+            this.labelControl4.Text = "上限：";
+            // 
+            // labelControl3
+            // 
+            this.labelControl3.Location = new System.Drawing.Point(274, 7);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(36, 14);
+            this.labelControl3.TabIndex = 33;
+            this.labelControl3.Text = "下限：";
+            // 
+            // btnClrUpLimit
+            // 
+            this.btnClrUpLimit.Enabled = false;
+            this.btnClrUpLimit.Location = new System.Drawing.Point(426, 6);
+            this.btnClrUpLimit.Name = "btnClrUpLimit";
+            this.btnClrUpLimit.Size = new System.Drawing.Size(17, 16);
+            this.btnClrUpLimit.TabIndex = 30;
+            this.btnClrUpLimit.UseVisualStyleBackColor = true;
+            // 
+            // btnClrLowLimit
+            // 
+            this.btnClrLowLimit.Enabled = false;
+            this.btnClrLowLimit.Location = new System.Drawing.Point(316, 6);
+            this.btnClrLowLimit.Name = "btnClrLowLimit";
+            this.btnClrLowLimit.Size = new System.Drawing.Size(17, 16);
+            this.btnClrLowLimit.TabIndex = 31;
+            this.btnClrLowLimit.UseVisualStyleBackColor = true;
+            // 
             // OLWQMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelControl4);
+            this.Controls.Add(this.labelControl3);
+            this.Controls.Add(this.btnClrUpLimit);
+            this.Controls.Add(this.btnClrLowLimit);
             this.Controls.Add(this.groupControl6);
             this.Controls.Add(this.groupControl3);
             this.Name = "OLWQMonitor";
@@ -369,7 +412,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_data)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_data)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
             this.groupControl6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlTer)).EndInit();
@@ -380,6 +423,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ImageComboBox_Online)).EndInit();
             this.MenuOnLine.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -402,7 +446,7 @@ namespace SmartWaterSystem
         private System.Windows.Forms.ContextMenuStrip MenuOnLine;
         private System.Windows.Forms.ToolStripMenuItem MenuItem_Online;
         private System.Windows.Forms.ToolStripMenuItem MenuItem_Offline;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_data;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
@@ -410,6 +454,10 @@ namespace SmartWaterSystem
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private System.Windows.Forms.Button btnClrUpLimit;
+        private System.Windows.Forms.Button btnClrLowLimit;
 
     }
 }

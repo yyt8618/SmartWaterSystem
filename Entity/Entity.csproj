@@ -54,6 +54,7 @@
     <Compile Include="NoiseRecorder.cs" />
     <Compile Include="NoiseRecorderGroup.cs" />
     <Compile Include="NoiseResult.cs" />
+    <Compile Include="OLWQConfigEntity.cs" />
     <Compile Include="PreDataEntity.cs" />
     <Compile Include="PreDetailDataEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

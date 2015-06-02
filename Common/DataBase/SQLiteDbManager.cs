@@ -276,6 +276,7 @@ namespace Common
             array.Add(CreateTableGPRSTerminal());
             array.Add(CreateTableUniversalTerWayType());
             array.Add(CreateTableUniversalTerWayConfig());
+            //array.Add(CreateTableOLWQTerConfig());
 
             array.Add(CreateDBVersionTable());
             return array;
@@ -527,15 +528,29 @@ namespace Common
                     )";
         }
 
-//        private string CreateTableUniversalTerConfig()
-//        {
-//            return @"CREATE TABLE [UniversalTerConfig]
-//                    (
-//	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
-//	                    [TerminalID]		[INT] NOT NULL,								--终端ID
-//	                    [ModifyTime]		[DATETIME]		NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
-//                    )";
-//        }
+        //水质终端配置
+        private string CreateTableOLWQTerConfig()
+        {
+            return @"CREATE TABLE [OLWQConfig]
+                    (
+	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+	                    [TerminalID]		[INT] NOT NULL,								--终端ID
+	                    [EnableTurbidityAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用浊度报警 0:不启用,1:启用
+	                    [EnableResidualClAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用余氯报警 0:不启用,1:启用
+                        [EnablePHAlarm]	[INT]			NOT NULL DEFAULT 1,			        --是否启用PH报警 0:不启用,1:启用
+                        [EnableConductivityAlarm]	[INT]			NOT NULL DEFAULT 1,		--是否启用电导率报警 0:不启用,1:启用
+	                    [TurbidityUpLimit]		NUMERIC(8, 5)	NOT NULL DEFAULT 0,			--浊度上限值
+	                    [TurbidityLowLimit]		NUMERIC(8, 5)	NOT NULL DEFAULT 0,			--浊度下限值
+	                    [ResidualClUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--余氯上限值
+	                    [ResidualClLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--余氯下限值
+                        [PHUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			        --PH上限值
+	                    [PHLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			        --PH下限值
+                        [ConductivityUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--电导率上限值
+	                    [ConductivityLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--电导率下限值
+                        [SyncState]         INT             NULL     DEFAULT 1 ,        --0:已同步,1:新增未同步,-1:删除未同步
+	                    [ModifyTime]		NVARCHAR(25)    NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
+                    )";
+        }
 
         /// <summary>
         /// 第几路采集类型(通用终端)

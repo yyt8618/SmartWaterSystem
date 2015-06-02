@@ -6,6 +6,8 @@ using Entity;
 using BLL;
 using DevExpress.XtraEditors;
 using System.Text.RegularExpressions;
+using Common;
+using System.Collections.Generic;
 
 namespace SmartWaterSystem
 {
@@ -20,6 +22,7 @@ namespace SmartWaterSystem
 
         private void OLWQMgr_Load(object sender, EventArgs e)
         {
+            InitColor();
             LoadTerminalData();
 
             if (gridTer.RowCount > 0)
@@ -38,6 +41,22 @@ namespace SmartWaterSystem
             }
         }
 
+        private void InitColor()
+        {
+            try
+            {
+                Color c = Color.FromArgb(Settings.Instance.GetInt(SettingKeys.OLWQLowLimitColor));
+                colorPickLowLimit.Color = c;
+
+                c = Color.FromArgb(Settings.Instance.GetInt(SettingKeys.OLWQUpLimitColor));
+                colorPickUpLimit.Color = c;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("初始化拾色器失败!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void btnDel_Click(object sender, EventArgs e)
         {
             if (!Regex.IsMatch(txtID.Text,@"^\d{1,5}$"))
@@ -49,8 +68,15 @@ namespace SmartWaterSystem
             {
                 if (Terbll.DeleteTer(TerType.OLWQTer, txtID.Text) == 1)
                 {
-                    XtraMessageBox.Show("删除成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                    if ((new OLWQConfigBLL()).Delete(txtID.Text.Trim()))
+                    {
+                        XtraMessageBox.Show("删除成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("删除发生异常，请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
@@ -88,14 +114,132 @@ namespace SmartWaterSystem
                 txtName.Focus();
                 return;
             }
+            if (cboxTurbidityAlarm.Checked)
+            {
+                if (!Regex.IsMatch(txtTurbidityLowLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
+                {
+                    XtraMessageBox.Show("请填写合法的终端浊度下限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtTurbidityLowLimit.SelectAll();
+                    txtTurbidityLowLimit.Focus();
+                    return ;
+                }
+            }
+
+            if (cboxTurbidityAlarm.Checked)
+            {
+                if (!Regex.IsMatch(txtTurbidityUpLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
+                {
+                    XtraMessageBox.Show("请填写合法的终端浊度上限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtTurbidityUpLimit.SelectAll();
+                    txtTurbidityUpLimit.Focus();
+                    return ;
+                }
+            }
+
+            if (cboxResidualClAlarm.Checked)
+            {
+                if (!Regex.IsMatch(txtResidualClLowLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
+                {
+                    XtraMessageBox.Show("请填写合法的终端余氯下限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtResidualClLowLimit.SelectAll();
+                    txtResidualClLowLimit.Focus();
+                    return;
+                }
+            }
+
+            if (cboxResidualClAlarm.Checked)
+            {
+                if (!Regex.IsMatch(txtResidualClUpLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
+                {
+                    XtraMessageBox.Show("请填写合法的终端余氯上限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtResidualClUpLimit.SelectAll();
+                    txtResidualClUpLimit.Focus();
+                    return;
+                }
+            }
+
+            if (cboxPHAlarm.Checked)
+            {
+                if (!Regex.IsMatch(txtPHLowLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
+                {
+                    XtraMessageBox.Show("请填写合法的终端PH下限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtPHLowLimit.SelectAll();
+                    txtPHLowLimit.Focus();
+                    return;
+                }
+            }
+
+            if (cboxPHAlarm.Checked)
+            {
+                if (!Regex.IsMatch(txtPHUpLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
+                {
+                    XtraMessageBox.Show("请填写合法的终端PH上限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtPHUpLimit.SelectAll();
+                    txtPHUpLimit.Focus();
+                    return;
+                }
+            }
+
+            if (cboxConductivityAlarm.Checked)
+            {
+                if (!Regex.IsMatch(txtConductivityLowLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
+                {
+                    XtraMessageBox.Show("请填写合法的终端电导率下限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtConductivityLowLimit.SelectAll();
+                    txtConductivityLowLimit.Focus();
+                    return;
+                }
+            }
+
+            if (cboxConductivityAlarm.Checked)
+            {
+                if (!Regex.IsMatch(txtConductivityUpLimit.Text, @"^\d{1,4}(.\d{1,4})?$"))
+                {
+                    XtraMessageBox.Show("请填写合法的终端电导率上限值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtConductivityUpLimit.SelectAll();
+                    txtConductivityUpLimit.Focus();
+                    return;
+                }
+            }
             #endregion
 
             int saveresult=Terbll.SaveTerInfo(Convert.ToInt32(txtID.Text), txtName.Text, txtAddr.Text, txtRemark.Text,TerType.OLWQTer,null);
             if (saveresult == 1)
             {
-                XtraMessageBox.Show("保存成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadTerminalData();
-                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                OLWQConfigEntity configEntity =new OLWQConfigEntity();
+                configEntity.TerId = txtID.Text.Trim();
+                configEntity.enableTurbidityAlarm = cboxTurbidityAlarm.Checked;
+                if (configEntity.enableTurbidityAlarm)
+                {
+                    configEntity.TurbidityLowLimit = Convert.ToSingle(txtTurbidityLowLimit.Text);
+                    configEntity.TurbidityUpLimit = Convert.ToSingle(txtTurbidityUpLimit.Text);
+                }
+                configEntity.enableResidualClAlarm = cboxResidualClAlarm.Checked;
+                if (configEntity.enableResidualClAlarm)
+                {
+                    configEntity.ResidualClLowLimit = Convert.ToSingle(txtResidualClLowLimit.Text);
+                    configEntity.ResidualClUpLimit = Convert.ToSingle(txtResidualClUpLimit.Text);
+                }
+                configEntity.enablePHAlarm = cboxPHAlarm.Checked;
+                if (configEntity.enablePHAlarm)
+                {
+                    configEntity.PHLowLimit = Convert.ToSingle(txtPHLowLimit.Text);
+                    configEntity.PHUpLimit = Convert.ToSingle(txtPHUpLimit.Text);
+                }
+                configEntity.enableConductivityAlarm = cboxConductivityAlarm.Checked;
+                if (configEntity.enableConductivityAlarm)
+                {
+                    configEntity.ConductivityLowLimit = Convert.ToSingle(txtConductivityLowLimit.Text);
+                    configEntity.ConductivityUpLimit = Convert.ToSingle(txtConductivityUpLimit.Text);
+                }
+                if ((new OLWQConfigBLL()).Insert(configEntity))
+                {
+                    XtraMessageBox.Show("保存成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadTerminalData();
+                    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+                }
+                else
+                    XtraMessageBox.Show("保存发生异常，请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -127,6 +271,24 @@ namespace SmartWaterSystem
                 txtName.Text = gridTer.GetRowCellValue(e.RowHandle, "TerminalName").ToString().Trim();
                 txtAddr.Text = gridTer.GetRowCellValue(e.RowHandle, "Address").ToString().Trim();
                 txtRemark.Text = gridTer.GetRowCellValue(e.RowHandle, "Remark").ToString().Trim();
+
+                List<OLWQConfigEntity> lst_Config=(new OLWQConfigBLL()).Select("TerminalID = '" + txtID.Text.Trim() + "'");
+                if (lst_Config != null && lst_Config.Count > 0)
+                {
+                    cboxTurbidityAlarm.Checked = lst_Config[0].enableTurbidityAlarm;
+                    cboxResidualClAlarm.Checked = lst_Config[0].enableResidualClAlarm;
+                    cboxPHAlarm.Checked = lst_Config[0].enablePHAlarm;
+                    cboxConductivityAlarm.Checked = lst_Config[0].enableConductivityAlarm;
+
+                    txtTurbidityLowLimit.Text = lst_Config[0].TurbidityLowLimit.ToString();
+                    txtTurbidityUpLimit.Text = lst_Config[0].TurbidityUpLimit.ToString();
+                    txtResidualClLowLimit.Text = lst_Config[0].ResidualClLowLimit.ToString();
+                    txtResidualClUpLimit.Text = lst_Config[0].ResidualClUpLimit.ToString();
+                    txtPHLowLimit.Text = lst_Config[0].PHLowLimit.ToString();
+                    txtPHUpLimit.Text = lst_Config[0].PHUpLimit.ToString();
+                    txtConductivityLowLimit.Text = lst_Config[0].ConductivityLowLimit.ToString();
+                    txtConductivityUpLimit.Text = lst_Config[0].ConductivityUpLimit.ToString();
+                }
             }
         }
 
@@ -165,7 +327,22 @@ namespace SmartWaterSystem
             txtName.Text = "";
             txtAddr.Text = "";
             txtRemark.Text = "";
+
+            cboxTurbidityAlarm.Checked = false;
+            cboxResidualClAlarm.Checked = false;
+            cboxPHAlarm.Checked = false;
+            cboxConductivityAlarm.Checked = false;
+
+            txtTurbidityLowLimit.Text = "";
+            txtTurbidityUpLimit.Text = "";
+            txtResidualClLowLimit.Text = "";
+            txtResidualClUpLimit.Text = "";
+            txtPHLowLimit.Text = "";
+            txtPHUpLimit.Text = "";
+            txtConductivityLowLimit.Text = "";
+            txtConductivityUpLimit.Text = "";
         }
+
         private void UpdateMonitroUI()
         {
             OLWQMonitor monitorView = (OLWQMonitor)GlobalValue.MainForm.GetView(typeof(OLWQMonitor));
@@ -173,6 +350,20 @@ namespace SmartWaterSystem
                 monitorView.UpdateView();
         }
 
-        
+        private void colorPickLowLimit_EditValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance.SetValue(SettingKeys.OLWQLowLimitColor, colorPickLowLimit.Color.ToArgb());
+            //MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+            //if (MonitorView != null)
+            //    MonitorView.UpdateColorsConfig();
+        }
+
+        private void colorPickUpLimit_EditValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance.SetValue(SettingKeys.OLWQUpLimitColor, colorPickUpLimit.Color.ToArgb());
+            //MonitorView = (PreTerMonitor)GlobalValue.MainForm.GetView(typeof(PreTerMonitor));
+            //if (MonitorView != null)
+            //    MonitorView.UpdateColorsConfig();
+        }
     }
 }

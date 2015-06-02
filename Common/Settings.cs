@@ -48,6 +48,8 @@ namespace Common
         public const string PreUpLimtColor = "PreUpLimtColor";
         public const string PreSlopeLowLimitColor = "PreSlopeLowLimitColor";
         public const string PreSlopeUpLimitColor = "PreSlopeUpLimitColor";
+        public const string OLWQLowLimitColor = "OLWQLowLimitColor";
+        public const string OLWQUpLimitColor = "OLWQUpLimitColor";
         public const string GPRS_IP = "GPRSIP";
         public const string GPRS_PORT = "GPRSPORT";
 
@@ -69,6 +71,8 @@ namespace Common
             {SettingKeys.PreUpLimtColor,""},
             {SettingKeys.PreSlopeLowLimitColor,""},
             {SettingKeys.PreSlopeUpLimitColor,""},
+            {SettingKeys.OLWQLowLimitColor,""},
+            {SettingKeys.OLWQUpLimitColor,""},
             {SettingKeys.GPRS_IP,""},
             {SettingKeys.GPRS_PORT,""},
             {SettingKeys.CallDataEnable,"false"},
