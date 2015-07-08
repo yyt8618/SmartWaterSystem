@@ -84,10 +84,11 @@ namespace SmartWaterSystem
                     ctrlmsg += lstCtrlMsg[i];
                 }
                 txtControl.ResetText();
-                txtControl.Text+=ctrlmsg;
-                txtControl.SelectionStart = txtControl.Text.Length;
-                txtControl.ScrollToCaret();
-                txtControl.SelectedText = "";
+                //txtControl.Text+=ctrlmsg;
+                txtControl.AppendText(ctrlmsg);
+                //txtControl.SelectionStart = txtControl.Text.Length;
+                //txtControl.ScrollToCaret();
+                //txtControl.SelectedText = "";
             }
             catch (Exception ex)
             {
@@ -100,6 +101,11 @@ namespace SmartWaterSystem
         {
             this.Hide();
             e.Cancel = true;
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtControl.Clear();
         }
 
 

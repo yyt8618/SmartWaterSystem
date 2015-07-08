@@ -477,10 +477,10 @@
             // 
             this.gridControls.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControls.Location = new System.Drawing.Point(2, 22);
+            this.gridControls.Location = new System.Drawing.Point(2, 27);
             this.gridControls.MainView = this.gridTer;
             this.gridControls.Name = "gridControls";
-            this.gridControls.Size = new System.Drawing.Size(177, 459);
+            this.gridControls.Size = new System.Drawing.Size(177, 454);
             this.gridControls.TabIndex = 110;
             this.gridControls.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridTer});
