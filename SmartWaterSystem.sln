@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OLWQMgr", "OLWQMgr\OLWQMgr.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCGPRSServiceMonitor", "GCGPRSServiceMonitor\GCGPRSServiceMonitor.csproj", "{91A2F122-4818-46A1-8F1F-3E73822E1F41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OLWQParm651", "OLWQParm651\OLWQParm651.csproj", "{C1665859-924D-426A-A53D-40D9DD7B06A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -470,6 +472,18 @@ Global
 		{91A2F122-4818-46A1-8F1F-3E73822E1F41}.Release|Win32.ActiveCfg = Release|x86
 		{91A2F122-4818-46A1-8F1F-3E73822E1F41}.Release|x86.ActiveCfg = Release|x86
 		{91A2F122-4818-46A1-8F1F-3E73822E1F41}.Release|x86.Build.0 = Release|x86
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Release|Win32.ActiveCfg = Release|Any CPU
+		{C1665859-924D-426A-A53D-40D9DD7B06A6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

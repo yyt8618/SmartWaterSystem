@@ -301,6 +301,11 @@ namespace SmartWaterSystem
                     NBG_OLWQ.Visible = true;
                     navBarOLWQParm.Visible = true;
                 }
+                else if (t.Name == "IOLWQParm651")  //在线水质
+                {
+                    NBG_OLWQ.Visible = true;
+                    navBarOLWQParm651.Visible = true;
+                }
             }
         }
 
@@ -348,7 +353,7 @@ namespace SmartWaterSystem
             navBarOLWQMgr.Visible = isVisiable;
             navBarOLWQMonitor.Visible = isVisiable;
             navBarOLWQParm.Visible = isVisiable;
-
+            navBarOLWQParm651.Visible = isVisiable;
         }
 
         // 打开串口
@@ -544,6 +549,11 @@ namespace SmartWaterSystem
         private void navBarOLWQMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(OLWQMonitor));
+        }
+
+        private void navBarOLWQParm651_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(OLWQParm651));
         }
         #endregion
 
@@ -865,6 +875,11 @@ namespace SmartWaterSystem
             }
             catch { }
         }
+
+        
+
+        
+
 
 
         

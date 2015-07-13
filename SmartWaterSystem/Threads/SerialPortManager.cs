@@ -830,15 +830,75 @@ namespace SmartWaterSystem
                                         if ((data & 0x08) == 0x08)
                                             GlobalValue.SerialPortOptData.Collect_Conductivity = true;
                                     }
+                                    if (GlobalValue.SerialPortOptData.IsOptTerAddr)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端地址..."));
+                                        GlobalValue.SerialPortOptData.TerAddr = GlobalValue.OLWQlog.ReadTerAddr(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptCenterAddr)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取中心站地址..."));
+                                        GlobalValue.SerialPortOptData.CenterAddr = GlobalValue.OLWQlog.ReadCenterAddr(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPwd)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取密码..."));
+                                        GlobalValue.SerialPortOptData.Pwd = GlobalValue.OLWQlog.ReadPassword(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptWorkType)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取工作方式..."));
+                                        GlobalValue.SerialPortOptData.WorkType = GlobalValue.OLWQlog.ReadWorkType(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptGprsSwitch)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取GPRS开关状态..."));
+                                        GlobalValue.SerialPortOptData.GprsSwitch = GlobalValue.OLWQlog.ReadGPRSSwitch(GlobalValue.SerialPortOptData.ID);
+                                    }
                                     if (GlobalValue.SerialPortOptData.IsOptClearInterval)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端清洗间隔..."));
                                         GlobalValue.SerialPortOptData.ClearInterval = GlobalValue.OLWQlog.ReadClearInterval(GlobalValue.SerialPortOptData.ID);
                                     }
+                                    if (GlobalValue.SerialPortOptData.IsOptTempUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取温度上限..."));
+                                        GlobalValue.SerialPortOptData.TempUpLimit = GlobalValue.OLWQlog.ReadTempUpLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptTempLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取温度下限..."));
+                                        GlobalValue.SerialPortOptData.TempLowLimit = GlobalValue.OLWQlog.ReadTempLowLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPHUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取PH上限..."));
+                                        GlobalValue.SerialPortOptData.PHUpLimit = GlobalValue.OLWQlog.ReadPHUpLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPHLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取PH下限..."));
+                                        GlobalValue.SerialPortOptData.PHLowLimit = GlobalValue.OLWQlog.ReadPHLowLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptConductivityUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取电导率上限..."));
+                                        GlobalValue.SerialPortOptData.ConductivityUpLimit = GlobalValue.OLWQlog.ReadConductivityUpLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptConductivityLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取电导率下限..."));
+                                        GlobalValue.SerialPortOptData.ConductivityLowLimit = GlobalValue.OLWQlog.ReadConductivityLowLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
                                     if (GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端浊度上限..."));
                                         GlobalValue.SerialPortOptData.TurbidityUpLimit = GlobalValue.OLWQlog.ReadTurbidityUpLimit(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptTurbidityLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端浊度下限..."));
+                                        GlobalValue.SerialPortOptData.TurbidityLowLimit = GlobalValue.OLWQlog.ReadTurbidityLowLimit(GlobalValue.SerialPortOptData.ID);
                                     }
                                     if (GlobalValue.SerialPortOptData.IsOptResidualClLowLimit)
                                     {
@@ -931,15 +991,76 @@ namespace SmartWaterSystem
                                             data |= 0x08;
                                         result = GlobalValue.OLWQlog.SetCollectConfig(GlobalValue.SerialPortOptData.ID, (byte)data);
                                     }
+                                    if (GlobalValue.SerialPortOptData.IsOptTerAddr)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端地址..."));
+                                        result = GlobalValue.OLWQlog.SetTerAddr(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TerAddr[4],GlobalValue.SerialPortOptData.TerAddr[3],
+                                            GlobalValue.SerialPortOptData.TerAddr[2],GlobalValue.SerialPortOptData.TerAddr[1],GlobalValue.SerialPortOptData.TerAddr[0]);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptCenterAddr)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置中心站地址..."));
+                                        result = GlobalValue.OLWQlog.SetCenterAddr(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.CenterAddr);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPwd)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置密码..."));
+                                        result = GlobalValue.OLWQlog.SetPwd(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.Pwd[1],GlobalValue.SerialPortOptData.Pwd[0]);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptWorkType)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置工作方式..."));
+                                        result = GlobalValue.OLWQlog.SetWorkType(GlobalValue.SerialPortOptData.ID, (ushort)GlobalValue.SerialPortOptData.WorkType);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptGprsSwitch)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置GPRS开关..."));
+                                        result = GlobalValue.OLWQlog.SetGPRSSwitch(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.GprsSwitch);
+                                    }
                                     if (GlobalValue.SerialPortOptData.IsOptClearInterval)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端清洗间隔..."));
                                         result = GlobalValue.OLWQlog.SetClearInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ClearInterval);
                                     }
+                                    if (GlobalValue.SerialPortOptData.IsOptTempUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置温度上限..."));
+                                        result = GlobalValue.OLWQlog.SetTempUpLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TempUpLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptTempLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置温度下限..."));
+                                        result = GlobalValue.OLWQlog.SetTempLowLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TempLowLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPHUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置PH上限..."));
+                                        result = GlobalValue.OLWQlog.SetPHUpLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PHUpLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPHLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置PH下限..."));
+                                        result = GlobalValue.OLWQlog.SetPHLowLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.PHLowLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptConductivityUpLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置电导率上限..."));
+                                        result = GlobalValue.OLWQlog.SetConductivityUpLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ConductivityUpLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptConductivityLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置电导率下限..."));
+                                        result = GlobalValue.OLWQlog.SetConductivityLowLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ConductivityLowLimit);
+                                    }
                                     if (GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度上限..."));
                                         result = GlobalValue.OLWQlog.SetTurbidityUpLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TurbidityUpLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptTurbidityLowLimit)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度下限..."));
+                                        result = GlobalValue.OLWQlog.SetTurbidityLowLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TurbidityLowLimit);
                                     }
                                     if (GlobalValue.SerialPortOptData.IsOptResidualClLowLimit)
                                     {
@@ -996,8 +1117,26 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                //obj = GlobalValue.OLWQlog.ReadCallData(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortCallDataType);
-                                result = true;
+                                if (GlobalValue.SerialPortOptData == null || GlobalValue.SerialPortCallDataType == null)
+                                {
+                                    result = false;
+                                    msg = "终端没有配置采集类型,请先配置!";
+                                }
+                                else
+                                {
+                                    DataTable dt_config = (new BLL.TerminalDataBLL()).GetUniversalDataConfig(Entity.TerType.UniversalTer);
+                                    if (dt_config != null && dt_config.Rows.Count > 0)
+                                    {
+                                        obj = GlobalValue.OLWQlog.ReadCallData(GlobalValue.SerialPortOptData.ID, dt_config);
+                                        result = true;
+                                    }
+                                    else
+                                    {
+                                        result = false;
+                                        msg = "终端没有配置采集参数";
+                                    }
+                                }
+
                             }
                             catch (Exception ex)
                             {

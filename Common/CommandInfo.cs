@@ -362,11 +362,11 @@ namespace Common
         /// 设置从站浊度时间间隔
         /// </summary>
         SET_TURBIDITYINTERVAL = 0x11,
-        
+
         /// <summary>
         /// 设置从站浊度上限值
         /// </summary>
-        SET_TURBIDITYUPLIMIT = 0x12,
+        SET_TURBIDITYUPLIMIT = 0x29,
 
         /// <summary>
         /// 设置从站余氯下限值
@@ -418,7 +418,7 @@ namespace Common
         /// <summary>
         /// 设置从站余氯灵敏度
         /// </summary>
-        SET_RESIDUALCLSENSITIVITY =0x20,
+        SET_RESIDUALCLSENSITIVITY = 0x20,
 
         /// <summary>
         /// 设置从站供电方式 01表示电池02表示市电
@@ -429,6 +429,35 @@ namespace Common
         /// 设置从站电导率采集发送时间间隔
         /// </summary>
         SET_CONDUCTIVITYINTERVAL = 0x1d,
+
+        /// <summary>
+        /// 设置从站浊度上限值
+        /// </summary>
+        SET_TURBIDITYLOWLIMIT = 0x30,
+        /// <summary>
+        /// 设置温度上限值
+        /// </summary>
+        SET_TEMPUPLIMIT = 0x23,
+        /// <summary>
+        /// 设置温度下限值
+        /// </summary>
+        SET_TEMPLOWLIMIT = 0x24,
+        /// <summary>
+        /// 设置PH上限值
+        /// </summary>
+        SET_PHUPLIMIT = 0x25,
+        /// <summary>
+        /// 设置PH下限值
+        /// </summary>
+        SET_PHLOWLIMIT = 0x26,
+        /// <summary>
+        /// 设置从站电导率上限值
+        /// </summary>
+        SET_CONDUCTIVITYUPLIMIT = 0x27,
+        /// <summary>
+        /// 设置从站电导率下限值
+        /// </summary>
+        SET_CONDUCTIVITYLOWLIMIT = 0x28,
         #endregion
 
         #region 读取
@@ -467,9 +496,44 @@ namespace Common
         READ_RESIDUALCLLOWLIMIT = 0x43,
 
         /// <summary>
+        /// 读取从站温度上限值
+        /// </summary>
+        READ_TEMPUPLIMIT = 0x51,
+
+        /// <summary>
+        /// 读取从站温度下限值
+        /// </summary>
+        READ_TEMPLOWLIMIT = 0x52,
+
+        /// <summary>
+        /// 读取从站PH上限值
+        /// </summary>
+        READ_PHUPLIMIT = 0x53,
+
+        /// <summary>
+        /// 读取从站PH上限值
+        /// </summary>
+        READ_PHLOWLIMIT = 0x54,
+
+        /// <summary>
+        /// 读取从站电导率上限值
+        /// </summary>
+        READ_CONDUCTIVITYUPLIMIT = 0x55,
+
+        /// <summary>
+        /// 读取从站电导率上限值
+        /// </summary>
+        READ_CONDUCTIVITYLOWLIMIT = 0x56,
+
+        /// <summary>
         /// 读取从站浊度上限值
         /// </summary>
-        READ_TURBIDITYUPLIMIT = 0x42,
+        READ_TURBIDITYUPLIMIT = 0x57,
+
+        /// <summary>
+        /// 读取从站浊度下限值
+        /// </summary>
+        READ_TURBIDITYLOWLIMIT = 0x58,
 
         /// <summary>
         /// 读取从站余氯校准值
@@ -506,6 +570,26 @@ namespace Common
         /// 招测
         /// </summary>
         //CallData = 0x64,
+        /// <summary>
+        /// 读取GPRS开关状态
+        /// </summary>
+        READ_GPRSSWITCH = 0x4B,
+        /// <summary>
+        /// 读取工作方式
+        /// </summary>
+        READ_WORKTYPE = 0x5A,
+        /// <summary>
+        /// 读取密码
+        /// </summary>
+        READ_PASSWORD = 0x50,
+        /// <summary>
+        /// 读取中心站地址
+        /// </summary>
+        READ_CENTERADDR = 0x4E,
+        /// <summary>
+        /// 读取遥测站地址
+        /// </summary>
+        READ_TERADDR = 0x4F,
         #endregion
 
         #region 控制命令

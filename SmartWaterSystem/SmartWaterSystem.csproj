@@ -232,6 +232,12 @@
     <Compile Include="MODULE\OLWQ\OLWQChartForm.Designer.cs">
       <DependentUpon>OLWQChartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQParm651.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQParm651.Designer.cs">
+      <DependentUpon>OLWQParm651.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\PreTerminal\PreParmConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -418,6 +424,9 @@
     <EmbeddedResource Include="MODULE\OLWQ\OLWQChartForm.resx">
       <DependentUpon>OLWQChartForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQParm651.resx">
+      <DependentUpon>OLWQParm651.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreParmConfigForm.resx">
       <DependentUpon>PreParmConfigForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -568,6 +577,10 @@
     <ProjectReference Include="..\OLWQMonitor\OLWQMonitor.csproj">
       <Project>{F5E9543A-555D-43D0-8560-48137D2D95C8}</Project>
       <Name>OLWQMonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OLWQParm651\OLWQParm651.csproj">
+      <Project>{C1665859-924D-426A-A53D-40D9DD7B06A6}</Project>
+      <Name>OLWQParm651</Name>
     </ProjectReference>
     <ProjectReference Include="..\OLWQParm\OLWQParm.csproj">
       <Project>{FC09A207-5505-4DBC-8012-35D025627A60}</Project>

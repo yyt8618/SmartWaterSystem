@@ -64,20 +64,6 @@ namespace Entity
             set { _modbusExeFlag = value; }
         }
 
-        ///// <summary>
-        ///// 是否读取/设置波特率
-        ///// </summary>
-        //public bool IsOptBaud = false;
-        //private int _baud;
-        ///// <summary>
-        ///// 波特率
-        ///// </summary>
-        //public int Baud
-        //{
-        //    get { return _baud; }
-        //    set { _baud = value; }
-        //}
-
         /// <summary>
         /// 是否读取/设置通讯方式
         /// </summary>
@@ -164,6 +150,61 @@ namespace Entity
             set { _ResidualClSensitivity = value; }
         }
 
+        public bool IsOptTerAddr = false;
+        private byte[] _TerAddr = new byte[5];
+        /// <summary>
+        /// 终端地址
+        /// </summary>
+        public byte[] TerAddr
+        {
+            get { return _TerAddr; }
+            set { _TerAddr = value; }
+        }
+
+        public bool IsOptCenterAddr = false;
+        private byte _CenterAddr;
+        /// <summary>
+        /// 中心站地址
+        /// </summary>
+        public byte CenterAddr
+        {
+            get { return _CenterAddr; }
+            set { _CenterAddr = value; }
+        }
+
+        public bool IsOptPwd = false;
+        private byte[] _Pwd = new byte[2];
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public byte[] Pwd
+        {
+            get { return _Pwd; }
+            set { _Pwd = value; }
+        }
+
+        public bool IsOptWorkType = false;
+        private int _WorkType = 0;
+        /// <summary>
+        /// 工作方式
+        /// </summary>
+        public int WorkType
+        {
+            get { return _WorkType; }
+            set { _WorkType = value; }
+        }
+
+        public bool IsOptGprsSwitch = false;
+        private bool _GprsSwitch = false;
+        /// <summary>
+        /// GPRS开关
+        /// </summary>
+        public bool GprsSwitch
+        {
+            get { return _GprsSwitch; }
+            set { _GprsSwitch = value; }
+        }
+
         public bool IsOptClearInterval = false;
         private ushort _ClearInterval = 0;
         /// <summary>
@@ -175,6 +216,72 @@ namespace Entity
             set { _ClearInterval = value; }
         }
 
+        public bool IsOptTempUpLimit = false;
+        private ushort _TempUpLimit = 0;
+        /// <summary>
+        /// 温度上限
+        /// </summary>
+        public ushort TempUpLimit
+        {
+            get { return _TempUpLimit; }
+            set { _TempUpLimit = value; }
+        }
+
+        public bool IsOptTempLowLimit = false;
+        private ushort _TempLowLimit = 0;
+        /// <summary>
+        /// 温度下限
+        /// </summary>
+        public ushort TempLowLimit
+        {
+            get { return _TempLowLimit; }
+            set { _TempLowLimit = value; }
+        }
+
+        public bool IsOptPHUpLimit = false;
+        private ushort _PHUpLimit = 0;
+        /// <summary>
+        /// PH上限
+        /// </summary>
+        public ushort PHUpLimit
+        {
+            get { return _PHUpLimit; }
+            set { _PHUpLimit = value; }
+        }
+
+        public bool IsOptPHLowLimit = false;
+        private ushort _PHLowLimit = 0;
+        /// <summary>
+        /// PH下限
+        /// </summary>
+        public ushort PHLowLimit
+        {
+            get { return _PHLowLimit; }
+            set { _PHLowLimit = value; }
+        }
+
+        public bool IsOptConductivityUpLimit = false;
+        private ushort _ConductivityUpLimit = 0;
+        /// <summary>
+        /// 电导率上限
+        /// </summary>
+        public ushort ConductivityUpLimit
+        {
+            get { return _ConductivityUpLimit; }
+            set { _ConductivityUpLimit = value; }
+        }
+
+        public bool IsOptConductivityLowLimit = false;
+        private ushort _ConductivityLowLimit = 0;
+        /// <summary>
+        /// 电导率下限
+        /// </summary>
+        public ushort ConductivityLowLimit
+        {
+            get { return _ConductivityLowLimit; }
+            set { _ConductivityLowLimit = value; }
+        }
+
         public bool IsOptTurbidityUpLimit = false;
         private ushort _TurbidityUpLimit = 0;
         /// <summary>
@@ -184,6 +291,17 @@ namespace Entity
         {
             get { return _TurbidityUpLimit; }
             set { _TurbidityUpLimit = value; }
+        }
+
+        public bool IsOptTurbidityLowLimit = false;
+        private ushort _TurbidityLowLimit = 0;
+        /// <summary>
+        /// 浊度下限
+        /// </summary>
+        public ushort TurbidityLowLimit
+        {
+            get { return _TurbidityLowLimit; }
+            set { _TurbidityLowLimit = value; }
         }
 
         public bool IsOptPowerSupplyType = false;
