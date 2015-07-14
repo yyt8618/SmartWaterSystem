@@ -394,6 +394,10 @@ namespace SmartWaterSystem
                     if (OLWQMgr != null)
                         OLWQMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
 
+                    OLWQParm651 OLWQMgr651 = (OLWQParm651)GetView(typeof(OLWQParm651));
+                    if (OLWQMgr651 != null)
+                        OLWQMgr651.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
 
                 }
             }
@@ -440,6 +444,10 @@ namespace SmartWaterSystem
                     OLWQParm OLWQMgr = (OLWQParm)GetView(typeof(OLWQParm));
                     if (OLWQMgr != null)
                         OLWQMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+
+                    OLWQParm651 OLWQMgr651 = (OLWQParm651)GetView(typeof(OLWQParm651));
+                    if (OLWQMgr651 != null)
+                        OLWQMgr651.SerialPortEvent(GlobalValue.portUtil.IsOpen);
                 }
             }
             catch (Exception ex)

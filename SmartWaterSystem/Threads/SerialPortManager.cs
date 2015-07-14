@@ -870,6 +870,11 @@ namespace SmartWaterSystem
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取温度下限..."));
                                         GlobalValue.SerialPortOptData.TempLowLimit = GlobalValue.OLWQlog.ReadTempLowLimit(GlobalValue.SerialPortOptData.ID);
                                     }
+                                    if (GlobalValue.SerialPortOptData.IsOptTempAddtion)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取温度加报阀值..."));
+                                        GlobalValue.SerialPortOptData.TempAddtion = GlobalValue.OLWQlog.ReadTempAddtion(GlobalValue.SerialPortOptData.ID);
+                                    }
                                     if (GlobalValue.SerialPortOptData.IsOptPHUpLimit)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取PH上限..."));
@@ -1031,6 +1036,11 @@ namespace SmartWaterSystem
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置温度下限..."));
                                         result = GlobalValue.OLWQlog.SetTempLowLimit(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TempLowLimit);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptTempAddtion)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置温度加报阀值..."));
+                                        result = GlobalValue.OLWQlog.SetTempAddtion(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.TempAddtion);
                                     }
                                     if (GlobalValue.SerialPortOptData.IsOptPHUpLimit)
                                     {

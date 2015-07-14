@@ -443,6 +443,10 @@ namespace Common
         /// </summary>
         SET_TEMPLOWLIMIT = 0x24,
         /// <summary>
+        /// 设置温度加报阀值
+        /// </summary>
+        SET_TEMPADDTION = 0x36,
+        /// <summary>
         /// 设置PH上限值
         /// </summary>
         SET_PHUPLIMIT = 0x25,
@@ -458,6 +462,26 @@ namespace Common
         /// 设置从站电导率下限值
         /// </summary>
         SET_CONDUCTIVITYLOWLIMIT = 0x28,
+        /// <summary>
+        /// 设置从站地址
+        /// </summary>
+        SET_TERADDR = 0x15,
+        /// <summary>
+        /// 设置中心站地址
+        /// </summary>
+        SET_CENTERADDR = 0x14,
+        /// <summary>
+        /// 设置密码
+        /// </summary>
+        SET_PWD = 0x16,
+        /// <summary>
+        /// 设置工作方式
+        /// </summary>
+        SET_WORKTYPE = 0x31,
+        /// <summary>
+        /// 设置GPRS开关
+        /// </summary>
+        SET_GPRSSWITCH= 0x22,
         #endregion
 
         #region 读取
@@ -504,6 +528,11 @@ namespace Common
         /// 读取从站温度下限值
         /// </summary>
         READ_TEMPLOWLIMIT = 0x52,
+
+        /// <summary>
+        /// 读取从站温度加报阀值
+        /// </summary>
+        READ_TEMPADDTION = 0x5F,
 
         /// <summary>
         /// 读取从站PH上限值
@@ -558,7 +587,7 @@ namespace Common
         /// <summary>
         /// 读取从站供电方式
         /// </summary>
-        READ_POWERSUPPLYTYPE = 0x4f,
+        READ_POWERSUPPLYTYPE = 0x5E,
 
         /// <summary>
         /// 读取从站

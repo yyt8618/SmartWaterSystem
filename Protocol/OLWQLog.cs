@@ -182,12 +182,12 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if (result.Data.Length != 4)
+            if (result.Data.Length != 6)
             {
                 throw new Exception("数据损坏");
             }
             string tmp = "";
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
             {
                 if ((char)result.Data[i] != '\0')
                     tmp += (char)result.Data[i];
@@ -391,6 +391,33 @@ namespace Protocol
                 throw new Exception("数据损坏");
             }
             return BitConverter.ToUInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+        public ushort ReadTempAddtion(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_TEMPADDTION;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToUInt16(result.Data[0]);
         }
         public ushort ReadPHUpLimit(short Id)
         {
@@ -991,7 +1018,7 @@ namespace Protocol
 
         public bool SetPort(short Id, int port)
         {
-            string str_port = port.ToString();
+            string str_port = port.ToString().PadLeft(6,'0');
             Package package = new Package();
             package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
@@ -1263,7 +1290,7 @@ namespace Protocol
             package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLSENSITIVITY;
+            package.C1 = (byte)OLWQ_COMMAND.SET_TERADDR;
             List<byte> lstbyte = new List<byte>();
             lstbyte.Add(A5);
             lstbyte.Add(A4);
@@ -1283,7 +1310,7 @@ namespace Protocol
             package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLSENSITIVITY;
+            package.C1 = (byte)OLWQ_COMMAND.SET_CENTERADDR;
             package.DataLength = 1;
             package.Data = new byte[] { CenterAddr };
             package.CS = package.CreateCS();
@@ -1297,7 +1324,7 @@ namespace Protocol
             package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLSENSITIVITY;
+            package.C1 = (byte)OLWQ_COMMAND.SET_PWD;
             package.DataLength = 2;
             package.Data = new byte[] { pwd1, pwd0 };
             package.CS = package.CreateCS();
@@ -1311,7 +1338,7 @@ namespace Protocol
             package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLSENSITIVITY;
+            package.C1 = (byte)OLWQ_COMMAND.SET_WORKTYPE;
             package.DataLength = 1;
             package.Data = new byte[] { Convert.ToByte(WorkType) };
             package.CS = package.CreateCS();
@@ -1325,7 +1352,7 @@ namespace Protocol
             package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)OLWQ_COMMAND.SET_RESIDUALCLSENSITIVITY;
+            package.C1 = (byte)OLWQ_COMMAND.SET_GPRSSWITCH;
             package.DataLength = 1;
             byte b = 0x01;
             if (isOn)
@@ -1398,6 +1425,21 @@ namespace Protocol
             return Write(package);
         }
 
+        public bool SetTempAddtion(short Id, ushort value)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_TEMPADDTION;
+            byte[] data = BitConverter.GetBytes(value);
+            package.DataLength = 1;
+            package.Data = new byte[] { data[0] };
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
         public bool SetPHUpLimit(short Id, ushort value)
         {
             Package package = new Package();
@@ -1406,13 +1448,8 @@ namespace Protocol
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)OLWQ_COMMAND.SET_PHUPLIMIT;
             byte[] data = BitConverter.GetBytes(value);
-            List<byte> lstbyte = new List<byte>();
-            for (int i = data.Length - 1; i >= 0; i--)
-            {
-                lstbyte.Add(data[i]);
-            }
-            package.DataLength = data.Length;
-            package.Data = lstbyte.ToArray();
+            package.DataLength = 1;
+            package.Data = new byte[] { data[0] };
             package.CS = package.CreateCS();
 
             return Write(package);
@@ -1426,13 +1463,8 @@ namespace Protocol
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)OLWQ_COMMAND.SET_PHLOWLIMIT;
             byte[] data = BitConverter.GetBytes(value);
-            List<byte> lstbyte = new List<byte>();
-            for (int i = data.Length - 1; i >= 0; i--)
-            {
-                lstbyte.Add(data[i]);
-            }
-            package.DataLength = data.Length;
-            package.Data = lstbyte.ToArray();
+            package.DataLength = 1;
+            package.Data = new byte[] { data[0] };
             package.CS = package.CreateCS();
 
             return Write(package);

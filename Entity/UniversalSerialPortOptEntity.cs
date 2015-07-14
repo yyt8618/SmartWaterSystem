@@ -238,6 +238,17 @@ namespace Entity
             set { _TempLowLimit = value; }
         }
 
+        public bool IsOptTempAddtion = false;
+        private ushort _TempAddtion = 0;
+        /// <summary>
+        /// 温度加报阀值
+        /// </summary>
+        public ushort TempAddtion
+        {
+            get { return _TempAddtion; }
+            set { _TempAddtion = value; }
+        }
+
         public bool IsOptPHUpLimit = false;
         private ushort _PHUpLimit = 0;
         /// <summary>

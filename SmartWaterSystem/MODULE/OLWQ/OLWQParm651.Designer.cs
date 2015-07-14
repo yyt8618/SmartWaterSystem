@@ -36,10 +36,12 @@ namespace SmartWaterSystem
             this.txtTurbidityUpLimit = new DevExpress.XtraEditors.TextEdit();
             this.ceTurbidityUpLimit = new DevExpress.XtraEditors.CheckEdit();
             this.txtTempLowLimit = new DevExpress.XtraEditors.TextEdit();
+            this.txtTempAddtion = new DevExpress.XtraEditors.TextEdit();
             this.txtPHUpLimit = new DevExpress.XtraEditors.TextEdit();
             this.txtConductivityLowLimit = new DevExpress.XtraEditors.TextEdit();
             this.ceConductivityUpLimit = new DevExpress.XtraEditors.CheckEdit();
             this.ceTempLowLimit = new DevExpress.XtraEditors.CheckEdit();
+            this.ceTempAddtion = new DevExpress.XtraEditors.CheckEdit();
             this.cePHUpLimit = new DevExpress.XtraEditors.CheckEdit();
             this.cePHLowLimit = new DevExpress.XtraEditors.CheckEdit();
             this.ceConductivityLowLimit = new DevExpress.XtraEditors.CheckEdit();
@@ -67,6 +69,7 @@ namespace SmartWaterSystem
             this.cePHState = new DevExpress.XtraEditors.CheckEdit();
             this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.txtCenterAddr = new DevExpress.XtraEditors.TextEdit();
             this.toggleGprsSwitch = new DevExpress.XtraEditors.ToggleSwitch();
             this.ceGprsSwitch = new DevExpress.XtraEditors.CheckEdit();
             this.txtClearInterval = new DevExpress.XtraEditors.TextEdit();
@@ -83,7 +86,6 @@ namespace SmartWaterSystem
             this.txtA2 = new DevExpress.XtraEditors.TextEdit();
             this.ceWorkType = new DevExpress.XtraEditors.CheckEdit();
             this.cePwd = new DevExpress.XtraEditors.CheckEdit();
-            this.txtCenterAddr = new DevExpress.XtraEditors.TextEdit();
             this.ceTurbidityInterval = new DevExpress.XtraEditors.CheckEdit();
             this.btnEnableCollect = new DevExpress.XtraEditors.SimpleButton();
             this.btnCheckingTime = new DevExpress.XtraEditors.SimpleButton();
@@ -116,10 +118,12 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtTurbidityUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTempLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTempAddtion.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPHUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConductivityLowLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConductivityUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTempLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTempAddtion.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePHUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePHLowLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConductivityLowLimit.Properties)).BeginInit();
@@ -150,6 +154,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleGprsSwitch.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceGprsSwitch.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtClearInterval.Properties)).BeginInit();
@@ -166,7 +171,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtA2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceWorkType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePwd.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
@@ -200,10 +204,12 @@ namespace SmartWaterSystem
             this.groupControl5.Controls.Add(this.txtTurbidityUpLimit);
             this.groupControl5.Controls.Add(this.ceTurbidityUpLimit);
             this.groupControl5.Controls.Add(this.txtTempLowLimit);
+            this.groupControl5.Controls.Add(this.txtTempAddtion);
             this.groupControl5.Controls.Add(this.txtPHUpLimit);
             this.groupControl5.Controls.Add(this.txtConductivityLowLimit);
             this.groupControl5.Controls.Add(this.ceConductivityUpLimit);
             this.groupControl5.Controls.Add(this.ceTempLowLimit);
+            this.groupControl5.Controls.Add(this.ceTempAddtion);
             this.groupControl5.Controls.Add(this.cePHUpLimit);
             this.groupControl5.Controls.Add(this.cePHLowLimit);
             this.groupControl5.Controls.Add(this.ceConductivityLowLimit);
@@ -220,110 +226,130 @@ namespace SmartWaterSystem
             // txtPHLowLimit
             // 
             this.txtPHLowLimit.EditValue = "";
-            this.txtPHLowLimit.Location = new System.Drawing.Point(453, 4);
+            this.txtPHLowLimit.Location = new System.Drawing.Point(694, 3);
             this.txtPHLowLimit.Name = "txtPHLowLimit";
             this.txtPHLowLimit.Size = new System.Drawing.Size(58, 20);
-            this.txtPHLowLimit.TabIndex = 7;
+            this.txtPHLowLimit.TabIndex = 9;
             // 
             // txtConductivityUpLimit
             // 
             this.txtConductivityUpLimit.EditValue = "";
-            this.txtConductivityUpLimit.Location = new System.Drawing.Point(595, 3);
+            this.txtConductivityUpLimit.Location = new System.Drawing.Point(80, 27);
             this.txtConductivityUpLimit.Name = "txtConductivityUpLimit";
             this.txtConductivityUpLimit.Size = new System.Drawing.Size(58, 20);
-            this.txtConductivityUpLimit.TabIndex = 9;
+            this.txtConductivityUpLimit.TabIndex = 11;
+            this.txtConductivityUpLimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
             // 
             // txtTurbidityUpLimit
             // 
             this.txtTurbidityUpLimit.EditValue = "";
-            this.txtTurbidityUpLimit.Location = new System.Drawing.Point(75, 25);
+            this.txtTurbidityUpLimit.Location = new System.Drawing.Point(406, 27);
             this.txtTurbidityUpLimit.Name = "txtTurbidityUpLimit";
             this.txtTurbidityUpLimit.Properties.MaxLength = 5;
             this.txtTurbidityUpLimit.Size = new System.Drawing.Size(58, 20);
-            this.txtTurbidityUpLimit.TabIndex = 13;
+            this.txtTurbidityUpLimit.TabIndex = 15;
             this.txtTurbidityUpLimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
             // 
             // ceTurbidityUpLimit
             // 
-            this.ceTurbidityUpLimit.Location = new System.Drawing.Point(3, 26);
+            this.ceTurbidityUpLimit.Location = new System.Drawing.Point(313, 28);
             this.ceTurbidityUpLimit.Name = "ceTurbidityUpLimit";
             this.ceTurbidityUpLimit.Properties.Caption = "浊度上限";
             this.ceTurbidityUpLimit.Size = new System.Drawing.Size(74, 19);
-            this.ceTurbidityUpLimit.TabIndex = 12;
+            this.ceTurbidityUpLimit.TabIndex = 14;
             this.ceTurbidityUpLimit.CheckedChanged += new System.EventHandler(this.ceTurbidityUpLimit_CheckedChanged);
             // 
             // txtTempLowLimit
             // 
             this.txtTempLowLimit.EditValue = "";
-            this.txtTempLowLimit.Location = new System.Drawing.Point(208, 3);
+            this.txtTempLowLimit.Location = new System.Drawing.Point(229, 3);
             this.txtTempLowLimit.Name = "txtTempLowLimit";
             this.txtTempLowLimit.Size = new System.Drawing.Size(58, 20);
             this.txtTempLowLimit.TabIndex = 3;
             // 
+            // txtTempAddtion
+            // 
+            this.txtTempAddtion.EditValue = "";
+            this.txtTempAddtion.Location = new System.Drawing.Point(406, 3);
+            this.txtTempAddtion.Name = "txtTempAddtion";
+            this.txtTempAddtion.Size = new System.Drawing.Size(58, 20);
+            this.txtTempAddtion.TabIndex = 5;
+            this.txtTempAddtion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
+            // 
             // txtPHUpLimit
             // 
             this.txtPHUpLimit.EditValue = "";
-            this.txtPHUpLimit.Location = new System.Drawing.Point(332, 3);
+            this.txtPHUpLimit.Location = new System.Drawing.Point(554, 3);
             this.txtPHUpLimit.Name = "txtPHUpLimit";
             this.txtPHUpLimit.Size = new System.Drawing.Size(58, 20);
-            this.txtPHUpLimit.TabIndex = 5;
+            this.txtPHUpLimit.TabIndex = 7;
             // 
             // txtConductivityLowLimit
             // 
             this.txtConductivityLowLimit.EditValue = "";
-            this.txtConductivityLowLimit.Location = new System.Drawing.Point(735, 5);
+            this.txtConductivityLowLimit.Location = new System.Drawing.Point(236, 27);
             this.txtConductivityLowLimit.Name = "txtConductivityLowLimit";
-            this.txtConductivityLowLimit.Size = new System.Drawing.Size(41, 20);
-            this.txtConductivityLowLimit.TabIndex = 11;
+            this.txtConductivityLowLimit.Size = new System.Drawing.Size(51, 20);
+            this.txtConductivityLowLimit.TabIndex = 13;
+            this.txtConductivityLowLimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
             // 
             // ceConductivityUpLimit
             // 
-            this.ceConductivityUpLimit.Location = new System.Drawing.Point(517, 5);
+            this.ceConductivityUpLimit.Location = new System.Drawing.Point(2, 28);
             this.ceConductivityUpLimit.Name = "ceConductivityUpLimit";
             this.ceConductivityUpLimit.Properties.Caption = "电导率上限";
             this.ceConductivityUpLimit.Size = new System.Drawing.Size(83, 19);
-            this.ceConductivityUpLimit.TabIndex = 8;
+            this.ceConductivityUpLimit.TabIndex = 10;
             this.ceConductivityUpLimit.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceTempLowLimit
             // 
-            this.ceTempLowLimit.Location = new System.Drawing.Point(141, 3);
+            this.ceTempLowLimit.Location = new System.Drawing.Point(156, 4);
             this.ceTempLowLimit.Name = "ceTempLowLimit";
             this.ceTempLowLimit.Properties.Caption = "温度下限";
             this.ceTempLowLimit.Size = new System.Drawing.Size(75, 19);
             this.ceTempLowLimit.TabIndex = 2;
             this.ceTempLowLimit.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
+            // ceTempAddtion
+            // 
+            this.ceTempAddtion.Location = new System.Drawing.Point(313, 4);
+            this.ceTempAddtion.Name = "ceTempAddtion";
+            this.ceTempAddtion.Properties.Caption = "温度加报阀值";
+            this.ceTempAddtion.Size = new System.Drawing.Size(92, 19);
+            this.ceTempAddtion.TabIndex = 4;
+            this.ceTempAddtion.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            // 
             // cePHUpLimit
             // 
-            this.cePHUpLimit.Location = new System.Drawing.Point(272, 3);
+            this.cePHUpLimit.Location = new System.Drawing.Point(487, 4);
             this.cePHUpLimit.Name = "cePHUpLimit";
             this.cePHUpLimit.Properties.Caption = "PH上限";
             this.cePHUpLimit.Size = new System.Drawing.Size(63, 19);
-            this.cePHUpLimit.TabIndex = 4;
+            this.cePHUpLimit.TabIndex = 6;
             this.cePHUpLimit.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // cePHLowLimit
             // 
-            this.cePHLowLimit.Location = new System.Drawing.Point(393, 4);
+            this.cePHLowLimit.Location = new System.Drawing.Point(632, 4);
             this.cePHLowLimit.Name = "cePHLowLimit";
             this.cePHLowLimit.Properties.Caption = "PH下限";
             this.cePHLowLimit.Size = new System.Drawing.Size(63, 19);
-            this.cePHLowLimit.TabIndex = 6;
+            this.cePHLowLimit.TabIndex = 8;
             this.cePHLowLimit.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceConductivityLowLimit
             // 
-            this.ceConductivityLowLimit.Location = new System.Drawing.Point(655, 5);
+            this.ceConductivityLowLimit.Location = new System.Drawing.Point(156, 28);
             this.ceConductivityLowLimit.Name = "ceConductivityLowLimit";
             this.ceConductivityLowLimit.Properties.Caption = "电导率下限";
             this.ceConductivityLowLimit.Size = new System.Drawing.Size(86, 19);
-            this.ceConductivityLowLimit.TabIndex = 10;
+            this.ceConductivityLowLimit.TabIndex = 12;
             this.ceConductivityLowLimit.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceTempUpLimit
             // 
-            this.ceTempUpLimit.Location = new System.Drawing.Point(3, 3);
+            this.ceTempUpLimit.Location = new System.Drawing.Point(3, 4);
             this.ceTempUpLimit.Name = "ceTempUpLimit";
             this.ceTempUpLimit.Properties.Caption = "温度上限";
             this.ceTempUpLimit.Size = new System.Drawing.Size(71, 19);
@@ -333,26 +359,27 @@ namespace SmartWaterSystem
             // txtTurbidityLowLimit
             // 
             this.txtTurbidityLowLimit.EditValue = "";
-            this.txtTurbidityLowLimit.Location = new System.Drawing.Point(208, 25);
+            this.txtTurbidityLowLimit.Location = new System.Drawing.Point(554, 27);
             this.txtTurbidityLowLimit.Name = "txtTurbidityLowLimit";
             this.txtTurbidityLowLimit.Size = new System.Drawing.Size(58, 20);
-            this.txtTurbidityLowLimit.TabIndex = 15;
+            this.txtTurbidityLowLimit.TabIndex = 17;
+            this.txtTurbidityLowLimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_twobyte_KeyPress);
             // 
             // txtTempUpLimit
             // 
             this.txtTempUpLimit.EditValue = "";
-            this.txtTempUpLimit.Location = new System.Drawing.Point(75, 3);
+            this.txtTempUpLimit.Location = new System.Drawing.Point(80, 3);
             this.txtTempUpLimit.Name = "txtTempUpLimit";
             this.txtTempUpLimit.Size = new System.Drawing.Size(58, 20);
             this.txtTempUpLimit.TabIndex = 1;
             // 
             // ceTurbidityLowLimit
             // 
-            this.ceTurbidityLowLimit.Location = new System.Drawing.Point(141, 25);
+            this.ceTurbidityLowLimit.Location = new System.Drawing.Point(487, 28);
             this.ceTurbidityLowLimit.Name = "ceTurbidityLowLimit";
             this.ceTurbidityLowLimit.Properties.Caption = "浊度下限";
             this.ceTurbidityLowLimit.Size = new System.Drawing.Size(77, 19);
-            this.ceTurbidityLowLimit.TabIndex = 14;
+            this.ceTurbidityLowLimit.TabIndex = 16;
             this.ceTurbidityLowLimit.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // groupControl6
@@ -556,6 +583,7 @@ namespace SmartWaterSystem
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.txtCenterAddr);
             this.groupControl2.Controls.Add(this.toggleGprsSwitch);
             this.groupControl2.Controls.Add(this.ceGprsSwitch);
             this.groupControl2.Controls.Add(this.txtClearInterval);
@@ -572,12 +600,19 @@ namespace SmartWaterSystem
             this.groupControl2.Controls.Add(this.txtA2);
             this.groupControl2.Controls.Add(this.ceWorkType);
             this.groupControl2.Controls.Add(this.cePwd);
-            this.groupControl2.Controls.Add(this.txtCenterAddr);
             this.groupControl2.Location = new System.Drawing.Point(6, 87);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.ShowCaption = false;
             this.groupControl2.Size = new System.Drawing.Size(780, 50);
             this.groupControl2.TabIndex = 2;
+            // 
+            // txtCenterAddr
+            // 
+            this.txtCenterAddr.EditValue = "";
+            this.txtCenterAddr.Location = new System.Drawing.Point(361, 5);
+            this.txtCenterAddr.Name = "txtCenterAddr";
+            this.txtCenterAddr.Size = new System.Drawing.Size(58, 20);
+            this.txtCenterAddr.TabIndex = 7;
             // 
             // toggleGprsSwitch
             // 
@@ -618,7 +653,7 @@ namespace SmartWaterSystem
             // txtPwd1
             // 
             this.txtPwd1.EditValue = "";
-            this.txtPwd1.Location = new System.Drawing.Point(484, 5);
+            this.txtPwd1.Location = new System.Drawing.Point(504, 5);
             this.txtPwd1.Name = "txtPwd1";
             this.txtPwd1.Size = new System.Drawing.Size(30, 20);
             this.txtPwd1.TabIndex = 10;
@@ -626,7 +661,7 @@ namespace SmartWaterSystem
             // txtPwd0
             // 
             this.txtPwd0.EditValue = "";
-            this.txtPwd0.Location = new System.Drawing.Point(453, 5);
+            this.txtPwd0.Location = new System.Drawing.Point(473, 5);
             this.txtPwd0.Name = "txtPwd0";
             this.txtPwd0.Size = new System.Drawing.Size(30, 20);
             this.txtPwd0.TabIndex = 9;
@@ -635,36 +670,36 @@ namespace SmartWaterSystem
             // 
             this.ceCenterAddr.Location = new System.Drawing.Point(257, 6);
             this.ceCenterAddr.Name = "ceCenterAddr";
-            this.ceCenterAddr.Properties.Caption = "中心站地址";
-            this.ceCenterAddr.Size = new System.Drawing.Size(81, 19);
+            this.ceCenterAddr.Properties.Caption = "中心站地址(0x)";
+            this.ceCenterAddr.Size = new System.Drawing.Size(107, 19);
             this.ceCenterAddr.TabIndex = 6;
             this.ceCenterAddr.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // txtA5
             // 
             this.txtA5.EditValue = "";
-            this.txtA5.Location = new System.Drawing.Point(97, 5);
+            this.txtA5.Location = new System.Drawing.Point(217, 5);
             this.txtA5.Name = "txtA5";
             this.txtA5.Properties.MaxLength = 3;
             this.txtA5.Size = new System.Drawing.Size(30, 20);
-            this.txtA5.TabIndex = 1;
+            this.txtA5.TabIndex = 5;
             this.txtA5.Tag = "1";
-            this.txtA5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            this.txtA5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
             // 
             // txtA4
             // 
             this.txtA4.EditValue = "";
-            this.txtA4.Location = new System.Drawing.Point(127, 5);
+            this.txtA4.Location = new System.Drawing.Point(187, 5);
             this.txtA4.Name = "txtA4";
             this.txtA4.Properties.MaxLength = 3;
             this.txtA4.Size = new System.Drawing.Size(30, 20);
-            this.txtA4.TabIndex = 2;
+            this.txtA4.TabIndex = 4;
             this.txtA4.Tag = "2";
-            this.txtA4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            this.txtA4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
             // 
             // cbWorkType
             // 
-            this.cbWorkType.Location = new System.Drawing.Point(595, 5);
+            this.cbWorkType.Location = new System.Drawing.Point(615, 5);
             this.cbWorkType.Name = "cbWorkType";
             this.cbWorkType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -674,7 +709,7 @@ namespace SmartWaterSystem
             "3-查询/应答工作状态",
             "4-调试或维修状态"});
             this.cbWorkType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbWorkType.Size = new System.Drawing.Size(58, 20);
+            this.cbWorkType.Size = new System.Drawing.Size(146, 20);
             this.cbWorkType.TabIndex = 12;
             // 
             // txtA3
@@ -686,7 +721,7 @@ namespace SmartWaterSystem
             this.txtA3.Size = new System.Drawing.Size(30, 20);
             this.txtA3.TabIndex = 3;
             this.txtA3.Tag = "3";
-            this.txtA3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            this.txtA3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
             // 
             // ceTerAddr
             // 
@@ -700,28 +735,28 @@ namespace SmartWaterSystem
             // txtA1
             // 
             this.txtA1.EditValue = "";
-            this.txtA1.Location = new System.Drawing.Point(217, 5);
+            this.txtA1.Location = new System.Drawing.Point(97, 5);
             this.txtA1.Name = "txtA1";
             this.txtA1.Properties.MaxLength = 3;
             this.txtA1.Size = new System.Drawing.Size(30, 20);
-            this.txtA1.TabIndex = 5;
+            this.txtA1.TabIndex = 1;
             this.txtA1.Tag = "4";
-            this.txtA1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            this.txtA1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
             // 
             // txtA2
             // 
             this.txtA2.EditValue = "";
-            this.txtA2.Location = new System.Drawing.Point(187, 5);
+            this.txtA2.Location = new System.Drawing.Point(127, 5);
             this.txtA2.Name = "txtA2";
             this.txtA2.Properties.MaxLength = 3;
             this.txtA2.Size = new System.Drawing.Size(30, 20);
-            this.txtA2.TabIndex = 4;
+            this.txtA2.TabIndex = 2;
             this.txtA2.Tag = "4";
-            this.txtA2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            this.txtA2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
             // 
             // ceWorkType
             // 
-            this.ceWorkType.Location = new System.Drawing.Point(524, 6);
+            this.ceWorkType.Location = new System.Drawing.Point(544, 6);
             this.ceWorkType.Name = "ceWorkType";
             this.ceWorkType.Properties.Caption = "工作方式";
             this.ceWorkType.Size = new System.Drawing.Size(74, 19);
@@ -730,20 +765,12 @@ namespace SmartWaterSystem
             // 
             // cePwd
             // 
-            this.cePwd.Location = new System.Drawing.Point(406, 6);
+            this.cePwd.Location = new System.Drawing.Point(426, 6);
             this.cePwd.Name = "cePwd";
             this.cePwd.Properties.Caption = "密码";
             this.cePwd.Size = new System.Drawing.Size(63, 19);
             this.cePwd.TabIndex = 8;
             this.cePwd.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
-            // 
-            // txtCenterAddr
-            // 
-            this.txtCenterAddr.EditValue = "";
-            this.txtCenterAddr.Location = new System.Drawing.Point(341, 5);
-            this.txtCenterAddr.Name = "txtCenterAddr";
-            this.txtCenterAddr.Size = new System.Drawing.Size(58, 20);
-            this.txtCenterAddr.TabIndex = 7;
             // 
             // ceTurbidityInterval
             // 
@@ -1034,10 +1061,12 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtTurbidityUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTempLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTempAddtion.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPHUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConductivityLowLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConductivityUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTempLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTempAddtion.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePHUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePHLowLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConductivityLowLimit.Properties)).EndInit();
@@ -1068,6 +1097,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleGprsSwitch.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceGprsSwitch.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtClearInterval.Properties)).EndInit();
@@ -1084,7 +1114,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtA2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceWorkType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePwd.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTurbidityInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
@@ -1182,6 +1211,8 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.ToggleSwitch toggleGprsSwitch;
         private DevExpress.XtraEditors.CheckEdit ceGprsSwitch;
         private DevExpress.XtraEditors.TextEdit txtA1;
+        private DevExpress.XtraEditors.TextEdit txtTempAddtion;
+        private DevExpress.XtraEditors.CheckEdit ceTempAddtion;
 
     }
 }

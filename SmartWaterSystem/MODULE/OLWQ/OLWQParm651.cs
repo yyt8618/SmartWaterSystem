@@ -147,6 +147,45 @@ namespace SmartWaterSystem
         }
         #endregion
 
+        #region A5-A1
+        private bool ValidateA5To1()
+        {
+            if (string.IsNullOrEmpty(txtA5.Text) || !Regex.IsMatch(txtA5.Text, "^[a-zA-Z0-9]{1,2}$"))
+            {
+                XtraMessageBox.Show("请填写A5", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtA5.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtA4.Text) || !Regex.IsMatch(txtA4.Text, "^[a-zA-Z0-9]{1,2}$"))
+            {
+                XtraMessageBox.Show("请填写A4", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtA4.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtA3.Text) || !Regex.IsMatch(txtA3.Text, "^[a-zA-Z0-9]{1,2}$"))
+            {
+                XtraMessageBox.Show("请填写A3", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtA3.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtA2.Text) || !Regex.IsMatch(txtA2.Text, "^[a-zA-Z0-9]{1,2}$"))
+            {
+                XtraMessageBox.Show("请填写A2", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtA2.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtA1.Text) || !Regex.IsMatch(txtA1.Text, "^[a-zA-Z0-9]{1,2}$"))
+            {
+                XtraMessageBox.Show("请填写A1", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtA1.Focus();
+                return false;
+            }
+
+
+            return true;
+        }
+        #endregion
+
         #region 1-2byte unshort txt Event
         /// <summary>
         /// 限制最大1byte (<=255)
@@ -200,7 +239,7 @@ namespace SmartWaterSystem
             {
                 e.Handled = false;
             }
-            else if (e.KeyChar == ' ' || e.KeyChar == '\r' || e.KeyChar == '.')
+            else if (e.KeyChar == ' ' || e.KeyChar == '\r')// || e.KeyChar == '.')
             {
                 e.Handled = false;
             }
@@ -435,6 +474,11 @@ namespace SmartWaterSystem
                     GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit = ceTurbidityUpLimit.Checked;
                     haveread = true;
                 }
+                if (ceTurbidityLowLimit.Checked)
+                {
+                    GlobalValue.SerialPortOptData.IsOptTurbidityLowLimit = ceTurbidityLowLimit.Checked;
+                    haveread = true;
+                }
                 if (cePowersupplyType.Checked)
                 {
                     GlobalValue.SerialPortOptData.IsOptPowerSupplyType = cePowersupplyType.Checked;
@@ -495,6 +539,12 @@ namespace SmartWaterSystem
                 if (ceTempLowLimit.Checked)
                 {
                     GlobalValue.SerialPortOptData.IsOptTempLowLimit = ceTempLowLimit.Checked;
+                    haveread = true;
+                }
+
+                if (ceTempAddtion.Checked)
+                {
+                    GlobalValue.SerialPortOptData.IsOptTempAddtion = ceTempAddtion.Checked;
                     haveread = true;
                 }
 
@@ -601,7 +651,7 @@ namespace SmartWaterSystem
                     if (ceCenterAddr.Checked)
                     {
                         GlobalValue.SerialPortOptData.IsOptCenterAddr = ceCenterAddr.Checked;
-                        GlobalValue.SerialPortOptData.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
+                        GlobalValue.SerialPortOptData.CenterAddr = Convert.ToByte(txtCenterAddr.Text,16);
                         haveset = true;
                     }
                     if (cePwd.Checked)
@@ -631,25 +681,31 @@ namespace SmartWaterSystem
                     if (ceTempUpLimit.Checked)
                     {
                         GlobalValue.SerialPortOptData.IsOptTempUpLimit = ceTempUpLimit.Checked;
-                        GlobalValue.SerialPortOptData.TempUpLimit = Convert.ToUInt16(txtTempUpLimit.Text);
+                        GlobalValue.SerialPortOptData.TempUpLimit = (ushort)(Convert.ToDouble(txtTempUpLimit.Text) * 10);
                         haveset = true;
                     }
                     if (ceTempLowLimit.Checked)
                     {
                         GlobalValue.SerialPortOptData.IsOptTempLowLimit = ceTempLowLimit.Checked;
-                        GlobalValue.SerialPortOptData.TempLowLimit = Convert.ToUInt16(txtTempLowLimit.Text);
+                        GlobalValue.SerialPortOptData.TempLowLimit = (ushort)(Convert.ToDouble(txtTempLowLimit.Text) * 10);
+                        haveset = true;
+                    }
+                    if (ceTempAddtion.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptTempAddtion = ceTempAddtion.Checked;
+                        GlobalValue.SerialPortOptData.TempAddtion = Convert.ToUInt16(txtTempAddtion.Text);
                         haveset = true;
                     }
                     if (cePHUpLimit.Checked)
                     {
                         GlobalValue.SerialPortOptData.IsOptPHUpLimit = cePHUpLimit.Checked;
-                        GlobalValue.SerialPortOptData.PHUpLimit = Convert.ToUInt16(txtTempUpLimit.Text);
+                        GlobalValue.SerialPortOptData.PHUpLimit = (ushort)(Convert.ToDouble(txtPHUpLimit.Text) * 10);
                         haveset = true;
                     }
                     if (cePHLowLimit.Checked)
                     {
                         GlobalValue.SerialPortOptData.IsOptPHLowLimit = cePHLowLimit.Checked;
-                        GlobalValue.SerialPortOptData.PHLowLimit = Convert.ToUInt16(txtTempLowLimit.Text);
+                        GlobalValue.SerialPortOptData.PHLowLimit = (ushort)(Convert.ToDouble(txtPHLowLimit.Text) * 10);
                         haveset = true;
                     }
                     if (ceConductivityUpLimit.Checked)
@@ -829,7 +885,7 @@ namespace SmartWaterSystem
                         txtA2.Text = string.Format("{0:X2}", GlobalValue.SerialPortOptData.TerAddr[1]);
                         txtA1.Text = string.Format("{0:X2}", GlobalValue.SerialPortOptData.TerAddr[0]);
                     }
-                    if (GlobalValue.SerialPortOptData.IsOptTerAddr)
+                    if (GlobalValue.SerialPortOptData.IsOptCenterAddr)
                         txtCenterAddr.Text = string.Format("{0:X2}", GlobalValue.SerialPortOptData.CenterAddr);
                     if (GlobalValue.SerialPortOptData.IsOptPwd)
                     {
@@ -843,17 +899,19 @@ namespace SmartWaterSystem
                     if (GlobalValue.SerialPortOptData.IsOptClearInterval)
                         txtClearInterval.Text = GlobalValue.SerialPortOptData.ClearInterval.ToString();
                     if (GlobalValue.SerialPortOptData.IsOptTempUpLimit)
-                        txtTempUpLimit.Text = GlobalValue.SerialPortOptData.TempUpLimit.ToString();
+                        txtTempUpLimit.Text = (Convert.ToDouble(GlobalValue.SerialPortOptData.TempUpLimit) / 10).ToString("f1");
                     if (GlobalValue.SerialPortOptData.IsOptTempLowLimit)
-                        txtTempLowLimit.Text = GlobalValue.SerialPortOptData.TempLowLimit.ToString();
+                        txtTempLowLimit.Text = (Convert.ToDouble(GlobalValue.SerialPortOptData.TempLowLimit) / 10).ToString("f1");
+                    if (GlobalValue.SerialPortOptData.IsOptTempAddtion)
+                        txtTempAddtion.Text = GlobalValue.SerialPortOptData.TempAddtion.ToString();
                     if (GlobalValue.SerialPortOptData.IsOptPHUpLimit)
-                        txtPHUpLimit.Text = GlobalValue.SerialPortOptData.PHUpLimit.ToString();
+                        txtPHUpLimit.Text = (Convert.ToDouble(GlobalValue.SerialPortOptData.PHUpLimit) / 10).ToString("f1");
                     if (GlobalValue.SerialPortOptData.IsOptPHLowLimit)
-                        txtPHLowLimit.Text = GlobalValue.SerialPortOptData.PHLowLimit.ToString();
+                        txtPHLowLimit.Text = (Convert.ToDouble(GlobalValue.SerialPortOptData.PHLowLimit) / 10).ToString("f1");
                     if (GlobalValue.SerialPortOptData.IsOptConductivityUpLimit)
                         txtConductivityUpLimit.Text = GlobalValue.SerialPortOptData.ConductivityUpLimit.ToString();
                     if (GlobalValue.SerialPortOptData.IsOptConductivityLowLimit)
-                        txtConductivityLowLimit.Text = GlobalValue.SerialPortOptData.IsOptConductivityLowLimit.ToString();
+                        txtConductivityLowLimit.Text = GlobalValue.SerialPortOptData.ConductivityLowLimit.ToString();
                     if (GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit)
                         txtTurbidityUpLimit.Text = GlobalValue.SerialPortOptData.TurbidityUpLimit.ToString();
                     if (GlobalValue.SerialPortOptData.IsOptTurbidityLowLimit)
@@ -969,6 +1027,34 @@ namespace SmartWaterSystem
                 return false;
             }
 
+            if (ceTerAddr.Checked && !ValidateA5To1())
+            {
+                XtraMessageBox.Show("请输入正确终端地址!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtA5.Focus();
+                return false;
+            }
+
+            if (ceCenterAddr.Checked && !Regex.IsMatch(txtCenterAddr.Text, "^[a-zA-Z0-9]{1,2}$"))
+            {
+                XtraMessageBox.Show("请填写中心站地址!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtCenterAddr.Focus();
+                return false;
+            }
+
+            if (cePwd.Checked && !Regex.IsMatch(txtPwd1.Text, "^[a-zA-Z0-9]{1,2}$") && !Regex.IsMatch(txtPwd1.Text, "^[a-zA-Z0-9]{1,2}$"))
+            {
+                XtraMessageBox.Show("请输入正确密码!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtPwd1.Focus();
+                return false;
+            }
+
+            if (ceWorkType.Checked && cbWorkType.SelectedIndex < 0)
+            {
+                XtraMessageBox.Show("请选择工作方式!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbWorkType.Focus();
+                return false;
+            }
+
             if (ceClearInterval.Checked && string.IsNullOrEmpty(txtClearInterval.Text))
             {
                 XtraMessageBox.Show("请输入清洗间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -976,10 +1062,66 @@ namespace SmartWaterSystem
                 return false;
             }
 
+            if (ceTempUpLimit.Checked && (string.IsNullOrEmpty(txtTempUpLimit.Text) || Convert.ToSingle(txtTempUpLimit.Text) < 0 || Convert.ToSingle(txtTempUpLimit.Text) > 1000))
+            {
+                XtraMessageBox.Show("请输入合法的温度上限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTempUpLimit.Focus();
+                return false;
+            }
+
+            if (ceTempLowLimit.Checked && (string.IsNullOrEmpty(txtTempLowLimit.Text) || Convert.ToSingle(txtTempLowLimit.Text) < 0 || Convert.ToSingle(txtTempLowLimit.Text) > 1000))
+            {
+                XtraMessageBox.Show("请输入合法的温度下限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTempLowLimit.Focus();
+                return false;
+            }
+
+            if (ceTempAddtion.Checked && string.IsNullOrEmpty(txtTempAddtion.Text))
+            {
+                XtraMessageBox.Show("请输入合法的温度加报阀值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTempAddtion.Focus();
+                return false;
+            }
+
+            if (cePHUpLimit.Checked && (string.IsNullOrEmpty(txtPHUpLimit.Text) || Convert.ToSingle(txtPHUpLimit.Text) < 0 || Convert.ToSingle(txtPHUpLimit.Text) > 14))
+            {
+                XtraMessageBox.Show("请输入合法的PH上限值(<=14)!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtPHUpLimit.Focus();
+                return false;
+            }
+
+            if (cePHLowLimit.Checked && (string.IsNullOrEmpty(txtPHLowLimit.Text) || Convert.ToSingle(txtPHLowLimit.Text) < 0 || Convert.ToSingle(txtPHLowLimit.Text) > 14))
+            {
+                XtraMessageBox.Show("请输入合法的PH下限值(<=14)!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtPHLowLimit.Focus();
+                return false;
+            }
+
+            if (ceConductivityUpLimit.Checked && string.IsNullOrEmpty(txtConductivityUpLimit.Text))
+            {
+                XtraMessageBox.Show("请输入合法的电导率上限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtConductivityUpLimit.Focus();
+                return false;
+            }
+
+            if (ceConductivityLowLimit.Checked && string.IsNullOrEmpty(txtConductivityLowLimit.Text))
+            {
+                XtraMessageBox.Show("请输入合法的电导率下限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtConductivityLowLimit.Focus();
+                return false;
+            }
+
             if (ceTurbidityUpLimit.Checked && string.IsNullOrEmpty(txtTurbidityUpLimit.Text))
             {
                 XtraMessageBox.Show("请输入合法的浊度上限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtTurbidityUpLimit.Focus();
+                return false;
+            }
+
+            if (ceTurbidityLowLimit.Checked && string.IsNullOrEmpty(txtTurbidityLowLimit.Text))
+            {
+                XtraMessageBox.Show("请输入合法的浊度下限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTurbidityLowLimit.Focus();
                 return false;
             }
 
