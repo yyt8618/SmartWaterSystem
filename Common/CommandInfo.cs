@@ -411,6 +411,11 @@ namespace Common
         SET_CLEARINTERVAL = 0x1c,
 
         /// <summary>
+        /// 设置从站加报时间间隔
+        /// </summary>
+        SET_DATAINTERVAL = 0x13,
+
+        /// <summary>
         /// 设置从站余氯零点值
         /// </summary>
         SET_RESIDUALCLZERO = 0x1f,
@@ -573,6 +578,11 @@ namespace Common
         /// 读取从站清洗时间间隔
         /// </summary>
         READ_CLEARINTERVAL = 0x4c,
+
+        /// <summary>
+        /// 读取从站加报时间间隔
+        /// </summary>
+        READ_DATAINTERVAL= 0x4d,
 
         /// <summary>
         /// 读取从余氯零点值

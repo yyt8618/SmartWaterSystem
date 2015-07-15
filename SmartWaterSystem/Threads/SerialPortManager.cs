@@ -860,6 +860,11 @@ namespace SmartWaterSystem
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端清洗间隔..."));
                                         GlobalValue.SerialPortOptData.ClearInterval = GlobalValue.OLWQlog.ReadClearInterval(GlobalValue.SerialPortOptData.ID);
                                     }
+                                    if(GlobalValue.SerialPortOptData.IsOptDataInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端数据加报时间间隔..."));
+                                        GlobalValue.SerialPortOptData.DataInterval = GlobalValue.OLWQlog.ReadDataInterval(GlobalValue.SerialPortOptData.ID);
+                                    }
                                     if (GlobalValue.SerialPortOptData.IsOptTempUpLimit)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取温度上限..."));
@@ -1026,6 +1031,11 @@ namespace SmartWaterSystem
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端清洗间隔..."));
                                         result = GlobalValue.OLWQlog.SetClearInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ClearInterval);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptDataInterval)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端加报时间间隔..."));
+                                        result = GlobalValue.OLWQlog.SetDataInterval(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.DataInterval);
                                     }
                                     if (GlobalValue.SerialPortOptData.IsOptTempUpLimit)
                                     {

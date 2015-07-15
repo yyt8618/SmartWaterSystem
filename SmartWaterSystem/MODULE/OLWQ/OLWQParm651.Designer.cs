@@ -69,9 +69,12 @@ namespace SmartWaterSystem
             this.cePHState = new DevExpress.XtraEditors.CheckEdit();
             this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.txtDataInterval = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.txtCenterAddr = new DevExpress.XtraEditors.TextEdit();
             this.toggleGprsSwitch = new DevExpress.XtraEditors.ToggleSwitch();
             this.ceGprsSwitch = new DevExpress.XtraEditors.CheckEdit();
+            this.ceDataInterval = new DevExpress.XtraEditors.CheckEdit();
             this.txtClearInterval = new DevExpress.XtraEditors.TextEdit();
             this.ceClearInterval = new DevExpress.XtraEditors.CheckEdit();
             this.txtPwd1 = new DevExpress.XtraEditors.TextEdit();
@@ -154,9 +157,11 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDataInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleGprsSwitch.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceGprsSwitch.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceDataInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtClearInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceClearInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPwd1.Properties)).BeginInit();
@@ -193,7 +198,7 @@ namespace SmartWaterSystem
             this.groupControl1.Controls.Add(this.groupControl2);
             this.groupControl1.Location = new System.Drawing.Point(3, -1);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(791, 202);
+            this.groupControl1.Size = new System.Drawing.Size(791, 248);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
             // 
@@ -217,7 +222,7 @@ namespace SmartWaterSystem
             this.groupControl5.Controls.Add(this.txtTurbidityLowLimit);
             this.groupControl5.Controls.Add(this.txtTempUpLimit);
             this.groupControl5.Controls.Add(this.ceTurbidityLowLimit);
-            this.groupControl5.Location = new System.Drawing.Point(6, 144);
+            this.groupControl5.Location = new System.Drawing.Point(6, 189);
             this.groupControl5.Name = "groupControl5";
             this.groupControl5.ShowCaption = false;
             this.groupControl5.Size = new System.Drawing.Size(780, 50);
@@ -531,10 +536,10 @@ namespace SmartWaterSystem
             this.groupControl7.Controls.Add(this.ceTurbidityState);
             this.groupControl7.Controls.Add(this.cePHState);
             this.groupControl7.Controls.Add(this.ceColConfig);
-            this.groupControl7.Location = new System.Drawing.Point(5, 56);
+            this.groupControl7.Location = new System.Drawing.Point(5, 71);
             this.groupControl7.Name = "groupControl7";
             this.groupControl7.ShowCaption = false;
-            this.groupControl7.Size = new System.Drawing.Size(525, 24);
+            this.groupControl7.Size = new System.Drawing.Size(781, 24);
             this.groupControl7.TabIndex = 1;
             // 
             // ceConductivityState
@@ -583,9 +588,12 @@ namespace SmartWaterSystem
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.txtDataInterval);
+            this.groupControl2.Controls.Add(this.labelControl1);
             this.groupControl2.Controls.Add(this.txtCenterAddr);
             this.groupControl2.Controls.Add(this.toggleGprsSwitch);
             this.groupControl2.Controls.Add(this.ceGprsSwitch);
+            this.groupControl2.Controls.Add(this.ceDataInterval);
             this.groupControl2.Controls.Add(this.txtClearInterval);
             this.groupControl2.Controls.Add(this.ceClearInterval);
             this.groupControl2.Controls.Add(this.txtPwd1);
@@ -600,11 +608,29 @@ namespace SmartWaterSystem
             this.groupControl2.Controls.Add(this.txtA2);
             this.groupControl2.Controls.Add(this.ceWorkType);
             this.groupControl2.Controls.Add(this.cePwd);
-            this.groupControl2.Location = new System.Drawing.Point(6, 87);
+            this.groupControl2.Location = new System.Drawing.Point(6, 117);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.ShowCaption = false;
             this.groupControl2.Size = new System.Drawing.Size(780, 50);
             this.groupControl2.TabIndex = 2;
+            // 
+            // txtDataInterval
+            // 
+            this.txtDataInterval.EditValue = "";
+            this.txtDataInterval.Location = new System.Drawing.Point(520, 27);
+            this.txtDataInterval.Name = "txtDataInterval";
+            this.txtDataInterval.Properties.MaxLength = 5;
+            this.txtDataInterval.Size = new System.Drawing.Size(58, 20);
+            this.txtDataInterval.TabIndex = 18;
+            this.txtDataInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Location = new System.Drawing.Point(579, 30);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(44, 14);
+            this.labelControl1.TabIndex = 18;
+            this.labelControl1.Text = "1-59min";
             // 
             // txtCenterAddr
             // 
@@ -616,11 +642,11 @@ namespace SmartWaterSystem
             // 
             // toggleGprsSwitch
             // 
-            this.toggleGprsSwitch.Location = new System.Drawing.Point(97, 25);
+            this.toggleGprsSwitch.Location = new System.Drawing.Point(100, 25);
             this.toggleGprsSwitch.Name = "toggleGprsSwitch";
             this.toggleGprsSwitch.Properties.OffText = "关闭";
             this.toggleGprsSwitch.Properties.OnText = "打开";
-            this.toggleGprsSwitch.Size = new System.Drawing.Size(150, 25);
+            this.toggleGprsSwitch.Size = new System.Drawing.Size(152, 25);
             this.toggleGprsSwitch.TabIndex = 14;
             // 
             // ceGprsSwitch
@@ -630,6 +656,14 @@ namespace SmartWaterSystem
             this.ceGprsSwitch.Properties.Caption = "GPRS开/关";
             this.ceGprsSwitch.Size = new System.Drawing.Size(83, 19);
             this.ceGprsSwitch.TabIndex = 13;
+            // 
+            // ceDataInterval
+            // 
+            this.ceDataInterval.Location = new System.Drawing.Point(426, 28);
+            this.ceDataInterval.Name = "ceDataInterval";
+            this.ceDataInterval.Properties.Caption = "数据加报间隔";
+            this.ceDataInterval.Size = new System.Drawing.Size(98, 19);
+            this.ceDataInterval.TabIndex = 17;
             // 
             // txtClearInterval
             // 
@@ -678,7 +712,7 @@ namespace SmartWaterSystem
             // txtA5
             // 
             this.txtA5.EditValue = "";
-            this.txtA5.Location = new System.Drawing.Point(217, 5);
+            this.txtA5.Location = new System.Drawing.Point(222, 5);
             this.txtA5.Name = "txtA5";
             this.txtA5.Properties.MaxLength = 3;
             this.txtA5.Size = new System.Drawing.Size(30, 20);
@@ -689,7 +723,7 @@ namespace SmartWaterSystem
             // txtA4
             // 
             this.txtA4.EditValue = "";
-            this.txtA4.Location = new System.Drawing.Point(187, 5);
+            this.txtA4.Location = new System.Drawing.Point(192, 5);
             this.txtA4.Name = "txtA4";
             this.txtA4.Properties.MaxLength = 3;
             this.txtA4.Size = new System.Drawing.Size(30, 20);
@@ -715,7 +749,7 @@ namespace SmartWaterSystem
             // txtA3
             // 
             this.txtA3.EditValue = "";
-            this.txtA3.Location = new System.Drawing.Point(157, 5);
+            this.txtA3.Location = new System.Drawing.Point(162, 5);
             this.txtA3.Name = "txtA3";
             this.txtA3.Properties.MaxLength = 3;
             this.txtA3.Size = new System.Drawing.Size(30, 20);
@@ -735,7 +769,7 @@ namespace SmartWaterSystem
             // txtA1
             // 
             this.txtA1.EditValue = "";
-            this.txtA1.Location = new System.Drawing.Point(97, 5);
+            this.txtA1.Location = new System.Drawing.Point(102, 5);
             this.txtA1.Name = "txtA1";
             this.txtA1.Properties.MaxLength = 3;
             this.txtA1.Size = new System.Drawing.Size(30, 20);
@@ -746,7 +780,7 @@ namespace SmartWaterSystem
             // txtA2
             // 
             this.txtA2.EditValue = "";
-            this.txtA2.Location = new System.Drawing.Point(127, 5);
+            this.txtA2.Location = new System.Drawing.Point(132, 5);
             this.txtA2.Name = "txtA2";
             this.txtA2.Properties.MaxLength = 3;
             this.txtA2.Size = new System.Drawing.Size(30, 20);
@@ -776,7 +810,7 @@ namespace SmartWaterSystem
             // 
             this.ceTurbidityInterval.Location = new System.Drawing.Point(4, 0);
             this.ceTurbidityInterval.Name = "ceTurbidityInterval";
-            this.ceTurbidityInterval.Properties.Caption = "浊度采集时间间隔";
+            this.ceTurbidityInterval.Properties.Caption = "采集时间间隔";
             this.ceTurbidityInterval.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceTurbidityInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceTurbidityInterval.Size = new System.Drawing.Size(117, 19);
@@ -827,9 +861,9 @@ namespace SmartWaterSystem
             // 
             this.groupControl3.Controls.Add(this.ceTurbidityInterval);
             this.groupControl3.Controls.Add(this.gridControl_Turbidity);
-            this.groupControl3.Location = new System.Drawing.Point(4, 207);
+            this.groupControl3.Location = new System.Drawing.Point(3, 253);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(395, 247);
+            this.groupControl3.Size = new System.Drawing.Size(791, 201);
             this.groupControl3.TabIndex = 1;
             // 
             // gridControl_Turbidity
@@ -843,7 +877,7 @@ namespace SmartWaterSystem
             this.cb_Turbidity_starttime,
             this.cb_Turbidity_coltime,
             this.cb_Turbidity_sendtime});
-            this.gridControl_Turbidity.Size = new System.Drawing.Size(391, 223);
+            this.gridControl_Turbidity.Size = new System.Drawing.Size(787, 177);
             this.gridControl_Turbidity.TabIndex = 1;
             this.gridControl_Turbidity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Turbidity});
@@ -943,10 +977,11 @@ namespace SmartWaterSystem
             this.groupControl4.Controls.Add(this.gridControl_CallData);
             this.groupControl4.Controls.Add(this.btnCallData);
             this.groupControl4.Controls.Add(this.labelControl7);
-            this.groupControl4.Location = new System.Drawing.Point(403, 207);
+            this.groupControl4.Location = new System.Drawing.Point(41, 464);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(391, 245);
+            this.groupControl4.Size = new System.Drawing.Size(72, 27);
             this.groupControl4.TabIndex = 2;
+            this.groupControl4.Visible = false;
             // 
             // gridControl_CallData
             // 
@@ -955,7 +990,7 @@ namespace SmartWaterSystem
             this.gridControl_CallData.Location = new System.Drawing.Point(2, 22);
             this.gridControl_CallData.MainView = this.gridView_CallData;
             this.gridControl_CallData.Name = "gridControl_CallData";
-            this.gridControl_CallData.Size = new System.Drawing.Size(387, 221);
+            this.gridControl_CallData.Size = new System.Drawing.Size(68, 3);
             this.gridControl_CallData.TabIndex = 1;
             this.gridControl_CallData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_CallData});
@@ -1097,9 +1132,12 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
+            this.groupControl2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDataInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleGprsSwitch.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceGprsSwitch.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceDataInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtClearInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceClearInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPwd1.Properties)).EndInit();
@@ -1213,6 +1251,9 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.TextEdit txtA1;
         private DevExpress.XtraEditors.TextEdit txtTempAddtion;
         private DevExpress.XtraEditors.CheckEdit ceTempAddtion;
+        private DevExpress.XtraEditors.TextEdit txtDataInterval;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraEditors.CheckEdit ceDataInterval;
 
     }
 }

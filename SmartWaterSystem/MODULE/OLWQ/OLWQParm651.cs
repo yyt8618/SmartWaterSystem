@@ -469,6 +469,11 @@ namespace SmartWaterSystem
                     GlobalValue.SerialPortOptData.IsOptClearInterval = ceClearInterval.Checked;
                     haveread = true;
                 }
+                if (ceDataInterval.Checked)
+                {
+                    GlobalValue.SerialPortOptData.IsOptDataInterval = ceDataInterval.Checked;
+                    haveread = true;
+                }
                 if (ceTurbidityUpLimit.Checked)
                 {
                     GlobalValue.SerialPortOptData.IsOptTurbidityUpLimit = ceTurbidityUpLimit.Checked;
@@ -676,6 +681,12 @@ namespace SmartWaterSystem
                     {
                         GlobalValue.SerialPortOptData.IsOptClearInterval = ceClearInterval.Checked;
                         GlobalValue.SerialPortOptData.ClearInterval = Convert.ToUInt16(txtClearInterval.Text);
+                        haveset = true;
+                    }
+                    if (ceDataInterval.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOptDataInterval = ceDataInterval.Checked;
+                        GlobalValue.SerialPortOptData.DataInterval = Convert.ToUInt16(txtDataInterval.Text);
                         haveset = true;
                     }
                     if (ceTempUpLimit.Checked)
@@ -898,6 +909,8 @@ namespace SmartWaterSystem
                         toggleGprsSwitch.IsOn = GlobalValue.SerialPortOptData.GprsSwitch;
                     if (GlobalValue.SerialPortOptData.IsOptClearInterval)
                         txtClearInterval.Text = GlobalValue.SerialPortOptData.ClearInterval.ToString();
+                    if (GlobalValue.SerialPortOptData.IsOptDataInterval)
+                        txtDataInterval.Text = GlobalValue.SerialPortOptData.DataInterval.ToString();
                     if (GlobalValue.SerialPortOptData.IsOptTempUpLimit)
                         txtTempUpLimit.Text = (Convert.ToDouble(GlobalValue.SerialPortOptData.TempUpLimit) / 10).ToString("f1");
                     if (GlobalValue.SerialPortOptData.IsOptTempLowLimit)
@@ -1059,6 +1072,13 @@ namespace SmartWaterSystem
             {
                 XtraMessageBox.Show("请输入清洗间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtClearInterval.Focus();
+                return false;
+            }
+
+            if (ceDataInterval.Checked && (string.IsNullOrEmpty(txtDataInterval.Text) || Convert.ToUInt16(txtDataInterval.Text) <1 || Convert.ToUInt16(txtDataInterval.Text)>59))
+            {
+                XtraMessageBox.Show("请输入加报时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtDataInterval.Focus();
                 return false;
             }
 

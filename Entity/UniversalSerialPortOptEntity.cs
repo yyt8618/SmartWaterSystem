@@ -216,6 +216,17 @@ namespace Entity
             set { _ClearInterval = value; }
         }
 
+        public bool IsOptDataInterval = false;
+        private ushort _DataInterval = 0;
+        /// <summary>
+        /// 数据加报时间间隔
+        /// </summary>
+        public ushort DataInterval
+        {
+            get { return _DataInterval; }
+            set { _DataInterval = value; }
+        }
+
         public bool IsOptTempUpLimit = false;
         private ushort _TempUpLimit = 0;
         /// <summary>

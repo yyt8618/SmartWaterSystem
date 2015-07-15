@@ -309,6 +309,16 @@ namespace SmartWaterSystem
             }
         }
 
+        private Type IsLoad(string typename)
+        {
+            foreach (Type t in lstType)
+            {
+                if (t.Name == typename)
+                    return t;
+            }
+            return null;
+        }
+
         private void VisiableNavigateBar(bool isVisiable)
         {
             //Noise Group
@@ -369,36 +379,15 @@ namespace SmartWaterSystem
                     barBtnSerialClose.Enabled = true;
                     if (GlobalValue.recorderList.Count > 0)
                     {
-                        NoiseRecMgr noiserecMgr=(NoiseRecMgr)GetView(typeof(NoiseRecMgr));
-                        if (noiserecMgr != null)
-                            noiserecMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                        NoiseDataMgr noisedataMgr = (NoiseDataMgr)GetView(typeof(NoiseDataMgr));
-                        if (noisedataMgr != null)
-                            noisedataMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                        NoiseGroupMgr noisegrpMgr = (NoiseGroupMgr)GetView(typeof(NoiseGroupMgr));
-                        if (noisegrpMgr != null)
-                            noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+                        BandSerialPortEvent("INoiseRecMgr");
+                        BandSerialPortEvent("INoiseDataMgr");
+                        BandSerialPortEvent("INoiseGroupMgr");
                     }
 
-                    UniversalTerParm universalterParm = (UniversalTerParm)GetView(typeof(UniversalTerParm));
-                    if (universalterParm != null)
-                        universalterParm.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                    UniversalTerMgr universalterMgr = (UniversalTerMgr)GetView(typeof(UniversalTerMgr));
-                    if (universalterMgr != null)
-                        universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                    OLWQParm OLWQMgr = (OLWQParm)GetView(typeof(OLWQParm));
-                    if (OLWQMgr != null)
-                        OLWQMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                    OLWQParm651 OLWQMgr651 = (OLWQParm651)GetView(typeof(OLWQParm651));
-                    if (OLWQMgr651 != null)
-                        OLWQMgr651.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-
+                    BandSerialPortEvent("IUniversalTerParm");
+                    BandSerialPortEvent("IUniversalTerMgr");
+                    BandSerialPortEvent("IOLWQParm");
+                    BandSerialPortEvent("IOLWQParm651");
                 }
             }
             catch (Exception ex)
@@ -420,39 +409,33 @@ namespace SmartWaterSystem
                     barBtnSerialClose.Enabled = false;
                     if (GlobalValue.recorderList.Count > 0)
                     {
-                        NoiseRecMgr noiserecMgr = (NoiseRecMgr)GetView(typeof(NoiseRecMgr));
-                        if (noiserecMgr != null)
-                            noiserecMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                        NoiseDataMgr noisedataMgr = (NoiseDataMgr)GetView(typeof(NoiseDataMgr));
-                        if (noisedataMgr != null)
-                            noisedataMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                        NoiseGroupMgr noisegrpMgr = (NoiseGroupMgr)GetView(typeof(NoiseGroupMgr));
-                        if (noisegrpMgr != null)
-                            noisegrpMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+                        BandSerialPortEvent("INoiseRecMgr");
+                        BandSerialPortEvent("INoiseDataMgr");
+                        BandSerialPortEvent("INoiseGroupMgr");
                     }
 
-                    UniversalTerParm universalterParm = (UniversalTerParm)GetView(typeof(UniversalTerParm));
-                    if (universalterParm != null)
-                        universalterParm.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                    UniversalTerMgr universalterMgr = (UniversalTerMgr)GetView(typeof(UniversalTerMgr));
-                    if (universalterMgr != null)
-                        universalterMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                    OLWQParm OLWQMgr = (OLWQParm)GetView(typeof(OLWQParm));
-                    if (OLWQMgr != null)
-                        OLWQMgr.SerialPortEvent(GlobalValue.portUtil.IsOpen);
-
-                    OLWQParm651 OLWQMgr651 = (OLWQParm651)GetView(typeof(OLWQParm651));
-                    if (OLWQMgr651 != null)
-                        OLWQMgr651.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+                    BandSerialPortEvent("IUniversalTerParm");
+                    BandSerialPortEvent("IUniversalTerMgr");
+                    BandSerialPortEvent("IOLWQParm");
+                    BandSerialPortEvent("IOLWQParm651");
                 }
             }
             catch (Exception ex)
             {
                 XtraMessageBox.Show(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BandSerialPortEvent(string interfacename)
+        {
+            Type t_universalParm = IsLoad(interfacename);
+            if (t_universalParm != null)
+            {
+                BaseView newView = GetViewByInterface(t_universalParm);
+                if (newView != null)
+                {
+                    newView.SerialPortEvent(GlobalValue.portUtil.IsOpen);
+                }
             }
         }
 
@@ -858,6 +841,29 @@ namespace SmartWaterSystem
                 return null;
             }
         }
+        //获取操作页面对象(接口)
+        public BaseView GetViewByInterface(Type InterfaceType)
+        {
+            try
+            {
+                BaseView newView = null;
+                foreach (Control control in this.panelControlMain.Controls)
+                {
+                    if (InterfaceType.IsAssignableFrom(control.GetType()))
+                    {
+                        newView = (BaseView)control;
+                        break;
+                    }
+                }
+                return newView;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
         #endregion
 
         private void ribbonGalleryBarItem1_GalleryItemClick(object sender, DevExpress.XtraBars.Ribbon.GalleryItemClickEventArgs e)

@@ -338,6 +338,33 @@ namespace Protocol
             }
             return BitConverter.ToUInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
         }
+        public ushort ReadDataInterval(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.READ_DATAINTERVAL;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToUInt16(result.Data[0]);
+        }
         public ushort ReadTempUpLimit(short Id)
         {
             Package package = new Package();
@@ -1380,6 +1407,21 @@ namespace Protocol
             }
             package.DataLength = data.Length;
             package.Data = lstbyte.ToArray();
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetDataInterval(short Id, ushort value)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.OLWQ_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)OLWQ_COMMAND.SET_DATAINTERVAL;
+            byte[] data = BitConverter.GetBytes(value);
+            package.DataLength = 1;
+            package.Data = new byte[] { data[0] };
             package.CS = package.CreateCS();
 
             return Write(package);
