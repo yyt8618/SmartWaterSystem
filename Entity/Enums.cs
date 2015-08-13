@@ -54,4 +54,28 @@ namespace Entity
         /// </summary>
         RS485 = 2
     }
+
+    public enum HydrantOptType
+    {
+        /// <summary>
+        /// 消防栓被打开
+        /// </summary>
+        Open = 1,
+        /// <summary>
+        /// 消防栓被关闭
+        /// </summary>
+        Close = 2,
+        /// <summary>
+        /// 消防栓开度
+        /// </summary>
+        OpenAngle = 3,
+        /// <summary>
+        /// 消防栓被撞击
+        /// </summary>
+        Impact = 4,
+        /// <summary>
+        /// 消防栓被撞倒
+        /// </summary>
+        KnockOver = 5
+    }
 }

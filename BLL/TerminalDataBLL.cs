@@ -93,6 +93,23 @@ namespace BLL
             }
         }
 
+        public int InsertGPRSHydrantData(Queue<GPRSHydrantFrameDataEntity> datas, out string msg)
+        {
+            msg = "";
+            try
+            {
+                if (datas.Count == 0)
+                    return 0;
+                return dal.InsertGPRSHydrantData(datas);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("InsertGPRSHydrantData", ex);
+                msg = "保存至数据库发生异常";
+                return -1;
+            }
+        }
+
         public List<GPRSCmdEntity> GetGPRSParm()
         {
             try

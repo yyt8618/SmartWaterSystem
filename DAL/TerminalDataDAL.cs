@@ -346,6 +346,79 @@ namespace DAL
             }
         }
 
+        public int InsertGPRSHydrantData(Queue<GPRSHydrantFrameDataEntity> datas)
+        {
+            lock (ConstValue.obj)
+            {
+                SqlTransaction trans = null;
+                try
+                {
+                    trans = SQLHelper.GetTransaction();
+
+                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                    SqlParameter[] parms_frame = new SqlParameter[]{
+                new SqlParameter("@dir",SqlDbType.Int),
+                new SqlParameter("@frame",SqlDbType.VarChar,2000),
+                new SqlParameter("@logtime",SqlDbType.DateTime)
+            };
+                    SqlCommand command_frame = new SqlCommand();
+                    command_frame.CommandText = SQL_Frame;
+                    command_frame.Parameters.AddRange(parms_frame);
+                    command_frame.CommandType = CommandType.Text;
+                    command_frame.Connection = SQLHelper.Conn;
+                    command_frame.Transaction = trans;
+
+                    string SQL_Data = "INSERT INTO Hydrant_Real(TerminalID,Operate,PressValue,OpenAngle,CollTime,UnloadTime) VALUES(@TerId,@opt,@prevalue,@openangle,@coltime,@UploadTime)";
+                    SqlParameter[] parms_data = new SqlParameter[]{
+                    new SqlParameter("@TerId",SqlDbType.Int),
+                    new SqlParameter("@opt",SqlDbType.Int),
+                    new SqlParameter("@prevalue",SqlDbType.Decimal),
+                    new SqlParameter("@openangle",SqlDbType.Decimal),
+                    new SqlParameter("@coltime",SqlDbType.DateTime),
+
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime)
+                };
+                    SqlCommand command_predata = new SqlCommand();
+                    command_predata.CommandText = SQL_Data;
+                    command_predata.Parameters.AddRange(parms_data);
+                    command_predata.CommandType = CommandType.Text;
+                    command_predata.Connection = SQLHelper.Conn;
+                    command_predata.Transaction = trans;
+
+                    while (datas.Count > 0)
+                    {
+                        GPRSHydrantFrameDataEntity entity = datas.Dequeue();
+                        parms_frame[0].Value = 1;
+                        parms_frame[1].Value = entity.Frame;
+                        parms_frame[2].Value = entity.ModifyTime;
+
+                        command_frame.ExecuteNonQuery();
+
+                        for (int i = 0; i < entity.lstHydrantData.Count; i++)
+                        {
+                            parms_data[0].Value = entity.TerId;
+                            parms_data[1].Value = entity.lstHydrantData[i].Operate;
+                            parms_data[2].Value = entity.lstHydrantData[i].PreValue;
+                            parms_data[3].Value = entity.lstHydrantData[i].OpenAngle;
+                            parms_data[4].Value = entity.lstHydrantData[i].ColTime;
+                            parms_data[5].Value = entity.ModifyTime;
+
+                            command_predata.ExecuteNonQuery();
+                        }
+                    }
+                    trans.Commit();
+
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    if (trans != null)
+                        trans.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
         /// <summary>
         /// 获取需要下发的参数
         /// </summary>
@@ -355,7 +428,7 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SELECT * FROM DL_ParamToDev WHERE ID IN (SELECT MAX(ID) FROM DL_ParamToDev WHERE SendedFlag=0 GROUP BY DeviceId)
-                string SQL = "SELECT ID,DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate FROM ParamToDev WHERE SendedFlag = 0";
+                string SQL = "SELECT ID,DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate FROM DL_ParamToDev WHERE SendedFlag = 0";
                 List<GPRSCmdEntity> lstCmd = null;
                 using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
                 {
@@ -397,7 +470,7 @@ namespace DAL
 
                     trans = SQLHelper.GetTransaction();
 
-                    string SQL = "UPDATE ParamToDev SET SendedFlag=1 WHERE ID=@id";
+                    string SQL = "UPDATE DL_ParamToDev SET SendedFlag=1 WHERE ID=@id";
                     SqlParameter parm =  new SqlParameter("@id",SqlDbType.Int);
 
                     SqlCommand command = new SqlCommand();
@@ -804,7 +877,7 @@ namespace DAL
 
         public void InsertDevGPRSParm(int devId, int DevTypeId, int ctrlCode, int Funcode, string DataValue)
         {
-            string SQL_Insert = @"INSERT INTO ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
+            string SQL_Insert = @"INSERT INTO DL_ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
                                 @DeviceId,@DevTypeId,@CtrlCode,@FunCode,@DataValue,@DataLenth,@SetDate,@SendedFlag)";
             SqlParameter[] parms = new SqlParameter[]{
                     new SqlParameter("DeviceId",SqlDbType.Int),

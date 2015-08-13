@@ -989,69 +989,6 @@ namespace SmartWaterSystem
             }
             else
             {
-                //#region GPRS校验
-                //if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
-                //{
-                //    XtraMessageBox.Show("请输入设备ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //    txtID.Focus();
-                //    return ;
-                //}
-                //bool haveset = false;
-                //if (ceResidualClInterval.Checked)
-                //{
-                //    DataTable dt = gridControl_ResidualCl.DataSource as DataTable;
-                //    if (dt == null || dt.Rows.Count == 0)
-                //    {
-                //        XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //        gridView_ResidualCl.Focus();
-                //        return ;
-                //    }
-                //    haveset = true;
-                //}
-
-                //if (ceTurbidityInterval.Checked)
-                //{
-                //    DataTable dt = gridControl_Turbidity.DataSource as DataTable;
-                //    if (dt == null || dt.Rows.Count == 0)
-                //    {
-                //        XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //        gridView_Turbidity.Focus();
-                //        return ;
-                //    }
-                //    haveset = true;
-                //}
-                //if (!haveset)
-                //{
-                //    XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //    return;
-                //}
-                //#endregion
-
-                //TerminalDataBLL terBll = new TerminalDataBLL();
-                //List<Package> lstPack = new List<Package>();
-                //if (ceResidualClInterval.Checked)
-                //{
-                //    DataTable dt = gridControl_ResidualCl.DataSource as DataTable;
-                //    Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(Convert.ToInt16(txtID.Text), dt);
-                //    lstPack.Add(pack);
-                //}
-                //if (ceTurbidityInterval.Checked)
-                //{
-                //    DataTable dt = gridControl_Turbidity.DataSource as DataTable;
-                //    Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(Convert.ToInt16(txtID.Text), dt);
-                //    lstPack.Add(pack);
-                //}
-
-                //foreach (Package pack in lstPack)
-                //{
-                //    if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
-                //    {
-                //        XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //        return;
-                //    }
-                //}
-                //ceResidualClInterval.Checked = false; ceTurbidityInterval.Checked = false;
-                //XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

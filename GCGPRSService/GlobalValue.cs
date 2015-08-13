@@ -71,6 +71,16 @@ namespace GCGPRSService
             set { _GPRS_OLWQFrameData = value; }
         }
 
+        private Queue<GPRSHydrantFrameDataEntity> _GPRS_HydrantFrameData = new Queue<GPRSHydrantFrameDataEntity>();
+        /// <summary>
+        /// 消防栓帧队列
+        /// </summary>
+        public Queue<GPRSHydrantFrameDataEntity> GPRS_HydrantFrameData
+        {
+            get { return _GPRS_HydrantFrameData; }
+            set { _GPRS_HydrantFrameData = value; }
+        }
+
         private List<GPRSCmdEntity> _lstGprsCmd = new List<GPRSCmdEntity>();
         /// <summary>
         /// GPRS下送命令

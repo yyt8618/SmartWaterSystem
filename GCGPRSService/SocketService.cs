@@ -1091,6 +1091,69 @@ namespace GCGPRSService
                                         }
                                         #endregion
                                     }
+                                    else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL)
+                                    {
+                                        #region 消防栓
+                                        GPRSHydrantFrameDataEntity framedata = new GPRSHydrantFrameDataEntity();
+                                        framedata.TerId = pack.DevID.ToString();
+                                        framedata.ModifyTime = DateTime.Now;
+                                        framedata.Frame = str_frame;
+
+                                        int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                        year = 2000 + Convert.ToInt16(pack.Data[0]);
+                                        month = Convert.ToInt16(pack.Data[1]);
+                                        day = Convert.ToInt16(pack.Data[2]);
+                                        hour = Convert.ToInt16(pack.Data[3]);
+                                        minute = Convert.ToInt16(pack.Data[4]);
+                                        sec = Convert.ToInt16(pack.Data[5]);
+
+                                        GPRSHydrantDataEntity data = new GPRSHydrantDataEntity();
+                                        data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                        bNeedCheckTime = NeedCheckTime(data.ColTime);
+
+                                        if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPEN)
+                                        {
+                                            int openangle = Convert.ToInt16(pack.Data[6]);
+                                            float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0)/3;
+                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}",
+                                                    pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"))));
+                                            data.Operate = HydrantOptType.Open;
+                                            data.PreValue = prevalue;
+                                            data.OpenAngle = openangle;
+                                        }
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_CLOSE)
+                                        {
+                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被关闭|时间({1})",
+                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                            data.Operate = HydrantOptType.Close;
+                                        }
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPENANGLE)
+                                        {
+                                            int openangle = Convert.ToInt16(pack.Data[6]);
+                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]开度|时间({1})|开度:{2}",
+                                                    pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle)));
+                                            data.OpenAngle = openangle;
+                                            data.Operate = HydrantOptType.OpenAngle;
+                                        }
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_IMPACT)
+                                        {
+                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被撞击|时间({1})",
+                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                            data.Operate = HydrantOptType.Impact;
+                                        }
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_KNOCKOVER)
+                                        {
+                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被撞倒|时间({1})",
+                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                            data.Operate = HydrantOptType.KnockOver;
+                                        }
+
+                                        framedata.lstHydrantData.Add(data);
+                                        GlobalValue.Instance.GPRS_HydrantFrameData.Enqueue(framedata);  //通知存储线程处理
+                                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertHydrantValue);
+                                        #endregion
+                                    }
+
                                     #endregion
 
                                     Package response = new Package();
@@ -1180,6 +1243,8 @@ namespace GCGPRSService
                                                 pack_time.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
                                             else if (pack.DevType == Entity.ConstValue.DEV_TYPE.OLWQ_CTRL)
                                                 pack_time.C1 = (byte)OLWQ_COMMAND.SET_TIME;
+                                            else if (pack.DevType == Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL)
+                                                pack_time.C1 = (byte)HYDRANT_COMMAND.SET_TIME;
                                             byte[] data = new byte[6];
                                             data[0] = (byte)(DateTime.Now.Year - 2000);
                                             data[1] = (byte)DateTime.Now.Month;
@@ -1213,15 +1278,18 @@ namespace GCGPRSService
                                             sendObj.DevID = pack.DevID;
                                             handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
 
-                                            for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
+                                            if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
                                             {
-                                                if (GlobalValue.Instance.lstGprsCmd[j].DevTypeId == (int)commandpack.DevType && GlobalValue.Instance.lstGprsCmd[j].FunCode == commandpack.C1
-                                                    && GlobalValue.Instance.lstGprsCmd[j].DeviceId == commandpack.DevID)
+                                                for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
                                                 {
-                                                    GPRSCmdFlag flag = new GPRSCmdFlag();
-                                                    flag.Index = i;
-                                                    flag.TableId = GlobalValue.Instance.lstGprsCmd[j].TableId;
-                                                    GlobalValue.Instance.lstSendedCmdId.Add(flag);
+                                                    if (GlobalValue.Instance.lstGprsCmd[j].DevTypeId == (int)commandpack.DevType && GlobalValue.Instance.lstGprsCmd[j].FunCode == commandpack.C1
+                                                        && GlobalValue.Instance.lstGprsCmd[j].DeviceId == commandpack.DevID)
+                                                    {
+                                                        GPRSCmdFlag flag = new GPRSCmdFlag();
+                                                        flag.Index = i;
+                                                        flag.TableId = GlobalValue.Instance.lstGprsCmd[j].TableId;
+                                                        GlobalValue.Instance.lstSendedCmdId.Add(flag);
+                                                    }
                                                 }
                                             }
                                             GlobalValue.Instance.SocketSQLMag.Send(SQLType.UpdateSendParmFlag);

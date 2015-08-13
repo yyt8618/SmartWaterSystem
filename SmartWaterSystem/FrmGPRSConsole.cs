@@ -106,6 +106,7 @@ namespace SmartWaterSystem
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtControl.Clear();
+            lstCtrlMsg.Clear();
         }
 
 

@@ -74,7 +74,11 @@ namespace Entity
             /// <summary>
             /// 水质终端
             /// </summary>
-            OLWQ_CTRL= 0x07
+            OLWQ_CTRL= 0x07,
+            /// <summary>
+            /// 消防栓
+            /// </summary>
+            HYDRANT_CTRL = 0x08
         }
 
     }

@@ -643,6 +643,16 @@ namespace Common
         #endregion
     }
 
+    public enum HYDRANT_COMMAND
+    {
+        #region 设置
+        /// <summary>
+        /// 设置时间
+        /// </summary>
+        SET_TIME = 0x10,
+        #endregion
+    }
+
     /// <summary>
     /// 控制码类型
     /// </summary>
@@ -839,7 +849,27 @@ namespace Common
         /// <summary>
         /// 水质终端发送电导率数据
         /// </summary>
-        READ_CONDUCTIVITY=0xA3
+        READ_CONDUCTIVITY=0xA3,
+        /// <summary>
+        /// 消防栓打开
+        /// </summary>
+        READ_HYDRANT_OPEN = 0xA0,
+        /// <summary>
+        /// 消防栓关闭
+        /// </summary>
+        READ_HYDRANT_CLOSE=0xA1,
+        /// <summary>
+        /// 消防栓开度
+        /// </summary>
+        READ_HYDRANT_OPENANGLE = 0xA2,
+        /// <summary>
+        /// 消防栓撞击
+        /// </summary>
+        READ_HYDRANT_IMPACT = 0xA3,
+        /// <summary>
+        /// 消防栓撞倒
+        /// </summary>
+        READ_HYDRANT_KNOCKOVER = 0xA4,
     }
 
     public enum GPRS_CTRL
