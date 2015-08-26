@@ -158,6 +158,19 @@
       <DependentUpon>BaseView.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\NoiseDataHandler.cs" />
+    <Compile Include="MapForScripting.cs" />
+    <Compile Include="MODULE\Hydrant\HydrantParm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantParm.Designer.cs">
+      <DependentUpon>HydrantParm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantMap.Designer.cs">
+      <DependentUpon>HydrantMap.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\NoiseRec\FrmDataAnalysis.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -388,6 +401,12 @@
     <EmbeddedResource Include="BaseView.resx">
       <DependentUpon>BaseView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Hydrant\HydrantParm.resx">
+      <DependentUpon>HydrantParm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Hydrant\HydrantMap.resx">
+      <DependentUpon>HydrantMap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\NoiseRec\FrmDataAnalysis.resx">
       <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
     </EmbeddedResource>
@@ -534,6 +553,14 @@
       <Project>{A73A7A63-11C8-40BC-AA44-0ACD23F00A0B}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HydrantMap\HydrantMap.csproj">
+      <Project>{D7DF2513-C470-41FC-9E20-DF06E14B73E0}</Project>
+      <Name>HydrantMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HydrantParm\HydrantParm.csproj">
+      <Project>{2A9F946D-51A9-4F64-8B66-A8ABCED76632}</Project>
+      <Name>HydrantParm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IUniversalTerMonitor\UniversalTerMonitor.csproj">
       <Project>{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}</Project>
       <Name>UniversalTerMonitor</Name>
@@ -626,6 +653,9 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
+    <None Include="Resources\HydrantMap.png" />
+    <None Include="Resources\Products\HydrantMap.png" />
+    <None Include="Resources\Products\Hydrant.png" />
     <None Include="Resources\PreTerMgr.png" />
     <None Include="Resources\OLWQMonitor.png" />
     <None Include="Resources\OLWQMgr.png" />

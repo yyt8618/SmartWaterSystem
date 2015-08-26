@@ -65,7 +65,12 @@ namespace SmartWaterSystem
         OLWQSetBasicInfo,      //水质终端设置基本信息,包括通信方式、波特率、ip、端口号
         OLWQReadBaicInfo,       //水质终端读取基本信息，包括通信方式、波特率、ip、端口号
         OLWQCallData,           //水质终端招测数据(串口)
-        
+
+        HydrantReset,           //消防栓复位
+        HydrantSetTime,         //设置消防栓时间
+        HydrantSetBasicInfo,    //消防栓设置基本信息，包括通讯方式、ip、端口号
+        HydrantReadBasicInfo,   //消防栓读取基本信息，包括通讯方式、ip、端口号
+        HydrantReadHistory,     //读取消防栓历史数据
     }
 
     public class SerialPortEventArgs : EventArgs
@@ -138,7 +143,7 @@ namespace SmartWaterSystem
     public class SerialPortManager:SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 34;
+        private const int eventcount = 39;
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -1157,6 +1162,153 @@ namespace SmartWaterSystem
                                     }
                                 }
 
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.HydrantReset:
+                        #region 消防栓复位
+                        {
+                            try
+                            {
+                                result = GlobalValue.Hydrantlog.Reset(GlobalValue.SerialPortOptData.ID);
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.HydrantSetTime:
+                        #region 设置消防栓时间
+                        {
+                            try
+                            {
+                                result = GlobalValue.Hydrantlog.SetTime(GlobalValue.SerialPortOptData.ID, DateTime.Now);
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.HydrantReadBasicInfo:
+                        #region 消防栓读取基础参数
+                        {
+                            try
+                            {
+                                if (GlobalValue.SerialPortOptData.IsOptID)  //没有ID时，只读写ID
+                                {
+                                    GlobalValue.SerialPortOptData.ID = GlobalValue.Hydrantlog.ReadId();
+                                }
+                                else
+                                {
+                                    if (GlobalValue.SerialPortOptData.IsOptDT)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.HydrantReadBasicInfo, "正在读取消防栓时间..."));
+                                        GlobalValue.SerialPortOptData.DT = GlobalValue.Hydrantlog.ReadTime(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptCellPhone)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.HydrantReadBasicInfo, "正在读取手机号码..."));
+                                        GlobalValue.SerialPortOptData.CellPhone = GlobalValue.Hydrantlog.ReadCellPhone(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptComType)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.HydrantReadBasicInfo, "正在读取消防栓通信方式..."));
+                                        GlobalValue.SerialPortOptData.ComType = GlobalValue.Hydrantlog.ReadComType(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptIP)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.HydrantReadBasicInfo, "正在读取消防栓通信IP地址..."));
+                                        GlobalValue.SerialPortOptData.IP = GlobalValue.Hydrantlog.ReadIP(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPort)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.HydrantReadBasicInfo, "正在读取消防栓通信端口号..."));
+                                        GlobalValue.SerialPortOptData.Port = GlobalValue.Hydrantlog.ReadPort(GlobalValue.SerialPortOptData.ID);
+                                    }
+                                }
+                                result = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.HydrantSetBasicInfo:
+                        #region 设置消防栓基础参数
+                        {
+                            try
+                            {
+                                if (GlobalValue.SerialPortOptData.IsOptID)  //没有ID时，只读写ID
+                                {
+                                    result = GlobalValue.Hydrantlog.SetID(GlobalValue.SerialPortOptData.ID);
+                                }
+                                else
+                                {
+                                    //if (GlobalValue.SerialPortOptData.IsOptCellPhone)  //暂时不使用
+                                    //{
+                                    //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置手机号码..."));
+                                    //    result = GlobalValue.Hydrantlog.SetCellPhone(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.CellPhone);
+                                    //}
+                                    //if (GlobalValue.SerialPortOptData.IsOptComType)
+                                    //{
+                                    //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBaicInfo, "正在设置消防栓通信方式..."));
+                                    //    result = GlobalValue.Hydrantlog.SetComType(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.ComType);
+                                    //}
+                                    if (GlobalValue.SerialPortOptData.IsOptIP)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.HydrantSetBasicInfo, "正在设置消防栓通信IP地址..."));
+                                        result = GlobalValue.Hydrantlog.SetIP(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.IP);
+                                    }
+                                    if (GlobalValue.SerialPortOptData.IsOptPort)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.HydrantSetBasicInfo, "正在设置消防栓通信端口号..."));
+                                        result = GlobalValue.Hydrantlog.SetPort(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.Port);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.HydrantReadHistory:
+                        #region 消防栓读取历史数据
+                        {
+                            try
+                            {
+                                if (GlobalValue.SerialPortOptData.IsOptID)  //没有ID时，只读写ID
+                                {
+                                    GlobalValue.SerialPortOptData.ID = GlobalValue.Hydrantlog.ReadId();
+                                }
+                                else
+                                {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.HydrantReadBasicInfo, "正在读取消防栓时间..."));
+                                        GlobalValue.Hydrantlog.ReadHistory(GlobalValue.SerialPortOptData.ID, GlobalValue.SerialPortOptData.HydrantHistoryOpt);
+                                }
+                                result = true;
+                            }
+                            catch (ArgumentNullException argex)
+                            {
+                                result = false;
+                                msg = argex.ParamName;
                             }
                             catch (Exception ex)
                             {

@@ -10,7 +10,6 @@ namespace Common
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("DatabaseManager");
         
-        
         #region 最新数据库版本
         private string m_lastestDBVersion = "V1.0";
         /// <summary>
@@ -279,6 +278,7 @@ namespace Common
             //array.Add(CreateTableOLWQTerConfig());
 
             array.Add(CreateDBVersionTable());
+            array.Add(CreateTableHydrant());
             return array;
         }
 
@@ -591,6 +591,19 @@ namespace Common
 	                    [PointID]           [INT]           NOT NULL,
                         [SyncState]         [INT]           NULL        DEFAULT 1,                  --0:已同步,1:新增未同步,-1:删除未同步
 	                    [ModifyTime]        NVARCHAR(25)    NOT NULL    DEFAULT (datetime('now', 'localtime'))
+                    )";
+        }
+
+        private string CreateTableHydrant()
+        {
+            return @"CREATE TABLE [Hydrant]
+                    (
+	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
+                        [HydrantID]	    	[INT]           NOT NULL,								--消防栓ID
+                        [Addr]	         	NVARCHAR(100)   NULL,                                   --消防栓地址
+                        [longitude]         NVARCHAR(20)    NOT NULL,                               --经度
+                        [latitude]          NVARCHAR(20)    NOT NULL,                               --纬度
+                        [ModifyTime]        NVARCHAR(25)    NOT NULL    DEFAULT (datetime('now', 'localtime'))
                     )";
         }
         #endregion

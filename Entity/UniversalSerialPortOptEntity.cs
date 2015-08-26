@@ -607,5 +607,14 @@ namespace Entity
             set { _PluseBasic4 = value; }
         }
 
+        private HydrantOptType _HydrantHistoryOpt;
+        /// <summary>
+        /// 消防栓指定操作类型历史数据
+        /// </summary>
+        public HydrantOptType HydrantHistoryOpt
+        {
+            get { return _HydrantHistoryOpt; }
+            set { _HydrantHistoryOpt = value; }
+        }
     }
 }

@@ -85,6 +85,9 @@
             this.navBarOLWQMgr = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarOLWQMonitor = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarOLWQParm651 = new DevExpress.XtraNavBar.NavBarItem();
+            this.NBG_Hydrant = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarHydrantParm = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarHydrantMap = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarSeparatorItem1 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarSeparatorItem2 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
             this.navBarSeparatorItem3 = new DevExpress.XtraNavBar.NavBarSeparatorItem();
@@ -332,7 +335,8 @@
             this.NBG_UniversalT,
             this.NBG_ValveSwitch,
             this.NBG_ProtablePreT,
-            this.NBG_OLWQ});
+            this.NBG_OLWQ,
+            this.NBG_Hydrant});
             this.navBarControl1.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] {
             this.navBarNoiseDataManager,
             this.navBarSeparatorItem1,
@@ -360,7 +364,9 @@
             this.navBarOLWQParm,
             this.navBarOLWQMgr,
             this.navBarOLWQMonitor,
-            this.navBarOLWQParm651});
+            this.navBarOLWQParm651,
+            this.navBarHydrantParm,
+            this.navBarHydrantMap});
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
@@ -368,6 +374,7 @@
             this.navBarControl1.TabIndex = 0;
             this.navBarControl1.Text = "navBarControl1";
             this.navBarControl1.View = new DevExpress.XtraNavBar.ViewInfo.SkinExplorerBarViewInfoRegistrator();
+            this.navBarControl1.Click += new System.EventHandler(this.navBarControl1_Click);
             // 
             // NBG_PreT
             // 
@@ -597,6 +604,30 @@
             this.navBarOLWQParm651.Name = "navBarOLWQParm651";
             this.navBarOLWQParm651.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarOLWQParm651_LinkClicked);
             // 
+            // NBG_Hydrant
+            // 
+            this.NBG_Hydrant.Caption = "消防栓";
+            this.NBG_Hydrant.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsText;
+            this.NBG_Hydrant.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarHydrantParm),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarHydrantMap)});
+            this.NBG_Hydrant.LargeImage = global::SmartWaterSystem.Properties.Resources.Hydrant1;
+            this.NBG_Hydrant.Name = "NBG_Hydrant";
+            // 
+            // navBarHydrantParm
+            // 
+            this.navBarHydrantParm.Caption = "参数设置和读取";
+            this.navBarHydrantParm.LargeImage = global::SmartWaterSystem.Properties.Resources.OLWQParm;
+            this.navBarHydrantParm.Name = "navBarHydrantParm";
+            this.navBarHydrantParm.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarHydrantParm_LinkClicked);
+            // 
+            // navBarHydrantMap
+            // 
+            this.navBarHydrantMap.Caption = "消防栓地图";
+            this.navBarHydrantMap.LargeImage = global::SmartWaterSystem.Properties.Resources.HydrantMap1;
+            this.navBarHydrantMap.Name = "navBarHydrantMap";
+            this.navBarHydrantMap.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarHydrantMap_LinkClicked);
+            // 
             // navBarSeparatorItem1
             // 
             this.navBarSeparatorItem1.CanDrag = false;
@@ -747,6 +778,9 @@
         private DevExpress.XtraNavBar.NavBarItem navBarOLWQMonitor;
         private DevExpress.XtraNavBar.NavBarGroup navBarGroup1;
         private DevExpress.XtraNavBar.NavBarItem navBarOLWQParm651;
+        private DevExpress.XtraNavBar.NavBarGroup NBG_Hydrant;
+        private DevExpress.XtraNavBar.NavBarItem navBarHydrantParm;
+        private DevExpress.XtraNavBar.NavBarItem navBarHydrantMap;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

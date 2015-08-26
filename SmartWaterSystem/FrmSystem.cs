@@ -97,6 +97,7 @@ namespace SmartWaterSystem
                     }
                 }
                 #endregion
+
                 #region 升级数据库
                 DBVersion versionBLL = new DBVersion();
                 string dbVersion = versionBLL.GetVersion(VersionType.DataBase.ToString());
@@ -306,6 +307,16 @@ namespace SmartWaterSystem
                     NBG_OLWQ.Visible = true;
                     navBarOLWQParm651.Visible = true;
                 }
+                else if (t.Name == "IHydrantParm")  //消防栓
+                {
+                    NBG_Hydrant.Visible = true;
+                    navBarHydrantParm.Visible = true;
+                }
+                else if (t.Name == "IHydrantMap")  //消防栓地图
+                {
+                    NBG_Hydrant.Visible = true;
+                    navBarHydrantMap.Visible = true;
+                }
             }
         }
 
@@ -364,6 +375,10 @@ namespace SmartWaterSystem
             navBarOLWQMonitor.Visible = isVisiable;
             navBarOLWQParm.Visible = isVisiable;
             navBarOLWQParm651.Visible = isVisiable;
+
+            //消防栓
+            navBarHydrantParm.Visible = isVisiable; 
+            navBarHydrantMap.Visible = isVisiable;
         }
 
         // 打开串口
@@ -388,6 +403,8 @@ namespace SmartWaterSystem
                     BandSerialPortEvent("IUniversalTerMgr");
                     BandSerialPortEvent("IOLWQParm");
                     BandSerialPortEvent("IOLWQParm651");
+
+                    BandSerialPortEvent("IHydrantParm");
                 }
             }
             catch (Exception ex)
@@ -418,6 +435,8 @@ namespace SmartWaterSystem
                     BandSerialPortEvent("IUniversalTerMgr");
                     BandSerialPortEvent("IOLWQParm");
                     BandSerialPortEvent("IOLWQParm651");
+
+                    BandSerialPortEvent("IHydrantParm");
                 }
             }
             catch (Exception ex)
@@ -545,6 +564,16 @@ namespace SmartWaterSystem
         private void navBarOLWQParm651_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(OLWQParm651));
+        }
+
+        private void navBarHydrantParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(HydrantParm));
+        }
+
+        private void navBarHydrantMap_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(HydrantMap));
         }
         #endregion
 
@@ -890,11 +919,14 @@ namespace SmartWaterSystem
             catch { }
         }
 
-        
+        private void navBarControl1_Click(object sender, EventArgs e)
+        {
+
+        }
 
         
 
-
+        
 
         
 

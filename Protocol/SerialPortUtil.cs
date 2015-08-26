@@ -51,6 +51,11 @@ namespace Protocol
         // 定义一个事件来提示界面工作的进度
         public event ReadDataChangedEventHandler ValueChanged;
 
+        /// <summary>
+        /// 读取历史数据
+        /// </summary>
+        public event ReadHistoryDataHandle ReadHisData;
+
         #endregion
         /// <summary>
         /// 监控日志
@@ -699,6 +704,164 @@ namespace Protocol
             }
         }
 
+        /// <summary>
+        /// 获取历史数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public void ReadHistoryData(Package package, int timeout = 15)
+        {
+            try
+            {
+                serialPort.DiscardInBuffer();   //清空接收缓冲区    
+
+                AppendBufLine("开始获取设备{0}历史数据...", package.DevID);
+                Send(package);
+
+                Queue<byte> ByteQueue = new Queue<byte>();
+                List<Package> packageCache = new List<Package>();
+                List<byte> packageBytes = new List<byte>();
+                int readCount = 0;//计数
+
+                int nStartTime = Environment.TickCount;
+                bool getReadResponse = false;  //是否响应了读取命令
+                while (true)
+                {
+                    if (Environment.TickCount - nStartTime > timeout * 1000)    //超时
+                    {
+                        AppendBufLine("获取设备{0}数据等待超时...[当前设置为{1}秒超时]", package.DevID, timeout);
+                        if (getReadResponse)
+                            throw new ArgumentNullException("读取完成");
+                        else
+                            throw new TimeoutException("等待超时...");
+                    }
+                    if (IsComClosing)//关闭窗口
+                    {
+                        AppendBufLine("获取设备{0}数据中途串口被关闭！", package.DevID);
+                        throw new Exception("关闭串口，停止获取数据。");
+                    }
+                    isComRecving = true;//正在读取串口数据
+                    while (serialPort.BytesToRead > 0)
+                    {
+                        int len = serialPort.BytesToRead;
+                        byte[] buf = new byte[len];
+                        serialPort.Read(buf, 0, len);
+                        foreach (var item in buf)
+                        {
+                            ByteQueue.Enqueue(item);
+                        }
+                    }
+
+                    while (ByteQueue.Count > 0)
+                    {
+                        byte byteItem = ByteQueue.Dequeue();
+                        packageBytes.Add(byteItem);
+                        if (byteItem == PackageDefine.EndByte && packageBytes.Count >= PackageDefine.MinLenth)
+                        {
+                            byte[] arr = packageBytes.ToArray();
+                            int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);//数据域长度
+
+                            Package pack;
+                            if (PackageDefine.MinLenth + len == arr.Length && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
+                            {
+                                nStartTime = Environment.TickCount;
+
+                                if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)
+                                {
+                                    AppendBufLine("收到响应帧:{0}", pack);
+                                    getReadResponse = true;
+                                }
+                                else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
+                                {
+                                    OnReadPackege(new PackageReceivedEventArgs(pack));//触发事件
+                                    packageCache.Add(pack);
+                                    AppendBufLine("第{0}帧:{1}", Convert.ToInt32(pack.Data[0]), pack);
+
+                                    int dataindex = (pack.DataLength - 1) % 8;
+                                    if (dataindex != 0)
+                                    {
+                                        AppendBufLine(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+8*n)规则");
+                                    }
+                                    dataindex = (pack.DataLength - 1) / 8;
+                                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                    float pressuevalue = 0, openangle = 0;
+                                    for (int i = 0; i < dataindex; i++)
+                                    {
+                                        year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 1]);
+                                        month = Convert.ToInt16(pack.Data[i * 8 + 2]);
+                                        day = Convert.ToInt16(pack.Data[i * 8 + 3]);
+                                        hour = Convert.ToInt16(pack.Data[i * 8 + 4]);
+                                        minute = Convert.ToInt16(pack.Data[i * 8 + 5]);
+                                        sec = Convert.ToInt16(pack.Data[i * 8 + 6]);
+
+                                        openangle = Convert.ToSingle(pack.Data[i * 8 + 7]);
+                                        pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0)) / 1000;
+
+                                        HistoryValueArgs hisvalueArg = new HistoryValueArgs();
+                                        hisvalueArg.CollectTime = new DateTime(year, month, day, hour, minute, sec);
+                                        hisvalueArg.PreValue = pressuevalue;
+                                        hisvalueArg.OpenAngle = openangle;
+                                        if (ReadHisData != null)
+                                            ReadHisData(hisvalueArg);
+                                    }
+
+                                    int total = pack.IsFinal ? pack.DataLength : pack.AllDataLength;
+                                    readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
+                                    OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
+
+                                    Package response = new Package();
+                                    response.DevType = ConstValue.DEV_TYPE.MOBELE_PRESSURE;
+                                    response.DevID = pack.DevID;
+                                    response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_MASTER;
+                                    response.C1 = (byte)HYDRANT_COMMAND.SEND_RESPONSE_DATA;
+                                    response.DataLength = 1;
+                                    response.Data = new byte[] { pack.Data[0] };  //索引
+                                    response.CS = response.CreateCS();
+                                    AppendBufLine("发送回应帧:{0}", response);
+                                    SendData(response.ToArray(), false);
+
+                                }
+                                packageBytes.Clear();
+                            }
+                        }
+                    }
+
+                    if (packageCache.Exists(obj => obj.IsFinal))
+                    {
+                        Package final = packageCache.Find(obj => obj.IsFinal);
+                        List<Package> tmp = packageCache.FindAll(obj => obj.DevID == final.DevID).Distinct().ToList();
+                        List<byte> result = new List<byte>();
+
+                        var q = from p in tmp
+                                orderby p.DataNum
+                                select p;
+
+                        foreach (var item in q)
+                        {
+                            for (int i = 0; i < item.DataLength; i++)
+                            {
+                                result.Add(item.Data[i]);
+                            }
+                        }
+
+                        packageCache.Clear();
+                    }
+                    System.Threading.Thread.Sleep(20);
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                isComRecving = false;//正在读取串口数据
+            }
+        }
+
         #region 触发外部监听事件
         /// <summary>
         /// 触发读取数据事件的方法
@@ -931,6 +1094,12 @@ namespace Protocol
         public short DevID { get; set; }
     }
 
+    public class HistoryValueArgs : EventArgs
+    {
+        public DateTime CollectTime { set; get; }
+        public float PreValue { set; get; }
+        public float OpenAngle { get; set; }
+    }
 
     public delegate void AppendBufLogEventHandler(AppendBufLogEventArgs e);
 
@@ -943,5 +1112,5 @@ namespace Protocol
     public delegate void DataCompletedEventHandler(ReadDataEventArgs e);
 
 
-    
+    public delegate void ReadHistoryDataHandle(HistoryValueArgs e);
 }

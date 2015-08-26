@@ -36,6 +36,7 @@ namespace SmartWaterSystem
         public static SerialPortManager SerialPortMgr = new SerialPortManager();
         public static UniversalLog Universallog = new UniversalLog();                            //通用终端串口操作对象
         public static OLWQLog OLWQlog = new OLWQLog();                                          //水质终端串口操作对象
+        public static HydrantLog Hydrantlog = new HydrantLog();                                 //消防栓串口操作对象
 
         private static NoiseSerialPortOptEntity _noiseserialportOptEntity = null;
         /// <summary>

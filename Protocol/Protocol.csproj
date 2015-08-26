@@ -55,6 +55,7 @@
     <Compile Include="SerialPortUtil.cs" />
     <Compile Include="UniversalLog.cs" />
     <Compile Include="OLWQLog.cs" />
+    <Compile Include="HydrantLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

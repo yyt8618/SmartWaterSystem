@@ -49,6 +49,7 @@
     <Compile Include="GPRSCmdFlag.cs" />
     <Compile Include="GPRSFlowFrameDataEntity.cs" />
     <Compile Include="GPRSPreFrameDataEntity.cs" />
+    <Compile Include="HydrantEntity.cs" />
     <Compile Include="MSMQEntity.cs" />
     <Compile Include="NoiseData.cs" />
     <Compile Include="NoiseRecorder.cs" />

@@ -645,11 +645,81 @@ namespace Common
 
     public enum HYDRANT_COMMAND
     {
+        #region 发送
+        /// <summary>
+        /// 响应命令发送
+        /// </summary>
+        SEND_RESPONSE_DATA = 0xa0,
+        #endregion
+
         #region 设置
+        /// <summary>
+        /// 复位
+        /// </summary>
+        RESET = 0x16,
         /// <summary>
         /// 设置时间
         /// </summary>
         SET_TIME = 0x10,
+        /// <summary>
+        /// 设置消防栓编号
+        /// </summary>
+        SET_ID = 0x11,
+        /// <summary>
+        /// 设置消防栓IP地址
+        /// </summary>
+        SET_IP = 0x12,
+        /// <summary>
+        /// 设置消防栓端口号
+        /// </summary>
+        SET_PORT= 0x13,
+        #endregion
+
+        #region 读取
+        /// <summary>
+        /// 读取时间
+        /// </summary>
+        READ_TIME = 0x40,
+        /// <summary>
+        /// 读取编号
+        /// </summary>
+        READ_ID= 0x41,
+        /// <summary>
+        /// 读取ip地址
+        /// </summary>
+        READ_IP = 0x42,
+        /// <summary>
+        /// 读取端口号
+        /// </summary>
+        READ_PORT = 0x43,
+        /// <summary>
+        /// 读取电话号码
+        /// </summary>
+        READ_TELNUM = 0x14,
+        /// <summary>
+        /// 读取通讯方式
+        /// </summary>
+        READ_COMMTYPE = 0x15,
+        /// <summary>
+        /// 读取消防栓打开历史数据
+        /// </summary>
+        READ_OPEN_HISTORY = 0xA0,
+        /// <summary>
+        /// 读取消防栓关闭历史数据
+        /// </summary>
+        READ_CLOSE_HISTORY = 0xA1,
+        /// <summary>
+        /// 读取消防栓开度历史数据
+        /// </summary>
+        READ_OPENANGLE_HISTORY = 0xA2,
+        /// <summary>
+        /// 读取消防栓被撞历史数据
+        /// </summary>
+        READ_IMPACT_HISTORY = 0xA3,
+        /// <summary>
+        /// 读取消防栓撞倒历史数据
+        /// </summary>
+        READ_KNOCKOVER_HISTORY = 0xA4,
         #endregion
     }
 

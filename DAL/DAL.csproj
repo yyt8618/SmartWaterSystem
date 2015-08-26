@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HydrantDAL.cs" />
     <Compile Include="OLWQConfigDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLSyncDAL.cs" />
