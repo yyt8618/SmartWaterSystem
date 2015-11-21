@@ -9,31 +9,6 @@ namespace SmartWaterSystem
 {
     public class MSMQEventArgs : EventArgs
     {
-        //private Entity.ConstValue.MSMQTYPE _type;
-        ///// <summary>
-        ///// 消息类型
-        ///// </summary>
-        //public Entity.ConstValue.MSMQTYPE Type
-        //{
-        //    get { return _type; }
-        //}
-
-        //private object _obj = null;
-        //public object obj
-        //{
-        //    get { return _obj; }
-        //}
-
-        //private string _msg = "";
-        //public string Msg
-        //{
-        //    get { return _msg; }
-        //}
-
-        //private MSMQEventArgs()
-        //{
-        //}
-
         private MSMQEntity _msmqEntity;
         public MSMQEntity msmqEntity
         {
@@ -43,9 +18,6 @@ namespace SmartWaterSystem
 
         public MSMQEventArgs(MSMQEntity msmqEntity)
         {
-            //this._msg = msg;
-            //this._obj = obj;
-            //this._type = type;
             this._msmqEntity = msmqEntity;
         }
     }

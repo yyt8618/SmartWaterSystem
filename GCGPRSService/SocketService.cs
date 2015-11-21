@@ -372,6 +372,8 @@ namespace GCGPRSService
             try
             {
                 // Read data from the client socket. 
+                if (!handler.Connected)
+                    return;
                 bytesRead = handler.EndReceive(ar);
                 if (bytesRead > 0)
                 {
@@ -1402,6 +1404,7 @@ namespace GCGPRSService
                 }
                 if ((!AllowOnLine) && ((SendObject)ar.AsyncState).IsFinal)
                 {
+                    Thread.Sleep(10 * 1000);
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
                 }

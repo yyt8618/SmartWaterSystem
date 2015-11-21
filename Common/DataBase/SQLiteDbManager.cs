@@ -278,7 +278,6 @@ namespace Common
             //array.Add(CreateTableOLWQTerConfig());
 
             array.Add(CreateDBVersionTable());
-            array.Add(CreateTableHydrant());
             return array;
         }
 
@@ -594,18 +593,6 @@ namespace Common
                     )";
         }
 
-        private string CreateTableHydrant()
-        {
-            return @"CREATE TABLE [Hydrant]
-                    (
-	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
-                        [HydrantID]	    	[INT]           NOT NULL,								--消防栓ID
-                        [Addr]	         	NVARCHAR(100)   NULL,                                   --消防栓地址
-                        [longitude]         NVARCHAR(20)    NOT NULL,                               --经度
-                        [latitude]          NVARCHAR(20)    NOT NULL,                               --纬度
-                        [ModifyTime]        NVARCHAR(25)    NOT NULL    DEFAULT (datetime('now', 'localtime'))
-                    )";
-        }
         #endregion
             
         #region 重建数据库

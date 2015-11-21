@@ -31,7 +31,7 @@ namespace SmartWaterSystem
 
         private void FrmSystem_Load(object sender, EventArgs e)
         {
-            this.Text = "自来水管道分析系统" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
+            this.Text = "IGC DataLog系列产品应用软件" + "(" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
             // 读取数据库 初始化界面
             try
             {

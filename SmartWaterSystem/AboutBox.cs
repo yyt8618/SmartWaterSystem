@@ -12,7 +12,7 @@ namespace SmartWaterSystem
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
 
-            this.Text = String.Format("关于 {0}", AssemblyTitle);
+            this.Text = "关于 IGC DataLog系列产品应用软件";
             this.labelProductName.Text = AssemblyProduct;
             this.labelVersion.Text =
                 String.Format("{0}.{1} Build({2})", version.Major, version.Minor, File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString("yyyyMMdd"));

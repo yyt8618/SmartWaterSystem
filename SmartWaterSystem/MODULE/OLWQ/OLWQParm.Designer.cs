@@ -615,7 +615,7 @@ namespace SmartWaterSystem
             // 
             this.gridControl_ResidualCl.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_ResidualCl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_ResidualCl.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_ResidualCl.Location = new System.Drawing.Point(2, 22);
             this.gridControl_ResidualCl.MainView = this.gridView_ResidualCl;
             this.gridControl_ResidualCl.Name = "gridControl_ResidualCl";
             this.gridControl_ResidualCl.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -623,7 +623,7 @@ namespace SmartWaterSystem
             this.cb_ResidualCl_coltime1,
             this.cb_ResidualCl_sendtime,
             this.cb_sim_coltime2});
-            this.gridControl_ResidualCl.Size = new System.Drawing.Size(391, 136);
+            this.gridControl_ResidualCl.Size = new System.Drawing.Size(391, 141);
             this.gridControl_ResidualCl.TabIndex = 1;
             this.gridControl_ResidualCl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_ResidualCl});
@@ -728,14 +728,14 @@ namespace SmartWaterSystem
             // 
             this.gridControl_Turbidity.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_Turbidity.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Turbidity.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_Turbidity.Location = new System.Drawing.Point(2, 22);
             this.gridControl_Turbidity.MainView = this.gridView_Turbidity;
             this.gridControl_Turbidity.Name = "gridControl_Turbidity";
             this.gridControl_Turbidity.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_Turbidity_starttime,
             this.cb_Turbidity_coltime,
             this.cb_Turbidity_sendtime});
-            this.gridControl_Turbidity.Size = new System.Drawing.Size(391, 136);
+            this.gridControl_Turbidity.Size = new System.Drawing.Size(391, 141);
             this.gridControl_Turbidity.TabIndex = 1;
             this.gridControl_Turbidity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Turbidity});
@@ -865,14 +865,14 @@ namespace SmartWaterSystem
             // 
             this.gridControl_PH.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_PH.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_PH.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_PH.Location = new System.Drawing.Point(2, 22);
             this.gridControl_PH.MainView = this.gridView_PH;
             this.gridControl_PH.Name = "gridControl_PH";
             this.gridControl_PH.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_PH_starttime,
             this.cb_PH_coltime,
             this.cb_PH_sendtime});
-            this.gridControl_PH.Size = new System.Drawing.Size(391, 136);
+            this.gridControl_PH.Size = new System.Drawing.Size(391, 141);
             this.gridControl_PH.TabIndex = 1;
             this.gridControl_PH.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_PH});
@@ -981,14 +981,14 @@ namespace SmartWaterSystem
             // 
             this.gridControl_Conductivity.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_Conductivity.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Conductivity.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_Conductivity.Location = new System.Drawing.Point(2, 22);
             this.gridControl_Conductivity.MainView = this.gridView_Conductivity;
             this.gridControl_Conductivity.Name = "gridControl_Conductivity";
             this.gridControl_Conductivity.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_Conductivity_starttime,
             this.cb_Conductivity_coltime,
             this.cb_Conductivity_sendtime});
-            this.gridControl_Conductivity.Size = new System.Drawing.Size(391, 136);
+            this.gridControl_Conductivity.Size = new System.Drawing.Size(391, 141);
             this.gridControl_Conductivity.TabIndex = 1;
             this.gridControl_Conductivity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Conductivity});

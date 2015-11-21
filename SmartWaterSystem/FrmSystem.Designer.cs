@@ -378,7 +378,7 @@
             // 
             // NBG_PreT
             // 
-            this.NBG_PreT.Caption = "压力终端";
+            this.NBG_PreT.Caption = "压力/流量终端";
             this.NBG_PreT.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.NBG_PreT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPreTerParm),

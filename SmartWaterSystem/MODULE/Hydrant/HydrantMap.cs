@@ -11,9 +11,7 @@ using BLL;
 
 namespace SmartWaterSystem
 {
-    //[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    //[System.Runtime.InteropServices.ComVisibleAttribute(true)]
-    public partial class HydrantMap : BaseView, IHydrantMap
+    public partial class HydrantMap :BaseView, IHydrantMap
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("HydrantMap");
         public HydrantMap()
@@ -40,6 +38,66 @@ namespace SmartWaterSystem
             
         }
 
+        HydrantFullScreen frm = null;
+        private void btnFullScreen_Click(object sender, EventArgs e)
+        {
+            frm = new HydrantFullScreen();
+            AddEventKeyUp(this.webBrowser1);
+            this.Controls.Clear();
+            frm.Controls.Add(this.webBrowser1);
+            frm.ShowDialog();
+        }
+
+        
+        private void AddEventKeyUp(Control control){
+            try
+            {
+                if (control != null)
+                {
+                    control.KeyUp -= new KeyEventHandler(control_KeyUp);
+                    control.KeyUp += new KeyEventHandler(control_KeyUp);
+                    foreach (Control c in control.Controls)
+                    {
+                        AddEventKeyUp(c);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        void control_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                try
+                {
+                    if (this.webBrowser1 != null)
+                    {
+                        if (frm != null)
+                        {
+                            frm.Controls.Clear();
+                            this.Controls.Add(this.webBrowser1);
+
+                            frm.Close();
+                            frm = null;
+                        }
+                    }
+                    this.Controls.Add(this.btnFullScreen);
+                    this.btnFullScreen.Click -= new EventHandler(btnFullScreen_Click);
+                    this.btnFullScreen.Click += new EventHandler(btnFullScreen_Click);
+                    webBrowser1.SendToBack();
+                    btnFullScreen.BringToFront();
+                    btnFullScreen.Focus();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
         
     }
 }

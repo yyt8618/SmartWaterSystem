@@ -56,6 +56,8 @@ namespace Protocol
         /// </summary>
         public event ReadHistoryDataHandle ReadHisData;
 
+        public event ShowMsgHandle ShowMsgEvent;
+
         #endregion
         /// <summary>
         /// 监控日志
@@ -104,33 +106,44 @@ namespace Protocol
         #region 监控日志
         private void AppendBufLine(string log)
         {
+            strLogBuf.Clear();
+            strLogBuf.Append(DateTime.Now.ToString("[hh:mm:ss]"));
+            strLogBuf.Append(log);
+            strLogBuf.Append("\r\n");
             if (AppendBufLog != null)
             {
-                strLogBuf.Clear();
-                strLogBuf.Append(DateTime.Now.ToString("[hh:mm:ss]"));
-                strLogBuf.Append(log);
-                strLogBuf.Append("\r\n");
                 AppendBufLog(new AppendBufLogEventArgs(strLogBuf));
             }
-            logger.Info(log);
+            OnShowMsg(log);
+            //logger.Info(log);
         }
 
         private void AppendBufLine(string log, params object[] args)
         {
-            if (AppendBufLog != null)
-            {
+            //if (AppendBufLog != null)
+            //{
+            //    AppendBufLine(string.Format(log, args));
+            //}
+            if (args == null)
+                AppendBufLine(log);
+            else
                 AppendBufLine(string.Format(log, args));
-            }
-            logger.Info(string.Format(log, args));
+            //logger.Info(string.Format(log, args));
         }
 
         private void AppendBufLine(string log, Package package)
         {
             if (AppendBufLog != null)
             {
-                AppendBufLine(string.Format(log, ConvertHelper.ByteArrayToHexString(package.ToArray())));
+                AppendBufLine(log, ConvertHelper.ByteArrayToHexString(package.ToArray()));
             }
-            logger.Info(string.Format(log, ConvertHelper.ByteArrayToHexString(package.ToArray())));
+            //logger.Info(string.Format(log, ConvertHelper.ByteArrayToHexString(package.ToArray())));
+        }
+
+        private void OnShowMsg(string msg)
+        {
+            if (ShowMsgEvent != null)
+                ShowMsgEvent(msg);
         }
 
         #endregion
@@ -287,7 +300,7 @@ namespace Protocol
                     }
                     if (IsComClosing)//关闭窗口
                     {
-                        AppendBufLine("获取数据中途串口关闭！");
+                        AppendBufLine("获取数据中途串口关闭！",null);
                         throw new Exception("关闭串口，停止获取数据。");
                     }
                     isComRecving = true;//正在读取串口数据
@@ -487,7 +500,7 @@ namespace Protocol
                                     response.DataLength = 0;
                                     response.Data = null;
                                     response.CS = response.CreateCS();
-                                    AppendBufLine("发送回应...");
+                                    AppendBufLine("发送回应...", null);
                                     SendData(response.ToArray(), false);
 
                                 }
@@ -526,7 +539,7 @@ namespace Protocol
 
                         OnReadData(new ReadDataEventArgs(final.DevID, output.ToArray()));
                         packageCache.Clear();
-                        AppendBufLine("获取完毕!");
+                        AppendBufLine("获取完毕!", null);
 
                         packageCache.Clear();
 
@@ -644,7 +657,7 @@ namespace Protocol
                                     response.DataLength = 0;
                                     response.Data = null;
                                     response.CS = response.CreateCS();
-                                    AppendBufLine("发送回应...");
+                                    AppendBufLine("发送回应...", null);
                                     SendData(response.ToArray(), false);
 
                                 }
@@ -683,7 +696,7 @@ namespace Protocol
 
                         //OnReadData(new ReadDataEventArgs(final.DevID, output.ToArray()));
                         packageCache.Clear();
-                        AppendBufLine("获取完毕!");
+                        AppendBufLine("获取完毕!", null);
 
                         packageCache.Clear();
 
@@ -710,7 +723,7 @@ namespace Protocol
         /// <param name="id"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public void ReadHistoryData(Package package, int timeout = 15)
+        public void ReadHistoryData(Package package,HydrantOptType opt, int timeout = 15)
         {
             try
             {
@@ -766,62 +779,62 @@ namespace Protocol
                             if (PackageDefine.MinLenth + len == arr.Length && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
                                 nStartTime = Environment.TickCount;
+                                OnReadPackege(new PackageReceivedEventArgs(pack));//触发事件
+                                packageCache.Add(pack);
+                                getReadResponse = true;
+                                if (pack.DataLength == 0)
+                                    throw new ArgumentNullException("读取完成,无数据");
 
-                                if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)
+                                int datacheck = -1;
+                                int dataindex = -1;
+                                int partdatalen = 6;
+                                if (opt == HydrantOptType.Open)
+                                    partdatalen = 9;
+                                else if (opt == HydrantOptType.Close)
+                                    partdatalen = 6;
+                                else if (opt == HydrantOptType.OpenAngle)
+                                    partdatalen = 7;
+                                else if (opt == HydrantOptType.Impact)
+                                    partdatalen = 6;
+                                else if (opt == HydrantOptType.KnockOver)
+                                    partdatalen = 6;
+
+                                datacheck = pack.DataLength % partdatalen;
+                                dataindex = pack.DataLength / partdatalen;
+
+                                if (datacheck != 0)
                                 {
-                                    AppendBufLine("收到响应帧:{0}", pack);
-                                    getReadResponse = true;
+                                    AppendBufLine(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+8*n)规则", null);
                                 }
-                                else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
+
+                                int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                float pressuevalue = 0, openangle = 0;
+                                for (int i = 0; i < dataindex; i++)
                                 {
-                                    OnReadPackege(new PackageReceivedEventArgs(pack));//触发事件
-                                    packageCache.Add(pack);
-                                    AppendBufLine("第{0}帧:{1}", Convert.ToInt32(pack.Data[0]), pack);
+                                    year = 2000 + Convert.ToInt16(pack.Data[i * partdatalen]);
+                                    month = Convert.ToInt16(pack.Data[i * partdatalen + 1]);
+                                    day = Convert.ToInt16(pack.Data[i * partdatalen + 2]);
+                                    hour = Convert.ToInt16(pack.Data[i * partdatalen + 3]);
+                                    minute = Convert.ToInt16(pack.Data[i * partdatalen + 4]);
+                                    sec = Convert.ToInt16(pack.Data[i * partdatalen + 5]);
 
-                                    int dataindex = (pack.DataLength - 1) % 8;
-                                    if (dataindex != 0)
-                                    {
-                                        AppendBufLine(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+8*n)规则");
-                                    }
-                                    dataindex = (pack.DataLength - 1) / 8;
-                                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                    float pressuevalue = 0, openangle = 0;
-                                    for (int i = 0; i < dataindex; i++)
-                                    {
-                                        year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 1]);
-                                        month = Convert.ToInt16(pack.Data[i * 8 + 2]);
-                                        day = Convert.ToInt16(pack.Data[i * 8 + 3]);
-                                        hour = Convert.ToInt16(pack.Data[i * 8 + 4]);
-                                        minute = Convert.ToInt16(pack.Data[i * 8 + 5]);
-                                        sec = Convert.ToInt16(pack.Data[i * 8 + 6]);
+                                    if (opt == HydrantOptType.Open || opt == HydrantOptType.OpenAngle)
+                                        openangle = Convert.ToSingle(pack.Data[i * partdatalen + 6]);
+                                    if (opt == HydrantOptType.Open)
+                                        pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * partdatalen + 8], pack.Data[i * partdatalen + 7] }, 0)) / 1000;
 
-                                        openangle = Convert.ToSingle(pack.Data[i * 8 + 7]);
-                                        pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0)) / 1000;
-
-                                        HistoryValueArgs hisvalueArg = new HistoryValueArgs();
-                                        hisvalueArg.CollectTime = new DateTime(year, month, day, hour, minute, sec);
-                                        hisvalueArg.PreValue = pressuevalue;
-                                        hisvalueArg.OpenAngle = openangle;
-                                        if (ReadHisData != null)
-                                            ReadHisData(hisvalueArg);
-                                    }
-
-                                    int total = pack.IsFinal ? pack.DataLength : pack.AllDataLength;
-                                    readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
-                                    OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
-
-                                    Package response = new Package();
-                                    response.DevType = ConstValue.DEV_TYPE.MOBELE_PRESSURE;
-                                    response.DevID = pack.DevID;
-                                    response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_MASTER;
-                                    response.C1 = (byte)HYDRANT_COMMAND.SEND_RESPONSE_DATA;
-                                    response.DataLength = 1;
-                                    response.Data = new byte[] { pack.Data[0] };  //索引
-                                    response.CS = response.CreateCS();
-                                    AppendBufLine("发送回应帧:{0}", response);
-                                    SendData(response.ToArray(), false);
-
+                                    HistoryValueArgs hisvalueArg = new HistoryValueArgs();
+                                    hisvalueArg.CollectTime = new DateTime(year, month, day, hour, minute, sec);
+                                    hisvalueArg.PreValue = pressuevalue;
+                                    hisvalueArg.OpenAngle = openangle;
+                                    if (ReadHisData != null)
+                                        ReadHisData(hisvalueArg);
                                 }
+
+                                int total = pack.IsFinal ? pack.DataLength : pack.AllDataLength;
+                                readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
+                                OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
+
                                 packageBytes.Clear();
                             }
                         }
@@ -1113,4 +1126,6 @@ namespace Protocol
 
 
     public delegate void ReadHistoryDataHandle(HistoryValueArgs e);
+
+    public delegate void ShowMsgHandle(string msg);
 }

@@ -816,6 +816,10 @@ namespace SmartWaterSystem
                     {
                         short[] Originaldata = (short[])e.Tag;
                         string path = string.Format(Application.StartupPath + @"\Data\记录仪{0}\", GlobalValue.NoiseSerialPortOptData.ID);
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
                         StreamWriter sw = new StreamWriter(string.Format("{0}启动值.txt", path));
                         for (int i = 0; i < Originaldata.Length; i++)
                         {

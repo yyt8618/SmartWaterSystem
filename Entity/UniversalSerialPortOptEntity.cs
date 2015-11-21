@@ -616,5 +616,39 @@ namespace Entity
             get { return _HydrantHistoryOpt; }
             set { _HydrantHistoryOpt = value; }
         }
+
+        public bool IsOpt_PreConfig = false;
+        private bool _PreConfig = false;
+        /// <summary>
+        /// 压力配置
+        /// </summary>
+        public bool PreConfig
+        {
+            get { return _PreConfig; }
+            set { _PreConfig = value; }
+        }
+
+        public bool IsOpt_Numofturns = false;
+        private int _Numofturns = 0;
+        /// <summary>
+        /// 开度
+        /// </summary>
+        public int Numofturns
+        {
+            get { return _Numofturns; }
+            set { _Numofturns = value; }
+        }
+
+        public bool IsOpt_HydrantEnable = false;
+
+        private bool _HydrantEnable = false;
+        /// <summary>
+        /// 消防栓开关
+        /// </summary>
+        public bool HydrantEnable
+        {
+            get { return _HydrantEnable; }
+            set { _HydrantEnable = value; }
+        }
     }
 }

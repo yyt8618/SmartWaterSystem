@@ -18,7 +18,7 @@ namespace GPRSServiceUI
         private const int MaxLine = 1001;
 
         Thread t1;
-        string QueuePath = ".\\private$\\GcGPRS";
+        string QueuePath = ".\\private$\\GcGPRSToUI";
 
         public MainForm()
         {
@@ -167,7 +167,9 @@ namespace GPRSServiceUI
                     foreach (System.Messaging.Message m in Msg)
                     {
                         m.Formatter = new BinaryMessageFormatter();
-                        SetCtrlMsg(m.Body.ToString()+"\r\n");
+                        MSMQEntity msmqEntity = (MSMQEntity)m.Body;
+                        if (msmqEntity.MsgType == ConstValue.MSMQTYPE.Message)
+                            SetCtrlMsg(msmqEntity.Msg + "\r\n");
                     }
                 }
             }

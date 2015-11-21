@@ -50,6 +50,20 @@ namespace BLL
             }
         }
 
+        public bool UnAlarm(string id)
+        {
+            try
+            {
+                dal.UnAlarm(id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("UnAlarm", ex);
+                return false;
+            }
+        }
+
         public bool modifyCoordinate(string id, string longitude, string latitude)
         {
             try
@@ -61,6 +75,19 @@ namespace BLL
             {
                 logger.ErrorException("modifyCoordinate", ex);
                 return false;
+            }
+        }
+
+        public List<HydrantEntity> GetHydrantDetail(string HydrantID, int opt, DateTime minTime, DateTime maxTime, int interval)
+        {
+            try
+            {
+                return dal.GetHydrantDetail(HydrantID, opt, minTime, maxTime, interval);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetHydrantDetail", ex);
+                return null;
             }
         }
     }

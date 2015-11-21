@@ -18,14 +18,15 @@ namespace SmartWaterSystem
         public HydrantParm()
         {
             InitializeComponent();
+
+            DevExpress.Data.CurrencyDataController.DisableThreadingProblemsDetection = true;
+            //Control.CheckForIllegalCrossThreadCalls = false;
         }
 
         private void HydrantParm_Load(object sender, EventArgs e)
         {
             GlobalValue.Hydrantlog.serialPortUtil.ReadHisData += new Protocol.ReadHistoryDataHandle(serialPortUtil_ReadHisData);
             InitGridView();
-
-            cbComType.SelectedIndex = 1;
         }
 
         void serialPortUtil_ReadHisData(Protocol.HistoryValueArgs e)
@@ -296,14 +297,14 @@ namespace SmartWaterSystem
                     GlobalValue.SerialPortOptData.IsOptDT = ceTime.Checked;
                     haveread = true;
                 }
-                if (ceCellPhone.Checked)
+                if (cePreConfig.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOptCellPhone = ceCellPhone.Checked;
+                    GlobalValue.SerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
                     haveread = true;
                 }
-                if (ceComType.Checked)
+                if (ceNumofturns.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOptComType = ceComType.Checked;
+                    GlobalValue.SerialPortOptData.IsOpt_Numofturns = ceNumofturns.Checked;
                     haveread = true;
                 }
                 if (ceIP.Checked)
@@ -314,6 +315,11 @@ namespace SmartWaterSystem
                 if (cePort.Checked)
                 {
                     GlobalValue.SerialPortOptData.IsOptPort = cePort.Checked;
+                    haveread = true;
+                }
+                if (ceEnable.Checked)
+                {
+                    GlobalValue.SerialPortOptData.IsOpt_HydrantEnable = ceEnable.Checked;
                     haveread = true;
                 }
             }
@@ -365,16 +371,10 @@ namespace SmartWaterSystem
                 {
                     GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                    if (ceCellPhone.Checked)
+                    if (cePreConfig.Checked)
                     {
-                        GlobalValue.SerialPortOptData.IsOptCellPhone = ceCellPhone.Checked;
-                        GlobalValue.SerialPortOptData.CellPhone = txtCellPhone.Text;
-                        haveset = true;
-                    }
-                    if (ceComType.Checked)
-                    {
-                        GlobalValue.SerialPortOptData.IsOptComType = ceComType.Checked;
-                        GlobalValue.SerialPortOptData.ComType = cbComType.SelectedIndex;
+                        GlobalValue.SerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
+                        GlobalValue.SerialPortOptData.PreConfig = cbPreConfig.SelectedIndex == 0 ? false : true;  
                         haveset = true;
                     }
                     if (ceIP.Checked)
@@ -391,6 +391,12 @@ namespace SmartWaterSystem
                     {
                         GlobalValue.SerialPortOptData.IsOptPort = cePort.Checked;
                         GlobalValue.SerialPortOptData.Port = Convert.ToInt32(txtPort.Text);
+                        haveset = true;
+                    }
+                    if (ceEnable.Checked)
+                    {
+                        GlobalValue.SerialPortOptData.IsOpt_HydrantEnable = ceEnable.Checked;
+                        GlobalValue.SerialPortOptData.HydrantEnable = SwitchEnable.IsOn;
                         haveset = true;
                     }
                 }
@@ -427,12 +433,22 @@ namespace SmartWaterSystem
                 else
                 {
                     GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                    HistoryData.Clear();
+                    gridView_History.Columns["PreValue"].Visible = false;
+                    gridView_History.Columns["OpenAngle"].Visible = false;
                     if (rgOpt.SelectedIndex == 0)
+                    {
                         GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.Open;
+                        gridView_History.Columns["PreValue"].Visible = true;
+                        gridView_History.Columns["OpenAngle"].Visible = true;
+                    }
                     else if (rgOpt.SelectedIndex == 1)
                         GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.Close;
                     else if (rgOpt.SelectedIndex == 2)
+                    {
                         GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.OpenAngle;
+                        gridView_History.Columns["OpenAngle"].Visible = true;
+                    }
                     else if (rgOpt.SelectedIndex == 3)
                         GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.Impact;
                     else if (rgOpt.SelectedIndex == 4)
@@ -468,6 +484,27 @@ namespace SmartWaterSystem
             {
                 XtraMessageBox.Show("导出数据发生异常!" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void btnEnableCollect_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtID.Text))
+            {
+                XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            }
+            GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
+            GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在启动采集...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在启动采集...");
+            GlobalValue.SerialPortMgr.Send(SerialPortType.HydrantSetEnableCollect);
         }
 
         public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
@@ -541,13 +578,16 @@ namespace SmartWaterSystem
                     {
                         txtTime.Text = GlobalValue.SerialPortOptData.DT.ToString();
                     }
-                    if (GlobalValue.SerialPortOptData.IsOptCellPhone)
+                    if (GlobalValue.SerialPortOptData.IsOpt_PreConfig)
                     {
-                        txtCellPhone.Text = GlobalValue.SerialPortOptData.CellPhone;
+                        if (GlobalValue.SerialPortOptData.PreConfig)
+                            cbPreConfig.SelectedIndex = 1;
+                        else
+                            cbPreConfig.SelectedIndex = 0;
                     }
-                    if (GlobalValue.SerialPortOptData.IsOptComType)
+                    if (GlobalValue.SerialPortOptData.IsOpt_Numofturns)
                     {
-                        cbComType.SelectedIndex = GlobalValue.SerialPortOptData.ComType;
+                        txtNumofturns.Text = GlobalValue.SerialPortOptData.Numofturns.ToString("f0");
                     }
                     if (GlobalValue.SerialPortOptData.IsOptIP)
                     {
@@ -563,6 +603,10 @@ namespace SmartWaterSystem
                     if (GlobalValue.SerialPortOptData.IsOpt_SimualteInterval)
                     {
                         gridControl_History.DataSource=GlobalValue.SerialPortOptData.Simulate_Interval;
+                    }
+                    if (GlobalValue.SerialPortOptData.IsOpt_HydrantEnable)
+                    {
+                        SwitchEnable.IsOn = GlobalValue.SerialPortOptData.HydrantEnable;
                     }
 
                     XtraMessageBox.Show("读取消防栓参数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -645,17 +689,10 @@ namespace SmartWaterSystem
                 return false;
             }
 
-            if (ceCellPhone.Checked && !Regex.IsMatch(txtCellPhone.Text, @"^1\d{10}$"))
+            if (cePreConfig.Checked && !(cbPreConfig.SelectedIndex>-1))
             {
-                XtraMessageBox.Show("请输入手机号码[1XX XXXX XXXX]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtCellPhone.Focus();
-                return false;
-            }
-
-            if (ceComType.Checked && string.IsNullOrEmpty(cbComType.Text))
-            {
-                XtraMessageBox.Show("请选择通信方式!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cbComType.Focus();
+                XtraMessageBox.Show("请选择压力配置!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbPreConfig.Focus();
                 return false;
             }
 
@@ -701,10 +738,10 @@ namespace SmartWaterSystem
             ceTime.Enabled = true;
             txtTime.Enabled = true;
             txtTime.Text = "";
-            txtCellPhone.Enabled = true;
-            txtCellPhone.Text = "";
-            cbComType.Enabled = true;
-            cbComType.SelectedIndex = -1;
+            txtNumofturns.Enabled = true;
+            txtNumofturns.Text = "";
+            cbPreConfig.Enabled = true;
+            cbPreConfig.SelectedIndex = -1;
             ceIP.Enabled = true;
             txtNum1.Enabled = true;
             txtNum1.Text = "";
@@ -716,42 +753,6 @@ namespace SmartWaterSystem
             txtNum4.Text = "";
             cePort.Enabled = true;
             txtPort.Enabled = true;
-            txtPort.Text = "";
-        }
-
-        private void SetGprsCtrlStatus()
-        {
-            btnReset.Enabled = false;
-            btnCheckingTime.Enabled = false;
-            btnReadParm.Enabled = false;
-            btnSetParm.Enabled = true;
-            btnReadHistory.Enabled = false;
-
-            ceTime.Enabled = false;
-            ceTime.Checked = false;
-            txtTime.Enabled = false;
-            txtTime.Text = "";
-            ceCellPhone.Enabled = false;
-            ceCellPhone.Checked = false;
-            txtCellPhone.Enabled = false;
-            txtCellPhone.Text = "";
-            ceComType.Enabled = false;
-            ceComType.Checked = false;
-            cbComType.Enabled = false;
-            cbComType.SelectedIndex = -1;
-            ceIP.Enabled = false;
-            ceIP.Checked = false;
-            txtNum1.Enabled = false;
-            txtNum1.Text = "";
-            txtNum2.Enabled = false;
-            txtNum2.Text = "";
-            txtNum3.Enabled = false;
-            txtNum3.Text = "";
-            txtNum4.Enabled = false;
-            txtNum4.Text = "";
-            cePort.Enabled = false;
-            cePort.Checked = false;
-            txtPort.Enabled = false;
             txtPort.Text = "";
         }
 

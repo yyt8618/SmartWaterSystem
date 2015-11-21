@@ -870,14 +870,14 @@ namespace SmartWaterSystem
             // 
             this.gridControl_Turbidity.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_Turbidity.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Turbidity.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_Turbidity.Location = new System.Drawing.Point(2, 22);
             this.gridControl_Turbidity.MainView = this.gridView_Turbidity;
             this.gridControl_Turbidity.Name = "gridControl_Turbidity";
             this.gridControl_Turbidity.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_Turbidity_starttime,
             this.cb_Turbidity_coltime,
             this.cb_Turbidity_sendtime});
-            this.gridControl_Turbidity.Size = new System.Drawing.Size(787, 172);
+            this.gridControl_Turbidity.Size = new System.Drawing.Size(787, 177);
             this.gridControl_Turbidity.TabIndex = 1;
             this.gridControl_Turbidity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Turbidity});
@@ -987,10 +987,10 @@ namespace SmartWaterSystem
             // 
             this.gridControl_CallData.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_CallData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_CallData.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_CallData.Location = new System.Drawing.Point(2, 22);
             this.gridControl_CallData.MainView = this.gridView_CallData;
             this.gridControl_CallData.Name = "gridControl_CallData";
-            this.gridControl_CallData.Size = new System.Drawing.Size(68, 0);
+            this.gridControl_CallData.Size = new System.Drawing.Size(68, 3);
             this.gridControl_CallData.TabIndex = 1;
             this.gridControl_CallData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_CallData});

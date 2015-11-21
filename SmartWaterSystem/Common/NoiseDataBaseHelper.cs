@@ -574,7 +574,7 @@ namespace SmartWaterSystem
                 int query = 0;
                 sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime, EnergyValue, LeakProbability) 
                     VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}',{9}, {10})",
-                    result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime, result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime, result.EnergyValue.ToString("f4"), result.LeakProbability.ToString("f4"));
+                    result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.EnergyValue.ToString("f4"), result.LeakProbability.ToString("f4"));
                 query = SQLiteHelper.ExecuteNonQuery(sql);
                 return query;
             }

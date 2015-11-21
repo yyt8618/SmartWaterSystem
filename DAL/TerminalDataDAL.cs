@@ -427,8 +427,8 @@ namespace DAL
         {
             lock (ConstValue.obj)
             {
-                //SELECT * FROM DL_ParamToDev WHERE ID IN (SELECT MAX(ID) FROM DL_ParamToDev WHERE SendedFlag=0 GROUP BY DeviceId)
-                string SQL = "SELECT ID,DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate FROM DL_ParamToDev WHERE SendedFlag = 0";
+                //SELECT * FROM ParamToDev WHERE ID IN (SELECT MAX(ID) FROM ParamToDev WHERE SendedFlag=0 GROUP BY DeviceId)
+                string SQL = "SELECT ID,DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate FROM ParamToDev WHERE SendedFlag = 0";
                 List<GPRSCmdEntity> lstCmd = null;
                 using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
                 {
@@ -470,7 +470,7 @@ namespace DAL
 
                     trans = SQLHelper.GetTransaction();
 
-                    string SQL = "UPDATE DL_ParamToDev SET SendedFlag=1 WHERE ID=@id";
+                    string SQL = "UPDATE ParamToDev SET SendedFlag=1 WHERE ID=@id";
                     SqlParameter parm =  new SqlParameter("@id",SqlDbType.Int);
 
                     SqlCommand command = new SqlCommand();
@@ -877,7 +877,7 @@ namespace DAL
 
         public void InsertDevGPRSParm(int devId, int DevTypeId, int ctrlCode, int Funcode, string DataValue)
         {
-            string SQL_Insert = @"INSERT INTO DL_ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
+            string SQL_Insert = @"INSERT INTO ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
                                 @DeviceId,@DevTypeId,@CtrlCode,@FunCode,@DataValue,@DataLenth,@SetDate,@SendedFlag)";
             SqlParameter[] parms = new SqlParameter[]{
                     new SqlParameter("DeviceId",SqlDbType.Int),

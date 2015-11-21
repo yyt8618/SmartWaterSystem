@@ -19,6 +19,13 @@ namespace SmartWaterSystem
             timerCtrl.Enabled = true;
 
             GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+            GlobalValue.SerialPortMgr.serialPortUtil.ShowMsgEvent += new Protocol.ShowMsgHandle(serialPortUtil_ShowMsgEvent);
+        }
+
+        void serialPortUtil_ShowMsgEvent(string msg)
+        {
+            if(!string.IsNullOrEmpty(msg))
+                SetCtrlMsg(msg);
         }
 
         private void FrmGPRSConsole_Load(object sender, EventArgs e)

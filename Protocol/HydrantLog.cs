@@ -115,6 +115,22 @@ namespace Protocol
             return Write(package);
         }
 
+        public bool SetPreConfig(short Id,bool preconfig)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.SET_PRECONFIG;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = (byte)(preconfig ? 1 : 0);
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
         public short ReadId()
         {
             Package package = new Package();
@@ -316,6 +332,62 @@ namespace Protocol
             return Convert.ToInt32(result.Data[0]);
         }
 
+        public bool ReadPreConfig(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.READ_PRECONFIG;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToInt32(result.Data[0]) == 1 ? true : false;
+        }
+
+        public int ReadNumofturns(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.READ_NUMOFTURNS;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToInt32(result.Data[0]);
+        }
+
         public byte[] ReadHistory(short id,HydrantOptType opt)
         {
             Package package = new Package();
@@ -342,7 +414,7 @@ namespace Protocol
             try
             {
                 Package result = new Package();
-                serialPortUtil.ReadHistoryData(package, 10);
+                serialPortUtil.ReadHistoryData(package,opt, 10);
                 if (!result.IsSuccess || result.Data == null)
                 {
                     throw new Exception("获取失败");
@@ -362,6 +434,51 @@ namespace Protocol
 
                 throw ex;
             }
+        }
+
+        public bool ReadEnableCollect(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.READ_ENABLE;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            int ienable = Convert.ToInt32(result.Data[0]);
+            return ienable == 1 ? true : false;
+        }
+
+        public bool SetEnableCollect(short Id,bool enable)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.ENABLECOLLECT;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = enable ? (byte)1 : (byte)0;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
         }
 
     }

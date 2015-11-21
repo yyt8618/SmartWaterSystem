@@ -53,8 +53,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartWaterSystem", "SmartWaterSystem\SmartWaterSystem.csproj", "{FCE87823-4C94-4B67-9665-82479F23DDD1}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SmartWaterSetup", "SmartWaterSetup\Setup.vdproj", "{23E84834-B358-485C-885D-DEBC79C08720}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalTerMonitor", "IUniversalTerMonitor\UniversalTerMonitor.csproj", "{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OLWQParm", "OLWQParm\OLWQParm.csproj", "{FC09A207-5505-4DBC-8012-35D025627A60}"
@@ -70,6 +68,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrantParm", "HydrantParm\HydrantParm.csproj", "{2A9F946D-51A9-4F64-8B66-A8ABCED76632}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrantMap", "HydrantMap\HydrantMap.csproj", "{D7DF2513-C470-41FC-9E20-DF06E14B73E0}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SmartWaterSetup", "SmartWaterSetup\Setup.vdproj", "{305CA46B-221C-488C-B5D2-D71B55807F8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -401,21 +401,6 @@ Global
 		{FCE87823-4C94-4B67-9665-82479F23DDD1}.Release|Win32.ActiveCfg = Release|x86
 		{FCE87823-4C94-4B67-9665-82479F23DDD1}.Release|x86.ActiveCfg = Release|x86
 		{FCE87823-4C94-4B67-9665-82479F23DDD1}.Release|x86.Build.0 = Release|x86
-		{23E84834-B358-485C-885D-DEBC79C08720}.Debug|Any CPU.ActiveCfg = Debug
-		{23E84834-B358-485C-885D-DEBC79C08720}.Debug|Any CPU.Build.0 = Debug
-		{23E84834-B358-485C-885D-DEBC79C08720}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{23E84834-B358-485C-885D-DEBC79C08720}.Debug|Mixed Platforms.Build.0 = Debug
-		{23E84834-B358-485C-885D-DEBC79C08720}.Debug|Win32.ActiveCfg = Debug
-		{23E84834-B358-485C-885D-DEBC79C08720}.Debug|Win32.Build.0 = Debug
-		{23E84834-B358-485C-885D-DEBC79C08720}.Debug|x86.ActiveCfg = Debug
-		{23E84834-B358-485C-885D-DEBC79C08720}.Release|Any CPU.ActiveCfg = Release
-		{23E84834-B358-485C-885D-DEBC79C08720}.Release|Any CPU.Build.0 = Release
-		{23E84834-B358-485C-885D-DEBC79C08720}.Release|Mixed Platforms.ActiveCfg = Release
-		{23E84834-B358-485C-885D-DEBC79C08720}.Release|Mixed Platforms.Build.0 = Release
-		{23E84834-B358-485C-885D-DEBC79C08720}.Release|Win32.ActiveCfg = Release
-		{23E84834-B358-485C-885D-DEBC79C08720}.Release|Win32.Build.0 = Release
-		{23E84834-B358-485C-885D-DEBC79C08720}.Release|x86.ActiveCfg = Release
-		{23E84834-B358-485C-885D-DEBC79C08720}.Release|x86.Build.0 = Release
 		{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -511,6 +496,22 @@ Global
 		{D7DF2513-C470-41FC-9E20-DF06E14B73E0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D7DF2513-C470-41FC-9E20-DF06E14B73E0}.Release|Win32.ActiveCfg = Release|Any CPU
 		{D7DF2513-C470-41FC-9E20-DF06E14B73E0}.Release|x86.ActiveCfg = Release|Any CPU
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Debug|Any CPU.ActiveCfg = Debug
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Debug|Any CPU.Build.0 = Debug
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Debug|Mixed Platforms.Build.0 = Debug
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Debug|Win32.ActiveCfg = Debug
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Debug|Win32.Build.0 = Debug
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Debug|x86.ActiveCfg = Debug
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Debug|x86.Build.0 = Debug
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Release|Any CPU.ActiveCfg = Release
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Release|Any CPU.Build.0 = Release
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Release|Mixed Platforms.ActiveCfg = Release
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Release|Mixed Platforms.Build.0 = Release
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Release|Win32.ActiveCfg = Release
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Release|Win32.Build.0 = Release
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Release|x86.ActiveCfg = Release
+		{305CA46B-221C-488C-B5D2-D71B55807F8A}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

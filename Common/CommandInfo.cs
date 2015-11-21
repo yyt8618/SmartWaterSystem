@@ -672,7 +672,15 @@ namespace Common
         /// <summary>
         /// 设置消防栓端口号
         /// </summary>
-        SET_PORT= 0x13,
+        SET_PORT = 0x13,
+        /// <summary>
+        /// 设置压力配置
+        /// </summary>
+        SET_PRECONFIG = 0x14,
+        /// <summary>
+        /// 设置启动采集
+        /// </summary>
+        ENABLECOLLECT = 0x15,
         #endregion
 
         #region 读取
@@ -683,7 +691,7 @@ namespace Common
         /// <summary>
         /// 读取编号
         /// </summary>
-        READ_ID= 0x41,
+        READ_ID = 0x41,
         /// <summary>
         /// 读取ip地址
         /// </summary>
@@ -720,6 +728,18 @@ namespace Common
         /// 读取消防栓撞倒历史数据
         /// </summary>
         READ_KNOCKOVER_HISTORY = 0xA4,
+        /// <summary>
+        /// 读取消防栓压力配置
+        /// </summary>
+        READ_PRECONFIG = 0x44,
+        /// <summary>
+        /// 读取消防栓开度
+        /// </summary>
+        READ_NUMOFTURNS = 0x45,
+        /// <summary>
+        /// 读取消防栓开关状态
+        /// </summary>
+        READ_ENABLE = 0x46,
         #endregion
     }
 

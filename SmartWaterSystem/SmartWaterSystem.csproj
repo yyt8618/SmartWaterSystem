@@ -159,6 +159,12 @@
     </Compile>
     <Compile Include="Common\NoiseDataHandler.cs" />
     <Compile Include="MapForScripting.cs" />
+    <Compile Include="MODULE\Hydrant\HydrantFullScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantFullScreen.Designer.cs">
+      <DependentUpon>HydrantFullScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\Hydrant\HydrantParm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -170,6 +176,12 @@
     </Compile>
     <Compile Include="MODULE\Hydrant\HydrantMap.Designer.cs">
       <DependentUpon>HydrantMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantDetail.Designer.cs">
+      <DependentUpon>HydrantDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\NoiseRec\FrmDataAnalysis.cs">
       <SubType>Form</SubType>
@@ -401,11 +413,17 @@
     <EmbeddedResource Include="BaseView.resx">
       <DependentUpon>BaseView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Hydrant\HydrantFullScreen.resx">
+      <DependentUpon>HydrantFullScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\Hydrant\HydrantParm.resx">
       <DependentUpon>HydrantParm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\Hydrant\HydrantMap.resx">
       <DependentUpon>HydrantMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Hydrant\HydrantDetail.resx">
+      <DependentUpon>HydrantDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\NoiseRec\FrmDataAnalysis.resx">
       <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
@@ -653,6 +671,7 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
+    <None Include="Resources\fullscreen.gif" />
     <None Include="Resources\HydrantMap.png" />
     <None Include="Resources\Products\HydrantMap.png" />
     <None Include="Resources\Products\Hydrant.png" />

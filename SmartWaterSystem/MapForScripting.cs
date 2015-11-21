@@ -23,8 +23,21 @@ namespace SmartWaterSystem
                 str = "[";
                 for (int i = 0; i < lstHydrant.Count; i++)
                 {
+                    string pressvalue = "none"; //"none"不显示
+                    string openangle = "none";
+                    if (lstHydrant[i].OptType == HydrantOptType.Open)
+                    {
+                        pressvalue = lstHydrant[i].PressValue.ToString();
+                        openangle = lstHydrant[i].OpenAngle.ToString();
+                    }
+                    if (lstHydrant[i].OptType == HydrantOptType.OpenAngle)
+                    {
+                        openangle = lstHydrant[i].OpenAngle.ToString();
+                    }
                     str += "{\"id\":\"" + lstHydrant[i].HydrantID + "\",\"addr\":\"" + lstHydrant[i].Addr +
-                        "\",\"lng\":\"" + lstHydrant[i].Longtitude + "\",\"lat\":\"" + lstHydrant[i].Latitude + "\"}";
+                        "\",\"lng\":\"" + lstHydrant[i].Longtitude + "\",\"lat\":\"" + lstHydrant[i].Latitude +
+                        "\",\"state\":\"" + (lstHydrant[i].IsAlarm ? lstHydrant[i].OptType.ToString().ToLower() : HydrantOptType.Close.ToString().ToLower()) +
+                        "\",\"pressvalue\":\"" + pressvalue + "\",\"openangle\":\"" + openangle + "\"}";
                     if ((i + 1) < lstHydrant.Count)
                         str += ",";
                 }
@@ -55,6 +68,17 @@ namespace SmartWaterSystem
             }
         }
 
+        public void unAlarm(string id)
+        {
+            HydrantBLL bll = new HydrantBLL();
+            bool result = bll.UnAlarm(id);
+            if (!result)
+            {
+                XtraMessageBox.Show("消防栓取消报警出现异常!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                webBrow.Document.InvokeScript("reload", null);
+            }
+        }
+
         public void modifyCoordinate(string id, string lng, string lat)
         {
             HydrantBLL bll = new HydrantBLL();
@@ -64,6 +88,13 @@ namespace SmartWaterSystem
                 XtraMessageBox.Show("移动消防栓出现异常!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 webBrow.Document.InvokeScript("reload", null);
             }
+        }
+
+        public void showDetail(string id)
+        {
+            HydrantDetail.HydrantID = id.Trim();
+            HydrantDetail detailform = new HydrantDetail();
+            detailform.ShowDialog();
         }
     }
 }

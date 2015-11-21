@@ -5,7 +5,7 @@ namespace Entity
     {
         private int _tableId = -1;
         /// <summary>
-        /// DL_ParamToDev.ID
+        /// ParamToDev.ID
         /// </summary>
         public int TableId
         {

@@ -24,10 +24,10 @@ namespace SmartWaterSystem
         {
             try
             {
-                string SQL_Del = "UPDATE DL_ParamToDev SET SendedFlag=1 WHERE DeviceId='" + txtDeviceId.Text + "' AND DevTypeId=0";
+                string SQL_Del = "UPDATE ParamToDev SET SendedFlag=1 WHERE DeviceId='" + txtDeviceId.Text + "' AND DevTypeId=0";
                 SQLHelper.ExecuteNonQuery(SQL_Del);
                 //cbSendInterval.Text
-                string SQL_Insert = @"INSERT INTO DL_ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
+                string SQL_Insert = @"INSERT INTO ParamToDev(DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate,SendedFlag) VALUES(
                                 @DeviceId,@DevTypeId,@CtrlCode,@FunCode,@DataValue,@DataLenth,@SetDate,@SendedFlag)";
                 SqlParameter[] parms = new SqlParameter[]{
                     new SqlParameter("DeviceId",SqlDbType.Int),
