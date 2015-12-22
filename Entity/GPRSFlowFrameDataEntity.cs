@@ -54,31 +54,31 @@ namespace Entity
             set { _colTime = value; }
         }
 
-        private float _forward_flowValue = 0f;
+        private double _forward_flowValue = 0f;
         /// <summary>
         /// 正向流量
         /// </summary>
-        public float Forward_FlowValue
+        public double Forward_FlowValue
         {
             get { return _forward_flowValue; }
             set { _forward_flowValue = value; }
         }
 
-        private float _reverse_flowValue = 0f;
+        private double _reverse_flowValue = 0f;
         /// <summary>
         /// 反向流量
         /// </summary>
-        public float Reverse_FlowValue
+        public double Reverse_FlowValue
         {
             get { return _reverse_flowValue; }
             set { _reverse_flowValue = value; }
         }
 
-        private float _instant_flowValue = 0f;
+        private double _instant_flowValue = 0f;
         /// <summary>
         /// 瞬时流量
         /// </summary>
-        public float Instant_FlowValue
+        public double Instant_FlowValue
         {
             get { return _instant_flowValue; }
             set { _instant_flowValue = value; }

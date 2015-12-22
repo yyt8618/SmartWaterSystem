@@ -82,19 +82,6 @@ namespace BLL
             }
         }
 
-        public int UpdateFlag(int id, int state)
-        {
-            try
-            {
-                return dal.UpdateFlag(id, state);
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException("UpdateFlag", ex);
-                return -1;
-            }
-        }
-
         public List<UniversalWayTypeEntity> Select(string where)
         {
             try

@@ -150,7 +150,7 @@ namespace SmartWaterSystem
                             if (SQLHelper.TryConn(SQLHelper.ConnectionString))
                             {
                                 Thread.Sleep(40); //延迟40ms，以便页面更新在同步之前
-                                bool res = syncBll.UpdateSQL_PreTerConfig();
+                                bool res = true;// syncBll.UpdateSQL_PreTerConfig();
                                 if (res)
                                     result = 1;
                                 else
@@ -167,7 +167,7 @@ namespace SmartWaterSystem
                             if (SQLHelper.TryConn(SQLHelper.ConnectionString))
                             {
                                 Thread.Sleep(40); //延迟40ms，以便页面更新在同步之前
-                                bool res = syncBll.Update_UniversalTerWayType();
+                                bool res = true;// syncBll.Update_UniversalTerWayType();
                                 if (res)
                                     result = 1;
                                 else
@@ -184,7 +184,7 @@ namespace SmartWaterSystem
                             if (SQLHelper.TryConn(SQLHelper.ConnectionString))
                             {
                                 Thread.Sleep(40); //延迟40ms，以便页面更新在同步之前
-                                bool res = syncBll.UpdateSQL_UniversalTerWayConfig();
+                                bool res = true;// syncBll.UpdateSQL_UniversalTerWayConfig();
                                 if (res)
                                     result = 1;
                                 else

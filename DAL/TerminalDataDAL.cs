@@ -32,10 +32,10 @@ namespace DAL
         {
             lock (ConstValue.obj)
             {
-                SqlTransaction trans = null;
+                //SqlTransaction trans = null;
                 try
                 {
-                    trans = SQLHelper.GetTransaction();
+                    //trans = SQLHelper.GetTransaction();
 
                     string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
                     SqlParameter[] parms_frame = new SqlParameter[]{
@@ -48,7 +48,7 @@ namespace DAL
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
                     command_frame.Connection = SQLHelper.Conn;
-                    command_frame.Transaction = trans;
+                    //command_frame.Transaction = trans;
 
                     string SQL_PreData = "INSERT INTO Pressure_Real(TerminalID,PressValue,CollTime,UnloadTime,HistoryFlag) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0)";
                     SqlParameter[] parms_predata = new SqlParameter[]{
@@ -62,7 +62,7 @@ namespace DAL
                     command_predata.Parameters.AddRange(parms_predata);
                     command_predata.CommandType = CommandType.Text;
                     command_predata.Connection = SQLHelper.Conn;
-                    command_predata.Transaction = trans;
+                    //command_predata.Transaction = trans;
 
                     //string en_point_id = "";
                     while (datas.Count > 0)
@@ -78,37 +78,24 @@ namespace DAL
 
                         command_frame.ExecuteNonQuery();
 
-                        //en_point_id = "";
-                        //foreach (DataRow dr in dt_PointID.Rows)
-                        //{
-                        //    if (dr["TerminalID"].ToString() == entity.TerId)
-                        //    {
-                        //        en_point_id = dr["ID"].ToString();
-                        //        break;
-                        //    }
-                        //}
+                        for (int i = 0; i < entity.lstPreData.Count; i++)
+                        {
+                            parms_predata[0].Value = entity.TerId;
+                            parms_predata[1].Value = entity.lstPreData[i].PreValue;
+                            parms_predata[2].Value = entity.lstPreData[i].ColTime;
+                            parms_predata[3].Value = entity.ModifyTime;
 
-                        //if (!string.IsNullOrEmpty(en_point_id))
-                        //{
-                            for (int i = 0; i < entity.lstPreData.Count; i++)
-                            {
-                                parms_predata[0].Value = entity.TerId;
-                                parms_predata[1].Value = entity.lstPreData[i].PreValue;
-                                parms_predata[2].Value = entity.lstPreData[i].ColTime;
-                                parms_predata[3].Value = entity.ModifyTime;
-
-                                command_predata.ExecuteNonQuery();
-                            }
-                        //}
+                            command_predata.ExecuteNonQuery();
+                        }
                     }
-                    trans.Commit();
+                    //trans.Commit();
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    if (trans != null)
-                        trans.Rollback();
+                    //if (trans != null)
+                    //    trans.Rollback();
                     throw ex;
                 }
             }
@@ -118,15 +105,10 @@ namespace DAL
         {
             lock (ConstValue.obj)
             {
-                SqlTransaction trans = null;
+                //SqlTransaction trans = null;
                 try
                 {
-                    //DataTable dt_PointID = GetTerID_PointID(TerType.PreTer);
-                    //if ((dt_PointID == null) || (dt_PointID.Rows.Count == 0))
-                    //{
-                    //    return 0;
-                    //}
-                    trans = SQLHelper.GetTransaction();
+                    //trans = SQLHelper.GetTransaction();
 
                     string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
                     SqlParameter[] parms_frame = new SqlParameter[]{
@@ -139,7 +121,7 @@ namespace DAL
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
                     command_frame.Connection = SQLHelper.Conn;
-                    command_frame.Transaction = trans;
+                    //command_frame.Transaction = trans;
 
                     string SQL_PreData = "INSERT INTO Flow_Real(TerminalID,FlowValue,FlowInverted,FlowInstant,CollTime,UnloadTime,HistoryFlag) VALUES(@TerId,@flowvalue,@flowreverse,@flowinstant,@coltime,@UploadTime,0)";
                     SqlParameter[] parms_predata = new SqlParameter[]{
@@ -155,7 +137,7 @@ namespace DAL
                     command_predata.Parameters.AddRange(parms_predata);
                     command_predata.CommandType = CommandType.Text;
                     command_predata.Connection = SQLHelper.Conn;
-                    command_predata.Transaction = trans;
+                    //command_predata.Transaction = trans;
 
                     //string en_point_id = "";
                     while (datas.Count > 0)
@@ -179,14 +161,14 @@ namespace DAL
                             command_predata.ExecuteNonQuery();
                         }
                     }
-                    trans.Commit();
+                    //trans.Commit();
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    if (trans != null)
-                        trans.Rollback();
+                    //if (trans != null)
+                    //    trans.Rollback();
                     throw ex;
                 }
             }
@@ -196,10 +178,10 @@ namespace DAL
         {
             lock (ConstValue.obj)
             {
-                SqlTransaction trans = null;
+                //SqlTransaction trans = null;
                 try
                 {
-                    trans = SQLHelper.GetTransaction();
+                    //trans = SQLHelper.GetTransaction();
 
                     string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
                     SqlParameter[] parms_frame = new SqlParameter[]{
@@ -212,7 +194,7 @@ namespace DAL
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
                     command_frame.Connection = SQLHelper.Conn;
-                    command_frame.Transaction = trans;
+                    //command_frame.Transaction = trans;
 
                     string SQL_Data = @"INSERT INTO UniversalTerData([TerminalID],[DataValue],[Simulate1Zero],[Simulate2Zero],[CollTime],[UnloadTime],TypeTableID) 
                                             VALUES(@terId,@datavalue,@sim1zero,@sim2zero,@coltime,@UploadTime,@tableid)";
@@ -231,7 +213,7 @@ namespace DAL
                     command_predata.Parameters.AddRange(parms_data);
                     command_predata.CommandType = CommandType.Text;
                     command_predata.Connection = SQLHelper.Conn;
-                    command_predata.Transaction = trans;
+                    //command_predata.Transaction = trans;
 
                     while (datas.Count > 0)
                     {
@@ -256,13 +238,13 @@ namespace DAL
                             command_predata.ExecuteNonQuery();
                         }
                     }
-                    trans.Commit();
+                    //trans.Commit();
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    if (trans != null)
-                        trans.Rollback();
+                    //if (trans != null)
+                    //    trans.Rollback();
                     throw ex;
                 }
             }
@@ -272,10 +254,10 @@ namespace DAL
         {
             lock (ConstValue.obj)
             {
-                SqlTransaction trans = null;
+                //SqlTransaction trans = null;
                 try
                 {
-                    trans = SQLHelper.GetTransaction();
+                    //trans = SQLHelper.GetTransaction();
 
                     string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
                     SqlParameter[] parms_frame = new SqlParameter[]{
@@ -288,7 +270,7 @@ namespace DAL
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
                     command_frame.Connection = SQLHelper.Conn;
-                    command_frame.Transaction = trans;
+                    //command_frame.Transaction = trans;
 
                     string SQL_Data = "INSERT INTO OLWQ_Real(TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime,UnloadTime,ValueColumnName) VALUES(@TerId,@Turbidity,@ResidualCl,@PH,@Cond,@Temp,@coltime,@UploadTime,@valuename)";
                     SqlParameter[] parms_predata = new SqlParameter[]{
@@ -307,7 +289,7 @@ namespace DAL
                     command_data.Parameters.AddRange(parms_predata);
                     command_data.CommandType = CommandType.Text;
                     command_data.Connection = SQLHelper.Conn;
-                    command_data.Transaction = trans;
+                    //command_data.Transaction = trans;
 
                     while (datas.Count > 0)
                     {
@@ -333,14 +315,14 @@ namespace DAL
                             command_data.ExecuteNonQuery();
                         }
                     }
-                    trans.Commit();
+                    //trans.Commit();
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    if (trans != null)
-                        trans.Rollback();
+                    //if (trans != null)
+                    //    trans.Rollback();
                     throw ex;
                 }
             }
@@ -350,10 +332,10 @@ namespace DAL
         {
             lock (ConstValue.obj)
             {
-                SqlTransaction trans = null;
+                //SqlTransaction trans = null;
                 try
                 {
-                    trans = SQLHelper.GetTransaction();
+                    //trans = SQLHelper.GetTransaction();
 
                     string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
                     SqlParameter[] parms_frame = new SqlParameter[]{
@@ -366,7 +348,7 @@ namespace DAL
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
                     command_frame.Connection = SQLHelper.Conn;
-                    command_frame.Transaction = trans;
+                    //command_frame.Transaction = trans;
 
                     string SQL_Data = "INSERT INTO Hydrant_Real(TerminalID,Operate,PressValue,OpenAngle,CollTime,UnloadTime) VALUES(@TerId,@opt,@prevalue,@openangle,@coltime,@UploadTime)";
                     SqlParameter[] parms_data = new SqlParameter[]{
@@ -383,7 +365,7 @@ namespace DAL
                     command_predata.Parameters.AddRange(parms_data);
                     command_predata.CommandType = CommandType.Text;
                     command_predata.Connection = SQLHelper.Conn;
-                    command_predata.Transaction = trans;
+                    //command_predata.Transaction = trans;
 
                     while (datas.Count > 0)
                     {
@@ -406,14 +388,14 @@ namespace DAL
                             command_predata.ExecuteNonQuery();
                         }
                     }
-                    trans.Commit();
+                    //trans.Commit();
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    if (trans != null)
-                        trans.Rollback();
+                    //if (trans != null)
+                    //    trans.Rollback();
                     throw ex;
                 }
             }
@@ -502,8 +484,8 @@ namespace DAL
 
         public DataTable GetTerInfo(TerType type)
         {
-            string SQL = "SELECT ID,TerminalID,TerminalName,Address,Remark,ModifyTime FROM Terminal WHERE SyncState<>-1 AND TerminalType='" + (int)type + "' ORDER BY TerminalID";
-            return SQLiteHelper.ExecuteDataTable(SQL, null);
+            string SQL = "SELECT ID,TerminalID,TerminalName,Address,Remark,ModifyTime FROM Terminal WHERE TerminalType='" + (int)type + "' ORDER BY TerminalID";
+            return SQLHelper.ExecuteDataTable(SQL, null);
         }
 
         /// <summary>
@@ -515,7 +497,7 @@ namespace DAL
         public int GetTerExist(TerType type, int TerminalID)
         {
             string SQL = "SELECT COUNT(1) FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='"+TerminalID+"'";
-            object obj = SQLiteHelper.ExecuteScalar(SQL, null);
+            object obj = SQLHelper.ExecuteScalar(SQL, null);
             if (obj != null && obj != DBNull.Value)
             {
                 return Convert.ToInt32(obj) > 0 ? 1 : 0;
@@ -529,24 +511,22 @@ namespace DAL
         public void DeleteTer(TerType type, string TerminalID)
         {
             string SQL = "";
-            string SQL_SELECT = "SELECT COUNT(1) FROM Terminal WHERE SyncState=1 AND TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
-            object obj_exist = SQLiteHelper.ExecuteScalar(SQL_SELECT, null);
-            bool exist = false;
-            if (obj_exist != null && obj_exist != DBNull.Value)
-            {
-                exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
-            }
-            if (exist)
-                SQL = "DELETE FROM Terminal WHERE SyncState=1 AND TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
-            else
-                SQL = "UPDATE Terminal SET SyncState=-1 WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
-            SQLiteHelper.ExecuteNonQuery(SQL, null);
+            //string SQL_SELECT = "SELECT COUNT(1) FROM Terminal WHERE SyncState=1 AND TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
+            //object obj_exist = SQLHelper.ExecuteScalar(SQL_SELECT, null);
+            //bool exist = false;
+            //if (obj_exist != null && obj_exist != DBNull.Value)
+            //{
+            //    exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
+            //}
+            //if (exist)
+                SQL = "DELETE FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
+            SQLHelper.ExecuteNonQuery(SQL, null);
         }
 
         public int GetTerminalTableMaxId()
         {
             string SQL = "SELECT MAX(id) FROM Terminal";
-            object obj = SQLiteHelper.ExecuteScalar(SQL, null);
+            object obj = SQLHelper.ExecuteScalar(SQL, null);
             if (obj != null && obj != DBNull.Value)
             {
                 return Convert.ToInt32(obj);
@@ -561,7 +541,7 @@ namespace DAL
         public int GetUniversalTerWayConfigTableMaxId()
         {
             string SQL = "SELECT MAX(id) FROM UniversalTerWayConfig";
-            object obj = SQLiteHelper.ExecuteScalar(SQL, null);
+            object obj = SQLHelper.ExecuteScalar(SQL, null);
             if (obj != null && obj != DBNull.Value)
             {
                 return Convert.ToInt32(obj);
@@ -578,21 +558,21 @@ namespace DAL
         /// <returns></returns>
         public int SaveTerInfo(int terminalid, string name, string addr, string remark,TerType terType, List<UniversalWayTypeConfigEntity> lstPointID,bool needmodify = true)
         {
-            SQLiteTransaction trans = null;
+            //SqlTransaction trans = null;
             try
             {
-                trans = SQLiteHelper.GetTransaction();
-                SQLiteCommand command = new SQLiteCommand();
-                command.Connection = SQLiteHelper.Conn;
-                command.Transaction = trans;
+                //trans = SQLHelper.Conn.BeginTransaction();
+                SqlCommand command = new SqlCommand();
+                command.Connection = SQLHelper.Conn;
+                //command.Transaction = trans;
 
                 if (needmodify)
                 {
-                    command.CommandText = "DELETE FROM Terminal WHERE SyncState=1 AND TerminalType='" + (int)terType + "' AND TerminalID='" + terminalid + "'";
+                    command.CommandText = "DELETE FROM Terminal WHERE TerminalType='" + (int)terType + "' AND TerminalID='" + terminalid + "'";
                     command.ExecuteNonQuery();
 
-                    command.CommandText = "UPDATE Terminal SET SyncState=-1 WHERE TerminalType='" + (int)terType + "' AND TerminalID='" + terminalid + "'";
-                    command.ExecuteNonQuery();
+                    //command.CommandText = "UPDATE Terminal SET SyncState=-1 WHERE TerminalType='" + (int)terType + "' AND TerminalID='" + terminalid + "'";
+                    //command.ExecuteNonQuery();
                 }
 
                 command.CommandText = string.Format("INSERT INTO Terminal(ID,TerminalID,TerminalName,TerminalType,Address,Remark) VALUES('{0}','{1}','{2}','{3}','{4}','{5}')",
@@ -605,11 +585,11 @@ namespace DAL
                 if (lstPointID != null && lstPointID.Count > 0)
                 {
                     //UniversalTerWayConfig ID TerminalID PointID
-                    command.CommandText = "DELETE FROM UniversalTerWayConfig WHERE SyncState<>0 AND TerminalID='" + terminalid + "'";
+                    command.CommandText = "DELETE FROM UniversalTerWayConfig WHERE TerminalID='" + terminalid + "'";
                     command.ExecuteNonQuery();
 
-                    command.CommandText = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE TerminalID='" + terminalid + "'";
-                    command.ExecuteNonQuery();
+                    //command.CommandText = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE TerminalID='" + terminalid + "'";
+                    //command.ExecuteNonQuery();
 
                     int configeMaxId = GetUniversalTerWayConfigTableMaxId();
                     foreach (UniversalWayTypeConfigEntity config in lstPointID)
@@ -621,28 +601,28 @@ namespace DAL
                     }
                 }
 
-                trans.Commit();
+                //trans.Commit();
                 return 1;
             }
             catch (Exception ex)
             {
-                if (trans != null)
-                    trans.Rollback();
+                //if (trans != null)
+                //    trans.Rollback();
                 return -1;
             }
         }
 
         public void DeleteUniversalWayTypeConfig(int PointID)
         {
-            string SQL = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE PointID='" + PointID + "'";
-            SQLiteHelper.ExecuteNonQuery(SQL, null);
+            string SQL = "DELETE FROM UniversalTerWayConfig WHERE PointID='" + PointID + "'";
+            SQLHelper.ExecuteNonQuery(SQL, null);
         }
 
         public void DeleteUniversalWayTypeConfig_TerID(int TerminalID,TerType terType)
         {
             string SQL_Ter = "SELECT Distinct PointID FROM UniversalTerWayConfig WHERE TerminalID='" + TerminalID + "' AND TerminalType='"+((int)terType).ToString()+"'";
             List<string> lstPoint = new List<string>();
-            using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL_Ter, null))
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL_Ter, null))
             {
                 while (reader.Read())
                 {
@@ -654,27 +634,27 @@ namespace DAL
                 foreach (string pointid in lstPoint)
                 {
                     string SQL = "";
-                    string SQL_SELECT = "SELECT COUNT(1) FROM UniversalTerWayConfig WHERE SyncState=-1 AND PointID='" + pointid + "' AND TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
-                    object obj_exist = SQLiteHelper.ExecuteScalar(SQL_SELECT, null);
-                    bool exist = false;
-                    if (obj_exist != null && obj_exist != DBNull.Value)
-                    {
-                        exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
-                    }
-                    if (exist)
+                    //string SQL_SELECT = "SELECT COUNT(1) FROM UniversalTerWayConfig WHERE SyncState=-1 AND PointID='" + pointid + "' AND TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
+                    //object obj_exist = SQLHelper.ExecuteScalar(SQL_SELECT, null);
+                    //bool exist = false;
+                    //if (obj_exist != null && obj_exist != DBNull.Value)
+                    //{
+                    //    exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
+                    //}
+                    //if (exist)
                         SQL = "DELETE FROM UniversalTerWayConfig WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
-                    else
-                        SQL = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
-                    SQLiteHelper.ExecuteNonQuery(SQL, null);
+                    //else
+                    //    SQL = "UPDATE UniversalTerWayConfig SET SyncState=-1 WHERE PointID='" + pointid + "' AND TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
+                    SQLHelper.ExecuteNonQuery(SQL, null);
                 }
             }
         }
 
         public List<UniversalWayTypeConfigEntity> GetUniversalWayTypeConfig(int TerminalID,TerType terType)
         {
-            string SQL = "SELECT id,Sequence,PointID,SyncState,ModifyTime FROM UniversalTerWayConfig WHERE TerminalID='" + TerminalID + "' AND SyncState!=-1 AND TerminalType='" + ((int)terType).ToString() + "'";
+            string SQL = "SELECT id,Sequence,PointID,ModifyTime FROM UniversalTerWayConfig WHERE TerminalID='" + TerminalID + "' AND TerminalType='" + ((int)terType).ToString() + "'";
             
-            using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(SQL, null))
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
                 List<UniversalWayTypeConfigEntity> lstWayTypeConfig = new List<UniversalWayTypeConfigEntity>();
                 while (reader.Read())
@@ -684,7 +664,7 @@ namespace DAL
                     entity.PointID = reader["PointID"] != DBNull.Value ? Convert.ToInt32(reader["PointID"]) : -1;
                     entity.Sequence = reader["Sequence"] != DBNull.Value ? Convert.ToInt32(reader["Sequence"]) : -1;
                     entity.TerminalID = TerminalID;
-                    entity.SyncState = reader["SyncState"] != DBNull.Value ? Convert.ToInt32(reader["SyncState"]) : -1;
+                    //entity.SyncState = reader["SyncState"] != DBNull.Value ? Convert.ToInt32(reader["SyncState"]) : -1;
                     entity.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]) : ConstValue.MinDateTime;
 
                     lstWayTypeConfig.Add(entity);
@@ -697,7 +677,7 @@ namespace DAL
         public DataTable GetUniversalDataConfig(TerType terType)
         {
             string SQL = @"SELECT DISTINCT Type.ID,Config.TerminalID,Config.Sequence,Type.[Level],Type.[ParentID],Type.[WayType],Type.[Name],Type.[MaxMeasureRange],Type.[MaxMeasureRangeFlag],Type.[FrameWidth],Type.[Precision],Type.[Unit]
-                        FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE Config.PointID=Type.ID OR Config.PointID=Type.ParentID AND Config.TerminalType=Type.TerminalType AND Config.TerminalType='"+((int)terType).ToString()+"'";
+                        FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE (Config.PointID=Type.ID OR Config.PointID=Type.ParentID) AND Config.TerminalType=Type.TerminalType AND Config.TerminalType='"+((int)terType).ToString()+"'";
 
             DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
             return dt;
@@ -867,7 +847,7 @@ namespace DAL
         public string GetTerminalName(string TerminalID, TerType tertype)
         {
             string SQL = "SELECT TerminalName FROM Terminal WHERE TerminalType= '" + (int)tertype + "' AND TerminalID='" + TerminalID.Trim() + "'";
-            object obj_name = SQLiteHelper.ExecuteScalar(SQL, null);
+            object obj_name = SQLHelper.ExecuteScalar(SQL, null);
             if (obj_name != null && obj_name != DBNull.Value)
             {
                 return obj_name.ToString().Trim();

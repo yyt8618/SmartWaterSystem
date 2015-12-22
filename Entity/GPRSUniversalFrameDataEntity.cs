@@ -68,11 +68,11 @@ namespace Entity
             set { _colTime = value; }
         }
 
-        private float _DataValue = 0f;
+        private double _DataValue = 0f;
         /// <summary>
         /// 采集值
         /// </summary>
-        public float DataValue
+        public double DataValue
         {
             get { return _DataValue; }
             set { _DataValue = value; }

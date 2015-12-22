@@ -76,7 +76,7 @@ namespace SmartWaterSystem
         private void BindCombobox()
         {
             ClearComboboxValue();
-            lstComboboxdata = WayTypebll.Select("WHERE Level = '1' AND SyncState!=-1 AND TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,Name");
+            lstComboboxdata = WayTypebll.Select("WHERE Level = '1' AND TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,Name");
             if (lstComboboxdata != null && lstComboboxdata.Count > 0)
             {
                 foreach (UniversalWayTypeEntity entity in lstComboboxdata)
@@ -116,7 +116,7 @@ namespace SmartWaterSystem
         #region TreeList
         private void LoadTreeList()
         {
-            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE SyncState !=-1 AND TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,Sequence");
+            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,Sequence");
             if (lstNodedata != null && lstNodedata.Count > 0)
             {
                 treeCollectType.BeginUnboundLoad();
@@ -315,7 +315,7 @@ namespace SmartWaterSystem
 
             BindCombobox();
 
-            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
+            //GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
         }
 
         private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -331,7 +331,7 @@ namespace SmartWaterSystem
                     TreeListNodes childs = currentNode.Nodes;
                     if (childs != null && childs.Count > 0)
                     {
-                        if ((WayTypebll.UpdateFlag(((UniversalWayTypeEntity)childs[0].Tag).ID,-1) == -1) || (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)childs[0].Tag).ID) == -1))
+                        if ((WayTypebll.Delete(((UniversalWayTypeEntity)childs[0].Tag).ID) == -1) || (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)childs[0].Tag).ID) == -1))
                         {
                             XtraMessageBox.Show("删除数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
@@ -341,7 +341,7 @@ namespace SmartWaterSystem
                         }
                     }
                 }
-                if ((WayTypebll.UpdateFlag(((UniversalWayTypeEntity)currentNode.Tag).ID, -1) == -1) || (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)currentNode.Tag).ID) == -1))
+                if ((WayTypebll.Delete(((UniversalWayTypeEntity)currentNode.Tag).ID) == -1) || (Terbll.DeleteUniversalWayTypeConfig(((UniversalWayTypeEntity)currentNode.Tag).ID) == -1))
                 {
                     XtraMessageBox.Show("删除数据发生异常,请联系管理员", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

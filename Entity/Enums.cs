@@ -30,13 +30,13 @@ namespace Entity
         /// </summary>
         FlowTer = 2,
         /// <summary>
-        /// 通用终端
-        /// </summary>
-        UniversalTer = 3,
-        /// <summary>
         /// 在线水质
         /// </summary>
-        OLWQTer=4
+        OLWQTer=3,
+        /// <summary>
+        /// 通用终端
+        /// </summary>
+        UniversalTer = 4,
     }
 
     public enum UniversalCollectType

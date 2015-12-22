@@ -513,16 +513,25 @@ namespace GCGPRSService
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_FLOWDATA)  //从站向主站发送流量采集数据
                                         {
+                                            bool isBCD = false;  //数据是否为BCD码
                                             int dataindex = (pack.DataLength - 2 - 1) % 18;
                                             if (dataindex != 0)
                                             {
-                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+18*n)规则");
+                                                dataindex = (pack.DataLength - 2 - 1) % 10;
+                                                isBCD = true;
                                             }
-                                            dataindex = (pack.DataLength - 2 - 1) / 18;
+                                            if (dataindex != 0)
+                                            {
+                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+(18/10)*n)规则");
+                                            }
+                                            
+                                            if(isBCD)
+                                                dataindex = (pack.DataLength - 2 - 1) / 10;
+                                            else
+                                                dataindex = (pack.DataLength - 2 - 1) / 18;
 
                                             int alarmflag = 0;
                                             int flowFlag = 0;
-
 
                                             //报警标志
                                             alarmflag = BitConverter.ToInt16(new byte[] { pack.Data[0], pack.Data[1] }, 0);
@@ -534,7 +543,7 @@ namespace GCGPRSService
                                             framedata.Frame = str_frame;
 
                                             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                            float forward_flowvalue = 0, reverse_flowvalue, instant_flowvalue = 0;
+                                            double forward_flowvalue = 0, reverse_flowvalue=0, instant_flowvalue = 0;
                                             for (int i = 0; i < dataindex; i++)
                                             {
                                                 year = 2000 + Convert.ToInt16(pack.Data[i * 18 + 3]);
@@ -544,15 +553,25 @@ namespace GCGPRSService
                                                 minute = Convert.ToInt16(pack.Data[i * 18 + 7]);
                                                 sec = Convert.ToInt16(pack.Data[i * 18 + 8]);
 
-                                                //前向流量
-                                                forward_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 12], pack.Data[i * 18 + 11], pack.Data[i * 18 + 10], pack.Data[i * 18 + 9] }, 0);
-                                                //反向流量
-                                                reverse_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 16], pack.Data[i * 18 + 15], pack.Data[i * 18 + 14], pack.Data[i * 18 + 13] }, 0);
-                                                //瞬时流量
-                                                instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 20], pack.Data[i * 18 + 19], pack.Data[i * 18 + 18], pack.Data[i * 18 + 17] }, 0);
+                                                if (!isBCD)
+                                                {
+                                                    //前向流量
+                                                    forward_flowvalue = BitConverter.ToDouble(new byte[] { pack.Data[i * 18 + 12], pack.Data[i * 18 + 11], pack.Data[i * 18 + 10], pack.Data[i * 18 + 9] }, 0);
+                                                    //反向流量
+                                                    reverse_flowvalue = BitConverter.ToDouble(new byte[] { pack.Data[i * 18 + 16], pack.Data[i * 18 + 15], pack.Data[i * 18 + 14], pack.Data[i * 18 + 13] }, 0);
+                                                    //瞬时流量
+                                                    instant_flowvalue = BitConverter.ToDouble(new byte[] { pack.Data[i * 18 + 20], pack.Data[i * 18 + 19], pack.Data[i * 18 + 18], pack.Data[i * 18 + 17] }, 0);
 
-                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|流量终端[{1}]|报警标志({2})|流量标志({3})|采集时间({4})|正向流量值:{5}|反向流量值:{6}|瞬时流量值:{7}",
-                                                    dataindex, pack.DevID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
+                                                    OnSendMsg(new SocketEventArgs(string.Format("index({0})|流量终端[{1}]|报警标志({2})|流量标志({3})|采集时间({4})|正向流量值:{5}|反向流量值:{6}|瞬时流量值:{7}",
+                                                        dataindex, pack.DevID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
+                                                }
+                                                else
+                                                {
+                                                    string flowvalue = String.Format("{0:X2}", pack.Data[i * 18 + 12]) + String.Format("{0:X2}", pack.Data[i * 18 + 11]) + String.Format("{0:X2}", pack.Data[i * 18 + 10]) + String.Format("{0:X2}", pack.Data[i * 18 + 9]);
+                                                    forward_flowvalue = Convert.ToDouble(flowvalue) / 100;
+                                                    OnSendMsg(new SocketEventArgs(string.Format("index({0})|流量终端[{1}]|报警标志({2})|流量标志({3})|采集时间({4})|日累计流量值:{5}",
+                                                        dataindex, pack.DevID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue)));
+                                                }
 
                                                 GPRSFlowDataEntity data = new GPRSFlowDataEntity();
                                                 data.Forward_FlowValue = forward_flowvalue;
@@ -634,14 +653,14 @@ namespace GCGPRSService
                                                 name = "招测2";
                                                 sequence = "2";
                                             }
-                                            int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
+                                            int calibration = 819;// BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
                                             GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
                                             framedata.TerId = pack.DevID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
                                             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                            float datavalue = 0;
+                                            double datavalue = 0;
 
                                             DataRow[] dr_TerminalDataConfig = null;
                                             if (GlobalValue.Instance.UniversalDataConfig != null && GlobalValue.Instance.UniversalDataConfig.Rows.Count > 0)
@@ -676,7 +695,7 @@ namespace GCGPRSService
                                                             datavalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 8 + 12], pack.Data[i * 8 + 11], pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
 
                                                         datavalue = (MaxMeasureRange / MaxMeasureRangeFlag) * (datavalue - calibration);  //根据设置和校准值计算
-                                                        datavalue = Convert.ToSingle(datavalue.ToString("F" + precision));  //精度调整
+                                                        datavalue = Convert.ToDouble(datavalue.ToString("F" + precision));  //精度调整
                                                         if (datavalue < 0)
                                                             datavalue = 0;
                                                         OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}",
@@ -717,7 +736,7 @@ namespace GCGPRSService
                                             framedata.Frame = str_frame;
 
                                             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                            float datavalue = 0;
+                                            double datavalue = 0;
 
                                             DataRow[] dr_TerminalDataConfig = null;
                                             if (GlobalValue.Instance.UniversalDataConfig != null && GlobalValue.Instance.UniversalDataConfig.Rows.Count > 0)
@@ -777,7 +796,7 @@ namespace GCGPRSService
                                                             }
 
                                                             datavalue = PluseUnits[j] * datavalue;  //脉冲计数*单位脉冲值
-                                                            datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
+                                                            datavalue = Convert.ToDouble(datavalue.ToString("F" + Precisions[j]));  //精度调整
                                                             OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]脉冲{2}路|采集时间({3})|{4}:{5}{6}",
                                                                 i, pack.DevID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
 
@@ -862,7 +881,7 @@ namespace GCGPRSService
                                             framedata.Frame = str_frame;
 
                                             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                            float datavalue = 0;
+                                            double datavalue = 0;
 
                                             DataRow[] dr_TerminalDataConfig = null;
                                             DataRow[] dr_DataConfig_Child = null;
@@ -935,7 +954,7 @@ namespace GCGPRSService
                                                             }
 
                                                             datavalue = MaxMeasureRanges[j] * datavalue;  //系数
-                                                            datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
+                                                            datavalue = Convert.ToDouble(datavalue.ToString("F" + Precisions[j]));  //精度调整
                                                             OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]RS485 {2}路|采集时间({3})|{4}:{5}{6}",
                                                                 i, pack.DevID, name, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
 
