@@ -32,11 +32,11 @@ namespace BLL
         /// </summary>
         /// <param name="TerminalID"></param>
         /// <returns></returns>
-        public bool IsExist(string TerminalID, int SyncState)
+        public bool IsExist(string TerminalID)
         {
             try
             {
-                return dal.IsExist(TerminalID, SyncState);
+                return dal.IsExist(TerminalID);
             }
             catch (Exception ex)
             {

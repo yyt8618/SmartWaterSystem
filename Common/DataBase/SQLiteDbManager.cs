@@ -270,12 +270,10 @@ namespace Common
             array.Add(CreateTableGroupRecorder());
             array.Add(CreateTableRecorderSet());
             array.Add(CreateTableStandData());
-            //array.Add(CreateTableUniversalTerConfig());
-            array.Add(CreateTablePreTerConfig());
-            array.Add(CreateTableGPRSTerminal());
-            array.Add(CreateTableUniversalTerWayType());
-            array.Add(CreateTableUniversalTerWayConfig());
-            //array.Add(CreateTableOLWQTerConfig());
+            //array.Add(CreateTablePreTerConfig());
+            //array.Add(CreateTableGPRSTerminal());
+            //array.Add(CreateTableUniversalTerWayType());
+            //array.Add(CreateTableUniversalTerWayConfig());
 
             array.Add(CreateDBVersionTable());
             return array;
@@ -491,106 +489,6 @@ namespace Common
                         [data]           NVARCHAR(300)   NULL        DEFAULT '',
                         [CreateTime]     NVARCHAR(25)    NULL        DEFAULT (datetime('now', 'localtime'))
                      )";
-        }
-
-        //终端表
-        private string CreateTableGPRSTerminal()
-        {
-            return @"CREATE TABLE [Terminal]
-                    (
-	                    [ID]                [INT]           NOT NULL,
-	                    [TerminalID]		[INT] NOT NULL,								--终端ID
-	                    [TerminalName]		NVARCHAR(200)   NOT NULL,					--终端名称
-                        [TerminalType]      [INT]           NOT NULL,                   --终端类型 
-	                    [Address]			NVARCHAR(200)	NOT NULL DEFAULT '',		--地址
-	                    [Remark]			NVARCHAR(200)	NULL DEFAULT '',		    --备注
-                        [SyncState]         INT             NULL        DEFAULT 1 ,     --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]		NVARCHAR(25)	NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
-                    )";
-        }
-
-        //压力终端配置
-        private string CreateTablePreTerConfig()
-        {
-            return @"CREATE TABLE [PreTerConfig]
-                    (
-	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
-	                    [TerminalID]		[INT] NOT NULL,								--终端ID
-	                    [EnablePreAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用压力报警 0:不启用,1:启用
-	                    [EnableSlopeAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用斜率报警 0:不启用,1:启用
-	                    [PreUpperLimit]		NUMERIC(8, 5)	NOT NULL DEFAULT 0,			--压力上限值
-	                    [PreLowLimit]		NUMERIC(8, 5)	NOT NULL DEFAULT 0,			--压力下限值
-	                    [PreSlopeUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--压力斜率上限值
-	                    [PreSlopeLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--压力斜率下限值
-                        [SyncState]         INT             NULL     DEFAULT 1 ,        --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]		NVARCHAR(25)    NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
-                    )";
-        }
-
-        //水质终端配置
-        private string CreateTableOLWQTerConfig()
-        {
-            return @"CREATE TABLE [OLWQConfig]
-                    (
-	                    [ID]                INTEGER PRIMARY KEY         AUTOINCREMENT,
-	                    [TerminalID]		[INT] NOT NULL,								--终端ID
-	                    [EnableTurbidityAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用浊度报警 0:不启用,1:启用
-	                    [EnableResidualClAlarm]	[INT]			NOT NULL DEFAULT 1,			--是否启用余氯报警 0:不启用,1:启用
-                        [EnablePHAlarm]	[INT]			NOT NULL DEFAULT 1,			        --是否启用PH报警 0:不启用,1:启用
-                        [EnableConductivityAlarm]	[INT]			NOT NULL DEFAULT 1,		--是否启用电导率报警 0:不启用,1:启用
-	                    [TurbidityUpLimit]		NUMERIC(8, 5)	NOT NULL DEFAULT 0,			--浊度上限值
-	                    [TurbidityLowLimit]		NUMERIC(8, 5)	NOT NULL DEFAULT 0,			--浊度下限值
-	                    [ResidualClUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--余氯上限值
-	                    [ResidualClLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--余氯下限值
-                        [PHUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			        --PH上限值
-	                    [PHLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			        --PH下限值
-                        [ConductivityUpLimit]   NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--电导率上限值
-	                    [ConductivityLowLimit]  NUMERIC(8, 5)   NOT NULL DEFAULT 0,			--电导率下限值
-                        [SyncState]         INT             NULL     DEFAULT 1 ,        --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]		NVARCHAR(25)    NOT NULL DEFAULT (datetime('now', 'localtime'))	--修改时间
-                    )";
-        }
-
-        /// <summary>
-        /// 第几路采集类型(通用终端)
-        /// </summary>
-        /// <returns></returns>
-        private string CreateTableUniversalTerWayType()
-        {
-            return @"CREATE TABLE [UniversalTerWayType]
-                    (
-	                    [ID]                [INT]           NOT NULL,
-                        [TerminalType]      [INT]           NOT NULL,                           --终端类型 ,通用终端和在线水质
-	                    [Level]             [INT]           NOT NULL,                           --从1开始
-	                    [ParentID]          [INT]           NOT NULL    DEFAULT -1,
-                        [WayType]           [INT]           NOT NULL,
-	                    [Name]              NVARCHAR(30)    NOT NULL,
-	                    [MaxMeasureRange]   NUMERIC(18, 2)  NOT NULL,
-	                    [MaxMeasureRangeFlag] NUMERIC(18, 2) NOT NULL,
-                        [FrameWidth]        [INT]           NOT NULL    DEFAULT 2,              --帧中数据宽度(字节)
-                        [Sequence]          [INT]           NOT NULL,                           --帧中顺序,一级节点为0,子节点从1开始
-	                    [Precision]         [INT]           NULL,
-	                    [Unit]              NVARCHAR(20)    NULL,
-                        [SyncState]         INT             NULL        DEFAULT 1,              --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]        NVARCHAR(25)    NOT NULL    DEFAULT (datetime('now', 'localtime'))
-                    )";
-        }
-        /// <summary>
-        /// 采集类型配置(通用终端)
-        /// </summary>
-        /// <returns></returns>
-        private string CreateTableUniversalTerWayConfig()
-        {
-            return @"CREATE TABLE [UniversalTerWayConfig]
-                    (
-	                    [ID]                [INT]           NOT NULL,
-                        [TerminalID]		[INT]           NOT NULL,								--终端ID
-                        [TerminalType]      [INT]           NOT NULL,                               --终端类型 ,通用终端和在线水质
-                        [Sequence]          [INT]           NOT NULL,                               --对应顺序序号
-	                    [PointID]           [INT]           NOT NULL,
-                        [SyncState]         [INT]           NULL        DEFAULT 1,                  --0:已同步,1:新增未同步,-1:删除未同步
-	                    [ModifyTime]        NVARCHAR(25)    NOT NULL    DEFAULT (datetime('now', 'localtime'))
-                    )";
         }
 
         #endregion

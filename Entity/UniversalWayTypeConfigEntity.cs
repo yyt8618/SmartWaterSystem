@@ -52,13 +52,6 @@ namespace Entity
             set { _TerminalID = value; }
         }
 
-        private int _SyncState;
-        public int SyncState
-        {
-            get { return _SyncState; }
-            set { _SyncState = value; }
-        }
-
         private DateTime _ModifyTime;
         public DateTime ModifyTime
         {

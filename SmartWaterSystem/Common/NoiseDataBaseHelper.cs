@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Text.RegularExpressions;
-using System.Data.SQLite;
 using Entity;
 using Common;
+using System.Data.SqlClient;
 
 namespace SmartWaterSystem
 {
@@ -26,7 +26,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
 
                 sql = "SELECT * FROM EN_NoiseRecorder";
-                DataTable dtRecorder = SQLiteHelper.ExecuteDataTable(sql);
+                DataTable dtRecorder = SQLHelper.ExecuteDataTable(sql);
 
                 if (dtRecorder.Rows.Count == 0)
                 {
@@ -42,7 +42,7 @@ namespace SmartWaterSystem
                     rec.GroupState = Convert.ToInt32(dtRecorder.Rows[i]["GroupState"]);
 
                     sql = "SELECT * FROM MT_RecorderSet WHERE RecorderId = " + rec.ID.ToString();
-                    DataTable recSet = SQLiteHelper.ExecuteDataTable(sql);
+                    DataTable recSet = SQLHelper.ExecuteDataTable(sql);
                     rec.RecordTime = Convert.ToInt32(recSet.Rows[0]["RecordTime"]);
                     rec.CommunicationTime = Convert.ToInt32(recSet.Rows[0]["CommunicationTime"]);
                     rec.PickSpan = Convert.ToInt32(recSet.Rows[0]["PickSpan"]);
@@ -53,7 +53,7 @@ namespace SmartWaterSystem
 
                     sql = "SELECT GroupId,RecorderId,leakValue,FrequencyValue,OriginalData,CollTime,UnloadTime,HistoryFlag FROM DL_Noise_Real WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
                     //DataTable dt_test = SQLiteHelper.ExecuteDataTable(sql, null);
-                    using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(sql, null))
+                    using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
                     {
                         if (reader.Read())
                         {
@@ -93,7 +93,7 @@ namespace SmartWaterSystem
                     }
 
                     sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,COllTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
-                    using (SQLiteDataReader reader = SQLiteHelper.ExecuteReader(sql, null))
+                    using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
                     {
                         if (reader.Read())
                         {
@@ -112,7 +112,7 @@ namespace SmartWaterSystem
                     }
                     
                     sql = @"SELECT GroupId FROM MP_GroupRecorder WHERE RecorderId = " + rec.ID.ToString();
-                    object gID = SQLiteHelper.ExecuteScalar(sql);
+                    object gID = SQLHelper.ExecuteScalar(sql);
                     if (gID == null)
                         rec.GroupID = 0;
                     else
@@ -141,7 +141,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
 
                 sql = "SELECT * FROM EN_Group";
-                DataTable dtGroup = SQLiteHelper.ExecuteDataTable(sql);
+                DataTable dtGroup = SQLHelper.ExecuteDataTable(sql);
 
                 if (dtGroup.Rows.Count == 0)
                 {
@@ -233,7 +233,7 @@ namespace SmartWaterSystem
             string sql = string.Empty;
 
             sql = "SELECT * FROM EN_DistanceControl";
-            DataTable dtCon = SQLiteHelper.ExecuteDataTable(sql);
+            DataTable dtCon = SQLHelper.ExecuteDataTable(sql);
             for (int i = 0; i < dtCon.Rows.Count; i++)
             {
                 DistanceController con = new DistanceController();
@@ -259,13 +259,13 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"UPDATE EN_NoiseRecorder SET Remark = '{0}',GroupState = {1} WHERE RecorderId = {2}", rec.Remark, rec.GroupState, rec.ID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 sql = string.Format(
                 @"UPDATE MT_RecorderSet 
                 SET RecordTime = {0},PickSpan = {1},Controler_Power = {2},StartEnd_Power = {3},CommunicationTime = {4},LeakValue = {5} WHERE RecorderId = {6}",
                 rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.CommunicationTime, rec.LeakValue, rec.ID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -281,7 +281,7 @@ namespace SmartWaterSystem
             {
                 string SQL = string.Empty;
                 SQL = string.Format(@"DELETE FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
-                SQLiteHelper.ExecuteNonQuery(SQL);
+                SQLHelper.ExecuteNonQuery(SQL);
                 return 1;
             }
             catch (Exception ex)
@@ -317,7 +317,7 @@ namespace SmartWaterSystem
 
                     string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
                           GroupID, RecorderID, strDa);
-                    SQLiteHelper.ExecuteNonQuery(SQL);
+                    SQLHelper.ExecuteNonQuery(SQL);
 
                     return 1;
                 }
@@ -345,7 +345,7 @@ namespace SmartWaterSystem
                 string SQL = string.Format("SELECT Data FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
 
                 string str_data = string.Empty;
-                DataTable dt = SQLiteHelper.ExecuteDataTable(SQL);
+                DataTable dt = SQLHelper.ExecuteDataTable(SQL);
                 if (dt != null && dt.Rows != null && dt.Rows.Count > 0)
                 {
                     str_data = dt.Rows[0]["Data"] != DBNull.Value ? dt.Rows[0]["Data"].ToString() : "";
@@ -392,7 +392,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"UPDATE EN_Group SET Name = '{0}', Remark = '{1}' WHERE GroupId = {2}", group.Name, group.Remark, group.ID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -414,12 +414,12 @@ namespace SmartWaterSystem
                 int query = 0;
 
                 sql = "SELECT * FROM EN_DistanceControl WHERE ControlId = " + ctrl.ID.ToString();
-                DataTable dt = SQLiteHelper.ExecuteDataTable(sql);
+                DataTable dt = SQLHelper.ExecuteDataTable(sql);
                 if (dt.Rows.Count != 0) // 不为0 表示存在该控制器的记录，更新即可
                 {
                     sql = string.Format(@"UPDATE EN_DistanceControl SET RecorderId = {0}, IPAdress = '{1}', Port = {2}, SendTime = {3} WHERE ControlId = {4}",
                         ctrl.RecordID, ctrl.IPAdress, ctrl.Port, ctrl.SendTime, ctrl.ID);
-                    query = SQLiteHelper.ExecuteNonQuery(sql);
+                    query = SQLHelper.ExecuteNonQuery(sql);
                 }
                 else if (dt.Rows.Count == 0)
                 {
@@ -446,22 +446,22 @@ namespace SmartWaterSystem
                 int query = 0;
                 sql = string.Format(@"INSERT INTO EN_NoiseRecorder(RecorderId,AddDate,Remark,GroupState) VALUES(@RecorderId,@AddDate,@Remark,@GroupState)",
                     rec.ID, rec.AddDate, rec.Remark, rec.GroupState);
-                SQLiteParameter[] parms =new SQLiteParameter[]{
-                    new SQLiteParameter("@RecorderId",DbType.String),
-                    new SQLiteParameter("@AddDate",DbType.DateTime),
-                    new SQLiteParameter("@Remark",DbType.String),
-                    new SQLiteParameter("@GroupState",DbType.Int32) };
+                SqlParameter[] parms = new SqlParameter[]{
+                    new SqlParameter("@RecorderId",DbType.String),
+                    new SqlParameter("@AddDate",DbType.DateTime),
+                    new SqlParameter("@Remark",DbType.String),
+                    new SqlParameter("@GroupState",DbType.Int32) };
                 parms[0].Value = rec.ID;
                 parms[1].Value = rec.AddDate;
                 parms[2].Value = rec.Remark;
                 parms[3].Value = rec.GroupState;
 
-                query = SQLiteHelper.ExecuteNonQuery(sql,parms);
+                query = SQLHelper.ExecuteNonQuery(sql, parms);
 
                 sql = string.Format(@"INSERT INTO MT_RecorderSet(RecorderId, RecordTime, PickSpan, Controler_Power, StartEnd_Power, CommunicationTime, LeakValue) 
                 VALUES({0},{1},{2},{3},{4},{5},{6})",
                     rec.ID, rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.CommunicationTime, rec.LeakValue);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
             catch (Exception ex)
@@ -483,7 +483,7 @@ namespace SmartWaterSystem
                 int query = 0;
                 sql = string.Format(@"INSERT INTO EN_Group(GroupId,Name, Remark) VALUES('{0}','{1}','{2}')",
                     group.ID,group.Name, group.Remark);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -513,7 +513,7 @@ namespace SmartWaterSystem
         public static bool IsExistGroupID(int groupId)
         {
             string SQL = "SELECT COUNT(1) FROM EN_Group WHERE GroupID='" + groupId + "'";
-            object objcount=SQLiteHelper.ExecuteScalar(SQL, null);
+            object objcount = SQLHelper.ExecuteScalar(SQL, null);
             if (objcount != null)
                 return Convert.ToInt32(objcount) == 1 ? true : false;
             return false;
@@ -530,7 +530,7 @@ namespace SmartWaterSystem
                 int query = 0;
                 sql = string.Format(@"INSERT INTO EN_DistanceControl(ControlId, RecorderId, IPAdress, Port, SendTime) VALUES({0},{1},'{2}',{3},{4})",
                     ctrl.ID, ctrl.RecordID, ctrl.IPAdress, ctrl.Port, ctrl.SendTime);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -553,7 +553,7 @@ namespace SmartWaterSystem
                 int query = 0;
                 sql = string.Format(@"INSERT INTO MP_GroupRecorder(RecorderId, GroupId) VALUES({0},{1})",
                     recID, groupID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
             catch (Exception)
@@ -575,7 +575,7 @@ namespace SmartWaterSystem
                 sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime, EnergyValue, LeakProbability) 
                     VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}',{9}, {10})",
                     result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.EnergyValue.ToString("f4"), result.LeakProbability.ToString("f4"));
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -625,7 +625,7 @@ namespace SmartWaterSystem
                 sql = string.Format(@"INSERT INTO DL_Noise_Real(GroupId, RecorderId, LeakValue, FrequencyValue, OriginalData, CollTime, UnloadTime, HistoryFlag) 
                     VALUES({0},{1},'{2}','{3}','{4}','{5}','{6}',{7})",
                     data.GroupID, data.RecorderID, strAmp, strFrq, strDa, data.ReadTime, data.UploadTime, data.UploadFlag);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -646,17 +646,17 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM MT_RecorderSet WHERE RecorderId = {0}", recID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 sql = string.Format(@"DELETE FROM EN_DistanceControl WHERE RecorderId = {0}", recID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 DeleteRelationByRecoderId(recID);
 				DeleteDataByRecorderId(recID);
 				DeleteResultByRecorderId(recID);
 
                 sql = string.Format(@"DELETE FROM EN_NoiseRecorder WHERE RecorderId = {0}", recID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -689,7 +689,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM EN_Group WHERE GroupId = {0}", groupID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -711,7 +711,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM EN_DistanceControl WHERE ControlId = {0}", conID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
@@ -733,7 +733,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM MP_GroupRecorder WHERE RecorderId = {0}", recID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -754,7 +754,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM MP_GroupRecorder WHERE GroupId = {0}", groupID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -776,7 +776,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM MP_GroupRecorder WHERE GroupId = {0} AND RecorderId = {1}", groupID, recID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -797,7 +797,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM DL_Noise_Real WHERE GroupId = {0}", groupID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -818,7 +818,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM DL_Noise_Real WHERE RecorderId = {0}", recID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -839,7 +839,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM DL_NoiseAnalyse WHERE GroupId = {0}", groupID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)
@@ -860,7 +860,7 @@ namespace SmartWaterSystem
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"DELETE FROM DL_NoiseAnalyse WHERE RecorderId = {0}", recID);
-                query = SQLiteHelper.ExecuteNonQuery(sql);
+                query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
 			catch (Exception ex)

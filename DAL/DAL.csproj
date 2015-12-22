@@ -33,9 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\DLL\SQLite_x86_bundle\System.Data.SQLite.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +43,6 @@
     <Compile Include="HydrantDAL.cs" />
     <Compile Include="OLWQConfigDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQLSyncDAL.cs" />
     <Compile Include="TerminalConfigDAL.cs" />
     <Compile Include="TerminalDataDAL.cs" />
     <Compile Include="UniversalWayTypeDAL.cs" />

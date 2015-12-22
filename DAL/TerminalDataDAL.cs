@@ -5,7 +5,6 @@ using System.Data;
 using System.Collections;
 using Entity;
 using Common;
-using System.Data.SQLite;
 
 namespace DAL
 {
@@ -519,7 +518,7 @@ namespace DAL
             //    exist = (Convert.ToInt32(obj_exist) > 0 ? true : false);
             //}
             //if (exist)
-                SQL = "DELETE FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
+            SQL = "DELETE FROM Terminal WHERE TerminalType='" + (int)type + "' AND TerminalID='" + TerminalID + "'";
             SQLHelper.ExecuteNonQuery(SQL, null);
         }
 

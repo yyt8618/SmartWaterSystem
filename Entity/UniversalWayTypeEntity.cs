@@ -90,15 +90,15 @@ namespace Entity
             set { _Unit = value; }
         }
 
-        private int _SyncState = 0;
+        //private int _SyncState = 0;
         /// <summary>
         /// 0:已同步,1:新增未同步,-1:删除未同步
         /// </summary>
-        public int SyncState
-        {
-            get { return _SyncState; }
-            set { _SyncState = value; }
-        }
+        //public int SyncState
+        //{
+        //    get { return _SyncState; }
+        //    set { _SyncState = value; }
+        //}
 
         private DateTime _ModifyTime;
         public DateTime ModifyTime

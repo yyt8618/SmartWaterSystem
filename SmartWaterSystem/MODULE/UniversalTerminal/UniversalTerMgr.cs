@@ -268,7 +268,7 @@ namespace SmartWaterSystem
             }
 
             UniversalWayTypeEntity nodeentity = dialogform.GetTypeEntity();
-            nodeentity.SyncState = 0;
+            //nodeentity.SyncState = 0;
 
             treeCollectType.BeginUnboundLoad();
             if (currentNode == null)
@@ -302,7 +302,7 @@ namespace SmartWaterSystem
                 }
                 nodeentity.Sequence = sequence + 1;
             }
-            nodeentity.SyncState = 1;
+            //nodeentity.SyncState = 1;
             int saveresult = WayTypebll.Insert(nodeentity,TerType.UniversalTer);
             if (-1 == saveresult)
             {
@@ -353,9 +353,6 @@ namespace SmartWaterSystem
 
                 WayTypeControlsDefault();
                 BindCombobox();
-
-                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
-                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
             }
         }
         #endregion
@@ -623,8 +620,6 @@ namespace SmartWaterSystem
                 if ((Terbll.DeleteTer(TerType.UniversalTer, txtID.Text) == 1) && (Terbll.DeleteUniversalWayTypeConfig_TerID(Convert.ToInt32(txtID.Text),TerType.UniversalTer) == 1))
                 {
                     XtraMessageBox.Show("删除成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
-                    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
                 }
                 else
                 {
@@ -1067,8 +1062,6 @@ namespace SmartWaterSystem
             {
                 XtraMessageBox.Show("保存成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadTerminalData();
-                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
-                GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
             }
             else
             {

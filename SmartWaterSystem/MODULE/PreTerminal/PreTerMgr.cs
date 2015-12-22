@@ -174,7 +174,7 @@ namespace SmartWaterSystem
             if (Validate())
             {
                 TerminalConfigEntity entity = null;
-                if (configBLL.IsExist(txtTerminalID.Text.Trim(), 1) || configBLL.IsExist(txtTerminalID.Text.Trim(), 0))
+                if (configBLL.IsExist(txtTerminalID.Text.Trim()))
                 {
                     if (DialogResult.Yes == XtraMessageBox.Show("终端编号[" + txtTerminalID.Text + "]已经存在,是否更新?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
                     {
@@ -192,8 +192,6 @@ namespace SmartWaterSystem
                             ClearConfigControls();
                             GetConfigFromDB();
                             
-                            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
-                            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
                         }
                         else
                         {
@@ -217,12 +215,6 @@ namespace SmartWaterSystem
                                 MonitorView.ShowTerList(false,true);
                                 MonitorView.ShowTerData();
                             }
-
-                            ClearConfigControls();
-                            GetConfigFromDB();
-
-                            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
-                            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
 
                             ClearConfigControls();
                             GetConfigFromDB();
@@ -255,12 +247,6 @@ namespace SmartWaterSystem
                             MonitorView.ShowTerList(false,true);
                             MonitorView.ShowTerData();
                         }
-
-                        ClearConfigControls();
-                        GetConfigFromDB();
-
-                        GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
-                        GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
 
                         ClearConfigControls();
                         GetConfigFromDB();

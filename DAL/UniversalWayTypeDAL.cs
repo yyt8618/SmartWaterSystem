@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Common;
 using Entity;
 using System.Data;
-using System.Data.SQLite;
 using System.Data.SqlClient;
 
 namespace DAL

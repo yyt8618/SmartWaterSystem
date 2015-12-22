@@ -81,65 +81,52 @@ namespace SmartWaterSystem
                 #endregion
 
                 #region 数据库操作
-                SQLiteDbManager dbMgr = new SQLiteDbManager();
-                #region 创建数据库
-                //如果数据库文件不存在创建
-                if (!(dbMgr.Exists))
-                {
-                    if (SplashScreenManager.Default.IsSplashFormVisible)
-                    {
-                        SplashScreenManager.Default.SendCommand(null, "正在创建数据库...");
-                    }
-                    if (!dbMgr.ResetDatabase())
-                    {
-                        //error.ErrorCode = -1;
-                        logger.Error("ResetDatabase","创建数据库失败，请联系系统管理员");
-                    }
-                }
-                #endregion
+                //SQLiteDbManager dbMgr = new SQLiteDbManager();
+                //#region 创建数据库
+                ////如果数据库文件不存在创建
+                //if (!(dbMgr.Exists))
+                //{
+                //    if (SplashScreenManager.Default.IsSplashFormVisible)
+                //    {
+                //        SplashScreenManager.Default.SendCommand(null, "正在创建数据库...");
+                //    }
+                //    if (!dbMgr.ResetDatabase())
+                //    {
+                //        //error.ErrorCode = -1;
+                //        logger.Error("ResetDatabase","创建数据库失败，请联系系统管理员");
+                //    }
+                //}
+                //#endregion
 
-                #region 升级数据库
-                DBVersion versionBLL = new DBVersion();
-                string dbVersion = versionBLL.GetVersion(VersionType.DataBase.ToString());
-                if (dbVersion != dbMgr.LastestDBVersion)
-                {
-                    if (SplashScreenManager.Default.IsSplashFormVisible)
-                    {
-                        SplashScreenManager.Default.SendCommand(null, "正在更新数据库...");
-                    }
-                    if (!dbMgr.UpgradeDB())
-                    {
-                        //error.ErrorCode = 0;
-                        //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
-                    }
-                    else
-                    {
-                        if (SplashScreenManager.Default.IsSplashFormVisible)
-                        {
-                            SplashScreenManager.Default.SendCommand(null, "正在更新数据库版本...");
-                        }
-                        if (!versionBLL.UpdateVersion(VersionType.DataBase.ToString(), dbMgr.LastestDBVersion))
-                        {
-                            //error.ErrorCode = 0;
-                            //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
-                        }
-                    }
-                }
+                //#region 升级数据库
+                //DBVersion versionBLL = new DBVersion();
+                //string dbVersion = versionBLL.GetVersion(VersionType.DataBase.ToString());
+                //if (dbVersion != dbMgr.LastestDBVersion)
+                //{
+                //    if (SplashScreenManager.Default.IsSplashFormVisible)
+                //    {
+                //        SplashScreenManager.Default.SendCommand(null, "正在更新数据库...");
+                //    }
+                //    if (!dbMgr.UpgradeDB())
+                //    {
+                //        //error.ErrorCode = 0;
+                //        //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
+                //    }
+                //    else
+                //    {
+                //        if (SplashScreenManager.Default.IsSplashFormVisible)
+                //        {
+                //            SplashScreenManager.Default.SendCommand(null, "正在更新数据库版本...");
+                //        }
+                //        if (!versionBLL.UpdateVersion(VersionType.DataBase.ToString(), dbMgr.LastestDBVersion))
+                //        {
+                //            //error.ErrorCode = 0;
+                //            //error.ErrorMessage = "      自动升级数据库失败，请联系系统管理员";
+                //        }
+                //    }
+                //}
+                //#endregion
                 #endregion
-                #endregion
-
-                if (SplashScreenManager.Default.IsSplashFormVisible)
-                {
-                    SplashScreenManager.Default.SendCommand(null, "正在加载数据...");
-                }
-                GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
-                GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
-                GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
-
-                if (SplashScreenManager.Default.IsSplashFormVisible)
-                {
-                    SplashScreenManager.Default.SendCommand(null, "正在初始化参数...");
-                }
 
                 SQLHelper.ConnectionString = Settings.Instance.GetString(SettingKeys.DBString);
                 if (!string.IsNullOrEmpty(SQLHelper.ConnectionString))
@@ -153,18 +140,19 @@ namespace SmartWaterSystem
                             Application.Exit();
                         }
                     }
-                    else
-                    {
-                        GlobalValue.SQLSyncMgr.SQLSyncEvent += new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
-                        GlobalValue.SQLSyncMgr.Start();
+                }
 
-                        SQLSynctimer.Interval =60 * 1000;
-                        SQLSynctimer.Tick += new EventHandler(SQLSynctimer_Tick);
-                        SQLSynctimer.Enabled = true;
+                if (SplashScreenManager.Default.IsSplashFormVisible)
+                {
+                    SplashScreenManager.Default.SendCommand(null, "正在加载数据...");
+                }
+                GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
 
-                        SplashScreenManager.Default.SendCommand(null, "开始同步数据...");
-                        SQLSynctimer_Tick(null, null);  //启动先同步一次数据
-                    }
+                if (SplashScreenManager.Default.IsSplashFormVisible)
+                {
+                    SplashScreenManager.Default.SendCommand(null, "正在初始化参数...");
                 }
 
                 GlobalValue.SerialPortMgr.SerialPortEvent += new SerialPortHandle(SerialPortMgr_SerialPortEvent);
@@ -200,18 +188,13 @@ namespace SmartWaterSystem
             
         }
 
-        void SQLSynctimer_Tick(object sender, EventArgs e)
-        {
-            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
-            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
-            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
-            GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
-        }
-
-        void SQLSyncMgr_SQLSyncEvent(object sender, SQLSyncEventArgs e)
-        {
-            
-        }
+        //void SQLSynctimer_Tick(object sender, EventArgs e)
+        //{
+        //    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
+        //    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
+        //    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
+        //    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
+        //}
 
         private void InitNavigate()
         {
@@ -905,9 +888,9 @@ namespace SmartWaterSystem
         {
             try
             {
-                GlobalValue.SQLSyncMgr.Stop();
-                GlobalValue.SQLSyncMgr.SQLSyncEvent -= new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
-                Thread.Sleep(100);
+                //GlobalValue.SQLSyncMgr.Stop();
+                //GlobalValue.SQLSyncMgr.SQLSyncEvent -= new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
+                //Thread.Sleep(100);
 
                 GlobalValue.SerialPortMgr.Stop();
                 GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortMgr_SerialPortEvent);

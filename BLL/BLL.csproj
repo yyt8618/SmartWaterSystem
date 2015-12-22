@@ -47,7 +47,6 @@
     <Compile Include="HydrantBLL.cs" />
     <Compile Include="OLWQConfigBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQLSyncBLL.cs" />
     <Compile Include="TerminalConfigBLL.cs" />
     <Compile Include="TerminalDataBLL.cs" />
     <Compile Include="UniversalWayTypeBLL.cs" />

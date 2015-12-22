@@ -49,12 +49,6 @@ namespace SmartWaterSystem
                 SecsCount = 60;
                 ShowTerData();
             }
-
-            //this.lstDataView.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.lstDataView_CustomDrawCell);
-            //for (int i = 0; i < lstDataView.RowCount; i++)
-            //{
-            //    lstDataView.RefreshRow(i);
-            //}
         }
 
         private void InitView()
@@ -198,13 +192,7 @@ namespace SmartWaterSystem
                             data.NewestInstantFlowValue.ToString("f3"),
                             "",""
                             });
-                            //ItemTagEntity tagEntity = new ItemTagEntity();
-                            //tagEntity.lstColor = null;
-                            //tagEntity.Addr = data.Addr;
-                            //item.Tag = tagEntity;
-                            ////set default backcolor
-                            //item.BackColor = cDefault;
-                            //lstItems.Add(item);
+
                             lstTerId.Remove(data.TerminalID);
                         }
                         else
@@ -264,10 +252,6 @@ namespace SmartWaterSystem
         {
             try
             {
-                /*  Colors[1] = cPreLowLimit;
-                    Colors[2] = cPreUpLimit;
-                    Colors[3] = cPreSlopeLowLimit;
-                    Colors[4] = cPreSlopeUpLimit;*/
                 string strColor = "";
                 if (enablePreAlarm)
                 {
@@ -334,10 +318,6 @@ namespace SmartWaterSystem
         {
             if (e.Column.Caption == "压力值")
             {
-                /*  Colors[0] = cPreLowLimit;
-                    Colors[1] = cPreUpLimit;
-                    Colors[2] = cPreSlopeLowLimit;
-                    Colors[3] = cPreSlopeUpLimit;*/
                 int rowhandle = e.RowHandle;
                 if (lstDataView.GetRow(rowhandle)!=null)
                 {
@@ -434,8 +414,6 @@ namespace SmartWaterSystem
                 detailForm.ShowDialog();
             }
         }
-
-
 
         
     }

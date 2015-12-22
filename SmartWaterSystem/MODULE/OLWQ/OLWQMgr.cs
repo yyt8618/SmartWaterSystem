@@ -71,7 +71,6 @@ namespace SmartWaterSystem
                     if ((new OLWQConfigBLL()).Delete(txtID.Text.Trim()))
                     {
                         XtraMessageBox.Show("删除成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
                     }
                     else
                     {
@@ -236,7 +235,6 @@ namespace SmartWaterSystem
                 {
                     XtraMessageBox.Show("保存成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadTerminalData();
-                    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
                 }
                 else
                     XtraMessageBox.Show("保存发生异常，请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -309,16 +307,6 @@ namespace SmartWaterSystem
                     }
                 }
             }
-            /*
-            for (int i = 0; i < lstComboboxdata.Count; i++)
-            {
-                if (lstComboboxdata[i].ID == PointID && (i < control.Properties.Items.Count))
-                {
-                    control.Visible = true;
-                    control.SelectedIndex = i;
-                    break;
-                }
-            }*/
         }
 
         private void ClearTerControls()
