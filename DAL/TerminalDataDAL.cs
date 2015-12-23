@@ -685,7 +685,7 @@ namespace DAL
         public List<PreDetailDataEntity> GetPreDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval)
         {
             string SQL = @"SELECT PressValue,CollTime FROM Pressure_Real 
-            WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalID=@TerId  ORDER BY CollTime";
+            WHERE (CollTime BETWEEN @mintime AND @maxtime) AND (DATEDIFF(minute,@mintime,CollTime) %@interval = 0) AND TerminalID=@TerId  ORDER BY CollTime";
 
             SqlParameter[] parms = new SqlParameter[]{
                 new SqlParameter("@TerId",SqlDbType.Int),
@@ -718,7 +718,7 @@ namespace DAL
         public List<PreDetailDataEntity> GetFlowDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval, int datatype)
         {
             string SQL = @"SELECT FlowValue,FlowInverted,FlowInstant,CollTime FROM Flow_Real 
-            WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalIDID=@TerId  ORDER BY CollTime";
+            WHERE (CollTime BETWEEN @mintime AND @maxtime) AND (DATEDIFF(minute,@mintime,CollTime) %@interval = 0) AND TerminalIDID=@TerId  ORDER BY CollTime";
 
             SqlParameter[] parms = new SqlParameter[]{
                 new SqlParameter("@TerId",SqlDbType.Int),
@@ -756,7 +756,7 @@ namespace DAL
         public List<UniversalDetailDataEntity> GetUniversalDetail(string TerminalID, int typeId, DateTime minTime, DateTime maxTime, int interval)
         {
             string SQL = @"SELECT [DataValue],CollTime FROM UniversalTerData 
-  WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalID=@TerId AND TypeTableID=@typeId  ORDER BY CollTime";
+    WHERE (CollTime BETWEEN @mintime AND @maxtime) AND (DATEDIFF(minute,@mintime,CollTime) %@interval = 0) AND TerminalID=@TerId AND TypeTableID=@typeId  ORDER BY CollTime";
 
             SqlParameter[] parms = new SqlParameter[]{
                 new SqlParameter("@TerId",SqlDbType.Int),
@@ -803,7 +803,7 @@ namespace DAL
             else if (datatype == 4)  //温度
                 valuecolumnname = "Conductivity";
             string SQL = @"SELECT Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime FROM OLWQ_Real 
-            WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalID=@TerId AND ValueColumnName=@valuename  ORDER BY CollTime";
+            WHERE (CollTime BETWEEN @mintime AND @maxtime) AND (DATEDIFF(minute,@mintime,CollTime) %@interval = 0) AND TerminalID=@TerId AND ValueColumnName=@valuename  ORDER BY CollTime";
 
             SqlParameter[] parms = new SqlParameter[]{
                 new SqlParameter("@TerId",SqlDbType.Int),
