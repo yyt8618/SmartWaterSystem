@@ -159,15 +159,22 @@ namespace SmartWaterSystem
                 GlobalValue.SerialPortMgr.Start();
 
                 //检查消息队列是否按照
-                try
+                if (string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.MSMQIpAddr)))
                 {
-                    if (MessageQueue.Exists(ConstValue.MSMQPathToUI)) ;
-
-                    GlobalValue.MSMQMgr.Start();
+                    XtraMessageBox.Show("未设置MSMQ地址,远传终端监控和招测将不能使用!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch (InvalidOperationException ex)
+                else
                 {
-                    XtraMessageBox.Show(ex.Message + ",远传终端监控和招测将不能使用!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    try
+                    {
+                        //if (MessageQueue.Exists(string.Format("FormatName:Direct=TCP:"+ConstValue.MSMQPathToUI,Settings.Instance.GetString(SettingKeys.MSMQIpAddr)))) ;
+
+                        GlobalValue.MSMQMgr.Start();
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        XtraMessageBox.Show(ex.Message + ",远传终端监控和招测将不能使用!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
 
                 SplashScreenManager.CloseForm();
@@ -627,6 +634,12 @@ namespace SmartWaterSystem
             grpsconsole.ShowDialog();
         }
 
+        private void barBtnMSMQSetting_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            FrmMSMQSet msmqSet = new FrmMSMQSet();
+            msmqSet.ShowDialog();
+        }
+
         private void ClearLogAndDb()
         {
             try
@@ -906,6 +919,8 @@ namespace SmartWaterSystem
         {
 
         }
+
+        
 
         
 

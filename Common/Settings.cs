@@ -57,6 +57,11 @@ namespace Common
         /// 服务监控是否打开
         /// </summary>
         public const string ServiceMonitorEnable = "ServiceMonitorEnable";
+
+        /// <summary>
+        /// MSMQ IP地址
+        /// </summary>
+        public const string MSMQIpAddr = "MSMQAddr";
     }
 
     /// <summary>
@@ -76,7 +81,8 @@ namespace Common
             {SettingKeys.GPRS_IP,""},
             {SettingKeys.GPRS_PORT,""},
             {SettingKeys.CallDataEnable,"false"},
-            {SettingKeys.ServiceMonitorEnable,"true"}
+            {SettingKeys.ServiceMonitorEnable,"true"},
+            {SettingKeys.MSMQIpAddr,""}
         };
     }
 

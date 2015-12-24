@@ -133,17 +133,17 @@
   <data name="cross1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HydrantMap1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HydrantMap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="UniversalTerParm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UniversalTerParm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DataCompare" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataCompare.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Hydrant1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Products\Hydrant.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="UniversalTermonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UniversalTermonitor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="voice2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\voice2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -156,6 +156,9 @@
   </data>
   <data name="leak2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak\leak2.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="leak1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\leak\leak1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SerialPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -172,8 +175,8 @@
   <data name="SerialPortConfig1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SerialPortConfig1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DisableSerialPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisableSerialPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="灭灯16x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\灭灯16x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Welcome.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -187,8 +190,8 @@
   <data name="Voice" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Voice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="voice1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\voice1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DataCompare3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataCompare3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Hydrant" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Products\Hydrant.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -205,11 +208,8 @@
   <data name="sql" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sql.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="OLWQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Products\OLWQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NoiseRecorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Products\NoiseRecorder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="voice1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\voice1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="wait" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wait.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -220,8 +220,8 @@
   <data name="GsmTerminal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Products\GsmTerminal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DataCompare3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataCompare3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="OLWQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Products\OLWQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="leak5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak\leak5.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -229,14 +229,14 @@
   <data name="UniversalTerMgr1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UniversalTerMgr1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UniversalTermonitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UniversalTermonitor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HydrantMap1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HydrantMap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="voice3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\voice3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="leak1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\leak\leak1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DisableSerialPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DisableSerialPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="leak6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak\leak6.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -247,8 +247,11 @@
   <data name="PreTerMgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PreTerMgr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fullscreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fullscreen.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NoiseRecorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Products\NoiseRecorder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="leak_tuming" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak_tuming.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -256,8 +259,8 @@
   <data name="UniversalTerMgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UniversalTerMgr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="灭灯16x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\灭灯16x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Hydrant1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Products\Hydrant.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="companylogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\companylogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -265,7 +268,7 @@
   <data name="leak4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\leak\leak4.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="fullscreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fullscreen.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MSMQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MSMQ.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

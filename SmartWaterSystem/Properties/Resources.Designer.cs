@@ -207,6 +207,13 @@ namespace SmartWaterSystem.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap MSMQ {
+            get {
+                object obj = ResourceManager.GetObject("MSMQ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap NoiseMap {
             get {
                 object obj = ResourceManager.GetObject("NoiseMap", resourceCulture);

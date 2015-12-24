@@ -70,15 +70,15 @@ namespace SmartWaterSystem
                 if (msmqEntity == null)
                     return;
                 MessageQueue MQueue;
-                if (!MessageQueue.Exists(ConstValue.MSMQPathToService))
-                {
-                    return;
-                }
+                //if (!MessageQueue.Exists(ConstValue.MSMQPathToService))
+                //{
+                //    return;
+                //}
 
-                MQueue = new MessageQueue(ConstValue.MSMQPathToService);
+                MQueue = new MessageQueue(string.Format("FormatName:Direct=TCP:"+ConstValue.MSMQPathToService,Settings.Instance.GetString(SettingKeys.MSMQIpAddr)));
 
                 Message Msg = new Message();
-                Msg.Body = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
+                Msg.Body = msmqEntity;
                 Msg.Formatter = new BinaryMessageFormatter();
                 MQueue.Send(Msg);
             }
@@ -101,55 +101,62 @@ namespace SmartWaterSystem
                 while (true)
                 {
                     Thread.CurrentThread.Join(1000);
-                    ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
+                    //ServiceController serviceController1 = ServiceManager.GetService(ConstValue.MSMQServiceName);
 
-                    if (serviceController1 != null)
-                    {
-                        serviceController1.Refresh();
+                    //if (serviceController1 != null)
+                    //{
+                    //    serviceController1.Refresh();
 
-                        if (serviceController1.Status == ServiceControllerStatus.Stopped)
-                        {
-                            if (!showstopmsg)
-                            {
-                                OnMSMQEvent(new MSMQEventArgs(new MSMQEntity(Entity.ConstValue.MSMQTYPE.Message, "服务已停止!")));
-                            }
-                            showstopmsg = true;
-                        }
-                        else
-                            showstopmsg = false;
+                    //    if (serviceController1.Status == ServiceControllerStatus.Stopped)
+                    //    {
+                    //        if (!showstopmsg)
+                    //        {
+                    //            OnMSMQEvent(new MSMQEventArgs(new MSMQEntity(Entity.ConstValue.MSMQTYPE.Message, "服务已停止!")));
+                    //        }
+                    //        showstopmsg = true;
+                    //    }
+                    //    else
+                    //        showstopmsg = false;
 
                         MessageQueue MQueue;
 
-                        if (MessageQueue.Exists(ConstValue.MSMQPathToUI))
-                        {
-                            MQueue = new MessageQueue(ConstValue.MSMQPathToUI);
-                        }
-                        else
-                        {
-                            MQueue = MessageQueue.Create(ConstValue.MSMQPathToUI);
-                            MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
-                            MQueue.Label = "GCGprsMSMQ";
-                        }
+                        //if (MessageQueue.Exists(ConstValue.MSMQPathToUI))
+                        //{
+                            MQueue = new MessageQueue(string.Format("FormatName:Direct=TCP:"+ConstValue.MSMQPathToUI,Settings.Instance.GetString(SettingKeys.MSMQIpAddr)));
+                        //}
+                        //else
+                        //{
+                        //    MQueue = MessageQueue.Create(ConstValue.MSMQPathToUI);
+                        //    MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
+                        //    MQueue.Label = "GCGprsMSMQ";
+                        //}
 
                         //一次读取全部消息,但是不去除读过的消息
-                        System.Messaging.Message[] Msg = MQueue.GetAllMessages();
-                        //删除所有消息
-                        MQueue.Purge();
-                        try
-                        {
-                            foreach (System.Messaging.Message m in Msg)
+                            try
                             {
-                                m.Formatter = new BinaryMessageFormatter();
-                                //string msg = m.Body.ToString();
-                                MSMQEntity msmqEntity = (MSMQEntity)m.Body; // (MSMQEntity)Newtonsoft.Json.JsonConvert.DeserializeObject(msg, typeof(MSMQEntity));
-                                OnMSMQEvent(new MSMQEventArgs(msmqEntity));
+                                System.Messaging.Message[] Msg = MQueue.GetAllMessages();
+                                //删除所有消息
+                                MQueue.Purge();
+
+                                if (Msg != null)
+                                {
+                                    int i = 0;
+                                    if (Msg.Length > 1000)
+                                        i = Msg.Length - 1000;
+                                    for (; i < Msg.Length; i++)
+                                    {
+                                        Msg[i].Formatter = new BinaryMessageFormatter();
+                                        MSMQEntity msmqEntity = (MSMQEntity)Msg[i].Body;
+                                        OnMSMQEvent(new MSMQEventArgs(msmqEntity));
+                                    }
+                                }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.ErrorException("JSON解析错误,Location:MSMQManager.MSMQReceiveThread", ex);
-                        }
-                    }
+                            catch (Exception ex)
+                            {
+                                OnMSMQEvent(new MSMQEventArgs(new MSMQEntity(Entity.ConstValue.MSMQTYPE.Message, ex.Message)));
+                                logger.ErrorException("JSON解析错误,Location:MSMQManager.MSMQReceiveThread", ex);
+                            }
+                    //}
                 }
             }
             catch (Exception ex)

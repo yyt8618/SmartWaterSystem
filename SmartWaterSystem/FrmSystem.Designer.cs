@@ -45,6 +45,7 @@
             this.ribbonGalleryBarItem1 = new DevExpress.XtraBars.RibbonGalleryBarItem();
             this.barBtnSetDBConnect = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnGPRSConsole = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnMSMQSetting = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageSys = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -142,9 +143,10 @@
             this.skinRibbonGalleryBarItem1,
             this.ribbonGalleryBarItem1,
             this.barBtnSetDBConnect,
-            this.barBtnGPRSConsole});
+            this.barBtnGPRSConsole,
+            this.barBtnMSMQSetting});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 33;
+            this.ribbonControl1.MaxItemId = 34;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageSys});
@@ -249,6 +251,14 @@
             this.barBtnGPRSConsole.Name = "barBtnGPRSConsole";
             this.barBtnGPRSConsole.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnGPRSConsole_ItemClick);
             // 
+            // barBtnMSMQSetting
+            // 
+            this.barBtnMSMQSetting.Caption = "MSMQ";
+            this.barBtnMSMQSetting.Id = 33;
+            this.barBtnMSMQSetting.LargeGlyph = global::SmartWaterSystem.Properties.Resources.MSMQ;
+            this.barBtnMSMQSetting.Name = "barBtnMSMQSetting";
+            this.barBtnMSMQSetting.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnMSMQSetting_ItemClick);
+            // 
             // ribbonPageSys
             // 
             this.ribbonPageSys.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -274,6 +284,7 @@
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetVoice);
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetDBConnect);
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnGPRSConsole);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnMSMQSetting);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.ShowCaptionButton = false;
             this.ribbonPageGroup2.Text = "设置";
@@ -781,6 +792,7 @@
         private DevExpress.XtraNavBar.NavBarGroup NBG_Hydrant;
         private DevExpress.XtraNavBar.NavBarItem navBarHydrantParm;
         private DevExpress.XtraNavBar.NavBarItem navBarHydrantMap;
+        private DevExpress.XtraBars.BarButtonItem barBtnMSMQSetting;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

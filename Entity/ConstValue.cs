@@ -7,9 +7,9 @@ namespace Entity
 {
     public class ConstValue
     {
-        public static string MSMQPathToUI = ".\\private$\\GcGPRSToUI";
+        public static string MSMQPathToUI = "{0}\\private$\\GcGPRSToUI";
         public static string MSMQServiceName = "GCGPRSService";
-        public static string MSMQPathToService = ".\\private$\\GcGPRSToService";
+        public static string MSMQPathToService = "{0}\\private$\\GcGPRSToService";
 
         public static DateTime MinDateTime = new DateTime(2015, 1, 1, 0, 0, 0);
 

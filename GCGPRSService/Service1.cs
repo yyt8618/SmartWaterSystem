@@ -39,8 +39,11 @@ namespace GCGPRSService
             GlobalValue.Instance.SocketMag.cmdEvent += new cmdEventHandle(socketService_cmdEvent);
             GlobalValue.Instance.SocketMag.T_Listening();
 
-            t_msmq_receive = new Thread(new ThreadStart(MSMQReceiveThread));
-            t_msmq_receive.Start();
+            if (CreateMSMQPath())
+            {
+                t_msmq_receive = new Thread(new ThreadStart(MSMQReceiveThread));
+                t_msmq_receive.Start();
+            }
 
             if (Settings.Instance.GetBool(SettingKeys.ServiceMonitorEnable))
             {
@@ -68,10 +71,10 @@ namespace GCGPRSService
         {
             try
             {
-                if (MessageQueue.Exists(ConstValue.MSMQPathToService))
-                {
-                    MessageQueue.Delete(ConstValue.MSMQPathToService);
-                }
+                //if (MessageQueue.Exists(string.Format(ConstValue.MSMQPathToService, ".")))
+                //{
+                //    MessageQueue.Delete(ConstValue.MSMQPathToService);
+                //}
                 while (true)
                 {
                     t_msmq_receive.Join(2000);
@@ -79,16 +82,16 @@ namespace GCGPRSService
                     if (serviceController1 != null)
                     {
                         MessageQueue MQueue;
-                        if (MessageQueue.Exists(ConstValue.MSMQPathToService))
-                        {
-                            MQueue = new MessageQueue(ConstValue.MSMQPathToService);
-                        }
-                        else
-                        {
-                            MQueue = MessageQueue.Create(ConstValue.MSMQPathToService);
-                            MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
-                            MQueue.Label = "GCGprsMSMQ";
-                        }
+                        //if (MessageQueue.Exists(string.Format(ConstValue.MSMQPathToService, ".")))
+                        //{
+                            MQueue = new MessageQueue(string.Format(ConstValue.MSMQPathToService, "."));
+                        //}
+                        //else
+                        //{
+                        //    MQueue = MessageQueue.Create(string.Format(ConstValue.MSMQPathToService, "."));
+                        //    MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
+                        //    MQueue.Label = "GCGprsMSMQ";
+                        //}
 
                         //一次读取全部消息,但是不去除读过的消息
                         System.Messaging.Message[] Msg = MQueue.GetAllMessages();
@@ -152,6 +155,35 @@ namespace GCGPRSService
             }
         }
 
+        bool CreateMSMQPath()
+        {
+            try
+            {
+                MessageQueue MQueue;
+                if (!MessageQueue.Exists(string.Format(ConstValue.MSMQPathToService, ".")))
+                {
+                    MQueue = MessageQueue.Create(string.Format(ConstValue.MSMQPathToService, "."));
+                    MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl);
+                    MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl);
+                    MQueue.Label = "GCGprsMSMQ";
+                }
+
+                if (!MessageQueue.Exists(string.Format(ConstValue.MSMQPathToUI, ".")))
+                {
+                    MQueue = MessageQueue.Create(string.Format(ConstValue.MSMQPathToUI, "."));
+                    MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl);    //MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
+                    MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl);
+                    MQueue.Label = "GCGprsMSMQ";
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("CreateMSMQPath", ex);
+                return false;
+            }
+            return true;
+        }
+
         /// <summary>
         /// 发送到UI
         /// </summary>
@@ -161,12 +193,12 @@ namespace GCGPRSService
             try
             {
                 MessageQueue MQueue;
-                if (!MessageQueue.Exists(ConstValue.MSMQPathToUI))
-                {
-                    return;
-                }
+                //if (!MessageQueue.Exists(string.Format(ConstValue.MSMQPathToUI,".")))
+                //{
+                //    return;
+                //}
 
-                MQueue = new MessageQueue(ConstValue.MSMQPathToUI);
+                MQueue = new MessageQueue(string.Format(ConstValue.MSMQPathToUI,"."));
 
                 Message Msg = new Message();
                 Msg.Body = msg;
@@ -188,12 +220,12 @@ namespace GCGPRSService
             try
             {
                 MessageQueue MQueue;
-                if (!MessageQueue.Exists(ConstValue.MSMQPathToUI))
-                {
-                    return;
-                }
+                //if (!MessageQueue.Exists(string.Format(ConstValue.MSMQPathToUI,".")))
+                //{
+                //    return;
+                //}
 
-                MQueue = new MessageQueue(ConstValue.MSMQPathToUI);
+                MQueue = new MessageQueue(string.Format(ConstValue.MSMQPathToUI,"."));
 
                 MSMQEntity mEntity = new MSMQEntity();
                 mEntity.MsgType = ConstValue.MSMQTYPE.Message;

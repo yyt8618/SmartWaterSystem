@@ -119,10 +119,10 @@ namespace GPRSServiceUI
 
         private void GetServiceStatus()
         {
-            if (MessageQueue.Exists(QueuePath))
-            {
-                MessageQueue.Delete(QueuePath);
-            }
+            //if (MessageQueue.Exists(QueuePath))
+            //{
+            //    MessageQueue.Delete(QueuePath);
+            //}
 
             while (true)
             {
@@ -155,7 +155,9 @@ namespace GPRSServiceUI
                     else
                     {
                         MQueue = MessageQueue.Create(QueuePath);
-                        MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
+                        MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl);
+                        MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl);
+
                         MQueue.Label = "GCGprsMSMQ";
                     }
 
