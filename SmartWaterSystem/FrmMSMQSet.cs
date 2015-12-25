@@ -32,6 +32,7 @@ namespace SmartWaterSystem
             if (System.Net.IPAddress.TryParse(txtIPAddr.Text, out ipaddr))
             {
                 Settings.Instance.SetValue(SettingKeys.MSMQIpAddr, ipaddr.ToString());
+                XtraMessageBox.Show("IP设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {

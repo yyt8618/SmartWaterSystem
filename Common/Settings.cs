@@ -62,6 +62,18 @@ namespace Common
         /// MSMQ IP地址
         /// </summary>
         public const string MSMQIpAddr = "MSMQAddr";
+        /// <summary>
+        /// HTTP服务地址
+        /// </summary>
+        public const string HTTPServiceURL = "HTTPServiceURL";
+        /// <summary>
+        /// HTTP请求有效时间(分钟)
+        /// </summary>
+        public const string HTTPReqSuviceTime = "HTTPReqSuviceTime";
+        /// <summary>
+        /// HTTP请求MD5校验Key
+        /// </summary>
+        public const string HTTPMD5Key = "HTTPMD5Key";
     }
 
     /// <summary>
@@ -82,7 +94,9 @@ namespace Common
             {SettingKeys.GPRS_PORT,""},
             {SettingKeys.CallDataEnable,"false"},
             {SettingKeys.ServiceMonitorEnable,"true"},
-            {SettingKeys.MSMQIpAddr,""}
+            {SettingKeys.MSMQIpAddr,""},
+            {SettingKeys.HTTPServiceURL,""},
+            {SettingKeys.HTTPReqSuviceTime, "30"}
         };
     }
 

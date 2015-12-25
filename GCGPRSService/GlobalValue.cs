@@ -23,6 +23,11 @@ namespace GCGPRSService
         }
 
         /// <summary>
+        /// HTTP 服务
+        /// </summary>
+        public HTTPService HttpService = new HTTPService();
+
+        /// <summary>
         /// GPRS远传数据操作管理线程
         /// </summary>
         public SocketSQLManager SocketSQLMag = new SocketSQLManager();

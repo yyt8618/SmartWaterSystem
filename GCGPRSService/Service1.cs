@@ -39,6 +39,9 @@ namespace GCGPRSService
             GlobalValue.Instance.SocketMag.cmdEvent += new cmdEventHandle(socketService_cmdEvent);
             GlobalValue.Instance.SocketMag.T_Listening();
 
+            GlobalValue.Instance.HttpService.HTTPMessageEvent += new HTTPReceiveMessage(HttpService_HTTPMessageEvent);
+            GlobalValue.Instance.HttpService.Start();
+
             if (CreateMSMQPath())
             {
                 t_msmq_receive = new Thread(new ThreadStart(MSMQReceiveThread));
@@ -66,6 +69,7 @@ namespace GCGPRSService
                 SendMessage(DateTime.Now.ToString() + " 配置不启用服务监控!");
             }
         }
+
 
         private void MSMQReceiveThread()  //MSMQ接受线程,用于招测命令接收
         {
@@ -145,6 +149,9 @@ namespace GCGPRSService
 
             GlobalValue.Instance.SocketMag.cmdEvent -= new cmdEventHandle(socketService_cmdEvent);
             GlobalValue.Instance.SocketMag.Close();
+
+            GlobalValue.Instance.HttpService.HTTPMessageEvent -= new HTTPReceiveMessage(HttpService_HTTPMessageEvent);
+            GlobalValue.Instance.HttpService.Stop();
         }
 
         void socketService_cmdEvent(object sender, SocketEventArgs e)
@@ -152,6 +159,15 @@ namespace GCGPRSService
             if (e.JsonMsg!=null)
             {
                 SendMessage(e.JsonMsg);
+            }
+        }
+
+
+        void HttpService_HTTPMessageEvent(HTTPMsgEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Msg))
+            {
+                SendMessage(e.Msg);
             }
         }
 

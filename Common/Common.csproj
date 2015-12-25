@@ -47,6 +47,7 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -79,6 +80,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FormatHelper.cs" />
+    <Compile Include="JSONSerialize.cs" />
+    <Compile Include="MD5Encrypt.cs" />
     <Compile Include="MetarnetRegex.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpDataBLL.cs" />
     <Compile Include="HydrantBLL.cs" />
     <Compile Include="OLWQConfigBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
