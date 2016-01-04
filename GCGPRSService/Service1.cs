@@ -25,7 +25,7 @@ namespace GCGPRSService
         {
             if (string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.DBString)))
             {
-                SendMessage(DateTime.Now.ToString() + " 数据库连接未配置,请配置后重启服务!\r\n");
+                SendMessage(DateTime.Now.ToString() + " 数据库连接未配置,请配置后重启服务!\r\n",ConstValue.MSMQTYPE.Msg_Public);
                 logger.Info(DateTime.Now.ToString() + " 数据库连接未配置,请配置后重启服务!");
                 this.OnStop();
                 return;
@@ -56,17 +56,17 @@ namespace GCGPRSService
                     monitorInfo.FileName = "GCGPRSServiceMonitor.exe";
                     monitorInfo.WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                     Process.Start(monitorInfo);
-                    SendMessage(DateTime.Now.ToString() + " 启用服务监控成功!");
+                    SendMessage(DateTime.Now.ToString() + " 启用服务监控成功!", ConstValue.MSMQTYPE.Msg_Public);
                 }
                 catch (Exception ex)
                 {
                     logger.ErrorException("启用服务监控失败[OnStart]", ex);
-                    SendMessage(DateTime.Now.ToString() + " 启用服务监控失败!");
+                    SendMessage(DateTime.Now.ToString() + " 启用服务监控失败!", ConstValue.MSMQTYPE.Msg_Public);
                 }
             }
             else
             {
-                SendMessage(DateTime.Now.ToString() + " 配置不启用服务监控!");
+                SendMessage(DateTime.Now.ToString() + " 配置不启用服务监控!", ConstValue.MSMQTYPE.Msg_Public);
             }
         }
 
@@ -125,7 +125,7 @@ namespace GCGPRSService
                             {
                                 logger.ErrorException("解析数据异常", ex);
                                 MSMQEntity msmqMsg = new MSMQEntity();
-                                msmqMsg.MsgType = ConstValue.MSMQTYPE.Message;
+                                msmqMsg.MsgType = ConstValue.MSMQTYPE.Msg_Public;
                                 msmqMsg.Msg = "解析JSON数据异常(MSMQ)";
                                 SendMessage(msmqMsg);
                             }
@@ -167,7 +167,7 @@ namespace GCGPRSService
         {
             if (!string.IsNullOrEmpty(e.Msg))
             {
-                SendMessage(e.Msg);
+                SendMessage(e.Msg, ConstValue.MSMQTYPE.Msg_HTTP);
             }
         }
 
@@ -231,7 +231,7 @@ namespace GCGPRSService
         /// 发送到UI
         /// </summary>
         /// <param name="msg"></param>
-        void SendMessage(string msg)
+        void SendMessage(string msg,ConstValue.MSMQTYPE type)
         {
             try
             {
@@ -244,7 +244,7 @@ namespace GCGPRSService
                 MQueue = new MessageQueue(string.Format(ConstValue.MSMQPathToUI,"."));
 
                 MSMQEntity mEntity = new MSMQEntity();
-                mEntity.MsgType = ConstValue.MSMQTYPE.Message;
+                mEntity.MsgType = type;
                 mEntity.Msg = msg;
 
                 Message Msg = new Message();

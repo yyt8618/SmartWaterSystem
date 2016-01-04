@@ -21,7 +21,7 @@ namespace SmartWaterSystem
             txtRecTime_T.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
             nUpDownSamSpan_T.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
             txtRecNum_T.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
-            txtLeakValue_T.Text = Settings.Instance.GetString(SettingKeys.LeakValue_Template);
+            txtLeakValue_T.Text = (new BLL.NoiseParmBLL()).GetParm(Entity.ConstValue.LeakValue_Template);
             int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;
             int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
@@ -110,7 +110,7 @@ namespace SmartWaterSystem
                 Settings.Instance.SetValue(SettingKeys.ComTime_Template, txtComTime_T.Text);
                 Settings.Instance.SetValue(SettingKeys.RecTime_Template, txtRecTime_T.Text);
                 Settings.Instance.SetValue(SettingKeys.Span_Template, nUpDownSamSpan_T.Value.ToString());
-                Settings.Instance.SetValue(SettingKeys.LeakValue_Template, txtLeakValue_T.Text);
+                (new BLL.NoiseParmBLL()).SetParm(Entity.ConstValue.LeakValue_Template, txtLeakValue_T.Text);
                 Settings.Instance.SetValue(SettingKeys.Power_Template, comboBoxEditPower.SelectedIndex.ToString());
                 Settings.Instance.SetValue(SettingKeys.ControlPower_Template, comboBoxEditDist.SelectedIndex.ToString());
                 Settings.Instance.SetValue(SettingKeys.Port_Template, txtConPort_T.Text);

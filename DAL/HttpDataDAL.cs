@@ -43,10 +43,12 @@ namespace DAL
                     ter.remark = reader_ter["Remark"] != DBNull.Value ? reader_ter["Remark"].ToString() : "";
                     ter.groupstate = reader_ter["GroupState"] != DBNull.Value ? Convert.ToInt32(reader_ter["GroupState"]) : 0;
 
-                    lstter.Add(ter);
+                    //lstter.Add(ter);  //未分组终端不发送，未分组不能读取数据
 
                     if (ter.groupid == "")
-                        addungroup = true;
+                        ;//addungroup = true;
+                    else
+                        lstter.Add(ter);
                 }
             }
 
@@ -54,6 +56,31 @@ namespace DAL
             {
                 GroupsData grp = new GroupsData();
                 lstgroup.Add(grp);
+            }
+        }
+
+        public void UploadGroups(List<UpLoadNoiseDataEntity> lstNoiseData)
+        {
+            if (lstNoiseData == null || lstNoiseData.Count == 0)
+                return;
+
+            SqlTransaction trans = null;
+            try
+            {
+
+                trans = SQLHelper.Conn.BeginTransaction();
+                SQLHelper.Conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = SQLHelper.Conn;
+                cmd.CommandText = "INSERT INTO DL_Noise_Real(GroupId, RecorderId, LeakValue, FrequencyValue, OriginalData, CollTime, UnloadTime, HistoryFlag) VALUES";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Transaction = trans;
+            }
+            catch (Exception ex)
+            {
+                if (trans != null)
+                    trans.Rollback();
+                throw ex;
             }
         }
     }

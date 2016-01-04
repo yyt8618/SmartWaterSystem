@@ -259,7 +259,7 @@ namespace SmartWaterSystem
                             {
                                 short[] Originaldata = null;
                                 result = GlobalValue.Noiselog.CtrlStartOrStop(GlobalValue.NoiseSerialPortOptData.ID, true, out Originaldata);
-                                if (Originaldata == null || (Originaldata != null && (NoiseDataHandler.GetAverage(Originaldata) < 450)))  //没有读到标准值，重试2次
+                                if (Originaldata == null || (Originaldata != null && (BLL.NoiseDataHandler.GetAverage(Originaldata) < 450)))  //没有读到标准值，重试2次
                                 {
                                     string startvalue = "";
                                     if (Originaldata != null)

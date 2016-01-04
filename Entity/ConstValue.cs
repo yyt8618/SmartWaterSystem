@@ -11,6 +11,18 @@ namespace Entity
         public static string MSMQServiceName = "GCGPRSService";
         public static string MSMQPathToService = "{0}\\private$\\GcGPRSToService";
 
+        //噪声参数 Noise_Parm Table
+        public static string DCComponentLen = "DCComponentLen";
+        public static string Max1 = "Max1";
+        public static string Max2 = "Max2";
+        public static string Min1 = "Min1";
+        public static string Min2 = "Min2";
+        public static string LeakHZ_Template = "LeakHZ_Template";
+        public static string MaxStandardAMP = "MaxStandardAMP";
+        public static string MinStandardAMP = "MinStandardAMP";
+        public static string LeakValue_Template = "LeakValue_Template";
+
+
         public static DateTime MinDateTime = new DateTime(2015, 1, 1, 0, 0, 0);
 
         public static object obj = new object();
@@ -30,7 +42,9 @@ namespace Entity
         public enum MSMQTYPE
         {
             None,
-            Message,
+            Msg_Socket,   //消息类型:Socket消息
+            Msg_HTTP,     //消息类型:HTTP消息
+            Msg_Public,   //消息类型:公共消息,消息类型用于FrmConsole页面判断哪些消息需要显示,Msg_Public全部显示,Msg_Socket和Msg_HTTP通过勾选判断
             Cmd_Online,  //是否在线命令
             Data_OnLineState, //招测终端在线状态
             Get_OnLineState,  //获取终端在线状态

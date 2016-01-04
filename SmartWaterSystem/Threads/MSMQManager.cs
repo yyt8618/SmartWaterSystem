@@ -153,7 +153,7 @@ namespace SmartWaterSystem
                             }
                             catch (Exception ex)
                             {
-                                OnMSMQEvent(new MSMQEventArgs(new MSMQEntity(Entity.ConstValue.MSMQTYPE.Message, ex.Message)));
+                                OnMSMQEvent(new MSMQEventArgs(new MSMQEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, ex.Message)));
                                 logger.ErrorException("JSON解析错误,Location:MSMQManager.MSMQReceiveThread", ex);
                             }
                     //}
@@ -162,7 +162,7 @@ namespace SmartWaterSystem
             catch (Exception ex)
             {
                 logger.ErrorException("GetServiceStatus", ex);
-                OnMSMQEvent(new MSMQEventArgs(new MSMQEntity(Entity.ConstValue.MSMQTYPE.Message, ex.Message)));
+                OnMSMQEvent(new MSMQEventArgs(new MSMQEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, ex.Message)));
             }
         }
 

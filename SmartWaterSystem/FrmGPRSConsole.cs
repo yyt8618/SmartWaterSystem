@@ -9,6 +9,8 @@ namespace SmartWaterSystem
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmGPRSConsole");
         private const int MaxLine = 1000;
+        private bool showHttpMsg = true;  //是否显示HTTP消息
+        private bool showSocketMsg = true;   //是否显示Socket消息
 
         public FrmGPRSConsole()
         {
@@ -44,7 +46,15 @@ namespace SmartWaterSystem
         {
             if (e.msmqEntity != null)
             {
-                if (e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Message)
+                if (e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Msg_Public)
+                {
+                    SetCtrlMsg(e.msmqEntity.Msg);
+                }
+                else if (e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Msg_Socket && showSocketMsg)
+                {
+                    SetCtrlMsg(e.msmqEntity.Msg);
+                }
+                else if (e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Msg_HTTP && showHttpMsg)
                 {
                     SetCtrlMsg(e.msmqEntity.Msg);
                 }
@@ -114,6 +124,27 @@ namespace SmartWaterSystem
         {
             txtControl.Clear();
             lstCtrlMsg.Clear();
+        }
+
+        private void cbShowSocket_CheckedChanged(object sender, EventArgs e)
+        {
+            showSocketMsg = cbShowSocket.Checked;
+        }
+
+        private void cbHTTP_CheckedChanged(object sender, EventArgs e)
+        {
+            showHttpMsg = cbHTTP.Checked;
+        }
+
+        private void cbSerialPort_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbSerialPort.Checked)
+            {
+                GlobalValue.SerialPortMgr.serialPortUtil.ShowMsgEvent -= new Protocol.ShowMsgHandle(serialPortUtil_ShowMsgEvent);
+                GlobalValue.SerialPortMgr.serialPortUtil.ShowMsgEvent += new Protocol.ShowMsgHandle(serialPortUtil_ShowMsgEvent);
+            }
+            else
+                GlobalValue.SerialPortMgr.serialPortUtil.ShowMsgEvent -= new Protocol.ShowMsgHandle(serialPortUtil_ShowMsgEvent);
         }
 
 

@@ -67,6 +67,7 @@
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.barStaticItem1 = new DevExpress.XtraBars.BarStaticItem();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnRefreshData = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).BeginInit();
@@ -211,7 +212,7 @@
             this.btnOpenFold.Location = new System.Drawing.Point(97, 457);
             this.btnOpenFold.Name = "btnOpenFold";
             this.btnOpenFold.Size = new System.Drawing.Size(64, 24);
-            this.btnOpenFold.TabIndex = 8;
+            this.btnOpenFold.TabIndex = 3;
             this.btnOpenFold.Text = "Open Fold";
             this.btnOpenFold.Click += new System.EventHandler(this.btnOpenFold_Click);
             // 
@@ -220,7 +221,7 @@
             this.btnReadFromFold.Location = new System.Drawing.Point(163, 457);
             this.btnReadFromFold.Name = "btnReadFromFold";
             this.btnReadFromFold.Size = new System.Drawing.Size(58, 23);
-            this.btnReadFromFold.TabIndex = 8;
+            this.btnReadFromFold.TabIndex = 4;
             this.btnReadFromFold.Text = "读文件夹";
             this.btnReadFromFold.Click += new System.EventHandler(this.btnReadFromFold_Click);
             // 
@@ -230,7 +231,7 @@
             this.simpleButtonRead.Location = new System.Drawing.Point(223, 457);
             this.simpleButtonRead.Name = "simpleButtonRead";
             this.simpleButtonRead.Size = new System.Drawing.Size(90, 23);
-            this.simpleButtonRead.TabIndex = 8;
+            this.simpleButtonRead.TabIndex = 5;
             this.simpleButtonRead.Text = "读取数据";
             this.simpleButtonRead.Click += new System.EventHandler(this.simpleButtonRead_Click);
             // 
@@ -239,7 +240,7 @@
             this.simpleButtonUnSelect.Location = new System.Drawing.Point(53, 458);
             this.simpleButtonUnSelect.Name = "simpleButtonUnSelect";
             this.simpleButtonUnSelect.Size = new System.Drawing.Size(41, 23);
-            this.simpleButtonUnSelect.TabIndex = 7;
+            this.simpleButtonUnSelect.TabIndex = 2;
             this.simpleButtonUnSelect.Text = "反选";
             this.simpleButtonUnSelect.Click += new System.EventHandler(this.simpleButtonUnSelect_Click);
             // 
@@ -248,12 +249,13 @@
             this.simpleButtonSelectAll.Location = new System.Drawing.Point(6, 458);
             this.simpleButtonSelectAll.Name = "simpleButtonSelectAll";
             this.simpleButtonSelectAll.Size = new System.Drawing.Size(41, 23);
-            this.simpleButtonSelectAll.TabIndex = 3;
+            this.simpleButtonSelectAll.TabIndex = 1;
             this.simpleButtonSelectAll.Text = "全选";
             this.simpleButtonSelectAll.Click += new System.EventHandler(this.simpleButtonSelectAll_Click);
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.btnRefreshData);
             this.groupControl2.Controls.Add(this.simpleButtonAny);
             this.groupControl2.Controls.Add(this.simpleButtonComapre);
             this.groupControl2.Controls.Add(this.gridControlResult);
@@ -268,7 +270,7 @@
             this.simpleButtonAny.Location = new System.Drawing.Point(274, 458);
             this.simpleButtonAny.Name = "simpleButtonAny";
             this.simpleButtonAny.Size = new System.Drawing.Size(90, 23);
-            this.simpleButtonAny.TabIndex = 7;
+            this.simpleButtonAny.TabIndex = 2;
             this.simpleButtonAny.Text = "分析数据";
             this.simpleButtonAny.Click += new System.EventHandler(this.simpleButtonAny_Click);
             // 
@@ -277,7 +279,7 @@
             this.simpleButtonComapre.Location = new System.Drawing.Point(370, 458);
             this.simpleButtonComapre.Name = "simpleButtonComapre";
             this.simpleButtonComapre.Size = new System.Drawing.Size(90, 23);
-            this.simpleButtonComapre.TabIndex = 6;
+            this.simpleButtonComapre.TabIndex = 3;
             this.simpleButtonComapre.Text = "比较分析";
             this.simpleButtonComapre.Click += new System.EventHandler(this.simpleButtonComapre_Click);
             // 
@@ -290,7 +292,7 @@
             this.gridControlResult.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
             this.gridControlResult.Size = new System.Drawing.Size(461, 430);
-            this.gridControlResult.TabIndex = 1;
+            this.gridControlResult.TabIndex = 0;
             this.gridControlResult.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewResultList});
             // 
@@ -467,6 +469,15 @@
             this.barButtonItem1.Id = 1;
             this.barButtonItem1.Name = "barButtonItem1";
             // 
+            // btnRefreshData
+            // 
+            this.btnRefreshData.Location = new System.Drawing.Point(178, 458);
+            this.btnRefreshData.Name = "btnRefreshData";
+            this.btnRefreshData.Size = new System.Drawing.Size(90, 23);
+            this.btnRefreshData.TabIndex = 1;
+            this.btnRefreshData.Text = "刷新";
+            this.btnRefreshData.Click += new System.EventHandler(this.btnRefreshData_Click);
+            // 
             // NoiseDataMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -535,5 +546,6 @@
         public DevExpress.XtraEditors.SimpleButton btnOpenFold;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumnProbality;
+        private DevExpress.XtraEditors.SimpleButton btnRefreshData;
     }
 }

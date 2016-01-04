@@ -80,6 +80,8 @@ namespace SmartWaterSystem
                 }
                 #endregion
 
+                BLL.NoiseDataHandler.TestPath = GlobalValue.TestPath;
+
                 #region 数据库操作
                 //SQLiteDbManager dbMgr = new SQLiteDbManager();
                 //#region 创建数据库

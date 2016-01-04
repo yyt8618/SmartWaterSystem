@@ -294,7 +294,6 @@
             this.ribbonPageGroup3.ItemLinks.Add(this.barBtnSetClose);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.ShowCaptionButton = false;
-            this.ribbonPageGroup3.Text = "退出";
             // 
             // ribbonPageGroup5
             // 
@@ -302,7 +301,6 @@
             this.ribbonPageGroup5.ItemLinks.Add(this.barBtnSetAbout);
             this.ribbonPageGroup5.Name = "ribbonPageGroup5";
             this.ribbonPageGroup5.ShowCaptionButton = false;
-            this.ribbonPageGroup5.Text = "帮助";
             // 
             // ribbonPageGroup6
             // 

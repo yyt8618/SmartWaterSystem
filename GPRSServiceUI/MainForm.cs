@@ -170,7 +170,7 @@ namespace GPRSServiceUI
                     {
                         m.Formatter = new BinaryMessageFormatter();
                         MSMQEntity msmqEntity = (MSMQEntity)m.Body;
-                        if (msmqEntity.MsgType == ConstValue.MSMQTYPE.Message)
+                        if (msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_Public || msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_HTTP || msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_Socket)
                             SetCtrlMsg(msmqEntity.Msg + "\r\n");
                     }
                 }

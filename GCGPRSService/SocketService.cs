@@ -35,7 +35,15 @@ namespace GCGPRSService
         public SocketEventArgs(string msg)
         {
             MSMQEntity msmqEntity = new MSMQEntity();
-            msmqEntity.MsgType = Entity.ConstValue.MSMQTYPE.Message;
+            msmqEntity.MsgType = Entity.ConstValue.MSMQTYPE.Msg_Socket;
+            msmqEntity.Msg = msg;
+            _jsonmsg = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
+        }
+
+        public SocketEventArgs(string msg,Entity.ConstValue.MSMQTYPE type)
+        {
+            MSMQEntity msmqEntity = new MSMQEntity();
+            msmqEntity.MsgType = type;
             msmqEntity.Msg = msg;
             _jsonmsg = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
         }
@@ -98,7 +106,7 @@ namespace GCGPRSService
 
         public void T_Listening()
         {
-            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启数据库线程!"));
+            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启数据库线程!", ConstValue.MSMQTYPE.Msg_Public));
             GlobalValue.Instance.SocketSQLMag.SQLEvent += new SQLHandle(sqlmanager_SQLEvent);
             GlobalValue.Instance.SocketSQLMag.Start();
 
@@ -192,7 +200,7 @@ namespace GCGPRSService
                     CheckThread_Interval = 2 * 60;
                     if (t_socket == null || (t_socket != null && !t_socket.IsAlive))
                     {
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启Socket监听线程!"));
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启Socket监听线程!", ConstValue.MSMQTYPE.Msg_Public));
                         isRunning = true;
                         t_socket = new Thread(new ThreadStart(StartListening));
                         t_socket.Start();
@@ -280,13 +288,13 @@ namespace GCGPRSService
             string ip = Settings.Instance.GetString(SettingKeys.GPRS_IP);
             if (string.IsNullOrEmpty(ip))
             {
-                OnSendMsg(new SocketEventArgs("GPRS远传服务停止,请设置IP与端口号!"));
+                OnSendMsg(new SocketEventArgs("GPRS远传服务停止,请设置IP与端口号!", ConstValue.MSMQTYPE.Msg_Public));
                 t_socket.Abort();
                 return;
             }
             if(string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.GPRS_PORT)))
             {
-                OnSendMsg(new SocketEventArgs("GPRS远传服务停止,请设置IP与端口号!"));
+                OnSendMsg(new SocketEventArgs("GPRS远传服务停止,请设置IP与端口号!", ConstValue.MSMQTYPE.Msg_Public));
                 t_socket.Abort();
                 return;
             }
@@ -316,14 +324,14 @@ namespace GCGPRSService
             }
             catch (SocketException sockEx)
             {
-                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止! Exp:"+sockEx.Message));
+                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止! Exp:" + sockEx.Message, ConstValue.MSMQTYPE.Msg_Public));
                 logger.ErrorException("StartListening", sockEx);
                 if (t_socket != null && t_socket.IsAlive)
                     t_socket.Abort();
             }
             catch (Exception e)
             {
-                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止!"));
+                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止!", ConstValue.MSMQTYPE.Msg_Public));
                 logger.ErrorException("StartListening", e);
                 if (t_socket != null && t_socket.IsAlive)
                     t_socket.Abort();

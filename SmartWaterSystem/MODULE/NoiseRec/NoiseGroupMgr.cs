@@ -462,7 +462,7 @@ namespace SmartWaterSystem
             txtRecTime.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
             nUpDownSamSpan.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
             txtRecNum.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
-            txtLeakValue.Text = Settings.Instance.GetString(SettingKeys.LeakValue_Template);
+            txtLeakValue.Text = (new BLL.NoiseParmBLL()).GetParm(ConstValue.LeakValue_Template);
 
             int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;

@@ -9,6 +9,7 @@ using DevExpress.XtraEditors;
 using Entity;
 using Common;
 using System.Threading;
+using BLL;
 
 namespace SmartWaterSystem
 {
@@ -65,7 +66,8 @@ namespace SmartWaterSystem
                 //{
                 //    lstdata.Add(r.Next(300, 800));
                 //}
-                string str_DCLen = Settings.Instance.GetString(SettingKeys.DCComponentLen);  //获取设定的直流分量长度
+                NoiseParmBLL NoiseParmbll = new NoiseParmBLL();
+                string str_DCLen = NoiseParmbll.GetParm(ConstValue.DCComponentLen);  //获取设定的直流分量长度
                 int DCComponentLen = 6;
                 if (!string.IsNullOrEmpty(str_DCLen))
                     DCComponentLen = Convert.ToInt32(str_DCLen);

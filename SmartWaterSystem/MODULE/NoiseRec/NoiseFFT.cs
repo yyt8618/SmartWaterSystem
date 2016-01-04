@@ -6,6 +6,7 @@ using ChartDirector;
 using System.Collections;
 using System.IO;
 using DevExpress.XtraEditors;
+using BLL;
 
 namespace SmartWaterSystem
 {

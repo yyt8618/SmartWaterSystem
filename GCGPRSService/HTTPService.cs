@@ -38,6 +38,7 @@ namespace GCGPRSService
         NLog.Logger logger = NLog.LogManager.GetLogger("HTTPService");
         private bool isrun = false;
         HttpListener listener = new HttpListener();
+        HttpDataBLL bll = new HttpDataBLL();
 
         public event HTTPReceiveMessage HTTPMessageEvent;
 
@@ -88,6 +89,7 @@ namespace GCGPRSService
                         Thread.CurrentThread.Abort();
                         return;
                     }
+
                     HttpListenerContext context = listener.GetContext();
                     context.Response.StatusCode = 200;
 
@@ -177,9 +179,14 @@ namespace GCGPRSService
                                     {
                                         case "getgroups":
                                             str_resp_err = "";
-                                            HttpDataBLL bll = new HttpDataBLL();
-                                            GetGroupsRespEntity respentity = bll.GetGroupsInfo();
-                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<GetGroupsRespEntity>(respentity);
+                                            GetGroupsRespEntity getgrouprespentity = bll.GetGroupsInfo();
+                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<GetGroupsRespEntity>(getgrouprespentity);
+                                            break;
+                                        case "uploadnoisedata":  //上传分组信息
+                                            str_resp_err = "";
+                                            UploadNoiseDataReqEntity parmentity = SmartWaterSystem.JSONSerialize.JsonDeserialize<UploadNoiseDataReqEntity>(httpentity.Params);
+                                            HTTPRespEntity uploadrespentity = bll.UploadGroups(parmentity.TerData);
+                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                             break;
                                     }
                                 }

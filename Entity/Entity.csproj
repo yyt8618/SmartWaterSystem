@@ -45,6 +45,7 @@
     <Compile Include="ComunicateEntity\GetGroupsRespEntity.cs" />
     <Compile Include="ComunicateEntity\HTTPEntity.cs" />
     <Compile Include="ComunicateEntity\HTTPRespEntity.cs" />
+    <Compile Include="ComunicateEntity\UploadGroupsReqEntity.cs" />
     <Compile Include="ConstValue.cs" />
     <Compile Include="DistanceController.cs" />
     <Compile Include="Enums.cs" />

@@ -2,11 +2,14 @@
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using Common;
+using BLL;
+using Entity;
 
 namespace SmartWaterSystem
 {
     public partial class NoiseParmSetting : BaseView, INoiseParmSetting
     {
+        NoiseParmBLL NoiseParmbll = new NoiseParmBLL();
         public NoiseParmSetting()
         {
             InitializeComponent();
@@ -18,14 +21,15 @@ namespace SmartWaterSystem
         public override void OnLoad()
         {
             #region 计算参数
-            txtMax1.Text = Settings.Instance.GetString(SettingKeys.Max1); 
-            txtMax2.Text = Settings.Instance.GetString(SettingKeys.Max2);
-            txtMin1.Text = Settings.Instance.GetString(SettingKeys.Min1);
-            txtMin2.Text = Settings.Instance.GetString(SettingKeys.Min2);
-            txtLeakHZ.Text = Settings.Instance.GetString(SettingKeys.LeakHZ_Template);
-            txtMaxStandardAMP.Text = Settings.Instance.GetString(SettingKeys.MaxStandardAMP);
-            txtMinStandardAMP.Text = Settings.Instance.GetString(SettingKeys.MinStandardAMP);
-            txtDCCompLen.Text = Settings.Instance.GetString(SettingKeys.DCComponentLen);
+
+            txtMax1.Text = NoiseParmbll.GetParm(ConstValue.Max1);
+            txtMax2.Text = NoiseParmbll.GetParm(ConstValue.Max2);
+            txtMin1.Text = NoiseParmbll.GetParm(ConstValue.Min1);
+            txtMin2.Text = NoiseParmbll.GetParm(ConstValue.Min2);
+            txtLeakHZ.Text = NoiseParmbll.GetParm(ConstValue.LeakHZ_Template);
+            txtMaxStandardAMP.Text = NoiseParmbll.GetParm(ConstValue.MaxStandardAMP);
+            txtMinStandardAMP.Text = NoiseParmbll.GetParm(ConstValue.MinStandardAMP);
+            txtDCCompLen.Text = NoiseParmbll.GetParm(ConstValue.DCComponentLen);
 
             if (Settings.Instance.GetString(SettingKeys.Calc) == (1).ToString())
                 cbArith.SelectedIndex = 0;
@@ -38,7 +42,7 @@ namespace SmartWaterSystem
             txtRecTime_T.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
             nUpDownSamSpan_T.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
             txtRecNum_T.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
-            txtLeakValue_T.Text = Settings.Instance.GetString(SettingKeys.LeakValue_Template);
+            txtLeakValue_T.Text = NoiseParmbll.GetParm(ConstValue.LeakValue_Template);
             int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;
             int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
@@ -129,15 +133,14 @@ namespace SmartWaterSystem
             }
 
             #endregion
-            
-            Settings.Instance.SetValue(SettingKeys.Max1, txtMax1.Text);
-            Settings.Instance.SetValue(SettingKeys.Max2, txtMax2.Text);
-            Settings.Instance.SetValue(SettingKeys.Min1, txtMin1.Text);
-            Settings.Instance.SetValue(SettingKeys.Min2, txtMin2.Text);
-            Settings.Instance.SetValue(SettingKeys.LeakHZ_Template, txtLeakHZ.Text);
-            Settings.Instance.SetValue(SettingKeys.MaxStandardAMP, txtMaxStandardAMP.Text); 
-            Settings.Instance.SetValue(SettingKeys.MinStandardAMP, txtMinStandardAMP.Text);
-            Settings.Instance.SetValue(SettingKeys.DCComponentLen, txtDCCompLen.Text);
+            NoiseParmbll.SetParm(ConstValue.Max1, txtMax1.Text);
+            NoiseParmbll.SetParm(ConstValue.Max2, txtMax2.Text);
+            NoiseParmbll.SetParm(ConstValue.Min1, txtMin1.Text);
+            NoiseParmbll.SetParm(ConstValue.Min2, txtMin2.Text);
+            NoiseParmbll.SetParm(ConstValue.LeakHZ_Template, txtLeakHZ.Text);
+            NoiseParmbll.SetParm(ConstValue.MaxStandardAMP, txtMaxStandardAMP.Text);
+            NoiseParmbll.SetParm(ConstValue.MinStandardAMP, txtMinStandardAMP.Text);
+            NoiseParmbll.SetParm(ConstValue.DCComponentLen,txtDCCompLen.Text);
 
             if (cbArith.SelectedIndex == 0)
                 Settings.Instance.SetValue(SettingKeys.Calc, (1).ToString());
@@ -226,7 +229,7 @@ namespace SmartWaterSystem
                 Settings.Instance.SetValue(SettingKeys.ComTime_Template, txtComTime_T.Text);
                 Settings.Instance.SetValue(SettingKeys.RecTime_Template, txtRecTime_T.Text);
                 Settings.Instance.SetValue(SettingKeys.Span_Template, nUpDownSamSpan_T.Value.ToString());
-                Settings.Instance.SetValue(SettingKeys.LeakValue_Template, txtLeakValue_T.Text);
+                NoiseParmbll.SetParm(ConstValue.LeakValue_Template, txtLeakValue_T.Text);
                 Settings.Instance.SetValue(SettingKeys.Power_Template, comboBoxEditPower.SelectedIndex.ToString());
                 Settings.Instance.SetValue(SettingKeys.ControlPower_Template, comboBoxEditDist.SelectedIndex.ToString());
                 Settings.Instance.SetValue(SettingKeys.Port_Template, txtConPort_T.Text);

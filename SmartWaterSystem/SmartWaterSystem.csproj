@@ -150,7 +150,6 @@
     <Compile Include="BaseView.Designer.cs">
       <DependentUpon>BaseView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\NoiseDataHandler.cs" />
     <Compile Include="MapForScripting.cs" />
     <Compile Include="MODULE\Hydrant\HydrantFullScreen.cs">
       <SubType>Form</SubType>

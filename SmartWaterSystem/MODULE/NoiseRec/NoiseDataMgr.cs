@@ -13,6 +13,8 @@ using System.Threading;
 using System.IO;
 using Entity;
 using System.Collections;
+using Common;
+using BLL;
 
 namespace SmartWaterSystem
 {
@@ -439,7 +441,14 @@ namespace SmartWaterSystem
                 {
                     Dictionary<short, short[]> result = new Dictionary<short, short[]>();
                     result.Add(GlobalValue.NoiseSerialPortOptData.ID, (short[])e.Tag);
-                    CallbackReaded(result, selectList);
+                    string TestPath = Application.StartupPath + @"\Data\记录仪{0}\";
+                    string errmsg = NoiseDataHandler.CallbackReaded(result, selectList, TestPath, ref GlobalValue.recorderList);
+                    if (!string.IsNullOrEmpty(errmsg))
+                    {
+                        ShowDialog("分析数据发生错误,errmsg:" + errmsg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     GlobalValue.reReadIdList.Remove(GlobalValue.NoiseSerialPortOptData.ID);
 
                     NoiseRecorder gpRec = (from item in GlobalValue.recorderList.AsEnumerable()
@@ -523,124 +532,6 @@ namespace SmartWaterSystem
             else
             {
                 invoke();
-            }
-        }
-
-        /// <summary>
-        /// 读取数据的回调函数
-        /// </summary>
-        private void CallbackReaded(Dictionary<short, short[]> result, List<NoiseRecorder> recList)
-        {
-            try
-            {
-                if (result == null)
-                {
-                    return;
-                }
-
-                int fla = 1;
-                foreach (short key in result.Keys)
-                {
-                    NoiseRecorder recorder = (from item in recList.AsEnumerable()
-                                              where item.ID == key
-                                              select item).ToList()[0];
-
-                    //int recNum = recorder.RecordNum;
-                    int spanCount = 32; // 连续采集32个点
-                    List<double[]> data = new List<double[]>();// 将采集数据分32个点为一组存放
-                    List<double[]> data_isleak1 = new List<double[]>();// 将采集数据分32个点为一组存放,用于IsLeak1函数运算
-
-                    for (int j = 0; j < result[key].Length / spanCount; j++)
-                    {
-                        double[] tmpData = new double[spanCount];
-                        double[] tmpData_IsLeak = new double[spanCount];
-                        for (int k = 0; k < spanCount; k++)
-                        {
-                            tmpData[k] = result[key][k + j * spanCount];
-                        }
-
-                        if (tmpData.Max() < 0)
-                        {
-                            ; //无效数据
-                        }
-                        else
-                        {
-                            //////////////////////////////////////////////////////////////////////////////////////////
-                            // for test
-                            GlobalValue.TestPath = string.Format(Application.StartupPath + @"\Data\记录仪{0}\", recorder.ID);
-                            if (!Directory.Exists(GlobalValue.TestPath))
-                                Directory.CreateDirectory(GlobalValue.TestPath);
-
-                            StreamWriter sw = new StreamWriter(string.Format("{0}转换前数据{1}.txt", GlobalValue.TestPath, fla));
-                            foreach (var item in tmpData)
-                            {
-                                sw.WriteLine(item);
-                            }
-                            sw.Flush();
-                            sw.Close();
-
-                            //////////////////////////////////////////////////////////////////////////////////////////
-
-                            data.Add(tmpData);
-                            tmpData.CopyTo(tmpData_IsLeak, 0);
-                            data_isleak1.Add(tmpData_IsLeak);
-                            fla++;
-                        }
-                    }
-                    double[] amp = null;
-                    double[] frq = null;
-                    double[] max_am = null;
-                    // 计算每一个频段下的最小幅度
-                    NoiseDataHandler.InitData(data.Count);//result[key].Length / spanCount);
-                    NoiseDataHandler.AmpCalc(data, ref amp, ref frq, ref max_am, recorder.LeakValue);
-
-                    NoiseData da = new NoiseData();
-                    da.RecorderID = recorder.ID;
-                    da.GroupID = recorder.GroupID;
-                    da.UploadTime = DateTime.Now;
-                    da.ReadTime = DateTime.Now;
-                    da.OriginalData = result[key];
-                    da.Frequency = frq;
-                    da.Amplitude = amp;
-                    da.UploadFlag = result[key].Length / spanCount;
-                    recorder.Data = da;
-
-                    double[] ru = new double[2];
-                    double energyvalue = 0;
-                    double leakprobability = 0;
-                    int isLeak1 = NoiseDataHandler.IsLeak1(recorder.GroupID, recorder.ID, data_isleak1, out energyvalue, out leakprobability);
-                    // int isLeak2 = NoiseDataHandler.IsLeak2(amp, recorder.LeakValue, ref ru);
-
-                    double max_amp, max_frq, min_amp, min_frq;//, leak_amp, leak_frq;
-                    int leaktmp = NoiseDataHandler.IsLeak3(amp, frq, recorder.LeakValue, out max_amp, out max_frq, out min_amp, out min_frq, out ru[0], out ru[1]);
-                    if (-1 == isLeak1)
-                    {
-                        isLeak1 = leaktmp;
-                        leakprobability += ru[0] * 0.5/100;
-                    }
-
-                    NoiseResult re = new NoiseResult();
-                    re.GroupID = recorder.GroupID;
-                    re.IsLeak = (isLeak1);// | isLeak2);
-                    re.RecorderID = recorder.ID;
-                    re.LeakAmplitude = ru[0];
-                    re.LeakFrequency = ru[1];
-                    re.UploadTime = DateTime.Now;
-                    re.ReadTime = recorder.Data.ReadTime;
-                    re.EnergyValue = energyvalue;
-                    re.LeakProbability = leakprobability;
-                    recorder.Result = re;
-
-                    for (int i = 0; i < GlobalValue.recorderList.Count; i++)
-                    {
-                        if (GlobalValue.recorderList[i].ID == recorder.ID)
-                            GlobalValue.recorderList[i] = recorder;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show("读取发生错误：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -898,7 +789,14 @@ namespace SmartWaterSystem
                                 if (arr == null || arr.Length == 0)
                                     throw new ArgumentNullException("数据获取失败");
                                 result.Add((short)id, arr);
-                                CallbackReaded(result, selectList);
+                                string TestPath = Application.StartupPath + @"\Data\记录仪{0}\";
+                                string errmsg = NoiseDataHandler.CallbackReaded(result, selectList, TestPath, ref GlobalValue.recorderList);
+                                if (!string.IsNullOrEmpty(errmsg))
+                                {
+                                    ShowDialog("记录仪" + id + "分析数据发生错误,errmsg:" + errmsg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    isError = true;
+                                    return;
+                                }
                                 GlobalValue.reReadIdList.Remove(id);
 
                                 NoiseRecorder gpRec = (from item in GlobalValue.recorderList.AsEnumerable()
@@ -1025,6 +923,15 @@ namespace SmartWaterSystem
         public override void SerialPortEvent(bool Enabled)
         {
             simpleButtonRead.Enabled = Enabled;
+        }
+
+        private void btnRefreshData_Click(object sender, EventArgs e)
+        {
+            GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+            GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+            GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
+            this.ClearView();
+            this.BindGroup();
         }
 
     }

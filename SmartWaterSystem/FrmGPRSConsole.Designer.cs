@@ -34,17 +34,23 @@ namespace SmartWaterSystem
             this.timerCtrl = new System.Windows.Forms.Timer(this.components);
             this.btnClear = new System.Windows.Forms.Button();
             this.txtControl = new System.Windows.Forms.TextBox();
+            this.cbShowSocket = new System.Windows.Forms.CheckBox();
+            this.cbHTTP = new System.Windows.Forms.CheckBox();
+            this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnClear
             // 
-            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(668, 0);
+            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnClear.Location = new System.Drawing.Point(694, 4);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 2;
+            this.btnClear.Size = new System.Drawing.Size(52, 23);
+            this.btnClear.TabIndex = 0;
+            this.btnClear.TabStop = false;
             this.btnClear.Text = "清除";
-            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // txtControl
@@ -62,23 +68,80 @@ namespace SmartWaterSystem
             this.txtControl.TabIndex = 3;
             this.txtControl.TabStop = false;
             // 
+            // cbShowSocket
+            // 
+            this.cbShowSocket.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbShowSocket.AutoSize = true;
+            this.cbShowSocket.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.cbShowSocket.Checked = true;
+            this.cbShowSocket.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbShowSocket.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbShowSocket.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.cbShowSocket.Location = new System.Drawing.Point(697, 33);
+            this.cbShowSocket.Name = "cbShowSocket";
+            this.cbShowSocket.Size = new System.Drawing.Size(47, 18);
+            this.cbShowSocket.TabIndex = 1;
+            this.cbShowSocket.TabStop = false;
+            this.cbShowSocket.Text = "远传";
+            this.cbShowSocket.UseVisualStyleBackColor = false;
+            this.cbShowSocket.CheckedChanged += new System.EventHandler(this.cbShowSocket_CheckedChanged);
+            // 
+            // cbHTTP
+            // 
+            this.cbHTTP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbHTTP.AutoSize = true;
+            this.cbHTTP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.cbHTTP.Checked = true;
+            this.cbHTTP.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbHTTP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbHTTP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.cbHTTP.Location = new System.Drawing.Point(697, 57);
+            this.cbHTTP.Name = "cbHTTP";
+            this.cbHTTP.Size = new System.Drawing.Size(47, 18);
+            this.cbHTTP.TabIndex = 2;
+            this.cbHTTP.TabStop = false;
+            this.cbHTTP.Text = "手机";
+            this.cbHTTP.UseVisualStyleBackColor = false;
+            this.cbHTTP.CheckedChanged += new System.EventHandler(this.cbHTTP_CheckedChanged);
+            // 
+            // cbSerialPort
+            // 
+            this.cbSerialPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbSerialPort.AutoSize = true;
+            this.cbSerialPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.cbSerialPort.Checked = true;
+            this.cbSerialPort.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSerialPort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbSerialPort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.cbSerialPort.Location = new System.Drawing.Point(697, 81);
+            this.cbSerialPort.Name = "cbSerialPort";
+            this.cbSerialPort.Size = new System.Drawing.Size(47, 18);
+            this.cbSerialPort.TabIndex = 3;
+            this.cbSerialPort.TabStop = false;
+            this.cbSerialPort.Text = "串口";
+            this.cbSerialPort.UseVisualStyleBackColor = false;
+            this.cbSerialPort.CheckedChanged += new System.EventHandler(this.cbSerialPort_CheckedChanged);
+            // 
             // FrmGPRSConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(766, 426);
+            this.Controls.Add(this.cbSerialPort);
+            this.Controls.Add(this.cbHTTP);
+            this.Controls.Add(this.cbShowSocket);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.txtControl);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmGPRSConsole";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "远传监控";
+            this.Text = "监控";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmGPRSConsole_FormClosing);
             this.Load += new System.EventHandler(this.FrmGPRSConsole_Load);
             this.ResumeLayout(false);
@@ -91,6 +154,9 @@ namespace SmartWaterSystem
         private System.Windows.Forms.Timer timerCtrl;
         private Button btnClear;
         private TextBox txtControl;
+        private CheckBox cbShowSocket;
+        private CheckBox cbHTTP;
+        private CheckBox cbSerialPort;
 
     }
 }
