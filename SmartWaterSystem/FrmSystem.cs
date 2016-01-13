@@ -279,6 +279,11 @@ namespace SmartWaterSystem
                     NBG_UniversalT.Visible = true;
                     navBarUniversalMonitor.Visible = true;
                 }
+                else if (t.Name == "IUniversalTerParm651")   //通用终端参数设置SL651
+                {
+                    NBG_UniversalT.Visible = true;
+                    navBarUniversalParm651.Visible = true;
+                }
                 else if (t.Name == "IOLWQMgr")   //在线水质
                 {
                     NBG_OLWQ.Visible = true;
@@ -360,6 +365,8 @@ namespace SmartWaterSystem
             navBarUniversalMgr.Visible = isVisiable;
             //通用终端列表监控、趋势图
             navBarUniversalMonitor.Visible = isVisiable;
+            //通用终端参数651
+            navBarUniversalParm651.Visible = isVisiable;
 
             //在线水质
             NBG_OLWQ.Visible = isVisiable;
@@ -526,6 +533,11 @@ namespace SmartWaterSystem
         private void navBarUniversalParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(UniversalTerParm));
+        }
+
+        private void navBarUniversalParm651_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(UniversalTerParm651));
         }
 
         private void navBarUniversalMgr_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
@@ -921,6 +933,8 @@ namespace SmartWaterSystem
         {
 
         }
+
+        
 
         
 

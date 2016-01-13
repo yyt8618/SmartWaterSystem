@@ -73,6 +73,7 @@
             this.navBarUniversalParm = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarUniversalMgr = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarUniversalMonitor = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarUniversalParm651 = new DevExpress.XtraNavBar.NavBarItem();
             this.NBG_ValveSwitch = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarValveParm = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarValveMonitor = new DevExpress.XtraNavBar.NavBarItem();
@@ -375,7 +376,8 @@
             this.navBarOLWQMonitor,
             this.navBarOLWQParm651,
             this.navBarHydrantParm,
-            this.navBarHydrantMap});
+            this.navBarHydrantMap,
+            this.navBarUniversalParm651});
             this.navBarControl1.Location = new System.Drawing.Point(2, 2);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 185;
@@ -496,7 +498,8 @@
             this.NBG_UniversalT.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalParm),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMgr),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMonitor)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalMonitor),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarUniversalParm651)});
             this.NBG_UniversalT.LargeImage = global::SmartWaterSystem.Properties.Resources.GsmTerminal;
             this.NBG_UniversalT.Name = "NBG_UniversalT";
             // 
@@ -520,6 +523,13 @@
             this.navBarUniversalMonitor.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTermonitor;
             this.navBarUniversalMonitor.Name = "navBarUniversalMonitor";
             this.navBarUniversalMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarUniversalMonitor_LinkClicked);
+            // 
+            // navBarUniversalParm651
+            // 
+            this.navBarUniversalParm651.Caption = "参数651";
+            this.navBarUniversalParm651.LargeImage = global::SmartWaterSystem.Properties.Resources.UniversalTerParm;
+            this.navBarUniversalParm651.Name = "navBarUniversalParm651";
+            this.navBarUniversalParm651.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarUniversalParm651_LinkClicked);
             // 
             // NBG_ValveSwitch
             // 
@@ -791,6 +801,7 @@
         private DevExpress.XtraNavBar.NavBarItem navBarHydrantParm;
         private DevExpress.XtraNavBar.NavBarItem navBarHydrantMap;
         private DevExpress.XtraBars.BarButtonItem barBtnMSMQSetting;
+        private DevExpress.XtraNavBar.NavBarItem navBarUniversalParm651;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
 
     }

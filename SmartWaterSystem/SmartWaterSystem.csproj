@@ -339,6 +339,12 @@
     <Compile Include="MODULE\UniversalTerminal\PluseBasicInputForm.Designer.cs">
       <DependentUpon>PluseBasicInputForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerParm651.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerParm651.Designer.cs">
+      <DependentUpon>UniversalTerParm651.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FrmSysVoiceSet.cs">
@@ -503,6 +509,9 @@
     <EmbeddedResource Include="MODULE\UniversalTerminal\PluseBasicInputForm.resx">
       <DependentUpon>PluseBasicInputForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerParm651.resx">
+      <DependentUpon>UniversalTerParm651.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -662,6 +671,10 @@
     <ProjectReference Include="..\UniversalTerMgr\UniversalTerMgr.csproj">
       <Project>{68C2F608-9553-463D-B638-EC636C6CA59C}</Project>
       <Name>UniversalTerMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniversalTerParm651\UniversalTerParm651.csproj">
+      <Project>{36485A04-6E62-42B0-B9C3-74DBCB78D94D}</Project>
+      <Name>UniversalTerParm651</Name>
     </ProjectReference>
     <ProjectReference Include="..\UniversalTerParm\UniversalTerParm.csproj">
       <Project>{950E97A0-8ACB-4ADB-BCD4-680945253386}</Project>

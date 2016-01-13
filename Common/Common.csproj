@@ -83,6 +83,7 @@
     <Compile Include="JSONSerialize.cs" />
     <Compile Include="MD5Encrypt.cs" />
     <Compile Include="MetarnetRegex.cs" />
+    <Compile Include="MSMQ\MSMQEntity.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -95,6 +96,7 @@
     <Compile Include="Socket\CallSocketEntity.cs" />
     <Compile Include="Socket\ConvertHelper.cs" />
     <Compile Include="Socket\Package.cs" />
+    <Compile Include="Socket\Package651.cs" />
     <Compile Include="Socket\PackageDefine.cs" />
     <Compile Include="Socket\ServiceManager.cs" />
     <Compile Include="Win32.cs" />

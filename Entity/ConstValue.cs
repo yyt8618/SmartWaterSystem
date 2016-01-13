@@ -49,7 +49,11 @@ namespace Entity
             Data_OnLineState, //招测终端在线状态
             Get_OnLineState,  //获取终端在线状态
             Cmd_CallData,      //招测数据
-            SQL_Syncing       //正在同步SQL数据
+            SQL_Syncing,       //正在同步SQL数据
+            SL651_Cmd,         //SL651协议命令
+            Get_SL651_AllowOnlineFlag,  //获取SL651是否允许在线标志
+            Set_SL651_AllowOnlineFlag,  //设置SL651是否允许在线标志
+            Get_SL651_WaitSendCmd       //获取SL651待发送命令列表
         }
 
         /// <summary>

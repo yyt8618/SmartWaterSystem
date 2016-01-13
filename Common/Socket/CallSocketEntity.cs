@@ -26,7 +26,7 @@ namespace Common
             set { _devType = value; }
         }
 
-        private short _id;
+        private short _id = -1;   //默认为-1，SL651协议时使用默认值
         /// <summary>
         /// 终端编号
         /// </summary>
@@ -35,6 +35,27 @@ namespace Common
             get { return _id; }
             set { _id = value; }
         }
+
+        /// <summary>
+        /// 终端地址A5
+        /// </summary>
+        public byte A5 { get; set; }
+        /// <summary>
+        /// 终端地址A4
+        /// </summary>
+        public byte A4 { get; set; }
+        /// <summary>
+        /// 终端地址A3
+        /// </summary>
+        public byte A3 { get; set; }
+        /// <summary>
+        /// 终端地址A2
+        /// </summary>
+        public byte A2 { get; set; }
+        /// <summary>
+        /// 终端地址A1
+        /// </summary>
+        public byte A1 { get; set; }
 
         private bool _AllowOnLine = false;
         /// <summary>
@@ -89,6 +110,16 @@ namespace Common
             set { _sendPackage = value; }
         }
 
+        private Package651 _sendPackage651;
+        /// <summary>
+        /// 待发送的包651
+        /// </summary>
+        public Package651 SendPackage651
+        {
+            get { return _sendPackage651; }
+            set { _sendPackage651 = value; }
+        }
+
         public SendPackageEntity()
         {
         }
@@ -96,6 +127,11 @@ namespace Common
         public SendPackageEntity(Package package)
         {
             this._sendPackage = package;
+        }
+
+        public SendPackageEntity(Package651 package)
+        {
+            this._sendPackage651 = package;
         }
     }
 }

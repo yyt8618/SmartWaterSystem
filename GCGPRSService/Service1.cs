@@ -107,7 +107,7 @@ namespace GCGPRSService
                             m.Formatter = new BinaryMessageFormatter();
                             try
                             {
-                                MSMQEntity msmqMsg = (MSMQEntity)m.Body;// (MSMQEntity)JsonConvert.DeserializeObject(m.Body.ToString(), typeof(MSMQEntity));
+                                MSMQEntity msmqMsg = (MSMQEntity)m.Body;
                                 if (msmqMsg != null)
                                 {
                                     if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Cmd_Online)
@@ -118,6 +118,24 @@ namespace GCGPRSService
                                         GlobalValue.Instance.SocketMag.ClientCallData(msmqMsg.DevType, msmqMsg.DevId, msmqMsg.CallDataType);
                                     else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.SQL_Syncing)
                                         GlobalValue.Instance.SocketMag.SetSQL_SyncingStatus();
+                                    else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.SL651_Cmd)
+                                    {
+                                        if (msmqMsg.Pack651 != null)
+                                            GlobalValue.Instance.SocketMag.Send651Cmd(msmqMsg.Pack651);
+                                        GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();  //发送完毕获取待发送SL651命令列表
+                                    }
+                                    else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag)
+                                    {
+                                        GlobalValue.Instance.SocketMag.SetSL651AllowOnLineFlag(msmqMsg.Msg.ToLower() == "true");
+                                        GlobalValue.Instance.SocketMag.GetSL651AllowOnLineFlag();
+                                    }
+                                    else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag)
+                                        GlobalValue.Instance.SocketMag.GetSL651AllowOnLineFlag();
+                                    else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd)
+                                    {
+                                        GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();
+                                    }
+
                                     //Other
                                 }
                             }

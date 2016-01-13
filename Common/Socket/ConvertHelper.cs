@@ -37,6 +37,20 @@ namespace Common
             return Convert.ToByte(r1 + 10 * r2);    //0x12 -> 12
         }
 
+        public static byte[] StrToBCD(string str)
+        {
+            if (str.Length % 2 != 0)
+            {
+                str = str.PadLeft(str.Length + 1, '0');
+            }
+            List<byte> lstByte = new List<byte>();
+            for (int i = 0; i < str.Length; i += 2)
+            {
+                lstByte.Add(HexToBCD(Convert.ToByte(str.Substring(i, 2))));
+            }
+            return lstByte.ToArray();
+        }
+
         /// <summary>
         /// 16进制转化成BCD
         /// </summary>

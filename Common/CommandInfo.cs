@@ -743,6 +743,87 @@ namespace Common
         #endregion
     }
 
+    public enum SL651_COMMAND
+    {
+        /// <summary>
+        /// 定时报
+        /// </summary>
+        TimingReport = 0x32,
+        /// <summary>
+        /// 测试报
+        /// </summary>
+        TestReport = 0x30,
+        /// <summary>
+        /// 遥测站加报
+        /// </summary>
+        AddtionReport = 0x33,
+        /// <summary>
+        /// 查询版本
+        /// </summary>
+        QueryVer = 0x45,
+        /// <summary>
+        /// 查询实时数据
+        /// </summary>
+        QueryCurData = 0x37,
+        /// <summary>
+        /// 查询时段降水量/水位
+        /// </summary>
+        QueryPrecipitationOrWaterLevel = 0x38,
+        /// <summary>
+        /// 查询指定要素
+        /// </summary>
+        QueryElements = 0x3A,
+        /// <summary>
+        /// 修改基本配置表
+        /// </summary>
+        SetBasicConfig = 0x40,
+        /// <summary>
+        /// 读取基本配置表
+        /// </summary>
+        ReadBasiConfig = 0x41,
+        /// <summary>
+        /// 修改运行配置表
+        /// </summary>
+        SetRunConfig = 0x42,
+        /// <summary>
+        /// 读取运行配置表
+        /// </summary>
+        ReadRunConfig = 0x43,
+        /// <summary>
+        /// 查询状态和报警
+        /// </summary>
+        QueryAlarm = 0x46,
+        /// <summary>
+        /// 初始化固态存储数据
+        /// </summary>
+        InitFlash = 0x47,
+        /// <summary>
+        /// 恢复出厂设置
+        /// </summary>
+        Init = 0x48,
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        ChPwd = 0x49,
+        /// <summary>
+        /// 设置时间
+        /// </summary>
+        SetTime = 0x4A,
+        /// <summary>
+        /// 查询时间
+        /// </summary>
+        QueryTime = 0x51,
+        /// <summary>
+        /// 查询事件记录
+        /// </summary>
+        QueryEvent = 0x50,
+        /// <summary>
+        /// 水量定值控制
+        /// </summary>
+        PrecipitationConstantCtrl = 0x4F,
+    }
+
+
     /// <summary>
     /// 控制码类型
     /// </summary>

@@ -92,11 +92,22 @@ namespace GCGPRSService
         Socket listener;
         bool isRunning = false;
         List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
+        //private List<Package651> _lstSendPack651 = new List<Package651>();
+        ///// <summary>
+        /////  待发送命令651
+        ///// </summary>
+        //List<Package651> lstSendPack651
+        //{
+        //    get { return _lstSendPack651; }
+        //    set { _lstSendPack651 = value; }
+        //}
         int SQL_Interval = 3 * 63;  //数据更新时间间隔(second)
         DateTime SQLSync_Time = DateTime.Now.AddHours(-1);  //数据库同步时间,-1:才开启，马上同步一次数据
 
         int OnLineState_Interval = 5 * 60; //终端在线状态更新时间间隔(second)
         int CheckThread_Interval = 2 * 60; //检查线程状态间隔(second)
+
+        bool SL651AllowOnLine = false;  //SL651协议终端是否在线,默认不在线
 
         public virtual void OnSendMsg(SocketEventArgs e)
         {
@@ -119,7 +130,6 @@ namespace GCGPRSService
             msmqEntity.lstOnLine = new List<OnLineTerEntity>();
             OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
         }
-
 
         private void Interval_Thread()
         {
@@ -145,7 +155,6 @@ namespace GCGPRSService
                     OnLineState_Interval = 5*60;
                     MSMQEntity msmqEntity = new MSMQEntity();
                     msmqEntity.lstOnLine = new List<OnLineTerEntity>();
-                    //List<CallSocketEntity> lstOnLine = new List<CallSocketEntity>();
                     foreach (CallSocketEntity client in lstClient)
                     {
                         //如果重试次数大于0并且发送时间与当前时间相差不超过一天，保留
@@ -186,7 +195,7 @@ namespace GCGPRSService
                             }
                         }
 
-                        if (add)
+                        if (add && client.TerId!=-1)
                         {
                             msmqEntity.lstOnLine.Add(new OnLineTerEntity(client.DevType, client.TerId));
                             //lstOnLine.Add(client);
@@ -385,18 +394,18 @@ namespace GCGPRSService
                 bytesRead = handler.EndReceive(ar);
                 if (bytesRead > 0)
                 {
-                    Queue<byte> ByteQueue = new Queue<byte>();
                     List<byte> packageBytes = new List<byte>();
+                    List<byte> ReceiveBytes = new List<byte>();
 
                     for (int i = 0; i < bytesRead; i++)
                     {
-                        ByteQueue.Enqueue(state.buffer[i]);   //入队列
+                        ReceiveBytes.Add(state.buffer[i]); 
                     }
-                    while (ByteQueue.Count > 0)
+                    int index = 0;
+                    while (index < bytesRead)
                     {
-                        byte byteItem = ByteQueue.Dequeue();    //出队列
-                        packageBytes.Add(byteItem);
-                        if (byteItem == PackageDefine.EndByte && packageBytes.Count >= PackageDefine.MinLenth)
+                        packageBytes.Add(ReceiveBytes[index]);
+                        if (ReceiveBytes[index] == PackageDefine.EndByte && packageBytes.Count >= PackageDefine.MinLenth)
                         {
                             byte[] arr = packageBytes.ToArray();
                             int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);  //数据域长度
@@ -407,17 +416,11 @@ namespace GCGPRSService
                                 {
                                     foreach (CallSocketEntity callentity in lstClient)
                                     {
-                                        if (callentity.DevType == pack.DevType && callentity.TerId == pack.DevID && callentity.lstWaitSendCmd!=null)
+                                        if (callentity.DevType == pack.DevType && callentity.TerId!=-1 && callentity.TerId == pack.DevID && callentity.lstWaitSendCmd != null)
                                         {
                                             List<SendPackageEntity> lst_save_pack = new List<SendPackageEntity>();
                                             for (int i = 0; i < callentity.lstWaitSendCmd.Count; i++)  //收到响应帧
                                             {
-                                                /* CommandPack.DevID = pack.DevID;
-                                                    CommandPack.DevType = pack.DevType;
-                                                    CommandPack.C0 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].CtrlCode);
-                                                    CommandPack.C1 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].FunCode);
-                                                    CommandPack.Data = ConvertHelper.StringToByte(GlobalValue.Instance.lstGprsCmd[i].Data);
-                                                    CommandPack.DataLength = CommandPack.Data.Length;*/
                                                 if (callentity.lstWaitSendCmd[i].SendPackage.C0 == pack.C0 &&
                                                     callentity.lstWaitSendCmd[i].SendPackage.C1 == pack.C1 &&
                                                     callentity.lstWaitSendCmd[i].SendPackage.Data == pack.Data)
@@ -1191,7 +1194,7 @@ namespace GCGPRSService
                                     CallSocketEntity currentSocketEntity = null;
                                     foreach (CallSocketEntity callentity in lstClient)
                                     {
-                                        if (callentity.DevType == pack.DevType && callentity.TerId == pack.DevID)
+                                        if (callentity.DevType == pack.DevType && callentity.TerId!=-1 && callentity.TerId == pack.DevID)
                                         {
                                             currentSocketEntity = callentity;
                                             callentity.ClientSocket = handler;
@@ -1356,6 +1359,236 @@ namespace GCGPRSService
                                 }
                             }
                         }
+                        else if (packageBytes.Count >= PackageDefine.MinLenth651 && (packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte651 || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte_Continue))
+                        {
+                            bool need_response = true;    //是否回复相应帧(连续几个帧，只回最后一个帧)
+                            bool deal = false;
+                            byte[] crcbs = packageBytes.ToArray();
+                            byte[] crctest = Package651.crc16(crcbs, crcbs.Length - 2);
+                            if (crctest != null && crctest[0] == crcbs[crcbs.Length - 2] && crctest[1] == crcbs[crcbs.Length - 1])
+                            {
+                                if (index + 2 < ReceiveBytes.Count) //多个帧在一起时，做检查（当前位置之后两个字节是否是下一帧开始，且剩下长度大于最小帧长度）
+                                {
+                                    if (ReceiveBytes[index + 1] == 0x7E && ReceiveBytes[index + 2] == 0x7E && ReceiveBytes.Count >= PackageDefine.MinLenth * 2)
+                                    {
+                                        deal = true;
+                                        need_response = true;  //false -> true 每个都回
+                                    }
+                                }
+                                else
+                                {
+                                    deal = true;
+                                    need_response = true;
+                                }
+                            }
+
+                            #region test 651
+                            if (deal)
+                            {
+                                byte[] arr = packageBytes.ToArray();
+                                Package651 pack;
+                                bool havesubsequent = false;  //是否有后续包
+                                string subsequentmsg = "";  //如果是包且有后续，提示当前包数
+                                if ((PackageDefine.MinLenth651 <= arr.Length) & Package651.TryParse(arr, out pack, out havesubsequent, out subsequentmsg))//找到结束字符并且是完整一帧
+                                {
+                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fffffff") + " 收到帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
+                                    #region 解析数据
+                                    string str_senddt = "";
+                                    if (pack.dt != null && pack.dt.Length == 6)
+                                    {
+                                        str_senddt = string.Format("{0}-{1}-{2} {3}:{4}:{5}", String.Format("{0:X2}", pack.dt[0]), String.Format("{0:X2}", pack.dt[1])
+                                            , String.Format("{0:X2}", pack.dt[2]), String.Format("{0:X2}", pack.dt[3]), String.Format("{0:X2}", pack.dt[4]), String.Format("{0:X2}", pack.dt[5]));
+                                    }
+                                    OnSendMsg(new SocketEventArgs(string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
+                                            Convert.ToInt16(pack.CenterAddr), Convert.ToInt16(pack.A1), Convert.ToInt16(pack.A2), Convert.ToInt16(pack.A3), Convert.ToInt16(pack.A4), Convert.ToInt16(pack.A5),
+                                            BitConverter.ToInt16(pack.PWD, 0), "0x" + String.Format("{0:X2}", pack.FUNCODE), GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
+                                            string.Format("报文长度:{0},报文起始符:{1},{2},发报时间:{3},{4}校验码:{5}",
+                                            pack.DataLength, "0x" + String.Format("{0:X2}", pack.CStart),
+                                            string.IsNullOrEmpty(subsequentmsg) ? "流水号:" + BitConverter.ToInt16(pack.SNum, 0) : subsequentmsg, str_senddt,
+                                            (pack.Data != null ? AnalyseElement(pack.FUNCODE, pack.Data) : ""), ConvertHelper.ByteToString(pack.CS, pack.CS.Length))
+                                            ));
+                                    #endregion
+
+                                    if (!havesubsequent)
+                                    {
+                                        #region 发送帧
+                                        Package651 response = new Package651();  //响应帧
+                                        List<Package651> pack_cmd = new List<Package651>(); //命令帧(列表)
+                                        if (lstClient != null && lstClient.Count > 0)
+                                        {
+                                            foreach (CallSocketEntity callentity in lstClient)
+                                            {
+                                                if ((callentity.A5 == pack.A5) && (callentity.A4 == pack.A4) && (callentity.A3 == pack.A3) && (callentity.A2 == pack.A2) && (callentity.A1 == pack.A1))
+                                                {
+                                                    callentity.ClientSocket = handler;
+                                                    if (callentity.lstWaitSendCmd != null && callentity.lstWaitSendCmd.Count > 0)
+                                                    {
+                                                        for (int i = 0; i < callentity.lstWaitSendCmd.Count; i++)
+                                                        {
+                                                            pack_cmd.Add(callentity.lstWaitSendCmd[i].SendPackage651);
+                                                            callentity.lstWaitSendCmd[i].SendCount--;
+                                                            callentity.lstWaitSendCmd[i].SendTime = DateTime.Now;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (pack.FUNCODE == 0x2F || pack.FUNCODE == 0x37 || pack.FUNCODE == 0x3A || pack.FUNCODE == 0x45 || pack.FUNCODE == 0x46 || pack.FUNCODE == 0x4A || pack.FUNCODE == 0x51 || pack.FUNCODE == 0x50)
+                                            need_response = false;
+
+                                        response.dt = new byte[6];
+                                        response.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
+                                        response.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
+                                        response.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
+                                        response.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
+                                        response.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
+                                        response.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
+
+                                        if (pack_cmd != null && pack_cmd.Count > 0)  //有后续帧
+                                        {
+                                            response.A1 = pack.A1;
+                                            response.A2 = pack.A2;
+                                            response.A3 = pack.A3;
+                                            response.A4 = pack.A4;
+                                            response.A5 = pack.A5;
+                                            response.CenterAddr = pack.CenterAddr;
+                                            //response.PWD[0] = Convert.ToByte(txtPwd0.Text);
+                                            //response.PWD[1] = Convert.ToByte(txtPwd1.Text);
+                                            response.PWD = new byte[2];
+                                            response.PWD[0] = pack.PWD[1];
+                                            response.PWD[1] = pack.PWD[0];
+                                            byte[] lens = BitConverter.GetBytes((ushort)8);
+                                            response.L0 = lens[0];
+                                            response.L1 = lens[1];
+                                            response.FUNCODE = pack.FUNCODE;
+                                            response.IsUpload = false;
+                                            response.CStart = PackageDefine.CStart;
+                                            response.SNum = pack.SNum;
+                                            response.AddrFlag = pack.AddrFlag;
+                                            response.End = PackageDefine.ESC;  //保持在线，以便发送后续帧
+                                            byte[] bsenddata = response.ToResponseArray(true);
+                                            response.CS = Package651.crc16(bsenddata, bsenddata.Length);
+
+                                            bsenddata = response.ToResponseArray();
+                                            OnSendMsg(new SocketEventArgs((DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length))));
+
+                                            Thread.Sleep(1500);  //1
+                                            Send651(handler, bsenddata);
+
+                                            //发送命令帧
+                                            for (int i = 0; i < pack_cmd.Count; i++)
+                                            {
+                                                if (i + 1 == pack_cmd.Count && !SL651AllowOnLine)  //最后一条
+                                                {
+                                                    Package651 p = pack_cmd[i];  //这是个奇怪的，不用过渡变量编译错误
+                                                    p.End = PackageDefine.EOT;
+                                                }
+                                                else
+                                                {
+                                                    Package651 p = pack_cmd[i];  //这是个奇怪的，不用过渡变量编译错误
+                                                    p.End = PackageDefine.ESC;
+                                                }
+                                                List<byte> sendBytes = new List<byte>();
+                                                sendBytes.AddRange(pack_cmd[i].ToResponseArray(true));
+                                                sendBytes.AddRange(Package651.crc16(bsenddata, bsenddata.Length));
+                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(sendBytes.ToArray(), sendBytes.Count)));
+
+                                                Thread.Sleep(1500);  //2
+                                                Send651(handler, sendBytes.ToArray());
+                                                //lstSendPack.Remove(pack_cmd[i]);
+                                                //SetListView_Cmd();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (need_response)
+                                            {
+                                                //Package response = new Package();
+                                                response.A1 = pack.A1;
+                                                response.A2 = pack.A2;
+                                                response.A3 = pack.A3;
+                                                response.A4 = pack.A4;
+                                                response.A5 = pack.A5;
+                                                response.CenterAddr = pack.CenterAddr;
+                                                //response.PWD[0] = Convert.ToByte(txtPwd0.Text);
+                                                //response.PWD[1] = Convert.ToByte(txtPwd1.Text);
+                                                response.PWD = new byte[2];
+                                                response.PWD[0] = pack.PWD[1];
+                                                response.PWD[1] = pack.PWD[0];
+                                                byte[] lens = BitConverter.GetBytes((ushort)8);
+                                                response.L0 = lens[0];
+                                                response.L1 = lens[1];
+                                                response.FUNCODE = pack.FUNCODE;
+                                                response.IsUpload = false;
+                                                response.CStart = PackageDefine.CStart;
+                                                response.SNum = pack.SNum;
+                                                response.AddrFlag = pack.AddrFlag;
+                                                if (SL651AllowOnLine)
+                                                    response.End = PackageDefine.ESC;
+                                                else
+                                                    response.End = PackageDefine.EOT;
+                                                byte[] bsenddata = response.ToResponseArray(true);
+                                                response.CS = Package651.crc16(bsenddata, bsenddata.Length);
+
+                                                bsenddata = response.ToResponseArray();
+                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+
+                                                Thread.Sleep(1500); //3
+                                                Send651(handler, bsenddata);
+
+                                            }
+                                        }
+                                        #endregion
+                                    }
+
+                                    try
+                                    {
+                                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                        bool exist = false;
+                                        foreach (CallSocketEntity callEntity in lstClient)
+                                        {
+                                            if (callEntity.A1 == pack.A1 && callEntity.A2 == pack.A2 && callEntity.A3 == pack.A3 && callEntity.A4 == pack.A4 && callEntity.A5 == pack.A5)
+                                            {
+                                                exist = true;
+                                                callEntity.ClientSocket = handler;
+                                                break;
+                                            }
+                                        }
+                                        if (!exist)
+                                        {
+                                            CallSocketEntity sockpack = new CallSocketEntity();
+                                            sockpack.ClientSocket = handler;
+                                            sockpack.A1 = pack.A1;
+                                            sockpack.A2 = pack.A2;
+                                            sockpack.A3 = pack.A3;
+                                            sockpack.A4 = pack.A4;
+                                            sockpack.A5 = pack.A5;
+                                            lstClient.Add(sockpack);
+                                        }
+                                    }
+                                    catch { };
+
+                                    packageBytes.Clear();
+                                }
+                            }
+                            else
+                            {
+                                if (index == bytesRead)
+                                {
+                                    byte[] arr = packageBytes.ToArray();
+                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fffffff") + " 收到错误帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
+
+                                    try
+                                    {
+                                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                    }
+                                    catch { };
+                                }
+                            }
+                            #endregion
+                        }
+                        index++;
                     }
                 }
             }
@@ -1382,7 +1615,7 @@ namespace GCGPRSService
             {
                 foreach(CallSocketEntity callsocket in lstClient)
                 {
-                    if (callsocket.ClientSocket.Equals(handler))
+                    if (callsocket.ClientSocket.Equals(handler) && callsocket.TerId!=-1)
                     {
                         string str_devtype = "";
                         if (callsocket.DevType == ConstValue.DEV_TYPE.Data_CTRL)
@@ -1481,7 +1714,7 @@ namespace GCGPRSService
             int index = -1;
             for (int i = 0; i < lstClient.Count; i++)
             {
-                if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId == DevId))
+                if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId!=-1) && (lstClient[i].TerId == DevId))
                 {
                     index = i;
                     break;
@@ -1591,7 +1824,7 @@ namespace GCGPRSService
                 int index = -1;
                 for (int i = 0; i < lstClient.Count; i++)
                 {
-                    if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId == DevId))
+                    if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId!=-1) && (lstClient[i].TerId == DevId))
                     {
                         index = i;
                         break;
@@ -1773,6 +2006,822 @@ namespace GCGPRSService
             }
         }
 
+        #region SL651方法
+        private string GetFuncodeName(byte b)
+        {
+            string name = "";
+            switch (b)
+            {
+                case 0x2F:
+                    name = "链路维持报";
+                    break;
+                case 0x30:
+                    name = "测试报";
+                    break;
+                case 0x31:
+                    name = "均匀时段降水量/水位";
+                    break;
+                case 0x32:
+                    name = "遥测站定时报";
+                    break;
+                case 0x33:
+                    name = "遥测站加报";
+                    break;
+                case 0x34:
+                    name = "遥测站小时报";
+                    break;
+                case 0x37:
+                    name = "查询遥测站实时数据";
+                    break;
+                case 0x38:
+                    name = "查询时段降水量/水位";
+                    break;
+                case 0x3A:
+                    name = "查询指定要素数据";
+                    break;
+                case 0x40:
+                    name = "修改基本配置表";
+                    break;
+                case 0x41:
+                    name = "读取基本配置表";
+                    break;
+                case 0x42:
+                    name = "修改运行配置表";
+                    break;
+                case 0x43:
+                    name = "读取运行配置表";
+                    break;
+                case 0x45:
+                    name = "查询软件版本";
+                    break;
+                case 0x46:
+                    name = "查询状态和报警";
+                    break;
+                case 0x47:
+                    name = "初始化固态存储数据";
+                    break;
+                case 0x48:
+                    name = "恢复出厂设置";
+                    break;
+                case 0x49:
+                    name = "修改密码";
+                    break;
+                case 0x4A:
+                    name = "设置时钟";
+                    break;
+                case 0x51:
+                    name = "查询时钟";
+                    break;
+                case 0x50:
+                    name = "查询事件记录";
+                    break;
+            }
+            return name;
+        }
+        /// <summary>
+        /// 解析要素信息
+        /// </summary>
+        /// <param name="funcode">功能码</param>
+        /// <param name="elements">要素信息</param>
+        /// <returns></returns>
+        private string AnalyseElement(byte funcode, byte[] elements)
+        {
+            string strcontent = "";
+            switch (funcode)
+            {
+                case (byte)SL651_COMMAND.QueryTime:
+                    break;
+                case (byte)SL651_COMMAND.QueryVer:
+                    #region 查询版本信息
+                    int len = Convert.ToInt32(elements[0]);
+
+                    strcontent = "版本信息:0x";
+                    int verlen = Convert.ToInt32(elements[7]);
+                    for (int i = 0; i < verlen; i++)
+                    {
+                        strcontent += string.Format("{0:X2}", elements[8 + i]);
+                    }
+                    #endregion
+                    break;
+                case (byte)SL651_COMMAND.QueryEvent:
+                    strcontent = "遥测站事件记录数据:" + ConvertHelper.ByteToString(elements, elements.Length) + ",";
+                    break;
+                case (byte)SL651_COMMAND.ChPwd:
+                    #region 修改密码
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PwdFlag[0] && elements[i] == PackageDefine.PwdFlag[1])
+                        {
+                            strcontent += "新密码:" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + ",";
+                            //SetNewPwd(string.Format("{0:X2}", elements[i + 1]), string.Format("{0:X2}", elements[i + 2]));
+                            break;
+                        }
+                    }
+                    #endregion
+                    break;
+                case (byte)SL651_COMMAND.QueryAlarm:      //状态及报警
+                case (byte)SL651_COMMAND.TimingReport:    //定时报
+                case (byte)SL651_COMMAND.TestReport:      //测试报
+                case (byte)SL651_COMMAND.AddtionReport:   //遥测站加报
+                case (byte)SL651_COMMAND.QueryCurData:    //查询实时数据
+                case (byte)SL651_COMMAND.QueryElements:   //查询指定要素
+                    #region
+                    strcontent = "分类码:" + "0x" + string.Format("{0:X2}", elements[7]) + ",";
+                    for (int i = 1; i < elements.Length - 5; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.ObservationTimeFlag[0] && elements[i] == PackageDefine.ObservationTimeFlag[1])
+                        {
+                            strcontent += "观测时间:" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) +
+                                string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]) + string.Format("{0:X2}", elements[i + 5]) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.RainFallLimitFlag[0] && elements[i] == PackageDefine.RainFallLimitFlag[1])
+                        {
+                            strcontent += "雨量加报阀值:" + Convert.ToInt32(string.Format("{0:X2}", elements[i + 1])) + "mm,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 3; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PeriodPrecipitationFlag[0] && elements[i] == PackageDefine.PeriodPrecipitationFlag[1])
+                        {
+                            strcontent += "时段降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3])) / 10 + "mm,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 3; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.RainFallAddupFlag[0] && elements[i] == PackageDefine.RainFallAddupFlag[1])
+                        {
+                            strcontent += "降水累计量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3])) / 10 + "mm,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 4; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.InstantWaterlevelFlag[0] && elements[i] == PackageDefine.InstantWaterlevelFlag[1])
+                        {
+                            strcontent += "瞬时水位:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])
+                                        + string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4])) / 1000 + "m,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PowerFlag[0] && elements[i] == PackageDefine.PowerFlag[1])
+                        {
+                            strcontent += "电源电压:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100 + "v,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.RainFallTookFlag[0] && elements[i] == PackageDefine.RainFallTookFlag[1])
+                        {
+                            strcontent += "降水历时:" + string.Format("{0:X2}", elements[i + 1]) + "." + string.Format("{0:X2}", elements[i + 2]) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 4; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.AlarmFlag[0] && elements[i] == PackageDefine.AlarmFlag[1])
+                        {
+                            strcontent += "状态及报警信息:" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])
+                                + string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 36; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.Precipitation5MinFlag[0] && elements[i] == PackageDefine.Precipitation5MinFlag[1])
+                        {
+                            strcontent += "1h内5min时段降水量:";
+                            for (int j = i + 1; j < i + 1 + 12; j += 3)  //12bytes
+                            {
+                                strcontent += string.Format("{0:X2}", elements[j]) + string.Format("{0:X2}", elements[j + 1])
+                                + string.Format("{0:X2}", elements[i + 2]) + " ";
+                            }
+                            strcontent += ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 36; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.Waterlevel5MinFlag[0] && elements[i] == PackageDefine.Waterlevel5MinFlag[1])
+                        {
+                            strcontent += "1h内5min间隔相对水位:";
+                            for (int j = i + 1; j < i + 1 + 12; j += 3)  //24bytes
+                            {
+                                strcontent += string.Format("{0:X2}", elements[j]) + string.Format("{0:X2}", elements[j + 1])
+                                + string.Format("{0:X2}", elements[i + 2]) + " ";
+                            }
+                            strcontent += ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.InstantWaterTempFlag[0] && elements[i] == PackageDefine.InstantWaterTempFlag[1])
+                        {
+                            strcontent += "瞬时水温:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 10 + "℃,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PHFlag[0] && elements[i] == PackageDefine.PHFlag[1])
+                        {
+                            strcontent += "PH:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100 + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 3; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.ConductivityFlag[0] && elements[i] == PackageDefine.ConductivityFlag[1])
+                        {
+                            strcontent += "电导率:" + Convert.ToInt32(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) +
+                                string.Format("{0:X2}", elements[i + 3])) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.TurbidityFlag[0] && elements[i] == PackageDefine.TurbidityFlag[1])
+                        {
+                            strcontent += "浊度:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 3; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PrecipitationFlag[0] && elements[i] == PackageDefine.PrecipitationFlag[1])
+                        {
+                            strcontent += "当前降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3])) / 10 + "mm,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 3; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.DayPrecipitationFlag[0] && elements[i] == PackageDefine.DayPrecipitationFlag[1])
+                        {
+                            strcontent += "日降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3])) / 10 + "mm,";
+                            break;
+                        }
+                    }
+                    #endregion
+                    break;
+                case (byte)SL651_COMMAND.ReadBasiConfig:  //查询遥测站基本配置表
+                    #region 查询基本配置表
+                    for (int i = 1; i < elements.Length - 5; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.AddrFlag[0] && elements[i] == PackageDefine.AddrFlag[1])
+                        {
+                            strcontent += "遥测站地址:0x" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) +
+                                string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]) + string.Format("{0:X2}", elements[i + 5]) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 4; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.CenterAddrFlag[0] && elements[i] == PackageDefine.CenterAddrFlag[1])
+                        {
+                            strcontent += "中心站地址:0x" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) +
+                                string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PwdFlag[0] && elements[i] == PackageDefine.PwdFlag[1])
+                        {
+                            strcontent += "密码:0x" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.WorkTypeFlag[0] && elements[i] == PackageDefine.WorkTypeFlag[1])
+                        {
+                            strcontent += "工作方式:";
+                            switch (Convert.ToUInt16(elements[i + 1]))
+                            {
+                                case 1:
+                                    strcontent += "自报工作状态" + ",";
+                                    break;
+                                case 2:
+                                    strcontent += "自报确认工作状态" + ",";
+                                    break;
+                                case 3:
+                                    strcontent += "查询/应答工作状态" + ",";
+                                    break;
+                                case 4:
+                                    strcontent += "调试或维修状态" + ",";
+                                    break;
+                                default:
+                                    strcontent += "工作方式:0x" + string.Format("{0:X2}", elements[i + 1]) + ",";
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 8; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.ElementsFlag[0] && elements[i] == PackageDefine.ElementsFlag[1])
+                        {
+                            strcontent += "采集要素:0x";
+                            for (int j = 1; j <= 8; j++)
+                            {
+                                strcontent += string.Format("{0:X2}", elements[i + j]);
+                            }
+                            strcontent += ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 12; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.IdentifyNumFlag[0] && elements[i] == PackageDefine.IdentifyNumFlag[1])
+                        {
+                            strcontent += "通讯设备识别号:";
+                            switch (Convert.ToUInt16(elements[i + 1]))
+                            {
+                                case 1:
+                                    strcontent += "移动通信卡" + ",识别号:";
+                                    break;
+                                case 2:
+                                    strcontent += "北斗卫星通信卡" + ",识别号:";
+                                    break;
+                                default:
+                                    strcontent += "识别类型:0x" + string.Format("{0:X2}", elements[i + 1]) + ",识别号:";
+                                    break;
+                            }
+                            for (int j = 2; j <= 12; j++)
+                            {
+                                strcontent += Convert.ToUInt16(elements[i + j]) - 48;
+                            }
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 10; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.Channel1Flag[0] && elements[i] == PackageDefine.Channel1Flag[1])
+                        {
+                            strcontent += "中1主信道类型及地址:";
+                            switch (Convert.ToUInt16(elements[i + 1]))
+                            {
+                                case 0:
+                                    strcontent += "关闭";
+                                    break;
+                                case 1:
+                                    strcontent += "短信";
+                                    break;
+                                case 2:
+                                    strcontent += "IPV4";
+                                    break;
+                                case 3:
+                                    strcontent += "北斗";
+                                    break;
+                                case 4:
+                                    strcontent += "海事卫星";
+                                    break;
+                                case 5:
+                                    strcontent += "PSTN";
+                                    break;
+                                case 6:
+                                    strcontent += "超短波";
+                                    break;
+                                default:
+                                    strcontent += "信道类型:0x" + string.Format("{0:X2}", elements[i + 1]);
+                                    break;
+                            }
+                            string ip = "";
+                            for (int j = 2; j <= 7; j++)
+                            {
+                                ip += string.Format("{0:X2}", elements[i + j]);
+                            }
+                            strcontent += ",";
+                            char[] ip_chars = ip.ToCharArray();
+                            for (int j = 0; j < ip_chars.Length; j++)
+                            {
+                                strcontent += ip_chars[j];
+                                if ((j + 1) % 3 == 0)
+                                {
+                                    strcontent += ".";
+                                }
+                            }
+                            strcontent = strcontent.Substring(0, strcontent.Length - 1);
+                            strcontent += ":" + string.Format("{0:X2}", elements[i + 9]) + string.Format("{0:X2}", elements[i + 10]);
+                            strcontent += ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 13; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.StandbyChannel1Flag[0] && elements[i] == PackageDefine.StandbyChannel1Flag[1])
+                        {
+                            strcontent += "备用信道类型及地址:";
+                            switch (Convert.ToUInt16(elements[i + 1]))
+                            {
+                                case 0:
+                                    strcontent += "关闭";
+                                    break;
+                                case 1:
+                                    strcontent += "短信";
+                                    break;
+                                case 2:
+                                    strcontent += "IPV4";
+                                    break;
+                                case 3:
+                                    strcontent += "北斗";
+                                    break;
+                                case 4:
+                                    strcontent += "海事卫星";
+                                    break;
+                                case 5:
+                                    strcontent += "PSTN";
+                                    break;
+                                case 6:
+                                    strcontent += "超短波";
+                                    break;
+                                default:
+                                    strcontent += "信道类型:0x" + string.Format("{0:X2}", elements[i + 1]);
+                                    break;
+                            }
+                            string telnum = "";
+                            for (int j = 2; j <= 10; j++)
+                            {
+                                telnum += string.Format("{0:X2}", elements[i + j]);
+                            }
+                            strcontent += ",";
+                            break;
+                        }
+                    }
+                    #endregion
+                    break;
+                case (byte)SL651_COMMAND.ReadRunConfig:   //查询遥测站运行配置表
+                    #region 查询运行配置表
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PeriodIntervalFlag[0] && elements[i] == PackageDefine.PeriodIntervalFlag[1])
+                        {
+                            strcontent += "定时报时间间隔:" + string.Format("{0:X2}", elements[i + 1]) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.AddIntervalFlag[0] && elements[i] == PackageDefine.AddIntervalFlag[1])
+                        {
+                            strcontent += "加报时间间隔:" + string.Format("{0:X2}", elements[i + 1]) + "min,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PrecipitationStartTimeFlag[0] && elements[i] == PackageDefine.PrecipitationStartTimeFlag[1])
+                        {
+                            strcontent += "降水量日起始时间:" + string.Format("{0:X2}", elements[i + 1]) + "h,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.SamplingFlag[0] && elements[i] == PackageDefine.SamplingFlag[1])
+                        {
+                            strcontent += "采样间隔:" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + "s,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.WaterLevelIntervalFlag[0] && elements[i] == PackageDefine.WaterLevelIntervalFlag[1])
+                        {
+                            strcontent += "水位数据存储间隔:" + string.Format("{0:X2}", elements[i + 1]) + "min,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.RainFallPrecisionFlag[0] && elements[i] == PackageDefine.RainFallPrecisionFlag[1])
+                        {
+                            strcontent += "雨量计分辨率:" + Convert.ToDouble(elements[i + 1]) / 10 + "mm,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.WaterLevelGaugePrecisionFlag[0] && elements[i] == PackageDefine.WaterLevelGaugePrecisionFlag[1])
+                        {
+                            strcontent += "水位计分辨率:" + Convert.ToDouble(elements[i + 1]) / 10 + "cm,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.RainFallLimitFlag[0] && elements[i] == PackageDefine.RainFallLimitFlag[1])
+                        {
+                            strcontent += "雨量加报阀值:" + string.Format("{0:X2}", elements[i + 1]) + "mm,";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 4; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.WaterLevelBasicFlag[0] && elements[i] == PackageDefine.WaterLevelBasicFlag[1])
+                        {
+                            if (elements[i + 1] == 0xFF)  //负数5个字节、正数4个字节
+                            {
+                                string tmp = string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3]) +
+                                string.Format("{0:X2}", elements[i + 4]) + string.Format("{0:X2}", elements[i + 5]);
+                                strcontent += "水位基值:" + (-1) * Convert.ToDouble(tmp) / 1000 + "m,";
+                            }
+                            else
+                            {
+                                string tmp = string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) +
+                                string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]);
+                                strcontent += "水位基值:" + Convert.ToDouble(tmp) / 1000 + "m,";
+                            }
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 3; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.WaterLevelAmendLimitFlag[0] && elements[i] == PackageDefine.WaterLevelAmendLimitFlag[1])
+                        {
+                            if (elements[i + 1] == 0xFF)  //负数四个字节、正数三个字节
+                            {
+                                string tmp = string.Format("{0:X2}", elements[i + 2]) +
+                                    string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]);
+                                strcontent += "水位修正基值:" + (-1) * Convert.ToDouble(tmp) / 1000 + ",";
+                            }
+                            else
+                            {
+                                string tmp = string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3]);
+                                strcontent += "水位修正基值:" + Convert.ToDouble(tmp) / 1000 + ",";
+                            }
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.AddtionWaterLevelFlag[0] && elements[i] == PackageDefine.AddtionWaterLevelFlag[1])
+                        {
+                            strcontent += "加报水位:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100 + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.AddtionWaterLevelUpLimitFlag[0] && elements[i] == PackageDefine.AddtionWaterLevelUpLimitFlag[1])
+                        {
+                            strcontent += "加报水位以上加报阀值:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100 + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 2; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.AddtionWaterLevelLowLimitFlag[0] && elements[i] == PackageDefine.AddtionWaterLevelLowLimitFlag[1])
+                        {
+                            strcontent += "加报水位以下加报阀值:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100 + ",";
+                            break;
+                        }
+                    }
+                    #endregion
+                    break;
+                /*
+            case (byte)Cmd.QueryElements:   //查询指定要素
+                #region 查询指定要素
+                for (int i = 1; i < elements.Length - 3; i++)
+                {
+                    if (elements[i - 1] == PackageDefine.PrecipitationFlag[0] && elements[i] == PackageDefine.PrecipitationFlag[1])
+                    {
+                        strcontent += "当前降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])
+                            + string.Format("{0:X2}", elements[i + 3])) / 10 + ",";
+                        break;
+                    }
+                }
+                for (int i = 1; i < elements.Length - 4; i++)
+                {
+                    if (elements[i - 1] == PackageDefine.RainFallAddupFlag[0] && elements[i] == PackageDefine.RainFallAddupFlag[1])
+                    {
+                        List<byte> lsttmp = new List<byte>();
+                        lsttmp.Add(0x00);
+                        lsttmp.Add(elements[i + 1]);
+                        lsttmp.Add(elements[i + 2]);
+                        lsttmp.Add(elements[i + 3]);
+                        strcontent += "累计降雨量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])
+                            + string.Format("{0:X2}", elements[i + 3])) / 10 + ",";
+                        break;
+                    }
+                }
+                for (int i = 1; i < elements.Length - 4; i++)
+                {
+                    if (elements[i - 1] == PackageDefine.InstantWaterlevelFlag[0] && elements[i] == PackageDefine.InstantWaterlevelFlag[1])
+                    {
+                        strcontent += "瞬时水位:" + Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])
+                            + string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4])) / 1000 + ",";
+                        break;
+                    }
+                }
+                #endregion
+                break;
+                 * */
+                case (byte)SL651_COMMAND.PrecipitationConstantCtrl:
+                    #region 查询水量定值控制
+                    if (elements.Length == 1)
+                    {
+                        strcontent = "水量定值控制";
+                        if (elements[0] == 0x00)
+                            strcontent += "投出";
+                        else if (elements[0] == 0xFF)
+                            strcontent += "投出";
+                    }
+                    #endregion
+                    break;
+                case (byte)SL651_COMMAND.QueryPrecipitationOrWaterLevel:  //查询时段降水量/水位
+                    #region 查询时段降水量/水位
+                    strcontent = "分类码:" + "0x" + string.Format("{0:X2}", elements[7]) + ",";
+                    for (int i = 1; i < elements.Length - 5; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.ObservationTimeFlag[0] && elements[i] == PackageDefine.ObservationTimeFlag[1])
+                        {
+                            strcontent += "观测时间:" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) +
+                                string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]) + string.Format("{0:X2}", elements[i + 5]) + ",";
+                            break;
+                        }
+                    }
+                    for (int i = 1; i < elements.Length - 3; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.PrecipitationFlag[0] && elements[i] == PackageDefine.PrecipitationFlag[1])
+                        {
+                            strcontent += "当前降水量:";
+                            for (int j = i + 1; j < elements.Length; j += 3)
+                            {
+                                if (elements[j] != 0xFF)
+                                    strcontent += Convert.ToDouble(string.Format("{0:X2}", elements[j]) + string.Format("{0:X2}", elements[j + 1]) + string.Format("{0:X2}", elements[j + 2])) / 10 + "mm,";
+                            }
+                            break;
+                        }
+                    }
+
+                    for (int i = 1; i < elements.Length - 4; i++)
+                    {
+                        if (elements[i - 1] == PackageDefine.InstantWaterlevelFlag[0] && elements[i] == PackageDefine.InstantWaterlevelFlag[1])
+                        {
+                            strcontent += "瞬时水位:";
+                            for (int j = i + 1; j < elements.Length; j += 4)
+                            {
+                                if (elements[j] != 0xFF)
+                                    strcontent += Convert.ToDouble(string.Format("{0:X2}", elements[j]) + string.Format("{0:X2}", elements[j + 1])
+                                        + string.Format("{0:X2}", elements[j + 2]) + string.Format("{0:X2}", elements[j + 3])) / 1000 + "m,";
+                            }
+                            break;
+                        }
+                    }
+                    #endregion
+                    break;
+            }
+
+            if (string.IsNullOrEmpty(strcontent))
+                strcontent = "要素信息:" + ConvertHelper.ByteToString(elements, elements.Length) + ",";
+            return strcontent;
+        }
+
+        private void SendCallback651(IAsyncResult ar)
+        {
+            try
+            {
+                Socket handler = ((SendObject)ar.AsyncState).workSocket;
+                int bytesSent = handler.EndSend(ar);
+                //if (((SendObject)ar.AsyncState).IsFinal)  //如果是最后一帧，则关闭socket
+                //{
+                //    handler.Shutdown(SocketShutdown.Both);
+                //    handler.Close();
+                //}
+            }
+            catch (Exception e)
+            {
+                logger.ErrorException(DateTime.Now.ToString() + " SendCallback651", e);
+                OnSendMsg(new SocketEventArgs(e.ToString()));
+            }
+        }
+
+        public void Send651Cmd(Package651 pack)
+        {
+            if (lstClient == null)
+                lstClient = new List<CallSocketEntity>();
+
+            bool isExist = false;  //是否存在
+            if (lstClient.Count > 0)
+            {
+                foreach (CallSocketEntity sock in lstClient)
+                {
+                    if (pack.A1 == sock.A1 && pack.A2 == sock.A2 && pack.A3 == sock.A3 && pack.A4 == sock.A4 && pack.A5 == sock.A5)
+                    {
+                        isExist = true;
+                        bool isOnline = false;
+                        if (sock.ClientSocket != null && sock.ClientSocket.Connected)
+                        {
+                            try
+                            {
+                                if (sock.ClientSocket.Poll(1, SelectMode.SelectRead))
+                                {
+                                }
+                                else
+                                    isOnline = true;
+                            }
+                            catch
+                            {
+                                isOnline = false;
+                            }
+                        }
+                        bool issend = false;  //是否已发送
+                        if (isOnline)
+                        {
+                            try
+                            {
+                                if (SL651AllowOnLine)
+                                    pack.End = PackageDefine.ESC;
+                                else
+                                    pack.End = PackageDefine.EOT;
+                                byte[] bsenddata = pack.ToResponseArray(true);
+                                pack.CS = Package651.crc16(bsenddata, bsenddata.Length);
+                                bsenddata = pack.ToResponseArray();
+                                SendObject sendObj = new SendObject();
+                                sendObj.workSocket = sock.ClientSocket;
+                                sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length), ConstValue.MSMQTYPE.Msg_Socket));
+                                issend = true;
+                            }
+                            catch
+                            {
+                                ;
+                            }
+                        }
+                        if (!issend)  //发送失败,添加到待发送列表中
+                        {
+                            SendPackageEntity sendpack = new SendPackageEntity();
+                            sendpack.SendPackage651 = pack;
+                            sock.lstWaitSendCmd.Add(sendpack);
+                        }
+                    
+                        break;
+                    }
+                }
+            }
+
+            if (!isExist)  //不存在新增一个
+            {
+                CallSocketEntity newSocket = new CallSocketEntity();
+                newSocket.A1 = pack.A1;
+                newSocket.A2 = pack.A2;
+                newSocket.A3 = pack.A3;
+                newSocket.A4 = pack.A4;
+                newSocket.A5 = pack.A5;
+                SendPackageEntity sendpack = new SendPackageEntity();
+                sendpack.SendPackage651 = pack;
+                newSocket.lstWaitSendCmd.Add(sendpack);
+                lstClient.Add(newSocket);
+            }
+        }
+
+        public void GetSL651WaitSendCmd()
+        {
+            List<Package651> lstWaitSendCmd = null;
+            if (lstClient != null)
+            {
+                foreach (CallSocketEntity sockeentity in lstClient)
+                {
+                    if(sockeentity.lstWaitSendCmd!=null)
+                        foreach (SendPackageEntity packentity in sockeentity.lstWaitSendCmd)
+                        {
+                            if (packentity.SendPackage651 != null)
+                                lstWaitSendCmd.Add(packentity.SendPackage651);
+                        }
+                }
+            }
+            MSMQEntity msmqEnt = new MSMQEntity();
+            msmqEnt.MsgType= ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd;
+            msmqEnt.Msg = SmartWaterSystem.JSONSerialize.JsonSerialize<List<Package651>>(lstWaitSendCmd);
+            SocketEventArgs socketargs = new SocketEventArgs(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, msmqEnt);
+            OnSendMsg(socketargs);
+        }
+
+        private void Send651(Socket socket, byte[] bsenddata)
+        {
+            try
+            {
+                SendObject sendObj = new SendObject();
+                sendObj.workSocket = socket;
+                socket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback651), sendObj);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        #endregion
+
         /// <summary>
         /// 更新数据库同步时间
         /// </summary>
@@ -1796,6 +2845,17 @@ namespace GCGPRSService
             sendObj.DevID = pack.DevID;
             handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
         }
+
+        public void GetSL651AllowOnLineFlag()
+        {
+            OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, SL651AllowOnLine.ToString()));
+        }
+
+        public void SetSL651AllowOnLineFlag(bool allowOnline)
+        {
+            SL651AllowOnLine = allowOnline;
+        }
+
 
     }
 

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Common
 {
+    [Serializable]
     public struct Package
     {
         #region 原始帧
