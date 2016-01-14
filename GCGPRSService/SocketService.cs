@@ -2808,6 +2808,26 @@ namespace GCGPRSService
             OnSendMsg(socketargs);
         }
 
+        public void DelSL651WaitSendCmd(byte A1,byte A2,byte A3,byte A4,byte A5,byte funcode)
+        {
+            if (lstClient != null)
+            {
+                for (int i = 0; i < lstClient.Count; i++)
+                {
+                    if(lstClient[i].lstWaitSendCmd!=null)
+                        for (int j = 0; j < lstClient[i].lstWaitSendCmd.Count; j++)
+                        {
+                            if(lstClient[i].lstWaitSendCmd[j].SendPackage651!=null)
+                                if (lstClient[i].lstWaitSendCmd[j].SendPackage651.A1 == A1 && lstClient[i].lstWaitSendCmd[j].SendPackage651.A2 == A2 && lstClient[i].lstWaitSendCmd[j].SendPackage651.A3 == A3 &&
+                                    lstClient[i].lstWaitSendCmd[j].SendPackage651.A4 == A4 && lstClient[i].lstWaitSendCmd[j].SendPackage651.A5 == A5 && lstClient[i].lstWaitSendCmd[j].SendPackage651.FUNCODE == funcode)
+                                {
+                                    lstClient[i].lstWaitSendCmd.RemoveAt(j);
+                                }
+                        }
+                }
+            }
+        }
+
         private void Send651(Socket socket, byte[] bsenddata)
         {
             try

@@ -496,8 +496,8 @@ namespace SmartWaterSystem
             txtRecNum.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
             txtLeakValue.Text = (new BLL.NoiseParmBLL()).GetParm(ConstValue.LeakValue_Template);
 
-            int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
-            comboBoxEditPower.SelectedIndex = power;
+            //int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
+            //comboBoxEditPower.SelectedIndex = power;
 
             int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
             if (conPower == 1)
@@ -556,8 +556,8 @@ namespace SmartWaterSystem
                     //txtRecTime.Text = tt[0].ToString();
                     //txtRecTime1.Text = tt[1].ToString();
 
-                    //// 读取采集间隔
-                    //spinEdit1.Value= GlobalValue.Noiselog.ReadInterval(id);
+                    // 读取采集间隔
+                    //spinEdit1.Value = GlobalValue.Noiselog.ReadInterval(id);
 
                     //// 读取远传通讯时间
                     //this.txtComTime.Text = GlobalValue.Noiselog.ReadRemoteSendTime(id).ToString();
@@ -945,10 +945,28 @@ namespace SmartWaterSystem
                         if (read_result.RemoteSwitch)
                         {
                             comboBoxDist.SelectedIndex = 1;
+
+                            this.txtConId.Text = read_result.RemoteId.ToString();
                             // 读取远传端口
                             this.txtConPort.Text = read_result.Port.ToString();
                             // 读取远传地址
                             this.txtConIP.Text = read_result.IP;
+                            //读取远传收发频率
+                            this.txtFre.Text = read_result.Frequency.ToString();
+                            this.comboBoxRate.SelectedIndex = read_result.Rate >= 2 ? (read_result.Rate - 2) : 2;
+                            this.txtPower.Text = read_result.Power.ToString();
+                            this.comboBoxBaud.SelectedIndex = read_result.Baud;
+                            this.comboBoxGprsBaud.SelectedIndex = read_result.GprsBaud;
+                            if (read_result.WakeTime == 5)
+                                comboBoxWakeTime.SelectedIndex = 0;
+                            else if (read_result.WakeTime == 7)
+                                comboBoxWakeTime.SelectedIndex = 1;
+                            else if (read_result.WakeTime == 9)
+                                comboBoxWakeTime.SelectedIndex = 2;
+                            else if (read_result.WakeTime == 10)
+                                comboBoxWakeTime.SelectedIndex = 3;
+                            else if (read_result.WakeTime == 11)
+                                comboBoxWakeTime.SelectedIndex = 4;
                         }
                         else
                         {
@@ -1004,6 +1022,60 @@ namespace SmartWaterSystem
                             return;
                         }
                     }
+
+                    double fre = 0;
+                    try
+                    {
+                        fre = Convert.ToDouble(txtFre.Text);
+                    }
+                    catch
+                    {
+                        XtraMessageBox.Show("请设置有效频率[430-437MHz]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtFre.Focus();
+                        return;
+                    }
+
+                    if (fre < 430f || fre > 437f)
+                    {
+                        XtraMessageBox.Show("请设置有效频率[430-437MHz]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtFre.Focus();
+                        return;
+                    }
+
+                    if (comboBoxRate.SelectedIndex < 0)
+                    {
+                        XtraMessageBox.Show("请选择无线速率!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        comboBoxRate.Focus();
+                        return;
+                    }
+
+                    if (!Regex.IsMatch(txtPower.Text, @"^[0-7]$"))
+                    {
+                        XtraMessageBox.Show("请设置无线功率[0-7]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtPower.Focus();
+                        return;
+                    }
+
+                    if (comboBoxBaud.SelectedIndex < 0)
+                    {
+                        XtraMessageBox.Show("请选择串口波特率!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        comboBoxBaud.Focus();
+                        return;
+                    }
+
+                    if (comboBoxWakeTime.SelectedIndex < 0)
+                    {
+                        XtraMessageBox.Show("请选择唤醒时间!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        comboBoxWakeTime.Focus();
+                        return;
+                    }
+
+                    if (comboBoxGprsBaud.SelectedIndex < 0)
+                    {
+                        XtraMessageBox.Show("请选择GPRS波特率!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        comboBoxGprsBaud.Focus();
+                        return;
+                    }
                 }
                 
                 string error_flag = "";
@@ -1042,6 +1114,11 @@ namespace SmartWaterSystem
                     bool remoteswitch = false;
                     string ip ="";
                     int port = 0;
+                    int rate =0;  //无线速率
+                    int power = 0; //发射功率
+                    int baud =0;  //串口波特率
+                    int gprsbaud = 0; //Gprs波特率
+                    int waketime=0;  //唤醒时间
                     if (comboBoxDist.SelectedIndex == 1)
                     {
                         remoteswitch = true;
@@ -1079,7 +1156,21 @@ namespace SmartWaterSystem
                         alterCtrl.RecordID = alterRec.ID;
                         alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
                         alterCtrl.IPAdress = txtConIP.Text;
-                        
+
+                        rate = comboBoxRate.SelectedIndex + 2;
+                        power = Convert.ToInt32(txtPower.Text);
+                        baud = comboBoxBaud.SelectedIndex;
+                        gprsbaud = comboBoxGprsBaud.SelectedIndex;
+                        if (comboBoxWakeTime.Text == "1s")
+                            waketime = 5;
+                        else if (comboBoxWakeTime.Text == "2s")
+                            waketime = 7;
+                        else if (comboBoxWakeTime.Text == "3s")
+                            waketime = 9;
+                        else if (comboBoxWakeTime.Text == "4s")
+                            waketime = 10;
+                        else if (comboBoxWakeTime.Text == "5s")
+                            waketime = 11;
                     }
                     else
                     {
@@ -1088,12 +1179,13 @@ namespace SmartWaterSystem
                     alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
                     alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
                     alterRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
+
                     GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity(id, this.dateTimePicker.Value, Convert.ToInt32(txtComTime.Text),
-                        Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text), (int)spinEdit1.Value, remoteswitch, ip, port);
+                        Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text), (int)spinEdit1.Value, remoteswitch, alterCtrl.ID, ip, port,
+                        Convert.ToDouble(txtFre.Text), rate, power, baud, gprsbaud, waketime);
                     GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseWriteTime);
 
                     SetStaticItem("当前设置已应用到记录仪" + id);
-
                 }
                 catch (Exception ex)
                 {
@@ -1178,17 +1270,17 @@ namespace SmartWaterSystem
             if (rec.Power == 1)
             {
                 lblRecState.Text = "运行状态  已启动";
-                comboBoxEditPower.SelectedIndex = rec.Power;
+                //comboBoxEditPower.SelectedIndex = rec.Power;
             }
             else if (rec.Power == 0)
             {
                 lblRecState.Text = "运行状态  已停止";
-                comboBoxEditPower.SelectedIndex = rec.Power;
+                //comboBoxEditPower.SelectedIndex = rec.Power;
             }
             else
             {
                 lblRecState.Text = "运行状态  未知";
-                comboBoxEditPower.SelectedIndex = 2;
+                //comboBoxEditPower.SelectedIndex = 2;
             }
 
 
@@ -1236,14 +1328,26 @@ namespace SmartWaterSystem
                 txtConId.Enabled = true;
                 txtConPort.Enabled = true;
                 txtConIP.Enabled = true;
-                btnGetConID.Enabled = true;
+                txtFre.Enabled = true;
+                comboBoxRate.Enabled = true;
+                txtPower.Enabled = true;
+                comboBoxBaud.Enabled = true;
+                comboBoxWakeTime.Enabled = true;
+                comboBoxGprsBaud.Enabled = true;
+                //btnGetConID.Enabled = true;
             }
             else
             {
                 txtConId.Enabled = false;
                 txtConPort.Enabled = false;
                 txtConIP.Enabled = false;
-                btnGetConID.Enabled = false;
+                txtFre.Enabled = false;
+                comboBoxRate.Enabled = false;
+                txtPower.Enabled = false;
+                comboBoxBaud.Enabled = false;
+                comboBoxWakeTime.Enabled = false;
+                comboBoxGprsBaud.Enabled = false;
+                //btnGetConID.Enabled = false;
             }
         }
 
@@ -1414,17 +1518,12 @@ namespace SmartWaterSystem
                     //}).BeginInvoke(null, null);
         }
 
-        private void btnGetConID_Click(object sender, EventArgs e)
-        {
-
-        }
-
         public override void SerialPortEvent(bool Enabled)
         {
             btnApplySet.Enabled = Enabled;
             btnReadSet.Enabled = Enabled;
             btnGetRecID.Enabled = Enabled;
-            btnGetConID.Enabled = Enabled;
+            //btnGetConID.Enabled = Enabled;
             btnNow.Enabled = Enabled;
             btnStart.Enabled = Enabled;
             btnStop.Enabled = Enabled;
@@ -1446,8 +1545,9 @@ namespace SmartWaterSystem
             FlagSendTime.BackColor = groupControl2.BackColor;
             FlagStartEndTime.BackColor = groupControl2.BackColor;
             FlagInterval.BackColor = groupControl2.BackColor;
-            FlagStartORStop.BackColor = groupControl2.BackColor;
+            //FlagStartORStop.BackColor = groupControl2.BackColor;
             FlagRemoteSwitch.BackColor = groupControl2.BackColor;
+            FlagConId.BackColor = groupControl2.BackColor;
             FlagPort.BackColor = groupControl2.BackColor;
             FlagIP.BackColor = groupControl2.BackColor;
         }
@@ -1459,8 +1559,9 @@ namespace SmartWaterSystem
             FlagSendTime.Visible = isVisiable;
             FlagStartEndTime.Visible = isVisiable;
             FlagInterval.Visible = isVisiable;
-            FlagStartORStop.Visible = isVisiable;
+            //FlagStartORStop.Visible = isVisiable;
             FlagRemoteSwitch.Visible = isVisiable;
+            FlagConId.Visible = isVisiable;
             FlagPort.Visible = isVisiable;
             FlagIP.Visible = isVisiable;
         }
@@ -1473,8 +1574,9 @@ namespace SmartWaterSystem
             FlagSendTime.Image = bp;
             FlagStartEndTime.Image = bp;
             FlagInterval.Image = bp;
-            FlagStartORStop.Image = bp;
+            //FlagStartORStop.Image = bp;
             FlagRemoteSwitch.Image = bp;
+            FlagConId.Image = bp;
             FlagPort.Image = bp;
             FlagIP.Image = bp;
         }
@@ -1523,16 +1625,16 @@ namespace SmartWaterSystem
             this.Refresh();
         }
 
-        private void SetFlagStartORStop(bool isRight)
-        {
-            FlagStartORStop.Visible = true;
-            if (isRight)
-                FlagStartORStop.Image = SmartWaterSystem.Properties.Resources.right;
-            else
-                FlagStartORStop.Image = SmartWaterSystem.Properties.Resources.cross1;
-            FlagStartORStop.Update();
-            this.Refresh();
-        }
+        //private void SetFlagStartORStop(bool isRight)
+        //{
+        //    FlagStartORStop.Visible = true;
+        //    if (isRight)
+        //        FlagStartORStop.Image = SmartWaterSystem.Properties.Resources.right;
+        //    else
+        //        FlagStartORStop.Image = SmartWaterSystem.Properties.Resources.cross1;
+        //    FlagStartORStop.Update();
+        //    this.Refresh();
+        //}
 
         private void SetFlagRemoteSwitch(bool isRight)
         {
@@ -1542,6 +1644,17 @@ namespace SmartWaterSystem
             else
                 FlagRemoteSwitch.Image = SmartWaterSystem.Properties.Resources.cross1;
             FlagRemoteSwitch.Update();
+            this.Refresh();
+        }
+
+        private void SetFlagConId(bool isRight)
+        {
+            FlagConId.Visible = true;
+            if (isRight)
+                FlagConId.Image = SmartWaterSystem.Properties.Resources.right;
+            else
+                FlagConId.Image = SmartWaterSystem.Properties.Resources.cross1;
+            FlagConId.Update();
             this.Refresh();
         }
 
@@ -1592,9 +1705,9 @@ namespace SmartWaterSystem
                 case "writeip":
                     SetFlagIP(false);
                     break;
-                case "startorstop":
-                    SetFlagStartORStop(false);
-                    break;
+                //case "startorstop":
+                //    SetFlagStartORStop(false);
+                //    break;
                 default :
                     break;
             }

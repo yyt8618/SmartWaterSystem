@@ -47,8 +47,7 @@ namespace SmartWaterSystem
                 string skin = Settings.Instance.GetString(SettingKeys.Skin);
                 if (string.IsNullOrEmpty(skin))
                     skin = "SevenClassic";
-                UserLookAndFeel.Default.SetSkinStyle(skin);
-
+                UserLookAndFeel.Default.SkinName = skin;
                 //HideNavigateBar
                 foreach (DevExpress.XtraNavBar.NavBarGroup group in this.navBarControl1.Groups)
                 {
@@ -142,6 +141,10 @@ namespace SmartWaterSystem
                             Application.Exit();
                         }
                     }
+                }
+                else
+                {
+                    barBtnSetDBConnect_ItemClick(null, null);
                 }
 
                 if (SplashScreenManager.Default.IsSplashFormVisible)
@@ -630,6 +633,7 @@ namespace SmartWaterSystem
                 {
                     string dbconnect = dialog.ConnectionString;
                     Settings.Instance.SetValue(SettingKeys.DBString, dbconnect);
+                    SQLHelper.ConnectionString = Settings.Instance.GetString(SettingKeys.DBString);
                     XtraMessageBox.Show("设置成功,请重启程序生效!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }

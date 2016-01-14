@@ -73,6 +73,16 @@ namespace Entity
             set { _RemoteSwitch = value; }
         }
 
+        private int _remoteId;
+        /// <summary>
+        /// 读取远传控制器设备与记录仪设备对应的ID号
+        /// </summary>
+        public int RemoteId
+        {
+            get { return _remoteId; }
+            set { _remoteId = value; }
+        }
+
         private string _ip;
         /// <summary>
         /// IP
@@ -91,6 +101,66 @@ namespace Entity
         {
             get { return _port; }
             set { _port = value; }
+        }
+
+        private double _frequency=433.920;
+        /// <summary>
+        /// 收发频率
+        /// </summary>
+        public double Frequency
+        {
+            get { return _frequency; }
+            set { _frequency = value; }
+        }
+
+        private int _rate=4;
+        /// <summary>
+        /// 无线速率
+        /// </summary>
+        public int Rate
+        {
+            get { return _rate; }
+            set { _rate = value; }
+        }
+
+        private int _power;
+        /// <summary>
+        /// 发射功率
+        /// </summary>
+        public int Power
+        {
+            get { return _power; }
+            set { _power = value; }
+        }
+
+        private int _baud=3;
+        /// <summary>
+        /// 串口波特率
+        /// </summary>
+        public int Baud
+        {
+            get { return _baud; }
+            set { _baud = value; }
+        }
+
+        private int _gprsbaud=3;
+        /// <summary>
+        /// GPRS波特率
+        /// </summary>
+        public int GprsBaud
+        {
+            get { return _gprsbaud; }
+            set { _gprsbaud = value; }
+        }
+
+        private int _waketime=5;
+        /// <summary>
+        /// 唤醒时间
+        /// </summary>
+        public int WakeTime
+        {
+            get { return _waketime; }
+            set { _waketime = value; }
         }
 
         private bool _Enable = false;
@@ -114,7 +184,8 @@ namespace Entity
         }
 
         public NoiseSerialPortOptEntity(short id, DateTime dt, int comtime, int colstarttime,
-            int colendtime, int interval, bool remoteswitch, string ip, int port)
+            int colendtime, int interval, bool remoteswitch,int remoteid, string ip, int port,
+            double fre,int rate,int power,int baud,int gprsbaud,int waketime)
         {
             this._id = id;
             this._dt = dt;
@@ -123,8 +194,15 @@ namespace Entity
             this._colendtime = colendtime;
             this._interval = interval;
             this._RemoteSwitch = remoteswitch;
+            this._remoteId = remoteid;
             this._ip = ip;
             this._port = port;
+            this._frequency = fre;
+            this._rate = rate;
+            this._power = power;
+            this._baud = baud;
+            this._gprsbaud = gprsbaud;
+            this._waketime = waketime;
         }
     }
 }

@@ -135,6 +135,12 @@ namespace GCGPRSService
                                     {
                                         GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();
                                     }
+                                    else if (msmqMsg.MsgType == ConstValue.MSMQTYPE.Del_SL651_WaitSendCmd)
+                                    {
+                                        //del
+                                        GlobalValue.Instance.SocketMag.DelSL651WaitSendCmd(msmqMsg.A1, msmqMsg.A2, msmqMsg.A3, msmqMsg.A4, msmqMsg.A5, msmqMsg.SL651Funcode);
+                                        GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();
+                                    }
 
                                     //Other
                                 }

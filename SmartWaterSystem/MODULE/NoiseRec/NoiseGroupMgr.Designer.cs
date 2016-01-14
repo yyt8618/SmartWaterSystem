@@ -316,7 +316,7 @@
             // 
             // txtLeakValue
             // 
-            this.txtLeakValue.Location = new System.Drawing.Point(384, 46);
+            this.txtLeakValue.Location = new System.Drawing.Point(397, 47);
             this.txtLeakValue.Name = "txtLeakValue";
             this.txtLeakValue.Properties.Mask.EditMask = "f0";
             this.txtLeakValue.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -326,7 +326,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(305, 48);
+            this.label4.Location = new System.Drawing.Point(318, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(67, 14);
             this.label4.TabIndex = 106;
@@ -335,7 +335,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(434, 49);
+            this.label45.Location = new System.Drawing.Point(447, 50);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(19, 14);
             this.label45.TabIndex = 108;

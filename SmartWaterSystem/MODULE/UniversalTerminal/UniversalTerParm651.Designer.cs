@@ -157,7 +157,8 @@ namespace SmartWaterSystem
             this.btnReadPrecipitationConstantCtrl = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetPrecipitationConstantCtrl = new DevExpress.XtraEditors.SimpleButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
+            this.group_waitcmd = new System.Windows.Forms.GroupBox();
             this.gridControl_WaitCmd = new DevExpress.XtraGrid.GridControl();
             this.gridView_WaitCmd = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -168,7 +169,6 @@ namespace SmartWaterSystem
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.btnDel = new DevExpress.XtraEditors.SimpleButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
             ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPwd1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPwd0.Properties)).BeginInit();
@@ -264,11 +264,11 @@ namespace SmartWaterSystem
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.combPrecipitationConstantCtrl.Properties)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).BeginInit();
+            this.group_waitcmd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // txtCenterAddr
@@ -1569,17 +1569,28 @@ namespace SmartWaterSystem
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             // 
-            // groupBox3
+            // SwitchComunication
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox3.Controls.Add(this.gridControl_WaitCmd);
-            this.groupBox3.Controls.Add(this.btnDel);
-            this.groupBox3.Location = new System.Drawing.Point(3, 306);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(313, 185);
-            this.groupBox3.TabIndex = 7;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "待发送指令";
+            this.SwitchComunication.EditValue = true;
+            this.SwitchComunication.Location = new System.Drawing.Point(201, 79);
+            this.SwitchComunication.Name = "SwitchComunication";
+            this.SwitchComunication.Properties.OffText = "GPRS";
+            this.SwitchComunication.Properties.OnText = "串口";
+            this.SwitchComunication.Size = new System.Drawing.Size(108, 25);
+            this.SwitchComunication.TabIndex = 8;
+            this.SwitchComunication.Click += new System.EventHandler(this.SwitchComunication_Click);
+            // 
+            // group_waitcmd
+            // 
+            this.group_waitcmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.group_waitcmd.Controls.Add(this.gridControl_WaitCmd);
+            this.group_waitcmd.Controls.Add(this.btnDel);
+            this.group_waitcmd.Location = new System.Drawing.Point(3, 306);
+            this.group_waitcmd.Name = "group_waitcmd";
+            this.group_waitcmd.Size = new System.Drawing.Size(313, 185);
+            this.group_waitcmd.TabIndex = 7;
+            this.group_waitcmd.TabStop = false;
+            this.group_waitcmd.Text = "待发送指令";
             // 
             // gridControl_WaitCmd
             // 
@@ -1699,23 +1710,13 @@ namespace SmartWaterSystem
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "基本信息参数";
             // 
-            // SwitchComunication
-            // 
-            this.SwitchComunication.EditValue = true;
-            this.SwitchComunication.Location = new System.Drawing.Point(201, 79);
-            this.SwitchComunication.Name = "SwitchComunication";
-            this.SwitchComunication.Properties.OffText = "GPRS";
-            this.SwitchComunication.Properties.OnText = "串口";
-            this.SwitchComunication.Size = new System.Drawing.Size(108, 25);
-            this.SwitchComunication.TabIndex = 8;
-            // 
             // UniversalTerParm651
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.group_waitcmd);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox10);
@@ -1824,12 +1825,12 @@ namespace SmartWaterSystem
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.combPrecipitationConstantCtrl.Properties)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).EndInit();
+            this.group_waitcmd.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1947,7 +1948,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.SimpleButton btnReadPrecipitationConstantCtrl;
         private DevExpress.XtraEditors.SimpleButton btnSetPrecipitationConstantCtrl;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox group_waitcmd;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.TextEdit txtCenterAddr;
         private DevExpress.XtraEditors.TextEdit txtNewPwd1;

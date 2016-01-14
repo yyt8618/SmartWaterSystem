@@ -109,51 +109,51 @@ namespace SmartWaterSystem
         {
             if (string.IsNullOrEmpty(txtA5.Text) || !Regex.IsMatch(txtA5.Text, "^[a-zA-Z0-9]{1,2}$"))
             {
-                MessageBox.Show("请填写A5", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请填写A5", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtA5.Focus();
                 return false;
             }
             if (string.IsNullOrEmpty(txtA4.Text) || !Regex.IsMatch(txtA4.Text, "^[a-zA-Z0-9]{1,2}$"))
             {
-                MessageBox.Show("请填写A4", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请填写A4", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtA4.Focus();
                 return false;
             }
             if (string.IsNullOrEmpty(txtA3.Text) || !Regex.IsMatch(txtA3.Text, "^[a-zA-Z0-9]{1,2}$"))
             {
-                MessageBox.Show("请填写A3", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请填写A3", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtA3.Focus();
                 return false;
             }
             if (string.IsNullOrEmpty(txtA2.Text) || !Regex.IsMatch(txtA2.Text, "^[a-zA-Z0-9]{1,2}$"))
             {
-                MessageBox.Show("请填写A2", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请填写A2", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtA2.Focus();
                 return false;
             }
             if (string.IsNullOrEmpty(txtA1.Text) || !Regex.IsMatch(txtA1.Text, "^[a-zA-Z0-9]{1,2}$"))
             {
-                MessageBox.Show("请填写A1", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请填写A1", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtA1.Focus();
                 return false;
             }
 
             if (string.IsNullOrEmpty(txtPwd0.Text) || !Regex.IsMatch(txtPwd0.Text, "^[a-zA-Z0-9]{1,2}$"))
             {
-                MessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPwd0.Focus();
                 return false;
             }
 
             if (string.IsNullOrEmpty(txtPwd1.Text) || !Regex.IsMatch(txtPwd1.Text, "^[a-zA-Z0-9]{1,2}$"))
             {
-                MessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPwd1.Focus();
                 return false;
             }
             if (string.IsNullOrEmpty(txtCenterAddr.Text) || !Regex.IsMatch(txtCenterAddr.Text, "^[a-zA-Z0-9]{1,2}$"))
             {
-                MessageBox.Show("请填写中心站地址", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请填写中心站地址", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCenterAddr.Focus();
                 return false;
             }
@@ -238,7 +238,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-查询版本号，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-查询版本号，请勿重复!");
                 //    return;
                 //}
 
@@ -282,7 +282,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-查询实时数据，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-查询实时数据，请勿重复!");
                 //    return;
                 //}
 
@@ -326,7 +326,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-查询事件，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-查询事件，请勿重复!");
                 //    return;
                 //}
 
@@ -370,7 +370,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-查询状态和报警信息，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-查询状态和报警信息，请勿重复!");
                 //    return;
                 //}
 
@@ -414,7 +414,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-设置遥测站时钟，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-设置遥测站时钟，请勿重复!");
                 //    return;
                 //}
 
@@ -435,7 +435,7 @@ namespace SmartWaterSystem
 
         private void btnInitFlash_Click(object sender, EventArgs e)
         {
-            if (DialogResult.No == MessageBox.Show("是否初始化固态存储数据?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+            if (DialogResult.No == XtraMessageBox.Show("是否初始化固态存储数据?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
                 return;
             if (ValidateA5To1())
             {
@@ -460,7 +460,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-初始化固态存储数据，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-初始化固态存储数据，请勿重复!");
                 //    return;
                 //}
 
@@ -485,7 +485,7 @@ namespace SmartWaterSystem
 
         private void btnInit_Click(object sender, EventArgs e)
         {
-            if (DialogResult.No == MessageBox.Show("是否恢复出厂设置?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+            if (DialogResult.No == XtraMessageBox.Show("是否恢复出厂设置?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
                 return;
             if (ValidateA5To1())
             {
@@ -510,7 +510,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-恢复出厂设置，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-恢复出厂设置，请勿重复!");
                 //    return;
                 //}
 
@@ -540,20 +540,20 @@ namespace SmartWaterSystem
             {
                 if (string.IsNullOrEmpty(txtNewPwd0.Text) || !Regex.IsMatch(txtNewPwd0.Text, "^\\d+$"))
                 {
-                    MessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtNewPwd0.Focus();
                     return;
                 }
                 if (string.IsNullOrEmpty(txtNewPwd1.Text) || !Regex.IsMatch(txtNewPwd1.Text, "^\\d+$"))
                 {
-                    MessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtNewPwd1.Focus();
                     return;
                 }
 
                 //if (string.IsNullOrEmpty(txtNewPwd1.Text) || !Regex.IsMatch(txtNewPwd1.Text, "^\\d+$"))
                 //{
-                //    MessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //    txtNewPwd1.Focus();
                 //    return ;
                 //}
@@ -578,7 +578,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-修改密码，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-修改密码，请勿重复!");
                 //    return;
                 //}
 
@@ -617,7 +617,7 @@ namespace SmartWaterSystem
             {
                 if (!(cbTerAddr.Checked | cbCenterAddr.Checked | cbPwd.Checked | cbChannel.Checked | cbStandbyChannel.Checked | cbWorkType.Checked | cbElements.Checked | cbIdentifyNum.Checked))
                 {
-                    MessageBox.Show("请选择至少一项读取!");
+                    XtraMessageBox.Show("请选择至少一项读取!");
                     return;
                 }
 
@@ -642,7 +642,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-读取基本配置表，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-读取基本配置表，请勿重复!");
                 //    return;
                 //}
 
@@ -717,7 +717,7 @@ namespace SmartWaterSystem
             {
                 if (!(cbTerAddr.Checked | cbCenterAddr.Checked | cbPwd.Checked | cbChannel.Checked | cbStandbyChannel.Checked | cbWorkType.Checked | cbElements.Checked | cbIdentifyNum.Checked))
                 {
-                    MessageBox.Show("请选择至少一项设置!");
+                    XtraMessageBox.Show("请选择至少一项设置!");
                     return;
                 }
 
@@ -725,31 +725,31 @@ namespace SmartWaterSystem
                 {
                     if (string.IsNullOrEmpty(txtCA5.Text) || !Regex.IsMatch(txtCA5.Text, "^[a-zA-Z0-9]{1,2}$"))
                     {
-                        MessageBox.Show("请填写终端地址A5", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请填写终端地址A5", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCA5.Focus();
                         return;
                     }
                     if (string.IsNullOrEmpty(txtCA4.Text) || !Regex.IsMatch(txtCA4.Text, "^[a-zA-Z0-9]{1,2}$"))
                     {
-                        MessageBox.Show("请填写终端地址A4", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请填写终端地址A4", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCA4.Focus();
                         return;
                     }
                     if (string.IsNullOrEmpty(txtCA3.Text) || !Regex.IsMatch(txtCA3.Text, "^[a-zA-Z0-9]{1,2}$"))
                     {
-                        MessageBox.Show("请填写终端地址A3", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请填写终端地址A3", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCA3.Focus();
                         return;
                     }
                     if (string.IsNullOrEmpty(txtCA2.Text) || !Regex.IsMatch(txtCA2.Text, "^[a-zA-Z0-9]{1,2}$"))
                     {
-                        MessageBox.Show("请填写终端地址A2", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请填写终端地址A2", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCA2.Focus();
                         return;
                     }
                     if (string.IsNullOrEmpty(txtCA1.Text) || !Regex.IsMatch(txtCA1.Text, "^[a-zA-Z0-9]{1,2}$"))
                     {
-                        MessageBox.Show("请填写终端地址A1", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请填写终端地址A1", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCA1.Focus();
                         return;
                     }
@@ -759,7 +759,7 @@ namespace SmartWaterSystem
                 {
                     if (string.IsNullOrEmpty(txtCCenterAddr.Text) || !Regex.IsMatch(txtCCenterAddr.Text, "^[a-zA-Z0-9]{1,2}$"))
                     {
-                        MessageBox.Show("请填写中心站地址", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请填写中心站地址", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCCenterAddr.Focus();
                         return;
                     }
@@ -769,13 +769,13 @@ namespace SmartWaterSystem
                 {
                     if (string.IsNullOrEmpty(txtCPwd0.Text) || !Regex.IsMatch(txtCPwd0.Text, "^[a-zA-Z0-9]{1,2}$"))
                     {
-                        MessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCPwd0.Focus();
                         return;
                     }
                     if (string.IsNullOrEmpty(txtCPwd1.Text) || !Regex.IsMatch(txtCPwd1.Text, "^[a-zA-Z0-9]{1,2}$"))
                     {
-                        MessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCPwd1.Focus();
                         return;
                     }
@@ -785,7 +785,7 @@ namespace SmartWaterSystem
                 {
                     if (combChannel.SelectedIndex < 0)
                     {
-                        MessageBox.Show("请选择信道类型", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请选择信道类型", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         combChannel.Focus();
                         return;
                     }
@@ -793,14 +793,14 @@ namespace SmartWaterSystem
                     if (string.IsNullOrEmpty(txtIP1.Text) || string.IsNullOrEmpty(txtIP2.Text) ||
                     string.IsNullOrEmpty(txtIP3.Text) || string.IsNullOrEmpty(txtIP4.Text))
                     {
-                        MessageBox.Show("请填写完整的IP地址!");
+                        XtraMessageBox.Show("请填写完整的IP地址!");
                         txtIP1.Focus();
                         return;
                     }
 
                     if (!Regex.IsMatch(txtCPort.Text, @"^\d{3,5}$"))
                     {
-                        MessageBox.Show("请输入端口号!");
+                        XtraMessageBox.Show("请输入端口号!");
                         txtCPort.Focus();
                         return;
                     }
@@ -810,13 +810,13 @@ namespace SmartWaterSystem
                 {
                     if (combStandbyChannel.SelectedIndex < 0)
                     {
-                        MessageBox.Show("请选择备用信道类型", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请选择备用信道类型", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         combStandbyChannel.Focus();
                         return;
                     }
                     if (!Regex.IsMatch(combStandbyChannel.Text, @"^\d{11,12}$"))
                     {
-                        MessageBox.Show("请输入备用信道号码!");
+                        XtraMessageBox.Show("请输入备用信道号码!");
                         txtStandbyChTelnum.Focus();
                         return;
                     }
@@ -824,7 +824,7 @@ namespace SmartWaterSystem
 
                 if (cbWorkType.Checked && combWorkType.SelectedIndex < 0)
                 {
-                    MessageBox.Show("请选择工作方式", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请选择工作方式", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     combWorkType.Focus();
                     return;
                 }
@@ -832,7 +832,7 @@ namespace SmartWaterSystem
                 if (cbElements.Checked && (string.IsNullOrEmpty(txtElements1.Text) || string.IsNullOrEmpty(txtElements2.Text) || string.IsNullOrEmpty(txtElements3.Text) || string.IsNullOrEmpty(txtElements4.Text) || 
                 string.IsNullOrEmpty(txtElements5.Text) || string.IsNullOrEmpty(txtElements6.Text) || string.IsNullOrEmpty(txtElements7.Text) || string.IsNullOrEmpty(txtElements8.Text)))
                 {
-                    MessageBox.Show("请输入正确的采集要素", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入正确的采集要素", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtElements1.Focus();
                     return;
                 }
@@ -841,13 +841,13 @@ namespace SmartWaterSystem
                 {
                     if (combIdentifyNum.SelectedIndex < 0)
                     {
-                        MessageBox.Show("请选择通信设备识别号", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请选择通信设备识别号", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         combIdentifyNum.Focus();
                         return;
                     }
                     if (!Regex.IsMatch(txtTelNum.Text, "^1\\d{10}$"))
                     {
-                        MessageBox.Show("请输入卡识别号!Regex:^1\\d{10}$");
+                        XtraMessageBox.Show("请输入卡识别号!Regex:^1\\d{10}$");
                         txtTelNum.Focus();
                         return;
                     }
@@ -874,7 +874,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-设置基本配置表，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-设置基本配置表，请勿重复!");
                 //    return;
                 //}
 
@@ -987,7 +987,7 @@ namespace SmartWaterSystem
                     cbWaterLevelGaugePrecision.Checked | cbRainFallLimit.Checked | cbWaterLevelBasic.Checked | cbWaterLevelAmendLimit.Checked | cbAddtionWaterLevel.Checked | cbAddtionWaterLevelUpLimit.Checked |
                     cbAddtionWaterLevelLowLimit.Checked))
                 {
-                    MessageBox.Show("请选择至少一项读取!");
+                    XtraMessageBox.Show("请选择至少一项读取!");
                     return;
                 }
 
@@ -1012,7 +1012,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-读取运行配置表，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-读取运行配置表，请勿重复!");
                 //    return;
                 //}
 
@@ -1071,85 +1071,85 @@ namespace SmartWaterSystem
                     cbWaterLevelGaugePrecision.Checked | cbRainFallLimit.Checked | cbWaterLevelBasic.Checked | cbWaterLevelAmendLimit.Checked | cbAddtionWaterLevel.Checked | cbAddtionWaterLevelUpLimit.Checked |
                     cbAddtionWaterLevelLowLimit.Checked))
                 {
-                    MessageBox.Show("请选择至少一项设置!");
+                    XtraMessageBox.Show("请选择至少一项设置!");
                     return;
                 }
 
                 if (cbPeriodInterval.Checked && combPeriodInterval.SelectedIndex < 0)
                 {
-                    MessageBox.Show("请选择定时报时间间隔", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请选择定时报时间间隔", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     combPeriodInterval.Focus();
                     return;
                 }
                 if (cbAddInterval.Checked && string.IsNullOrEmpty(txtAddInterval.Text))
                 {
-                    MessageBox.Show("请输入加报时间间隔", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入加报时间间隔", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtAddInterval.Focus();
                     return;
                 }
                 if (cbPrecipitationStartTime.Checked && !Regex.IsMatch(txtPrecipitationStartTime.Text, @"(^[1-9]|1[0-9]{1}|2[0-3]{1})$"))
                 {
-                    MessageBox.Show("请输入正确降水量日起始时间(1-23h)", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入正确降水量日起始时间(1-23h)", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtPrecipitationStartTime.Focus();
                     return;
                 }
                 if (cbSampling.Checked && !Regex.IsMatch(txtSampling.Text, @"^\d{1,4}$"))
                 {
-                    MessageBox.Show("请输入正确采样间隔数据(0-9999s)", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入正确采样间隔数据(0-9999s)", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtSampling.Focus();
                     return;
                 }
                 if (cbWaterLevelInterval.Checked && !Regex.IsMatch(txtWaterLevelInterval.Text, @"^([1-9]{1}|[1-5]{1}[0-9]{1})$"))
                 {
-                    MessageBox.Show("请输入正确的水位数据存储间隔(1-59min)", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入正确的水位数据存储间隔(1-59min)", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtWaterLevelInterval.Focus();
                     return;
                 }
                 if (cbRainFallRPrecision.Checked && combRainFallRPrecision.SelectedIndex < 0)
                 {
-                    MessageBox.Show("请选择雨量计分辨力", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请选择雨量计分辨力", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     combRainFallRPrecision.Focus();
                     return;
                 }
                 if (cbWaterLevelGaugePrecision.Checked && combWaterLevelGaugePrecision.SelectedIndex < 0)
                 {
-                    MessageBox.Show("请选择水位计分辨力", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请选择水位计分辨力", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     combWaterLevelGaugePrecision.Focus();
                     return;
                 }
                 if (cbRainFallLimit.Checked && !Regex.IsMatch(txtRainFallLimit.Text, @"^\d{1,2}$"))
                 {
-                    MessageBox.Show("请输入雨量加报阀值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入雨量加报阀值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtRainFallLimit.Focus();
                     return;
                 }
                 if (cbWaterLevelBasic.Checked && !Regex.IsMatch(txtWaterLevelBasic.Text, @"^[-]?\d{1,4}([.]\d{1,3})?$")) //(7,3)
                 {
-                    MessageBox.Show("请输入水位基值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入水位基值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtWaterLevelBasic.Focus();
                     return;
                 }
                 if (cbWaterLevelAmendLimit.Checked && !Regex.IsMatch(txtWaterLevelAmendLimit.Text, @"^[-]?\d{1,2}([.]\d{1,3})?$")) //(5,3)
                 {
-                    MessageBox.Show("请输入水位修正基值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入水位修正基值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtWaterLevelAmendLimit.Focus();
                     return;
                 }
                 if (cbAddtionWaterLevel.Checked && !Regex.IsMatch(txtAddtionWaterLevel.Text, @"^\d{1,2}([.]\d{1,2})?$")) //(4,2)
                 {
-                    MessageBox.Show("请输入加报水位值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入加报水位值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtAddtionWaterLevel.Focus();
                     return;
                 }
                 if (cbAddtionWaterLevelUpLimit.Checked && !Regex.IsMatch(txtAddtionWaterLevelUpLimit.Text, @"^\d{1}([.]\d{1,2})?$")) //(3,2)
                 {
-                    MessageBox.Show("请输入加报水位以上修正阀值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入加报水位以上修正阀值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtAddtionWaterLevelUpLimit.Focus();
                     return;
                 }
                 if (cbAddtionWaterLevelLowLimit.Checked && !Regex.IsMatch(txtAddtionWaterLevelLowLimit.Text, @"^\d{1}([.]\d{1,2})?$")) //(3,2)
                 {
-                    MessageBox.Show("请输入加报水位以下修正阀值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入加报水位以下修正阀值", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtAddtionWaterLevelLowLimit.Focus();
                     return;
                 }
@@ -1175,7 +1175,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-读取运行配置表，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-读取运行配置表，请勿重复!");
                 //    return;
                 //}
 
@@ -1331,7 +1331,7 @@ namespace SmartWaterSystem
             {
                 if (!(cbParmPrecipitation.Checked | cbParmRainFallAddup.Checked | cbParmInstantWaterLevel.Checked))
                 {
-                    MessageBox.Show("请选择至少一项读取!");
+                    XtraMessageBox.Show("请选择至少一项读取!");
                     return;
                 }
 
@@ -1356,7 +1356,7 @@ namespace SmartWaterSystem
 
                 //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
                 //{
-                //    MessageBox.Show("已存在待发送指令-查询指定要素，请勿重复!");
+                //    XtraMessageBox.Show("已存在待发送指令-查询指定要素，请勿重复!");
                 //    return;
                 //}
 
@@ -1481,23 +1481,25 @@ namespace SmartWaterSystem
 
         private void btnDel_Click(object sender, EventArgs e)
         {
-            //ListView.SelectedIndexCollection selectCol = listView_Cmd.SelectedIndices;
-            //if (selectCol != null && selectCol.Count > 0)
-            //{
-                //for (int i = 0; i < lstSendPack.Count; i++)
-                //{
-                //    if (lstSendPack[i] == (Package)listView_Cmd.Items[selectCol[0]].Tag)
-                //    {
-                //        lstSendPack.Remove((Package)listView_Cmd.Items[selectCol[0]].Tag);
-                //        SetListView_Cmd();
-                //        break;
-                //    }
-                //}
-            //}
-            //else
-            //{
-            //    MessageBox.Show("请选择需要删除的数据!");
-            //}
+            int[] selectrows=gridView_WaitCmd.GetSelectedRows();
+            if (selectrows != null && selectrows.Length > 0)
+            {
+                string a1 = gridView_WaitCmd.GetRowCellValue(selectrows[0], "A1").ToString();
+                string a2 = gridView_WaitCmd.GetRowCellValue(selectrows[0], "A2").ToString();
+                string a3 = gridView_WaitCmd.GetRowCellValue(selectrows[0], "A3").ToString();
+                string a4 = gridView_WaitCmd.GetRowCellValue(selectrows[0], "A4").ToString();
+                string a5 = gridView_WaitCmd.GetRowCellValue(selectrows[0], "A5").ToString();
+                string funcode = gridView_WaitCmd.GetRowCellValue(selectrows[0], "funcode").ToString();
+                MSMQEntity msmqentity = new MSMQEntity();
+                msmqentity.A1 = Convert.ToByte(a1.Replace("0x",""), 16);
+                msmqentity.A2 = Convert.ToByte(a2.Replace("0x", ""), 16);
+                msmqentity.A3 = Convert.ToByte(a3.Replace("0x", ""), 16);
+                msmqentity.A4 = Convert.ToByte(a4.Replace("0x", ""), 16);
+                msmqentity.A5 = Convert.ToByte(a5.Replace("0x", ""), 16);
+                msmqentity.SL651Funcode = Convert.ToByte(funcode.Replace("0x", ""), 16);
+                msmqentity.MsgType = ConstValue.MSMQTYPE.Del_SL651_WaitSendCmd;
+                GlobalValue.MSMQMgr.SendMessage(msmqentity);
+            }
         }
         #endregion
 
@@ -1608,6 +1610,28 @@ namespace SmartWaterSystem
         private void cbIsOnLine_CheckedChanged(object sender, EventArgs e)
         {
             GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag,cbIsOnLine.Checked.ToString()));
+        }
+
+        private void SwitchComunication_Click(object sender, EventArgs e)
+        {
+            if (SwitchComunication.IsOn)  //Grps
+            {
+                SetGprsCtrlStatus();
+            }
+            else   //串口
+            {
+                SetSerialPortCtrlStatus();
+            }
+        }
+
+        private void SetGprsCtrlStatus()
+        {
+            group_waitcmd.Visible = true;
+        }
+
+        private void SetSerialPortCtrlStatus()
+        {
+            group_waitcmd.Visible = false;
         }
 
 

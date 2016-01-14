@@ -44,6 +44,32 @@ namespace Common
             set { _DevId = value; }
         }
 
+        /// <summary>
+        /// 终端地址A5
+        /// </summary>
+        public byte A5 { get; set; }
+        /// <summary>
+        /// 终端地址A4
+        /// </summary>
+        public byte A4 { get; set; }
+        /// <summary>
+        /// 终端地址A3
+        /// </summary>
+        public byte A3 { get; set; }
+        /// <summary>
+        /// 终端地址A2
+        /// </summary>
+        public byte A2 { get; set; }
+        /// <summary>
+        /// 终端地址A1
+        /// </summary>
+        public byte A1 { get; set; }
+
+        /// <summary>
+        /// SL651功能码
+        /// </summary>
+        public byte SL651Funcode { get; set; }
+
         private bool _AllowOnLine = true;
         /// <summary>
         /// 是否允许在线

@@ -237,10 +237,20 @@ namespace SmartWaterSystem
                                 if (GlobalValue.NoiseSerialPortOptData.RemoteSwitch)
                                 {
                                     NoiseCtrl ctrl = new NoiseCtrl();
+                                    result=ctrl.WriteCtrlToNoiseLogID((short)GlobalValue.NoiseSerialPortOptData.RemoteId, GlobalValue.NoiseSerialPortOptData.ID);
+                                    if (!result)
+                                        break;
                                     result = ctrl.Write_IP(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.IP);
                                     if (!result)
                                         break;
                                     result = ctrl.WritePortName(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Port.ToString());
+                                    if (!result)
+                                        break;
+                                    result = ctrl.WriteWireless((short)GlobalValue.NoiseSerialPortOptData.RemoteId, (int)GlobalValue.NoiseSerialPortOptData.Frequency * 1000, GlobalValue.NoiseSerialPortOptData.Rate,
+                                        GlobalValue.NoiseSerialPortOptData.Power, GlobalValue.NoiseSerialPortOptData.Baud, GlobalValue.NoiseSerialPortOptData.WakeTime);
+                                    if (!result)
+                                        break;
+                                    result = ctrl.WriteGPRSBaurate((short)GlobalValue.NoiseSerialPortOptData.RemoteId, GlobalValue.NoiseSerialPortOptData.GprsBaud);
                                 }
                             }
                             catch (Exception ex)
@@ -341,6 +351,10 @@ namespace SmartWaterSystem
                                 {
                                     NoiseCtrl ctrl = new NoiseCtrl();
 
+                                    //串口读取远传控制器设备与记录仪设备对应的ID号
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传ID..."));
+                                    result_data.RemoteId = (short)ctrl.ReadCtrlNoisLogID(GlobalValue.NoiseSerialPortOptData.ID);
+
                                     // 读取远传端口
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传端口..."));
                                     result_data.Port = Convert.ToInt32(ctrl.ReadPort(GlobalValue.NoiseSerialPortOptData.ID));
@@ -348,6 +362,22 @@ namespace SmartWaterSystem
                                     // 读取远传地址
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传地址..."));
                                     result_data.IP = ctrl.ReadIP(GlobalValue.NoiseSerialPortOptData.ID);
+
+                                    //读取无线参数
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传无线参数..."));
+                                    int[] wirelessparm = ctrl.ReadWireless(GlobalValue.NoiseSerialPortOptData.ID);
+                                    //收发频率（3byte）+无线速率（1byte）+发射功率（1byte）+串口速率（1byte）+唤醒时间（1byte）
+                                    if (wirelessparm != null && wirelessparm.Length == 5)
+                                    {
+                                        result_data.Frequency = Convert.ToDouble(wirelessparm[0])/1000;
+                                        result_data.Rate = wirelessparm[1];
+                                        result_data.Power = wirelessparm[2];
+                                        result_data.Baud = wirelessparm[3];
+                                        result_data.WakeTime = wirelessparm[4];
+                                    }
+
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取GPRS通讯波特率..."));
+                                    result_data.GprsBaud=ctrl.ReadGPRSBaudrate(GlobalValue.NoiseSerialPortOptData.ID);
                                 }
                                 result = true;
                                 obj = result_data;
