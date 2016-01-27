@@ -88,7 +88,7 @@ namespace GCGPRSService
                         MessageQueue MQueue;
                         //if (MessageQueue.Exists(string.Format(ConstValue.MSMQPathToService, ".")))
                         //{
-                            MQueue = new MessageQueue(string.Format(ConstValue.MSMQPathToService, "."));
+                        MQueue = new MessageQueue(string.Format(ConstValue.MSMQPathToService, "."));
                         //}
                         //else
                         //{

@@ -67,6 +67,7 @@
     <Compile Include="SerialInfoEntity.cs" />
     <Compile Include="SyncIdsEntity.cs" />
     <Compile Include="TerminalConfigEntity.cs" />
+    <Compile Include="Universal651SerialPortEntity.cs" />
     <Compile Include="UniversalSerialPortOptEntity.cs" />
     <Compile Include="UniversalWayTypeConfigEntity.cs" />
     <Compile Include="UniversalWayTypeEntity.cs" />

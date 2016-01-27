@@ -47,6 +47,23 @@ namespace Protocol
             }
         }
 
+        public Package651 Read(Package651 package, int timeout = 3, int times = 2, bool needresp = true)
+        {
+            try
+            {
+                if (!serialPortUtil.IsOpen)
+                {
+                    throw new Exception("串口未打开");
+                }
+                return serialPortUtil.SendPackage(package, timeout, times,needresp);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         /// <summary>
         /// 发送 噪音记录仪 设置命令帧
         /// </summary>

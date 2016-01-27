@@ -54,6 +54,16 @@ namespace SmartWaterSystem
             set { _SerialPortOptData = value; }
         }
 
+        private static Package651 _SerialPort651OptData;
+        /// <summary>
+        /// 通用终端651协议串口操作数据
+        /// </summary>
+        public static Package651 SerialPort651OptData
+        {
+            get { return _SerialPort651OptData; }
+            set { _SerialPort651OptData = value; }
+        }
+
         private static CallDataTypeEntity _SerialPortCallDataType;
         /// <summary>
         /// 串口招测类型

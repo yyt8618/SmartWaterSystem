@@ -116,12 +116,6 @@ namespace SmartWaterSystem
             #endregion
         }
 
-        
-        //public UniversalTerParm(FrmSystem parentform)
-        //{
-        //    InitializeComponent();
-        //}
-
         private void UniversalTerParm_Load(object sender, EventArgs e)
         {
             InitGridView();
@@ -841,7 +835,7 @@ namespace SmartWaterSystem
                 GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
                 Application.DoEvents();
                 SetStaticItem("正在读取...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReadBaicInfo);
+                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReadBasicInfo);
             }
             else
             {
@@ -850,7 +844,7 @@ namespace SmartWaterSystem
 
         void SerialPortParm_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
         {
-            if ((e.OptType == SerialPortType.UniversalReadBaicInfo || e.OptType == SerialPortType.UniversalSetBasicInfo) && !string.IsNullOrEmpty(e.Msg))
+            if ((e.OptType == SerialPortType.UniversalReadBasicInfo || e.OptType == SerialPortType.UniversalSetBasicInfo) && !string.IsNullOrEmpty(e.Msg))
             {
                 ShowWaitForm("", e.Msg);
                 SetStaticItem(e.Msg);
@@ -1275,7 +1269,7 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("设置启动采集失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalReadBaicInfo)
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalReadBasicInfo)
             {
                 this.Enabled = true;
                 HideWaitForm();

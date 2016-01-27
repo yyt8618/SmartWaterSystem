@@ -113,29 +113,38 @@ namespace SmartWaterSystem
             this.btnReadRunConfig = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetRunConfig = new DevExpress.XtraEditors.SimpleButton();
             this.label10 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.checkEdit8 = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit7 = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit6 = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit5 = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit4 = new DevExpress.XtraEditors.CheckEdit();
+            this.cb12hPrecipitation = new DevExpress.XtraEditors.CheckEdit();
+            this.cb6hPrecipitation = new DevExpress.XtraEditors.CheckEdit();
+            this.cbParm1h5minWaterLevel = new DevExpress.XtraEditors.CheckEdit();
+            this.cbParm1h5minPrecipitation = new DevExpress.XtraEditors.CheckEdit();
+            this.cb3hPrecipitation = new DevExpress.XtraEditors.CheckEdit();
+            this.cb2hPrecipitation = new DevExpress.XtraEditors.CheckEdit();
+            this.cb1hPrecipitation = new DevExpress.XtraEditors.CheckEdit();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.btnQueryPrecipitation = new DevExpress.XtraEditors.SimpleButton();
             this.btnQueryElement = new DevExpress.XtraEditors.SimpleButton();
-            this.checkEdit3 = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit2 = new DevExpress.XtraEditors.CheckEdit();
+            this.cb30minPrecipitation = new DevExpress.XtraEditors.CheckEdit();
+            this.cb10minPrecipitation = new DevExpress.XtraEditors.CheckEdit();
             this.cbParmPrecipitation = new DevExpress.XtraEditors.CheckEdit();
-            this.cbParm1h5minWaterLevel = new DevExpress.XtraEditors.CheckEdit();
-            this.cbParm1h5minPrecipitation = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit10 = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit1 = new DevExpress.XtraEditors.CheckEdit();
+            this.cb1minPrecipitation = new DevExpress.XtraEditors.CheckEdit();
+            this.cb5minPrecipitation = new DevExpress.XtraEditors.CheckEdit();
             this.cbParmRainFallAddup = new DevExpress.XtraEditors.CheckEdit();
             this.cbParmInstantWaterLevel = new DevExpress.XtraEditors.CheckEdit();
             this.cbParmDayPrecipitation = new DevExpress.XtraEditors.CheckEdit();
@@ -154,7 +163,6 @@ namespace SmartWaterSystem
             this.txtNewPwd0 = new DevExpress.XtraEditors.TextEdit();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.combPrecipitationConstantCtrl = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.btnReadPrecipitationConstantCtrl = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetPrecipitationConstantCtrl = new DevExpress.XtraEditors.SimpleButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
@@ -168,6 +176,14 @@ namespace SmartWaterSystem
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.btnDel = new DevExpress.XtraEditors.SimpleButton();
+            this.group_manualSetParm = new System.Windows.Forms.GroupBox();
+            this.combManualSetParm = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.memo_ManualSetParm = new DevExpress.XtraEditors.MemoEdit();
+            this.label24 = new System.Windows.Forms.Label();
+            this.btnAddManualSetParm = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSetManualSetParm = new DevExpress.XtraEditors.SimpleButton();
+            this.btnReadManualSetParm = new DevExpress.XtraEditors.SimpleButton();
+            this.txtManualSetParm = new DevExpress.XtraEditors.TextEdit();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPwd1.Properties)).BeginInit();
@@ -243,18 +259,18 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cbPeriodInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbRainFallLimit.Properties)).BeginInit();
             this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit8.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit7.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit6.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit5.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit3.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbParmPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb12hPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb6hPrecipitation.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParm1h5minWaterLevel.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParm1h5minPrecipitation.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit10.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb3hPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb2hPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb1hPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb30minPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb10minPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbParmPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb1minPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb5minPrecipitation.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParmRainFallAddup.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParmInstantWaterLevel.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParmDayPrecipitation.Properties)).BeginInit();
@@ -268,11 +284,16 @@ namespace SmartWaterSystem
             this.group_waitcmd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).BeginInit();
+            this.group_manualSetParm.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.combManualSetParm.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memo_ManualSetParm.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtManualSetParm.Properties)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtCenterAddr
             // 
+            this.txtCenterAddr.EditValue = "1";
             this.txtCenterAddr.Location = new System.Drawing.Point(410, 16);
             this.txtCenterAddr.Name = "txtCenterAddr";
             this.txtCenterAddr.Size = new System.Drawing.Size(30, 20);
@@ -290,10 +311,10 @@ namespace SmartWaterSystem
             // 
             // txtPwd1
             // 
-            this.txtPwd1.EditValue = "";
+            this.txtPwd1.EditValue = "0";
             this.txtPwd1.Location = new System.Drawing.Point(313, 16);
             this.txtPwd1.Name = "txtPwd1";
-            this.txtPwd1.Properties.MaxLength = 3;
+            this.txtPwd1.Properties.MaxLength = 4;
             this.txtPwd1.Size = new System.Drawing.Size(30, 20);
             this.txtPwd1.TabIndex = 8;
             this.txtPwd1.Tag = "4";
@@ -301,10 +322,10 @@ namespace SmartWaterSystem
             // 
             // txtPwd0
             // 
-            this.txtPwd0.EditValue = "";
+            this.txtPwd0.EditValue = "0";
             this.txtPwd0.Location = new System.Drawing.Point(283, 16);
             this.txtPwd0.Name = "txtPwd0";
-            this.txtPwd0.Properties.MaxLength = 3;
+            this.txtPwd0.Properties.MaxLength = 4;
             this.txtPwd0.Size = new System.Drawing.Size(30, 20);
             this.txtPwd0.TabIndex = 7;
             this.txtPwd0.Tag = "4";
@@ -312,10 +333,10 @@ namespace SmartWaterSystem
             // 
             // txtA1
             // 
-            this.txtA1.EditValue = "";
+            this.txtA1.EditValue = "3";
             this.txtA1.Location = new System.Drawing.Point(199, 17);
             this.txtA1.Name = "txtA1";
-            this.txtA1.Properties.MaxLength = 3;
+            this.txtA1.Properties.MaxLength = 4;
             this.txtA1.Size = new System.Drawing.Size(30, 20);
             this.txtA1.TabIndex = 5;
             this.txtA1.Tag = "4";
@@ -323,10 +344,10 @@ namespace SmartWaterSystem
             // 
             // txtA2
             // 
-            this.txtA2.EditValue = "";
+            this.txtA2.EditValue = "0";
             this.txtA2.Location = new System.Drawing.Point(169, 17);
             this.txtA2.Name = "txtA2";
-            this.txtA2.Properties.MaxLength = 3;
+            this.txtA2.Properties.MaxLength = 4;
             this.txtA2.Size = new System.Drawing.Size(30, 20);
             this.txtA2.TabIndex = 4;
             this.txtA2.Tag = "4";
@@ -334,10 +355,10 @@ namespace SmartWaterSystem
             // 
             // txtA3
             // 
-            this.txtA3.EditValue = "";
+            this.txtA3.EditValue = "0";
             this.txtA3.Location = new System.Drawing.Point(139, 17);
             this.txtA3.Name = "txtA3";
-            this.txtA3.Properties.MaxLength = 3;
+            this.txtA3.Properties.MaxLength = 4;
             this.txtA3.Size = new System.Drawing.Size(30, 20);
             this.txtA3.TabIndex = 3;
             this.txtA3.Tag = "3";
@@ -345,10 +366,10 @@ namespace SmartWaterSystem
             // 
             // txtA4
             // 
-            this.txtA4.EditValue = "";
+            this.txtA4.EditValue = "0";
             this.txtA4.Location = new System.Drawing.Point(109, 17);
             this.txtA4.Name = "txtA4";
-            this.txtA4.Properties.MaxLength = 3;
+            this.txtA4.Properties.MaxLength = 4;
             this.txtA4.Size = new System.Drawing.Size(30, 20);
             this.txtA4.TabIndex = 2;
             this.txtA4.Tag = "2";
@@ -356,10 +377,10 @@ namespace SmartWaterSystem
             // 
             // txtA5
             // 
-            this.txtA5.EditValue = "";
+            this.txtA5.EditValue = "0";
             this.txtA5.Location = new System.Drawing.Point(79, 17);
             this.txtA5.Name = "txtA5";
-            this.txtA5.Properties.MaxLength = 3;
+            this.txtA5.Properties.MaxLength = 4;
             this.txtA5.Size = new System.Drawing.Size(30, 20);
             this.txtA5.TabIndex = 1;
             this.txtA5.Tag = "1";
@@ -395,11 +416,11 @@ namespace SmartWaterSystem
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(181, 196);
+            this.label8.Location = new System.Drawing.Point(172, 196);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 14);
+            this.label8.Size = new System.Drawing.Size(35, 14);
             this.label8.TabIndex = 37;
-            this.label8.Text = "卡识别号:";
+            this.label8.Text = "卡号:";
             // 
             // txtIP4
             // 
@@ -451,9 +472,11 @@ namespace SmartWaterSystem
             // 
             // txtTelNum
             // 
-            this.txtTelNum.Location = new System.Drawing.Point(236, 193);
+            this.txtTelNum.EditValue = "";
+            this.txtTelNum.Location = new System.Drawing.Point(206, 193);
             this.txtTelNum.Name = "txtTelNum";
-            this.txtTelNum.Size = new System.Drawing.Size(68, 20);
+            this.txtTelNum.Properties.MaxLength = 12;
+            this.txtTelNum.Size = new System.Drawing.Size(97, 20);
             this.txtTelNum.TabIndex = 38;
             // 
             // txtCCenterAddr
@@ -468,10 +491,11 @@ namespace SmartWaterSystem
             this.txtCPwd1.EditValue = "";
             this.txtCPwd1.Location = new System.Drawing.Point(274, 38);
             this.txtCPwd1.Name = "txtCPwd1";
-            this.txtCPwd1.Properties.MaxLength = 3;
+            this.txtCPwd1.Properties.MaxLength = 4;
             this.txtCPwd1.Size = new System.Drawing.Size(30, 20);
             this.txtCPwd1.TabIndex = 10;
             this.txtCPwd1.Tag = "4";
+            this.txtCPwd1.Visible = false;
             this.txtCPwd1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
             // 
             // txtCA1
@@ -479,7 +503,7 @@ namespace SmartWaterSystem
             this.txtCA1.EditValue = "";
             this.txtCA1.Location = new System.Drawing.Point(224, 16);
             this.txtCA1.Name = "txtCA1";
-            this.txtCA1.Properties.MaxLength = 3;
+            this.txtCA1.Properties.MaxLength = 4;
             this.txtCA1.Size = new System.Drawing.Size(30, 20);
             this.txtCA1.TabIndex = 5;
             this.txtCA1.Tag = "4";
@@ -490,7 +514,7 @@ namespace SmartWaterSystem
             this.txtCA5.EditValue = "";
             this.txtCA5.Location = new System.Drawing.Point(104, 16);
             this.txtCA5.Name = "txtCA5";
-            this.txtCA5.Properties.MaxLength = 3;
+            this.txtCA5.Properties.MaxLength = 4;
             this.txtCA5.Size = new System.Drawing.Size(30, 20);
             this.txtCA5.TabIndex = 1;
             this.txtCA5.Tag = "1";
@@ -528,10 +552,11 @@ namespace SmartWaterSystem
             this.txtCPwd0.EditValue = "";
             this.txtCPwd0.Location = new System.Drawing.Point(244, 38);
             this.txtCPwd0.Name = "txtCPwd0";
-            this.txtCPwd0.Properties.MaxLength = 3;
+            this.txtCPwd0.Properties.MaxLength = 4;
             this.txtCPwd0.Size = new System.Drawing.Size(30, 20);
             this.txtCPwd0.TabIndex = 9;
             this.txtCPwd0.Tag = "4";
+            this.txtCPwd0.Visible = false;
             this.txtCPwd0.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_onebyte_KeyPress);
             // 
             // txtCA2
@@ -539,7 +564,7 @@ namespace SmartWaterSystem
             this.txtCA2.EditValue = "";
             this.txtCA2.Location = new System.Drawing.Point(194, 16);
             this.txtCA2.Name = "txtCA2";
-            this.txtCA2.Properties.MaxLength = 3;
+            this.txtCA2.Properties.MaxLength = 4;
             this.txtCA2.Size = new System.Drawing.Size(30, 20);
             this.txtCA2.TabIndex = 4;
             this.txtCA2.Tag = "4";
@@ -555,7 +580,7 @@ namespace SmartWaterSystem
             "1-移动通信卡",
             "2-北斗卫星通信卡"});
             this.combIdentifyNum.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.combIdentifyNum.Size = new System.Drawing.Size(100, 20);
+            this.combIdentifyNum.Size = new System.Drawing.Size(90, 20);
             this.combIdentifyNum.TabIndex = 36;
             // 
             // combChannel
@@ -597,7 +622,7 @@ namespace SmartWaterSystem
             this.txtCA4.EditValue = "";
             this.txtCA4.Location = new System.Drawing.Point(134, 16);
             this.txtCA4.Name = "txtCA4";
-            this.txtCA4.Properties.MaxLength = 3;
+            this.txtCA4.Properties.MaxLength = 4;
             this.txtCA4.Size = new System.Drawing.Size(30, 20);
             this.txtCA4.TabIndex = 2;
             this.txtCA4.Tag = "2";
@@ -608,7 +633,7 @@ namespace SmartWaterSystem
             this.txtCA3.EditValue = "";
             this.txtCA3.Location = new System.Drawing.Point(164, 16);
             this.txtCA3.Name = "txtCA3";
-            this.txtCA3.Properties.MaxLength = 3;
+            this.txtCA3.Properties.MaxLength = 4;
             this.txtCA3.Size = new System.Drawing.Size(30, 20);
             this.txtCA3.TabIndex = 3;
             this.txtCA3.Tag = "3";
@@ -618,7 +643,7 @@ namespace SmartWaterSystem
             // 
             this.cbIdentifyNum.Location = new System.Drawing.Point(7, 194);
             this.cbIdentifyNum.Name = "cbIdentifyNum";
-            this.cbIdentifyNum.Properties.Caption = "通信识别号";
+            this.cbIdentifyNum.Properties.Caption = "卡类型";
             this.cbIdentifyNum.Size = new System.Drawing.Size(78, 19);
             this.cbIdentifyNum.TabIndex = 35;
             // 
@@ -653,12 +678,13 @@ namespace SmartWaterSystem
             this.cbPwd.Properties.Caption = "密码(0x)";
             this.cbPwd.Size = new System.Drawing.Size(66, 19);
             this.cbPwd.TabIndex = 8;
+            this.cbPwd.Visible = false;
             // 
             // cbCenterAddr
             // 
             this.cbCenterAddr.Location = new System.Drawing.Point(7, 39);
             this.cbCenterAddr.Name = "cbCenterAddr";
-            this.cbCenterAddr.Properties.Caption = "终端地址";
+            this.cbCenterAddr.Properties.Caption = "中心站";
             this.cbCenterAddr.Size = new System.Drawing.Size(75, 19);
             this.cbCenterAddr.TabIndex = 6;
             // 
@@ -745,6 +771,7 @@ namespace SmartWaterSystem
             this.txtStandbyChTelnum.EditValue = "";
             this.txtStandbyChTelnum.Location = new System.Drawing.Point(206, 171);
             this.txtStandbyChTelnum.Name = "txtStandbyChTelnum";
+            this.txtStandbyChTelnum.Properties.MaxLength = 12;
             this.txtStandbyChTelnum.Size = new System.Drawing.Size(98, 20);
             this.txtStandbyChTelnum.TabIndex = 34;
             // 
@@ -878,8 +905,16 @@ namespace SmartWaterSystem
             this.groupBox8.Controls.Add(this.btnReadRunConfig);
             this.groupBox8.Controls.Add(this.btnSetRunConfig);
             this.groupBox8.Controls.Add(this.label10);
+            this.groupBox8.Controls.Add(this.label5);
             this.groupBox8.Controls.Add(this.label9);
+            this.groupBox8.Controls.Add(this.label23);
+            this.groupBox8.Controls.Add(this.label22);
+            this.groupBox8.Controls.Add(this.label21);
+            this.groupBox8.Controls.Add(this.label20);
+            this.groupBox8.Controls.Add(this.label19);
             this.groupBox8.Controls.Add(this.label13);
+            this.groupBox8.Controls.Add(this.label18);
+            this.groupBox8.Controls.Add(this.label17);
             this.groupBox8.Controls.Add(this.label12);
             this.groupBox8.Controls.Add(this.label6);
             this.groupBox8.Location = new System.Drawing.Point(324, 46);
@@ -893,6 +928,7 @@ namespace SmartWaterSystem
             // 
             this.txtWaterLevelInterval.Location = new System.Drawing.Point(118, 104);
             this.txtWaterLevelInterval.Name = "txtWaterLevelInterval";
+            this.txtWaterLevelInterval.Properties.NullValuePrompt = "1~59";
             this.txtWaterLevelInterval.Size = new System.Drawing.Size(67, 20);
             this.txtWaterLevelInterval.TabIndex = 9;
             // 
@@ -900,6 +936,8 @@ namespace SmartWaterSystem
             // 
             this.txtSampling.Location = new System.Drawing.Point(118, 82);
             this.txtSampling.Name = "txtSampling";
+            this.txtSampling.Properties.MaxLength = 4;
+            this.txtSampling.Properties.NullValuePrompt = "0~9999";
             this.txtSampling.Size = new System.Drawing.Size(67, 20);
             this.txtSampling.TabIndex = 7;
             // 
@@ -907,6 +945,8 @@ namespace SmartWaterSystem
             // 
             this.txtPrecipitationStartTime.Location = new System.Drawing.Point(118, 60);
             this.txtPrecipitationStartTime.Name = "txtPrecipitationStartTime";
+            this.txtPrecipitationStartTime.Properties.MaxLength = 2;
+            this.txtPrecipitationStartTime.Properties.NullValuePrompt = "0~23";
             this.txtPrecipitationStartTime.Size = new System.Drawing.Size(67, 20);
             this.txtPrecipitationStartTime.TabIndex = 5;
             // 
@@ -914,6 +954,8 @@ namespace SmartWaterSystem
             // 
             this.txtAddInterval.Location = new System.Drawing.Point(118, 38);
             this.txtAddInterval.Name = "txtAddInterval";
+            this.txtAddInterval.Properties.MaxLength = 2;
+            this.txtAddInterval.Properties.NullValuePrompt = "1~59";
             this.txtAddInterval.Size = new System.Drawing.Size(67, 20);
             this.txtAddInterval.TabIndex = 3;
             // 
@@ -924,9 +966,9 @@ namespace SmartWaterSystem
             this.combWaterLevelGaugePrecision.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.combWaterLevelGaugePrecision.Properties.Items.AddRange(new object[] {
-            "0.1cm",
-            "0.5cm",
-            "1cm"});
+            "0.1",
+            "0.5",
+            "1"});
             this.combWaterLevelGaugePrecision.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.combWaterLevelGaugePrecision.Size = new System.Drawing.Size(67, 20);
             this.combWaterLevelGaugePrecision.TabIndex = 13;
@@ -938,10 +980,10 @@ namespace SmartWaterSystem
             this.combRainFallRPrecision.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.combRainFallRPrecision.Properties.Items.AddRange(new object[] {
-            "0.1mm",
-            "0.2mm",
-            "0.5mm",
-            "1mm"});
+            "0.1",
+            "0.2",
+            "0.5",
+            "1"});
             this.combRainFallRPrecision.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.combRainFallRPrecision.Size = new System.Drawing.Size(67, 20);
             this.combRainFallRPrecision.TabIndex = 11;
@@ -1036,6 +1078,7 @@ namespace SmartWaterSystem
             // 
             this.txtRainFallLimit.Location = new System.Drawing.Point(366, 16);
             this.txtRainFallLimit.Name = "txtRainFallLimit";
+            this.txtRainFallLimit.Properties.NullValuePrompt = "1~99";
             this.txtRainFallLimit.Size = new System.Drawing.Size(65, 20);
             this.txtRainFallLimit.TabIndex = 15;
             // 
@@ -1113,19 +1156,19 @@ namespace SmartWaterSystem
             // 
             // btnReadRunConfig
             // 
-            this.btnReadRunConfig.Location = new System.Drawing.Point(347, 150);
+            this.btnReadRunConfig.Location = new System.Drawing.Point(229, 150);
             this.btnReadRunConfig.Name = "btnReadRunConfig";
             this.btnReadRunConfig.Size = new System.Drawing.Size(97, 26);
-            this.btnReadRunConfig.TabIndex = 27;
+            this.btnReadRunConfig.TabIndex = 26;
             this.btnReadRunConfig.Text = "读取运行配置";
             this.btnReadRunConfig.Click += new System.EventHandler(this.btnReadRunConfig_Click);
             // 
             // btnSetRunConfig
             // 
-            this.btnSetRunConfig.Location = new System.Drawing.Point(226, 150);
+            this.btnSetRunConfig.Location = new System.Drawing.Point(350, 150);
             this.btnSetRunConfig.Name = "btnSetRunConfig";
             this.btnSetRunConfig.Size = new System.Drawing.Size(97, 26);
-            this.btnSetRunConfig.TabIndex = 26;
+            this.btnSetRunConfig.TabIndex = 27;
             this.btnSetRunConfig.Text = "设置运行配置表";
             this.btnSetRunConfig.Click += new System.EventHandler(this.btnSetRunConfig_Click);
             // 
@@ -1138,14 +1181,68 @@ namespace SmartWaterSystem
             this.label10.TabIndex = 9;
             this.label10.Text = "秒";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(187, 19);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(31, 14);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "小时";
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(187, 63);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(31, 14);
+            this.label9.Size = new System.Drawing.Size(19, 14);
             this.label9.TabIndex = 9;
-            this.label9.Text = "小时";
+            this.label9.Text = "时";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(432, 129);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(19, 14);
+            this.label23.TabIndex = 9;
+            this.label23.Text = "米";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(432, 107);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(19, 14);
+            this.label22.TabIndex = 9;
+            this.label22.Text = "米";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(432, 85);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(19, 14);
+            this.label21.TabIndex = 9;
+            this.label21.Text = "米";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(432, 63);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(19, 14);
+            this.label20.TabIndex = 9;
+            this.label20.Text = "米";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(432, 41);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(19, 14);
+            this.label19.TabIndex = 9;
+            this.label19.Text = "米";
             // 
             // label13
             // 
@@ -1155,6 +1252,24 @@ namespace SmartWaterSystem
             this.label13.Size = new System.Drawing.Size(31, 14);
             this.label13.TabIndex = 9;
             this.label13.Text = "毫米";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(187, 152);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(31, 14);
+            this.label18.TabIndex = 9;
+            this.label18.Text = "厘米";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(187, 129);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(31, 14);
+            this.label17.TabIndex = 9;
+            this.label17.Text = "毫米";
             // 
             // label12
             // 
@@ -1188,23 +1303,24 @@ namespace SmartWaterSystem
             this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox10.Controls.Add(this.checkEdit8);
-            this.groupBox10.Controls.Add(this.checkEdit7);
-            this.groupBox10.Controls.Add(this.checkEdit6);
-            this.groupBox10.Controls.Add(this.checkEdit5);
-            this.groupBox10.Controls.Add(this.checkEdit4);
+            this.groupBox10.Controls.Add(this.cb12hPrecipitation);
+            this.groupBox10.Controls.Add(this.cb6hPrecipitation);
+            this.groupBox10.Controls.Add(this.cbParm1h5minWaterLevel);
+            this.groupBox10.Controls.Add(this.cbParm1h5minPrecipitation);
+            this.groupBox10.Controls.Add(this.cb3hPrecipitation);
+            this.groupBox10.Controls.Add(this.cb2hPrecipitation);
+            this.groupBox10.Controls.Add(this.cb1hPrecipitation);
             this.groupBox10.Controls.Add(this.label15);
             this.groupBox10.Controls.Add(this.label14);
             this.groupBox10.Controls.Add(this.groupBox12);
             this.groupBox10.Controls.Add(this.groupBox11);
+            this.groupBox10.Controls.Add(this.btnQueryPrecipitation);
             this.groupBox10.Controls.Add(this.btnQueryElement);
-            this.groupBox10.Controls.Add(this.checkEdit3);
-            this.groupBox10.Controls.Add(this.checkEdit2);
+            this.groupBox10.Controls.Add(this.cb30minPrecipitation);
+            this.groupBox10.Controls.Add(this.cb10minPrecipitation);
             this.groupBox10.Controls.Add(this.cbParmPrecipitation);
-            this.groupBox10.Controls.Add(this.cbParm1h5minWaterLevel);
-            this.groupBox10.Controls.Add(this.cbParm1h5minPrecipitation);
-            this.groupBox10.Controls.Add(this.checkEdit10);
-            this.groupBox10.Controls.Add(this.checkEdit1);
+            this.groupBox10.Controls.Add(this.cb1minPrecipitation);
+            this.groupBox10.Controls.Add(this.cb5minPrecipitation);
             this.groupBox10.Controls.Add(this.cbParmRainFallAddup);
             this.groupBox10.Controls.Add(this.cbParmInstantWaterLevel);
             this.groupBox10.Controls.Add(this.cbParmDayPrecipitation);
@@ -1215,53 +1331,69 @@ namespace SmartWaterSystem
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "查询指定要素";
             // 
-            // checkEdit8
+            // cb12hPrecipitation
             // 
-            this.checkEdit8.Location = new System.Drawing.Point(383, 92);
-            this.checkEdit8.Name = "checkEdit8";
-            this.checkEdit8.Properties.Caption = "12小时时段";
-            this.checkEdit8.Size = new System.Drawing.Size(85, 19);
-            this.checkEdit8.TabIndex = 18;
+            this.cb12hPrecipitation.Location = new System.Drawing.Point(383, 92);
+            this.cb12hPrecipitation.Name = "cb12hPrecipitation";
+            this.cb12hPrecipitation.Properties.Caption = "12小时时段";
+            this.cb12hPrecipitation.Size = new System.Drawing.Size(85, 19);
+            this.cb12hPrecipitation.TabIndex = 18;
             // 
-            // checkEdit7
+            // cb6hPrecipitation
             // 
-            this.checkEdit7.Location = new System.Drawing.Point(309, 92);
-            this.checkEdit7.Name = "checkEdit7";
-            this.checkEdit7.Properties.Caption = "6小时时段";
-            this.checkEdit7.Size = new System.Drawing.Size(78, 19);
-            this.checkEdit7.TabIndex = 17;
+            this.cb6hPrecipitation.Location = new System.Drawing.Point(309, 92);
+            this.cb6hPrecipitation.Name = "cb6hPrecipitation";
+            this.cb6hPrecipitation.Properties.Caption = "6小时时段";
+            this.cb6hPrecipitation.Size = new System.Drawing.Size(78, 19);
+            this.cb6hPrecipitation.TabIndex = 17;
             // 
-            // checkEdit6
+            // cbParm1h5minWaterLevel
             // 
-            this.checkEdit6.Location = new System.Drawing.Point(236, 92);
-            this.checkEdit6.Name = "checkEdit6";
-            this.checkEdit6.Properties.Caption = "3小时时段";
-            this.checkEdit6.Size = new System.Drawing.Size(78, 19);
-            this.checkEdit6.TabIndex = 16;
+            this.cbParm1h5minWaterLevel.Location = new System.Drawing.Point(160, 67);
+            this.cbParm1h5minWaterLevel.Name = "cbParm1h5minWaterLevel";
+            this.cbParm1h5minWaterLevel.Properties.Caption = "1h内5min间隔相对水位";
+            this.cbParm1h5minWaterLevel.Size = new System.Drawing.Size(143, 19);
+            this.cbParm1h5minWaterLevel.TabIndex = 11;
             // 
-            // checkEdit5
+            // cbParm1h5minPrecipitation
             // 
-            this.checkEdit5.Location = new System.Drawing.Point(164, 92);
-            this.checkEdit5.Name = "checkEdit5";
-            this.checkEdit5.Properties.Caption = "2小时时段";
-            this.checkEdit5.Size = new System.Drawing.Size(78, 19);
-            this.checkEdit5.TabIndex = 15;
+            this.cbParm1h5minPrecipitation.Location = new System.Drawing.Point(8, 67);
+            this.cbParm1h5minPrecipitation.Name = "cbParm1h5minPrecipitation";
+            this.cbParm1h5minPrecipitation.Properties.Caption = "1h内5min时段雨量";
+            this.cbParm1h5minPrecipitation.Size = new System.Drawing.Size(121, 19);
+            this.cbParm1h5minPrecipitation.TabIndex = 10;
             // 
-            // checkEdit4
+            // cb3hPrecipitation
             // 
-            this.checkEdit4.Location = new System.Drawing.Point(90, 92);
-            this.checkEdit4.Name = "checkEdit4";
-            this.checkEdit4.Properties.Caption = "1小时时段";
-            this.checkEdit4.Size = new System.Drawing.Size(78, 19);
-            this.checkEdit4.TabIndex = 14;
+            this.cb3hPrecipitation.Location = new System.Drawing.Point(236, 92);
+            this.cb3hPrecipitation.Name = "cb3hPrecipitation";
+            this.cb3hPrecipitation.Properties.Caption = "3小时时段";
+            this.cb3hPrecipitation.Size = new System.Drawing.Size(78, 19);
+            this.cb3hPrecipitation.TabIndex = 16;
+            // 
+            // cb2hPrecipitation
+            // 
+            this.cb2hPrecipitation.Location = new System.Drawing.Point(164, 92);
+            this.cb2hPrecipitation.Name = "cb2hPrecipitation";
+            this.cb2hPrecipitation.Properties.Caption = "2小时时段";
+            this.cb2hPrecipitation.Size = new System.Drawing.Size(78, 19);
+            this.cb2hPrecipitation.TabIndex = 15;
+            // 
+            // cb1hPrecipitation
+            // 
+            this.cb1hPrecipitation.Location = new System.Drawing.Point(90, 92);
+            this.cb1hPrecipitation.Name = "cb1hPrecipitation";
+            this.cb1hPrecipitation.Properties.Caption = "1小时时段";
+            this.cb1hPrecipitation.Size = new System.Drawing.Size(78, 19);
+            this.cb1hPrecipitation.TabIndex = 14;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(4, 69);
+            this.label15.Location = new System.Drawing.Point(7, 39);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(89, 14);
-            this.label15.TabIndex = 7;
+            this.label15.TabIndex = 4;
             this.label15.Text = "时段降水量(分)";
             // 
             // label14
@@ -1286,77 +1418,70 @@ namespace SmartWaterSystem
             this.groupBox11.Location = new System.Drawing.Point(8, 62);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(450, 3);
-            this.groupBox11.TabIndex = 6;
+            this.groupBox11.TabIndex = 9;
             this.groupBox11.TabStop = false;
+            // 
+            // btnQueryPrecipitation
+            // 
+            this.btnQueryPrecipitation.Location = new System.Drawing.Point(268, 115);
+            this.btnQueryPrecipitation.Name = "btnQueryPrecipitation";
+            this.btnQueryPrecipitation.Size = new System.Drawing.Size(138, 26);
+            this.btnQueryPrecipitation.TabIndex = 20;
+            this.btnQueryPrecipitation.Text = "查询时段降水量";
+            this.btnQueryPrecipitation.Click += new System.EventHandler(this.btnQueryPrecipitation_Click);
             // 
             // btnQueryElement
             // 
-            this.btnQueryElement.Location = new System.Drawing.Point(165, 115);
+            this.btnQueryElement.Location = new System.Drawing.Point(63, 115);
             this.btnQueryElement.Name = "btnQueryElement";
             this.btnQueryElement.Size = new System.Drawing.Size(138, 26);
             this.btnQueryElement.TabIndex = 19;
             this.btnQueryElement.Text = "查询指定要素实时数据";
             this.btnQueryElement.Click += new System.EventHandler(this.btnQueryElement_Click);
             // 
-            // checkEdit3
+            // cb30minPrecipitation
             // 
-            this.checkEdit3.Location = new System.Drawing.Point(355, 67);
-            this.checkEdit3.Name = "checkEdit3";
-            this.checkEdit3.Properties.Caption = "30分钟时段";
-            this.checkEdit3.Size = new System.Drawing.Size(82, 19);
-            this.checkEdit3.TabIndex = 11;
+            this.cb30minPrecipitation.Location = new System.Drawing.Point(358, 37);
+            this.cb30minPrecipitation.Name = "cb30minPrecipitation";
+            this.cb30minPrecipitation.Properties.Caption = "30分钟时段";
+            this.cb30minPrecipitation.Size = new System.Drawing.Size(82, 19);
+            this.cb30minPrecipitation.TabIndex = 8;
             // 
-            // checkEdit2
+            // cb10minPrecipitation
             // 
-            this.checkEdit2.Location = new System.Drawing.Point(267, 67);
-            this.checkEdit2.Name = "checkEdit2";
-            this.checkEdit2.Properties.Caption = "10分钟时段";
-            this.checkEdit2.Size = new System.Drawing.Size(82, 19);
-            this.checkEdit2.TabIndex = 10;
+            this.cb10minPrecipitation.Location = new System.Drawing.Point(270, 37);
+            this.cb10minPrecipitation.Name = "cb10minPrecipitation";
+            this.cb10minPrecipitation.Properties.Caption = "10分钟时段";
+            this.cb10minPrecipitation.Size = new System.Drawing.Size(82, 19);
+            this.cb10minPrecipitation.TabIndex = 7;
             // 
             // cbParmPrecipitation
             // 
-            this.cbParmPrecipitation.Location = new System.Drawing.Point(4, 16);
+            this.cbParmPrecipitation.Location = new System.Drawing.Point(11, 16);
             this.cbParmPrecipitation.Name = "cbParmPrecipitation";
             this.cbParmPrecipitation.Properties.Caption = "当前降雨量";
             this.cbParmPrecipitation.Size = new System.Drawing.Size(78, 19);
             this.cbParmPrecipitation.TabIndex = 0;
             // 
-            // cbParm1h5minWaterLevel
+            // cb1minPrecipitation
             // 
-            this.cbParm1h5minWaterLevel.Location = new System.Drawing.Point(156, 39);
-            this.cbParm1h5minWaterLevel.Name = "cbParm1h5minWaterLevel";
-            this.cbParm1h5minWaterLevel.Properties.Caption = "1h内5min间隔相对水位";
-            this.cbParm1h5minWaterLevel.Size = new System.Drawing.Size(143, 19);
-            this.cbParm1h5minWaterLevel.TabIndex = 5;
+            this.cb1minPrecipitation.Location = new System.Drawing.Point(102, 37);
+            this.cb1minPrecipitation.Name = "cb1minPrecipitation";
+            this.cb1minPrecipitation.Properties.Caption = "1分钟时段";
+            this.cb1minPrecipitation.Size = new System.Drawing.Size(78, 19);
+            this.cb1minPrecipitation.TabIndex = 5;
             // 
-            // cbParm1h5minPrecipitation
+            // cb5minPrecipitation
             // 
-            this.cbParm1h5minPrecipitation.Location = new System.Drawing.Point(4, 39);
-            this.cbParm1h5minPrecipitation.Name = "cbParm1h5minPrecipitation";
-            this.cbParm1h5minPrecipitation.Properties.Caption = "1h内5min时段雨量";
-            this.cbParm1h5minPrecipitation.Size = new System.Drawing.Size(121, 19);
-            this.cbParm1h5minPrecipitation.TabIndex = 4;
-            // 
-            // checkEdit10
-            // 
-            this.checkEdit10.Location = new System.Drawing.Point(99, 67);
-            this.checkEdit10.Name = "checkEdit10";
-            this.checkEdit10.Properties.Caption = "1分钟时段";
-            this.checkEdit10.Size = new System.Drawing.Size(78, 19);
-            this.checkEdit10.TabIndex = 8;
-            // 
-            // checkEdit1
-            // 
-            this.checkEdit1.Location = new System.Drawing.Point(183, 67);
-            this.checkEdit1.Name = "checkEdit1";
-            this.checkEdit1.Properties.Caption = "5分钟时段";
-            this.checkEdit1.Size = new System.Drawing.Size(78, 19);
-            this.checkEdit1.TabIndex = 9;
+            this.cb5minPrecipitation.Location = new System.Drawing.Point(186, 37);
+            this.cb5minPrecipitation.Name = "cb5minPrecipitation";
+            this.cb5minPrecipitation.Properties.Caption = "5分钟时段";
+            this.cb5minPrecipitation.Size = new System.Drawing.Size(78, 19);
+            this.cb5minPrecipitation.TabIndex = 6;
             // 
             // cbParmRainFallAddup
             // 
-            this.cbParmRainFallAddup.Location = new System.Drawing.Point(346, 16);
+            this.cbParmRainFallAddup.Location = new System.Drawing.Point(353, 16);
             this.cbParmRainFallAddup.Name = "cbParmRainFallAddup";
             this.cbParmRainFallAddup.Properties.Caption = "累计雨量";
             this.cbParmRainFallAddup.Size = new System.Drawing.Size(78, 19);
@@ -1364,7 +1489,7 @@ namespace SmartWaterSystem
             // 
             // cbParmInstantWaterLevel
             // 
-            this.cbParmInstantWaterLevel.Location = new System.Drawing.Point(232, 16);
+            this.cbParmInstantWaterLevel.Location = new System.Drawing.Point(239, 16);
             this.cbParmInstantWaterLevel.Name = "cbParmInstantWaterLevel";
             this.cbParmInstantWaterLevel.Properties.Caption = "当前水位";
             this.cbParmInstantWaterLevel.Size = new System.Drawing.Size(78, 19);
@@ -1372,7 +1497,7 @@ namespace SmartWaterSystem
             // 
             // cbParmDayPrecipitation
             // 
-            this.cbParmDayPrecipitation.Location = new System.Drawing.Point(118, 16);
+            this.cbParmDayPrecipitation.Location = new System.Drawing.Point(125, 16);
             this.cbParmDayPrecipitation.Name = "cbParmDayPrecipitation";
             this.cbParmDayPrecipitation.Properties.Caption = "日降水量";
             this.cbParmDayPrecipitation.Size = new System.Drawing.Size(78, 19);
@@ -1488,7 +1613,7 @@ namespace SmartWaterSystem
             this.txtNewPwd1.EditValue = "";
             this.txtNewPwd1.Location = new System.Drawing.Point(86, 14);
             this.txtNewPwd1.Name = "txtNewPwd1";
-            this.txtNewPwd1.Properties.MaxLength = 3;
+            this.txtNewPwd1.Properties.MaxLength = 4;
             this.txtNewPwd1.Size = new System.Drawing.Size(30, 20);
             this.txtNewPwd1.TabIndex = 2;
             this.txtNewPwd1.Tag = "4";
@@ -1499,7 +1624,7 @@ namespace SmartWaterSystem
             this.txtNewPwd0.EditValue = "";
             this.txtNewPwd0.Location = new System.Drawing.Point(56, 14);
             this.txtNewPwd0.Name = "txtNewPwd0";
-            this.txtNewPwd0.Properties.MaxLength = 3;
+            this.txtNewPwd0.Properties.MaxLength = 4;
             this.txtNewPwd0.Size = new System.Drawing.Size(30, 20);
             this.txtNewPwd0.TabIndex = 1;
             this.txtNewPwd0.Tag = "4";
@@ -1510,7 +1635,6 @@ namespace SmartWaterSystem
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.combPrecipitationConstantCtrl);
-            this.groupBox1.Controls.Add(this.btnReadPrecipitationConstantCtrl);
             this.groupBox1.Controls.Add(this.btnSetPrecipitationConstantCtrl);
             this.groupBox1.Location = new System.Drawing.Point(324, 381);
             this.groupBox1.Name = "groupBox1";
@@ -1522,7 +1646,7 @@ namespace SmartWaterSystem
             // combPrecipitationConstantCtrl
             // 
             this.combPrecipitationConstantCtrl.EditValue = "定值控制投入";
-            this.combPrecipitationConstantCtrl.Location = new System.Drawing.Point(11, 35);
+            this.combPrecipitationConstantCtrl.Location = new System.Drawing.Point(11, 40);
             this.combPrecipitationConstantCtrl.Name = "combPrecipitationConstantCtrl";
             this.combPrecipitationConstantCtrl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1533,20 +1657,11 @@ namespace SmartWaterSystem
             this.combPrecipitationConstantCtrl.Size = new System.Drawing.Size(135, 20);
             this.combPrecipitationConstantCtrl.TabIndex = 1;
             // 
-            // btnReadPrecipitationConstantCtrl
-            // 
-            this.btnReadPrecipitationConstantCtrl.Location = new System.Drawing.Point(80, 61);
-            this.btnReadPrecipitationConstantCtrl.Name = "btnReadPrecipitationConstantCtrl";
-            this.btnReadPrecipitationConstantCtrl.Size = new System.Drawing.Size(54, 26);
-            this.btnReadPrecipitationConstantCtrl.TabIndex = 3;
-            this.btnReadPrecipitationConstantCtrl.Text = "读取";
-            this.btnReadPrecipitationConstantCtrl.Click += new System.EventHandler(this.btnReadPrecipitationConstantCtrl_Click);
-            // 
             // btnSetPrecipitationConstantCtrl
             // 
-            this.btnSetPrecipitationConstantCtrl.Location = new System.Drawing.Point(11, 61);
+            this.btnSetPrecipitationConstantCtrl.Location = new System.Drawing.Point(41, 66);
             this.btnSetPrecipitationConstantCtrl.Name = "btnSetPrecipitationConstantCtrl";
-            this.btnSetPrecipitationConstantCtrl.Size = new System.Drawing.Size(54, 26);
+            this.btnSetPrecipitationConstantCtrl.Size = new System.Drawing.Size(70, 26);
             this.btnSetPrecipitationConstantCtrl.TabIndex = 2;
             this.btnSetPrecipitationConstantCtrl.Text = "设置";
             this.btnSetPrecipitationConstantCtrl.Click += new System.EventHandler(this.btnSetPrecipitationConstantCtrl_Click);
@@ -1585,9 +1700,9 @@ namespace SmartWaterSystem
             this.group_waitcmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.group_waitcmd.Controls.Add(this.gridControl_WaitCmd);
             this.group_waitcmd.Controls.Add(this.btnDel);
-            this.group_waitcmd.Location = new System.Drawing.Point(3, 306);
+            this.group_waitcmd.Location = new System.Drawing.Point(7, 309);
             this.group_waitcmd.Name = "group_waitcmd";
-            this.group_waitcmd.Size = new System.Drawing.Size(313, 185);
+            this.group_waitcmd.Size = new System.Drawing.Size(313, 182);
             this.group_waitcmd.TabIndex = 7;
             this.group_waitcmd.TabStop = false;
             this.group_waitcmd.Text = "待发送指令";
@@ -1616,6 +1731,7 @@ namespace SmartWaterSystem
             this.gridView_WaitCmd.GridControl = this.gridControl_WaitCmd;
             this.gridView_WaitCmd.Name = "gridView_WaitCmd";
             this.gridView_WaitCmd.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView_WaitCmd.OptionsBehavior.Editable = false;
             this.gridView_WaitCmd.OptionsCustomization.AllowColumnMoving = false;
             this.gridView_WaitCmd.OptionsCustomization.AllowFilter = false;
             this.gridView_WaitCmd.OptionsCustomization.AllowGroup = false;
@@ -1688,6 +1804,95 @@ namespace SmartWaterSystem
             this.btnDel.Text = "删除";
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
+            // group_manualSetParm
+            // 
+            this.group_manualSetParm.Controls.Add(this.combManualSetParm);
+            this.group_manualSetParm.Controls.Add(this.memo_ManualSetParm);
+            this.group_manualSetParm.Controls.Add(this.label24);
+            this.group_manualSetParm.Controls.Add(this.btnAddManualSetParm);
+            this.group_manualSetParm.Controls.Add(this.btnSetManualSetParm);
+            this.group_manualSetParm.Controls.Add(this.btnReadManualSetParm);
+            this.group_manualSetParm.Controls.Add(this.txtManualSetParm);
+            this.group_manualSetParm.Location = new System.Drawing.Point(3, 305);
+            this.group_manualSetParm.Name = "group_manualSetParm";
+            this.group_manualSetParm.Size = new System.Drawing.Size(315, 180);
+            this.group_manualSetParm.TabIndex = 7;
+            this.group_manualSetParm.TabStop = false;
+            this.group_manualSetParm.Text = "人工置数";
+            // 
+            // combManualSetParm
+            // 
+            this.combManualSetParm.EditValue = "日蒸发量 (45 44)";
+            this.combManualSetParm.Location = new System.Drawing.Point(98, 12);
+            this.combManualSetParm.Name = "combManualSetParm";
+            this.combManualSetParm.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.combManualSetParm.Properties.Items.AddRange(new object[] {
+            "日蒸发量 (45 44)",
+            "月蒸发量 (45 4D)",
+            "旬蒸发量 (45 58)",
+            "蒸发器皿型号 (45 53)",
+            "遥测站地址 (53 54)",
+            "观测时间引导符 (54 54)",
+            "测站分类码 (FF 00)"});
+            this.combManualSetParm.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.combManualSetParm.Size = new System.Drawing.Size(168, 20);
+            this.combManualSetParm.TabIndex = 0;
+            this.combManualSetParm.SelectedIndexChanged += new System.EventHandler(this.combStandbyChannel_SelectedIndexChanged);
+            // 
+            // memo_ManualSetParm
+            // 
+            this.memo_ManualSetParm.Location = new System.Drawing.Point(4, 60);
+            this.memo_ManualSetParm.Name = "memo_ManualSetParm";
+            this.memo_ManualSetParm.Size = new System.Drawing.Size(305, 70);
+            this.memo_ManualSetParm.TabIndex = 3;
+            this.memo_ManualSetParm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_morebyte_KeyPress);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(5, 15);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(95, 14);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "置数类型标识符:";
+            // 
+            // btnAddManualSetParm
+            // 
+            this.btnAddManualSetParm.Location = new System.Drawing.Point(266, 34);
+            this.btnAddManualSetParm.Name = "btnAddManualSetParm";
+            this.btnAddManualSetParm.Size = new System.Drawing.Size(43, 20);
+            this.btnAddManualSetParm.TabIndex = 2;
+            this.btnAddManualSetParm.Text = "添加";
+            this.btnAddManualSetParm.Click += new System.EventHandler(this.btnAddManualSetParm_Click);
+            // 
+            // btnSetManualSetParm
+            // 
+            this.btnSetManualSetParm.Location = new System.Drawing.Point(197, 136);
+            this.btnSetManualSetParm.Name = "btnSetManualSetParm";
+            this.btnSetManualSetParm.Size = new System.Drawing.Size(70, 26);
+            this.btnSetManualSetParm.TabIndex = 5;
+            this.btnSetManualSetParm.Text = "设置";
+            this.btnSetManualSetParm.Click += new System.EventHandler(this.btnSetManualSetParm_Click);
+            // 
+            // btnReadManualSetParm
+            // 
+            this.btnReadManualSetParm.Location = new System.Drawing.Point(41, 136);
+            this.btnReadManualSetParm.Name = "btnReadManualSetParm";
+            this.btnReadManualSetParm.Size = new System.Drawing.Size(70, 26);
+            this.btnReadManualSetParm.TabIndex = 4;
+            this.btnReadManualSetParm.Text = "读取";
+            this.btnReadManualSetParm.Click += new System.EventHandler(this.btnReadManualSetParm_Click);
+            // 
+            // txtManualSetParm
+            // 
+            this.txtManualSetParm.EditValue = "";
+            this.txtManualSetParm.Location = new System.Drawing.Point(6, 34);
+            this.txtManualSetParm.Name = "txtManualSetParm";
+            this.txtManualSetParm.Size = new System.Drawing.Size(260, 20);
+            this.txtManualSetParm.TabIndex = 1;
+            this.txtManualSetParm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_morebyte_KeyPress);
+            // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1714,6 +1919,7 @@ namespace SmartWaterSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.group_manualSetParm);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.group_waitcmd);
@@ -1802,18 +2008,18 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cbRainFallLimit.Properties)).EndInit();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit8.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit7.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit6.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit5.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit3.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbParmPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb12hPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb6hPrecipitation.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParm1h5minWaterLevel.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParm1h5minPrecipitation.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit10.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb3hPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb2hPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb1hPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb30minPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb10minPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbParmPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb1minPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb5minPrecipitation.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParmRainFallAddup.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParmInstantWaterLevel.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParmDayPrecipitation.Properties)).EndInit();
@@ -1829,6 +2035,11 @@ namespace SmartWaterSystem
             this.group_waitcmd.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).EndInit();
+            this.group_manualSetParm.ResumeLayout(false);
+            this.group_manualSetParm.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.combManualSetParm.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memo_ManualSetParm.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtManualSetParm.Properties)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
@@ -1902,14 +2113,14 @@ namespace SmartWaterSystem
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Label label7;
         private DevExpress.XtraEditors.SimpleButton btnChPwd;
-        private DevExpress.XtraEditors.CheckEdit checkEdit3;
-        private DevExpress.XtraEditors.CheckEdit checkEdit2;
-        private DevExpress.XtraEditors.CheckEdit checkEdit1;
-        private DevExpress.XtraEditors.CheckEdit checkEdit5;
-        private DevExpress.XtraEditors.CheckEdit checkEdit4;
-        private DevExpress.XtraEditors.CheckEdit checkEdit8;
-        private DevExpress.XtraEditors.CheckEdit checkEdit6;
-        private DevExpress.XtraEditors.CheckEdit checkEdit7;
+        private DevExpress.XtraEditors.CheckEdit cb30minPrecipitation;
+        private DevExpress.XtraEditors.CheckEdit cb10minPrecipitation;
+        private DevExpress.XtraEditors.CheckEdit cb5minPrecipitation;
+        private DevExpress.XtraEditors.CheckEdit cb2hPrecipitation;
+        private DevExpress.XtraEditors.CheckEdit cb1hPrecipitation;
+        private DevExpress.XtraEditors.CheckEdit cb12hPrecipitation;
+        private DevExpress.XtraEditors.CheckEdit cb3hPrecipitation;
+        private DevExpress.XtraEditors.CheckEdit cb6hPrecipitation;
         private DevExpress.XtraEditors.CheckEdit cbParmPrecipitation;
         private DevExpress.XtraEditors.CheckEdit cbParmDayPrecipitation;
         private DevExpress.XtraEditors.CheckEdit cbParmInstantWaterLevel;
@@ -1945,7 +2156,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.ComboBoxEdit combStandbyChannel;
         private System.Windows.Forms.GroupBox groupBox1;
         private DevExpress.XtraEditors.ComboBoxEdit combPrecipitationConstantCtrl;
-        private DevExpress.XtraEditors.SimpleButton btnReadPrecipitationConstantCtrl;
         private DevExpress.XtraEditors.SimpleButton btnSetPrecipitationConstantCtrl;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox group_waitcmd;
@@ -1955,7 +2165,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.TextEdit txtNewPwd0;
         private System.Windows.Forms.GroupBox groupBox4;
         private DevExpress.XtraEditors.TextEdit txtStandbyChTelnum;
-        private DevExpress.XtraEditors.CheckEdit checkEdit10;
+        private DevExpress.XtraEditors.CheckEdit cb1minPrecipitation;
         private DevExpress.XtraEditors.ComboBoxEdit combChannelType;
         private DevExpress.XtraEditors.TextEdit txtElements8;
         private DevExpress.XtraEditors.TextEdit txtElements7;
@@ -1977,6 +2187,23 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit cbParm1h5minWaterLevel;
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.ToggleSwitch SwitchComunication;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private DevExpress.XtraEditors.SimpleButton btnQueryPrecipitation;
+        private System.Windows.Forms.GroupBox group_manualSetParm;
+        private DevExpress.XtraEditors.SimpleButton btnReadManualSetParm;
+        private DevExpress.XtraEditors.SimpleButton btnSetManualSetParm;
+        private DevExpress.XtraEditors.ComboBoxEdit combManualSetParm;
+        private DevExpress.XtraEditors.TextEdit txtManualSetParm;
+        private DevExpress.XtraEditors.MemoEdit memo_ManualSetParm;
+        private System.Windows.Forms.Label label24;
+        private DevExpress.XtraEditors.SimpleButton btnAddManualSetParm;
 
     }
 }

@@ -404,7 +404,7 @@ namespace Common
                 throw new ArgumentException("数据为空");
             }
             Package651 package = new Package651();
-            if (bytes.Length < PackageDefine.MinLenth)
+            if (bytes.Length < PackageDefine.MinLenth651)
             {
                 throw new ArgumentException("数据帧长度低于最短帧");
             }
@@ -440,7 +440,7 @@ namespace Common
                 {
                     package.SNum[1] = bytes[14];
                     package.SNum[0] = bytes[15];
-                    if (bytes.Length - PackageDefine.MinLenth != (package.DataLength - 8))
+                    if (bytes.Length - PackageDefine.MinLenth651 != (package.DataLength - 8))
                     {
                         throw new ArgumentException("数据长度和数据不匹配");
                     }
@@ -488,7 +488,7 @@ namespace Common
             package.CS[0] = bytes[bytes.Length - 2];
             package.CS[1] = bytes[bytes.Length - 1];
 
-            if ((bytes[bytes.Length - 3] != PackageDefine.EndByte) && (bytes[bytes.Length - 3] != PackageDefine.EndByte_Continue))
+            if ((bytes[bytes.Length - 3] != PackageDefine.EndByte651) && (bytes[bytes.Length - 3] != PackageDefine.EndByte_Continue))
             {
                 throw new ArgumentException("数据帧不完整或已损坏");
             }

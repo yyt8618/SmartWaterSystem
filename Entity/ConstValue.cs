@@ -44,7 +44,8 @@ namespace Entity
             None,
             Msg_Socket,   //消息类型:Socket消息
             Msg_HTTP,     //消息类型:HTTP消息
-            Msg_Public,   //消息类型:公共消息,消息类型用于FrmConsole页面判断哪些消息需要显示,Msg_Public全部显示,Msg_Socket和Msg_HTTP通过勾选判断
+            Msg_Public,   //消息类型:公共消息
+            Msg_Err,      //消息类型:错误消息,消息类型用于FrmConsole页面判断哪些消息需要显示,Msg_Public全部显示,Msg_Socket和Msg_HTTP通过勾选判断
             Cmd_Online,  //是否在线命令
             Data_OnLineState, //招测终端在线状态
             Get_OnLineState,  //获取终端在线状态

@@ -402,6 +402,7 @@ namespace SmartWaterSystem
                     }
 
                     BandSerialPortEvent("IUniversalTerParm");
+                    BandSerialPortEvent("IUniversalTerParm651");
                     BandSerialPortEvent("IUniversalTerMgr");
                     BandSerialPortEvent("IOLWQParm");
                     BandSerialPortEvent("IOLWQParm651");
@@ -434,6 +435,7 @@ namespace SmartWaterSystem
                     }
 
                     BandSerialPortEvent("IUniversalTerParm");
+                    BandSerialPortEvent("IUniversalTerParm651");
                     BandSerialPortEvent("IUniversalTerMgr");
                     BandSerialPortEvent("IOLWQParm");
                     BandSerialPortEvent("IOLWQParm651");
@@ -644,11 +646,11 @@ namespace SmartWaterSystem
             }
         }
 
-        FrmGPRSConsole grpsconsole=null;
+        FrmConsole grpsconsole=null;
         private void barBtnGPRSConsole_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (grpsconsole == null)
-                grpsconsole = new FrmGPRSConsole();
+                grpsconsole = new FrmConsole();
             grpsconsole.ShowDialog();
         }
 

@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="CommandInfo.cs" />
+    <Compile Include="SL651AnalyseElement.cs" />
     <Compile Include="Socket\CallSocketEntity.cs" />
     <Compile Include="Socket\ConvertHelper.cs" />
     <Compile Include="Socket\Package.cs" />

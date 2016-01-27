@@ -766,9 +766,9 @@ namespace Common
         /// </summary>
         QueryCurData = 0x37,
         /// <summary>
-        /// 查询时段降水量/水位
+        /// 查询时段降水量
         /// </summary>
-        QueryPrecipitationOrWaterLevel = 0x38,
+        QueryPrecipitation = 0x38,
         /// <summary>
         /// 查询指定要素
         /// </summary>
@@ -821,6 +821,14 @@ namespace Common
         /// 水量定值控制
         /// </summary>
         PrecipitationConstantCtrl = 0x4F,
+        /// <summary>
+        /// 读取人工置数
+        /// </summary>
+        QueryManualSetParm = 0x39,
+        /// <summary>
+        /// 设置人工置数内容
+        /// </summary>
+        SetManualSetParm = 0xE0,
     }
 
 

@@ -57,9 +57,14 @@ namespace Common
 
         #region 标识符
         /// <summary>
-        /// 地址标识符
+        /// 地址标识符(帧头)
         /// </summary>
-        public static byte[] AddrFlag = new byte[] { 0xF1, 0xF1 };
+        public static byte[] AddrFlagHeader = new byte[] { 0xF1, 0xF1 };
+
+        /// <summary>
+        /// 地址标识符(参数)
+        /// </summary>
+        public static byte[] AddrFlagParm = new byte[] { 0x02, 0x28 };
 
         /// <summary>
         /// 中心站地址标识符
@@ -74,7 +79,7 @@ namespace Common
         /// <summary>
         /// 中1主信道类型及地址
         /// </summary>
-        public static byte[] Channel1Flag = new byte[] { 0x04, 0x45 };
+        public static byte[] Channel1Flag = new byte[] { 0x04, 0x50 };
 
         /// <summary>
         /// 中1备用信道类型及地址
@@ -84,32 +89,32 @@ namespace Common
         /// <summary>
         /// 中2主信道类型及地址 --未使用
         /// </summary>
-        public static byte[] Channel2Flag = new byte[] { 0x00, 0x00 };
+        public static byte[] Channel2Flag = new byte[] { 0x06, 0x50 };
 
         /// <summary>
         /// 中2备用信道类型及地址 --未使用
         /// </summary>
-        public static byte[] StandbyChannel2Flag = new byte[] { 0x00, 0x00 };
+        public static byte[] StandbyChannel2Flag = new byte[] { 0x07, 0x38 };
 
         /// <summary>
         /// 中3主信道类型及地址 --未使用
         /// </summary>
-        public static byte[] Channel3Flag = new byte[] { 0x00, 0x00 };
+        public static byte[] Channel3Flag = new byte[] { 0x08, 0x50 };
 
         /// <summary>
         /// 中3备用信道类型及地址 --未使用
         /// </summary>
-        public static byte[] StandbyChannel3Flag = new byte[] { 0x00, 0x00 };
+        public static byte[] StandbyChannel3Flag = new byte[] { 0x09, 0x38 };
 
         /// <summary>
         /// 中4主信道类型及地址 --未使用
         /// </summary>
-        public static byte[] Channel4Flag = new byte[] { 0x00, 0x00 };
+        public static byte[] Channel4Flag = new byte[] { 0x0a, 0x50 };
 
         /// <summary>
         /// 中4备用信道类型及地址 --未使用
         /// </summary>
-        public static byte[] StandbyChannel4Flag = new byte[] { 0x00, 0x00 };
+        public static byte[] StandbyChannel4Flag = new byte[] { 0x0b, 0x38 };
 
         /// <summary>
         /// 工作方式标识符
@@ -119,7 +124,7 @@ namespace Common
         /// <summary>
         /// 通信设备识别号标识符
         /// </summary>
-        public static byte[] IdentifyNumFlag = new byte[] { 0x0F, 0x60 };
+        public static byte[] IdentifyNumFlag = new byte[] { 0x0F, 0x68 };
 
         /// <summary>
         /// 采集要素标识符
@@ -194,7 +199,7 @@ namespace Common
         /// <summary>
         /// 定时报时间间隔标识符
         /// </summary>
-        public static byte[] PeriodIntervalFlag = new byte[] { 0x20, 0x18 };
+        public static byte[] PeriodIntervalFlag = new byte[] { 0x20, 0x08 };
 
         /// <summary>
         /// 加报时间间隔标识符
@@ -315,6 +320,11 @@ namespace Common
         /// 12h时段降水量
         /// </summary>
         public static byte[] Precipitation12h = new byte[] { 0x1E, 0x19 };
+
+        /// <summary>
+        /// 人工置数标志
+        /// </summary>
+        public static byte[] ManualSetParmFlag = new byte[] { 0xF2, 0xF2 };
         #endregion
 
         /// <summary>

@@ -17,18 +17,37 @@ namespace SmartWaterSystem
         public UniversalTerParm651()
         {
             InitializeComponent();
-            GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+            
         }
 
         private void UniversalTerParm651_Load(object sender, EventArgs e)
         {
-            InitControls();
+            SetSerialPortCtrlStatus();
         }
 
-        private void InitControls()
+        public override void SerialPortEvent(bool Enabled)
         {
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, ""));  //获取SL651协议终端是否允许在线标志
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
+            if (SwitchComunication.IsOn)  //串口
+            {
+                btnChPwd.Enabled = Enabled;
+                btnReadBasicConfig.Enabled = Enabled;
+                btnSetBasicConfig.Enabled = Enabled;
+                btnDel.Enabled = Enabled;
+                btnReadRunConfig.Enabled = Enabled;
+                btnSetRunConfig.Enabled = Enabled;
+                btnQueryElement.Enabled = Enabled;
+                btnSetPrecipitationConstantCtrl.Enabled = Enabled;
+                btnQueryTime.Enabled = Enabled;
+                btnQueryVersion.Enabled = Enabled;
+                btnQueryCurData.Enabled = Enabled;
+                btnQueryEvent.Enabled = Enabled;
+                btnQueryAlarm.Enabled = Enabled;
+                btnSetTime.Enabled = Enabled;
+                btnInit.Enabled = Enabled;
+                btnInitFlash.Enabled = Enabled;
+                btnReadManualSetParm.Enabled = Enabled;
+                btnSetManualSetParm.Enabled = Enabled;
+            }
         }
 
         void MSMQMgr_MSMQEvent(object sender, MSMQEventArgs e)
@@ -160,12 +179,486 @@ namespace SmartWaterSystem
             return true;
         }
 
+        /// <summary>
+        /// 设置基本配置控件默认值
+        /// </summary>
+        private void ClearBasicInfoCtrls()
+        {
+            #region 设置基本配置控件默认值
+            txtCA1.Text = "";
+            txtCA2.Text = "";
+            txtCA3.Text = "";
+            txtCA4.Text = "";
+            txtCA5.Text = "";
+            txtCCenterAddr.Text = "";
+            txtCPwd0.Text = "";
+            txtCPwd1.Text = "";
+            combWorkType.SelectedIndex = -1;
+            txtElements1.Text = "";
+            txtElements2.Text = "";
+            txtElements3.Text = "";
+            txtElements4.Text = "";
+            txtElements5.Text = "";
+            txtElements6.Text = "";
+            txtElements7.Text = "";
+            txtElements8.Text = "";
+            combChannelType.SelectedIndex = 0;
+            combChannel.SelectedIndex = -1;
+            txtIP1.Text = "";
+            txtIP2.Text = "";
+            txtIP3.Text = "";
+            txtIP4.Text = "";
+            txtCPort.Text = "";
+            combStandbyChannel.SelectedIndex = -1;
+            txtStandbyChTelnum.Text = "";
+            combIdentifyNum.SelectedIndex = -1;
+            txtTelNum.Text = "";
+            #endregion
+        }
+
+        private void ClearRunInfoCtrls()
+        {
+            #region 设置运行配置控件默认值
+            combPeriodInterval.SelectedIndex = -1;
+            txtAddInterval.Text = "";
+            txtPrecipitationStartTime.Text = "";
+            txtSampling.Text = "";
+            txtWaterLevelInterval.Text = "";
+            combRainFallRPrecision.SelectedIndex = -1;
+            combWaterLevelGaugePrecision.SelectedIndex = -1;
+            txtRainFallLimit.Text = "";
+            txtWaterLevelBasic.Text = "";
+            txtWaterLevelAmendLimit.Text = "";
+            txtAddtionWaterLevel.Text = "";
+            txtAddtionWaterLevelUpLimit.Text = "";
+            txtAddtionWaterLevelLowLimit.Text = "";
+            #endregion
+        }
+
+        public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
+        {
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651ChPwd)
+            {
+                #region 设置密码
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptPwd)
+                        {
+                            txtPwd0.Text = string.Format("{0:X2}", spEntity.CPwd0);
+                            txtPwd1.Text = string.Format("{0:X2}", spEntity.CPwd1);
+                        }
+                        XtraMessageBox.Show("修改密码成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("修改密码失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651SetBasicInfo)
+            {
+                #region 设置基本信息
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("设置基本信息成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("设置基本信息失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651ReadBasicInfo)
+            {
+                #region 读取基本信息
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptA1_A5)
+                        {
+                            txtCA1.Text = string.Format("{0:X2}", spEntity.CA1);
+                            txtCA2.Text = string.Format("{0:X2}", spEntity.CA2);
+                            txtCA3.Text = string.Format("{0:X2}", spEntity.CA3);
+                            txtCA4.Text = string.Format("{0:X2}", spEntity.CA4);
+                            txtCA5.Text = string.Format("{0:X2}", spEntity.CA5);
+                        }
+                        if (spEntity.IsOptCenterAddr)
+                            txtCCenterAddr.Text=string.Format("{0:X2}", spEntity.CCenterAddr);
+                        if (spEntity.IsOptPwd)
+                        {
+                            txtCPwd0.Text = string.Format("{0:X2}", spEntity.CPwd0);
+                            txtCPwd1.Text = string.Format("{0:X2}", spEntity.CPwd1);
+                        }
+                        if (spEntity.IsOptWorkType)
+                            combWorkType.SelectedIndex = (spEntity.WorkType - 1) < 0 ? 0 : spEntity.WorkType - 1;
+                        if (spEntity.IsOptElements && spEntity.Elements!=null && spEntity.Elements.Length == 8)
+                        {
+                            txtElements1.Text = string.Format("{0:X2}",spEntity.Elements[0]);
+                            txtElements2.Text = string.Format("{0:X2}", spEntity.Elements[1]);
+                            txtElements3.Text = string.Format("{0:X2}", spEntity.Elements[2]);
+                            txtElements4.Text = string.Format("{0:X2}", spEntity.Elements[3]);
+
+                            txtElements5.Text = string.Format("{0:X2}", spEntity.Elements[4]);
+                            txtElements6.Text = string.Format("{0:X2}", spEntity.Elements[5]);
+                            txtElements7.Text = string.Format("{0:X2}", spEntity.Elements[6]);
+                            txtElements8.Text = string.Format("{0:X2}", spEntity.Elements[7]);
+                        }
+                        if (spEntity.IsOptCh)
+                        {
+                            combChannel.SelectedIndex = spEntity.Channel;
+                            txtIP1.Text = spEntity.Ip1;
+                            txtIP2.Text = spEntity.Ip2;
+                            txtIP3.Text = spEntity.Ip3;
+                            txtIP4.Text = spEntity.Ip4;
+                            txtCPort.Text = spEntity.Port.ToString();
+                            combChannelType.SelectedIndex = spEntity.ChannelType-1;
+                        }
+                        if (spEntity.IsOptStandbyCh)
+                        {
+                            combStandbyChannel.SelectedIndex = spEntity.StandByCh;
+                            txtStandbyChTelnum.Text = spEntity.StandbyChTelnum;
+                            combChannelType.SelectedIndex = spEntity.ChannelType-1;
+                        }
+                        if (spEntity.IsOptIdentifyNum)
+                        {
+                            combIdentifyNum.SelectedIndex = (spEntity.IdentifyNum - 1) < 0 ? 0 : spEntity.IdentifyNum - 1;
+                            txtTelNum.Text = spEntity.telnum;
+                        }
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("读取基本信息失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651ReadRunInfo)
+            {
+                #region 读取运行信息
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptPeriodInterval)
+                            combPeriodInterval.Text = spEntity.PeriodInterval.ToString();
+                        if (spEntity.IsOptAddInterval)
+                            txtAddInterval.Text = spEntity.AddInterval.ToString();
+                        if (spEntity.IsOptPrecipitationStartTime)
+                            txtPrecipitationStartTime.Text = spEntity.PrecipitationStartTime.ToString();
+                        if (spEntity.IsOptSamplingInterval)
+                            txtSampling.Text = spEntity.SamplingInterval.ToString();
+                        if (spEntity.IsOptWaterLevelInterval)
+                            txtWaterLevelInterval.Text = spEntity.WaterLevelInterval.ToString();
+                        if (spEntity.IsOptRainFallPrecision)
+                        {
+                            combRainFallRPrecision.Text = spEntity.RainFallPrecision.ToString();
+                        }
+                        if (spEntity.IsOptWaterLevelGaugePrecision)
+                        {
+                            combWaterLevelGaugePrecision.Text = spEntity.WaterLevelGaugePrecision.ToString();
+                        }
+                        if (spEntity.IsOptRainFallLimit)
+                            txtRainFallLimit.Text = spEntity.RainFallLimit.ToString();
+                        if (spEntity.IsOptWaterLevelBasic)
+                            txtWaterLevelBasic.Text = spEntity.WaterLevelBasic.ToString();
+                        if (spEntity.IsOptWaterLevelAmendLimit)
+                            txtWaterLevelAmendLimit.Text = spEntity.WaterLevelAmendLimit.ToString();
+                        if (spEntity.IsOptAddtionWaterLevel)
+                            txtAddtionWaterLevel.Text = spEntity.AddtionWaterLevel.ToString();
+                        if (spEntity.IsOptAddtionWaterLevelUpLimit)
+                            txtAddtionWaterLevelUpLimit.Text = spEntity.AddtionWaterLevelUpLimit.ToString();
+                        if (spEntity.IsOptAddtionWaterLevelLowLimit)
+                            txtAddtionWaterLevelLowLimit.Text = spEntity.AddtionWaterLevelLowLimit.ToString();
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("读取运行配置失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651SetRunInfo)
+            {
+                #region 设置运行信息
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("设置运行信息成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("设置运行信息失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651QueryElements)
+            {
+                #region 查询指定要素
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("查询指定要素成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("查询指定要素失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651SetPreConstCtrl)
+            {
+                #region 设置水量定值控制命令
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("设置水量定值控制命令成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("设置水量定值控制命令失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651QueryTime)
+            {
+                #region 通用终端SL651查询时间
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptQueryTime)
+                            XtraMessageBox.Show("查询时间成功,当前时间:" + spEntity.QueryTime, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("查询时间失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651QueryVer)
+            {
+                #region 通用终端SL651查询版本
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptQueryVer)
+                            XtraMessageBox.Show("查询版本成功,当前版本:" + spEntity.Ver, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("查询版本失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651QueryCurData)
+            {
+                #region 通用终端SL651查询实时数据
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptQueryCurData)
+                            XtraMessageBox.Show("查询实时数据成功,数据:" + spEntity.QueryCurData, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("查询实时数据失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651QueryEvent)
+            {
+                #region 通用终端SL651查询事件
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptQueryEvent)
+                            XtraMessageBox.Show("查询事件成功,数据:" + spEntity.QueryEvent, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("查询事件失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651QueryAlarm)
+            {
+                #region 通用终端SL651查询状态和报警
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptQueryAlarm)
+                            XtraMessageBox.Show("查询状态和报警成功,数据:" + spEntity.QueryAlarm, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("查询状态和报警失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651SetTime)
+            {
+                #region 设置通用终端SL651时间
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("设置时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("设置时间失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651InitFlash)
+            {
+                #region 通用终端SL651初始化FLASH
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("初始化FLASH成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("初始化FLASH失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651Init)
+            {
+                #region 通用终端SL651恢复出厂设置
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("恢复出厂设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("恢复出厂设置失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651QueryManualSetParm)
+            {
+                #region 通用终端SL651查询人工置数
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptQueryManualSetParm)
+                        {
+                            XtraMessageBox.Show("查询人工置数成功,数据:" + spEntity.QueryManualSetParm, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
+                    }
+                    XtraMessageBox.Show("查询人工置数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("查询人工置数失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651SetManualSetParm)
+            {
+                #region 通用终端SL651设置人工置数
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("设置人工置数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("设置人工置数失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+        }
+
+        private void OnSerialPortNotifyEnable()
+        {
+            this.Enabled = true;
+            HideWaitForm();
+            EnableControls(true);
+            EnableRibbonBar();
+            EnableNavigateBar();
+
+            GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+        }
+
         #region button events
-        private void ButtonSend(Package651 pack)
+        private void EnableControls(bool enable)
+        {
+            btnChPwd.Enabled = enable;
+            btnReadBasicConfig.Enabled = enable;
+            btnSetBasicConfig.Enabled = enable;
+            btnDel.Enabled = enable;
+            btnReadRunConfig.Enabled = enable;
+            btnSetRunConfig.Enabled = enable;
+            btnQueryElement.Enabled = enable;
+            btnSetPrecipitationConstantCtrl.Enabled = enable;
+            btnQueryTime.Enabled = enable;
+            btnQueryVersion.Enabled = enable;
+            btnQueryCurData.Enabled = enable;
+            btnQueryEvent.Enabled = enable;
+            btnQueryAlarm.Enabled = enable;
+            btnSetTime.Enabled = enable;
+            btnInit.Enabled = enable;
+            btnInitFlash.Enabled = enable;
+            SwitchComunication.Enabled = enable;
+            btnReadManualSetParm.Enabled = enable;
+            btnSetManualSetParm.Enabled = enable;
+            btnQueryPrecipitation.Enabled = enable;
+        }
+
+        private void ButtonSend(string tipmsg, SerialPortType spPort,Package651 pack,byte End)
         {
             if (SwitchComunication.IsOn)  //SerialPort
             {
-                   
+                pack.End = End;
+                byte[] bsenddata = pack.ToResponseArray();
+                pack.CS = Package651.crc16(bsenddata, bsenddata.Length);
+
+                GlobalValue.SerialPort651OptData = pack;
+                EnableControls(false);
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", tipmsg);
+                BeginSerialPortDelegate();
+                Application.DoEvents();
+                SetStaticItem(tipmsg);
+                GlobalValue.SerialPortMgr.Send(spPort);
             }
             else   //GPRS
             {
@@ -175,27 +668,34 @@ namespace SmartWaterSystem
                 GlobalValue.MSMQMgr.SendMessage(msmqentity);
             }
         }
+
+        private Package651 PartInitPack()
+        {
+            Package651 pack = new Package651();
+            pack.A5 = Convert.ToByte(txtA5.Text, 16);
+            pack.A4 = Convert.ToByte(txtA4.Text, 16);
+            pack.A3 = Convert.ToByte(txtA3.Text, 16);
+            pack.A2 = Convert.ToByte(txtA2.Text, 16);
+            pack.A1 = Convert.ToByte(txtA1.Text, 16);
+            pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
+            pack.dt = new byte[6];
+            pack.dt[0] = ConvertHelper.StringToByte((DateTime.Now.Year - 2000).ToString())[0];
+            pack.dt[1] = ConvertHelper.StringToByte(DateTime.Now.Month.ToString().PadLeft(2,'0'))[0];
+            pack.dt[2] = ConvertHelper.StringToByte(DateTime.Now.Day.ToString().PadLeft(2, '0'))[0];
+            pack.dt[3] = ConvertHelper.StringToByte(DateTime.Now.Hour.ToString().PadLeft(2, '0'))[0];
+            pack.dt[4] = ConvertHelper.StringToByte(DateTime.Now.Minute.ToString().PadLeft(2, '0'))[0];
+            pack.dt[5] = ConvertHelper.StringToByte(DateTime.Now.Second.ToString().PadLeft(2, '0'))[0];
+            pack.PWD = new byte[2];
+            pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
+            pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+
+            return pack;
+        }
         private void btnQueryTime_Click(object sender, EventArgs e)
         {
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.QueryTime;
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8));
@@ -207,9 +707,9 @@ namespace SmartWaterSystem
                 pack.SNum[0] = 0;
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
-                ButtonSend(pack);
+                ButtonSend("正在查询时钟...", SerialPortType.Universal651QueryTime, pack, PackageDefine.ENQ);
             }
         }
 
@@ -217,30 +717,8 @@ namespace SmartWaterSystem
         {
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.QueryVer;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-查询版本号，请勿重复!");
-                //    return;
-                //}
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8));
                 pack.L0 = lens[0];
@@ -251,9 +729,9 @@ namespace SmartWaterSystem
                 pack.SNum[0] = 0;
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
-                ButtonSend(pack);
+                ButtonSend("正在查询版本...", SerialPortType.Universal651QueryVer, pack, PackageDefine.ENQ);
             }
         }
 
@@ -261,30 +739,8 @@ namespace SmartWaterSystem
         {
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.QueryCurData;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-查询实时数据，请勿重复!");
-                //    return;
-                //}
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8));
                 pack.L0 = lens[0];
@@ -295,9 +751,9 @@ namespace SmartWaterSystem
                 pack.SNum[0] = 0;
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
-                ButtonSend(pack);
+                ButtonSend("正在查询实时数据...", SerialPortType.Universal651QueryCurData, pack, PackageDefine.ENQ);
             }
         }
 
@@ -305,30 +761,8 @@ namespace SmartWaterSystem
         {
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.QueryEvent;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-查询事件，请勿重复!");
-                //    return;
-                //}
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8));
                 pack.L0 = lens[0];
@@ -339,9 +773,9 @@ namespace SmartWaterSystem
                 pack.SNum[0] = 0;
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
-                ButtonSend(pack);
+                ButtonSend("正在查询事件...", SerialPortType.Universal651QueryEvent, pack, PackageDefine.ENQ);
             }
         }
 
@@ -349,30 +783,8 @@ namespace SmartWaterSystem
         {
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.QueryAlarm;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-查询状态和报警信息，请勿重复!");
-                //    return;
-                //}
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8));
                 pack.L0 = lens[0];
@@ -383,9 +795,9 @@ namespace SmartWaterSystem
                 pack.SNum[0] = 0;
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
-                ButtonSend(pack);
+                ButtonSend("正在查询状态和报警...", SerialPortType.Universal651QueryAlarm, pack, PackageDefine.ENQ);
             }
         }
 
@@ -393,30 +805,8 @@ namespace SmartWaterSystem
         {
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.SetTime;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-设置遥测站时钟，请勿重复!");
-                //    return;
-                //}
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8));
                 pack.L0 = lens[0];
@@ -427,9 +817,9 @@ namespace SmartWaterSystem
                 pack.SNum[0] = 0;
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
-                ButtonSend(pack);
+                ButtonSend("正在设置时钟...", SerialPortType.Universal651SetTime, pack, PackageDefine.ENQ);
             }
         }
 
@@ -439,30 +829,8 @@ namespace SmartWaterSystem
                 return;
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.InitFlash;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-初始化固态存储数据，请勿重复!");
-                //    return;
-                //}
 
                 byte[] lens = BitConverter.GetBytes((ushort)(10));
                 pack.L0 = lens[0];
@@ -474,12 +842,12 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
                 pack.Data = new byte[2];
                 pack.Data[0] = 0x97; //初始化固态标识符
                 pack.Data[1] = 0x00;
 
-                ButtonSend(pack);
+                ButtonSend("正在初始化固态存储数据...", SerialPortType.Universal651InitFlash, pack, PackageDefine.ENQ);
             }
         }
 
@@ -489,30 +857,8 @@ namespace SmartWaterSystem
                 return;
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.Init;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-恢复出厂设置，请勿重复!");
-                //    return;
-                //}
 
                 byte[] lens = BitConverter.GetBytes((ushort)(10));
                 pack.L0 = lens[0];
@@ -524,12 +870,12 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
                 pack.Data = new byte[2];
                 pack.Data[0] = 0x98; //恢复遥测站出厂设置标识符
                 pack.Data[1] = 0x00;
 
-                ButtonSend(pack);
+                ButtonSend("正在恢复出厂设置...", SerialPortType.Universal651Init, pack, PackageDefine.ENQ);
             }
         }
 
@@ -551,36 +897,8 @@ namespace SmartWaterSystem
                     return;
                 }
 
-                //if (string.IsNullOrEmpty(txtNewPwd1.Text) || !Regex.IsMatch(txtNewPwd1.Text, "^\\d+$"))
-                //{
-                //    XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //    txtNewPwd1.Focus();
-                //    return ;
-                //}
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.ChPwd;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-修改密码，请勿重复!");
-                //    return;
-                //}
 
                 pack.CStart = PackageDefine.CStart;
 
@@ -589,7 +907,7 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
                 pack.Data = new byte[8];
                 pack.Data[0] = 0x03; //密码标识符 0x03,0x10
                 pack.Data[1] = 0x10;
@@ -597,15 +915,13 @@ namespace SmartWaterSystem
                 pack.Data[3] = Convert.ToByte(txtPwd1.Text);
                 pack.Data[4] = 0x03; //密码标识符 0x03,0x10
                 pack.Data[5] = 0x10;
-                //pack.Data[6] = Convert.ToByte(txtNewPwd.Text);  //新密码
                 pack.Data[6] = Convert.ToByte(txtNewPwd0.Text, 16);
                 pack.Data[7] = Convert.ToByte(txtNewPwd1.Text, 16);
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.Data.Length));
                 pack.L0 = lens[0];
                 pack.L1 = lens[1];
-
-                ButtonSend(pack);
+                ButtonSend("正在设置密码...", SerialPortType.Universal651ChPwd, pack, PackageDefine.ENQ);
             }
             #endregion
         }
@@ -621,30 +937,8 @@ namespace SmartWaterSystem
                     return;
                 }
 
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.ReadBasiConfig;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-读取基本配置表，请勿重复!");
-                //    return;
-                //}
 
                 pack.CStart = PackageDefine.CStart;
 
@@ -653,11 +947,11 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
                 List<byte> lstCentent = new List<byte>();
                 if (cbTerAddr.Checked)
-                    lstCentent.AddRange(PackageDefine.AddrFlag);  //遥测站地址标识符
+                    lstCentent.AddRange(PackageDefine.AddrFlagParm);  //遥测站地址标识符
                 if (cbCenterAddr.Checked)
                     lstCentent.AddRange(PackageDefine.CenterAddrFlag);   //中心站地址标识符
                 if (cbPwd.Checked)
@@ -668,30 +962,32 @@ namespace SmartWaterSystem
                 {
                     if (combChannelType.SelectedIndex == 0)
                     {
-                        channelflag = PackageDefine.Channel1Flag;
-                        standbychannelflag = PackageDefine.StandbyChannel1Flag;
+                        Array.Copy(PackageDefine.Channel1Flag, channelflag, 2);
+                        Array.Copy(PackageDefine.StandbyChannel1Flag, standbychannelflag, 2);
                     }
                     else if (combChannelType.SelectedIndex == 1)
                     {
-                        channelflag = PackageDefine.Channel2Flag;
-                        standbychannelflag = PackageDefine.StandbyChannel2Flag;
+                        Array.Copy(PackageDefine.Channel2Flag, channelflag, 2);
+                        Array.Copy(PackageDefine.StandbyChannel2Flag, standbychannelflag, 2);
                     }
                     else if (combChannelType.SelectedIndex == 2)
                     {
-                        channelflag = PackageDefine.Channel3Flag;
-                        standbychannelflag = PackageDefine.StandbyChannel3Flag;
+                        Array.Copy(PackageDefine.Channel3Flag, channelflag, 2);
+                        Array.Copy(PackageDefine.StandbyChannel3Flag, standbychannelflag, 2);
                     }
                     else if (combChannelType.SelectedIndex == 3)
                     {
-                        channelflag = PackageDefine.Channel4Flag;
-                        standbychannelflag = PackageDefine.StandbyChannel4Flag;
+                        Array.Copy(PackageDefine.Channel4Flag, channelflag, 2);
+                        Array.Copy(PackageDefine.StandbyChannel4Flag, standbychannelflag, 2);
                     }
                 }
+                channelflag[1] &= 0x00;
+                standbychannelflag[1] &= 0x00;
+
                 if (cbChannel.Checked)
                     lstCentent.AddRange(channelflag); //中1-4主信道类型及地址
                 if (cbStandbyChannel.Checked)
                     lstCentent.AddRange(standbychannelflag);  //中1-4备用信道类型及地址
-
 
                 if (cbWorkType.Checked)
                     lstCentent.AddRange(PackageDefine.WorkTypeFlag);//工作方式标识符
@@ -705,7 +1001,9 @@ namespace SmartWaterSystem
                 pack.L0 = lens[0];
                 pack.L1 = lens[1];
 
-                ButtonSend(pack);
+                ClearBasicInfoCtrls();
+
+                ButtonSend("正在读取基本配置...", SerialPortType.Universal651ReadBasicInfo, pack, PackageDefine.ENQ);
             }
             #endregion
         }
@@ -790,19 +1088,22 @@ namespace SmartWaterSystem
                         return;
                     }
 
-                    if (string.IsNullOrEmpty(txtIP1.Text) || string.IsNullOrEmpty(txtIP2.Text) ||
-                    string.IsNullOrEmpty(txtIP3.Text) || string.IsNullOrEmpty(txtIP4.Text))
+                    if (combChannel.SelectedIndex > 0)
                     {
-                        XtraMessageBox.Show("请填写完整的IP地址!");
-                        txtIP1.Focus();
-                        return;
-                    }
+                        if (string.IsNullOrEmpty(txtIP1.Text) || string.IsNullOrEmpty(txtIP2.Text) ||
+                        string.IsNullOrEmpty(txtIP3.Text) || string.IsNullOrEmpty(txtIP4.Text))
+                        {
+                            XtraMessageBox.Show("请填写完整的IP地址!");
+                            txtIP1.Focus();
+                            return;
+                        }
 
-                    if (!Regex.IsMatch(txtCPort.Text, @"^\d{3,5}$"))
-                    {
-                        XtraMessageBox.Show("请输入端口号!");
-                        txtCPort.Focus();
-                        return;
+                        if (!Regex.IsMatch(txtCPort.Text, @"^\d{3,5}$"))
+                        {
+                            XtraMessageBox.Show("请输入端口号!");
+                            txtCPort.Focus();
+                            return;
+                        }
                     }
                 }
 
@@ -814,11 +1115,14 @@ namespace SmartWaterSystem
                         combStandbyChannel.Focus();
                         return;
                     }
-                    if (!Regex.IsMatch(combStandbyChannel.Text, @"^\d{11,12}$"))
+                    if (combStandbyChannel.SelectedIndex > 0)
                     {
-                        XtraMessageBox.Show("请输入备用信道号码!");
-                        txtStandbyChTelnum.Focus();
-                        return;
+                        if (!Regex.IsMatch(txtStandbyChTelnum.Text, @"^\d{11,12}$"))
+                        {
+                            XtraMessageBox.Show("请输入备用信道号码!");
+                            txtStandbyChTelnum.Focus();
+                            return;
+                        }
                     }
                 }
 
@@ -841,42 +1145,20 @@ namespace SmartWaterSystem
                 {
                     if (combIdentifyNum.SelectedIndex < 0)
                     {
-                        XtraMessageBox.Show("请选择通信设备识别号", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show("请选择卡类型", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         combIdentifyNum.Focus();
                         return;
                     }
-                    if (!Regex.IsMatch(txtTelNum.Text, "^1\\d{10}$"))
+                    if (!Regex.IsMatch(txtTelNum.Text, "^[0,1]\\d{10,11}$"))
                     {
-                        XtraMessageBox.Show("请输入卡识别号!Regex:^1\\d{10}$");
+                        XtraMessageBox.Show("请输入卡号!");
                         txtTelNum.Focus();
                         return;
                     }
                 }
 
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.SetBasicConfig;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-设置基本配置表，请勿重复!");
-                //    return;
-                //}
 
                 pack.CStart = PackageDefine.CStart;
 
@@ -885,12 +1167,12 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
                 List<byte> lstCentent = new List<byte>();
                 if (cbTerAddr.Checked)
                 {
-                    lstCentent.AddRange(PackageDefine.AddrFlag);  //遥测站地址标识符
+                    lstCentent.AddRange(PackageDefine.AddrFlagParm);  //遥测站地址标识符
                     lstCentent.AddRange(new byte[] { Convert.ToByte(txtCA5.Text,16), Convert.ToByte(txtCA4.Text,16), 
                         Convert.ToByte(txtCA3.Text,16), Convert.ToByte(txtCA2.Text,16), Convert.ToByte(txtCA1.Text,16) });
                 }
@@ -917,10 +1199,10 @@ namespace SmartWaterSystem
 
                     lstCentent.Add(Convert.ToByte(combChannel.SelectedIndex));
                     string ip = txtIP1.Text.PadLeft(3, '0') + txtIP2.Text.PadLeft(3, '0') + txtIP3.Text.PadLeft(3, '0') + txtIP4.Text.PadLeft(3, '0');
-                    lstCentent.AddRange(ConvertHelper.StrToBCD(ip));
+                    lstCentent.AddRange(ConvertHelper.StringToByte(ip));
 
                     string port = txtCPort.Text.PadLeft(6, '0');
-                    lstCentent.AddRange(ConvertHelper.StrToBCD(port));
+                    lstCentent.AddRange(ConvertHelper.StringToByte(port));
                 }
                 if (cbStandbyChannel.Checked)
                 {
@@ -934,7 +1216,8 @@ namespace SmartWaterSystem
                         lstCentent.AddRange(PackageDefine.StandbyChannel4Flag); //中4备用信道类型及地址
 
                     lstCentent.Add(Convert.ToByte(combStandbyChannel.SelectedIndex));
-                    lstCentent.AddRange(ConvertHelper.StrToBCD(txtStandbyChTelnum.Text.Trim()));
+                    if (combStandbyChannel.SelectedIndex > 0)
+                        lstCentent.AddRange(ConvertHelper.StringToByte(txtStandbyChTelnum.Text.Trim().PadLeft(12, '0')));
                 }
                 if (cbWorkType.Checked)
                 {
@@ -956,9 +1239,9 @@ namespace SmartWaterSystem
                 if (cbIdentifyNum.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.IdentifyNumFlag);//遥测站通信设备识别号标识符
-                    lstCentent.Add(Convert.ToByte(combIdentifyNum.SelectedIndex + 1));
+                    //lstCentent.Add(Convert.ToByte(combIdentifyNum.SelectedIndex + 1));
                     //lstCentent.AddRange(PackageDefine.TelNumFlag);  //卡识别号/主备信道标识符
-                    char[] telchars = txtTelNum.Text.ToCharArray();
+                    char[] telchars = ((combIdentifyNum.SelectedIndex + 1).ToString() + txtTelNum.Text.PadLeft(12,'0')).ToCharArray();
                     if (telchars != null && telchars.Length > 0)
                     {
                         for (int i = 0; i < telchars.Length; i++)
@@ -973,7 +1256,7 @@ namespace SmartWaterSystem
                 pack.L0 = lens[0];
                 pack.L1 = lens[1];
 
-                ButtonSend(pack);
+                ButtonSend("正在设置基本配置...", SerialPortType.Universal651SetBasicInfo, pack, PackageDefine.ENQ);
             }
             #endregion
         }
@@ -991,30 +1274,8 @@ namespace SmartWaterSystem
                     return;
                 }
 
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.ReadRunConfig;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-读取运行配置表，请勿重复!");
-                //    return;
-                //}
 
                 pack.CStart = PackageDefine.CStart;
 
@@ -1023,7 +1284,7 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
                 List<byte> lstCentent = new List<byte>();
                 if (cbPeriodInterval.Checked)
@@ -1057,7 +1318,9 @@ namespace SmartWaterSystem
                 pack.L0 = lens[0];
                 pack.L1 = lens[1];
 
-                ButtonSend(pack);
+                ClearRunInfoCtrls();
+
+                ButtonSend("正在读取运行配置...", SerialPortType.Universal651ReadRunInfo, pack, PackageDefine.ENQ);
             }
             #endregion
         }
@@ -1154,30 +1417,8 @@ namespace SmartWaterSystem
                     return;
                 }
 
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.SetRunConfig;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-读取运行配置表，请勿重复!");
-                //    return;
-                //}
 
                 pack.CStart = PackageDefine.CStart;
 
@@ -1186,132 +1427,123 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
                 List<byte> lstCentent = new List<byte>();
                 if (cbPeriodInterval.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.PeriodIntervalFlag);  //定时报时间间隔
-                    lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(combPeriodInterval.Text)));
+                    lstCentent.Add(ConvertHelper.StringToByte(combPeriodInterval.Text.PadLeft(2,'0'))[0]);
                 }
                 if (cbAddInterval.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.AddIntervalFlag);   //加报时间间隔
-                    lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtAddInterval.Text)));
+                    lstCentent.Add(ConvertHelper.StringToByte(txtAddInterval.Text.PadLeft(2, '0'))[0]);
+                    //lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtAddInterval.Text)));
                 }
                 if (cbPrecipitationStartTime.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.PrecipitationStartTimeFlag);   //降水量日起始时间
-                    lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtPrecipitationStartTime.Text)));
+                    lstCentent.Add(ConvertHelper.StringToByte(txtPrecipitationStartTime.Text.PadLeft(2, '0'))[0]);
+                    //lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtPrecipitationStartTime.Text)));
                 }
                 if (cbSampling.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.SamplingFlag); //采样间隔
                     string str_sampling = txtSampling.Text.PadLeft(4, '0');
-                    lstCentent.AddRange(ConvertHelper.StrToBCD(str_sampling));
+                    lstCentent.AddRange(ConvertHelper.StringToByte(str_sampling));
                 }
                 if (cbWaterLevelInterval.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.WaterLevelIntervalFlag);//水位数据存储间隔
-                    lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtWaterLevelInterval.Text)));
+                    //lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtWaterLevelInterval.Text)));
+                    lstCentent.Add(ConvertHelper.StringToByte(txtWaterLevelInterval.Text.PadLeft(2, '0'))[0]);
                 }
                 if (cbRainFallRPrecision.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.RainFallPrecisionFlag);  //雨量计分辨率
-                    byte b_pre = 0x01;
-                    switch (combRainFallRPrecision.Text.Trim())
-                    {
-                        case "0.1mm":
-                            b_pre = 0x01;
-                            break;
-                        case "0.2mm":
-                            b_pre = 0x02;
-                            break;
-                        case "0.5mm":
-                            b_pre = 0x05;
-                            break;
-                        case "1mm":
-                            b_pre = 0x10;
-                            break;
-                        default:
-                            b_pre = 0x01;
-                            break;
-                    }
+                    byte b_pre  = ConvertHelper.BCDToHex((int)(Convert.ToSingle(combRainFallRPrecision.Text.Trim()) * 10));
                     lstCentent.Add(b_pre);
                 }
                 if (cbWaterLevelGaugePrecision.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.WaterLevelGaugePrecisionFlag);//水位计分辨率
-                    byte b_pre = 0x01;
-                    switch (combWaterLevelGaugePrecision.Text.Trim())
-                    {
-                        case "0.1cm":
-                            b_pre = 0x01;
-                            break;
-                        case "0.5cm":
-                            b_pre = 0x05;
-                            break;
-                        case "1cm":
-                            b_pre = 0x10;
-                            break;
-                        default:
-                            b_pre = 0x01;
-                            break;
-                    }
+                    byte b_pre = ConvertHelper.BCDToHex((int)(Convert.ToSingle(combWaterLevelGaugePrecision.Text.Trim()) * 10));
                     lstCentent.Add(b_pre);
                 }
                 if (cbRainFallLimit.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.RainFallLimitFlag);//雨量加报阀值
-                    lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtRainFallLimit.Text)));
+                    lstCentent.Add(ConvertHelper.StringToByte(txtRainFallLimit.Text.PadLeft(2,'0'))[0]);
                 }
                 if (cbWaterLevelBasic.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.WaterLevelBasicFlag);//水位基值
-                    int basic = (int)(Convert.ToDouble(txtWaterLevelBasic.Text) * 1000);
+                    int basic = (int)Convert.ToDouble(txtWaterLevelBasic.Text);
                     if (basic < 0)
                     {
-                        lstCentent.Add(0xFF);  //负数四个字节，正数三个字节,负数第一个字节是0xFF
+                        lstCentent.Add(0xFF);  //负数一个字节，正数三个字节,负数第一个字节是0xFF
                         basic *= -1;
+                        lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(6, '0')));
                     }
-                    lstCentent.AddRange(ConvertHelper.StrToBCD(basic.ToString().PadLeft(8, '0')));
+                    else
+                        lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(8, '0')));
+                    //int basic = (int)(Convert.ToDouble(txtWaterLevelBasic.Text) * 1000);
+                    //if (basic < 0)
+                    //{
+                    //    lstCentent.Add(0xFF);  //负数一个字节，正数两个字节,负数第一个字节是0xFF
+                    //    basic *= -1;
+                    //}
+                    //lstCentent.AddRange(ConvertHelper.StrToBCD(basic.ToString().PadLeft(8, '0')));
                 }
                 if (cbWaterLevelAmendLimit.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.WaterLevelAmendLimitFlag);//水位修正基值 
-                    int amendbasic = (int)(Convert.ToDouble(txtWaterLevelAmendLimit.Text) * 1000);
-                    if (amendbasic < 0)
+                    int basic = (int)Convert.ToDouble(txtWaterLevelAmendLimit.Text);
+                    if (basic < 0)
                     {
-                        lstCentent.Add(0xFF);  //负数四个字节，正数三个字节,负数第一个字节是0xFF
-                        amendbasic *= -1;
+                        lstCentent.Add(0xFF);  //负数一个字节，正数三个字节,负数第一个字节是0xFF
+                        basic *= -1;
+                        lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(4, '0')));
                     }
-                    lstCentent.AddRange(ConvertHelper.StrToBCD(amendbasic.ToString().PadLeft(6, '0')));
+                    else
+                        lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(6, '0')));
+                    //int amendbasic = (int)(Convert.ToDouble(txtWaterLevelAmendLimit.Text) * 1000);
+                    //if (amendbasic < 0)
+                    //{
+                    //    lstCentent.Add(0xFF);  //负数一个字节，正数两个字节,负数第一个字节是0xFF
+                    //    amendbasic *= -1;
+                    //}
+                    //lstCentent.AddRange(ConvertHelper.StrToBCD(amendbasic.ToString().PadLeft(6, '0')));
                 }
                 if (cbAddtionWaterLevel.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.AddtionWaterLevelFlag);//加报水位  
                     int waterlevel = (int)(Convert.ToDouble(txtAddtionWaterLevel.Text) * 100);
-                    lstCentent.AddRange(ConvertHelper.StrToBCD(waterlevel.ToString()));
+                    lstCentent.AddRange(ConvertHelper.StringToByte(waterlevel.ToString().PadLeft(4, '0')));
+                    //lstCentent.AddRange(ConvertHelper.StrToBCD(waterlevel.ToString()));
                 }
                 if (cbAddtionWaterLevelUpLimit.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.AddtionWaterLevelUpLimitFlag); //加报水位以上加报阀值
                     int waterlevelLimit = (int)(Convert.ToDouble(txtAddtionWaterLevelUpLimit.Text) * 100);
-                    byte[] bs = ConvertHelper.StrToBCD(waterlevelLimit.ToString());
-                    if (bs.Length == 1)
-                        lstCentent.Add(0x00);
+                    lstCentent.AddRange(ConvertHelper.StringToByte(waterlevelLimit.ToString().PadLeft(4, '0')));
+                    //byte[] bs = ConvertHelper.StrToBCD(waterlevelLimit.ToString());
+                    //if (bs.Length == 1)
+                    //    lstCentent.Add(0x00);
 
-                    lstCentent.AddRange(bs);
+                    //lstCentent.AddRange(bs);
                 }
                 if (cbAddtionWaterLevelLowLimit.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.AddtionWaterLevelLowLimitFlag); //加报水位以下加报阀值
                     int waterlevelLimit = (int)(Convert.ToDouble(txtAddtionWaterLevelLowLimit.Text) * 100);
-                    byte[] bs = ConvertHelper.StrToBCD(waterlevelLimit.ToString());
-                    if (bs.Length == 1)
-                        lstCentent.Add(0x00);
+                    lstCentent.AddRange(ConvertHelper.StringToByte(waterlevelLimit.ToString().PadLeft(4, '0')));
+                    //byte[] bs = ConvertHelper.StrToBCD(waterlevelLimit.ToString());
+                    //if (bs.Length == 1)
+                    //    lstCentent.Add(0x00);
 
-                    lstCentent.AddRange(bs);
+                    //lstCentent.AddRange(bs);
                 }
 
                 pack.Data = lstCentent.ToArray();
@@ -1319,7 +1551,7 @@ namespace SmartWaterSystem
                 pack.L0 = lens[0];
                 pack.L1 = lens[1];
 
-                ButtonSend(pack);
+                ButtonSend("正在设置运行配置...", SerialPortType.Universal651SetRunInfo, pack, PackageDefine.ENQ);
             }
             #endregion
         }
@@ -1329,36 +1561,35 @@ namespace SmartWaterSystem
             #region QueryElement
             if (ValidateA5To1())
             {
-                if (!(cbParmPrecipitation.Checked | cbParmRainFallAddup.Checked | cbParmInstantWaterLevel.Checked))
+                int checkedcount = 0;
+                if (cbParmPrecipitation.Checked)
+                    checkedcount++;
+                if (cbParmDayPrecipitation.Checked)
+                    checkedcount++;
+                if (cbParmInstantWaterLevel.Checked)
+                    checkedcount++;
+                if (cbParmRainFallAddup.Checked)
+                    checkedcount++;
+                if (cb1minPrecipitation.Checked)
+                    checkedcount++;
+                if (cb5minPrecipitation.Checked)
+                    checkedcount++;
+                if (cb10minPrecipitation.Checked)
+                    checkedcount++;
+                if (cb30minPrecipitation.Checked)
+                    checkedcount++;
+                if (cbParm1h5minPrecipitation.Checked)
+                    checkedcount++;
+                if (cbParm1h5minWaterLevel.Checked)
+                    checkedcount++;
+                if (checkedcount==0)
                 {
                     XtraMessageBox.Show("请选择至少一项读取!");
                     return;
                 }
 
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.QueryElements;
-
-                //if (ListviewRepeat(pack.A1, pack.A2, pack.A3, pack.A4, pack.A5, pack.FUNCODE))
-                //{
-                //    XtraMessageBox.Show("已存在待发送指令-查询指定要素，请勿重复!");
-                //    return;
-                //}
 
                 pack.CStart = PackageDefine.CStart;
 
@@ -1367,9 +1598,12 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
                 List<byte> lstCentent = new List<byte>();
+                //lstCentent.Add(0x48);   //河道
+
+                bool haveObservationTime = false;  //是否有观测时间
                 if (cbParmPrecipitation.Checked)
                     lstCentent.AddRange(PackageDefine.PrecipitationFlag);  //当前降水量
                 if (cbParmDayPrecipitation.Checked)
@@ -1378,43 +1612,153 @@ namespace SmartWaterSystem
                     lstCentent.AddRange(PackageDefine.RainFallAddupFlag);   //累计降雨量
                 if (cbParmInstantWaterLevel.Checked)
                     lstCentent.AddRange(PackageDefine.InstantWaterlevelFlag);   //瞬时水位
+                if (cb1minPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation1min);   //1min时段降水
+                if (cb5minPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation5min);   //5min时段降水
+                if (cb10minPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation10min);   //10min时段降水
+                if (cb30minPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation30min);   //30min时段降水
                 if (cbParm1h5minPrecipitation.Checked)
+                {
                     lstCentent.AddRange(PackageDefine.Precipitation5MinFlag);  //1小时5分钟时段雨量
+                    haveObservationTime = true;
+                }
                 if (cbParm1h5minWaterLevel.Checked)
+                {
                     lstCentent.AddRange(PackageDefine.Waterlevel5MinFlag);  //1小时5分钟间隔相对水位
+                    haveObservationTime = true;
+                }
+                if (haveObservationTime)
+                {
+                    DateTime dt = DateTime.Now;
+                    int itmp = dt.Minute % 5;  //往前取整5分钟的时间
+                    if (itmp > 0)
+                        dt.AddMinutes((-1) * itmp);  
+
+                    List<byte> lstdt = new List<byte>();
+                    lstdt.AddRange(PackageDefine.ObservationTimeFlag);
+                    lstdt.Add(ConvertHelper.StringToByte((dt.Year - 2000).ToString())[0]);
+                    lstdt.Add(ConvertHelper.StringToByte(dt.Month.ToString().PadLeft(2, '0'))[0]);
+                    lstdt.Add(ConvertHelper.StringToByte(dt.Day.ToString().PadLeft(2, '0'))[0]);
+                    lstdt.Add(ConvertHelper.StringToByte(dt.Hour.ToString().PadLeft(2, '0'))[0]);
+                    lstdt.Add(ConvertHelper.StringToByte(dt.Minute.ToString().PadLeft(2, '0'))[0]);
+
+                    lstCentent.InsertRange(0, lstdt);
+                }
                 pack.Data = lstCentent.ToArray();
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.Data.Length));
                 pack.L0 = lens[0];
                 pack.L1 = lens[1];
 
-                ButtonSend(pack);
+                ButtonSend("正在查询要素...", SerialPortType.Universal651QueryElements, pack, PackageDefine.ENQ);
             }
             #endregion
         }
 
+        private void btnQueryPrecipitation_Click(object sender, EventArgs e)
+        {
+            #region QueryPrecipitation
+            if (ValidateA5To1())
+            {
+                int checkedcount = 0;
+                if (cbParm1h5minPrecipitation.Checked)
+                    checkedcount++;
+                if (cbParm1h5minWaterLevel.Checked)
+                    checkedcount++;
+                if (cb1hPrecipitation.Checked)
+                    checkedcount++;
+                if (cb2hPrecipitation.Checked)
+                    checkedcount++;
+                if (cb3hPrecipitation.Checked)
+                    checkedcount++;
+                if (cb6hPrecipitation.Checked)
+                    checkedcount++;
+                if (cb12hPrecipitation.Checked)
+                    checkedcount++;
+                if (checkedcount==0)
+                {
+                    XtraMessageBox.Show("请选择至少一项读取!");
+                    return;
+                }
+                if (checkedcount >1)
+                {
+                    XtraMessageBox.Show("请选择一项读取!");
+                    return;
+                }
+
+                Package651 pack = PartInitPack();
+                pack.FUNCODE = (byte)SL651_COMMAND.QueryPrecipitation;
+
+                pack.CStart = PackageDefine.CStart;
+
+                pack.SNum = new byte[2];
+                pack.SNum[0] = 0;
+                pack.SNum[1] = 0;
+                pack.IsUpload = false;
+
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
+
+                List<byte> lstCentent = new List<byte>();
+                //lstCentent.Add(0x48);   //河道
+
+                bool haveObservationTime = false;  //是否有观测时间
+                if (cbParm1h5minPrecipitation.Checked)
+                {
+                    lstCentent.AddRange(PackageDefine.Precipitation5MinFlag);  //1小时5分钟时段雨量
+                    haveObservationTime = true;
+                }
+                if (cbParm1h5minWaterLevel.Checked)
+                {
+                    lstCentent.AddRange(PackageDefine.Waterlevel5MinFlag);  //1小时5分钟间隔相对水位
+                    haveObservationTime = true;
+                }
+                if (cb1hPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation1h);  //1h时段降水
+                if (cb2hPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation2h);  //2h时段降水
+                if (cb3hPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation3h);   //3h时段降水
+                if (cb6hPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation6h);   //6h时段降水
+                if (cb12hPrecipitation.Checked)
+                    lstCentent.AddRange(PackageDefine.Precipitation12h);   //12h时段降水
+                
+                if (haveObservationTime)
+                {
+                    DateTime dt = DateTime.Now;
+                    int itmp = dt.Minute % 5;  //往前取整5分钟的时间
+                    if (itmp > 0)
+                        dt.AddMinutes((-1) * itmp);  
+
+                    List<byte> lstdt = new List<byte>();
+                    lstdt.AddRange(PackageDefine.ObservationTimeFlag);
+                    lstdt.Add(ConvertHelper.StringToByte((dt.Year - 2000).ToString())[0]);
+                    lstdt.Add(ConvertHelper.StringToByte(dt.Month.ToString().PadLeft(2, '0'))[0]);
+                    lstdt.Add(ConvertHelper.StringToByte(dt.Day.ToString().PadLeft(2, '0'))[0]);
+                    lstdt.Add(ConvertHelper.StringToByte(dt.Hour.ToString().PadLeft(2, '0'))[0]);
+                    lstdt.Add(ConvertHelper.StringToByte(dt.Minute.ToString().PadLeft(2, '0'))[0]);
+
+                    lstCentent.InsertRange(0, lstdt);
+                }
+                pack.Data = lstCentent.ToArray();
+
+                byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.Data.Length));
+                pack.L0 = lens[0];
+                pack.L1 = lens[1];
+
+                ButtonSend("正在查询时段降水量...", SerialPortType.Universal651QueryPrecipitation, pack, PackageDefine.ENQ);
+            }
+            #endregion
+        }
 
         private void btnSetPrecipitationConstantCtrl_Click(object sender, EventArgs e)
         {
             if (ValidateA5To1())
             {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+                Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.PrecipitationConstantCtrl;
 
                 pack.CStart = PackageDefine.CStart;
@@ -1424,7 +1768,7 @@ namespace SmartWaterSystem
                 pack.SNum[1] = 0;
                 pack.IsUpload = false;
 
-                pack.AddrFlag = PackageDefine.AddrFlag;
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
                 if (combPrecipitationConstantCtrl.SelectedIndex == 0)
                     pack.Data = new byte[] { 0xFF };   //投入
@@ -1435,47 +1779,7 @@ namespace SmartWaterSystem
                 pack.L0 = lens[0];
                 pack.L1 = lens[1];
 
-                ButtonSend(pack);
-            }
-        }
-
-        private void btnReadPrecipitationConstantCtrl_Click(object sender, EventArgs e)
-        {
-            if (ValidateA5To1())
-            {
-                Package651 pack = new Package651();
-                pack.A5 = Convert.ToByte(txtA5.Text, 16);
-                pack.A4 = Convert.ToByte(txtA4.Text, 16);
-                pack.A3 = Convert.ToByte(txtA3.Text, 16);
-                pack.A2 = Convert.ToByte(txtA2.Text, 16);
-                pack.A1 = Convert.ToByte(txtA1.Text, 16);
-                pack.CenterAddr = Convert.ToByte(txtCenterAddr.Text);
-                pack.dt = new byte[6];
-                pack.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                pack.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                pack.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                pack.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                pack.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                pack.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-                pack.PWD = new byte[2];
-                pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-                pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
-                pack.FUNCODE = (byte)SL651_COMMAND.PrecipitationConstantCtrl;
-
-                pack.CStart = PackageDefine.CStart;
-
-                pack.SNum = new byte[2];
-                pack.SNum[0] = 0;
-                pack.SNum[1] = 0;
-                pack.IsUpload = false;
-
-                pack.AddrFlag = PackageDefine.AddrFlag;
-
-                byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.Data.Length));
-                pack.L0 = lens[0];
-                pack.L1 = lens[1];
-
-                ButtonSend(pack);
+                ButtonSend("正在设置水量定值控制...", SerialPortType.Universal651SetPreConstCtrl, pack, PackageDefine.ENQ);
             }
         }
 
@@ -1506,7 +1810,7 @@ namespace SmartWaterSystem
         #region key event
         void txt_onebyte_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox txtbox = (TextBox)sender;
+            TextEdit txtbox = (TextEdit)sender;
             if (e.KeyChar == '\b') //backspace
             {
                 e.Handled = false;
@@ -1525,7 +1829,7 @@ namespace SmartWaterSystem
                 }
                 text = text.Insert(txtbox.SelectionStart, e.KeyChar.ToString());
 
-                if (Regex.IsMatch(text, @"^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$")
+                if (Regex.IsMatch(text, @"^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]?[0-9])$")
                     || Regex.IsMatch(text, @"^(0x|0x[0-9a-fA-F]{1,2})$"))
                 {
                     e.Handled = false;
@@ -1541,7 +1845,7 @@ namespace SmartWaterSystem
 
         void txt_twobyte_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox txtbox = (TextBox)sender;
+            TextEdit txtbox = (TextEdit)sender;
             if (e.KeyChar == '\b') //backspace
             {
                 e.Handled = false;
@@ -1561,6 +1865,40 @@ namespace SmartWaterSystem
                 text = text.Insert(txtbox.SelectionStart, e.KeyChar.ToString());
                 if ((Regex.IsMatch(text, @"^\d{1,5}$") && Convert.ToInt32(text) <= 65535)
                 || Regex.IsMatch(text, @"^(0x|0x[0-9a-fA-F]{1,4})$"))
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+                    e.Handled = true;
+                }
+            }
+            else
+                e.Handled = true;
+        }
+
+        void txt_morebyte_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextEdit txtbox = (TextEdit)sender;
+            if (e.KeyChar == '\b') //backspace
+            {
+                e.Handled = false;
+            }
+            else if (e.KeyChar == ' ' || e.KeyChar == '\r' || e.KeyChar == '.')
+            {
+                e.Handled = false;
+            }
+            else if ((e.KeyChar >= 48 && e.KeyChar <= 57) || (e.KeyChar >= 65 && e.KeyChar <= 70) || (e.KeyChar >= 97 && e.KeyChar <= 102) || e.KeyChar == 120)
+            {
+                string text = txtbox.Text;
+                if (txtbox.SelectedText.Length > 0)
+                {
+                    text = text.Remove(txtbox.SelectionStart, txtbox.SelectionLength);
+
+                }
+                text = text.Insert(txtbox.SelectionStart, e.KeyChar.ToString());
+
+                if (Regex.IsMatch(text, @"^[0-9a-fA-F ]+$"))
                 {
                     e.Handled = false;
                 }
@@ -1626,12 +1964,130 @@ namespace SmartWaterSystem
 
         private void SetGprsCtrlStatus()
         {
+            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, ""));  //获取SL651协议终端是否允许在线标志
+            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
+
+            GlobalValue.MSMQMgr.MSMQEvent -= new MSMQHandler(MSMQMgr_MSMQEvent);
+            GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+
             group_waitcmd.Visible = true;
+            group_manualSetParm.Visible = false;
+            this.cbIsOnLine.CheckedChanged -= new System.EventHandler(this.cbIsOnLine_CheckedChanged);
+            cbIsOnLine.Enabled = true;
+            this.cbIsOnLine.CheckedChanged += new System.EventHandler(this.cbIsOnLine_CheckedChanged);
         }
 
         private void SetSerialPortCtrlStatus()
         {
             group_waitcmd.Visible = false;
+            group_manualSetParm.Visible = true;
+            this.cbIsOnLine.CheckedChanged -= new System.EventHandler(this.cbIsOnLine_CheckedChanged);
+            cbIsOnLine.Enabled = false;
+            this.cbIsOnLine.CheckedChanged += new System.EventHandler(this.cbIsOnLine_CheckedChanged);
+
+            GlobalValue.MSMQMgr.MSMQEvent -= new MSMQHandler(MSMQMgr_MSMQEvent);
+        }
+
+        private void btnReadManualSetParm_Click(object sender, EventArgs e)
+        {
+            #region 查询人工置数
+            if (ValidateA5To1())
+            {
+                Package651 pack = PartInitPack();
+                pack.FUNCODE = (byte)SL651_COMMAND.QueryManualSetParm;
+
+                pack.CStart = PackageDefine.CStart;
+
+                pack.SNum = new byte[2];
+                pack.SNum[0] = 0;
+                pack.SNum[1] = 0;
+                pack.IsUpload = false;
+
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
+
+                //pack.Data = lstCentent.ToArray();
+
+                byte[] lens = BitConverter.GetBytes((ushort)(8));
+                pack.L0 = lens[0];
+                pack.L1 = lens[1];
+
+                ButtonSend("正在查询人工置数...", SerialPortType.Universal651QueryManualSetParm, pack, PackageDefine.ENQ);
+            }
+            #endregion
+        }
+
+        private void btnAddManualSetParm_Click(object sender, EventArgs e)
+        {
+            if (combManualSetParm.SelectedIndex < 0)
+            {
+                XtraMessageBox.Show("请选择人工置数类型标识符!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                combManualSetParm.Focus();
+                return;
+            }
+            if (!Regex.IsMatch(txtManualSetParm.Text.Trim(), "^[0-9a-fA-F]{2}( [0-9a-fA-F]{2}){0,}$"))
+            {
+                XtraMessageBox.Show("请填写人工置数内容!格式(16进制):12 34 56 78 90 ab ...", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtManualSetParm.Focus();
+                return;
+            }
+
+            string str_parm = combManualSetParm.Text.Substring(combManualSetParm.Text.IndexOf('(')+1, 5);
+            str_parm += " 20 ";   //20是空格
+            str_parm += txtManualSetParm.Text.Trim();
+
+            if (!string.IsNullOrEmpty(memo_ManualSetParm.Text)) //&& 
+            {
+                if(!memo_ManualSetParm.Text.EndsWith(" "))
+                    memo_ManualSetParm.Text += " 20 ";
+                else
+                    memo_ManualSetParm.Text += "20 ";
+            }
+
+            memo_ManualSetParm.Text += str_parm;
+        }
+
+        private void btnSetManualSetParm_Click(object sender, EventArgs e)
+        {
+            #region 查询人工置数
+            if (ValidateA5To1())
+            {
+                try
+                {
+                    if (!Regex.IsMatch(memo_ManualSetParm.Text.Trim(), "^[0-9a-fA-F]{2}( [0-9a-fA-F]{2}){0,}$"))
+                    {
+                        XtraMessageBox.Show("请填写需要设置的人工置数内容!格式(16进制):12 34 56 78 90 ab ...", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtManualSetParm.Focus();
+                        return;
+                    }
+
+                    Package651 pack = PartInitPack();
+                    pack.FUNCODE = (byte)SL651_COMMAND.SetManualSetParm;
+
+                    pack.CStart = PackageDefine.CStart;
+
+                    pack.SNum = new byte[2];
+                    pack.SNum[0] = 0;
+                    pack.SNum[1] = 0;
+                    pack.IsUpload = false;
+
+                    pack.AddrFlag = PackageDefine.AddrFlagHeader;
+
+                    string setparm = memo_ManualSetParm.Text.Trim();
+                    setparm = setparm.Replace(" ", "");
+                    pack.Data = ConvertHelper.StringToByte(setparm);
+
+                    byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.DataLength));
+                    pack.L0 = lens[0];
+                    pack.L1 = lens[1];
+
+                    ButtonSend("正在设置人工置数...", SerialPortType.Universal651SetManualSetParm, pack, PackageDefine.ENQ);
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show("发生异常,请检查设置的人工置数数据是否正确! ex:"+ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            #endregion
         }
 
 

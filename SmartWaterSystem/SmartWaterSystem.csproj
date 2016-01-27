@@ -397,11 +397,11 @@
     <Compile Include="WaitForm1.Designer.cs">
       <DependentUpon>WaitForm1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmGPRSConsole.cs">
+    <Compile Include="FrmConsole.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmGPRSConsole.Designer.cs">
-      <DependentUpon>FrmGPRSConsole.cs</DependentUpon>
+    <Compile Include="FrmConsole.Designer.cs">
+      <DependentUpon>FrmConsole.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmMSMQSet.cs">
       <SubType>Form</SubType>
@@ -547,8 +547,8 @@
     <EmbeddedResource Include="WaitForm1.resx">
       <DependentUpon>WaitForm1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmGPRSConsole.resx">
-      <DependentUpon>FrmGPRSConsole.cs</DependentUpon>
+    <EmbeddedResource Include="FrmConsole.resx">
+      <DependentUpon>FrmConsole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMSMQSet.resx">
       <DependentUpon>FrmMSMQSet.cs</DependentUpon>

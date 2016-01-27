@@ -344,7 +344,7 @@ namespace SmartWaterSystem
 
         void SerialPortParm_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
         {
-            if ((e.OptType == SerialPortType.UniversalReadBaicInfo || e.OptType == SerialPortType.UniversalSetBasicInfo) && !string.IsNullOrEmpty(e.Msg))
+            if ((e.OptType == SerialPortType.UniversalReadBasicInfo || e.OptType == SerialPortType.UniversalSetBasicInfo) && !string.IsNullOrEmpty(e.Msg))
             {
                 ShowWaitForm("", e.Msg);
                 SetStaticItem(e.Msg);
