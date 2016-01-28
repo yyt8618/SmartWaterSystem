@@ -986,7 +986,7 @@ namespace SmartWaterSystem
         /// <param name="elements">要素信息(值引用)</param>
         /// <param name="loopcount">循环次数，防止死循环,为0时退出</param>
         /// <returns></returns>
-        public static string AnalyseElement1( byte funcode, byte[] elements, byte[] dt, ref Universal651SerialPortEntity spEntity,int loopcount = 50)
+        public static string AnalyseElement1( byte funcode, byte[] elements, byte[] dt, ref Universal651SerialPortEntity spEntity,int loopcount = 20)
         {
             string strcontent = "";
             if (spEntity == null)
@@ -1082,12 +1082,12 @@ namespace SmartWaterSystem
                         strcontent = strcontent.Replace("\n", "");
                         #endregion
                         break;
+                    case (byte)SL651_COMMAND.HourReport:      //小时报
                     case (byte)SL651_COMMAND.TimingReport:    //定时报
                     case (byte)SL651_COMMAND.TestReport:      //测试报
                     case (byte)SL651_COMMAND.AddtionReport:   //遥测站加报
                     case (byte)SL651_COMMAND.QueryCurData:    //查询实时数据
                     case (byte)SL651_COMMAND.QueryElements:   //查询指定要素
-                    case (byte)SL651_COMMAND.QueryPrecipitation:  //查询时段降水量
                         #region
                         int sumlen, pointlen;
                         if (elements.Length > 0 && elements[0] == PackageDefine.AddrFlagHeader[0] && elements[1] == PackageDefine.AddrFlagHeader[1])
@@ -1104,9 +1104,9 @@ namespace SmartWaterSystem
                         if (elements.Length > 0 && elements[0] == PackageDefine.RainFallLimitFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 1 < sumlen + 2; i++)
+                            for (int i = 2; i < sumlen + 2; i++)
                             {
-                                strcontent += "雨量加报阀值:" + Convert.ToDouble(string.Format("{0:X2}", elements[i])) / Math.Pow(10, pointlen) + "mm,";  //1
+                                strcontent += "雨量加报阀值:" + ConvertToDouble(string.Format("{0:X2}", elements[i])) / Math.Pow(10, pointlen) + "mm,";  //1
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
@@ -1115,25 +1115,25 @@ namespace SmartWaterSystem
                         //    GetSumLen(elements[1], out sumlen, out pointlen);
                         //    for (int i = 2; i + 1 < sumlen + 2; i += 3)
                         //    {
-                        //        strcontent += "时段降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";  //10
+                        //        strcontent += "时段降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";  //10
                         //    }
                         //    elements = BytesRemove(elements, sumlen + 2);
                         //}
                         if (elements.Length > 0 && elements[0] == PackageDefine.RainFallAddupFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "降水累计量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "降水累计量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.InstantWaterlevelFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 4 < sumlen + 2; i += 4)
+                            for (int i = 2; i + 3 < sumlen + 2; i += 4)
                             {
-                                strcontent += "瞬时水位:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])
+                                strcontent += "瞬时水位:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])
                                             + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3])) / Math.Pow(10, pointlen) + "m,";  //1000
                             }
                             elements = BytesRemove(elements, sumlen + 2);
@@ -1141,16 +1141,16 @@ namespace SmartWaterSystem
                         if (elements.Length > 0 && elements[0] == PackageDefine.PowerFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 2 < sumlen + 2; i += 2)
+                            for (int i = 2; i + 1 < sumlen + 2; i += 2)
                             {
-                                strcontent += "电源电压:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + "v,";  //100
+                                strcontent += "电源电压:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + "v,";  //100
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.RainFallTookFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; 2 + 1 < sumlen + 2; i += 2)
+                            for (int i = 2; i + 1 < sumlen + 2; i += 2)
                             {
                                 strcontent += "降水历时:" + string.Format("{0:X2}", elements[i]) + "." + string.Format("{0:X2}", elements[i + 1]) + ",";
                             }
@@ -1159,7 +1159,7 @@ namespace SmartWaterSystem
                         if (elements.Length > 0 && elements[0] == PackageDefine.AlarmFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; 4 + 1 < sumlen + 2; i += 4)
+                            for (int i = 2; i + 3 < sumlen + 2; i += 4)
                             {
                                 strcontent += "状态及报警信息:" + string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])
                                     + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3]) + ",";
@@ -1170,7 +1170,7 @@ namespace SmartWaterSystem
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
                             strcontent += "1h内5min时段降水量:";
-                            for (int i = 2; i + 1 < sumlen + 2; i++)
+                            for (int i = 2; i < sumlen + 2; i++)
                             {
                                 strcontent += Convert.ToDouble(elements[i]) / 10 + "mm,";
                             }
@@ -1180,34 +1180,34 @@ namespace SmartWaterSystem
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
                             strcontent += "1h内5min间隔相对水位:";
-                            for (int i = 2; i + 2 < sumlen + 2; i += 2)
+                            for (int i = 2; i + 1 < sumlen + 2; i += 2)
                             {
-                                strcontent += ((double)BitConverter.ToInt16(new byte[] { elements[8], elements[7] }, 0)) / 100 + "cm,";
+                                strcontent += ((double)BitConverter.ToInt16(new byte[] { elements[i+1], elements[i] }, 0)) / 100 + "cm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.InstantWaterTempFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 2 < sumlen + 2; i += 2)
+                            for (int i = 2; i + 1 < sumlen + 2; i += 2)
                             {
-                                strcontent += "瞬时水温:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + "℃,";
+                                strcontent += "瞬时水温:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + "℃,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.PHFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 2 < sumlen + 2; i += 2)
+                            for (int i = 2; i + 1 < sumlen + 2; i += 2)
                             {
-                                strcontent += "PH:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + ",";
+                                strcontent += "PH:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + ",";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.ConductivityFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
                                 strcontent += "电导率:" + Convert.ToInt32(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) +
                                     string.Format("{0:X2}", elements[i + 2])) + ",";
@@ -1217,108 +1217,108 @@ namespace SmartWaterSystem
                         if (elements.Length > 0 && elements[0] == PackageDefine.TurbidityFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 2 < sumlen + 2; i += 2)
+                            for (int i = 2; i + 1 < sumlen + 2; i += 2)
                             {
-                                strcontent += "浊度:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) + ",";
+                                strcontent += "浊度:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) + ",";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.PrecipitationFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "当前降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "当前降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.DayPrecipitationFlag[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "日降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "日降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation1min[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "1min降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "1min降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation5min[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "5min降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "5min降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation10min[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "10min降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "10min降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation30min[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "30min降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "30min降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation1h[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "1h降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "1h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation2h[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "2h降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "2h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation3h[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "3h降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "3h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation6h[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "6h降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "6h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
                         if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation12h[0])
                         {
                             GetSumLen(elements[1], out sumlen, out pointlen);
-                            for (int i = 2; i + 3 < sumlen + 2; i += 3)
+                            for (int i = 2; i + 2 < sumlen + 2; i += 3)
                             {
-                                strcontent += "12h降水量:" + Convert.ToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                                strcontent += "12h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
@@ -1662,7 +1662,7 @@ namespace SmartWaterSystem
                             if (elements[i - 1] == PackageDefine.RainFallPrecisionFlag[0] && elements[i] == PackageDefine.RainFallPrecisionFlag[1])
                             {
                                 spEntity.IsOptRainFallPrecision = true;
-                                spEntity.RainFallPrecision = Convert.ToDouble(string.Format("{0:X2}", elements[i + 1])) / 10;
+                                spEntity.RainFallPrecision = ConvertToDouble(string.Format("{0:X2}", elements[i + 1])) / 10;
                                 strcontent += "雨量计分辨率:" + spEntity.RainFallPrecision + "mm,";
                                 break;
                             }
@@ -1672,7 +1672,7 @@ namespace SmartWaterSystem
                             if (elements[i - 1] == PackageDefine.WaterLevelGaugePrecisionFlag[0] && elements[i] == PackageDefine.WaterLevelGaugePrecisionFlag[1])
                             {
                                 spEntity.IsOptWaterLevelGaugePrecision = true;
-                                spEntity.WaterLevelGaugePrecision = Convert.ToDouble(string.Format("{0:X2}", elements[i + 1])) / 10;
+                                spEntity.WaterLevelGaugePrecision = ConvertToDouble(string.Format("{0:X2}", elements[i + 1])) / 10;
                                 strcontent += "水位计分辨率:" + spEntity.WaterLevelGaugePrecision + "cm,";
                                 break;
                             }
@@ -1696,14 +1696,14 @@ namespace SmartWaterSystem
                                 {
                                     string tmp = string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3]) +
                                     string.Format("{0:X2}", elements[i + 4]) + string.Format("{0:X2}", elements[i + 5]);
-                                    spEntity.WaterLevelBasic = (-1) * Convert.ToDouble(tmp) / 1000;
+                                    spEntity.WaterLevelBasic = (-1) * ConvertToDouble(tmp) / 1000;
                                     strcontent += "水位基值:" + spEntity.WaterLevelBasic + "m,";
                                 }
                                 else
                                 {
                                     string tmp = string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) +
                                     string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]);
-                                    spEntity.WaterLevelBasic = Convert.ToDouble(tmp) / 1000;
+                                    spEntity.WaterLevelBasic = ConvertToDouble(tmp) / 1000;
                                     strcontent += "水位基值:" + spEntity.WaterLevelBasic + "m,";
                                 }
                                 break;
@@ -1718,13 +1718,13 @@ namespace SmartWaterSystem
                                 {
                                     string tmp = string.Format("{0:X2}", elements[i + 2]) +
                                         string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]);
-                                    spEntity.WaterLevelAmendLimit = (-1) * Convert.ToDouble(tmp) / 1000;
+                                    spEntity.WaterLevelAmendLimit = (-1) * ConvertToDouble(tmp) / 1000;
                                     strcontent += "水位修正基值:" + spEntity.WaterLevelAmendLimit + "m,";
                                 }
                                 else
                                 {
                                     string tmp = string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3]);
-                                    spEntity.WaterLevelAmendLimit = Convert.ToDouble(tmp) / 1000;
+                                    spEntity.WaterLevelAmendLimit = ConvertToDouble(tmp) / 1000;
                                     strcontent += "水位修正基值:" + spEntity.WaterLevelAmendLimit + "m,";
                                 }
                                 break;
@@ -1735,7 +1735,7 @@ namespace SmartWaterSystem
                             if (elements[i - 1] == PackageDefine.AddtionWaterLevelFlag[0] && elements[i] == PackageDefine.AddtionWaterLevelFlag[1])
                             {
                                 spEntity.IsOptAddtionWaterLevel = true;
-                                spEntity.AddtionWaterLevel = Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100;
+                                spEntity.AddtionWaterLevel = ConvertToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100;
                                 strcontent += "加报水位:" + spEntity.AddtionWaterLevel + "m,";
                                 break;
                             }
@@ -1745,7 +1745,7 @@ namespace SmartWaterSystem
                             if (elements[i - 1] == PackageDefine.AddtionWaterLevelUpLimitFlag[0] && elements[i] == PackageDefine.AddtionWaterLevelUpLimitFlag[1])
                             {
                                 spEntity.IsOptAddtionWaterLevelUpLimit = true;
-                                spEntity.AddtionWaterLevelUpLimit = Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100;
+                                spEntity.AddtionWaterLevelUpLimit = ConvertToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100;
                                 strcontent += "加报水位以上加报阀值:" + spEntity.AddtionWaterLevelUpLimit + "m,";
                                 break;
                             }
@@ -1755,7 +1755,7 @@ namespace SmartWaterSystem
                             if (elements[i - 1] == PackageDefine.AddtionWaterLevelLowLimitFlag[0] && elements[i] == PackageDefine.AddtionWaterLevelLowLimitFlag[1])
                             {
                                 spEntity.IsOptAddtionWaterLevelLowLimit = true;
-                                spEntity.AddtionWaterLevelLowLimit = Convert.ToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100;
+                                spEntity.AddtionWaterLevelLowLimit = ConvertToDouble(string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / 100;
                                 strcontent += "加报水位以下加报阀值:" + spEntity.AddtionWaterLevelLowLimit + "m,";
                                 break;
                             }
@@ -1777,6 +1777,7 @@ namespace SmartWaterSystem
                         }
                         #endregion
                         break;
+                    case (byte)SL651_COMMAND.ManualSetParmReport:
                     case (byte)SL651_COMMAND.QueryManualSetParm:
                     case (byte)SL651_COMMAND.SetManualSetParm:
                         #region 查询、设置人工置数
@@ -1799,6 +1800,239 @@ namespace SmartWaterSystem
                             }
                         }
                         
+                        #endregion
+                        break;
+                    case (byte)SL651_COMMAND.UniformityTimeReport:  //均匀时段水文报  结构相同,都是:要素标识符,第一个数据，第二个数据...
+                    case (byte)SL651_COMMAND.QueryPrecipitation:  //查询时段降水量
+                        #region
+                        if (elements.Length > 0 && elements[0] == PackageDefine.AddrFlagHeader[0] && elements[1] == PackageDefine.AddrFlagHeader[1])
+                        {
+                            strcontent = "分类码:" + "0x" + string.Format("{0:X2}", elements[7]) + ",";
+                            elements = BytesRemove(elements, 8);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.ObservationTimeFlag[0] && elements[1] == PackageDefine.ObservationTimeFlag[1])
+                        {
+                            strcontent += "观测时间:" + string.Format("{0:X2}", elements[2]) + string.Format("{0:X2}", elements[3]) +
+                                    string.Format("{0:X2}", elements[4]) + string.Format("{0:X2}", elements[5]) + string.Format("{0:X2}", elements[6]) + ",";
+                            elements = BytesRemove(elements, 7);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.TimeStepFlag[0] && elements[1] == PackageDefine.TimeStepFlag[1])
+                        {
+                            strcontent += "时间步长:" + string.Format("{0:X2}", elements[2]) + string.Format("{0:X2}", elements[3]) +string.Format("{0:X2}", elements[4]) + ",";
+                            elements = BytesRemove(elements, 5);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.RainFallLimitFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i < elements.Length; i++)
+                            {
+                                strcontent += "雨量加报阀值:" + ConvertToDouble(string.Format("{0:X2}", elements[i])) / Math.Pow(10, pointlen) + "mm,";  //1
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.RainFallAddupFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "降水累计量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.InstantWaterlevelFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 3 < elements.Length; i += 4)
+                            {
+                                strcontent += "瞬时水位:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])
+                                            + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3])) / Math.Pow(10, pointlen) + "m,";  //1000
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.PowerFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 1 < elements.Length; i += 2)
+                            {
+                                strcontent += "电源电压:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + "v,";  //100
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.RainFallTookFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 1 < elements.Length; i += 2)
+                            {
+                                strcontent += "降水历时:" + string.Format("{0:X2}", elements[i]) + "." + string.Format("{0:X2}", elements[i + 1]) + ",";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.AlarmFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 3 < elements.Length; i += 4)
+                            {
+                                strcontent += "状态及报警信息:" + string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])
+                                    + string.Format("{0:X2}", elements[i + 2]) + string.Format("{0:X2}", elements[i + 3]) + ",";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation5MinFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            strcontent += "1h内5min时段降水量:";
+                            for (int i = 2; i < elements.Length; i++)
+                            {
+                                strcontent += Convert.ToDouble(elements[i]) / 10 + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Waterlevel5MinFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            strcontent += "1h内5min间隔相对水位:";
+                            for (int i = 2; i + 1 < elements.Length; i += 2)
+                            {
+                                strcontent += ((double)BitConverter.ToInt16(new byte[] { elements[i + 1], elements[i] }, 0)) / 100 + "cm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.InstantWaterTempFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 1 < elements.Length; i += 2)
+                            {
+                                strcontent += "瞬时水温:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + "℃,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.PHFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 1 < elements.Length; i += 2)
+                            {
+                                strcontent += "PH:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) / Math.Pow(10, pointlen) + ",";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.ConductivityFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "电导率:" + Convert.ToInt32(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) +
+                                    string.Format("{0:X2}", elements[i + 2])) + ",";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.TurbidityFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 1 < elements.Length; i += 2)
+                            {
+                                strcontent += "浊度:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1])) + ",";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.PrecipitationFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "当前降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.DayPrecipitationFlag[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "日降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation1min[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "1min降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation5min[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "5min降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation10min[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "10min降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation30min[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "30min降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation1h[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "1h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation2h[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "2h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation3h[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "3h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation6h[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "6h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        if (elements.Length > 0 && elements[0] == PackageDefine.Precipitation12h[0])
+                        {
+                            GetSumLen(elements[1], out sumlen, out pointlen);
+                            for (int i = 2; i + 2 < elements.Length; i += 3)
+                            {
+                                strcontent += "12h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
+                            }
+                            elements = BytesRemove(elements, sumlen + 2);
+                        }
                         #endregion
                         break;
                 }
@@ -1824,6 +2058,27 @@ namespace SmartWaterSystem
         {
             sumlen = Convert.ToInt32(b >> 3);
             pointlen = Convert.ToInt32(b & 0x07);
+        }
+
+        private static double ConvertToDouble(string str)
+        {
+            if (str == "")
+                return 0;
+            bool isigore = true;
+            foreach (char c in str.ToCharArray())
+            {
+                if (c != 'F')   //如果str全部都是 FF这样的数据，认为是非法数据,返回成-1
+                {
+                    isigore = false;
+                    break;
+                }
+            }
+            if (!isigore)
+            {
+                return Convert.ToDouble(str);
+            }
+            else
+                return -1;
         }
         /// <summary>
         /// 移除source从索引0开始长度len的字节数组

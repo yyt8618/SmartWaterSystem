@@ -746,6 +746,10 @@ namespace Common
     public enum SL651_COMMAND
     {
         /// <summary>
+        /// 均匀时段水文报
+        /// </summary>
+        UniformityTimeReport = 0x31,
+        /// <summary>
         /// 定时报
         /// </summary>
         TimingReport = 0x32,
@@ -757,6 +761,14 @@ namespace Common
         /// 遥测站加报
         /// </summary>
         AddtionReport = 0x33,
+        /// <summary>
+        /// 遥测站小时报
+        /// </summary>
+        HourReport = 0x34,
+        /// <summary>
+        /// 人工置数报
+        /// </summary>
+        ManualSetParmReport = 0x35,
         /// <summary>
         /// 查询版本
         /// </summary>

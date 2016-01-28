@@ -325,6 +325,11 @@ namespace Common
         /// 人工置数标志
         /// </summary>
         public static byte[] ManualSetParmFlag = new byte[] { 0xF2, 0xF2 };
+
+        /// <summary>
+        /// 时间步长标志
+        /// </summary>
+        public static byte[] TimeStepFlag = new byte[] { 0x04, 0x18 };
         #endregion
 
         /// <summary>

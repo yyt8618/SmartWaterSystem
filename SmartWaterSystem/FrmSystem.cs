@@ -646,11 +646,9 @@ namespace SmartWaterSystem
             }
         }
 
-        FrmConsole grpsconsole=null;
+        FrmConsole grpsconsole = new FrmConsole();
         private void barBtnGPRSConsole_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (grpsconsole == null)
-                grpsconsole = new FrmConsole();
             grpsconsole.ShowDialog();
         }
 

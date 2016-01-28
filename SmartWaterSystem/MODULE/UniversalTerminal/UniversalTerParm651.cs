@@ -47,6 +47,7 @@ namespace SmartWaterSystem
                 btnInitFlash.Enabled = Enabled;
                 btnReadManualSetParm.Enabled = Enabled;
                 btnSetManualSetParm.Enabled = Enabled;
+                btnQueryPrecipitation.Enabled = Enabled;
             }
         }
 
@@ -413,6 +414,20 @@ namespace SmartWaterSystem
                 else
                 {
                     XtraMessageBox.Show("查询指定要素失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651QueryPrecipitation)
+            {
+                #region 查询时段降水量
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("查询时段降水量成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("查询时段降水量失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 #endregion
             }
@@ -1216,8 +1231,10 @@ namespace SmartWaterSystem
                         lstCentent.AddRange(PackageDefine.StandbyChannel4Flag); //中4备用信道类型及地址
 
                     lstCentent.Add(Convert.ToByte(combStandbyChannel.SelectedIndex));
-                    if (combStandbyChannel.SelectedIndex > 0)
-                        lstCentent.AddRange(ConvertHelper.StringToByte(txtStandbyChTelnum.Text.Trim().PadLeft(12, '0')));
+                    //if (combStandbyChannel.SelectedIndex > 0)
+                    lstCentent.AddRange(ConvertHelper.StringToByte(txtStandbyChTelnum.Text.Trim().PadLeft(12, '0')));
+                    //else
+                        //lstCentent.AddRange(ConvertHelper.StringToByte("".PadLeft(12, '0')));  //补齐12个0
                 }
                 if (cbWorkType.Checked)
                 {
@@ -1479,15 +1496,15 @@ namespace SmartWaterSystem
                 if (cbWaterLevelBasic.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.WaterLevelBasicFlag);//水位基值
-                    int basic = (int)Convert.ToDouble(txtWaterLevelBasic.Text);
+                    int basic = (int)(Convert.ToDouble(txtWaterLevelBasic.Text)*1000);
                     if (basic < 0)
                     {
                         lstCentent.Add(0xFF);  //负数一个字节，正数三个字节,负数第一个字节是0xFF
                         basic *= -1;
-                        lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(6, '0')));
+                        lstCentent.AddRange(ConvertHelper.StringToByte((basic).ToString().PadLeft(6, '0')));
                     }
                     else
-                        lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(8, '0')));
+                        lstCentent.AddRange(ConvertHelper.StringToByte((basic).ToString().PadLeft(8, '0')));
                     //int basic = (int)(Convert.ToDouble(txtWaterLevelBasic.Text) * 1000);
                     //if (basic < 0)
                     //{
@@ -1668,15 +1685,7 @@ namespace SmartWaterSystem
                     checkedcount++;
                 if (cbParm1h5minWaterLevel.Checked)
                     checkedcount++;
-                if (cb1hPrecipitation.Checked)
-                    checkedcount++;
-                if (cb2hPrecipitation.Checked)
-                    checkedcount++;
-                if (cb3hPrecipitation.Checked)
-                    checkedcount++;
-                if (cb6hPrecipitation.Checked)
-                    checkedcount++;
-                if (cb12hPrecipitation.Checked)
+                if (rgPrecipitation.SelectedIndex>-1)
                     checkedcount++;
                 if (checkedcount==0)
                 {
@@ -1685,7 +1694,7 @@ namespace SmartWaterSystem
                 }
                 if (checkedcount >1)
                 {
-                    XtraMessageBox.Show("请选择一项读取!");
+                    XtraMessageBox.Show("不能选择多项读取!");
                     return;
                 }
 
@@ -1702,47 +1711,98 @@ namespace SmartWaterSystem
                 pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
                 List<byte> lstCentent = new List<byte>();
-                //lstCentent.Add(0x48);   //河道
 
-                bool haveObservationTime = false;  //是否有观测时间
+                DateTime begindt = DateTime.Now;  //起始时间
+                byte[] timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x05 };
+                
                 if (cbParm1h5minPrecipitation.Checked)
                 {
-                    lstCentent.AddRange(PackageDefine.Precipitation5MinFlag);  //1小时5分钟时段雨量
-                    haveObservationTime = true;
+                    lstCentent.AddRange(PackageDefine.Precipitation5MinFlag);  //1小时5分钟时段雨量  时间步长默认5分钟
+                    begindt = begindt.AddHours(-1);
                 }
-                if (cbParm1h5minWaterLevel.Checked)
+                else if (cbParm1h5minWaterLevel.Checked)
                 {
-                    lstCentent.AddRange(PackageDefine.Waterlevel5MinFlag);  //1小时5分钟间隔相对水位
-                    haveObservationTime = true;
+                    lstCentent.AddRange(PackageDefine.Waterlevel5MinFlag);  //1小时5分钟间隔相对水位  时间步长默认5分钟
+                    begindt = begindt.AddHours(-1);
                 }
-                if (cb1hPrecipitation.Checked)
-                    lstCentent.AddRange(PackageDefine.Precipitation1h);  //1h时段降水
-                if (cb2hPrecipitation.Checked)
-                    lstCentent.AddRange(PackageDefine.Precipitation2h);  //2h时段降水
-                if (cb3hPrecipitation.Checked)
-                    lstCentent.AddRange(PackageDefine.Precipitation3h);   //3h时段降水
-                if (cb6hPrecipitation.Checked)
-                    lstCentent.AddRange(PackageDefine.Precipitation6h);   //6h时段降水
-                if (cb12hPrecipitation.Checked)
-                    lstCentent.AddRange(PackageDefine.Precipitation12h);   //12h时段降水
+                else
+                {
+                    switch (rgPrecipitation.SelectedIndex)
+                    {
+                        case 0:
+                            begindt = begindt.AddHours(-1); //1h时段降水
+                            break;
+                        case 1:
+                            begindt = begindt.AddHours(-2); //2h时段降水
+                            break;
+                        case 2:
+                            begindt = begindt.AddHours(-3); //3h时段降水
+                            break;
+                        case 3:
+                            begindt = begindt.AddHours(-6); //6h时段降水
+                            break;
+                        case 4:
+                            begindt = begindt.AddHours(-12); //12h时段降水
+                            break;
+                    }
+                    switch (combTimeStep.SelectedIndex)
+                    {
+                        case 0:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x01 };
+                            lstCentent.AddRange(PackageDefine.Precipitation1min);
+                            break;
+                        case 1:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x05 };
+                            lstCentent.AddRange(PackageDefine.Precipitation5min);
+                            break;
+                        case 2:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x10 };
+                            lstCentent.AddRange(PackageDefine.Precipitation10min);
+                            break;
+                        case 3:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x30 };
+                            lstCentent.AddRange(PackageDefine.Precipitation30min);
+                            break;
+                        case 4:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x01, 0x00 };
+                            lstCentent.AddRange(PackageDefine.Precipitation1h);
+                            break;
+                        case 5:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x02, 0x00 };
+                            lstCentent.AddRange(PackageDefine.Precipitation2h);
+                            break;
+                        case 6:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x03, 0x00 };
+                            lstCentent.AddRange(PackageDefine.Precipitation3h);
+                            break;
+                        case 7:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x06, 0x00 };
+                            lstCentent.AddRange(PackageDefine.Precipitation6h);
+                            break;
+                        case 8:
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x12, 0x00 };
+                            lstCentent.AddRange(PackageDefine.Precipitation12h);
+                            break;
+                    }
+                }
                 
-                if (haveObservationTime)
-                {
-                    DateTime dt = DateTime.Now;
-                    int itmp = dt.Minute % 5;  //往前取整5分钟的时间
-                    if (itmp > 0)
-                        dt.AddMinutes((-1) * itmp);  
+                List<byte> lstdt = new List<byte>();
+                lstdt.Add(ConvertHelper.StringToByte((begindt.Year - 2000).ToString())[0]);
+                lstdt.Add(ConvertHelper.StringToByte(begindt.Month.ToString().PadLeft(2, '0'))[0]);
+                lstdt.Add(ConvertHelper.StringToByte(begindt.Day.ToString().PadLeft(2, '0'))[0]);
+                lstdt.Add(ConvertHelper.StringToByte(begindt.Hour.ToString().PadLeft(2, '0'))[0]);
 
-                    List<byte> lstdt = new List<byte>();
-                    lstdt.AddRange(PackageDefine.ObservationTimeFlag);
-                    lstdt.Add(ConvertHelper.StringToByte((dt.Year - 2000).ToString())[0]);
-                    lstdt.Add(ConvertHelper.StringToByte(dt.Month.ToString().PadLeft(2, '0'))[0]);
-                    lstdt.Add(ConvertHelper.StringToByte(dt.Day.ToString().PadLeft(2, '0'))[0]);
-                    lstdt.Add(ConvertHelper.StringToByte(dt.Hour.ToString().PadLeft(2, '0'))[0]);
-                    lstdt.Add(ConvertHelper.StringToByte(dt.Minute.ToString().PadLeft(2, '0'))[0]);
+                DateTime enddt = DateTime.Now;  //结束时间
+                lstdt.Add(ConvertHelper.StringToByte((enddt.Year - 2000).ToString())[0]);
+                lstdt.Add(ConvertHelper.StringToByte(enddt.Month.ToString().PadLeft(2, '0'))[0]);
+                lstdt.Add(ConvertHelper.StringToByte(enddt.Day.ToString().PadLeft(2, '0'))[0]);
+                lstdt.Add(ConvertHelper.StringToByte(enddt.Hour.ToString().PadLeft(2, '0'))[0]);
 
-                    lstCentent.InsertRange(0, lstdt);
-                }
+                //时间步长
+                lstdt.AddRange(timestep);
+
+                lstCentent.InsertRange(0, lstdt);
+                    
                 pack.Data = lstCentent.ToArray();
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.Data.Length));
@@ -1804,6 +1864,110 @@ namespace SmartWaterSystem
                 msmqentity.MsgType = ConstValue.MSMQTYPE.Del_SL651_WaitSendCmd;
                 GlobalValue.MSMQMgr.SendMessage(msmqentity);
             }
+        }
+
+        private void btnReadManualSetParm_Click(object sender, EventArgs e)
+        {
+            #region 查询人工置数
+            if (ValidateA5To1())
+            {
+                Package651 pack = PartInitPack();
+                pack.FUNCODE = (byte)SL651_COMMAND.QueryManualSetParm;
+
+                pack.CStart = PackageDefine.CStart;
+
+                pack.SNum = new byte[2];
+                pack.SNum[0] = 0;
+                pack.SNum[1] = 0;
+                pack.IsUpload = false;
+
+                pack.AddrFlag = PackageDefine.AddrFlagHeader;
+
+                //pack.Data = lstCentent.ToArray();
+
+                byte[] lens = BitConverter.GetBytes((ushort)(8));
+                pack.L0 = lens[0];
+                pack.L1 = lens[1];
+
+                ButtonSend("正在查询人工置数...", SerialPortType.Universal651QueryManualSetParm, pack, PackageDefine.ENQ);
+            }
+            #endregion
+        }
+
+        private void btnAddManualSetParm_Click(object sender, EventArgs e)
+        {
+            if (combManualSetParm.SelectedIndex < 0)
+            {
+                XtraMessageBox.Show("请选择人工置数类型标识符!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                combManualSetParm.Focus();
+                return;
+            }
+            if (!Regex.IsMatch(txtManualSetParm.Text.Trim(), "^[0-9a-fA-F]{2}( [0-9a-fA-F]{2}){0,}$"))
+            {
+                XtraMessageBox.Show("请填写人工置数内容!格式(16进制):12 34 56 78 90 ab ...", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtManualSetParm.Focus();
+                return;
+            }
+
+            string str_parm = combManualSetParm.Text.Substring(combManualSetParm.Text.IndexOf('(') + 1, 5);
+            str_parm += " 20 ";   //20是空格
+            str_parm += txtManualSetParm.Text.Trim();
+
+            if (!string.IsNullOrEmpty(memo_ManualSetParm.Text)) //&& 
+            {
+                if (!memo_ManualSetParm.Text.EndsWith(" "))
+                    memo_ManualSetParm.Text += " 20 ";
+                else
+                    memo_ManualSetParm.Text += "20 ";
+            }
+
+            memo_ManualSetParm.Text += str_parm;
+            txtManualSetParm.Text = "";
+        }
+
+        private void btnSetManualSetParm_Click(object sender, EventArgs e)
+        {
+            #region 设置人工置数
+            if (ValidateA5To1())
+            {
+                try
+                {
+                    if (!Regex.IsMatch(memo_ManualSetParm.Text.Trim(), "^[0-9a-fA-F]{2}( [0-9a-fA-F]{2}){0,}$"))
+                    {
+                        XtraMessageBox.Show("请填写需要设置的人工置数内容!格式(16进制):12 34 56 78 90 ab ...", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtManualSetParm.Focus();
+                        return;
+                    }
+
+                    Package651 pack = PartInitPack();
+                    pack.FUNCODE = (byte)SL651_COMMAND.SetManualSetParm;
+
+                    pack.CStart = PackageDefine.CStart;
+
+                    pack.SNum = new byte[2];
+                    pack.SNum[0] = 0;
+                    pack.SNum[1] = 0;
+                    pack.IsUpload = false;
+
+                    pack.AddrFlag = PackageDefine.AddrFlagHeader;
+
+                    string setparm = memo_ManualSetParm.Text.Trim();
+                    setparm = setparm.Replace(" ", "");
+                    byte[] data = ConvertHelper.StringToByte(setparm);
+                    pack.Data = data;
+
+                    byte[] lens = BitConverter.GetBytes((ushort)(8 + data.Length));
+                    pack.L0 = lens[0];
+                    pack.L1 = lens[1];
+
+                    ButtonSend("正在设置人工置数...", SerialPortType.Universal651SetManualSetParm, pack, PackageDefine.ENQ);
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show("发生异常,请检查设置的人工置数数据是否正确! ex:" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            #endregion
         }
         #endregion
 
@@ -1988,106 +2152,9 @@ namespace SmartWaterSystem
             GlobalValue.MSMQMgr.MSMQEvent -= new MSMQHandler(MSMQMgr_MSMQEvent);
         }
 
-        private void btnReadManualSetParm_Click(object sender, EventArgs e)
+        private void cbParm1h5minWaterLevel_CheckedChanged(object sender, EventArgs e)
         {
-            #region 查询人工置数
-            if (ValidateA5To1())
-            {
-                Package651 pack = PartInitPack();
-                pack.FUNCODE = (byte)SL651_COMMAND.QueryManualSetParm;
-
-                pack.CStart = PackageDefine.CStart;
-
-                pack.SNum = new byte[2];
-                pack.SNum[0] = 0;
-                pack.SNum[1] = 0;
-                pack.IsUpload = false;
-
-                pack.AddrFlag = PackageDefine.AddrFlagHeader;
-
-                //pack.Data = lstCentent.ToArray();
-
-                byte[] lens = BitConverter.GetBytes((ushort)(8));
-                pack.L0 = lens[0];
-                pack.L1 = lens[1];
-
-                ButtonSend("正在查询人工置数...", SerialPortType.Universal651QueryManualSetParm, pack, PackageDefine.ENQ);
-            }
-            #endregion
-        }
-
-        private void btnAddManualSetParm_Click(object sender, EventArgs e)
-        {
-            if (combManualSetParm.SelectedIndex < 0)
-            {
-                XtraMessageBox.Show("请选择人工置数类型标识符!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                combManualSetParm.Focus();
-                return;
-            }
-            if (!Regex.IsMatch(txtManualSetParm.Text.Trim(), "^[0-9a-fA-F]{2}( [0-9a-fA-F]{2}){0,}$"))
-            {
-                XtraMessageBox.Show("请填写人工置数内容!格式(16进制):12 34 56 78 90 ab ...", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtManualSetParm.Focus();
-                return;
-            }
-
-            string str_parm = combManualSetParm.Text.Substring(combManualSetParm.Text.IndexOf('(')+1, 5);
-            str_parm += " 20 ";   //20是空格
-            str_parm += txtManualSetParm.Text.Trim();
-
-            if (!string.IsNullOrEmpty(memo_ManualSetParm.Text)) //&& 
-            {
-                if(!memo_ManualSetParm.Text.EndsWith(" "))
-                    memo_ManualSetParm.Text += " 20 ";
-                else
-                    memo_ManualSetParm.Text += "20 ";
-            }
-
-            memo_ManualSetParm.Text += str_parm;
-        }
-
-        private void btnSetManualSetParm_Click(object sender, EventArgs e)
-        {
-            #region 查询人工置数
-            if (ValidateA5To1())
-            {
-                try
-                {
-                    if (!Regex.IsMatch(memo_ManualSetParm.Text.Trim(), "^[0-9a-fA-F]{2}( [0-9a-fA-F]{2}){0,}$"))
-                    {
-                        XtraMessageBox.Show("请填写需要设置的人工置数内容!格式(16进制):12 34 56 78 90 ab ...", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        txtManualSetParm.Focus();
-                        return;
-                    }
-
-                    Package651 pack = PartInitPack();
-                    pack.FUNCODE = (byte)SL651_COMMAND.SetManualSetParm;
-
-                    pack.CStart = PackageDefine.CStart;
-
-                    pack.SNum = new byte[2];
-                    pack.SNum[0] = 0;
-                    pack.SNum[1] = 0;
-                    pack.IsUpload = false;
-
-                    pack.AddrFlag = PackageDefine.AddrFlagHeader;
-
-                    string setparm = memo_ManualSetParm.Text.Trim();
-                    setparm = setparm.Replace(" ", "");
-                    pack.Data = ConvertHelper.StringToByte(setparm);
-
-                    byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.DataLength));
-                    pack.L0 = lens[0];
-                    pack.L1 = lens[1];
-
-                    ButtonSend("正在设置人工置数...", SerialPortType.Universal651SetManualSetParm, pack, PackageDefine.ENQ);
-                }
-                catch (Exception ex)
-                {
-                    XtraMessageBox.Show("发生异常,请检查设置的人工置数数据是否正确! ex:"+ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            #endregion
+            rgPrecipitation.SelectedIndex = -1;
         }
 
 
