@@ -29,26 +29,33 @@ namespace SmartWaterSystem
         {
             if (SwitchComunication.IsOn)  //串口
             {
-                btnChPwd.Enabled = Enabled;
-                btnReadBasicConfig.Enabled = Enabled;
-                btnSetBasicConfig.Enabled = Enabled;
-                btnDel.Enabled = Enabled;
-                btnReadRunConfig.Enabled = Enabled;
-                btnSetRunConfig.Enabled = Enabled;
-                btnQueryElement.Enabled = Enabled;
-                btnSetPrecipitationConstantCtrl.Enabled = Enabled;
-                btnQueryTime.Enabled = Enabled;
-                btnQueryVersion.Enabled = Enabled;
-                btnQueryCurData.Enabled = Enabled;
-                btnQueryEvent.Enabled = Enabled;
-                btnQueryAlarm.Enabled = Enabled;
-                btnSetTime.Enabled = Enabled;
-                btnInit.Enabled = Enabled;
-                btnInitFlash.Enabled = Enabled;
-                btnReadManualSetParm.Enabled = Enabled;
-                btnSetManualSetParm.Enabled = Enabled;
-                btnQueryPrecipitation.Enabled = Enabled;
+                ButtonEnabled(Enabled);
             }
+        }
+
+        private void ButtonEnabled(bool Enabled)
+        {
+            btnChPwd.Enabled = Enabled;
+            btnReadBasicConfig.Enabled = Enabled;
+            btnSetBasicConfig.Enabled = Enabled;
+            btnDel.Enabled = Enabled;
+            btnReadRunConfig.Enabled = Enabled;
+            btnSetRunConfig.Enabled = Enabled;
+            btnQueryElement.Enabled = Enabled;
+            btnSetPrecipitationConstantCtrl.Enabled = Enabled;
+            btnQueryTime.Enabled = Enabled;
+            btnQueryVersion.Enabled = Enabled;
+            btnQueryCurData.Enabled = Enabled;
+            btnQueryEvent.Enabled = Enabled;
+            btnQueryAlarm.Enabled = Enabled;
+            btnSetTime.Enabled = Enabled;
+            btnInit.Enabled = Enabled;
+            btnInitFlash.Enabled = Enabled;
+            btnReadManualSetParm.Enabled = Enabled;
+            btnSetManualSetParm.Enabled = Enabled;
+            btnQueryPrecipitation.Enabled = Enabled;
+            btnCalibration1.Enabled = Enabled;
+            btnCalibration2.Enabled = Enabled;
         }
 
         void MSMQMgr_MSMQEvent(object sender, MSMQEventArgs e)
@@ -192,8 +199,8 @@ namespace SmartWaterSystem
             txtCA4.Text = "";
             txtCA5.Text = "";
             txtCCenterAddr.Text = "";
-            txtCPwd0.Text = "";
-            txtCPwd1.Text = "";
+            //txtCPwd0.Text = "";
+            //txtCPwd1.Text = "";
             combWorkType.SelectedIndex = -1;
             txtElements1.Text = "";
             txtElements2.Text = "";
@@ -294,11 +301,11 @@ namespace SmartWaterSystem
                         }
                         if (spEntity.IsOptCenterAddr)
                             txtCCenterAddr.Text=string.Format("{0:X2}", spEntity.CCenterAddr);
-                        if (spEntity.IsOptPwd)
-                        {
-                            txtCPwd0.Text = string.Format("{0:X2}", spEntity.CPwd0);
-                            txtCPwd1.Text = string.Format("{0:X2}", spEntity.CPwd1);
-                        }
+                        //if (spEntity.IsOptPwd)
+                        //{
+                        //    txtCPwd0.Text = string.Format("{0:X2}", spEntity.CPwd0);
+                        //    txtCPwd1.Text = string.Format("{0:X2}", spEntity.CPwd1);
+                        //}
                         if (spEntity.IsOptWorkType)
                             combWorkType.SelectedIndex = (spEntity.WorkType - 1) < 0 ? 0 : spEntity.WorkType - 1;
                         if (spEntity.IsOptElements && spEntity.Elements!=null && spEntity.Elements.Length == 8)
@@ -619,6 +626,25 @@ namespace SmartWaterSystem
                 }
                 #endregion
             }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651SetCalibration)
+            {
+                #region 通用终端SL651设置相对水位校准值
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptSetCalibration)
+                            XtraMessageBox.Show("设置水位校准值成功!校准值:" + spEntity.SetCalibration, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("设置水位校准值失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
         }
 
         private void OnSerialPortNotifyEnable()
@@ -655,6 +681,8 @@ namespace SmartWaterSystem
             btnReadManualSetParm.Enabled = enable;
             btnSetManualSetParm.Enabled = enable;
             btnQueryPrecipitation.Enabled = enable;
+            btnCalibration1.Enabled = enable;
+            btnCalibration2.Enabled = enable;
         }
 
         private void ButtonSend(string tipmsg, SerialPortType spPort,Package651 pack,byte End)
@@ -946,7 +974,7 @@ namespace SmartWaterSystem
             #region ReadBasicConfig
             if (ValidateA5To1())
             {
-                if (!(cbTerAddr.Checked | cbCenterAddr.Checked | cbPwd.Checked | cbChannel.Checked | cbStandbyChannel.Checked | cbWorkType.Checked | cbElements.Checked | cbIdentifyNum.Checked))
+                if (!(cbTerAddr.Checked | cbCenterAddr.Checked | cbChannel.Checked | cbStandbyChannel.Checked | cbWorkType.Checked | cbElements.Checked | cbIdentifyNum.Checked))
                 {
                     XtraMessageBox.Show("请选择至少一项读取!");
                     return;
@@ -969,8 +997,8 @@ namespace SmartWaterSystem
                     lstCentent.AddRange(PackageDefine.AddrFlagParm);  //遥测站地址标识符
                 if (cbCenterAddr.Checked)
                     lstCentent.AddRange(PackageDefine.CenterAddrFlag);   //中心站地址标识符
-                if (cbPwd.Checked)
-                    lstCentent.AddRange(PackageDefine.PwdFlag);   //密码
+                //if (cbPwd.Checked)
+                //    lstCentent.AddRange(PackageDefine.PwdFlag);   //密码
 
                 byte[] channelflag=new byte[2];byte[] standbychannelflag=new byte[2];
                 if (cbChannel.Checked || cbStandbyChannel.Checked)
@@ -1028,7 +1056,7 @@ namespace SmartWaterSystem
             #region SetBasicConfig
             if (ValidateA5To1())
             {
-                if (!(cbTerAddr.Checked | cbCenterAddr.Checked | cbPwd.Checked | cbChannel.Checked | cbStandbyChannel.Checked | cbWorkType.Checked | cbElements.Checked | cbIdentifyNum.Checked))
+                if (!(cbTerAddr.Checked | cbCenterAddr.Checked | cbChannel.Checked | cbStandbyChannel.Checked | cbWorkType.Checked | cbElements.Checked | cbIdentifyNum.Checked))
                 {
                     XtraMessageBox.Show("请选择至少一项设置!");
                     return;
@@ -1078,21 +1106,21 @@ namespace SmartWaterSystem
                     }
                 }
 
-                if (cbPwd.Checked)
-                {
-                    if (string.IsNullOrEmpty(txtCPwd0.Text) || !Regex.IsMatch(txtCPwd0.Text, "^[a-zA-Z0-9]{1,2}$"))
-                    {
-                        XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtCPwd0.Focus();
-                        return;
-                    }
-                    if (string.IsNullOrEmpty(txtCPwd1.Text) || !Regex.IsMatch(txtCPwd1.Text, "^[a-zA-Z0-9]{1,2}$"))
-                    {
-                        XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtCPwd1.Focus();
-                        return;
-                    }
-                }
+                //if (cbPwd.Checked)
+                //{
+                //    if (string.IsNullOrEmpty(txtCPwd0.Text) || !Regex.IsMatch(txtCPwd0.Text, "^[a-zA-Z0-9]{1,2}$"))
+                //    {
+                //        XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //        txtCPwd0.Focus();
+                //        return;
+                //    }
+                //    if (string.IsNullOrEmpty(txtCPwd1.Text) || !Regex.IsMatch(txtCPwd1.Text, "^[a-zA-Z0-9]{1,2}$"))
+                //    {
+                //        XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //        txtCPwd1.Focus();
+                //        return;
+                //    }
+                //}
 
                 if (cbChannel.Checked)
                 {
@@ -1196,11 +1224,11 @@ namespace SmartWaterSystem
                     lstCentent.AddRange(PackageDefine.CenterAddrFlag);   //中心站地址标识符
                     lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtCCenterAddr.Text)));
                 }
-                if (cbPwd.Checked)
-                {
-                    lstCentent.AddRange(PackageDefine.PwdFlag);   //密码
-                    lstCentent.AddRange(new byte[] { Convert.ToByte(txtCPwd0.Text, 16), Convert.ToByte(txtCPwd1.Text, 16) });
-                }
+                //if (cbPwd.Checked)
+                //{
+                //    lstCentent.AddRange(PackageDefine.PwdFlag);   //密码
+                //    lstCentent.AddRange(new byte[] { Convert.ToByte(txtCPwd0.Text, 16), Convert.ToByte(txtCPwd1.Text, 16) });
+                //}
                 if (cbChannel.Checked)
                 {
                     if (combChannelType.SelectedIndex == 0)
@@ -1969,6 +1997,66 @@ namespace SmartWaterSystem
             }
             #endregion
         }
+
+        private void btnCalibration_Click(object sender, EventArgs e)
+        {
+            #region 第1、2路校准值
+            if (ValidateA5To1())
+            {
+                try
+                {
+                    //if (string.IsNullOrEmpty(txtCalibration.Text.Trim()))
+                    //{
+                    //    XtraMessageBox.Show("请填写需要设置的校准值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //    txtManualSetParm.Focus();
+                    //    return;
+                    //}
+
+                    Package651 pack = PartInitPack();
+                    SimpleButton btn=(SimpleButton)sender;
+                    if (btn.Text == "校准水位1")
+                        pack.FUNCODE = (byte)SL651_COMMAND.SetCalibration1;
+                    else
+                        pack.FUNCODE = (byte)SL651_COMMAND.SetCalibration2;
+
+                    pack.CStart = PackageDefine.CStart;
+
+                    pack.SNum = new byte[2];
+                    pack.SNum[0] = 0;
+                    pack.SNum[1] = 0;
+                    pack.IsUpload = false;
+
+                    pack.AddrFlag = PackageDefine.AddrFlagHeader;
+
+                    //byte[] data = null;
+                    //string caliValue=txtCalibration.Text.Trim();
+                    //if (caliValue.StartsWith("0x"))
+                    //{
+                    //    caliValue = caliValue.Substring(2).PadLeft(4,'0');
+                    //    data = ConvertHelper.StringToByte(caliValue);
+                    //}
+                    //else
+                    //{
+                    //    data = BitConverter.GetBytes(Convert.ToInt16(caliValue));
+                    //    byte tmp = data[0];
+                    //    data[0] = data[1];
+                    //    data[1] = tmp;
+                    //}
+                    //pack.Data = data;
+
+                    byte[] lens = BitConverter.GetBytes((ushort)(8));
+                    pack.L0 = lens[0];
+                    pack.L1 = lens[1];
+
+                    ButtonSend("正在设置" + btn.Text + "...", SerialPortType.Universal651SetCalibration, pack, PackageDefine.ENQ);
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show("发生异常,请检查设置的人工置数数据是否正确! ex:" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            #endregion
+        }
         #endregion
 
         #region key event
@@ -2128,6 +2216,7 @@ namespace SmartWaterSystem
 
         private void SetGprsCtrlStatus()
         {
+            ButtonEnabled(true);
             GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, ""));  //获取SL651协议终端是否允许在线标志
             GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
 
@@ -2143,6 +2232,7 @@ namespace SmartWaterSystem
 
         private void SetSerialPortCtrlStatus()
         {
+            ButtonEnabled(GlobalValue.portUtil.IsOpen);
             group_waitcmd.Visible = false;
             group_manualSetParm.Visible = true;
             this.cbIsOnLine.CheckedChanged -= new System.EventHandler(this.cbIsOnLine_CheckedChanged);
@@ -2156,6 +2246,7 @@ namespace SmartWaterSystem
         {
             rgPrecipitation.SelectedIndex = -1;
         }
+
 
 
     }

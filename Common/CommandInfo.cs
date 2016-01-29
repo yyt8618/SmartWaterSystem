@@ -841,6 +841,14 @@ namespace Common
         /// 设置人工置数内容
         /// </summary>
         SetManualSetParm = 0xE0,
+        /// <summary>
+        /// 设置校准水位1
+        /// </summary>
+        SetCalibration1 = 0xE1,
+        /// <summary>
+        /// 设置校准水位2
+        /// </summary>
+        SetCalibration2 = 0xE2,
     }
 
 

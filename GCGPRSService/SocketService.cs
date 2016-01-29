@@ -2111,7 +2111,7 @@ namespace GCGPRSService
 
         public void GetSL651WaitSendCmd()
         {
-            List<Package651> lstWaitSendCmd = null;
+            List<Package651> lstWaitSendCmd = new List<Package651>();
             if (lstClient != null)
             {
                 foreach (CallSocketEntity sockeentity in lstClient)

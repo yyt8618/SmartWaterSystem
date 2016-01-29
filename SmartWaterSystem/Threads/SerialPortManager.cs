@@ -63,6 +63,7 @@ namespace SmartWaterSystem
         Universal651QueryManualSetParm, //通用终端SL651查询人工置数
 
         Universal651SetManualSetParm,   //通用终端SL651设置人工置数
+        Universal651SetCalibration,     //通用终端SL651设置水位校准值
 
         Universal651QueryTime,      //通用终端SL651查询时间
         Universal651QueryVer,       //通用终端SL651查询版本
@@ -167,7 +168,7 @@ namespace SmartWaterSystem
     public class SerialPortManager:SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 58;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
+        private const int eventcount = 59;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -818,6 +819,7 @@ namespace SmartWaterSystem
                     case (uint)SerialPortType.Universal651Init:           //通用终端SL651恢复出厂
                     case (uint)SerialPortType.Universal651QueryManualSetParm:   //通用终端SL651查询人工置数
                     case (uint)SerialPortType.Universal651SetManualSetParm:     //通用终端SL651设置人工置数
+                    case (uint)SerialPortType.Universal651SetCalibration:       //通用终端SL651设置水位校准值
                         #region 通用终端SL651命令
                         {
                             SL651SendCmd(out result, out msg, out obj);

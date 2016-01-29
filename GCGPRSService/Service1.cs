@@ -149,7 +149,7 @@ namespace GCGPRSService
                             {
                                 logger.ErrorException("解析数据异常", ex);
                                 MSMQEntity msmqMsg = new MSMQEntity();
-                                msmqMsg.MsgType = ConstValue.MSMQTYPE.Msg_Public;
+                                msmqMsg.MsgType = ConstValue.MSMQTYPE.Msg_Err;
                                 msmqMsg.Msg = "解析JSON数据异常(MSMQ)";
                                 SendMessage(msmqMsg);
                             }

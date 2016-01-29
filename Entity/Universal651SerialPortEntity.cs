@@ -186,6 +186,12 @@ namespace Entity
         /// </summary>
         public bool IsOptQueryManualSetParm = false;
         public string QueryManualSetParm { get; set; }
+
+        /// <summary>
+        /// 设置水位校准值
+        /// </summary>
+        public bool IsOptSetCalibration = false;
+        public string SetCalibration { get; set; }
         #endregion
 
     }

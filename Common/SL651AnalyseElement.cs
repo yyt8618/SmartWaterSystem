@@ -83,7 +83,7 @@ namespace SmartWaterSystem
         }
 
         /// <summary>
-        /// 解析要素信息
+        /// 解析要素信息  --未使用了,旧版本
         /// </summary>
         /// <param name="funcode">功能码</param>
         /// <param name="elements">要素信息</param>
@@ -1082,6 +1082,24 @@ namespace SmartWaterSystem
                         strcontent = strcontent.Replace("\n", "");
                         #endregion
                         break;
+                    case (byte)SL651_COMMAND.SetCalibration1: //设置校准水位1
+                    case (byte)SL651_COMMAND.SetCalibration2: //设置校准水位2
+                        #region 设置校准水位1、2
+                        if (elements.Length == 9)
+                        {
+                            spEntity.IsOptSetCalibration=true;
+                            spEntity.SetCalibration = BitConverter.ToInt16(new byte[] { elements[8], elements[7] }, 0).ToString();
+                            if (funcode == (byte)SL651_COMMAND.SetCalibration1)
+                                strcontent = "相对水位1校准值:" + spEntity.SetCalibration;
+                            else
+                                strcontent = "相对水位2校准值:" + spEntity.SetCalibration;
+                        }
+                        else
+                        {
+                            strcontent = "设置校准水位返回长度不正确";
+                        }
+                        #endregion
+                        break;
                     case (byte)SL651_COMMAND.HourReport:      //小时报
                     case (byte)SL651_COMMAND.TimingReport:    //定时报
                     case (byte)SL651_COMMAND.TestReport:      //测试报
@@ -1499,9 +1517,9 @@ namespace SmartWaterSystem
                                     }
                                 }
 
-                                strcontent += ":" + string.Format("{0:X2}", elements[i + 9]) + string.Format("{0:X2}", elements[i + 10]);
+                                strcontent += ":" + string.Format("{0:X2}", elements[i + 8]) + string.Format("{0:X2}", elements[i + 9]) + string.Format("{0:X2}", elements[i + 10]);
                                 if (spEntity.Channel > 0)
-                                    spEntity.Port = Convert.ToInt32(string.Format("{0:X2}", elements[i + 9]) + string.Format("{0:X2}", elements[i + 10]));
+                                    spEntity.Port = Convert.ToInt32(string.Format("{0:X2}", elements[i + 8]) + string.Format("{0:X2}", elements[i + 9]) + string.Format("{0:X2}", elements[i + 10]));
                                 strcontent += ",";
                                 break;
                             }
