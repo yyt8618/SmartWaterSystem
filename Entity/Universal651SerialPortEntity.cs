@@ -192,6 +192,12 @@ namespace Entity
         /// </summary>
         public bool IsOptSetCalibration = false;
         public string SetCalibration { get; set; }
+
+        /// <summary>
+        /// 均匀时段报上传时间
+        /// </summary>
+        public bool IsOptTimeintervalReportTime = false;
+        public int TimeintervalReportTime { get; set; }
         #endregion
 
     }

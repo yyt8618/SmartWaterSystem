@@ -33,11 +33,17 @@ namespace SmartWaterSystem
                 case 0x34:
                     name = "遥测站小时报";
                     break;
+                case 0x35:
+                    name = "人工置数报";
+                    break;
                 case 0x37:
                     name = "查询遥测站实时数据";
                     break;
                 case 0x38:
                     name = "查询时段降水量/水位";
+                    break;
+                case 0x39:
+                    name = "读取人工置数";
                     break;
                 case 0x3A:
                     name = "查询指定要素数据";
@@ -72,11 +78,29 @@ namespace SmartWaterSystem
                 case 0x4A:
                     name = "设置时钟";
                     break;
-                case 0x51:
-                    name = "查询时钟";
+                case 0x4F:
+                    name = "水量定值控制";
                     break;
                 case 0x50:
                     name = "查询事件记录";
+                    break;
+                case 0x51:
+                    name = "查询时钟";
+                    break;
+                case 0xE0:
+                    name = "设置人工置数内容";
+                    break;
+                case 0xE1:
+                    name = "设置校准水位1";
+                    break;
+                case 0xE2:
+                    name = "设置校准水位2";
+                    break;
+                case 0xE3:
+                    name = "设置均匀时段报上传时间";
+                    break;
+                case 0xE4:
+                    name = "读取均匀时段报上传时间";
                     break;
             }
             return name;
@@ -986,8 +1010,9 @@ namespace SmartWaterSystem
         /// <param name="elements">要素信息(值引用)</param>
         /// <param name="loopcount">循环次数，防止死循环,为0时退出</param>
         /// <returns></returns>
-        public static string AnalyseElement1( byte funcode, byte[] elements, byte[] dt, ref Universal651SerialPortEntity spEntity,int loopcount = 20)
+        public static string AnalyseElement1( byte funcode, byte[] elements, byte[] dt, ref Universal651SerialPortEntity spEntity)
         {
+            int oldelemntslen = elements.Length;  //保留旧的elements数据长度,如果循环一次后，elements的长度没有变化，说明有数据解析不了，则退出递归返回
             string strcontent = "";
             if (spEntity == null)
                 spEntity = new Universal651SerialPortEntity();
@@ -1342,8 +1367,13 @@ namespace SmartWaterSystem
                         }
                         if (elements.Length > 0)
                         {
-                            loopcount--;
-                            strcontent += AnalyseElement1(funcode, elements, null, ref spEntity, loopcount);
+                            if (oldelemntslen > elements.Length)
+                                strcontent += AnalyseElement1(funcode, elements, null, ref spEntity);
+                            else
+                            {
+                                strcontent+="未解析数据:"+ ConvertHelper.ByteArrayToHexString(elements);
+                            }
+                            
                         }
                         #endregion
                         break;
@@ -1376,17 +1406,6 @@ namespace SmartWaterSystem
                                 break;
                             }
                         }
-                        //for (int i = 1; i < elements.Length - 2; i++)
-                        //{
-                        //    if (elements[i - 1] == PackageDefine.PwdFlag[0] && elements[i] == PackageDefine.PwdFlag[1])
-                        //    {
-                        //        strcontent += "密码:0x" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + ",";
-                        //        spEntity.IsOptPwd = true;
-                        //        spEntity.CPwd0 = elements[i + 1];
-                        //        spEntity.CPwd1 = elements[i + 2];
-                        //        break;
-                        //    }
-                        //}
                         for (int i = 1; i < elements.Length - 1; i++)
                         {
                             if (elements[i - 1] == PackageDefine.WorkTypeFlag[0] && elements[i] == PackageDefine.WorkTypeFlag[1])
@@ -1529,25 +1548,25 @@ namespace SmartWaterSystem
                             if (elements[i - 1] == PackageDefine.StandbyChannel1Flag[0] && elements[i] == PackageDefine.StandbyChannel1Flag[1])
                             {
                                 strcontent += "备用信道1类型及地址:";
-                                spEntity.ChannelType = 1;
+                                spEntity.ChannelType = 0;
                                 spEntity.IsOptStandbyCh = true;
                             }
                             else if (elements[i - 1] == PackageDefine.StandbyChannel2Flag[0] && elements[i] == PackageDefine.StandbyChannel2Flag[1])
                             {
                                 strcontent += "备用信道2类型及地址:";
-                                spEntity.ChannelType = 2;
+                                spEntity.ChannelType = 1;
                                 spEntity.IsOptStandbyCh = true;
                             }
                             else if (elements[i - 1] == PackageDefine.StandbyChannel3Flag[0] && elements[i] == PackageDefine.StandbyChannel3Flag[1])
                             {
                                 strcontent += "备用信道3类型及地址:";
-                                spEntity.ChannelType = 3;
+                                spEntity.ChannelType = 2;
                                 spEntity.IsOptStandbyCh = true;
                             }
                             else if (elements[i - 1] == PackageDefine.StandbyChannel4Flag[0] && elements[i] == PackageDefine.StandbyChannel4Flag[1])
                             {
                                 strcontent += "备用信道4类型及地址:";
-                                spEntity.ChannelType = 4;
+                                spEntity.ChannelType = 3;
                                 spEntity.IsOptStandbyCh = true;
                             }
                             if (spEntity.IsOptStandbyCh)
@@ -2050,6 +2069,15 @@ namespace SmartWaterSystem
                                 strcontent += "12h降水量:" + ConvertToDouble(string.Format("{0:X2}", elements[i]) + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2])) / Math.Pow(10, pointlen) + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
+                        }
+                        #endregion
+                        break;
+                    case (byte)SL651_COMMAND.ReadTimeIntervalReportTime:
+                        #region 读取均匀时段报上传时间
+                        if (elements.Length == 8)
+                        {
+                            spEntity.IsOptTimeintervalReportTime = true;
+                            spEntity.TimeintervalReportTime = Convert.ToInt32(elements[7]);
                         }
                         #endregion
                         break;

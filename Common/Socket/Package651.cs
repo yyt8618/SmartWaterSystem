@@ -241,6 +241,56 @@ namespace Common
         }
 
         /// <summary>
+        /// 比较两个Package651是否值相等
+        /// </summary>
+        /// <param name="pack"></param>
+        /// <returns></returns>
+        public bool Equals(Package651 pack)
+        {
+            if (this.A5 != pack.A5)
+                return false;
+            if (this.A4 != pack.A4)
+                return false;
+            if (this.A3 != pack.A3)
+                return false;
+            if (this.A2 != pack.A2)
+                return false;
+            if (this.A1 != pack.A1)
+                return false;
+            if (this.CenterAddr != pack.CenterAddr)
+                return false;
+            if (this.PWD[0] != pack.PWD[0])
+                return false;
+            if (this.PWD[1] != pack.PWD[1])
+                return false;
+            if (this.FUNCODE != pack.FUNCODE)
+                return false;
+            if (this.SNum[0] != pack.SNum[0])
+                return false;
+            if (this.SNum[1] != pack.SNum[1])
+                return false;
+            if (!PasswordEquals(this.data, pack.data))
+                return false;
+
+            return true;
+        }
+
+        /// 比较两个字节数组是否相等
+        /// </summary>
+        /// <param name="b1">byte数组1</param>
+        /// <param name="b2">byte数组2</param>
+        /// <returns>是否相等</returns>
+        private bool PasswordEquals(byte[] b1, byte[] b2)
+        {
+            if (b1.Length != b2.Length) return false;
+            if (b1 == null || b2 == null) return false;
+            for (int i = 0; i < b1.Length; i++)
+                if (b1[i] != b2[i])
+                    return false;
+            return true;
+        }
+
+        /// <summary>
         /// 转化为16字节字符串数组
         /// </summary>
         /// <returns></returns>

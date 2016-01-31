@@ -746,6 +746,10 @@ namespace Common
     public enum SL651_COMMAND
     {
         /// <summary>
+        /// 测试报
+        /// </summary>
+        TestReport = 0x30,
+        /// <summary>
         /// 均匀时段水文报
         /// </summary>
         UniformityTimeReport = 0x31,
@@ -753,10 +757,6 @@ namespace Common
         /// 定时报
         /// </summary>
         TimingReport = 0x32,
-        /// <summary>
-        /// 测试报
-        /// </summary>
-        TestReport = 0x30,
         /// <summary>
         /// 遥测站加报
         /// </summary>
@@ -770,10 +770,6 @@ namespace Common
         /// </summary>
         ManualSetParmReport = 0x35,
         /// <summary>
-        /// 查询版本
-        /// </summary>
-        QueryVer = 0x45,
-        /// <summary>
         /// 查询实时数据
         /// </summary>
         QueryCurData = 0x37,
@@ -781,6 +777,10 @@ namespace Common
         /// 查询时段降水量
         /// </summary>
         QueryPrecipitation = 0x38,
+        /// <summary>
+        /// 读取人工置数
+        /// </summary>
+        QueryManualSetParm = 0x39,
         /// <summary>
         /// 查询指定要素
         /// </summary>
@@ -802,6 +802,10 @@ namespace Common
         /// </summary>
         ReadRunConfig = 0x43,
         /// <summary>
+        /// 查询版本
+        /// </summary>
+        QueryVer = 0x45,
+        /// <summary>
         /// 查询状态和报警
         /// </summary>
         QueryAlarm = 0x46,
@@ -822,21 +826,17 @@ namespace Common
         /// </summary>
         SetTime = 0x4A,
         /// <summary>
-        /// 查询时间
+        /// 水量定值控制
         /// </summary>
-        QueryTime = 0x51,
+        PrecipitationConstantCtrl = 0x4F,
         /// <summary>
         /// 查询事件记录
         /// </summary>
         QueryEvent = 0x50,
         /// <summary>
-        /// 水量定值控制
+        /// 查询时间
         /// </summary>
-        PrecipitationConstantCtrl = 0x4F,
-        /// <summary>
-        /// 读取人工置数
-        /// </summary>
-        QueryManualSetParm = 0x39,
+        QueryTime = 0x51,
         /// <summary>
         /// 设置人工置数内容
         /// </summary>
@@ -849,6 +849,15 @@ namespace Common
         /// 设置校准水位2
         /// </summary>
         SetCalibration2 = 0xE2,
+        /// <summary>
+        /// 设置均匀时段报上传时间
+        /// </summary>
+        SetTimeIntervalReportTime = 0xE3,
+        /// <summary>
+        /// 读取均匀时段报上传时间
+        /// </summary>
+        ReadTimeIntervalReportTime = 0xE4,
+        
     }
 
 

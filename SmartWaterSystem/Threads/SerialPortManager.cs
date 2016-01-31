@@ -64,6 +64,8 @@ namespace SmartWaterSystem
 
         Universal651SetManualSetParm,   //通用终端SL651设置人工置数
         Universal651SetCalibration,     //通用终端SL651设置水位校准值
+        Universal651ReadTimeintervalReportTime, //通用终端SL651读取均匀时段报上传时间
+        Universal651SetTimeintervalReportTime, //通用终端SL651设置均匀时段报上传时间
 
         Universal651QueryTime,      //通用终端SL651查询时间
         Universal651QueryVer,       //通用终端SL651查询版本
@@ -168,7 +170,7 @@ namespace SmartWaterSystem
     public class SerialPortManager:SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 59;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
+        private const int eventcount = 61;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -802,29 +804,37 @@ namespace SmartWaterSystem
                         #endregion
                         break;
                     case (uint)SerialPortType.Universal651ChPwd:        //设置通用终端SL651密码
-                    case (uint)SerialPortType.Universal651ReadBasicInfo:    //读取通用终端SL651基本信息
+                    case (uint)SerialPortType.Universal651ReadBasicInfo://读取通用终端SL651基本信息
                     case (uint)SerialPortType.Universal651SetBasicInfo: //设置通用终端SL651基本信息
                     case (uint)SerialPortType.Universal651ReadRunInfo:  //读取通用终端SL651运行配置
                     case (uint)SerialPortType.Universal651SetRunInfo:   //设置通用终端SL651运行配置
-                    case (uint)SerialPortType.Universal651QueryElements://通用终端SL651查询指定要素  
                     case (uint)SerialPortType.Universal651SetPreConstCtrl://通用终端SL651设置水量定值控制命令
-                    case (uint)SerialPortType.Universal651QueryTime:      //通用终端SL651查询时间
-                    case (uint)SerialPortType.Universal651QueryVer:       //通用终端SL651查询版本
-                    case (uint)SerialPortType.Universal651QueryCurData:   //通用终端SL651查询实时数据
                     case (uint)SerialPortType.Universal651QueryPrecipitation:   //通用终端SL651查询时段降水量
-                    case (uint)SerialPortType.Universal651QueryEvent:     //通用终端SL651查询事件
-                    case (uint)SerialPortType.Universal651QueryAlarm:     //通用终端SL651查询状态和报警
-                    case (uint)SerialPortType.Universal651SetTime:        //通用终端SL651设置时间
                     case (uint)SerialPortType.Universal651InitFlash:      //通用终端SL651初始化FLASH
                     case (uint)SerialPortType.Universal651Init:           //通用终端SL651恢复出厂
+                        #region 通用终端SL651命令(需要发送确认帧)
+                        {
+                            SL651SendCmd(true,out result, out msg, out obj);
+                        }
+                        #endregion
+                         break;
+                    case (uint)SerialPortType.Universal651QueryElements://通用终端SL651查询指定要素 
+                    case (uint)SerialPortType.Universal651QueryCurData:   //通用终端SL651查询实时数据
+                    case (uint)SerialPortType.Universal651QueryVer:       //通用终端SL651查询版本 
+                    case (uint)SerialPortType.Universal651QueryAlarm:     //通用终端SL651查询状态和报警
+                    case (uint)SerialPortType.Universal651QueryEvent:     //通用终端SL651查询事件
+                    case (uint)SerialPortType.Universal651SetTime:        //通用终端SL651设置时间   
+                    case (uint)SerialPortType.Universal651QueryTime:      //通用终端SL651查询时间
                     case (uint)SerialPortType.Universal651QueryManualSetParm:   //通用终端SL651查询人工置数
                     case (uint)SerialPortType.Universal651SetManualSetParm:     //通用终端SL651设置人工置数
                     case (uint)SerialPortType.Universal651SetCalibration:       //通用终端SL651设置水位校准值
-                        #region 通用终端SL651命令
-                        {
-                            SL651SendCmd(out result, out msg, out obj);
-                        }
-                        #endregion
+                    case (uint)SerialPortType.Universal651ReadTimeintervalReportTime:   //通用终端SL651读取均匀时段报上传时间
+                    case (uint)SerialPortType.Universal651SetTimeintervalReportTime:    //通用终端SL651设置均匀时段报上传时间
+                         #region 通用终端SL651命令(不需要发送确认帧)
+                         {
+                             SL651SendCmd(false, out result, out msg, out obj);
+                         }
+                         #endregion
                          break;
                     case (uint)SerialPortType.OLWQReset:
                         #region 水质终端复位
@@ -1439,7 +1449,7 @@ namespace SmartWaterSystem
             GlobalValue.portUtil.AppendBufLine(str);
         }
 
-        private void SL651SendCmd(out bool result, out string msg, out object obj)
+        private void SL651SendCmd(bool needconfirm,out bool result, out string msg, out object obj)
         {
             result = false;  //-1:执行失败;1:执行成功;0:无执行返回
             msg = "";
@@ -1447,16 +1457,19 @@ namespace SmartWaterSystem
             try
             {
                 Package651 packresp = GlobalValue.Universallog.Read(GlobalValue.SerialPort651OptData);
-                Package651 tmp = GlobalValue.SerialPort651OptData;
-                tmp.Data = null;
-                tmp.CS = null;
-                byte[] lens = BitConverter.GetBytes((ushort)(8));
-                tmp.L0 = lens[0];
-                tmp.L1 = lens[1];
-                byte[] bsenddata = tmp.ToResponseArray();
-                tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
-                Thread.Sleep(500);
-                GlobalValue.Universallog.Read(tmp, 3, 2, false);
+                if (needconfirm)
+                {
+                    Package651 tmp = GlobalValue.SerialPort651OptData;
+                    tmp.Data = null;
+                    tmp.CS = null;
+                    byte[] lens = BitConverter.GetBytes((ushort)(8));
+                    tmp.L0 = lens[0];
+                    tmp.L1 = lens[1];
+                    byte[] bsenddata = tmp.ToResponseArray();
+                    tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
+                    Thread.Sleep(500);
+                    GlobalValue.Universallog.Read(tmp, 3, 2, false);
+                }
                 Universal651SerialPortEntity spEntity = null;
                 string anamsg = SL651AnalyseElement.AnalyseElement1(packresp.FUNCODE, packresp.Data,packresp.dt, ref spEntity);
                 ShowMsgControl(packresp, anamsg);

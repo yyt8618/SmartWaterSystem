@@ -17,7 +17,14 @@ namespace SmartWaterSystem
         public UniversalTerParm651()
         {
             InitializeComponent();
-            
+            DevExpress.Data.CurrencyDataController.DisableThreadingProblemsDetection = true;
+            timer_GetWaitCmd.Tick += new EventHandler(timer_GetWaitCmd_Tick);
+        }
+
+        void timer_GetWaitCmd_Tick(object sender, EventArgs e)
+        {
+            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
+            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
         }
 
         private void UniversalTerParm651_Load(object sender, EventArgs e)
@@ -56,6 +63,8 @@ namespace SmartWaterSystem
             btnQueryPrecipitation.Enabled = Enabled;
             btnCalibration1.Enabled = Enabled;
             btnCalibration2.Enabled = Enabled;
+            btnReadTimeintervalReportTime.Enabled = Enabled;
+            btnSetTimeintervalReportTime.Enabled = Enabled;
         }
 
         void MSMQMgr_MSMQEvent(object sender, MSMQEventArgs e)
@@ -82,30 +91,95 @@ namespace SmartWaterSystem
                     try
                     {
                         List<Package651> lstPack= JSONSerialize.JsonDeserialize<List<Package651>>(e.msmqEntity.Msg);
-                        gridControl_WaitCmd.DataSource = null;
-                        gridControl_WaitCmd.RefreshDataSource();
-                        if (lstPack != null)
+                        DataTable dt = (DataTable)gridControl_WaitCmd.DataSource;
+                        if (dt == null)
                         {
-                            DataTable dt = new DataTable("waitsendTable");
+                            dt = new DataTable("waitsendTable");
                             dt.Columns.Add("A5");
                             dt.Columns.Add("A4");
                             dt.Columns.Add("A3");
                             dt.Columns.Add("A2");
                             dt.Columns.Add("A1");
                             dt.Columns.Add("funcode");
-                            foreach (Package651 pack in lstPack)
-                            {
-                                DataRow dr = dt.NewRow();
-                                dr["A5"] = "0x" + string.Format("{0:X2}", pack.A5);
-                                dr["A4"] = "0x" + string.Format("{0:X2}", pack.A4);
-                                dr["A3"] = "0x" + string.Format("{0:X2}", pack.A3);
-                                dr["A2"] = "0x" + string.Format("{0:X2}", pack.A2);
-                                dr["A1"] = "0x" + string.Format("{0:X2}", pack.A1);
-                                dr["funcode"] = "0x" + string.Format("{0:X2}", pack.FUNCODE);
-                                dt.Rows.Add(dr);
-                            }
-                            SetWaitListView_Cmd(dt);
                         }
+
+                        if (lstPack != null)
+                        {
+                            bool exist = false;
+                            for (int i = 0; i < dt.Rows.Count; i++)  //如果绑定的表中的数据在lstPack中不存在,则删除
+                            {
+                                exist = false;
+                                foreach (Package651 pack in lstPack)
+                                {
+                                    if(("0x" + string.Format("{0:X2}", pack.A5)) == dt.Rows[i]["A5"].ToString() && ("0x" + string.Format("{0:X2}", pack.A4)) == dt.Rows[i]["A4"].ToString() &&
+                                        ("0x" + string.Format("{0:X2}", pack.A3)) == dt.Rows[i]["A3"].ToString() &&("0x" + string.Format("{0:X2}", pack.A2)) == dt.Rows[i]["A2"].ToString() &&
+                                            ("0x" + string.Format("{0:X2}", pack.A1)) == dt.Rows[i]["A1"].ToString() && ("0x" + string.Format("{0:X2}", pack.FUNCODE)) == dt.Rows[i]["funcode"].ToString())
+                                    {
+                                        exist = true;
+                                        break;
+                                    }
+                                }
+                                if (!exist)
+                                {
+                                    dt.Rows.RemoveAt(i);
+                                }
+                            }
+                            foreach (Package651 pack in lstPack)   //如果在lstPack中存在,而在绑定的表中不存在,则添加
+                            {
+                                exist = false;
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    if (("0x" + string.Format("{0:X2}", pack.A5)) == dr["A5"].ToString() && ("0x" + string.Format("{0:X2}", pack.A4)) == dr["A4"].ToString() &&
+                                        ("0x" + string.Format("{0:X2}", pack.A3)) == dr["A3"].ToString() && ("0x" + string.Format("{0:X2}", pack.A2)) == dr["A2"].ToString() &&
+                                            ("0x" + string.Format("{0:X2}", pack.A1)) == dr["A1"].ToString() && ("0x" + string.Format("{0:X2}", pack.FUNCODE)) == dr["funcode"].ToString())
+                                    {
+                                        exist = true;
+                                        break;
+                                    }
+                                }
+                                if (!exist)
+                                {
+                                    DataRow dr = dt.NewRow();
+                                    dr["A5"] = "0x" + string.Format("{0:X2}", pack.A5);
+                                    dr["A4"] = "0x" + string.Format("{0:X2}", pack.A4);
+                                    dr["A3"] = "0x" + string.Format("{0:X2}", pack.A3);
+                                    dr["A2"] = "0x" + string.Format("{0:X2}", pack.A2);
+                                    dr["A1"] = "0x" + string.Format("{0:X2}", pack.A1);
+                                    dr["funcode"] = "0x" + string.Format("{0:X2}", pack.FUNCODE);
+                                    dt.Rows.Add(dr);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            dt.Rows.Clear();
+                        }
+                        //gridControl_WaitCmd.RefreshDataSource();
+                        SetWaitListView_Cmd(dt);
+                        //gridControl_WaitCmd.DataSource = null;
+                        //gridControl_WaitCmd.RefreshDataSource();
+                        //if (lstPack != null)
+                        //{
+                        //    DataTable dt = new DataTable("waitsendTable");
+                        //    dt.Columns.Add("A5");
+                        //    dt.Columns.Add("A4");
+                        //    dt.Columns.Add("A3");
+                        //    dt.Columns.Add("A2");
+                        //    dt.Columns.Add("A1");
+                        //    dt.Columns.Add("funcode");
+                        //    foreach (Package651 pack in lstPack)
+                        //    {
+                        //        DataRow dr = dt.NewRow();
+                        //        dr["A5"] = "0x" + string.Format("{0:X2}", pack.A5);
+                        //        dr["A4"] = "0x" + string.Format("{0:X2}", pack.A4);
+                        //        dr["A3"] = "0x" + string.Format("{0:X2}", pack.A3);
+                        //        dr["A2"] = "0x" + string.Format("{0:X2}", pack.A2);
+                        //        dr["A1"] = "0x" + string.Format("{0:X2}", pack.A1);
+                        //        dr["funcode"] = "0x" + string.Format("{0:X2}", pack.FUNCODE);
+                        //        dt.Rows.Add(dr);
+                        //    }
+                        //    SetWaitListView_Cmd(dt);
+                        //}
                     }
                     catch { 
                     }
@@ -122,13 +196,13 @@ namespace SmartWaterSystem
                 this.BeginInvoke((SetWaitListViewHandle)delegate(DataTable lstparm)
                 {
                     gridControl_WaitCmd.DataSource = lstparm;
-                    gridControl_WaitCmd.RefreshDataSource();
+                    //gridControl_WaitCmd.RefreshDataSource();
                 },lstPack);
             }
             else
             {
                 gridControl_WaitCmd.DataSource = lstPack;
-                gridControl_WaitCmd.RefreshDataSource();
+                //gridControl_WaitCmd.RefreshDataSource();
             }
         }
 
@@ -328,13 +402,13 @@ namespace SmartWaterSystem
                             txtIP3.Text = spEntity.Ip3;
                             txtIP4.Text = spEntity.Ip4;
                             txtCPort.Text = spEntity.Port.ToString();
-                            combChannelType.SelectedIndex = spEntity.ChannelType-1;
+                            combChannelType.SelectedIndex = spEntity.ChannelType;
                         }
                         if (spEntity.IsOptStandbyCh)
                         {
                             combStandbyChannel.SelectedIndex = spEntity.StandByCh;
                             txtStandbyChTelnum.Text = spEntity.StandbyChTelnum;
-                            combChannelType.SelectedIndex = spEntity.ChannelType-1;
+                            combChannelType.SelectedIndex = spEntity.ChannelType;
                         }
                         if (spEntity.IsOptIdentifyNum)
                         {
@@ -645,6 +719,42 @@ namespace SmartWaterSystem
                 }
                 #endregion
             }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651ReadTimeintervalReportTime)
+            {
+                #region 通用终端SL651读取均匀时段报上传时间
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsOptTimeintervalReportTime)
+                        {
+                            seTimeintervalReportTime.Value = spEntity.TimeintervalReportTime;
+                            //XtraMessageBox.Show("读取均匀时段报上传时间成功!上传时间:" + spEntity.TimeintervalReportTime, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("读取均匀时段报上传时间失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651SetTimeintervalReportTime)
+            {
+                #region 通用终端SL651设置均匀时段报上传时间
+                OnSerialPortNotifyEnable();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("设置均匀时段报上传时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("设置均匀时段报上传时间失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                #endregion
+            }
         }
 
         private void OnSerialPortNotifyEnable()
@@ -683,6 +793,8 @@ namespace SmartWaterSystem
             btnQueryPrecipitation.Enabled = enable;
             btnCalibration1.Enabled = enable;
             btnCalibration2.Enabled = enable;
+            btnReadTimeintervalReportTime.Enabled = enable;
+            btnSetTimeintervalReportTime.Enabled = enable;
         }
 
         private void ButtonSend(string tipmsg, SerialPortType spPort,Package651 pack,byte End)
@@ -1395,9 +1507,9 @@ namespace SmartWaterSystem
                     txtAddInterval.Focus();
                     return;
                 }
-                if (cbPrecipitationStartTime.Checked && !Regex.IsMatch(txtPrecipitationStartTime.Text, @"(^[1-9]|1[0-9]{1}|2[0-3]{1})$"))
+                if (cbPrecipitationStartTime.Checked && !Regex.IsMatch(txtPrecipitationStartTime.Text, @"(^0|[1-9]|1[0-9]{1}|2[0-3]{1})$"))
                 {
-                    XtraMessageBox.Show("请输入正确降水量日起始时间(1-23h)", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show("请输入正确降水量日起始时间(0-23h)", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtPrecipitationStartTime.Focus();
                     return;
                 }
@@ -2005,13 +2117,6 @@ namespace SmartWaterSystem
             {
                 try
                 {
-                    //if (string.IsNullOrEmpty(txtCalibration.Text.Trim()))
-                    //{
-                    //    XtraMessageBox.Show("请填写需要设置的校准值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //    txtManualSetParm.Focus();
-                    //    return;
-                    //}
-
                     Package651 pack = PartInitPack();
                     SimpleButton btn=(SimpleButton)sender;
                     if (btn.Text == "校准水位1")
@@ -2027,23 +2132,6 @@ namespace SmartWaterSystem
                     pack.IsUpload = false;
 
                     pack.AddrFlag = PackageDefine.AddrFlagHeader;
-
-                    //byte[] data = null;
-                    //string caliValue=txtCalibration.Text.Trim();
-                    //if (caliValue.StartsWith("0x"))
-                    //{
-                    //    caliValue = caliValue.Substring(2).PadLeft(4,'0');
-                    //    data = ConvertHelper.StringToByte(caliValue);
-                    //}
-                    //else
-                    //{
-                    //    data = BitConverter.GetBytes(Convert.ToInt16(caliValue));
-                    //    byte tmp = data[0];
-                    //    data[0] = data[1];
-                    //    data[1] = tmp;
-                    //}
-                    //pack.Data = data;
-
                     byte[] lens = BitConverter.GetBytes((ushort)(8));
                     pack.L0 = lens[0];
                     pack.L1 = lens[1];
@@ -2053,6 +2141,77 @@ namespace SmartWaterSystem
                 catch (Exception ex)
                 {
                     XtraMessageBox.Show("发生异常,请检查设置的人工置数数据是否正确! ex:" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            #endregion
+        }
+
+        private void btnReadTimeintervalReportTime_Click(object sender, EventArgs e)
+        {
+            #region 读取均匀时段报上传时间
+            if (ValidateA5To1())
+            {
+                try
+                {
+                    Package651 pack = PartInitPack();
+                    pack.FUNCODE = (byte)SL651_COMMAND.ReadTimeIntervalReportTime;
+
+                    pack.CStart = PackageDefine.CStart;
+
+                    pack.SNum = new byte[2];
+                    pack.SNum[0] = 0;
+                    pack.SNum[1] = 0;
+                    pack.IsUpload = false;
+
+                    pack.AddrFlag = PackageDefine.AddrFlagHeader;
+
+                    byte[] lens = BitConverter.GetBytes((ushort)(8));
+                    pack.L0 = lens[0];
+                    pack.L1 = lens[1];
+
+                    ButtonSend("正在读取均匀时段报上传时间...", SerialPortType.Universal651ReadTimeintervalReportTime, pack, PackageDefine.ENQ);
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show("发生异常! ex:" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            #endregion
+        }
+
+        private void btnSetTimeintervalReportTime_Click(object sender, EventArgs e)
+        {
+            #region 设置均匀时段报上传时间
+            if (ValidateA5To1())
+            {
+                try
+                {
+                    Package651 pack = PartInitPack();
+                    pack.FUNCODE = (byte)SL651_COMMAND.SetTimeIntervalReportTime;
+
+                    pack.CStart = PackageDefine.CStart;
+
+                    pack.SNum = new byte[2];
+                    pack.SNum[0] = 0;
+                    pack.SNum[1] = 0;
+                    pack.IsUpload = false;
+
+                    pack.AddrFlag = PackageDefine.AddrFlagHeader;
+
+                    string setparm = seTimeintervalReportTime.Text.Trim();
+                    setparm = setparm.Replace(" ", "");
+                    byte[] data = new byte[] { Convert.ToByte(seTimeintervalReportTime.Value) };
+                    pack.Data = data;
+
+                    byte[] lens = BitConverter.GetBytes((ushort)(8 + data.Length));
+                    pack.L0 = lens[0];
+                    pack.L1 = lens[1];
+
+                    ButtonSend("正在设置均匀时段报上传时间...", SerialPortType.Universal651SetTimeintervalReportTime, pack, PackageDefine.ENQ);
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show("发生异常,请检查设置的上传时间是否正确! ex:" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             #endregion
@@ -2218,7 +2377,9 @@ namespace SmartWaterSystem
         {
             ButtonEnabled(true);
             GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, ""));  //获取SL651协议终端是否允许在线标志
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
+            //GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
+            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
+            timer_GetWaitCmd.Enabled = true;  //启用查询GPRS待发送命令定时器 10s
 
             GlobalValue.MSMQMgr.MSMQEvent -= new MSMQHandler(MSMQMgr_MSMQEvent);
             GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
@@ -2232,6 +2393,8 @@ namespace SmartWaterSystem
 
         private void SetSerialPortCtrlStatus()
         {
+            timer_GetWaitCmd.Enabled = false;  //停用查询GPRS待发送命令定时器 10s
+
             ButtonEnabled(GlobalValue.portUtil.IsOpen);
             group_waitcmd.Visible = false;
             group_manualSetParm.Visible = true;
@@ -2246,6 +2409,8 @@ namespace SmartWaterSystem
         {
             rgPrecipitation.SelectedIndex = -1;
         }
+
+        
 
 
 

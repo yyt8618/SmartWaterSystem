@@ -442,6 +442,12 @@ namespace SmartWaterSystem
 
                     BandSerialPortEvent("IHydrantParm");
                 }
+                else
+                {
+                    barBtnSerialOpen.Enabled = true;
+                    barBtnSerialClose.Enabled = false;
+                }
+
             }
             catch (Exception ex)
             {

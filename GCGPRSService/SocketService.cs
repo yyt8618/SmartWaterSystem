@@ -1492,15 +1492,36 @@ namespace GCGPRSService
                                                     p.End = PackageDefine.ESC;
                                                     pack_cmd[i] = p;
                                                 }
-                                                List<byte> sendBytes = new List<byte>();
-                                                sendBytes.AddRange(pack_cmd[i].ToResponseArray(true));
-                                                sendBytes.AddRange(Package651.crc16(bsenddata, bsenddata.Length));
-                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(sendBytes.ToArray(), sendBytes.Count)));
+                                                Package651 pack651Cmd = pack_cmd[i];
+                                                bsenddata = pack651Cmd.ToResponseArray(true);
+                                                pack651Cmd.CS = Package651.crc16(bsenddata, bsenddata.Length);
+
+                                                bsenddata = pack651Cmd.ToResponseArray();
+                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 
                                                 Thread.Sleep(1500);  //2
-                                                Send651(handler, sendBytes.ToArray());
-                                                //lstSendPack.Remove(pack_cmd[i]);
-                                                //SetListView_Cmd();
+                                                if (Send651(handler, bsenddata))  //发送成功则清除
+                                                {
+                                                    if (lstClient != null && lstClient.Count > 0)
+                                                    {
+                                                        foreach (CallSocketEntity callentity in lstClient)
+                                                        {
+                                                            if ((callentity.A5 == pack.A5) && (callentity.A4 == pack.A4) && (callentity.A3 == pack.A3) && (callentity.A2 == pack.A2) && (callentity.A1 == pack.A1))
+                                                            {
+                                                                if (callentity.lstWaitSendCmd != null && callentity.lstWaitSendCmd.Count > 0)
+                                                                {
+                                                                    for (int j = 0; j < callentity.lstWaitSendCmd.Count; j++)
+                                                                    {
+                                                                        if (callentity.lstWaitSendCmd[j].SendPackage651!=null && callentity.lstWaitSendCmd[j].SendPackage651.Equals(pack651Cmd))
+                                                                        {
+                                                                            callentity.lstWaitSendCmd.RemoveAt(j);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                         else
@@ -1539,7 +1560,6 @@ namespace GCGPRSService
 
                                                 Thread.Sleep(1500); //3
                                                 Send651(handler, bsenddata);
-
                                             }
                                         }
                                         #endregion
@@ -2043,6 +2063,17 @@ namespace GCGPRSService
                     if (pack.A1 == sock.A1 && pack.A2 == sock.A2 && pack.A3 == sock.A3 && pack.A4 == sock.A4 && pack.A5 == sock.A5)
                     {
                         isExist = true;
+                        if (sock.lstWaitSendCmd != null && sock.lstWaitSendCmd.Count > 0)
+                        {
+                            for(int i = 0; i < sock.lstWaitSendCmd.Count; i++)
+                            {
+                                //命令已经存在,直接返回
+                                if (sock.lstWaitSendCmd[i].SendPackage651 != null && sock.lstWaitSendCmd[i].SendPackage651.Equals(pack))
+                                {
+                                    return;
+                                }
+                            }
+                        }
                         bool isOnline = false;
                         if (sock.ClientSocket != null && sock.ClientSocket.Connected)
                         {
@@ -2151,16 +2182,18 @@ namespace GCGPRSService
             }
         }
 
-        private void Send651(Socket socket, byte[] bsenddata)
+        private bool Send651(Socket socket, byte[] bsenddata)
         {
             try
             {
                 SendObject sendObj = new SendObject();
                 sendObj.workSocket = socket;
                 socket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback651), sendObj);
+                return true;
             }
             catch (Exception ex)
             {
+                return false;
             }
         }
         #endregion

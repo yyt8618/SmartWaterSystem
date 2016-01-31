@@ -29,6 +29,7 @@ namespace SmartWaterSystem
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtCenterAddr = new DevExpress.XtraEditors.TextEdit();
             this.label4 = new System.Windows.Forms.Label();
             this.txtPwd1 = new DevExpress.XtraEditors.TextEdit();
@@ -159,6 +160,9 @@ namespace SmartWaterSystem
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.combPrecipitationConstantCtrl = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnSetPrecipitationConstantCtrl = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCalibration2 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCalibration1 = new DevExpress.XtraEditors.SimpleButton();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
             this.group_waitcmd = new System.Windows.Forms.GroupBox();
@@ -172,17 +176,21 @@ namespace SmartWaterSystem
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.btnDel = new DevExpress.XtraEditors.SimpleButton();
             this.group_manualSetParm = new System.Windows.Forms.GroupBox();
+            this.seTimeintervalReportTime = new DevExpress.XtraEditors.SpinEdit();
+            this.label26 = new System.Windows.Forms.Label();
             this.combManualSetParm = new DevExpress.XtraEditors.ComboBoxEdit();
             this.memo_ManualSetParm = new DevExpress.XtraEditors.MemoEdit();
             this.label24 = new System.Windows.Forms.Label();
             this.btnAddManualSetParm = new DevExpress.XtraEditors.SimpleButton();
-            this.btnCalibration2 = new DevExpress.XtraEditors.SimpleButton();
-            this.btnCalibration1 = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetManualSetParm = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSetTimeintervalReportTime = new DevExpress.XtraEditors.SimpleButton();
+            this.btnReadTimeintervalReportTime = new DevExpress.XtraEditors.SimpleButton();
             this.btnReadManualSetParm = new DevExpress.XtraEditors.SimpleButton();
             this.txtManualSetParm = new DevExpress.XtraEditors.TextEdit();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label27 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.timer_GetWaitCmd = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.txtCenterAddr.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPwd1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPwd0.Properties)).BeginInit();
@@ -277,6 +285,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).BeginInit();
             this.group_manualSetParm.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.seTimeintervalReportTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.combManualSetParm.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.memo_ManualSetParm.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtManualSetParm.Properties)).BeginInit();
@@ -503,7 +512,7 @@ namespace SmartWaterSystem
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(203, 130);
+            this.label11.Location = new System.Drawing.Point(202, 129);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(11, 14);
             this.label11.TabIndex = 30;
@@ -1251,7 +1260,7 @@ namespace SmartWaterSystem
             this.label16.Location = new System.Drawing.Point(6, 16);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(107, 14);
-            this.label16.TabIndex = 0;
+            this.label16.TabIndex = 1;
             this.label16.Text = "水量定值控制命令:";
             // 
             // groupBox10
@@ -1595,17 +1604,20 @@ namespace SmartWaterSystem
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.combPrecipitationConstantCtrl);
             this.groupBox1.Controls.Add(this.btnSetPrecipitationConstantCtrl);
+            this.groupBox1.Controls.Add(this.btnCalibration2);
+            this.groupBox1.Controls.Add(this.btnCalibration1);
+            this.groupBox1.Controls.Add(this.groupBox5);
             this.groupBox1.Location = new System.Drawing.Point(324, 381);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(152, 110);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "水量定值";
+            this.groupBox1.Text = "水量定值\\水位校准";
             // 
             // combPrecipitationConstantCtrl
             // 
             this.combPrecipitationConstantCtrl.EditValue = "定值控制投入";
-            this.combPrecipitationConstantCtrl.Location = new System.Drawing.Point(11, 40);
+            this.combPrecipitationConstantCtrl.Location = new System.Drawing.Point(5, 34);
             this.combPrecipitationConstantCtrl.Name = "combPrecipitationConstantCtrl";
             this.combPrecipitationConstantCtrl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1613,17 +1625,43 @@ namespace SmartWaterSystem
             "定值控制投入",
             "定值控制投出"});
             this.combPrecipitationConstantCtrl.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.combPrecipitationConstantCtrl.Size = new System.Drawing.Size(135, 20);
+            this.combPrecipitationConstantCtrl.Size = new System.Drawing.Size(100, 20);
             this.combPrecipitationConstantCtrl.TabIndex = 1;
             // 
             // btnSetPrecipitationConstantCtrl
             // 
-            this.btnSetPrecipitationConstantCtrl.Location = new System.Drawing.Point(41, 66);
+            this.btnSetPrecipitationConstantCtrl.Location = new System.Drawing.Point(106, 34);
             this.btnSetPrecipitationConstantCtrl.Name = "btnSetPrecipitationConstantCtrl";
-            this.btnSetPrecipitationConstantCtrl.Size = new System.Drawing.Size(70, 26);
+            this.btnSetPrecipitationConstantCtrl.Size = new System.Drawing.Size(42, 20);
             this.btnSetPrecipitationConstantCtrl.TabIndex = 2;
             this.btnSetPrecipitationConstantCtrl.Text = "设置";
             this.btnSetPrecipitationConstantCtrl.Click += new System.EventHandler(this.btnSetPrecipitationConstantCtrl_Click);
+            // 
+            // btnCalibration2
+            // 
+            this.btnCalibration2.Location = new System.Drawing.Point(77, 75);
+            this.btnCalibration2.Name = "btnCalibration2";
+            this.btnCalibration2.Size = new System.Drawing.Size(68, 25);
+            this.btnCalibration2.TabIndex = 5;
+            this.btnCalibration2.Text = "校准水位2";
+            this.btnCalibration2.Click += new System.EventHandler(this.btnCalibration_Click);
+            // 
+            // btnCalibration1
+            // 
+            this.btnCalibration1.Location = new System.Drawing.Point(8, 75);
+            this.btnCalibration1.Name = "btnCalibration1";
+            this.btnCalibration1.Size = new System.Drawing.Size(68, 25);
+            this.btnCalibration1.TabIndex = 4;
+            this.btnCalibration1.Text = "校准水位1";
+            this.btnCalibration1.Click += new System.EventHandler(this.btnCalibration_Click);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Location = new System.Drawing.Point(6, 63);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(140, 3);
+            this.groupBox5.TabIndex = 3;
+            this.groupBox5.TabStop = false;
             // 
             // groupBox2
             // 
@@ -1765,22 +1803,55 @@ namespace SmartWaterSystem
             // 
             // group_manualSetParm
             // 
+            this.group_manualSetParm.Controls.Add(this.seTimeintervalReportTime);
+            this.group_manualSetParm.Controls.Add(this.label26);
             this.group_manualSetParm.Controls.Add(this.combManualSetParm);
             this.group_manualSetParm.Controls.Add(this.memo_ManualSetParm);
             this.group_manualSetParm.Controls.Add(this.label24);
             this.group_manualSetParm.Controls.Add(this.btnAddManualSetParm);
-            this.group_manualSetParm.Controls.Add(this.btnCalibration2);
-            this.group_manualSetParm.Controls.Add(this.btnCalibration1);
             this.group_manualSetParm.Controls.Add(this.btnSetManualSetParm);
+            this.group_manualSetParm.Controls.Add(this.btnSetTimeintervalReportTime);
+            this.group_manualSetParm.Controls.Add(this.btnReadTimeintervalReportTime);
             this.group_manualSetParm.Controls.Add(this.btnReadManualSetParm);
             this.group_manualSetParm.Controls.Add(this.txtManualSetParm);
             this.group_manualSetParm.Controls.Add(this.groupBox3);
+            this.group_manualSetParm.Controls.Add(this.label27);
             this.group_manualSetParm.Location = new System.Drawing.Point(3, 279);
             this.group_manualSetParm.Name = "group_manualSetParm";
             this.group_manualSetParm.Size = new System.Drawing.Size(315, 206);
             this.group_manualSetParm.TabIndex = 7;
             this.group_manualSetParm.TabStop = false;
-            this.group_manualSetParm.Text = "人工置数\\水位校准";
+            this.group_manualSetParm.Text = "人工置数\\均匀时段报";
+            // 
+            // seTimeintervalReportTime
+            // 
+            this.seTimeintervalReportTime.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.seTimeintervalReportTime.Location = new System.Drawing.Point(120, 167);
+            this.seTimeintervalReportTime.Name = "seTimeintervalReportTime";
+            this.seTimeintervalReportTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.seTimeintervalReportTime.Properties.IsFloatValue = false;
+            this.seTimeintervalReportTime.Properties.Mask.EditMask = "N00";
+            this.seTimeintervalReportTime.Properties.MaxValue = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
+            this.seTimeintervalReportTime.Size = new System.Drawing.Size(44, 20);
+            this.seTimeintervalReportTime.TabIndex = 9;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(6, 170);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(119, 14);
+            this.label26.TabIndex = 8;
+            this.label26.Text = "均匀时段报上传时间:";
             // 
             // combManualSetParm
             // 
@@ -1828,24 +1899,6 @@ namespace SmartWaterSystem
             this.btnAddManualSetParm.Text = "添加";
             this.btnAddManualSetParm.Click += new System.EventHandler(this.btnAddManualSetParm_Click);
             // 
-            // btnCalibration2
-            // 
-            this.btnCalibration2.Location = new System.Drawing.Point(167, 169);
-            this.btnCalibration2.Name = "btnCalibration2";
-            this.btnCalibration2.Size = new System.Drawing.Size(77, 25);
-            this.btnCalibration2.TabIndex = 11;
-            this.btnCalibration2.Text = "校准水位2";
-            this.btnCalibration2.Click += new System.EventHandler(this.btnCalibration_Click);
-            // 
-            // btnCalibration1
-            // 
-            this.btnCalibration1.Location = new System.Drawing.Point(71, 169);
-            this.btnCalibration1.Name = "btnCalibration1";
-            this.btnCalibration1.Size = new System.Drawing.Size(77, 25);
-            this.btnCalibration1.TabIndex = 10;
-            this.btnCalibration1.Text = "校准水位1";
-            this.btnCalibration1.Click += new System.EventHandler(this.btnCalibration_Click);
-            // 
             // btnSetManualSetParm
             // 
             this.btnSetManualSetParm.Location = new System.Drawing.Point(208, 133);
@@ -1854,6 +1907,24 @@ namespace SmartWaterSystem
             this.btnSetManualSetParm.TabIndex = 6;
             this.btnSetManualSetParm.Text = "设置";
             this.btnSetManualSetParm.Click += new System.EventHandler(this.btnSetManualSetParm_Click);
+            // 
+            // btnSetTimeintervalReportTime
+            // 
+            this.btnSetTimeintervalReportTime.Location = new System.Drawing.Point(251, 167);
+            this.btnSetTimeintervalReportTime.Name = "btnSetTimeintervalReportTime";
+            this.btnSetTimeintervalReportTime.Size = new System.Drawing.Size(59, 20);
+            this.btnSetTimeintervalReportTime.TabIndex = 12;
+            this.btnSetTimeintervalReportTime.Text = "设置";
+            this.btnSetTimeintervalReportTime.Click += new System.EventHandler(this.btnSetTimeintervalReportTime_Click);
+            // 
+            // btnReadTimeintervalReportTime
+            // 
+            this.btnReadTimeintervalReportTime.Location = new System.Drawing.Point(192, 167);
+            this.btnReadTimeintervalReportTime.Name = "btnReadTimeintervalReportTime";
+            this.btnReadTimeintervalReportTime.Size = new System.Drawing.Size(59, 20);
+            this.btnReadTimeintervalReportTime.TabIndex = 11;
+            this.btnReadTimeintervalReportTime.Text = "读取";
+            this.btnReadTimeintervalReportTime.Click += new System.EventHandler(this.btnReadTimeintervalReportTime_Click);
             // 
             // btnReadManualSetParm
             // 
@@ -1875,11 +1946,20 @@ namespace SmartWaterSystem
             // 
             // groupBox3
             // 
-            this.groupBox3.Location = new System.Drawing.Point(2, 160);
+            this.groupBox3.Location = new System.Drawing.Point(2, 158);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(310, 3);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(164, 170);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(14, 14);
+            this.label27.TabIndex = 10;
+            this.label27.Text = "h";
             // 
             // groupBox4
             // 
@@ -1902,6 +1982,10 @@ namespace SmartWaterSystem
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "基本信息参数";
+            // 
+            // timer_GetWaitCmd
+            // 
+            this.timer_GetWaitCmd.Interval = 5000;
             // 
             // UniversalTerParm651
             // 
@@ -2019,6 +2103,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).EndInit();
             this.group_manualSetParm.ResumeLayout(false);
             this.group_manualSetParm.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.seTimeintervalReportTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.combManualSetParm.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.memo_ManualSetParm.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtManualSetParm.Properties)).EndInit();
@@ -2184,6 +2269,13 @@ namespace SmartWaterSystem
         private System.Windows.Forms.GroupBox groupBox3;
         private DevExpress.XtraEditors.SimpleButton btnCalibration2;
         private DevExpress.XtraEditors.SimpleButton btnCalibration1;
+        private System.Windows.Forms.Timer timer_GetWaitCmd;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private DevExpress.XtraEditors.SpinEdit seTimeintervalReportTime;
+        private System.Windows.Forms.Label label26;
+        private DevExpress.XtraEditors.SimpleButton btnSetTimeintervalReportTime;
+        private DevExpress.XtraEditors.SimpleButton btnReadTimeintervalReportTime;
+        private System.Windows.Forms.Label label27;
 
     }
 }
