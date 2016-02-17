@@ -289,7 +289,7 @@ namespace Protocol
             }
         }
 
-        public T SendCommand<T>(byte[] sendData, int timeout = 5,bool needresp=true) where T:struct
+        public T SendCommand<T>(byte[] sendData, int timeout = 5, bool needresp = true) where T : struct
         {
             try
             {
@@ -455,11 +455,11 @@ namespace Protocol
             }
         }
 
-        public Package651 SendPackage(Package651 package, int timeout = 3, int times = 2, bool needresp = true)
+        public Package651 SendPackage(Package651 package,int timeout = 3, int times = 2, bool needresp = true)
         {
             try
             {
-                Package651 result = SendCommand<Package651>(package.ToResponseArray(), timeout,needresp);
+                Package651 result = SendCommand<Package651>(package.ToResponseArray(), timeout, needresp);
                 return result;
             }
             catch (Exception ex)

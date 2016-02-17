@@ -46,6 +46,8 @@
             this.btnFullScreen.Image = global::SmartWaterSystem.Properties.Resources.fullscreen;
             this.btnFullScreen.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnFullScreen.Location = new System.Drawing.Point(709, 0);
+            this.btnFullScreen.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+            this.btnFullScreen.LookAndFeel.UseDefaultLookAndFeel = false;
             this.btnFullScreen.Name = "btnFullScreen";
             this.btnFullScreen.Size = new System.Drawing.Size(64, 64);
             this.btnFullScreen.TabIndex = 1;

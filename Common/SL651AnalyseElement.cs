@@ -2087,7 +2087,7 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                strcontent = "解帧发生异常,ex:" + ex.Message;
+                strcontent = "解帧发生异常,ex:" + ex.Message+",部分解帧信息:"+strcontent;
                 logger.ErrorException("AnalyseElement1", ex);
             }
 

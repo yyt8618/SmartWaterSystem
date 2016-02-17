@@ -43,7 +43,7 @@ namespace Common
         /// <summary>
         /// 帧最短长度(多包发送)
         /// </summary>
-        public static int MinLenth_Pack = 20;
+        public static int MinLenth_Pack = 17;
 
         /// <summary>
         /// 报文起始符

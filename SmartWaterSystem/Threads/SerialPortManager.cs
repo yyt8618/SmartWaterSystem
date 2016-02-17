@@ -1456,8 +1456,9 @@ namespace SmartWaterSystem
             obj = null;
             try
             {
+                //bool havesubsequent = false;  ////是否有后续包
                 Package651 packresp = GlobalValue.Universallog.Read(GlobalValue.SerialPort651OptData);
-                if (needconfirm)
+                if (needconfirm & !packresp.havesubsequent)
                 {
                     Package651 tmp = GlobalValue.SerialPort651OptData;
                     tmp.Data = null;
@@ -1468,7 +1469,7 @@ namespace SmartWaterSystem
                     byte[] bsenddata = tmp.ToResponseArray();
                     tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
                     Thread.Sleep(500);
-                    GlobalValue.Universallog.Read(tmp, 3, 2, false);
+                    GlobalValue.Universallog.Read(tmp,3, 2, false);
                 }
                 Universal651SerialPortEntity spEntity = null;
                 string anamsg = SL651AnalyseElement.AnalyseElement1(packresp.FUNCODE, packresp.Data,packresp.dt, ref spEntity);

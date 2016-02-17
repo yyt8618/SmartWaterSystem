@@ -123,6 +123,11 @@ namespace Common
         /// </summary>
         public byte[] CS { get; set; }
 
+        /// <summary>
+        /// 是否有后续包
+        /// </summary>
+        public bool havesubsequent { get; set; }
+
         #endregion
 
         /// <summary>
@@ -133,6 +138,7 @@ namespace Common
         #endregion
 
         #region 扩展属性/方法
+        
         /// <summary>
         /// 当前帧数据域 数据长度 十进制
         /// </summary>
@@ -445,9 +451,9 @@ namespace Common
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public static Package651 FromBytes(byte[] bytes, out bool havesubsequent, out string subsequentmsg)
+        public static Package651 FromBytes(byte[] bytes, out bool subsequent, out string subsequentmsg)
         {
-            havesubsequent = false;
+            subsequent = false;
             subsequentmsg = "";
             if (bytes == null || bytes.Length == 0)
             {
@@ -523,13 +529,14 @@ namespace Common
                     int pack_index = BitConverter.ToInt16(new byte[] { bytes[16], (byte)(bytes[15] & 0x0F) }, 0);
                     if (pack_l1 != pack_index)
                     {
-                        havesubsequent = true;
+                        package.havesubsequent = true;
+                        subsequent = true;
                     }
                     subsequentmsg = "总包数:" + pack_l1 + "、当前第" + pack_index + "包";
-                    package.data = new byte[package.DataLength];
-                    for (int i = 0; i < (package.DataLength); i++)
+                    package.data = new byte[package.DataLength-11];
+                    for (int i = 0; i < (package.DataLength-11); i++)
                     {
-                        package.data[i] = bytes[17 + i];
+                        package.data[i] = bytes[25 + i];  //17->24
                     }
                 }
             }

@@ -1641,37 +1641,23 @@ namespace SmartWaterSystem
                     {
                         lstCentent.Add(0xFF);  //负数一个字节，正数三个字节,负数第一个字节是0xFF
                         basic *= -1;
-                        lstCentent.AddRange(ConvertHelper.StringToByte((basic).ToString().PadLeft(6, '0')));
+                        //lstCentent.AddRange(ConvertHelper.StringToByte((basic).ToString().PadLeft(6, '0')));
                     }
-                    else
+                    //else
                         lstCentent.AddRange(ConvertHelper.StringToByte((basic).ToString().PadLeft(8, '0')));
-                    //int basic = (int)(Convert.ToDouble(txtWaterLevelBasic.Text) * 1000);
-                    //if (basic < 0)
-                    //{
-                    //    lstCentent.Add(0xFF);  //负数一个字节，正数两个字节,负数第一个字节是0xFF
-                    //    basic *= -1;
-                    //}
-                    //lstCentent.AddRange(ConvertHelper.StrToBCD(basic.ToString().PadLeft(8, '0')));
                 }
                 if (cbWaterLevelAmendLimit.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.WaterLevelAmendLimitFlag);//水位修正基值 
-                    int basic = (int)Convert.ToDouble(txtWaterLevelAmendLimit.Text);
+                    int basic = (int)(Convert.ToDouble(txtWaterLevelAmendLimit.Text)*1000);
                     if (basic < 0)
                     {
                         lstCentent.Add(0xFF);  //负数一个字节，正数三个字节,负数第一个字节是0xFF
                         basic *= -1;
-                        lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(4, '0')));
+                        //lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(4, '0')));
                     }
-                    else
-                        lstCentent.AddRange(ConvertHelper.StringToByte((basic * 1000).ToString().PadLeft(6, '0')));
-                    //int amendbasic = (int)(Convert.ToDouble(txtWaterLevelAmendLimit.Text) * 1000);
-                    //if (amendbasic < 0)
-                    //{
-                    //    lstCentent.Add(0xFF);  //负数一个字节，正数两个字节,负数第一个字节是0xFF
-                    //    amendbasic *= -1;
-                    //}
-                    //lstCentent.AddRange(ConvertHelper.StrToBCD(amendbasic.ToString().PadLeft(6, '0')));
+                    //else
+                        lstCentent.AddRange(ConvertHelper.StringToByte((basic).ToString().PadLeft(6, '0')));
                 }
                 if (cbAddtionWaterLevel.Checked)
                 {
@@ -2358,7 +2344,7 @@ namespace SmartWaterSystem
 
         private void cbIsOnLine_CheckedChanged(object sender, EventArgs e)
         {
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag,cbIsOnLine.Checked.ToString()));
+            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
         }
 
         private void SwitchComunication_Click(object sender, EventArgs e)
@@ -2376,9 +2362,9 @@ namespace SmartWaterSystem
         private void SetGprsCtrlStatus()
         {
             ButtonEnabled(true);
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, ""));  //获取SL651协议终端是否允许在线标志
+            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));  
             //GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
+            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString())); //设置SL651协议终端是否允许在线标志
             timer_GetWaitCmd.Enabled = true;  //启用查询GPRS待发送命令定时器 10s
 
             GlobalValue.MSMQMgr.MSMQEvent -= new MSMQHandler(MSMQMgr_MSMQEvent);

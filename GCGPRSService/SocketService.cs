@@ -1391,7 +1391,11 @@ namespace GCGPRSService
                                 string subsequentmsg = "";  //如果是包且有后续，提示当前包数
                                 if ((PackageDefine.MinLenth651 <= arr.Length) & Package651.TryParse(arr, out pack, out havesubsequent, out subsequentmsg))//找到结束字符并且是完整一帧
                                 {
-                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fffffff") + " 收到帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
+#if debug
+                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 收到帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
+#else
+                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  收到帧数据"));
+#endif
                                     #region 解析数据
                                     string str_senddt = "";
                                     if (pack.dt != null && pack.dt.Length == 6)
@@ -1434,7 +1438,7 @@ namespace GCGPRSService
                                                 }
                                             }
                                         }
-
+                                        //查询指定要素(3A) 查询实时数据(37) 链路维持报(2F) 查询版本(45) 查询状态和报警(46) 查询事件记录(50) 设置时间(4A) 查询时间(51)
                                         if (pack.FUNCODE == 0x2F || pack.FUNCODE == 0x37 || pack.FUNCODE == 0x3A || pack.FUNCODE == 0x45 || pack.FUNCODE == 0x46 || pack.FUNCODE == 0x4A || pack.FUNCODE == 0x51 || pack.FUNCODE == 0x50)
                                             need_response = false;
 
@@ -1448,34 +1452,41 @@ namespace GCGPRSService
 
                                         if (pack_cmd != null && pack_cmd.Count > 0)  //有后续帧
                                         {
-                                            response.A1 = pack.A1;
-                                            response.A2 = pack.A2;
-                                            response.A3 = pack.A3;
-                                            response.A4 = pack.A4;
-                                            response.A5 = pack.A5;
-                                            response.CenterAddr = pack.CenterAddr;
-                                            //response.PWD[0] = Convert.ToByte(txtPwd0.Text);
-                                            //response.PWD[1] = Convert.ToByte(txtPwd1.Text);
-                                            response.PWD = new byte[2];
-                                            response.PWD[0] = pack.PWD[1];
-                                            response.PWD[1] = pack.PWD[0];
-                                            byte[] lens = BitConverter.GetBytes((ushort)8);
-                                            response.L0 = lens[0];
-                                            response.L1 = lens[1];
-                                            response.FUNCODE = pack.FUNCODE;
-                                            response.IsUpload = false;
-                                            response.CStart = PackageDefine.CStart;
-                                            response.SNum = pack.SNum;
-                                            response.AddrFlag = pack.AddrFlag;
-                                            response.End = PackageDefine.ESC;  //保持在线，以便发送后续帧
-                                            byte[] bsenddata = response.ToResponseArray(true);
-                                            response.CS = Package651.crc16(bsenddata, bsenddata.Length);
+                                            byte[] bsenddata = null;
+                                            if (need_response)
+                                            {
+                                                response.A1 = pack.A1;
+                                                response.A2 = pack.A2;
+                                                response.A3 = pack.A3;
+                                                response.A4 = pack.A4;
+                                                response.A5 = pack.A5;
+                                                response.CenterAddr = pack.CenterAddr;
+                                                //response.PWD[0] = Convert.ToByte(txtPwd0.Text);
+                                                //response.PWD[1] = Convert.ToByte(txtPwd1.Text);
+                                                response.PWD = new byte[2];
+                                                response.PWD[0] = pack.PWD[1];
+                                                response.PWD[1] = pack.PWD[0];
+                                                byte[] lens = BitConverter.GetBytes((ushort)8);
+                                                response.L0 = lens[0];
+                                                response.L1 = lens[1];
+                                                response.FUNCODE = pack.FUNCODE;
+                                                response.IsUpload = false;
+                                                response.CStart = PackageDefine.CStart;
+                                                response.SNum = pack.SNum;
+                                                response.AddrFlag = pack.AddrFlag;
+                                                response.End = PackageDefine.ESC;  //保持在线，以便发送后续帧
+                                                bsenddata = response.ToResponseArray(true);
+                                                response.CS = Package651.crc16(bsenddata, bsenddata.Length);
 
-                                            bsenddata = response.ToResponseArray();
-                                            OnSendMsg(new SocketEventArgs((DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length))));
-
-                                            Thread.Sleep(1500);  //1
-                                            Send651(handler, bsenddata);
+                                                bsenddata = response.ToResponseArray();
+#if debug
+                                                OnSendMsg(new SocketEventArgs((DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length))));
+#else
+                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
+#endif
+                                                Thread.Sleep(1500);  //1
+                                                Send651(handler, bsenddata);
+                                            }
 
                                             //发送命令帧
                                             for (int i = 0; i < pack_cmd.Count; i++)
@@ -1556,8 +1567,11 @@ namespace GCGPRSService
                                                 response.CS = Package651.crc16(bsenddata, bsenddata.Length);
 
                                                 bsenddata = response.ToResponseArray();
+#if debug
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
-
+#else
+                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
+#endif
                                                 Thread.Sleep(1500); //3
                                                 Send651(handler, bsenddata);
                                             }
@@ -1600,7 +1614,7 @@ namespace GCGPRSService
                                 if (index == bytesRead)
                                 {
                                     byte[] arr = packageBytes.ToArray();
-                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fffffff") + " 收到错误帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
+                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 收到错误帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
 
                                     try
                                     {
@@ -1694,8 +1708,8 @@ namespace GCGPRSService
             }
             catch (Exception e)
             {
-                logger.ErrorException(DateTime.Now.ToString() + " SendCallback", e);
-                OnSendMsg(new SocketEventArgs(e.ToString()));
+                //logger.ErrorException(DateTime.Now.ToString() + " SendCallback", e);
+                //OnSendMsg(new SocketEventArgs(e.ToString()));
             }
         }
 
@@ -2104,7 +2118,7 @@ namespace GCGPRSService
                                 bsenddata = pack.ToResponseArray();
                                 SendObject sendObj = new SendObject();
                                 sendObj.workSocket = sock.ClientSocket;
-                                sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback651), sendObj);
                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length), ConstValue.MSMQTYPE.Msg_Socket));
                                 issend = true;
                             }
