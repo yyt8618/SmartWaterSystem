@@ -817,6 +817,7 @@ namespace SmartWaterSystem
             }
             else   //GPRS
             {
+                pack.End = End;
                 MSMQEntity msmqentity = new MSMQEntity();
                 msmqentity.MsgType = ConstValue.MSMQTYPE.SL651_Cmd;
                 msmqentity.Pack651 = pack;
@@ -2031,6 +2032,14 @@ namespace SmartWaterSystem
             if (!Regex.IsMatch(txtManualSetParm.Text.Trim(), "^[0-9a-fA-F]{2}( [0-9a-fA-F]{2}){0,}$"))
             {
                 XtraMessageBox.Show("请填写人工置数内容!格式(16进制):12 34 56 78 90 ab ...", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtManualSetParm.Focus();
+                return;
+            }
+            int parmlen = Convert.ToInt32(combManualSetParm.Text.Substring(combManualSetParm.Text.IndexOf('-')+1));
+            string[] strsetparms=txtManualSetParm.Text.Trim().Split(new char[]{' '});
+            if (strsetparms.Length != parmlen)
+            {
+                XtraMessageBox.Show("请人工置数内容字节数不正确!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtManualSetParm.Focus();
                 return;
             }

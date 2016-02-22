@@ -1215,7 +1215,10 @@ namespace SmartWaterSystem
                             strcontent += "1h内5min时段降水量:";
                             for (int i = 2; i < sumlen + 2; i++)
                             {
-                                strcontent += Convert.ToDouble(elements[i]) / 10 + "mm,";
+                                if (elements[i] == 0xff)
+                                    strcontent += "--,";
+                                else
+                                    strcontent += Convert.ToDouble(elements[i]) / 10 + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
@@ -1225,7 +1228,10 @@ namespace SmartWaterSystem
                             strcontent += "1h内5min间隔相对水位:";
                             for (int i = 2; i + 1 < sumlen + 2; i += 2)
                             {
-                                strcontent += ((double)BitConverter.ToInt16(new byte[] { elements[i+1], elements[i] }, 0)) / 100 + "cm,";
+                                if (elements[i + 1] == 0xff && elements[i] == 0xff)
+                                    strcontent += "--,";
+                                else
+                                    strcontent += ((double)BitConverter.ToUInt16(new byte[] { elements[i + 1], elements[i] }, 0)) / 100 + "cm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
@@ -1920,7 +1926,10 @@ namespace SmartWaterSystem
                             strcontent += "1h内5min时段降水量:";
                             for (int i = 2; i < elements.Length; i++)
                             {
-                                strcontent += Convert.ToDouble(elements[i]) / 10 + "mm,";
+                                if (elements[i] == 0xff)
+                                    strcontent += "--,";
+                                else
+                                    strcontent += Convert.ToDouble(elements[i]) / 10 + "mm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
@@ -1930,7 +1939,10 @@ namespace SmartWaterSystem
                             strcontent += "1h内5min间隔相对水位:";
                             for (int i = 2; i + 1 < elements.Length; i += 2)
                             {
-                                strcontent += ((double)BitConverter.ToInt16(new byte[] { elements[i + 1], elements[i] }, 0)) / 100 + "cm,";
+                                if (elements[i + 1] == 0xff && elements[i] == 0xff)
+                                    strcontent += "--,";
+                                else
+                                    strcontent += ((double)BitConverter.ToUInt16(new byte[] { elements[i + 1], elements[i] }, 0)) / 100 + "cm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }

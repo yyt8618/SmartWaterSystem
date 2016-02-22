@@ -1438,17 +1438,24 @@ namespace GCGPRSService
                                                 }
                                             }
                                         }
-                                        //查询指定要素(3A) 查询实时数据(37) 链路维持报(2F) 查询版本(45) 查询状态和报警(46) 查询事件记录(50) 设置时间(4A) 查询时间(51)
-                                        if (pack.FUNCODE == 0x2F || pack.FUNCODE == 0x37 || pack.FUNCODE == 0x3A || pack.FUNCODE == 0x45 || pack.FUNCODE == 0x46 || pack.FUNCODE == 0x4A || pack.FUNCODE == 0x51 || pack.FUNCODE == 0x50)
+                                        //读取人工置数(39) 查询指定要素(3A) 查询实时数据(37) 链路维持报(2F) 查询版本(45) 查询状态和报警(46) 查询事件记录(50) 设置时间(4A) 查询时间(51)
+                                        if (pack.FUNCODE == 0x39 || pack.FUNCODE == 0x2F || pack.FUNCODE == 0x37 || pack.FUNCODE == 0x3A || pack.FUNCODE == 0x45 || pack.FUNCODE == 0x46 || pack.FUNCODE == 0x4A || pack.FUNCODE == 0x51 || pack.FUNCODE == 0x50)
                                             need_response = false;
 
                                         response.dt = new byte[6];
-                                        response.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                                        response.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                                        response.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                                        response.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                                        response.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                                        response.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
+                                        //response.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
+                                        //response.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
+                                        //response.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
+                                        //response.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
+                                        //response.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
+                                        //response.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
+
+                                        response.dt[0] = ConvertHelper.StringToByte((DateTime.Now.Year - 2000).ToString())[0];
+                                        response.dt[1] = ConvertHelper.StringToByte(DateTime.Now.Month.ToString().PadLeft(2, '0'))[0];
+                                        response.dt[2] = ConvertHelper.StringToByte(DateTime.Now.Day.ToString().PadLeft(2, '0'))[0];
+                                        response.dt[3] = ConvertHelper.StringToByte(DateTime.Now.Hour.ToString().PadLeft(2, '0'))[0];
+                                        response.dt[4] = ConvertHelper.StringToByte(DateTime.Now.Minute.ToString().PadLeft(2, '0'))[0];
+                                        response.dt[5] = ConvertHelper.StringToByte(DateTime.Now.Second.ToString().PadLeft(2, '0'))[0];
 
                                         if (pack_cmd != null && pack_cmd.Count > 0)  //有后续帧
                                         {
@@ -1491,17 +1498,20 @@ namespace GCGPRSService
                                             //发送命令帧
                                             for (int i = 0; i < pack_cmd.Count; i++)
                                             {
-                                                if (i + 1 == pack_cmd.Count && !SL651AllowOnLine)  //最后一条
+                                                if (pack_cmd[i].End != PackageDefine.ENQ)  //如果本来就是询问命令，则还是ENQ(05)发送下去，不管在不在线，因为总是要回应
                                                 {
-                                                    Package651 p = pack_cmd[i];
-                                                    p.End = PackageDefine.EOT;
-                                                    pack_cmd[i] = p;
-                                                }
-                                                else
-                                                {
-                                                    Package651 p = pack_cmd[i];
-                                                    p.End = PackageDefine.ESC;
-                                                    pack_cmd[i] = p;
+                                                    if (i + 1 == pack_cmd.Count && !SL651AllowOnLine)  //最后一条
+                                                    {
+                                                        Package651 p = pack_cmd[i];
+                                                        p.End = PackageDefine.EOT;
+                                                        pack_cmd[i] = p;
+                                                    }
+                                                    else
+                                                    {
+                                                        Package651 p = pack_cmd[i];
+                                                        p.End = PackageDefine.ESC;
+                                                        pack_cmd[i] = p;
+                                                    }
                                                 }
                                                 Package651 pack651Cmd = pack_cmd[i];
                                                 bsenddata = pack651Cmd.ToResponseArray(true);
@@ -2109,10 +2119,13 @@ namespace GCGPRSService
                         {
                             try
                             {
-                                if (SL651AllowOnLine)
-                                    pack.End = PackageDefine.ESC;
-                                else
-                                    pack.End = PackageDefine.EOT;
+                                if (pack.End != PackageDefine.ENQ)  //如果本来就是询问命令，则还是ENQ(05)发送下去，不管在不在线，因为总是要回应
+                                {
+                                    if (SL651AllowOnLine)
+                                        pack.End = PackageDefine.ESC;
+                                    else
+                                        pack.End = PackageDefine.EOT;
+                                }
                                 byte[] bsenddata = pack.ToResponseArray(true);
                                 pack.CS = Package651.crc16(bsenddata, bsenddata.Length);
                                 bsenddata = pack.ToResponseArray();

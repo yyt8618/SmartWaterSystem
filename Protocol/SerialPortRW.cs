@@ -47,7 +47,7 @@ namespace Protocol
             }
         }
 
-        public Package651 Read(Package651 package,int timeout = 3, int times = 2, bool needresp = true)
+        public Package651 Read(Package651 package,int timeout = 3, int times = 2, bool needresp = true,bool readnextpack=false)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace Protocol
                 {
                     throw new Exception("串口未打开");
                 }
-                return serialPortUtil.SendPackage(package, timeout, times, needresp);
+                return serialPortUtil.SendPackage(package, timeout, times, needresp,readnextpack);
             }
             catch (Exception ex)
             {

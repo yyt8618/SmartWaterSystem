@@ -124,9 +124,14 @@ namespace Common
         public byte[] CS { get; set; }
 
         /// <summary>
-        /// 是否有后续包
+        /// 总包数
         /// </summary>
-        public bool havesubsequent { get; set; }
+        public int SumPackCount { get; set; }
+        
+        /// <summary>
+        /// 当前包数
+        /// </summary>
+        public int CurPackCount { get; set; }
 
         #endregion
 
@@ -288,6 +293,13 @@ namespace Common
         /// <returns>是否相等</returns>
         private bool PasswordEquals(byte[] b1, byte[] b2)
         {
+            if (b1 == null || b2 == null)
+            {
+                if (b1 == b2)
+                    return true;
+                else
+                    return false;
+            }
             if (b1.Length != b2.Length) return false;
             if (b1 == null || b2 == null) return false;
             for (int i = 0; i < b1.Length; i++)
@@ -529,7 +541,8 @@ namespace Common
                     int pack_index = BitConverter.ToInt16(new byte[] { bytes[16], (byte)(bytes[15] & 0x0F) }, 0);
                     if (pack_l1 != pack_index)
                     {
-                        package.havesubsequent = true;
+                        package.SumPackCount = pack_l1;
+                        package.CurPackCount = pack_index;
                         subsequent = true;
                     }
                     subsequentmsg = "总包数:" + pack_l1 + "、当前第" + pack_index + "包";

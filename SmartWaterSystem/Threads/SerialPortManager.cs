@@ -1456,28 +1456,38 @@ namespace SmartWaterSystem
             obj = null;
             try
             {
-                //bool havesubsequent = false;  ////是否有后续包
-                Package651 packresp = GlobalValue.Universallog.Read(GlobalValue.SerialPort651OptData);
-                if (needconfirm & !packresp.havesubsequent)
+                int sumpackcount = 0;
+                int curpackindex = 0;
+                bool readnextpack = false; //是否读取下一个包(多包时,第一包readnextpack = false,后面readnextpack = true)
+                do
                 {
-                    Package651 tmp = GlobalValue.SerialPort651OptData;
-                    tmp.Data = null;
-                    tmp.CS = null;
-                    byte[] lens = BitConverter.GetBytes((ushort)(8));
-                    tmp.L0 = lens[0];
-                    tmp.L1 = lens[1];
-                    byte[] bsenddata = tmp.ToResponseArray();
-                    tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
-                    Thread.Sleep(500);
-                    GlobalValue.Universallog.Read(tmp,3, 2, false);
-                }
-                Universal651SerialPortEntity spEntity = null;
-                string anamsg = SL651AnalyseElement.AnalyseElement1(packresp.FUNCODE, packresp.Data,packresp.dt, ref spEntity);
-                ShowMsgControl(packresp, anamsg);
+                    Package651 packresp = GlobalValue.Universallog.Read(GlobalValue.SerialPort651OptData, 3, 2, true, readnextpack);
+                    sumpackcount = packresp.SumPackCount;
+                    curpackindex = packresp.CurPackCount;
+                    if (needconfirm && (curpackindex >0 && curpackindex == sumpackcount))
+                    {
+                        Package651 tmp = GlobalValue.SerialPort651OptData;
+                        tmp.Data = null;
+                        tmp.CS = null;
+                        byte[] lens = BitConverter.GetBytes((ushort)(8));
+                        tmp.L0 = lens[0];
+                        tmp.L1 = lens[1];
+                        byte[] bsenddata = tmp.ToResponseArray();
+                        tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
+                        Thread.Sleep(500);
+                        GlobalValue.Universallog.Read(tmp, 3, 2, false);
+                    }
+                    Universal651SerialPortEntity spEntity = null;
+                    string anamsg = SL651AnalyseElement.AnalyseElement1(packresp.FUNCODE, packresp.Data, packresp.dt, ref spEntity);
+                    ShowMsgControl(packresp, anamsg);
 
-                result = true;
-                msg = "";
-                obj = spEntity;
+                    result = true;
+                    msg = "";
+                    obj = spEntity;
+
+                    if (curpackindex < sumpackcount)
+                        readnextpack=true;
+                } while (curpackindex < sumpackcount);  //最后一包(sumpackcount=curpackindex)或者是单包(sumpackcount = 0 & curpackindex = 0)
             }
             catch (Exception ex)
             {

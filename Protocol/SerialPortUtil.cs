@@ -289,18 +289,20 @@ namespace Protocol
             }
         }
 
-        public T SendCommand<T>(byte[] sendData, int timeout = 5, bool needresp = true) where T : struct
+        public T SendCommand<T>(byte[] sendData, int timeout = 5, bool needresp = true, bool readnextpack = false) where T : struct
         {
             try
             {
-                serialPort.DiscardInBuffer();   //清空接收缓冲区     
-                SendData(sendData);
-                if (!needresp)
-                    return default(T);   //不需要获取下位机返回数据,如SL651确认帧
-                Thread.Sleep(50);                       //延时，等待下位机回数据
+                if (!readnextpack)  //如果readnextpack为true时，表示收到的是多包数据，还有未收完的包，接着接收,不需要发送数据
+                {
+                    serialPort.DiscardInBuffer();   //清空接收缓冲区     
+                    SendData(sendData);
+                    if (!needresp)
+                        return default(T);   //不需要获取下位机返回数据,如SL651确认帧
+                    Thread.Sleep(50);                       //延时，等待下位机回数据
+                }
 
                 List<byte> packageBytes = new List<byte>();
-                //Queue<byte> ByteQueue = new Queue<byte>();
                 int readCount = 0;//计数
 
                 int nStartTime = Environment.TickCount;
@@ -408,8 +410,7 @@ namespace Protocol
                                 string subsequentmsg = "";  //如果是包且有后续，提示当前包数
                                 if ((PackageDefine.MinLenth651 <= arr.Length) & Package651.TryParse(arr, out pack, out havesubsequent, out subsequentmsg))//找到结束字符并且是完整一帧
                                 {
-                                    AppendBufLine("收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
-                                    //OnReadPackege(new PackageReceivedEventArgs(pack));
+                                    AppendBufLine("收到{0}:{1}",subsequentmsg, ConvertHelper.ByteArrayToHexString(arr));
                                     packageBytes.Clear();
                                     return (T)((object)pack);
                                 }
@@ -455,11 +456,11 @@ namespace Protocol
             }
         }
 
-        public Package651 SendPackage(Package651 package,int timeout = 3, int times = 2, bool needresp = true)
+        public Package651 SendPackage(Package651 package, int timeout = 3, int times = 2, bool needresp = true, bool readnextpack = false)
         {
             try
             {
-                Package651 result = SendCommand<Package651>(package.ToResponseArray(), timeout, needresp);
+                Package651 result = SendCommand<Package651>(package.ToResponseArray(), timeout, needresp,readnextpack);
                 return result;
             }
             catch (Exception ex)

@@ -16,6 +16,31 @@ namespace SmartWaterSystem
             InitializeComponent();
         }
 
+        private void btnReadParm_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSetParm_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEnableCollect_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCheckingTime_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }
