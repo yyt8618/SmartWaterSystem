@@ -53,6 +53,7 @@
     <Compile Include="UniversalLog.cs" />
     <Compile Include="OLWQLog.cs" />
     <Compile Include="HydrantLog.cs" />
+    <Compile Include="PreLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

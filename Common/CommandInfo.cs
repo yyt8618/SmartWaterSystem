@@ -860,7 +860,6 @@ namespace Common
         
     }
 
-
     /// <summary>
     /// 控制码类型
     /// </summary>
@@ -888,12 +887,12 @@ namespace Common
     /// <summary>
     /// 压力终端远传命令参数
     /// </summary>
-    public enum PreTer_WRITE
+    public enum PreTer_COMMAND
     {
         /// <summary>
         /// 设置时间
         /// </summary>
-        WRITE_TIME = 0X10,
+        SET_TIME = 0X10,
         /// <summary>
         /// 压力时间间隔
         /// </summary>
@@ -933,7 +932,7 @@ namespace Common
         /// <summary>
         /// 设置采集功能配置
         /// </summary>
-        WRITE_COLLECT = 0x1B,
+        EnableCollect = 0x1B,
         /// <summary>
         /// 设置通讯方式
         /// </summary>
@@ -981,7 +980,111 @@ namespace Common
         /// <summary>
         /// 压力量程
         /// </summary>
-        WRITE_PRE_SPAN = 0X28
+        WRITE_PRE_SPAN = 0x28,
+        /// <summary>
+        /// 复位
+        /// </summary>
+        RESET = 0x72,
+        /// <summary>
+        /// 读取时间
+        /// </summary>
+        READ_TIME = 0x40,
+        /// <summary>
+        /// 压力时间间隔
+        /// </summary>
+        READ_PREINTERVAL = 0x41,
+        /// <summary>
+        /// 压力偏移量
+        /// </summary>
+        READ_PREOFFSET = 0x42,
+        /// <summary>
+        /// 流量时间间隔
+        /// </summary>
+        READ_FLOWINTERVAL = 0x44,
+        /// <summary>
+        /// 压力报警上限值
+        /// </summary>
+        READ_PRE_UPPERLIMIT = 0x45,
+        /// <summary>
+        /// 压力报警下限值
+        /// </summary>
+        READ_PRE_LOWLIMIT = 0x46,
+        /// <summary>
+        /// 电池电压报警下限值
+        /// </summary>
+        READ_BATTERY_LOWLIMIT = 0x47,
+        /// <summary>
+        /// 斜率报警上限值
+        /// </summary>
+        READ_SLOPE_UPPERLIMIT = 0x48,
+        /// <summary>
+        /// 斜率报警下限值
+        /// </summary>
+        READ_SLOPE_LOWLIMIT = 0x49,
+        /// <summary>
+        /// 心跳时间间隔
+        /// </summary>
+        READ_HEARTINTERVAL = 0x4A,
+        /// <summary>
+        /// 读取采集功能配置
+        /// </summary>
+        READ_EnableCollect = 0x4B,
+        /// <summary>
+        /// 设置通讯方式
+        /// </summary>
+        READ_COMTYPE = 0x4C,
+        /// <summary>
+        /// 485波特率
+        /// </summary>
+        READ_BAUD = 0x4D,
+        /// <summary>
+        /// ID
+        /// </summary>
+        READ_ID = 0x4E,
+        /// <summary>
+        /// IP
+        /// </summary>
+        READ_IP = 0x4F,
+        /// <summary>
+        /// 端口
+        /// </summary>
+        READ_PORT = 0x50,
+        /// <summary>
+        /// 设置短信手机号
+        /// </summary>
+        READ_CELLPHONE = 0x51,
+        /// <summary>
+        /// 上限报警功能投/退
+        /// </summary>
+        READ_PREUPPERALARM_ENABLE = 0x52,
+        /// <summary>
+        /// 下限报警功能投/退
+        /// </summary>
+        READ_PRELOWALARM_ENABLE = 0x53,
+        /// <summary>
+        /// 斜率上限报警投/退
+        /// </summary>
+        READ_SLOPEUPPERALARM_ENABLE = 0x54,
+        /// <summary>
+        /// 斜率下限报警投/退
+        /// </summary>
+        READ_SLOPELOWALARM_ENABLE = 0x55,
+        /// <summary>
+        /// 电池电压采集时间间隔
+        /// </summary>
+        READ_BATTERY_INTERVAL = 0x56,
+        /// <summary>
+        /// 压力量程
+        /// </summary>
+        READ_PRE_SPAN = 0x58,
+        /// <summary>
+        /// 设置是否允许招测
+        /// </summary>
+        EnableCallData = 0x70,
+        /// <summary>
+        /// 读取招测数据
+        /// </summary>
+        READ_CALLDATA= 0x71,
     }
 
     public enum GPRS_READ
@@ -1080,41 +1183,41 @@ namespace Common
         READ_HYDRANT_KNOCKOVER = 0xA4,
     }
 
-    public enum GPRS_CTRL
-    {
-        /// <summary>
-        /// 设置GPRS招测功能
-        /// </summary>
-        CTRL_ZHAOCE_ENABLE = 0x70,
-        /// <summary>
-        /// GPRS招测
-        /// </summary>
-        CTRL_ZHAOCE = 0x71,
-        /// <summary>
-        /// 复位
-        /// </summary>
-        CTRL_RESET = 0x72,
-        /// <summary>
-        /// 启动终端采集功能
-        /// </summary>
-        CTRL_COL_ENABLE = 0x73,
-        /// <summary>
-        /// 读取压力历史数据
-        /// </summary>
-        CTRL_PREHISTORY = 0x74,
-        /// <summary>
-        /// 读取流量历史数据
-        /// </summary>
-        CTRL_FLOWHISTORY = 0x75,
-        /// <summary>
-        /// 压力数据条数
-        /// </summary>
-        CTRL_PREDATACOUNT = 0x76,
-        /// <summary>
-        /// 流浪数据条数
-        /// </summary>
-        CTRL_FLOWDATACOUNT = 0x77
-    }
+    //public enum GPRS_CTRL
+    //{
+    //    /// <summary>
+    //    /// 设置GPRS招测功能
+    //    /// </summary>
+    //    CTRL_ZHAOCE_ENABLE = 0x70,
+    //    /// <summary>
+    //    /// GPRS招测
+    //    /// </summary>
+    //    CTRL_ZHAOCE = 0x71,
+    //    /// <summary>
+    //    /// 复位
+    //    /// </summary>
+    //    CTRL_RESET = 0x72,
+    //    /// <summary>
+    //    /// 启动终端采集功能
+    //    /// </summary>
+    //    CTRL_COL_ENABLE = 0x73,
+    //    /// <summary>
+    //    /// 读取压力历史数据
+    //    /// </summary>
+    //    CTRL_PREHISTORY = 0x74,
+    //    /// <summary>
+    //    /// 读取流量历史数据
+    //    /// </summary>
+    //    CTRL_FLOWHISTORY = 0x75,
+    //    /// <summary>
+    //    /// 压力数据条数
+    //    /// </summary>
+    //    CTRL_PREDATACOUNT = 0x76,
+    //    /// <summary>
+    //    /// 流浪数据条数
+    //    /// </summary>
+    //    CTRL_FLOWDATACOUNT = 0x77
+    //}
     #endregion
 
     class CommandInfo

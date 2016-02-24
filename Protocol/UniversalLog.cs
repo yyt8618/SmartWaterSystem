@@ -702,7 +702,6 @@ namespace Protocol
             }
             int calibration = BitConverter.ToInt16(new byte[] { pack.Data[7], pack.Data[6] }, 0);
 
-            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
             float datavalue = 0;
 
             DataRow[] dr_TerminalDataConfig = null;
@@ -760,7 +759,6 @@ namespace Protocol
 
         private void AnalysisPluse(short Id, Package pack, DataTable dt_config, ref DataTable dt)
         {
-            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
             float datavalue = 0;
 
             DataRow[] dr_TerminalDataConfig = null;

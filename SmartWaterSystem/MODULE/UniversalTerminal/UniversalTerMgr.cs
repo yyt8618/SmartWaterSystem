@@ -1302,9 +1302,9 @@ namespace SmartWaterSystem
             //    txtID.Focus();
             //    return;
             //}
-            if (GlobalValue.SerialPortOptData == null)
-                GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
-            GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            if (GlobalValue.UniSerialPortOptData == null)
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
             GlobalValue.SerialPortCallDataType = callDataType;
 
             gridControl_CallData.DataSource = null;

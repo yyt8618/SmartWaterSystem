@@ -142,11 +142,14 @@ namespace DAL
                     while (datas.Count > 0)
                     {
                         GPRSFlowFrameDataEntity entity = datas.Dequeue();
-                        parms_frame[0].Value = 1;
-                        parms_frame[1].Value = entity.Frame;
-                        parms_frame[2].Value = entity.ModifyTime;
+                        if (!string.IsNullOrEmpty(entity.Frame))
+                        {
+                            parms_frame[0].Value = 1;
+                            parms_frame[1].Value = entity.Frame;
+                            parms_frame[2].Value = entity.ModifyTime;
 
-                        command_frame.ExecuteNonQuery();
+                            command_frame.ExecuteNonQuery();
+                        }
 
                         for (int i = 0; i < entity.lstFlowData.Count; i++)
                         {

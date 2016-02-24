@@ -239,8 +239,8 @@ namespace SmartWaterSystem
             {
                 return;
             }
-            GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
-            GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
             EnableControls(false);
             DisableRibbonBar();
@@ -260,8 +260,8 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
-            GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
-            GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
             EnableControls(false);
             DisableRibbonBar();
@@ -275,11 +275,11 @@ namespace SmartWaterSystem
 
         private void btnReadParm_Click(object sender, EventArgs e)
         {
-            GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
             bool haveread = false;
             if (ceID.Checked)
             {
-                GlobalValue.SerialPortOptData.IsOptID = ceID.Checked;
+                GlobalValue.UniSerialPortOptData.IsOptID = ceID.Checked;
                 haveread = true;
             }
             else
@@ -290,36 +290,36 @@ namespace SmartWaterSystem
                     txtID.Focus();
                     return;
                 }
-                GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 if (ceTime.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOptDT = ceTime.Checked;
+                    GlobalValue.UniSerialPortOptData.IsOptDT = ceTime.Checked;
                     haveread = true;
                 }
                 if (cePreConfig.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
+                    GlobalValue.UniSerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
                     haveread = true;
                 }
                 if (ceNumofturns.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOpt_Numofturns = ceNumofturns.Checked;
+                    GlobalValue.UniSerialPortOptData.IsOpt_Numofturns = ceNumofturns.Checked;
                     haveread = true;
                 }
                 if (ceIP.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOptIP = ceIP.Checked;
+                    GlobalValue.UniSerialPortOptData.IsOptIP = ceIP.Checked;
                     haveread = true;
                 }
                 if (cePort.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOptPort = cePort.Checked;
+                    GlobalValue.UniSerialPortOptData.IsOptPort = cePort.Checked;
                     haveread = true;
                 }
                 if (ceEnable.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOpt_HydrantEnable = ceEnable.Checked;
+                    GlobalValue.UniSerialPortOptData.IsOpt_HydrantEnable = ceEnable.Checked;
                     haveread = true;
                 }
             }
@@ -355,7 +355,7 @@ namespace SmartWaterSystem
         {
             if (Validate())
             {
-                GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
                 bool haveset = false;
                 if (ceID.Checked)
                 {
@@ -363,40 +363,40 @@ namespace SmartWaterSystem
                     {
                         return;
                     }
-                    GlobalValue.SerialPortOptData.IsOptID = ceID.Checked;
-                    GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                    GlobalValue.UniSerialPortOptData.IsOptID = ceID.Checked;
+                    GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
                     haveset = true;
                 }
                 else
                 {
-                    GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                    GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                     if (cePreConfig.Checked)
                     {
-                        GlobalValue.SerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
-                        GlobalValue.SerialPortOptData.PreConfig = cbPreConfig.SelectedIndex == 0 ? false : true;  
+                        GlobalValue.UniSerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
+                        GlobalValue.UniSerialPortOptData.PreConfig = cbPreConfig.SelectedIndex == 0 ? false : true;  
                         haveset = true;
                     }
                     if (ceIP.Checked)
                     {
-                        GlobalValue.SerialPortOptData.IsOptIP = ceIP.Checked;
-                        GlobalValue.SerialPortOptData.IP = new int[4];
-                        GlobalValue.SerialPortOptData.IP[0] = Convert.ToInt32(txtNum1.Text);
-                        GlobalValue.SerialPortOptData.IP[1] = Convert.ToInt32(txtNum2.Text);
-                        GlobalValue.SerialPortOptData.IP[2] = Convert.ToInt32(txtNum3.Text);
-                        GlobalValue.SerialPortOptData.IP[3] = Convert.ToInt32(txtNum4.Text);
+                        GlobalValue.UniSerialPortOptData.IsOptIP = ceIP.Checked;
+                        GlobalValue.UniSerialPortOptData.IP = new int[4];
+                        GlobalValue.UniSerialPortOptData.IP[0] = Convert.ToInt32(txtNum1.Text);
+                        GlobalValue.UniSerialPortOptData.IP[1] = Convert.ToInt32(txtNum2.Text);
+                        GlobalValue.UniSerialPortOptData.IP[2] = Convert.ToInt32(txtNum3.Text);
+                        GlobalValue.UniSerialPortOptData.IP[3] = Convert.ToInt32(txtNum4.Text);
                         haveset = true;
                     }
                     if (cePort.Checked)
                     {
-                        GlobalValue.SerialPortOptData.IsOptPort = cePort.Checked;
-                        GlobalValue.SerialPortOptData.Port = Convert.ToInt32(txtPort.Text);
+                        GlobalValue.UniSerialPortOptData.IsOptPort = cePort.Checked;
+                        GlobalValue.UniSerialPortOptData.Port = Convert.ToInt32(txtPort.Text);
                         haveset = true;
                     }
                     if (ceEnable.Checked)
                     {
-                        GlobalValue.SerialPortOptData.IsOpt_HydrantEnable = ceEnable.Checked;
-                        GlobalValue.SerialPortOptData.HydrantEnable = SwitchEnable.IsOn;
+                        GlobalValue.UniSerialPortOptData.IsOpt_HydrantEnable = ceEnable.Checked;
+                        GlobalValue.UniSerialPortOptData.HydrantEnable = SwitchEnable.IsOn;
                         haveset = true;
                     }
                 }
@@ -424,35 +424,35 @@ namespace SmartWaterSystem
         {
             if (Validate())
             {
-                GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
                 if (ceID.Checked)
                 {
-                    GlobalValue.SerialPortOptData.IsOptID = ceID.Checked;
-                    GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                    GlobalValue.UniSerialPortOptData.IsOptID = ceID.Checked;
+                    GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
                 }
                 else
                 {
-                    GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+                    GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
                     HistoryData.Clear();
                     gridView_History.Columns["PreValue"].Visible = false;
                     gridView_History.Columns["OpenAngle"].Visible = false;
                     if (rgOpt.SelectedIndex == 0)
                     {
-                        GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.Open;
+                        GlobalValue.UniSerialPortOptData.HydrantHistoryOpt = HydrantOptType.Open;
                         gridView_History.Columns["PreValue"].Visible = true;
                         gridView_History.Columns["OpenAngle"].Visible = true;
                     }
                     else if (rgOpt.SelectedIndex == 1)
-                        GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.Close;
+                        GlobalValue.UniSerialPortOptData.HydrantHistoryOpt = HydrantOptType.Close;
                     else if (rgOpt.SelectedIndex == 2)
                     {
-                        GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.OpenAngle;
+                        GlobalValue.UniSerialPortOptData.HydrantHistoryOpt = HydrantOptType.OpenAngle;
                         gridView_History.Columns["OpenAngle"].Visible = true;
                     }
                     else if (rgOpt.SelectedIndex == 3)
-                        GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.Impact;
+                        GlobalValue.UniSerialPortOptData.HydrantHistoryOpt = HydrantOptType.Impact;
                     else if (rgOpt.SelectedIndex == 4)
-                        GlobalValue.SerialPortOptData.HydrantHistoryOpt = HydrantOptType.KnockOver;
+                        GlobalValue.UniSerialPortOptData.HydrantHistoryOpt = HydrantOptType.KnockOver;
                 }
 
                 EnableControls(false);
@@ -494,8 +494,8 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
-            GlobalValue.SerialPortOptData = new UniversalSerialPortOptEntity();
-            GlobalValue.SerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
             EnableControls(false);
             DisableRibbonBar();
@@ -570,43 +570,43 @@ namespace SmartWaterSystem
                     EnableNavigateBar();
                     HideWaitForm();
 
-                    if (GlobalValue.SerialPortOptData.IsOptID)
+                    if (GlobalValue.UniSerialPortOptData.IsOptID)
                     {
-                        txtID.Text = GlobalValue.SerialPortOptData.ID.ToString();
+                        txtID.Text = GlobalValue.UniSerialPortOptData.ID.ToString();
                     }
-                    if (GlobalValue.SerialPortOptData.IsOptDT)
+                    if (GlobalValue.UniSerialPortOptData.IsOptDT)
                     {
-                        txtTime.Text = GlobalValue.SerialPortOptData.DT.ToString();
+                        txtTime.Text = GlobalValue.UniSerialPortOptData.DT.ToString();
                     }
-                    if (GlobalValue.SerialPortOptData.IsOpt_PreConfig)
+                    if (GlobalValue.UniSerialPortOptData.IsOpt_PreConfig)
                     {
-                        if (GlobalValue.SerialPortOptData.PreConfig)
+                        if (GlobalValue.UniSerialPortOptData.PreConfig)
                             cbPreConfig.SelectedIndex = 1;
                         else
                             cbPreConfig.SelectedIndex = 0;
                     }
-                    if (GlobalValue.SerialPortOptData.IsOpt_Numofturns)
+                    if (GlobalValue.UniSerialPortOptData.IsOpt_Numofturns)
                     {
-                        txtNumofturns.Text = GlobalValue.SerialPortOptData.Numofturns.ToString("f0");
+                        txtNumofturns.Text = GlobalValue.UniSerialPortOptData.Numofturns.ToString("f0");
                     }
-                    if (GlobalValue.SerialPortOptData.IsOptIP)
+                    if (GlobalValue.UniSerialPortOptData.IsOptIP)
                     {
-                        txtNum1.Text = GlobalValue.SerialPortOptData.IP[0].ToString();
-                        txtNum2.Text = GlobalValue.SerialPortOptData.IP[1].ToString();
-                        txtNum3.Text = GlobalValue.SerialPortOptData.IP[2].ToString();
-                        txtNum4.Text = GlobalValue.SerialPortOptData.IP[3].ToString();
+                        txtNum1.Text = GlobalValue.UniSerialPortOptData.IP[0].ToString();
+                        txtNum2.Text = GlobalValue.UniSerialPortOptData.IP[1].ToString();
+                        txtNum3.Text = GlobalValue.UniSerialPortOptData.IP[2].ToString();
+                        txtNum4.Text = GlobalValue.UniSerialPortOptData.IP[3].ToString();
                     }
-                    if (GlobalValue.SerialPortOptData.IsOptPort)
+                    if (GlobalValue.UniSerialPortOptData.IsOptPort)
                     {
-                        txtPort.Text = GlobalValue.SerialPortOptData.Port.ToString();
+                        txtPort.Text = GlobalValue.UniSerialPortOptData.Port.ToString();
                     }
-                    if (GlobalValue.SerialPortOptData.IsOpt_SimualteInterval)
+                    if (GlobalValue.UniSerialPortOptData.IsOpt_SimualteInterval)
                     {
-                        gridControl_History.DataSource=GlobalValue.SerialPortOptData.Simulate_Interval;
+                        gridControl_History.DataSource=GlobalValue.UniSerialPortOptData.Simulate_Interval;
                     }
-                    if (GlobalValue.SerialPortOptData.IsOpt_HydrantEnable)
+                    if (GlobalValue.UniSerialPortOptData.IsOpt_HydrantEnable)
                     {
-                        SwitchEnable.IsOn = GlobalValue.SerialPortOptData.HydrantEnable;
+                        SwitchEnable.IsOn = GlobalValue.UniSerialPortOptData.HydrantEnable;
                     }
 
                     XtraMessageBox.Show("读取消防栓参数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);

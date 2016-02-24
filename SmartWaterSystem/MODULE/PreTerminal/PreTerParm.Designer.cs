@@ -63,9 +63,9 @@
             this.comboConnectType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.cb485Baudrate = new DevExpress.XtraEditors.CheckEdit();
             this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.textIP = new DevExpress.XtraEditors.TextEdit();
             this.textPort = new DevExpress.XtraEditors.TextEdit();
+            this.cbPort = new DevExpress.XtraEditors.CheckEdit();
+            this.textIP = new DevExpress.XtraEditors.TextEdit();
             this.cbIP = new DevExpress.XtraEditors.CheckEdit();
             this.cbHeartInterval = new DevExpress.XtraEditors.CheckEdit();
             this.cbCellPhone = new DevExpress.XtraEditors.CheckEdit();
@@ -145,8 +145,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.cb485Baudrate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).BeginInit();
             this.groupControl6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textPort.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPort.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbHeartInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbCellPhone.Properties)).BeginInit();
@@ -209,21 +210,21 @@
             this.textVoltageAlarmLowLimit.Location = new System.Drawing.Point(123, 99);
             this.textVoltageAlarmLowLimit.Name = "textVoltageAlarmLowLimit";
             this.textVoltageAlarmLowLimit.Size = new System.Drawing.Size(48, 20);
-            this.textVoltageAlarmLowLimit.TabIndex = 108;
+            this.textVoltageAlarmLowLimit.TabIndex = 6;
             // 
             // txtVoltageInterval
             // 
             this.txtVoltageInterval.Location = new System.Drawing.Point(123, 74);
             this.txtVoltageInterval.Name = "txtVoltageInterval";
             this.txtVoltageInterval.Size = new System.Drawing.Size(48, 20);
-            this.txtVoltageInterval.TabIndex = 108;
+            this.txtVoltageInterval.TabIndex = 4;
             // 
             // txtID
             // 
             this.txtID.Location = new System.Drawing.Point(74, 49);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(48, 20);
-            this.txtID.TabIndex = 108;
+            this.txtID.TabIndex = 2;
             // 
             // cbCollectConfig
             // 
@@ -231,7 +232,7 @@
             this.cbCollectConfig.Name = "cbCollectConfig";
             this.cbCollectConfig.Properties.Caption = "采集功能配置";
             this.cbCollectConfig.Size = new System.Drawing.Size(117, 19);
-            this.cbCollectConfig.TabIndex = 1;
+            this.cbCollectConfig.TabIndex = 7;
             // 
             // cbVoltageAlarmLowLimit
             // 
@@ -239,7 +240,7 @@
             this.cbVoltageAlarmLowLimit.Name = "cbVoltageAlarmLowLimit";
             this.cbVoltageAlarmLowLimit.Properties.Caption = "电池电压报警下限";
             this.cbVoltageAlarmLowLimit.Size = new System.Drawing.Size(117, 19);
-            this.cbVoltageAlarmLowLimit.TabIndex = 1;
+            this.cbVoltageAlarmLowLimit.TabIndex = 5;
             // 
             // cbVoltageInterval
             // 
@@ -247,7 +248,7 @@
             this.cbVoltageInterval.Name = "cbVoltageInterval";
             this.cbVoltageInterval.Properties.Caption = "电池电压采集间隔";
             this.cbVoltageInterval.Size = new System.Drawing.Size(117, 19);
-            this.cbVoltageInterval.TabIndex = 1;
+            this.cbVoltageInterval.TabIndex = 3;
             // 
             // cbID
             // 
@@ -263,14 +264,14 @@
             this.cbTime.Name = "cbTime";
             this.cbTime.Properties.Caption = "设备时间";
             this.cbTime.Size = new System.Drawing.Size(75, 19);
-            this.cbTime.TabIndex = 1;
+            this.cbTime.TabIndex = 0;
             // 
             // labelControl1
             // 
             this.labelControl1.Location = new System.Drawing.Point(4, 28);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(76, 14);
-            this.labelControl1.TabIndex = 1;
+            this.labelControl1.TabIndex = 0;
             this.labelControl1.Text = "选择压力标志:";
             // 
             // toggleSwitch1
@@ -281,7 +282,7 @@
             this.toggleSwitch1.Properties.OffText = "招测开";
             this.toggleSwitch1.Properties.OnText = "招测关";
             this.toggleSwitch1.Size = new System.Drawing.Size(150, 25);
-            this.toggleSwitch1.TabIndex = 2;
+            this.toggleSwitch1.TabIndex = 0;
             // 
             // groupControl2
             // 
@@ -293,7 +294,7 @@
             this.groupControl2.Location = new System.Drawing.Point(186, 14);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(130, 161);
-            this.groupControl2.TabIndex = 4;
+            this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "采集功能配置";
             // 
             // cbRS485
@@ -302,7 +303,7 @@
             this.cbRS485.Name = "cbRS485";
             this.cbRS485.Properties.Caption = "RS485(流量2)";
             this.cbRS485.Size = new System.Drawing.Size(117, 19);
-            this.cbRS485.TabIndex = 1;
+            this.cbRS485.TabIndex = 4;
             // 
             // cbPluse
             // 
@@ -310,7 +311,7 @@
             this.cbPluse.Name = "cbPluse";
             this.cbPluse.Properties.Caption = "外接脉冲量";
             this.cbPluse.Size = new System.Drawing.Size(117, 19);
-            this.cbPluse.TabIndex = 1;
+            this.cbPluse.TabIndex = 3;
             // 
             // cbSimulatePre
             // 
@@ -318,7 +319,7 @@
             this.cbSimulatePre.Name = "cbSimulatePre";
             this.cbSimulatePre.Properties.Caption = "外接模拟量压力";
             this.cbSimulatePre.Size = new System.Drawing.Size(117, 19);
-            this.cbSimulatePre.TabIndex = 1;
+            this.cbSimulatePre.TabIndex = 2;
             // 
             // cbDigitalPre2
             // 
@@ -334,14 +335,14 @@
             this.cbDigitalPre1.Name = "cbDigitalPre1";
             this.cbDigitalPre1.Properties.Caption = "第一路数字量压力";
             this.cbDigitalPre1.Size = new System.Drawing.Size(117, 19);
-            this.cbDigitalPre1.TabIndex = 1;
+            this.cbDigitalPre1.TabIndex = 0;
             // 
             // btnEnableCollect
             // 
             this.btnEnableCollect.Location = new System.Drawing.Point(8, 119);
             this.btnEnableCollect.Name = "btnEnableCollect";
             this.btnEnableCollect.Size = new System.Drawing.Size(151, 33);
-            this.btnEnableCollect.TabIndex = 107;
+            this.btnEnableCollect.TabIndex = 3;
             this.btnEnableCollect.Text = "启动采集";
             this.btnEnableCollect.Click += new System.EventHandler(this.btnEnableCollect_Click);
             // 
@@ -352,7 +353,7 @@
             this.groupControl3.Location = new System.Drawing.Point(207, 181);
             this.groupControl3.Name = "groupControl3";
             this.groupControl3.Size = new System.Drawing.Size(215, 301);
-            this.groupControl3.TabIndex = 4;
+            this.groupControl3.TabIndex = 5;
             this.groupControl3.Text = "压力时间间隔";
             // 
             // gridControl_Pre
@@ -366,7 +367,7 @@
             this.cb_pluse_coltime,
             this.cb_pluse_sendtime});
             this.gridControl_Pre.Size = new System.Drawing.Size(213, 247);
-            this.gridControl_Pre.TabIndex = 4;
+            this.gridControl_Pre.TabIndex = 1;
             this.gridControl_Pre.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Pre});
             // 
@@ -453,7 +454,7 @@
             this.cbPreInterval.Name = "cbPreInterval";
             this.cbPreInterval.Properties.Caption = "压力时间间隔";
             this.cbPreInterval.Size = new System.Drawing.Size(96, 19);
-            this.cbPreInterval.TabIndex = 1;
+            this.cbPreInterval.TabIndex = 0;
             // 
             // groupControl4
             // 
@@ -469,7 +470,7 @@
             this.groupControl4.Location = new System.Drawing.Point(322, 14);
             this.groupControl4.Name = "groupControl4";
             this.groupControl4.Size = new System.Drawing.Size(299, 161);
-            this.groupControl4.TabIndex = 4;
+            this.groupControl4.TabIndex = 2;
             this.groupControl4.Text = "通讯参数";
             // 
             // combo485Baudrate
@@ -483,21 +484,21 @@
             "开启"});
             this.combo485Baudrate.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.combo485Baudrate.Size = new System.Drawing.Size(63, 20);
-            this.combo485Baudrate.TabIndex = 106;
+            this.combo485Baudrate.TabIndex = 3;
             // 
             // textCellPhone
             // 
             this.textCellPhone.Location = new System.Drawing.Point(75, 93);
             this.textCellPhone.Name = "textCellPhone";
             this.textCellPhone.Size = new System.Drawing.Size(102, 20);
-            this.textCellPhone.TabIndex = 108;
+            this.textCellPhone.TabIndex = 6;
             // 
             // textHeartInterval
             // 
             this.textHeartInterval.Location = new System.Drawing.Point(250, 95);
             this.textHeartInterval.Name = "textHeartInterval";
             this.textHeartInterval.Size = new System.Drawing.Size(37, 20);
-            this.textHeartInterval.TabIndex = 108;
+            this.textHeartInterval.TabIndex = 8;
             // 
             // comboConnectType
             // 
@@ -510,7 +511,7 @@
             "开启"});
             this.comboConnectType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboConnectType.Size = new System.Drawing.Size(63, 20);
-            this.comboConnectType.TabIndex = 106;
+            this.comboConnectType.TabIndex = 1;
             // 
             // cb485Baudrate
             // 
@@ -518,13 +519,13 @@
             this.cb485Baudrate.Name = "cb485Baudrate";
             this.cb485Baudrate.Properties.Caption = "485波特率";
             this.cb485Baudrate.Size = new System.Drawing.Size(74, 19);
-            this.cb485Baudrate.TabIndex = 1;
+            this.cb485Baudrate.TabIndex = 2;
             // 
             // groupControl6
             // 
-            this.groupControl6.Controls.Add(this.labelControl2);
-            this.groupControl6.Controls.Add(this.textIP);
             this.groupControl6.Controls.Add(this.textPort);
+            this.groupControl6.Controls.Add(this.cbPort);
+            this.groupControl6.Controls.Add(this.textIP);
             this.groupControl6.Controls.Add(this.cbIP);
             this.groupControl6.Location = new System.Drawing.Point(5, 58);
             this.groupControl6.Name = "groupControl6";
@@ -532,27 +533,27 @@
             this.groupControl6.Size = new System.Drawing.Size(294, 27);
             this.groupControl6.TabIndex = 4;
             // 
-            // labelControl2
+            // textPort
             // 
-            this.labelControl2.Location = new System.Drawing.Point(182, 6);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(23, 14);
-            this.labelControl2.TabIndex = 1;
-            this.labelControl2.Text = "Port";
+            this.textPort.Location = new System.Drawing.Point(219, 3);
+            this.textPort.Name = "textPort";
+            this.textPort.Size = new System.Drawing.Size(63, 20);
+            this.textPort.TabIndex = 3;
+            // 
+            // cbPort
+            // 
+            this.cbPort.Location = new System.Drawing.Point(176, 4);
+            this.cbPort.Name = "cbPort";
+            this.cbPort.Properties.Caption = "Port";
+            this.cbPort.Size = new System.Drawing.Size(47, 19);
+            this.cbPort.TabIndex = 9;
             // 
             // textIP
             // 
             this.textIP.Location = new System.Drawing.Point(70, 3);
             this.textIP.Name = "textIP";
             this.textIP.Size = new System.Drawing.Size(102, 20);
-            this.textIP.TabIndex = 108;
-            // 
-            // textPort
-            // 
-            this.textPort.Location = new System.Drawing.Point(219, 3);
-            this.textPort.Name = "textPort";
-            this.textPort.Size = new System.Drawing.Size(63, 20);
-            this.textPort.TabIndex = 108;
+            this.textIP.TabIndex = 1;
             // 
             // cbIP
             // 
@@ -560,7 +561,7 @@
             this.cbIP.Name = "cbIP";
             this.cbIP.Properties.Caption = "IP";
             this.cbIP.Size = new System.Drawing.Size(74, 19);
-            this.cbIP.TabIndex = 1;
+            this.cbIP.TabIndex = 0;
             // 
             // cbHeartInterval
             // 
@@ -568,7 +569,7 @@
             this.cbHeartInterval.Name = "cbHeartInterval";
             this.cbHeartInterval.Properties.Caption = "心跳间隔";
             this.cbHeartInterval.Size = new System.Drawing.Size(74, 19);
-            this.cbHeartInterval.TabIndex = 1;
+            this.cbHeartInterval.TabIndex = 7;
             // 
             // cbCellPhone
             // 
@@ -576,7 +577,7 @@
             this.cbCellPhone.Name = "cbCellPhone";
             this.cbCellPhone.Properties.Caption = "手机号";
             this.cbCellPhone.Size = new System.Drawing.Size(74, 19);
-            this.cbCellPhone.TabIndex = 1;
+            this.cbCellPhone.TabIndex = 5;
             // 
             // cbConnectType
             // 
@@ -584,7 +585,7 @@
             this.cbConnectType.Name = "cbConnectType";
             this.cbConnectType.Properties.Caption = "通讯方式";
             this.cbConnectType.Size = new System.Drawing.Size(74, 19);
-            this.cbConnectType.TabIndex = 1;
+            this.cbConnectType.TabIndex = 0;
             // 
             // groupControl5
             // 
@@ -627,7 +628,7 @@
             "开启"});
             this.comboEnableSlopLowLimit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboEnableSlopLowLimit.Size = new System.Drawing.Size(102, 20);
-            this.comboEnableSlopLowLimit.TabIndex = 106;
+            this.comboEnableSlopLowLimit.TabIndex = 17;
             // 
             // comboEnableSlopUpLimit
             // 
@@ -640,7 +641,7 @@
             "开启"});
             this.comboEnableSlopUpLimit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboEnableSlopUpLimit.Size = new System.Drawing.Size(102, 20);
-            this.comboEnableSlopUpLimit.TabIndex = 106;
+            this.comboEnableSlopUpLimit.TabIndex = 13;
             // 
             // comboEnablePreLowLimit
             // 
@@ -653,7 +654,7 @@
             "开启"});
             this.comboEnablePreLowLimit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboEnablePreLowLimit.Size = new System.Drawing.Size(102, 20);
-            this.comboEnablePreLowLimit.TabIndex = 106;
+            this.comboEnablePreLowLimit.TabIndex = 9;
             // 
             // comboEnablePreUpLimit
             // 
@@ -666,35 +667,35 @@
             "开启"});
             this.comboEnablePreUpLimit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboEnablePreUpLimit.Size = new System.Drawing.Size(102, 20);
-            this.comboEnablePreUpLimit.TabIndex = 106;
+            this.comboEnablePreUpLimit.TabIndex = 5;
             // 
             // textOffset
             // 
             this.textOffset.Location = new System.Drawing.Point(93, 265);
             this.textOffset.Name = "textOffset";
             this.textOffset.Size = new System.Drawing.Size(102, 20);
-            this.textOffset.TabIndex = 108;
+            this.textOffset.TabIndex = 21;
             // 
             // textPreRange
             // 
             this.textPreRange.Location = new System.Drawing.Point(93, 241);
             this.textPreRange.Name = "textPreRange";
             this.textPreRange.Size = new System.Drawing.Size(102, 20);
-            this.textPreRange.TabIndex = 108;
+            this.textPreRange.TabIndex = 19;
             // 
             // textSlopLowLimit
             // 
             this.textSlopLowLimit.Location = new System.Drawing.Point(93, 193);
             this.textSlopLowLimit.Name = "textSlopLowLimit";
             this.textSlopLowLimit.Size = new System.Drawing.Size(102, 20);
-            this.textSlopLowLimit.TabIndex = 108;
+            this.textSlopLowLimit.TabIndex = 15;
             // 
             // textSlopUpLimit
             // 
             this.textSlopUpLimit.Location = new System.Drawing.Point(93, 145);
             this.textSlopUpLimit.Name = "textSlopUpLimit";
             this.textSlopUpLimit.Size = new System.Drawing.Size(102, 20);
-            this.textSlopUpLimit.TabIndex = 108;
+            this.textSlopUpLimit.TabIndex = 11;
             // 
             // cbOffset
             // 
@@ -702,7 +703,7 @@
             this.cbOffset.Name = "cbOffset";
             this.cbOffset.Properties.Caption = "偏移量:";
             this.cbOffset.Size = new System.Drawing.Size(74, 19);
-            this.cbOffset.TabIndex = 1;
+            this.cbOffset.TabIndex = 20;
             // 
             // cbEnableSlopLowLimit
             // 
@@ -710,14 +711,14 @@
             this.cbEnableSlopLowLimit.Name = "cbEnableSlopLowLimit";
             this.cbEnableSlopLowLimit.Properties.Caption = "投退状态:";
             this.cbEnableSlopLowLimit.Size = new System.Drawing.Size(74, 19);
-            this.cbEnableSlopLowLimit.TabIndex = 1;
+            this.cbEnableSlopLowLimit.TabIndex = 16;
             // 
             // textPreLowLimit
             // 
             this.textPreLowLimit.Location = new System.Drawing.Point(93, 97);
             this.textPreLowLimit.Name = "textPreLowLimit";
             this.textPreLowLimit.Size = new System.Drawing.Size(102, 20);
-            this.textPreLowLimit.TabIndex = 108;
+            this.textPreLowLimit.TabIndex = 7;
             // 
             // cbEnableSlopUpLimit
             // 
@@ -725,14 +726,14 @@
             this.cbEnableSlopUpLimit.Name = "cbEnableSlopUpLimit";
             this.cbEnableSlopUpLimit.Properties.Caption = "投退状态:";
             this.cbEnableSlopUpLimit.Size = new System.Drawing.Size(74, 19);
-            this.cbEnableSlopUpLimit.TabIndex = 1;
+            this.cbEnableSlopUpLimit.TabIndex = 12;
             // 
             // textPreUpLimit
             // 
             this.textPreUpLimit.Location = new System.Drawing.Point(93, 49);
             this.textPreUpLimit.Name = "textPreUpLimit";
             this.textPreUpLimit.Size = new System.Drawing.Size(102, 20);
-            this.textPreUpLimit.TabIndex = 108;
+            this.textPreUpLimit.TabIndex = 3;
             // 
             // cbPreRange
             // 
@@ -740,7 +741,7 @@
             this.cbPreRange.Name = "cbPreRange";
             this.cbPreRange.Properties.Caption = "压力量程:";
             this.cbPreRange.Size = new System.Drawing.Size(87, 19);
-            this.cbPreRange.TabIndex = 1;
+            this.cbPreRange.TabIndex = 18;
             // 
             // cbSlopLowLimit
             // 
@@ -748,7 +749,7 @@
             this.cbSlopLowLimit.Name = "cbSlopLowLimit";
             this.cbSlopLowLimit.Properties.Caption = "斜率下限值:";
             this.cbSlopLowLimit.Size = new System.Drawing.Size(87, 19);
-            this.cbSlopLowLimit.TabIndex = 1;
+            this.cbSlopLowLimit.TabIndex = 14;
             // 
             // cbEnablePreLowLimit
             // 
@@ -756,7 +757,7 @@
             this.cbEnablePreLowLimit.Name = "cbEnablePreLowLimit";
             this.cbEnablePreLowLimit.Properties.Caption = "投退状态:";
             this.cbEnablePreLowLimit.Size = new System.Drawing.Size(74, 19);
-            this.cbEnablePreLowLimit.TabIndex = 1;
+            this.cbEnablePreLowLimit.TabIndex = 8;
             // 
             // cbSlopUpLimit
             // 
@@ -764,7 +765,7 @@
             this.cbSlopUpLimit.Name = "cbSlopUpLimit";
             this.cbSlopUpLimit.Properties.Caption = "斜率上限值:";
             this.cbSlopUpLimit.Size = new System.Drawing.Size(87, 19);
-            this.cbSlopUpLimit.TabIndex = 1;
+            this.cbSlopUpLimit.TabIndex = 10;
             // 
             // comboPreFlag
             // 
@@ -772,12 +773,9 @@
             this.comboPreFlag.Name = "comboPreFlag";
             this.comboPreFlag.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboPreFlag.Properties.Items.AddRange(new object[] {
-            "关闭",
-            "开启"});
             this.comboPreFlag.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboPreFlag.Size = new System.Drawing.Size(102, 20);
-            this.comboPreFlag.TabIndex = 106;
+            this.comboPreFlag.TabIndex = 1;
             // 
             // cbPreLowLimit
             // 
@@ -785,7 +783,7 @@
             this.cbPreLowLimit.Name = "cbPreLowLimit";
             this.cbPreLowLimit.Properties.Caption = "压力下限值:";
             this.cbPreLowLimit.Size = new System.Drawing.Size(87, 19);
-            this.cbPreLowLimit.TabIndex = 1;
+            this.cbPreLowLimit.TabIndex = 6;
             // 
             // cbEnablePreUpLimit
             // 
@@ -793,7 +791,7 @@
             this.cbEnablePreUpLimit.Name = "cbEnablePreUpLimit";
             this.cbEnablePreUpLimit.Properties.Caption = "投退状态:";
             this.cbEnablePreUpLimit.Size = new System.Drawing.Size(74, 19);
-            this.cbEnablePreUpLimit.TabIndex = 1;
+            this.cbEnablePreUpLimit.TabIndex = 4;
             // 
             // cbPreUpLimit
             // 
@@ -801,7 +799,7 @@
             this.cbPreUpLimit.Name = "cbPreUpLimit";
             this.cbPreUpLimit.Properties.Caption = "压力上限值:";
             this.cbPreUpLimit.Size = new System.Drawing.Size(87, 19);
-            this.cbPreUpLimit.TabIndex = 1;
+            this.cbPreUpLimit.TabIndex = 2;
             // 
             // groupControl7
             // 
@@ -816,7 +814,7 @@
             this.groupControl7.Location = new System.Drawing.Point(627, 181);
             this.groupControl7.Name = "groupControl7";
             this.groupControl7.Size = new System.Drawing.Size(166, 301);
-            this.groupControl7.TabIndex = 4;
+            this.groupControl7.TabIndex = 7;
             this.groupControl7.Text = "控制/操作命令";
             // 
             // SwitchComunication
@@ -827,14 +825,14 @@
             this.SwitchComunication.Properties.OffText = "GPRS";
             this.SwitchComunication.Properties.OnText = "串口";
             this.SwitchComunication.Size = new System.Drawing.Size(117, 25);
-            this.SwitchComunication.TabIndex = 108;
+            this.SwitchComunication.TabIndex = 7;
             // 
             // btnSetParm
             // 
             this.btnSetParm.Location = new System.Drawing.Point(8, 227);
             this.btnSetParm.Name = "btnSetParm";
             this.btnSetParm.Size = new System.Drawing.Size(151, 33);
-            this.btnSetParm.TabIndex = 107;
+            this.btnSetParm.TabIndex = 6;
             this.btnSetParm.Text = "设置参数";
             this.btnSetParm.Click += new System.EventHandler(this.btnSetParm_Click);
             // 
@@ -843,7 +841,7 @@
             this.btnReadParm.Location = new System.Drawing.Point(8, 191);
             this.btnReadParm.Name = "btnReadParm";
             this.btnReadParm.Size = new System.Drawing.Size(151, 33);
-            this.btnReadParm.TabIndex = 107;
+            this.btnReadParm.TabIndex = 5;
             this.btnReadParm.Text = "抄读参数";
             this.btnReadParm.Click += new System.EventHandler(this.btnReadParm_Click);
             // 
@@ -857,14 +855,14 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "恢复"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "复位")});
             this.radioGroup1.Size = new System.Drawing.Size(161, 24);
-            this.radioGroup1.TabIndex = 3;
+            this.radioGroup1.TabIndex = 1;
             // 
             // btnReset
             // 
             this.btnReset.Location = new System.Drawing.Point(8, 83);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(151, 33);
-            this.btnReset.TabIndex = 107;
+            this.btnReset.TabIndex = 2;
             this.btnReset.Text = "设备复位";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
@@ -873,7 +871,7 @@
             this.btnCheckingTime.Location = new System.Drawing.Point(8, 155);
             this.btnCheckingTime.Name = "btnCheckingTime";
             this.btnCheckingTime.Size = new System.Drawing.Size(151, 33);
-            this.btnCheckingTime.TabIndex = 107;
+            this.btnCheckingTime.TabIndex = 4;
             this.btnCheckingTime.Text = "设备校时";
             this.btnCheckingTime.Click += new System.EventHandler(this.btnCheckingTime_Click);
             // 
@@ -884,7 +882,7 @@
             this.groupControl8.Location = new System.Drawing.Point(423, 181);
             this.groupControl8.Name = "groupControl8";
             this.groupControl8.Size = new System.Drawing.Size(200, 301);
-            this.groupControl8.TabIndex = 4;
+            this.groupControl8.TabIndex = 6;
             this.groupControl8.Text = "历史数据列表";
             // 
             // listboxHistoryData
@@ -892,14 +890,14 @@
             this.listboxHistoryData.Location = new System.Drawing.Point(5, 54);
             this.listboxHistoryData.Name = "listboxHistoryData";
             this.listboxHistoryData.Size = new System.Drawing.Size(200, 242);
-            this.listboxHistoryData.TabIndex = 108;
+            this.listboxHistoryData.TabIndex = 1;
             // 
             // btnHisotryData
             // 
             this.btnHisotryData.Location = new System.Drawing.Point(128, 26);
             this.btnHisotryData.Name = "btnHisotryData";
             this.btnHisotryData.Size = new System.Drawing.Size(68, 23);
-            this.btnHisotryData.TabIndex = 107;
+            this.btnHisotryData.TabIndex = 0;
             this.btnHisotryData.Text = "历史数据";
             // 
             // groupControl9
@@ -914,7 +912,7 @@
             this.groupControl9.Location = new System.Drawing.Point(627, 14);
             this.groupControl9.Name = "groupControl9";
             this.groupControl9.Size = new System.Drawing.Size(164, 161);
-            this.groupControl9.TabIndex = 4;
+            this.groupControl9.TabIndex = 3;
             this.groupControl9.Text = "招测数据";
             // 
             // labelControl5
@@ -922,7 +920,7 @@
             this.labelControl5.Location = new System.Drawing.Point(5, 106);
             this.labelControl5.Name = "labelControl5";
             this.labelControl5.Size = new System.Drawing.Size(35, 14);
-            this.labelControl5.TabIndex = 1;
+            this.labelControl5.TabIndex = 5;
             this.labelControl5.Text = "压力2:";
             // 
             // labelControl4
@@ -930,7 +928,7 @@
             this.labelControl4.Location = new System.Drawing.Point(5, 80);
             this.labelControl4.Name = "labelControl4";
             this.labelControl4.Size = new System.Drawing.Size(35, 14);
-            this.labelControl4.TabIndex = 1;
+            this.labelControl4.TabIndex = 3;
             this.labelControl4.Text = "压力1:";
             // 
             // labelControl3
@@ -946,7 +944,7 @@
             this.btnGetRealtimeData.Location = new System.Drawing.Point(91, 21);
             this.btnGetRealtimeData.Name = "btnGetRealtimeData";
             this.btnGetRealtimeData.Size = new System.Drawing.Size(68, 23);
-            this.btnGetRealtimeData.TabIndex = 107;
+            this.btnGetRealtimeData.TabIndex = 0;
             this.btnGetRealtimeData.Text = "实时招测";
             // 
             // textPre2
@@ -955,7 +953,7 @@
             this.textPre2.Location = new System.Drawing.Point(55, 103);
             this.textPre2.Name = "textPre2";
             this.textPre2.Size = new System.Drawing.Size(104, 20);
-            this.textPre2.TabIndex = 108;
+            this.textPre2.TabIndex = 6;
             // 
             // textPre1
             // 
@@ -963,7 +961,7 @@
             this.textPre1.Location = new System.Drawing.Point(55, 77);
             this.textPre1.Name = "textPre1";
             this.textPre1.Size = new System.Drawing.Size(104, 20);
-            this.textPre1.TabIndex = 108;
+            this.textPre1.TabIndex = 4;
             // 
             // textTime
             // 
@@ -971,7 +969,7 @@
             this.textTime.Location = new System.Drawing.Point(55, 51);
             this.textTime.Name = "textTime";
             this.textTime.Size = new System.Drawing.Size(104, 20);
-            this.textTime.TabIndex = 108;
+            this.textTime.TabIndex = 2;
             // 
             // PreTerParm
             // 
@@ -987,6 +985,7 @@
             this.Controls.Add(this.groupControl1);
             this.Name = "PreTerParm";
             this.Size = new System.Drawing.Size(797, 494);
+            this.Load += new System.EventHandler(this.PreTerParm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.textVoltageAlarmLowLimit.Properties)).EndInit();
@@ -1022,9 +1021,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.cb485Baudrate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl6)).EndInit();
             this.groupControl6.ResumeLayout(false);
-            this.groupControl6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textPort.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPort.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbHeartInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbCellPhone.Properties)).EndInit();
@@ -1101,7 +1100,6 @@
         private DevExpress.XtraEditors.CheckEdit cbIP;
         private DevExpress.XtraEditors.CheckEdit cbConnectType;
         private DevExpress.XtraEditors.ComboBoxEdit combo485Baudrate;
-        private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.GroupControl groupControl5;
         private DevExpress.XtraEditors.ComboBoxEdit comboEnableSlopLowLimit;
         private DevExpress.XtraEditors.ComboBoxEdit comboEnableSlopUpLimit;
@@ -1154,6 +1152,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn17;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pluse_sendtime;
         private DevExpress.XtraEditors.ToggleSwitch SwitchComunication;
+        private DevExpress.XtraEditors.CheckEdit cbPort;
 
     }
 }

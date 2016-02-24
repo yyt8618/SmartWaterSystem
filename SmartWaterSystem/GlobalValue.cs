@@ -47,11 +47,18 @@ namespace SmartWaterSystem
             set { _noiseserialportOptEntity = value; }
         }
 
-        private static UniversalSerialPortOptEntity _SerialPortOptData;
-        public static UniversalSerialPortOptEntity SerialPortOptData
+        private static UniversalSerialPortOptEntity _UniSerialPortOptData;
+        public static UniversalSerialPortOptEntity UniSerialPortOptData
         {
-            get { return _SerialPortOptData; }
-            set { _SerialPortOptData = value; }
+            get { return _UniSerialPortOptData; }
+            set { _UniSerialPortOptData = value; }
+        }
+
+        private static PreSerialPortOptEntity _PreSerialPortOptData;
+        public static PreSerialPortOptEntity PreSerialPortOptData
+        {
+            get { return _PreSerialPortOptData; }
+            set { _PreSerialPortOptData = value; }
         }
 
         private static Package651 _SerialPort651OptData;

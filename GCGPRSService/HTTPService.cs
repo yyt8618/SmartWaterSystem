@@ -96,6 +96,31 @@ namespace GCGPRSService
                     string str_resp_err = "";
                     string str_resp = "";
                     byte[] buffer = new byte[1024];
+
+                    #region test
+                    //UploadFlowDataReqEntity testentity = new UploadFlowDataReqEntity();
+                    //testentity.action="uploadflowdata";
+                    //testentity.TerData = new List<UpLoadFlowDataEntity>();
+                    //UpLoadFlowDataEntity testdata1 = new UpLoadFlowDataEntity();
+                    //testdata1.terid = "1";
+                    //testdata1.flowvalue = "100.123";
+                    //testdata1.flowinverted = "2344.0";
+                    //testdata1.flowinstant = "233.23";
+                    //testdata1.collTime = DateTime.Now.ToString();
+                    //testentity.TerData.Add(testdata1);
+                    //string strttt = SmartWaterSystem.JSONSerialize.JsonSerialize<UploadFlowDataReqEntity>(testentity);
+                    //long timestamp =0;
+                    //TimeSpan tsp =(TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)));
+                    //timestamp = (long)tsp.TotalMilliseconds;
+                    //string md51 = MD5Encrypt.MD5(System.Web.HttpUtility.UrlEncode(strttt + timestamp + Settings.Instance.GetString(SettingKeys.HTTPMD5Key)).ToLower());
+                    //HTTPEntity ttpentity = new HTTPEntity();
+                    //ttpentity.timestamp = timestamp.ToString();
+                    //ttpentity.Params = strttt;
+                    //ttpentity.digest = md51;
+                    //string reqtemp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPEntity>(ttpentity);
+                    //string urltemp = System.Web.HttpUtility.UrlEncode(reqtemp, Encoding.UTF8);
+                    #endregion
+
                     if (context.Request.HttpMethod.ToLower().Equals("get"))
                     {
                         //GET请求处理
@@ -182,10 +207,37 @@ namespace GCGPRSService
                                             GetGroupsRespEntity getgrouprespentity = bll.GetGroupsInfo();
                                             str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<GetGroupsRespEntity>(getgrouprespentity);
                                             break;
-                                        case "uploadnoisedata":  //上传分组信息
+                                        case "uploadnoisedata":  //上传噪声数据
                                             str_resp_err = "";
                                             UploadNoiseDataReqEntity parmentity = SmartWaterSystem.JSONSerialize.JsonDeserialize<UploadNoiseDataReqEntity>(httpentity.Params);
                                             HTTPRespEntity uploadrespentity = bll.UploadGroups(parmentity.TerData);
+                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
+                                            break;
+                                        case "uploadflowdata":
+                                            str_resp_err = "";
+                                            UploadFlowDataReqEntity parmflowentity = SmartWaterSystem.JSONSerialize.JsonDeserialize<UploadFlowDataReqEntity>(httpentity.Params);
+                                            
+                                            if(parmflowentity!=null && parmflowentity.TerData!=null)
+                                            {
+                                                foreach(UpLoadFlowDataEntity flowentity in parmflowentity.TerData)
+                                                {
+                                                    GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
+                                                    framedata.TerId = flowentity.terid;
+                                                    framedata.ModifyTime = DateTime.Now;
+                                                    framedata.Frame = "";
+                                                    GPRSFlowDataEntity data = new GPRSFlowDataEntity();
+                                                    data.Forward_FlowValue = Convert.ToDouble(flowentity.flowvalue);
+                                                    data.Reverse_FlowValue = Convert.ToDouble(flowentity.flowinverted);
+                                                    data.Instant_FlowValue = Convert.ToDouble(flowentity.flowinstant);
+                                                    data.ColTime = Convert.ToDateTime(flowentity.collTime);
+                                                    framedata.lstFlowData.Add(data);
+                                                    GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
+                                                }
+                                            }
+                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
+
+                                            uploadrespentity = new HTTPRespEntity();
+                                            uploadrespentity.code = 1;
                                             str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                             break;
                                     }

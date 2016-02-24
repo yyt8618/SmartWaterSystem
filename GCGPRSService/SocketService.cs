@@ -1270,7 +1270,7 @@ namespace GCGPRSService
                                             if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)
                                                 pack_time.C1 = (byte)NOISE_LOG_COMMAND.WRITE_TIME;
                                             else if (pack.DevType == Entity.ConstValue.DEV_TYPE.Data_CTRL)
-                                                pack_time.C1 = (byte)PreTer_WRITE.WRITE_TIME;
+                                                pack_time.C1 = (byte)PreTer_COMMAND.SET_TIME;
                                             else if (pack.DevType == Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
                                                 pack_time.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
                                             else if (pack.DevType == Entity.ConstValue.DEV_TYPE.OLWQ_CTRL)

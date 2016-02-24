@@ -3,10 +3,7 @@ using System.Data;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using System.Text.RegularExpressions;
-using DevExpress.XtraGrid.Views.Grid;
 using Entity;
-using System.Collections;
-using BLL;
 using Common;
 using System.Collections.Generic;
 
@@ -154,32 +151,7 @@ namespace SmartWaterSystem
                         {
                             dt.Rows.Clear();
                         }
-                        //gridControl_WaitCmd.RefreshDataSource();
                         SetWaitListView_Cmd(dt);
-                        //gridControl_WaitCmd.DataSource = null;
-                        //gridControl_WaitCmd.RefreshDataSource();
-                        //if (lstPack != null)
-                        //{
-                        //    DataTable dt = new DataTable("waitsendTable");
-                        //    dt.Columns.Add("A5");
-                        //    dt.Columns.Add("A4");
-                        //    dt.Columns.Add("A3");
-                        //    dt.Columns.Add("A2");
-                        //    dt.Columns.Add("A1");
-                        //    dt.Columns.Add("funcode");
-                        //    foreach (Package651 pack in lstPack)
-                        //    {
-                        //        DataRow dr = dt.NewRow();
-                        //        dr["A5"] = "0x" + string.Format("{0:X2}", pack.A5);
-                        //        dr["A4"] = "0x" + string.Format("{0:X2}", pack.A4);
-                        //        dr["A3"] = "0x" + string.Format("{0:X2}", pack.A3);
-                        //        dr["A2"] = "0x" + string.Format("{0:X2}", pack.A2);
-                        //        dr["A1"] = "0x" + string.Format("{0:X2}", pack.A1);
-                        //        dr["funcode"] = "0x" + string.Format("{0:X2}", pack.FUNCODE);
-                        //        dt.Rows.Add(dr);
-                        //    }
-                        //    SetWaitListView_Cmd(dt);
-                        //}
                     }
                     catch { 
                     }
@@ -196,13 +168,11 @@ namespace SmartWaterSystem
                 this.BeginInvoke((SetWaitListViewHandle)delegate(DataTable lstparm)
                 {
                     gridControl_WaitCmd.DataSource = lstparm;
-                    //gridControl_WaitCmd.RefreshDataSource();
                 },lstPack);
             }
             else
             {
                 gridControl_WaitCmd.DataSource = lstPack;
-                //gridControl_WaitCmd.RefreshDataSource();
             }
         }
 
@@ -273,8 +243,6 @@ namespace SmartWaterSystem
             txtCA4.Text = "";
             txtCA5.Text = "";
             txtCCenterAddr.Text = "";
-            //txtCPwd0.Text = "";
-            //txtCPwd1.Text = "";
             combWorkType.SelectedIndex = -1;
             txtElements1.Text = "";
             txtElements2.Text = "";
