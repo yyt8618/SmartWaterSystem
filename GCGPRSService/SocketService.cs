@@ -567,11 +567,11 @@ namespace GCGPRSService
                                                 if (!isBCD)
                                                 {
                                                     //前向流量
-                                                    forward_flowvalue = BitConverter.ToDouble(new byte[] { pack.Data[i * 18 + 12], pack.Data[i * 18 + 11], pack.Data[i * 18 + 10], pack.Data[i * 18 + 9] }, 0);
+                                                    forward_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 12], pack.Data[i * 18 + 11], pack.Data[i * 18 + 10], pack.Data[i * 18 + 9] }, 0);
                                                     //反向流量
-                                                    reverse_flowvalue = BitConverter.ToDouble(new byte[] { pack.Data[i * 18 + 16], pack.Data[i * 18 + 15], pack.Data[i * 18 + 14], pack.Data[i * 18 + 13] }, 0);
+                                                    reverse_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 16], pack.Data[i * 18 + 15], pack.Data[i * 18 + 14], pack.Data[i * 18 + 13] }, 0);
                                                     //瞬时流量
-                                                    instant_flowvalue = BitConverter.ToDouble(new byte[] { pack.Data[i * 18 + 20], pack.Data[i * 18 + 19], pack.Data[i * 18 + 18], pack.Data[i * 18 + 17] }, 0);
+                                                    instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 20], pack.Data[i * 18 + 19], pack.Data[i * 18 + 18], pack.Data[i * 18 + 17] }, 0);
 
                                                     OnSendMsg(new SocketEventArgs(string.Format("index({0})|流量终端[{1}]|报警标志({2})|流量标志({3})|采集时间({4})|正向流量值:{5}|反向流量值:{6}|瞬时流量值:{7}",
                                                         dataindex, pack.DevID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
@@ -1410,7 +1410,7 @@ namespace GCGPRSService
                                             string.Format("报文长度:{0},报文起始符:{1},{2},发报时间:{3},{4}校验码:{5}",
                                             pack.DataLength, "0x" + String.Format("{0:X2}", pack.CStart),
                                             string.IsNullOrEmpty(subsequentmsg) ? "流水号:" + BitConverter.ToInt16(pack.SNum, 0) : subsequentmsg, str_senddt,
-                                            (pack.Data != null ? SmartWaterSystem.SL651AnalyseElement.AnalyseElement1(pack.FUNCODE, pack.Data,pack.dt, ref spEntity) : ""), ConvertHelper.ByteToString(pack.CS, pack.CS.Length))
+                                            (pack.Data != null ? SmartWaterSystem.SL651AnalyseElement.AnalyseElement(pack.FUNCODE, pack.Data,pack.dt, ref spEntity) : ""), ConvertHelper.ByteToString(pack.CS, pack.CS.Length))
                                             ));
                                     #endregion
 

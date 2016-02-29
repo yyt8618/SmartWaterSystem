@@ -1691,7 +1691,7 @@ namespace SmartWaterSystem
                         GlobalValue.Universallog.Read(tmp, 3, 2, false);
                     }
                     Universal651SerialPortEntity spEntity = null;
-                    string anamsg = SL651AnalyseElement.AnalyseElement1(packresp.FUNCODE, packresp.Data, packresp.dt, ref spEntity);
+                    string anamsg = SL651AnalyseElement.AnalyseElement(packresp.FUNCODE, packresp.Data, packresp.dt, ref spEntity);
                     ShowMsgControl(packresp, anamsg);
 
                     result = true;
