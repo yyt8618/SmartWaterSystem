@@ -1,0 +1,775 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FCE87823-4C94-4B67-9665-82479F23DDD1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SmartWaterSystem</RootNamespace>
+    <AssemblyName>SmartWaterSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>gc.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SmartWaterSystem.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Win.C1Chart.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=a22e16972c085838, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.BonusSkins.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Images.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v14.1.UI, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v14.1.Wizard, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraNavBar.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Data.ConnectionUI.Dialog">
+      <HintPath>..\DLL\Microsoft.Data.ConnectionUI.Dialog.dll</HintPath>
+    </Reference>
+    <Reference Include="netchartdir_cp, Version=5.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\netchartdir_cp.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=1.0.0.505, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseView.Designer.cs">
+      <DependentUpon>BaseView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MapForScripting.cs" />
+    <Compile Include="MODULE\Hydrant\HydrantFullScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantFullScreen.Designer.cs">
+      <DependentUpon>HydrantFullScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantParm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantParm.Designer.cs">
+      <DependentUpon>HydrantParm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantMap.Designer.cs">
+      <DependentUpon>HydrantMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\Hydrant\HydrantDetail.Designer.cs">
+      <DependentUpon>HydrantDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\FrmDataAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\FrmDataAnalysis.Designer.cs">
+      <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\NoiseDataBaseHelper.cs" />
+    <Compile Include="FrmSerialComSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSerialComSet.Designer.cs">
+      <DependentUpon>FrmSerialComSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSystem.Designer.cs">
+      <DependentUpon>FrmSystem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTemplateSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTemplateSet.Designer.cs">
+      <DependentUpon>FrmTemplateSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseFFT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseFFT.Designer.cs">
+      <DependentUpon>NoiseFFT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmParamViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmParamViewer.designer.cs">
+      <DependentUpon>FrmParamViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalValue.cs" />
+    <Compile Include="MODULE\NoiseRec\NoiseMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseMap.Designer.cs">
+      <DependentUpon>NoiseMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseParmSetting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseParmSetting.Designer.cs">
+      <DependentUpon>NoiseParmSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQMgr.Designer.cs">
+      <DependentUpon>OLWQMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQMonitor.Designer.cs">
+      <DependentUpon>OLWQMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQParm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQParm.Designer.cs">
+      <DependentUpon>OLWQParm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQChartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQChartForm.Designer.cs">
+      <DependentUpon>OLWQChartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQParm651.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\OLWQ\OLWQParm651.Designer.cs">
+      <DependentUpon>OLWQParm651.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreParmConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreParmConfigForm.Designer.cs">
+      <DependentUpon>PreParmConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerParm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerParm.Designer.cs">
+      <DependentUpon>PreTerParm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerMgr.Designer.cs">
+      <DependentUpon>PreTerMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerMonitor.Designer.cs">
+      <DependentUpon>PreTerMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerReportHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerReportHistory.Designer.cs">
+      <DependentUpon>PreTerReportHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerAlarm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerAlarm.Designer.cs">
+      <DependentUpon>PreTerAlarm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerStoppage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerStoppage.Designer.cs">
+      <DependentUpon>PreTerStoppage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerChartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreTerminal\PreTerChartForm.Designer.cs">
+      <DependentUpon>PreTerChartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalChartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalChartForm.Designer.cs">
+      <DependentUpon>UniversalChartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTreeNodeInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTreeNodeInfoForm.Designer.cs">
+      <DependentUpon>UniversalTreeNodeInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerParm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerParm.Designer.cs">
+      <DependentUpon>UniversalTerParm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerMonitor.Designer.cs">
+      <DependentUpon>UniversalTerMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerMgr.Designer.cs">
+      <DependentUpon>UniversalTerMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\PluseBasicInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\PluseBasicInputForm.Designer.cs">
+      <DependentUpon>PluseBasicInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerParm651.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\UniversalTerminal\UniversalTerParm651.Designer.cs">
+      <DependentUpon>UniversalTerParm651.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FrmSysVoiceSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSysVoiceSet.Designer.cs">
+      <DependentUpon>FrmSysVoiceSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseDataCompare.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseDataCompare.Designer.cs">
+      <DependentUpon>NoiseDataCompare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseDataMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseDataMgr.Designer.cs">
+      <DependentUpon>NoiseDataMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseGroupMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseGroupMgr.Designer.cs">
+      <DependentUpon>NoiseGroupMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseRecMgr.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseRecMgr.Designer.cs">
+      <DependentUpon>NoiseRecMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.Designer.cs">
+      <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Threads\MSMQManager.cs" />
+    <Compile Include="Threads\SerialPortManager.cs" />
+    <Compile Include="WelcomSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WelcomSplash.Designer.cs">
+      <DependentUpon>WelcomSplash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WaitForm1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WaitForm1.Designer.cs">
+      <DependentUpon>WaitForm1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmConsole.Designer.cs">
+      <DependentUpon>FrmConsole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMSMQSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMSMQSet.Designer.cs">
+      <DependentUpon>FrmMSMQSet.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseView.resx">
+      <DependentUpon>BaseView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Hydrant\HydrantFullScreen.resx">
+      <DependentUpon>HydrantFullScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Hydrant\HydrantParm.resx">
+      <DependentUpon>HydrantParm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Hydrant\HydrantMap.resx">
+      <DependentUpon>HydrantMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Hydrant\HydrantDetail.resx">
+      <DependentUpon>HydrantDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\FrmDataAnalysis.resx">
+      <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSerialComSet.resx">
+      <DependentUpon>FrmSerialComSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSystem.resx">
+      <DependentUpon>FrmSystem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTemplateSet.resx">
+      <DependentUpon>FrmTemplateSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseFFT.resx">
+      <DependentUpon>NoiseFFT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmParamViewer.resx">
+      <DependentUpon>FrmParamViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseMap.resx">
+      <DependentUpon>NoiseMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseParmSetting.resx">
+      <DependentUpon>NoiseParmSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQMgr.resx">
+      <DependentUpon>OLWQMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQMonitor.resx">
+      <DependentUpon>OLWQMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQParm.resx">
+      <DependentUpon>OLWQParm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQChartForm.resx">
+      <DependentUpon>OLWQChartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\OLWQ\OLWQParm651.resx">
+      <DependentUpon>OLWQParm651.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreParmConfigForm.resx">
+      <DependentUpon>PreParmConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerParm.resx">
+      <DependentUpon>PreTerParm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerMgr.resx">
+      <DependentUpon>PreTerMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerMonitor.resx">
+      <DependentUpon>PreTerMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerReportHistory.resx">
+      <DependentUpon>PreTerReportHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerAlarm.resx">
+      <DependentUpon>PreTerAlarm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerStoppage.resx">
+      <DependentUpon>PreTerStoppage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreTerminal\PreTerChartForm.resx">
+      <DependentUpon>PreTerChartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalChartForm.resx">
+      <DependentUpon>UniversalChartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTreeNodeInfoForm.resx">
+      <DependentUpon>UniversalTreeNodeInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerParm.resx">
+      <DependentUpon>UniversalTerParm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerMonitor.resx">
+      <DependentUpon>UniversalTerMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerMgr.resx">
+      <DependentUpon>UniversalTerMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\PluseBasicInputForm.resx">
+      <DependentUpon>PluseBasicInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerParm651.resx">
+      <DependentUpon>UniversalTerParm651.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="FrmSysVoiceSet.resx">
+      <DependentUpon>FrmSysVoiceSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseDataCompare.resx">
+      <DependentUpon>NoiseDataCompare.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseDataMgr.resx">
+      <DependentUpon>NoiseDataMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseGroupMgr.resx">
+      <DependentUpon>NoiseGroupMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseRecMgr.resx">
+      <DependentUpon>NoiseRecMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\NoiseRec\NoiseEnergyAnalysis.resx">
+      <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WelcomSplash.resx">
+      <DependentUpon>WelcomSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WaitForm1.resx">
+      <DependentUpon>WaitForm1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConsole.resx">
+      <DependentUpon>FrmConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMSMQSet.resx">
+      <DependentUpon>FrmMSMQSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{3740C324-4DD9-4F69-8256-F6A521A660CC}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{BB39153E-4B1E-48B3-8790-F4461D4B238B}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBUtility\Utility.csproj">
+      <Project>{3BB68F7C-6C07-4890-9851-C73CE00C17F5}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{A73A7A63-11C8-40BC-AA44-0ACD23F00A0B}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HydrantMap\HydrantMap.csproj">
+      <Project>{D7DF2513-C470-41FC-9E20-DF06E14B73E0}</Project>
+      <Name>HydrantMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HydrantParm\HydrantParm.csproj">
+      <Project>{2A9F946D-51A9-4F64-8B66-A8ABCED76632}</Project>
+      <Name>HydrantParm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUniversalTerMonitor\UniversalTerMonitor.csproj">
+      <Project>{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}</Project>
+      <Name>UniversalTerMonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseDataCompare\NoiseDataCompare.csproj">
+      <Project>{B67DCBA3-3945-4245-A44F-1ED35E76BAE2}</Project>
+      <Name>NoiseDataCompare</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseDataMgr\NoiseDataMgr.csproj">
+      <Project>{AF8AF8E2-7662-4F81-BBB9-B6E828ABD21D}</Project>
+      <Name>NoiseDataMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseEnergyAnalysis\NoiseEnergyAnalysis.csproj">
+      <Project>{7289EE4B-D27F-4C92-BCE2-B599D8DA4127}</Project>
+      <Name>NoiseEnergyAnalysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseFFT\NoiseFFT.csproj">
+      <Project>{1B23425E-3641-4B88-BD76-971C12C03713}</Project>
+      <Name>NoiseFFT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseGroupMgr\NoiseGroupMgr.csproj">
+      <Project>{6B71722E-E09F-417A-8D76-9E6941453FC6}</Project>
+      <Name>NoiseGroupMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseMap\NoiseMap.csproj">
+      <Project>{8A4C67CC-EDF4-4AD7-9C8A-A8148C17999E}</Project>
+      <Name>NoiseMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseParmSetting\NoiseParmSetting.csproj">
+      <Project>{EFD170E0-EA31-45F7-807F-46791484D2D4}</Project>
+      <Name>NoiseParmSetting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseRecMgr\NoiseRecMgr.csproj">
+      <Project>{8744926E-0AF2-4F41-81D3-98004974856B}</Project>
+      <Name>NoiseRecMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OLWQMgr\OLWQMgr.csproj">
+      <Project>{7ACDC110-2CBA-4054-8DCE-1B113139F233}</Project>
+      <Name>OLWQMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OLWQMonitor\OLWQMonitor.csproj">
+      <Project>{F5E9543A-555D-43D0-8560-48137D2D95C8}</Project>
+      <Name>OLWQMonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OLWQParm651\OLWQParm651.csproj">
+      <Project>{C1665859-924D-426A-A53D-40D9DD7B06A6}</Project>
+      <Name>OLWQParm651</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OLWQParm\OLWQParm.csproj">
+      <Project>{FC09A207-5505-4DBC-8012-35D025627A60}</Project>
+      <Name>OLWQParm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerAlarm\PreTerAlarm.csproj">
+      <Project>{CFE8708A-7EB0-45D8-BD79-0EDCCA20E94F}</Project>
+      <Name>PreTerAlarm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerMgr\PreTerMgr.csproj">
+      <Project>{F7910E06-3FEB-4D0C-976F-70285B06E90C}</Project>
+      <Name>PreTerMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerMonitor\PreTerMonitor.csproj">
+      <Project>{5701E610-ECA4-4EF5-8475-038C59F4D557}</Project>
+      <Name>PreTerMonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerParm\PreTerParm.csproj">
+      <Project>{0150D7FD-CC7E-40C0-97D5-80457FD1BB1B}</Project>
+      <Name>PreTerParm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerReportHistory\PreTerReportHistory.csproj">
+      <Project>{8CFF5DBD-3C8F-4817-BC49-35AC5CEC1A56}</Project>
+      <Name>PreTerReportHistory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerStoppage\PreTerStoppage.csproj">
+      <Project>{73C5ED59-BB50-47C0-97CC-43F82BCA3BA4}</Project>
+      <Name>PreTerStoppage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Protocol\Protocol.csproj">
+      <Project>{CBDF6FF1-FDC4-42BE-A21A-A5559DC20F6F}</Project>
+      <Name>Protocol</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniversalTerMgr\UniversalTerMgr.csproj">
+      <Project>{68C2F608-9553-463D-B638-EC636C6CA59C}</Project>
+      <Name>UniversalTerMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniversalTerParm651\UniversalTerParm651.csproj">
+      <Project>{36485A04-6E62-42B0-B9C3-74DBCB78D94D}</Project>
+      <Name>UniversalTerParm651</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniversalTerParm\UniversalTerParm.csproj">
+      <Project>{950E97A0-8ACB-4ADB-BCD4-680945253386}</Project>
+      <Name>UniversalTerParm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gc.ico" />
+    <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
+    <None Include="Resources\MSMQ.ico" />
+    <None Include="Resources\fullscreen.gif" />
+    <None Include="Resources\HydrantMap.png" />
+    <None Include="Resources\Products\HydrantMap.png" />
+    <None Include="Resources\Products\Hydrant.png" />
+    <None Include="Resources\PreTerMgr.png" />
+    <None Include="Resources\OLWQMonitor.png" />
+    <None Include="Resources\OLWQMgr.png" />
+    <None Include="Resources\OLWQParm.png" />
+    <None Include="Resources\PreTerParm.png" />
+    <None Include="Resources\PreTerMonitor.png" />
+    <None Include="Resources\灭灯16x25.png" />
+    <None Include="Resources\亮灯16x25.png" />
+    <None Include="Resources\GPRSConsole.png" />
+    <None Include="Resources\UniversalTermonitor.png" />
+    <None Include="Resources\leak\leak7.ico" />
+    <None Include="Resources\leak\leak6.ico" />
+    <None Include="Resources\leak\leak5.ico" />
+    <None Include="Resources\leak\leak4.ico" />
+    <None Include="Resources\leak\leak3.ico" />
+    <None Include="Resources\leak\leak2.ico" />
+    <None Include="Resources\leak\leak1.ico" />
+    <None Include="Resources\leak_tuming.gif" />
+    <None Include="Resources\leak.gif" />
+    <None Include="Resources\sql.ico" />
+    <None Include="Resources\UniversalTerMgr1.png" />
+    <None Include="Resources\UniversalTerMgr.png" />
+    <None Include="Resources\UniversalTerParm.png" />
+    <None Include="Resources\Welcome.jpg" />
+    <None Include="Resources\right.png" />
+    <None Include="Resources\cross.png" />
+    <None Include="Resources\cross.jpg" />
+    <None Include="Resources\Products\GsmTerminal.png" />
+    <None Include="Resources\Products\PreTerminal.png" />
+    <None Include="Resources\Products\PortablePreTerminal.png" />
+    <None Include="Resources\Products\ValveSwitchCTL.png" />
+    <None Include="Resources\Products\NoiseRecorder.png" />
+    <None Include="Resources\PreTerConfig.bmp" />
+    <None Include="Resources\NoiseMap.png" />
+    <None Include="Resources\DataCompare3.png" />
+    <None Include="Resources\DataCompare2.png" />
+    <None Include="Resources\DataCompare1.png" />
+    <None Include="Resources\DataCompare.png" />
+    <None Include="Resources\SerialPortConfig1.png" />
+    <None Include="Resources\SerialPortConfig.png" />
+    <None Include="Resources\DisableSerialPort.png" />
+    <None Include="Resources\SerialPort.png" />
+    <None Include="Resources\voice3.png" />
+    <None Include="Resources\voice2.png" />
+    <None Include="Resources\voice1.png" />
+    <None Include="Resources\Voice.PNG" />
+    <None Include="Resources\companylogo.png" />
+    <None Include="Resources\wait.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MODULE\PortablePreTerminal\" />
+    <Folder Include="MODULE\ValveSwitchCTL\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
