@@ -47,7 +47,7 @@ namespace Protocol
             }
         }
 
-        public Package651 Read(Package651 package,int timeout = 3, int times = 2, bool needresp = true,bool readnextpack=false)
+        public List<Package651> Read(Package651 package,int timeout = 3, int times = 2, bool needresp = true,bool readnextpack=false)
         {
             try
             {

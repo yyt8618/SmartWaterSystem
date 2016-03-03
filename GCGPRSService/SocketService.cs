@@ -1491,7 +1491,7 @@ namespace GCGPRSService
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
-                                                Thread.Sleep(1500);  //1
+                                                Thread.Sleep(500);  //1
                                                 Send651(handler, bsenddata);
                                             }
 
@@ -1582,7 +1582,7 @@ namespace GCGPRSService
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
-                                                Thread.Sleep(1500); //3
+                                                Thread.Sleep(500); //3
                                                 Send651(handler, bsenddata);
                                             }
                                         }

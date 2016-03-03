@@ -140,10 +140,15 @@ namespace Common
         /// </summary>
         public byte End { get; set; }
 
+        /// <summary>
+        /// 帧原始字节数据
+        /// </summary>
+        public byte[] OriginalData { get; set; }
+
         #endregion
 
         #region 扩展属性/方法
-        
+
         /// <summary>
         /// 当前帧数据域 数据长度 十进制
         /// </summary>
@@ -539,7 +544,7 @@ namespace Common
                     byte b = (byte)((bytes[14] << 4) | (bytes[15] >> 4));
                     int pack_l1 = BitConverter.ToInt16(new byte[] { b, (byte)(bytes[14] >> 4) }, 0);
                     int pack_index = BitConverter.ToInt16(new byte[] { bytes[16], (byte)(bytes[15] & 0x0F) }, 0);
-                    if (pack_l1 != pack_index)
+                    if (pack_l1 != pack_index || pack_l1>0)
                     {
                         package.SumPackCount = pack_l1;
                         package.CurPackCount = pack_index;
@@ -569,6 +574,7 @@ namespace Common
             {
                 throw new ArgumentException("数据帧校验失败");
             }
+            package.OriginalData = bytes;
 
             return package;
         }

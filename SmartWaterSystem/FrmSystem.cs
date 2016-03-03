@@ -135,10 +135,14 @@ namespace SmartWaterSystem
                     bool sqlconnect = SQLHelper.TryConn(SQLHelper.ConnectionString);
                     if (!sqlconnect)
                     {
-                        if (DialogResult.No == XtraMessageBox.Show("连接SQL数据库失败，是否继续？", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Error))
+                        if (DialogResult.No == XtraMessageBox.Show("连接SQL数据库失败，请设置数据库连接!", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Error))
                         {
                             logger.Info("TryConn func:SQL数据库连接失败，主动退出");
                             Application.Exit();
+                        }
+                        else
+                        {
+                            barBtnSetDBConnect_ItemClick(null, null);
                         }
                     }
                 }
