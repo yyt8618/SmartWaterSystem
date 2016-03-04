@@ -76,6 +76,11 @@ namespace Common
             get { return _lstWaitSendCmd; }
             set { _lstWaitSendCmd = value; }
         }
+
+        /// <summary>
+        /// 多包数据
+        /// </summary>
+        public List<byte> multiData { get; set; }
     }
 
     public class SendPackageEntity

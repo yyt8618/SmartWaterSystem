@@ -468,9 +468,9 @@ namespace Common
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public static Package651 FromBytes(byte[] bytes, out bool subsequent, out string subsequentmsg)
+        public static Package651 FromBytes(byte[] bytes, out bool ismultipack, out string subsequentmsg)
         {
-            subsequent = false;
+            ismultipack = false;
             subsequentmsg = "";
             if (bytes == null || bytes.Length == 0)
             {
@@ -548,13 +548,24 @@ namespace Common
                     {
                         package.SumPackCount = pack_l1;
                         package.CurPackCount = pack_index;
-                        subsequent = true;
+                        ismultipack = true;
                     }
                     subsequentmsg = "总包数:" + pack_l1 + "、当前第" + pack_index + "包";
-                    package.data = new byte[package.DataLength-11];
-                    for (int i = 0; i < (package.DataLength-11); i++)
+                    if (pack_index != 1)   //多包，除了第一包，正文都是数据,比正常的单包或第一包少
                     {
-                        package.data[i] = bytes[25 + i];  //17->24
+                        package.data = new byte[package.DataLength-3];
+                        for (int i = 0; i < package.DataLength-3; i++)
+                        {
+                            package.data[i] = bytes[17 + i];
+                        }
+                    }
+                    else
+                    {
+                        package.data = new byte[package.DataLength - 11];
+                        for (int i = 0; i < (package.DataLength - 11); i++)
+                        {
+                            package.data[i] = bytes[25 + i];  //17->24
+                        }
                     }
                 }
             }

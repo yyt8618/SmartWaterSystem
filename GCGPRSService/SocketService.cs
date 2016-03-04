@@ -1361,7 +1361,7 @@ namespace GCGPRSService
                         }
                         else if (packageBytes.Count >= PackageDefine.MinLenth651 && (packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte651 || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte_Continue))
                         {
-                            bool need_response = true;    //是否回复相应帧(连续几个帧，只回最后一个帧)
+                            bool need_response = true;    //是否回复回应帧(连续几个帧，只回最后一个帧)
                             bool deal = false;
                             byte[] crcbs = packageBytes.ToArray();
                             byte[] crctest = Package651.crc16(crcbs, crcbs.Length - 2);
@@ -1396,25 +1396,87 @@ namespace GCGPRSService
 #else
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  收到帧数据"));
 #endif
-                                    #region 解析数据
-                                    string str_senddt = "";
-                                    if (pack.dt != null && pack.dt.Length == 6)
+                                    int clientindex = -1;  //查找或添加
+                                    for(int i=0; i < lstClient.Count; i++)
                                     {
-                                        str_senddt = string.Format("{0}-{1}-{2} {3}:{4}:{5}", String.Format("{0:X2}", pack.dt[0]), String.Format("{0:X2}", pack.dt[1])
-                                            , String.Format("{0:X2}", pack.dt[2]), String.Format("{0:X2}", pack.dt[3]), String.Format("{0:X2}", pack.dt[4]), String.Format("{0:X2}", pack.dt[5]));
+                                        if (lstClient[i].A1 == pack.A1 && lstClient[i].A2 == pack.A2 && lstClient[i].A3 == pack.A3 && lstClient[i].A4 == pack.A4 && lstClient[i].A5 == pack.A5)
+                                        {
+                                            clientindex = i;
+                                            lstClient[i].ClientSocket = handler;
+                                            break;
+                                        }
                                     }
-                                    Universal651SerialPortEntity spEntity =null;  //不使用
-                                    OnSendMsg(new SocketEventArgs(string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
+                                    if (clientindex == -1)
+                                    {
+                                        CallSocketEntity sockpack = new CallSocketEntity();
+                                        sockpack.ClientSocket = handler;
+                                        sockpack.A1 = pack.A1;
+                                        sockpack.A2 = pack.A2;
+                                        sockpack.A3 = pack.A3;
+                                        sockpack.A4 = pack.A4;
+                                        sockpack.A5 = pack.A5;
+                                        lstClient.Add(sockpack);
+                                        clientindex = lstClient.Count - 1;
+                                    }
+
+                                    #region 解析数据
+                                    if (havesubsequent)  //多包时保存帧正文数据以便下边解帧时组合
+                                    {
+                                        if (pack.CurPackCount == 1)  //第一帧时,初始化组帧变量
+                                            lstClient[clientindex].multiData = new List<byte>();
+                                        lstClient[clientindex].multiData.AddRange(pack.Data);
+                                    }
+                                        Universal651SerialPortEntity spEntity = null;  //不使用
+                                        string analyseStr = "";
+                                        byte[] analyseData = pack.Data;
+                                    if (havesubsequent) //如果是多包的情况,且是最后一帧
+                                    {
+                                        if (pack.CurPackCount > 1 && pack.SumPackCount == pack.CurPackCount)
+                                        {
+                                            if (lstClient[clientindex].multiData != null && lstClient[clientindex].multiData.Count > 0)
+                                                analyseData = lstClient[clientindex].multiData.ToArray();
+                                            analyseStr = SmartWaterSystem.SL651AnalyseElement.AnalyseElement(pack.FUNCODE, analyseData, pack.dt, ref spEntity);
+
+                                        }
+                                    }
+                                    else if (analyseData != null)
+                                    {
+                                        analyseStr = SmartWaterSystem.SL651AnalyseElement.AnalyseElement(pack.FUNCODE, analyseData, pack.dt, ref spEntity);
+                                    }
+
+                                    if (!havesubsequent || (havesubsequent && pack.CurPackCount == 1))  //没有后续帧或者有后续帧且是第一帧
+                                    {
+
+                                        string str_senddt = "";
+                                        if (pack.dt != null && pack.dt.Length == 6)
+                                        {
+                                            str_senddt = string.Format("{0}-{1}-{2} {3}:{4}:{5}", String.Format("{0:X2}", pack.dt[0]), String.Format("{0:X2}", pack.dt[1])
+                                                , String.Format("{0:X2}", pack.dt[2]), String.Format("{0:X2}", pack.dt[3]), String.Format("{0:X2}", pack.dt[4]), String.Format("{0:X2}", pack.dt[5]));
+                                        }
+
+                                        OnSendMsg(new SocketEventArgs(string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
+                                                Convert.ToInt16(pack.CenterAddr), Convert.ToInt16(pack.A1), Convert.ToInt16(pack.A2), Convert.ToInt16(pack.A3), Convert.ToInt16(pack.A4), Convert.ToInt16(pack.A5),
+                                                "0x" + String.Format("{0:X2}", pack.PWD[0]) + string.Format("{0:X2}", pack.PWD[1]), "0x" + String.Format("{0:X2}", pack.FUNCODE), SmartWaterSystem.SL651AnalyseElement.GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
+                                                string.Format("报文长度:{0},报文起始符:{1},{2},发报时间:{3},{4}校验码:{5}",
+                                                pack.DataLength, "0x" + string.Format("{0:X2}", pack.CStart),
+                                                string.IsNullOrEmpty(subsequentmsg) ? "流水号:" + BitConverter.ToInt16(pack.SNum, 0) : subsequentmsg, str_senddt,
+                                                analyseStr, ConvertHelper.ByteToString(pack.CS, pack.CS.Length))
+                                                ));
+                                    }
+                                    else if (havesubsequent) // && (pack.CurPackCount > 1 && pack.SumPackCount == pack.CurPackCount))  //有后续帧且是最后一帧
+                                    {
+                                        OnSendMsg(new SocketEventArgs(string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
                                             Convert.ToInt16(pack.CenterAddr), Convert.ToInt16(pack.A1), Convert.ToInt16(pack.A2), Convert.ToInt16(pack.A3), Convert.ToInt16(pack.A4), Convert.ToInt16(pack.A5),
-                                            "0x" + String.Format("{0:X2}", pack.PWD[0]) + String.Format("{0:X2}", pack.PWD[1]), "0x" + String.Format("{0:X2}", pack.FUNCODE), SmartWaterSystem.SL651AnalyseElement.GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
-                                            string.Format("报文长度:{0},报文起始符:{1},{2},发报时间:{3},{4}校验码:{5}",
+                                            "0x" + String.Format("{0:X2}", pack.PWD[0]) + string.Format("{0:X2}", pack.PWD[1]), "0x" + String.Format("{0:X2}", pack.FUNCODE), SmartWaterSystem.SL651AnalyseElement.GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
+                                            string.Format("报文长度:{0},报文起始符:{1},{2},{3}校验码:{4}",
                                             pack.DataLength, "0x" + string.Format("{0:X2}", pack.CStart),
-                                            string.IsNullOrEmpty(subsequentmsg) ? "流水号:" + BitConverter.ToInt16(pack.SNum, 0) : subsequentmsg, str_senddt,
-                                            (pack.Data != null ? SmartWaterSystem.SL651AnalyseElement.AnalyseElement(pack.FUNCODE, pack.Data,pack.dt, ref spEntity) : ""), ConvertHelper.ByteToString(pack.CS, pack.CS.Length))
+                                            string.IsNullOrEmpty(subsequentmsg) ? "" : subsequentmsg,
+                                            analyseStr, ConvertHelper.ByteToString(pack.CS, pack.CS.Length))
                                             ));
+                                    }
                                     #endregion
 
-                                    if (!havesubsequent)
+                                    if (!havesubsequent || (havesubsequent && (pack.CurPackCount > 1 && pack.SumPackCount == pack.CurPackCount)))  //不是多包或者多包时最后一包时，可以发送命令帧和响应帧
                                     {
                                         #region 发送帧
                                         Package651 response = new Package651();  //响应帧
@@ -1443,13 +1505,6 @@ namespace GCGPRSService
                                             need_response = false;
 
                                         response.dt = new byte[6];
-                                        //response.dt[0] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Year - 2000));
-                                        //response.dt[1] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Month));
-                                        //response.dt[2] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Day));
-                                        //response.dt[3] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Hour));
-                                        //response.dt[4] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Minute));
-                                        //response.dt[5] = ConvertHelper.HexToBCD(Convert.ToByte(DateTime.Now.Second));
-
                                         response.dt[0] = ConvertHelper.StringToByte((DateTime.Now.Year - 2000).ToString())[0];
                                         response.dt[1] = ConvertHelper.StringToByte(DateTime.Now.Month.ToString().PadLeft(2, '0'))[0];
                                         response.dt[2] = ConvertHelper.StringToByte(DateTime.Now.Day.ToString().PadLeft(2, '0'))[0];
@@ -1533,7 +1588,7 @@ namespace GCGPRSService
                                                                 {
                                                                     for (int j = 0; j < callentity.lstWaitSendCmd.Count; j++)
                                                                     {
-                                                                        if (callentity.lstWaitSendCmd[j].SendPackage651!=null && callentity.lstWaitSendCmd[j].SendPackage651.Equals(pack651Cmd))
+                                                                        if (callentity.lstWaitSendCmd[j].SendPackage651 != null && callentity.lstWaitSendCmd[j].SendPackage651.Equals(pack651Cmd))
                                                                         {
                                                                             callentity.lstWaitSendCmd.RemoveAt(j);
                                                                         }
@@ -1592,27 +1647,6 @@ namespace GCGPRSService
                                     try
                                     {
                                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
-                                        bool exist = false;
-                                        foreach (CallSocketEntity callEntity in lstClient)
-                                        {
-                                            if (callEntity.A1 == pack.A1 && callEntity.A2 == pack.A2 && callEntity.A3 == pack.A3 && callEntity.A4 == pack.A4 && callEntity.A5 == pack.A5)
-                                            {
-                                                exist = true;
-                                                callEntity.ClientSocket = handler;
-                                                break;
-                                            }
-                                        }
-                                        if (!exist)
-                                        {
-                                            CallSocketEntity sockpack = new CallSocketEntity();
-                                            sockpack.ClientSocket = handler;
-                                            sockpack.A1 = pack.A1;
-                                            sockpack.A2 = pack.A2;
-                                            sockpack.A3 = pack.A3;
-                                            sockpack.A4 = pack.A4;
-                                            sockpack.A5 = pack.A5;
-                                            lstClient.Add(sockpack);
-                                        }
                                     }
                                     catch { };
 
