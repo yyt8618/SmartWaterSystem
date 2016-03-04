@@ -425,7 +425,7 @@ namespace Protocol
                 serialPort.DataReceived += SerialPort_DataReceived;
 
                 SendData(sendData);
-                
+
                 if (!needresp)
                 {
                     List<T> lstT = new List<T>();
@@ -448,11 +448,11 @@ namespace Protocol
                         AppendBufLine("获取数据中途串口关闭！", null);
                         throw new Exception("关闭串口，停止获取数据。");
                     }
-                    
+
                     //get result
-                    if(!isComRecving)
+                    if (!isComRecving)
                     {
-                        if ((lstResult651.Count>0 && lstResult651[0].SumPackCount == lstResult651[lstResult651.Count-1].CurPackCount)||Environment.TickCount - nLastRecTime > 2 * 1000)    //超时1s
+                        if ((lstResult651.Count > 0 && lstResult651[0].SumPackCount == lstResult651[lstResult651.Count - 1].CurPackCount) || Environment.TickCount - nLastRecTime > 2 * 1000)    //超时1s
                         {
                             if (!string.IsNullOrEmpty(receiveErr))
                                 throw new Exception(receiveErr);
@@ -471,12 +471,16 @@ namespace Protocol
                     }
                 }
 
-               
-                
+
+
             }
             catch (Exception e)
             {
                 throw;
+            }
+            finally
+            {
+                isComRecving = false;
             }
         }
 

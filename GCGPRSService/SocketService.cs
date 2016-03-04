@@ -1408,7 +1408,7 @@ namespace GCGPRSService
                                             Convert.ToInt16(pack.CenterAddr), Convert.ToInt16(pack.A1), Convert.ToInt16(pack.A2), Convert.ToInt16(pack.A3), Convert.ToInt16(pack.A4), Convert.ToInt16(pack.A5),
                                             "0x" + String.Format("{0:X2}", pack.PWD[0]) + String.Format("{0:X2}", pack.PWD[1]), "0x" + String.Format("{0:X2}", pack.FUNCODE), SmartWaterSystem.SL651AnalyseElement.GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
                                             string.Format("报文长度:{0},报文起始符:{1},{2},发报时间:{3},{4}校验码:{5}",
-                                            pack.DataLength, "0x" + String.Format("{0:X2}", pack.CStart),
+                                            pack.DataLength, "0x" + string.Format("{0:X2}", pack.CStart),
                                             string.IsNullOrEmpty(subsequentmsg) ? "流水号:" + BitConverter.ToInt16(pack.SNum, 0) : subsequentmsg, str_senddt,
                                             (pack.Data != null ? SmartWaterSystem.SL651AnalyseElement.AnalyseElement(pack.FUNCODE, pack.Data,pack.dt, ref spEntity) : ""), ConvertHelper.ByteToString(pack.CS, pack.CS.Length))
                                             ));

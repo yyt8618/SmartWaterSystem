@@ -1651,7 +1651,8 @@ namespace SmartWaterSystem
         /// 将消息显示到FrmConsole页面
         /// </summary>
         /// <param name="msg"></param>
-        private void ShowMsgControl(Package651 pack, string msg)
+        /// <param name="multiPack">是否多包</param>
+        private void ShowMsgControl(Package651 pack, string msg,bool multiPack=false)
         {
             string str_senddt = string.Format("{0}-{1}-{2} {3}:{4}:{5}", String.Format("{0:X2}", pack.dt[0]), String.Format("{0:X2}", pack.dt[1])
                                             , String.Format("{0:X2}", pack.dt[2]), String.Format("{0:X2}", pack.dt[3]), String.Format("{0:X2}", pack.dt[4]), String.Format("{0:X2}", pack.dt[5]));
@@ -1659,7 +1660,7 @@ namespace SmartWaterSystem
                                             Convert.ToInt16(pack.CenterAddr), Convert.ToInt16(pack.A1), Convert.ToInt16(pack.A2), Convert.ToInt16(pack.A3), Convert.ToInt16(pack.A4), Convert.ToInt16(pack.A5),
                                             "0x" + String.Format("{0:X2}", pack.PWD[0]) + String.Format("{0:X2}", pack.PWD[1]), "0x" + String.Format("{0:X2}", pack.FUNCODE), SL651AnalyseElement.GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
                                             string.Format("报文长度:{0},报文起始符:{1},发报时间:{2},{3}校验码:{4}",
-                                            pack.DataLength, "0x" + String.Format("{0:X2}", pack.CStart), str_senddt, msg, ConvertHelper.ByteToString(pack.CS, pack.CS.Length));
+                                            (!multiPack ? pack.DataLength.ToString():"多包"), "0x" + String.Format("{0:X2}", pack.CStart), str_senddt, msg, ConvertHelper.ByteToString(pack.CS, pack.CS.Length));
             GlobalValue.portUtil.AppendBufLine(str);
         }
 
@@ -1670,58 +1671,28 @@ namespace SmartWaterSystem
             obj = null;
             try
             {
-                //int sumpackcount = 0;
-                //int curpackindex = 0;
                 bool readnextpack = false; //是否读取下一个包(多包时,第一包readnextpack = false,后面readnextpack = true)
-                //do
-                //{
-                //    List<Package651> packresp = GlobalValue.Universallog.Read(GlobalValue.SerialPort651OptData, 3, 2, true, readnextpack);
-                //    sumpackcount = packresp.SumPackCount;
-                //    curpackindex = packresp.CurPackCount;
-                //    if (needconfirm && (curpackindex >0 && curpackindex == sumpackcount))
-                //    {
-                //        Package651 tmp = GlobalValue.SerialPort651OptData;
-                //        tmp.Data = null;
-                //        tmp.CS = null;
-                //        byte[] lens = BitConverter.GetBytes((ushort)(8));
-                //        tmp.L0 = lens[0];
-                //        tmp.L1 = lens[1];
-                //        byte[] bsenddata = tmp.ToResponseArray();
-                //        tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
-                //        Thread.Sleep(500);
-                //        GlobalValue.Universallog.Read(tmp, 3, 2, false);
-                //    }
-                //    Universal651SerialPortEntity spEntity = null;
-                //    string anamsg = SL651AnalyseElement.AnalyseElement(packresp.FUNCODE, packresp.Data, packresp.dt, ref spEntity);
-                //    ShowMsgControl(packresp, anamsg);
-
-                //    result = true;
-                //    msg = "";
-                //    obj = spEntity;
-
-                //    if (curpackindex < sumpackcount)
-                //        readnextpack=true;
-                //} while (curpackindex < sumpackcount);  //最后一包(sumpackcount=curpackindex)或者是单包(sumpackcount = 0 & curpackindex = 0)
-
                 List<Package651> packsresp = GlobalValue.Universallog.Read(GlobalValue.SerialPort651OptData, 4, 1, true, readnextpack);
                 if(packsresp!=null && packsresp.Count>0)
                 {
+                    List<byte> lstData = new List<byte>();
+                    lstData.AddRange(packsresp[0].Data);
                     for (int i = 0; i < packsresp.Count; i++)
                     {
-                        Universal651SerialPortEntity spEntity = null;
-                        string anamsg = SL651AnalyseElement.AnalyseElement(packsresp[i].FUNCODE, packsresp[i].Data, packsresp[i].dt, ref spEntity);
                         string packcountmsg = "";
                         if (packsresp[0].SumPackCount > 1)
                             packcountmsg = "总包数:" + packsresp[i].SumPackCount + "、当前第" + packsresp[i].CurPackCount + "包";
 
                         GlobalValue.portUtil.AppendBufLine(string.Format("收到{0}:{1}", packcountmsg, ConvertHelper.ByteArrayToHexString(packsresp[i].OriginalData)));
-                        
-                        ShowMsgControl(packsresp[i], anamsg);
-
-                        result = true;
-                        msg = "";
-                        obj = spEntity;
+                        if (i > 0)
+                            lstData.AddRange(packsresp[i].Data);  //多包的时候将多包合并
                     }
+                    Universal651SerialPortEntity spEntity = null;
+                    string anamsg = SL651AnalyseElement.AnalyseElement(packsresp[0].FUNCODE, lstData.ToArray(), packsresp[0].dt, ref spEntity);
+                    ShowMsgControl(packsresp[0], anamsg,(packsresp.Count>1? true :false));
+                    result = true;
+                    msg = "";
+                    obj = spEntity;
                 }
             }
             catch (Exception ex)
