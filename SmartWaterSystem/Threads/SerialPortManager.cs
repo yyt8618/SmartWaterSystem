@@ -807,7 +807,7 @@ namespace SmartWaterSystem
                         }
                         #endregion
                         break;
-                    #region 通用终端SL651操作
+                        #region 通用终端SL651操作
                     case (uint)SerialPortType.Universal651ChPwd:        //设置通用终端SL651密码
                     case (uint)SerialPortType.Universal651ReadBasicInfo://读取通用终端SL651基本信息
                     case (uint)SerialPortType.Universal651SetBasicInfo: //设置通用终端SL651基本信息
@@ -1686,10 +1686,25 @@ namespace SmartWaterSystem
                         GlobalValue.portUtil.AppendBufLine(string.Format("收到{0}:{1}", packcountmsg, ConvertHelper.ByteArrayToHexString(packsresp[i].OriginalData)));
                         if (i > 0)
                             lstData.AddRange(packsresp[i].Data);  //多包的时候将多包合并
+
+                        
                     }
                     Universal651SerialPortEntity spEntity = null;
                     string anamsg = SL651AnalyseElement.AnalyseElement(packsresp[0].FUNCODE, lstData.ToArray(), packsresp[0].dt, ref spEntity);
                     ShowMsgControl(packsresp[0], anamsg,(packsresp.Count>1? true :false));
+                    if (needconfirm && (packsresp.Count == 1 || (packsresp[packsresp.Count-1].CurPackCount > 0 && packsresp[packsresp.Count - 1].CurPackCount == packsresp[packsresp.Count - 1].SumPackCount)))
+                    {
+                        Package651 tmp = GlobalValue.SerialPort651OptData;
+                        tmp.Data = null;
+                        tmp.CS = null;
+                        byte[] lens = BitConverter.GetBytes((ushort)(8));
+                        tmp.L0 = lens[0];
+                        tmp.L1 = lens[1];
+                        byte[] bsenddata = tmp.ToResponseArray();
+                        tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
+                        Thread.Sleep(500);
+                        GlobalValue.Universallog.Read(tmp, 3, 2, false);
+                    }
                     result = true;
                     msg = "";
                     obj = spEntity;

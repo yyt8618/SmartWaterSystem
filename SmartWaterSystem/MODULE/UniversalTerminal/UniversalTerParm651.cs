@@ -16,6 +16,22 @@ namespace SmartWaterSystem
             InitializeComponent();
             DevExpress.Data.CurrencyDataController.DisableThreadingProblemsDetection = true;
             timer_GetWaitCmd.Tick += new EventHandler(timer_GetWaitCmd_Tick);
+
+            timePrecBegin.Properties.VistaDisplayMode = DevExpress.Utils.DefaultBoolean.True;
+            timePrecBegin.Properties.VistaEditTime = DevExpress.Utils.DefaultBoolean.True;
+            timePrecBegin.Properties.VistaTimeProperties.DisplayFormat.FormatString = "HH时";
+            timePrecBegin.Properties.VistaTimeProperties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            timePrecBegin.Properties.VistaTimeProperties.EditFormat.FormatString = "HH时";
+            timePrecBegin.Properties.VistaTimeProperties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            timePrecBegin.Properties.VistaTimeProperties.Mask.EditMask = "HH时";
+
+            timePrecEnd.Properties.VistaDisplayMode = DevExpress.Utils.DefaultBoolean.True;
+            timePrecEnd.Properties.VistaEditTime = DevExpress.Utils.DefaultBoolean.True;
+            timePrecEnd.Properties.VistaTimeProperties.DisplayFormat.FormatString = "HH时";
+            timePrecEnd.Properties.VistaTimeProperties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            timePrecEnd.Properties.VistaTimeProperties.EditFormat.FormatString = "HH时";
+            timePrecEnd.Properties.VistaTimeProperties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            timePrecEnd.Properties.VistaTimeProperties.Mask.EditMask = "HH时";
         }
 
         void timer_GetWaitCmd_Tick(object sender, EventArgs e)
@@ -27,6 +43,9 @@ namespace SmartWaterSystem
         private void UniversalTerParm651_Load(object sender, EventArgs e)
         {
             SetSerialPortCtrlStatus();
+
+            timePrecBegin.DateTime = DateTime.Now.AddDays(-1);
+            timePrecEnd.DateTime = DateTime.Now;
         }
 
         public override void SerialPortEvent(bool Enabled)
@@ -1780,8 +1799,17 @@ namespace SmartWaterSystem
                     checkedcount++;
                 if (cbParm1h5minWaterLevel.Checked)
                     checkedcount++;
-                if (rgPrecipitation.SelectedIndex>-1)
+                if (combPrecHour.SelectedIndex > 0)
                     checkedcount++;
+                if (cePrec.Checked)
+                {
+                    if(timePrecBegin.DateTime >= timePrecEnd.DateTime)
+                    {
+                        XtraMessageBox.Show("时段降水自定义起始时间不能大于结束时间!");
+                        return;
+                    }
+                    checkedcount++;
+                }
                 if (checkedcount==0)
                 {
                     XtraMessageBox.Show("请选择至少一项读取!");
@@ -1808,6 +1836,7 @@ namespace SmartWaterSystem
                 List<byte> lstCentent = new List<byte>();
 
                 DateTime begindt = DateTime.Now;  //起始时间
+                DateTime enddt = DateTime.Now;  //结束时间
                 byte[] timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x05 };
                 
                 if (cbParm1h5minPrecipitation.Checked)
@@ -1820,26 +1849,35 @@ namespace SmartWaterSystem
                     lstCentent.AddRange(PackageDefine.Waterlevel5MinFlag);  //1小时5分钟间隔相对水位  时间步长默认5分钟
                     begindt = begindt.AddHours(-1);
                 }
-                else
+                else if(cePrec.Checked  || (combPrecHour.SelectedIndex > 0))
                 {
-                    switch (rgPrecipitation.SelectedIndex)
+                    if(cePrec.Checked)
                     {
-                        case 0:
-                            begindt = begindt.AddHours(-1); //1h时段降水
-                            break;
-                        case 1:
-                            begindt = begindt.AddHours(-2); //2h时段降水
-                            break;
-                        case 2:
-                            begindt = begindt.AddHours(-3); //3h时段降水
-                            break;
-                        case 3:
-                            begindt = begindt.AddHours(-6); //6h时段降水
-                            break;
-                        case 4:
-                            begindt = begindt.AddHours(-12); //12h时段降水
-                            break;
+                        begindt = timePrecBegin.DateTime;
+                        enddt = timePrecEnd.DateTime;
                     }
+                    else
+                    {
+                        switch (combPrecHour.SelectedIndex)
+                        {
+                            case 1:
+                                begindt = begindt.AddHours(-1); //1h时段降水
+                                break;
+                            case 2:
+                                begindt = begindt.AddHours(-2); //2h时段降水
+                                break;
+                            case 3:
+                                begindt = begindt.AddHours(-3); //3h时段降水
+                                break;
+                            case 4:
+                                begindt = begindt.AddHours(-6); //6h时段降水
+                                break;
+                            case 5:
+                                begindt = begindt.AddHours(-12); //12h时段降水
+                                break;
+                        }
+                    }
+
                     switch (combTimeStep.SelectedIndex)
                     {
                         case 0:
@@ -1887,7 +1925,7 @@ namespace SmartWaterSystem
                 lstdt.Add(ConvertHelper.StringToByte(begindt.Day.ToString().PadLeft(2, '0'))[0]);
                 lstdt.Add(ConvertHelper.StringToByte(begindt.Hour.ToString().PadLeft(2, '0'))[0]);
 
-                DateTime enddt = DateTime.Now;  //结束时间
+                
                 lstdt.Add(ConvertHelper.StringToByte((enddt.Year - 2000).ToString())[0]);
                 lstdt.Add(ConvertHelper.StringToByte(enddt.Month.ToString().PadLeft(2, '0'))[0]);
                 lstdt.Add(ConvertHelper.StringToByte(enddt.Day.ToString().PadLeft(2, '0'))[0]);
@@ -2370,7 +2408,12 @@ namespace SmartWaterSystem
 
         private void cbParm1h5minWaterLevel_CheckedChanged(object sender, EventArgs e)
         {
-            rgPrecipitation.SelectedIndex = -1;
+            CheckEdit ce = (CheckEdit)sender;
+            if (ce.Checked)
+            {
+                cePrec.Checked = false;
+                combPrecHour.SelectedIndex = 0;
+            }
         }
 
         

@@ -124,10 +124,13 @@ namespace SmartWaterSystem
             this.label12 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.rgPrecipitation = new DevExpress.XtraEditors.RadioGroup();
+            this.timePrecEnd = new DevExpress.XtraEditors.DateEdit();
+            this.timePrecBegin = new DevExpress.XtraEditors.DateEdit();
+            this.combPrecHour = new DevExpress.XtraEditors.ComboBoxEdit();
             this.combTimeStep = new DevExpress.XtraEditors.ComboBoxEdit();
             this.label25 = new System.Windows.Forms.Label();
             this.cbParm1h5minWaterLevel = new DevExpress.XtraEditors.CheckEdit();
+            this.cePrec = new DevExpress.XtraEditors.CheckEdit();
             this.cbParm1h5minPrecipitation = new DevExpress.XtraEditors.CheckEdit();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -261,9 +264,14 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cbPeriodInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbRainFallLimit.Properties)).BeginInit();
             this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rgPrecipitation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timePrecEnd.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timePrecEnd.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timePrecBegin.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timePrecBegin.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.combPrecHour.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.combTimeStep.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParm1h5minWaterLevel.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePrec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParm1h5minPrecipitation.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb30minPrecipitation.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb10minPrecipitation.Properties)).BeginInit();
@@ -1258,10 +1266,13 @@ namespace SmartWaterSystem
             this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox10.Controls.Add(this.rgPrecipitation);
+            this.groupBox10.Controls.Add(this.timePrecEnd);
+            this.groupBox10.Controls.Add(this.timePrecBegin);
+            this.groupBox10.Controls.Add(this.combPrecHour);
             this.groupBox10.Controls.Add(this.combTimeStep);
             this.groupBox10.Controls.Add(this.label25);
             this.groupBox10.Controls.Add(this.cbParm1h5minWaterLevel);
+            this.groupBox10.Controls.Add(this.cePrec);
             this.groupBox10.Controls.Add(this.cbParm1h5minPrecipitation);
             this.groupBox10.Controls.Add(this.label15);
             this.groupBox10.Controls.Add(this.label14);
@@ -1284,18 +1295,59 @@ namespace SmartWaterSystem
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "查询指定要素";
             // 
-            // rgPrecipitation
+            // timePrecEnd
             // 
-            this.rgPrecipitation.Location = new System.Drawing.Point(56, 90);
-            this.rgPrecipitation.Name = "rgPrecipitation";
-            this.rgPrecipitation.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "1小时时段"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "2小时时段"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "3小时时段"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "6小时时段"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "12小时时段")});
-            this.rgPrecipitation.Size = new System.Drawing.Size(405, 23);
-            this.rgPrecipitation.TabIndex = 16;
+            this.timePrecEnd.EditValue = null;
+            this.timePrecEnd.Location = new System.Drawing.Point(344, 91);
+            this.timePrecEnd.Name = "timePrecEnd";
+            this.timePrecEnd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.timePrecEnd.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.timePrecEnd.Properties.DisplayFormat.FormatString = "yy-MM-dd HH时";
+            this.timePrecEnd.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.timePrecEnd.Properties.EditFormat.FormatString = "yy-MM-dd HH时";
+            this.timePrecEnd.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.timePrecEnd.Properties.Mask.EditMask = "yy-MM-dd HH时";
+            this.timePrecEnd.Size = new System.Drawing.Size(106, 20);
+            this.timePrecEnd.TabIndex = 19;
+            // 
+            // timePrecBegin
+            // 
+            this.timePrecBegin.EditValue = null;
+            this.timePrecBegin.Location = new System.Drawing.Point(237, 91);
+            this.timePrecBegin.Name = "timePrecBegin";
+            this.timePrecBegin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.timePrecBegin.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.timePrecBegin.Properties.CalendarView = DevExpress.XtraEditors.Repository.CalendarView.Vista;
+            this.timePrecBegin.Properties.DisplayFormat.FormatString = "yy-MM-dd HH时";
+            this.timePrecBegin.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.timePrecBegin.Properties.EditFormat.FormatString = "yy-MM-dd HH时";
+            this.timePrecBegin.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.timePrecBegin.Properties.Mask.EditMask = "yy-MM-dd HH时";
+            this.timePrecBegin.Properties.VistaDisplayMode = DevExpress.Utils.DefaultBoolean.True;
+            this.timePrecBegin.Size = new System.Drawing.Size(106, 20);
+            this.timePrecBegin.TabIndex = 18;
+            // 
+            // combPrecHour
+            // 
+            this.combPrecHour.EditValue = "--请选择--";
+            this.combPrecHour.Location = new System.Drawing.Point(44, 91);
+            this.combPrecHour.Name = "combPrecHour";
+            this.combPrecHour.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.combPrecHour.Properties.Items.AddRange(new object[] {
+            "--请选择--",
+            "1小时时段",
+            "2小时时段",
+            "3小时时段",
+            "6小时时段",
+            "12小时时段"});
+            this.combPrecHour.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.combPrecHour.Size = new System.Drawing.Size(108, 20);
+            this.combPrecHour.TabIndex = 16;
             // 
             // combTimeStep
             // 
@@ -1336,6 +1388,14 @@ namespace SmartWaterSystem
             this.cbParm1h5minWaterLevel.TabIndex = 11;
             this.cbParm1h5minWaterLevel.CheckedChanged += new System.EventHandler(this.cbParm1h5minWaterLevel_CheckedChanged);
             // 
+            // cePrec
+            // 
+            this.cePrec.Location = new System.Drawing.Point(156, 92);
+            this.cePrec.Name = "cePrec";
+            this.cePrec.Properties.Caption = "自定义时段";
+            this.cePrec.Size = new System.Drawing.Size(82, 19);
+            this.cePrec.TabIndex = 17;
+            // 
             // cbParm1h5minPrecipitation
             // 
             this.cbParm1h5minPrecipitation.Location = new System.Drawing.Point(8, 67);
@@ -1357,11 +1417,11 @@ namespace SmartWaterSystem
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(4, 94);
+            this.label14.Location = new System.Drawing.Point(7, 94);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(55, 14);
+            this.label14.Size = new System.Drawing.Size(31, 14);
             this.label14.TabIndex = 15;
-            this.label14.Text = "时段降水";
+            this.label14.Text = "降水";
             // 
             // groupBox12
             // 
@@ -1381,10 +1441,10 @@ namespace SmartWaterSystem
             // 
             // btnQueryPrecipitation
             // 
-            this.btnQueryPrecipitation.Location = new System.Drawing.Point(268, 115);
+            this.btnQueryPrecipitation.Location = new System.Drawing.Point(324, 112);
             this.btnQueryPrecipitation.Name = "btnQueryPrecipitation";
             this.btnQueryPrecipitation.Size = new System.Drawing.Size(138, 26);
-            this.btnQueryPrecipitation.TabIndex = 18;
+            this.btnQueryPrecipitation.TabIndex = 21;
             this.btnQueryPrecipitation.Text = "查询时段降水量";
             this.btnQueryPrecipitation.Click += new System.EventHandler(this.btnQueryPrecipitation_Click);
             // 
@@ -1393,7 +1453,7 @@ namespace SmartWaterSystem
             this.btnQueryElement.Location = new System.Drawing.Point(63, 115);
             this.btnQueryElement.Name = "btnQueryElement";
             this.btnQueryElement.Size = new System.Drawing.Size(138, 26);
-            this.btnQueryElement.TabIndex = 17;
+            this.btnQueryElement.TabIndex = 20;
             this.btnQueryElement.Text = "查询指定要素实时数据";
             this.btnQueryElement.Click += new System.EventHandler(this.btnQueryElement_Click);
             // 
@@ -2067,9 +2127,14 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cbRainFallLimit.Properties)).EndInit();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rgPrecipitation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timePrecEnd.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timePrecEnd.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timePrecBegin.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timePrecBegin.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.combPrecHour.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.combTimeStep.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParm1h5minWaterLevel.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePrec.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbParm1h5minPrecipitation.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb30minPrecipitation.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb10minPrecipitation.Properties)).EndInit();
@@ -2253,7 +2318,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.SimpleButton btnAddManualSetParm;
         private System.Windows.Forms.Label label25;
         private DevExpress.XtraEditors.ComboBoxEdit combTimeStep;
-        private DevExpress.XtraEditors.RadioGroup rgPrecipitation;
         private System.Windows.Forms.GroupBox groupBox3;
         private DevExpress.XtraEditors.SimpleButton btnCalibration2;
         private DevExpress.XtraEditors.SimpleButton btnCalibration1;
@@ -2264,6 +2328,9 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.SimpleButton btnSetTimeintervalReportTime;
         private DevExpress.XtraEditors.SimpleButton btnReadTimeintervalReportTime;
         private System.Windows.Forms.Label label27;
-
+        private DevExpress.XtraEditors.ComboBoxEdit combPrecHour;
+        private DevExpress.XtraEditors.CheckEdit cePrec;
+        private DevExpress.XtraEditors.DateEdit timePrecEnd;
+        private DevExpress.XtraEditors.DateEdit timePrecBegin;
     }
 }
