@@ -429,10 +429,10 @@ namespace SmartWaterSystem
                                 result = true;
                                 obj = arr;
                             }
-                            catch (ArgumentNullException)
+                            catch (ArgumentNullException argex)
                             {
                                 result = false;
-                                msg = "记录仪" + GlobalValue.NoiseSerialPortOptData.ID + "数据为空！";
+                                msg = "记录仪" + GlobalValue.NoiseSerialPortOptData.ID + argex.ParamName;
                             }
                             catch (Exception ex)
                             {

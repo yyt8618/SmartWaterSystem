@@ -161,7 +161,6 @@ namespace SmartWaterSystem
                     str = "不漏水";
                 else if (re.IsLeak == 1)
                     str = "漏水";
-
                 dt.Rows.Add(new object[] { rec.ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str, (re.LeakProbability * 100).ToString("f1") + "%" });
             }
 

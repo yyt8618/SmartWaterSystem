@@ -720,7 +720,7 @@ namespace Protocol
                     {
                         AppendBufLine("获取设备{0}数据等待超时...[当前设置为{1}秒超时]", id, timeout);
                         if (getReadResponse)
-                            throw new ArgumentNullException("没有读取到数据");
+                            throw new ArgumentNullException("没有读取到数据或数据不完整");
                         else
                             throw new TimeoutException("等待超时...");
                     }
@@ -812,7 +812,7 @@ namespace Protocol
                         List<Int16> output = new List<Int16>();
 
                         byte[] t = new byte[2];
-                        for (int i = 0; i < result.Count; i = i + 2)
+                        for (int i = 0; i + 1 < result.Count; i = i + 2)
                         {
                             t[0] = result[i];
                             t[1] = result[i + 1];

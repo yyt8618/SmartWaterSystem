@@ -76,7 +76,7 @@ namespace Protocol
             }
             catch (Exception)
             {
-                throw;
+                return false;
             }
         }
     }

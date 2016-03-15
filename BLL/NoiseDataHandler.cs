@@ -397,9 +397,16 @@ namespace BLL
         {
             List<double> lst_data = new List<double>();
             double[] min_amp = new double[FourierData.Count - DCComponentLen];
-            for (int i = 0; i < FourierData.Count-DCComponentLen; i++)
+            try
             {
-                min_amp[i] = FourierData[i].Min();
+                for (int i = 0; i < FourierData.Count - DCComponentLen && FourierData[i].Length>0; i++)
+                {
+                    min_amp[i] = FourierData[i].Min();
+                }
+            }
+            catch (Exception ex)
+            {
+                ;
             }
             if (!string.IsNullOrEmpty(TestPath))
             {

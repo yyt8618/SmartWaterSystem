@@ -1181,7 +1181,7 @@ namespace SmartWaterSystem
                     alterRec.PickSpan = Convert.ToInt32(spinEdit1.Value);
 
                     GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity(id, this.dateTimePicker.Value, Convert.ToInt32(txtComTime.Text),
-                        Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text), (int)spinEdit1.Value, remoteswitch, alterCtrl.ID, ip, port,
+                        Convert.ToInt32(txtRecTime.Text), Convert.ToInt32(txtRecTime1.Text), (int)spinEdit1.Value, remoteswitch, alterCtrl!=null?alterCtrl.ID:0, ip, port,
                         Convert.ToDouble(txtFre.Text), rate, power, baud, gprsbaud, waketime);
                     GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseWriteTime);
 
