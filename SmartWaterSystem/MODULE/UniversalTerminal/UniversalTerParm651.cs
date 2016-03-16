@@ -1761,23 +1761,23 @@ namespace SmartWaterSystem
                     lstCentent.AddRange(PackageDefine.Waterlevel5MinFlag);  //1小时5分钟间隔相对水位
                     haveObservationTime = true;
                 }
-                if (haveObservationTime)
-                {
-                    DateTime dt = DateTime.Now;
-                    int itmp = dt.Minute % 5;  //往前取整5分钟的时间
-                    if (itmp > 0)
-                        dt.AddMinutes((-1) * itmp);  
+                //if (haveObservationTime)
+                //{
+                //    DateTime dt = DateTime.Now;
+                //    int itmp = dt.Minute % 5;  //往前取整5分钟的时间
+                //    if (itmp > 0)
+                //        dt.AddMinutes((-1) * itmp);  
 
-                    List<byte> lstdt = new List<byte>();
-                    lstdt.AddRange(PackageDefine.ObservationTimeFlag);
-                    lstdt.Add(ConvertHelper.StringToByte((dt.Year - 2000).ToString())[0]);
-                    lstdt.Add(ConvertHelper.StringToByte(dt.Month.ToString().PadLeft(2, '0'))[0]);
-                    lstdt.Add(ConvertHelper.StringToByte(dt.Day.ToString().PadLeft(2, '0'))[0]);
-                    lstdt.Add(ConvertHelper.StringToByte(dt.Hour.ToString().PadLeft(2, '0'))[0]);
-                    lstdt.Add(ConvertHelper.StringToByte(dt.Minute.ToString().PadLeft(2, '0'))[0]);
+                //    List<byte> lstdt = new List<byte>();
+                //    lstdt.AddRange(PackageDefine.ObservationTimeFlag);
+                //    lstdt.Add(ConvertHelper.StringToByte((dt.Year - 2000).ToString())[0]);
+                //    lstdt.Add(ConvertHelper.StringToByte(dt.Month.ToString().PadLeft(2, '0'))[0]);
+                //    lstdt.Add(ConvertHelper.StringToByte(dt.Day.ToString().PadLeft(2, '0'))[0]);
+                //    lstdt.Add(ConvertHelper.StringToByte(dt.Hour.ToString().PadLeft(2, '0'))[0]);
+                //    lstdt.Add(ConvertHelper.StringToByte(dt.Minute.ToString().PadLeft(2, '0'))[0]);
 
-                    lstCentent.InsertRange(0, lstdt);
-                }
+                //    lstCentent.InsertRange(0, lstdt);
+                //}
                 pack.Data = lstCentent.ToArray();
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.Data.Length));
