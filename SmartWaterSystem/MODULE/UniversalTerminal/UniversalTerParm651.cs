@@ -1963,10 +1963,48 @@ namespace SmartWaterSystem
 
                 pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
-                if (combPrecipitationConstantCtrl.SelectedIndex == 0)
-                    pack.Data = new byte[] { 0xFF };   //投入
-                else
-                    pack.Data = new byte[] { 0x00 };   //投出
+                /*定值控制投入
+                定值控制投出
+                链路维持报(2F)
+                测试报(30)
+                均匀时段报(31)
+                定时报(32)
+                加报(33)
+                小时报(34)
+                人工置数报(35)*/
+                switch(combPrecipitationConstantCtrl.SelectedIndex)
+                {
+                    case 0:     //定值控制投入
+                        pack.Data = new byte[] { 0xFF };   //投入
+                        break;
+                    case 1:     //定值控制投出
+                        pack.Data = new byte[] { 0x00 };   //投出
+                        break;
+                    case 2:
+                        pack.Data = new byte[] { 0x2F };
+                        break;
+                    case 3:
+                        pack.Data = new byte[] { 0x30 };
+                        break;
+                    case 4:
+                        pack.Data = new byte[] { 0x31 };
+                        break;
+                    case 5:
+                        pack.Data = new byte[] { 0x32 };
+                        break;
+                    case 6:
+                        pack.Data = new byte[] { 0x33 };
+                        break;
+                    case 7:
+                        pack.Data = new byte[] { 0x34 };
+                        break;
+                    case 8:
+                        pack.Data = new byte[] { 0x35 };
+                        break;
+                    default:
+                        pack.Data = new byte[] { 0x00 };   //投出
+                        break;
+                }
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.Data.Length));
                 pack.L0 = lens[0];

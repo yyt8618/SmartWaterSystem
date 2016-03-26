@@ -1661,7 +1661,7 @@ namespace SmartWaterSystem
             this.groupBox1.Size = new System.Drawing.Size(152, 82);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "水量定值\\水位校准";
+            this.groupBox1.Text = "定值\\控制\\水位校准";
             // 
             // combPrecipitationConstantCtrl
             // 
@@ -1671,8 +1671,15 @@ namespace SmartWaterSystem
             this.combPrecipitationConstantCtrl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.combPrecipitationConstantCtrl.Properties.Items.AddRange(new object[] {
-            "定值控制投入",
-            "定值控制投出"});
+            "定值控制投入(FF)",
+            "定值控制投出(00)",
+            "链路维持报(2F)",
+            "测试报(30)",
+            "均匀时段报(31)",
+            "定时报(32)",
+            "加报(33)",
+            "小时报(34)",
+            "人工置数报(35)"});
             this.combPrecipitationConstantCtrl.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.combPrecipitationConstantCtrl.Size = new System.Drawing.Size(100, 20);
             this.combPrecipitationConstantCtrl.TabIndex = 1;

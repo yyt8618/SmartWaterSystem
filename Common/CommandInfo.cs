@@ -828,7 +828,7 @@ namespace Common
         /// <summary>
         /// 水量定值控制
         /// </summary>
-        PrecipitationConstantCtrl = 0x4F,
+        PrecipitationConstantCtrl = 0xE5,  // 0x4F,
         /// <summary>
         /// 查询事件记录
         /// </summary>
