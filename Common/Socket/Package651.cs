@@ -569,12 +569,22 @@ namespace Common
                     }
                 }
             }
+            //else if (package.DataLength == 8)
+            //{
+            //    package.data = new byte[8];
+            //    for (int i = 0; i < 8 && i < bytes.Length; i++)
+            //    {
+            //        package.data[i] = bytes[i + 14];
+            //    }
+            //}
 
             package.CS = new byte[2];//校验码
             package.CS[0] = bytes[bytes.Length - 2];
             package.CS[1] = bytes[bytes.Length - 1];
 
-            if ((bytes[bytes.Length - 3] != PackageDefine.EndByte651) && (bytes[bytes.Length - 3] != PackageDefine.EndByte_Continue))
+            if ((bytes[bytes.Length - 3] != PackageDefine.EndByte651) && (bytes[bytes.Length - 3] != PackageDefine.EndByte_Continue)
+                && (bytes[bytes.Length - 3] != PackageDefine.ENQ) && (bytes[bytes.Length - 3] != PackageDefine.EOT)
+                && (bytes[bytes.Length - 3] != PackageDefine.ESC))
             {
                 throw new ArgumentException("数据帧不完整或已损坏");
             }
@@ -590,7 +600,23 @@ namespace Common
             return package;
         }
 
+        /// <summary>
+        /// 确定哪些功能码需要回复响应帧
+        /// </summary>
+        /// <param name="Funcode"></param>
+        /// <returns></returns>
+        public static bool NeedResp(byte Funcode)
+        {
+            //测试报(30) 均匀时段报(31) 定时报(32) 加报(33) 小时报(34) 人工置数报(35) 查询时段降水(38) 修改基本配置(40) 读取基本配置(41) 修改运行配置(42) 读取运行配置(43)
+            //初始化Flash(47) 恢复出厂设置(48) 修改密码(49)
+            //if (Funcode == 0x30 || Funcode == 0x31 || Funcode == 0x32 || Funcode == 0x33 || Funcode == 0x34 || Funcode == 0x35
+            //                                || Funcode == 0x38 || Funcode == 0x40 || Funcode == 0x41 || Funcode == 0x42 || Funcode == 0x43 || Funcode == 0x47
+            //                                || Funcode == 0x48 || Funcode == 0x49)
+            if(Funcode!=0xE0 && Funcode!=0xE5)
+                return true;
+            else
+                return false;
+        }
         #endregion
-
     }
 }

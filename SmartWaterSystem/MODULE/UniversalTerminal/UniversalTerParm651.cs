@@ -32,6 +32,8 @@ namespace SmartWaterSystem
             timePrecEnd.Properties.VistaTimeProperties.EditFormat.FormatString = "HH时";
             timePrecEnd.Properties.VistaTimeProperties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             timePrecEnd.Properties.VistaTimeProperties.Mask.EditMask = "HH时";
+
+            BeginSerialPortDelegate();
         }
 
         void timer_GetWaitCmd_Tick(object sender, EventArgs e)
@@ -228,20 +230,20 @@ namespace SmartWaterSystem
                 return false;
             }
 
-            if (string.IsNullOrEmpty(txtPwd0.Text) || !Regex.IsMatch(txtPwd0.Text, "^[a-zA-Z0-9]{1,2}$"))
+            if (string.IsNullOrEmpty(txtPwd0.Text) || !Regex.IsMatch(txtPwd0.Text, "^[0-9]{1,5}$"))
             {
                 XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPwd0.Focus();
                 return false;
             }
 
-            if (string.IsNullOrEmpty(txtPwd1.Text) || !Regex.IsMatch(txtPwd1.Text, "^[a-zA-Z0-9]{1,2}$"))
-            {
-                XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPwd1.Focus();
-                return false;
-            }
-            if (string.IsNullOrEmpty(txtCenterAddr.Text) || !Regex.IsMatch(txtCenterAddr.Text, "^[a-zA-Z0-9]{1,2}$"))
+            //if (string.IsNullOrEmpty(txtPwd1.Text) || !Regex.IsMatch(txtPwd1.Text, "^[a-zA-Z0-9]{1,2}$"))
+            //{
+            //    XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    txtPwd1.Focus();
+            //    return false;
+            //}
+            if (string.IsNullOrEmpty(txtCenterAddr.Text) || !Regex.IsMatch(txtCenterAddr.Text, "^\\d{1,3}$"))
             {
                 XtraMessageBox.Show("请填写中心站地址", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCenterAddr.Focus();
@@ -317,10 +319,11 @@ namespace SmartWaterSystem
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
                         if (spEntity.IsOptPwd)
                         {
-                            txtPwd0.Text = string.Format("{0:X2}", spEntity.CPwd0);
-                            txtPwd1.Text = string.Format("{0:X2}", spEntity.CPwd1);
+                            txtPwd0.Text = BitConverter.ToInt16(new byte[] { spEntity.CPwd1, spEntity.CPwd0 },0).ToString(); // string.Format("{0:X2}", spEntity.CPwd0);
+                            //txtPwd1.Text = string.Format("{0:X2}", spEntity.CPwd1);
                         }
-                        XtraMessageBox.Show("修改密码成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("修改密码成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
@@ -335,7 +338,71 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("设置基本信息成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsSPLoop)
+                        {
+                            if (spEntity.IsOptA1_A5)
+                            {
+                                txtCA1.Text = string.Format("{0:X2}", spEntity.CA1);
+                                txtCA2.Text = string.Format("{0:X2}", spEntity.CA2);
+                                txtCA3.Text = string.Format("{0:X2}", spEntity.CA3);
+                                txtCA4.Text = string.Format("{0:X2}", spEntity.CA4);
+                                txtCA5.Text = string.Format("{0:X2}", spEntity.CA5);
+
+                                txtA1.Text = string.Format("{0:X2}", spEntity.CA1);
+                                txtA2.Text = string.Format("{0:X2}", spEntity.CA2);
+                                txtA3.Text = string.Format("{0:X2}", spEntity.CA3);
+                                txtA4.Text = string.Format("{0:X2}", spEntity.CA4);
+                                txtA5.Text = string.Format("{0:X2}", spEntity.CA5);
+                            }
+                            if (spEntity.IsOptCenterAddr)
+                            {
+                                txtCCenterAddr.Text = Convert.ToInt16(spEntity.CCenterAddr).ToString(); // string.Format("{0:X2}", spEntity.CCenterAddr);
+                                txtCenterAddr.Text = Convert.ToInt16(spEntity.CCenterAddr).ToString();  //string.Format("{0:X2}", spEntity.CCenterAddr);
+                            }
+                            if (spEntity.IsOptWorkType)
+                                combWorkType.SelectedIndex = (spEntity.WorkType - 1) < 0 ? 0 : spEntity.WorkType - 1;
+                            if (spEntity.IsOptElements && spEntity.Elements != null && spEntity.Elements.Length == 8)
+                            {
+                                txtElements1.Text = string.Format("{0:X2}", spEntity.Elements[0]);
+                                txtElements2.Text = string.Format("{0:X2}", spEntity.Elements[1]);
+                                txtElements3.Text = string.Format("{0:X2}", spEntity.Elements[2]);
+                                txtElements4.Text = string.Format("{0:X2}", spEntity.Elements[3]);
+
+                                txtElements5.Text = string.Format("{0:X2}", spEntity.Elements[4]);
+                                txtElements6.Text = string.Format("{0:X2}", spEntity.Elements[5]);
+                                txtElements7.Text = string.Format("{0:X2}", spEntity.Elements[6]);
+                                txtElements8.Text = string.Format("{0:X2}", spEntity.Elements[7]);
+                            }
+                            if (spEntity.IsOptCh)
+                            {
+                                combChannel.SelectedIndex = spEntity.Channel;
+                                txtIP1.Text = spEntity.Ip1;
+                                txtIP2.Text = spEntity.Ip2;
+                                txtIP3.Text = spEntity.Ip3;
+                                txtIP4.Text = spEntity.Ip4;
+                                txtCPort.Text = spEntity.Port.ToString();
+                                combChannelType.SelectedIndex = spEntity.ChannelType;
+                            }
+                            if (spEntity.IsOptStandbyCh)
+                            {
+                                combStandbyChannel.SelectedIndex = spEntity.StandByCh;
+                                txtStandbyChTelnum.Text = spEntity.StandbyChTelnum;
+                                combChannelType.SelectedIndex = spEntity.ChannelType;
+                            }
+                            if (spEntity.IsOptIdentifyNum)
+                            {
+                                combIdentifyNum.SelectedIndex = (spEntity.IdentifyNum - 1) < 0 ? 0 : spEntity.IdentifyNum - 1;
+                                txtTelNum.Text = spEntity.telnum;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("设置基本信息成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
@@ -361,12 +428,9 @@ namespace SmartWaterSystem
                             txtCA5.Text = string.Format("{0:X2}", spEntity.CA5);
                         }
                         if (spEntity.IsOptCenterAddr)
-                            txtCCenterAddr.Text=string.Format("{0:X2}", spEntity.CCenterAddr);
-                        //if (spEntity.IsOptPwd)
-                        //{
-                        //    txtCPwd0.Text = string.Format("{0:X2}", spEntity.CPwd0);
-                        //    txtCPwd1.Text = string.Format("{0:X2}", spEntity.CPwd1);
-                        //}
+                            txtCCenterAddr.Text = Convert.ToInt16(spEntity.CCenterAddr).ToString(); // string.Format("{0:X2}", spEntity.CCenterAddr);
+                        if(spEntity.IsOptPwd)
+                            txtCPwd.Text = BitConverter.ToInt16(new byte[] { spEntity.CPwd1, spEntity.CPwd0 }, 0).ToString();
                         if (spEntity.IsOptWorkType)
                             combWorkType.SelectedIndex = (spEntity.WorkType - 1) < 0 ? 0 : spEntity.WorkType - 1;
                         if (spEntity.IsOptElements && spEntity.Elements!=null && spEntity.Elements.Length == 8)
@@ -463,7 +527,47 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("设置运行信息成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (spEntity.IsSPLoop)
+                        {
+                            if (spEntity.IsOptPeriodInterval)
+                                combPeriodInterval.Text = spEntity.PeriodInterval.ToString();
+                            if (spEntity.IsOptAddInterval)
+                                txtAddInterval.Text = spEntity.AddInterval.ToString();
+                            if (spEntity.IsOptPrecipitationStartTime)
+                                txtPrecipitationStartTime.Text = spEntity.PrecipitationStartTime.ToString();
+                            if (spEntity.IsOptSamplingInterval)
+                                txtSampling.Text = spEntity.SamplingInterval.ToString();
+                            if (spEntity.IsOptWaterLevelInterval)
+                                txtWaterLevelInterval.Text = spEntity.WaterLevelInterval.ToString();
+                            if (spEntity.IsOptRainFallPrecision)
+                            {
+                                combRainFallRPrecision.Text = spEntity.RainFallPrecision.ToString();
+                            }
+                            if (spEntity.IsOptWaterLevelGaugePrecision)
+                            {
+                                combWaterLevelGaugePrecision.Text = spEntity.WaterLevelGaugePrecision.ToString();
+                            }
+                            if (spEntity.IsOptRainFallLimit)
+                                txtRainFallLimit.Text = spEntity.RainFallLimit.ToString();
+                            if (spEntity.IsOptWaterLevelBasic)
+                                txtWaterLevelBasic.Text = spEntity.WaterLevelBasic.ToString();
+                            if (spEntity.IsOptWaterLevelAmendLimit)
+                                txtWaterLevelAmendLimit.Text = spEntity.WaterLevelAmendLimit.ToString();
+                            if (spEntity.IsOptAddtionWaterLevel)
+                                txtAddtionWaterLevel.Text = spEntity.AddtionWaterLevel.ToString();
+                            if (spEntity.IsOptAddtionWaterLevelUpLimit)
+                                txtAddtionWaterLevelUpLimit.Text = spEntity.AddtionWaterLevelUpLimit.ToString();
+                            if (spEntity.IsOptAddtionWaterLevelLowLimit)
+                                txtAddtionWaterLevelLowLimit.Text = spEntity.AddtionWaterLevelLowLimit.ToString();
+                        }
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("设置运行信息成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
@@ -477,7 +581,13 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("查询指定要素成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("查询指定要素成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }else
+                        XtraMessageBox.Show("查询指定要素成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -491,7 +601,14 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("查询时段降水量成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("查询时段降水量成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        XtraMessageBox.Show("查询时段降水量成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -505,7 +622,14 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("设置水量定值控制命令成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("设置水量定值控制命令成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        XtraMessageBox.Show("设置水量定值控制命令成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -522,7 +646,7 @@ namespace SmartWaterSystem
                     if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
                     {
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
-                        if (spEntity.IsOptQueryTime)
+                        if (spEntity.IsOptQueryTime && !spEntity.IsSPLoop)
                             XtraMessageBox.Show("查询时间成功,当前时间:" + spEntity.QueryTime, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -541,7 +665,7 @@ namespace SmartWaterSystem
                     if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
                     {
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
-                        if (spEntity.IsOptQueryVer)
+                        if (spEntity.IsOptQueryVer && !spEntity.IsSPLoop)
                             XtraMessageBox.Show("查询版本成功,当前版本:" + spEntity.Ver, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -560,7 +684,7 @@ namespace SmartWaterSystem
                     if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
                     {
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
-                        if (spEntity.IsOptQueryCurData)
+                        if (spEntity.IsOptQueryCurData && !spEntity.IsSPLoop)
                             XtraMessageBox.Show("查询实时数据成功,数据:" + spEntity.QueryCurData, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -579,7 +703,7 @@ namespace SmartWaterSystem
                     if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
                     {
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
-                        if (spEntity.IsOptQueryEvent)
+                        if (spEntity.IsOptQueryEvent && !spEntity.IsSPLoop)
                             XtraMessageBox.Show("查询事件成功,数据:" + spEntity.QueryEvent, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -598,7 +722,7 @@ namespace SmartWaterSystem
                     if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
                     {
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
-                        if (spEntity.IsOptQueryAlarm)
+                        if (spEntity.IsOptQueryAlarm && !spEntity.IsSPLoop)
                             XtraMessageBox.Show("查询状态和报警成功,数据:" + spEntity.QueryAlarm, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -614,7 +738,14 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("设置时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("设置时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        XtraMessageBox.Show("设置时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -628,7 +759,14 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("初始化FLASH成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("初始化FLASH成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        XtraMessageBox.Show("初始化FLASH成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -642,7 +780,14 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("恢复出厂设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("恢复出厂设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        XtraMessageBox.Show("恢复出厂设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -659,7 +804,7 @@ namespace SmartWaterSystem
                     if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
                     {
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
-                        if (spEntity.IsOptQueryManualSetParm)
+                        if (spEntity.IsOptQueryManualSetParm && !spEntity.IsSPLoop)
                         {
                             XtraMessageBox.Show("查询人工置数成功,数据:" + spEntity.QueryManualSetParm, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
@@ -679,7 +824,14 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("设置人工置数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("设置人工置数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        XtraMessageBox.Show("设置人工置数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -696,7 +848,7 @@ namespace SmartWaterSystem
                     if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
                     {
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
-                        if (spEntity.IsOptSetCalibration)
+                        if (spEntity.IsOptSetCalibration && !spEntity.IsSPLoop)
                             XtraMessageBox.Show("设置水位校准值成功!校准值:" + spEntity.SetCalibration, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -734,7 +886,14 @@ namespace SmartWaterSystem
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("设置均匀时段报上传时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (e.Tag != null && (e.Tag is Universal651SerialPortEntity))
+                    {
+                        Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
+                        if (!spEntity.IsSPLoop)
+                            XtraMessageBox.Show("设置均匀时段报上传时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        XtraMessageBox.Show("设置均匀时段报上传时间成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -752,7 +911,7 @@ namespace SmartWaterSystem
             EnableRibbonBar();
             EnableNavigateBar();
 
-            GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+            //GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
         }
 
         #region button events
@@ -797,7 +956,7 @@ namespace SmartWaterSystem
                 DisableRibbonBar();
                 DisableNavigateBar();
                 ShowWaitForm("", tipmsg);
-                BeginSerialPortDelegate();
+                //BeginSerialPortDelegate();
                 Application.DoEvents();
                 SetStaticItem(tipmsg);
                 GlobalValue.SerialPortMgr.Send(spPort);
@@ -829,8 +988,9 @@ namespace SmartWaterSystem
             pack.dt[4] = ConvertHelper.StringToByte(DateTime.Now.Minute.ToString().PadLeft(2, '0'))[0];
             pack.dt[5] = ConvertHelper.StringToByte(DateTime.Now.Second.ToString().PadLeft(2, '0'))[0];
             pack.PWD = new byte[2];
-            pack.PWD[0] = Convert.ToByte(txtPwd0.Text, 16);
-            pack.PWD[1] = Convert.ToByte(txtPwd1.Text, 16);
+            byte[] bpwd = BitConverter.GetBytes(Convert.ToInt16(txtPwd0.Text));
+            pack.PWD[0] = bpwd[1]; //Convert.ToByte(txtPwd0.Text, 16);
+            pack.PWD[1] = bpwd[0]; // Convert.ToByte(txtPwd1.Text, 16);
 
             return pack;
         }
@@ -1033,12 +1193,12 @@ namespace SmartWaterSystem
                     txtNewPwd0.Focus();
                     return;
                 }
-                if (string.IsNullOrEmpty(txtNewPwd1.Text) || !Regex.IsMatch(txtNewPwd1.Text, "^\\d+$"))
-                {
-                    XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNewPwd1.Focus();
-                    return;
-                }
+                //if (string.IsNullOrEmpty(txtNewPwd1.Text) || !Regex.IsMatch(txtNewPwd1.Text, "^\\d+$"))
+                //{
+                //    XtraMessageBox.Show("请填写密码", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtNewPwd1.Focus();
+                //    return;
+                //}
 
                 Package651 pack = PartInitPack();
                 pack.FUNCODE = (byte)SL651_COMMAND.ChPwd;
@@ -1054,12 +1214,18 @@ namespace SmartWaterSystem
                 pack.Data = new byte[8];
                 pack.Data[0] = 0x03; //密码标识符 0x03,0x10
                 pack.Data[1] = 0x10;
-                pack.Data[2] = Convert.ToByte(txtPwd0.Text);  //旧密码
-                pack.Data[3] = Convert.ToByte(txtPwd1.Text);
+                byte[] bpwd = BitConverter.GetBytes(Convert.ToInt16(txtPwd0.Text));
+                pack.Data[2] = bpwd[1]; 
+                pack.Data[3] = bpwd[0];
+                //pack.Data[2] = Convert.ToByte(txtPwd0.Text);  //旧密码
+                //pack.Data[3] = Convert.ToByte(txtPwd1.Text);
                 pack.Data[4] = 0x03; //密码标识符 0x03,0x10
                 pack.Data[5] = 0x10;
-                pack.Data[6] = Convert.ToByte(txtNewPwd0.Text, 16);
-                pack.Data[7] = Convert.ToByte(txtNewPwd1.Text, 16);
+                bpwd = BitConverter.GetBytes(Convert.ToInt16(txtNewPwd0.Text));
+                pack.Data[6] = bpwd[1];
+                pack.Data[7] = bpwd[0];
+                //pack.Data[6] = Convert.ToByte(txtNewPwd0.Text, 16);
+                //pack.Data[7] = Convert.ToByte(txtNewPwd1.Text, 16);
 
                 byte[] lens = BitConverter.GetBytes((ushort)(8 + pack.Data.Length));
                 pack.L0 = lens[0];
@@ -1074,7 +1240,7 @@ namespace SmartWaterSystem
             #region ReadBasicConfig
             if (ValidateA5To1())
             {
-                if (!(cbTerAddr.Checked | cbCenterAddr.Checked | cbChannel.Checked | cbStandbyChannel.Checked | cbWorkType.Checked | cbElements.Checked | cbIdentifyNum.Checked))
+                if (!(cbTerAddr.Checked | cbCenterAddr.Checked | cbPwd.Checked | cbChannel.Checked | cbStandbyChannel.Checked | cbWorkType.Checked | cbElements.Checked | cbIdentifyNum.Checked))
                 {
                     XtraMessageBox.Show("请选择至少一项读取!");
                     return;
@@ -1097,8 +1263,8 @@ namespace SmartWaterSystem
                     lstCentent.AddRange(PackageDefine.AddrFlagParm);  //遥测站地址标识符
                 if (cbCenterAddr.Checked)
                     lstCentent.AddRange(PackageDefine.CenterAddrFlag);   //中心站地址标识符
-                //if (cbPwd.Checked)
-                //    lstCentent.AddRange(PackageDefine.PwdFlag);   //密码
+                if (cbPwd.Checked)
+                    lstCentent.AddRange(PackageDefine.PwdFlag);   //密码
 
                 byte[] channelflag=new byte[2];byte[] standbychannelflag=new byte[2];
                 if (cbChannel.Checked || cbStandbyChannel.Checked)
@@ -1198,7 +1364,7 @@ namespace SmartWaterSystem
 
                 if (cbCenterAddr.Checked)
                 {
-                    if (string.IsNullOrEmpty(txtCCenterAddr.Text) || !Regex.IsMatch(txtCCenterAddr.Text, "^[a-zA-Z0-9]{1,2}$"))
+                    if (string.IsNullOrEmpty(txtCCenterAddr.Text) || !Regex.IsMatch(txtCCenterAddr.Text, "^\\d{1,3}$"))
                     {
                         XtraMessageBox.Show("请填写中心站地址", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtCCenterAddr.Focus();
@@ -1322,7 +1488,8 @@ namespace SmartWaterSystem
                 if (cbCenterAddr.Checked)
                 {
                     lstCentent.AddRange(PackageDefine.CenterAddrFlag);   //中心站地址标识符
-                    lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtCCenterAddr.Text)));
+                    //lstCentent.Add(ConvertHelper.HexToBCD(Convert.ToByte(txtCCenterAddr.Text)));
+                    lstCentent.Add(BitConverter.GetBytes(Convert.ToInt16(txtCCenterAddr.Text))[0]);
                 }
                 //if (cbPwd.Checked)
                 //{
@@ -1701,7 +1868,7 @@ namespace SmartWaterSystem
                     checkedcount++;
                 if (cbParmRainFallAddup.Checked)
                     checkedcount++;
-                if (cb1minPrecipitation.Checked)
+                if (cbParmVol.Checked)
                     checkedcount++;
                 if (cb5minPrecipitation.Checked)
                     checkedcount++;
@@ -1743,8 +1910,8 @@ namespace SmartWaterSystem
                     lstCentent.AddRange(PackageDefine.RainFallAddupFlag);   //累计降雨量
                 if (cbParmInstantWaterLevel.Checked)
                     lstCentent.AddRange(PackageDefine.InstantWaterlevelFlag);   //瞬时水位
-                if (cb1minPrecipitation.Checked)
-                    lstCentent.AddRange(PackageDefine.Precipitation1min);   //1min时段降水
+                if (cbParmVol.Checked)
+                    lstCentent.AddRange(PackageDefine.PowerFlag);   //1min时段降水改为电源电压
                 if (cb5minPrecipitation.Checked)
                     lstCentent.AddRange(PackageDefine.Precipitation5min);   //5min时段降水
                 if (cb10minPrecipitation.Checked)
@@ -1801,7 +1968,7 @@ namespace SmartWaterSystem
                     checkedcount++;
                 if (combPrecHour.SelectedIndex > 0)
                     checkedcount++;
-                if (cePrec.Checked)
+                if (cePrec.Checked | cbParmInstantWaterLevel.Checked)
                 {
                     if(timePrecBegin.DateTime >= timePrecEnd.DateTime)
                     {
@@ -1838,6 +2005,7 @@ namespace SmartWaterSystem
                 DateTime begindt = DateTime.Now;  //起始时间
                 DateTime enddt = DateTime.Now;  //结束时间
                 byte[] timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x05 };
+
                 
                 if (cbParm1h5minPrecipitation.Checked)
                 {
@@ -1877,46 +2045,50 @@ namespace SmartWaterSystem
                                 break;
                         }
                     }
-
+                    byte[] cententtmp = new byte[2];
                     switch (combTimeStep.SelectedIndex)
                     {
+                        //case 0:   //去掉一分钟时段
+                        //    timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x01 };
+                        //    cententtmp = PackageDefine.Precipitation1min;
+                        //    break;
                         case 0:
-                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x01 };
-                            lstCentent.AddRange(PackageDefine.Precipitation1min);
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x05 };
+                            cententtmp=PackageDefine.Precipitation5min;
                             break;
                         case 1:
-                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x05 };
-                            lstCentent.AddRange(PackageDefine.Precipitation5min);
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x10 };
+                            cententtmp = PackageDefine.Precipitation10min;
                             break;
                         case 2:
-                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x10 };
-                            lstCentent.AddRange(PackageDefine.Precipitation10min);
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x30 };
+                            cententtmp = PackageDefine.Precipitation30min;
                             break;
                         case 3:
-                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x00, 0x30 };
-                            lstCentent.AddRange(PackageDefine.Precipitation30min);
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x01, 0x00 };
+                            cententtmp = PackageDefine.Precipitation1h;
                             break;
                         case 4:
-                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x01, 0x00 };
-                            lstCentent.AddRange(PackageDefine.Precipitation1h);
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x02, 0x00 };
+                            cententtmp = PackageDefine.Precipitation2h;
                             break;
                         case 5:
-                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x02, 0x00 };
-                            lstCentent.AddRange(PackageDefine.Precipitation2h);
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x03, 0x00 };
+                            cententtmp = PackageDefine.Precipitation3h;
                             break;
                         case 6:
-                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x03, 0x00 };
-                            lstCentent.AddRange(PackageDefine.Precipitation3h);
+                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x06, 0x00 };
+                            cententtmp=PackageDefine.Precipitation6h;
                             break;
                         case 7:
-                            timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x06, 0x00 };
-                            lstCentent.AddRange(PackageDefine.Precipitation6h);
-                            break;
-                        case 8:
                             timestep = new byte[] { PackageDefine.TimeStepFlag[0], PackageDefine.TimeStepFlag[1], 0x00, 0x12, 0x00 };
-                            lstCentent.AddRange(PackageDefine.Precipitation12h);
+                            cententtmp = PackageDefine.Precipitation12h;
                             break;
                     }
+                    if (cbParmInstantWaterLevel.Checked)
+                        lstCentent.AddRange(PackageDefine.InstantWaterlevelFlag);   //瞬时水位
+                    else
+                        lstCentent.AddRange(cententtmp);            //选了瞬时水位后，使用瞬时水位的功能码,没选就选择分钟小时时段降水量
                 }
                 
                 List<byte> lstdt = new List<byte>();
@@ -2088,7 +2260,9 @@ namespace SmartWaterSystem
                 return;
             }
 
-            string str_parm = combManualSetParm.Text.Substring(combManualSetParm.Text.IndexOf('(') + 1, 5);
+            int parmstart = combManualSetParm.Text.IndexOf('(') + 1;
+            int parmend = combManualSetParm.Text.IndexOf(')');
+            string str_parm = combManualSetParm.Text.Substring(parmstart, parmend - parmstart);
             str_parm += " 20 ";   //20是空格
             str_parm += txtManualSetParm.Text.Trim();
 
@@ -2397,7 +2571,10 @@ namespace SmartWaterSystem
 
         private void cbIsOnLine_CheckedChanged(object sender, EventArgs e)
         {
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
+            if (!SwitchComunication.IsOn)  //SerialPort
+                GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
+            else
+                GlobalValue.SerialPortMgr.SL651AllowOnLine = cbIsOnLine.Checked;
         }
 
         private void SwitchComunication_Click(object sender, EventArgs e)
@@ -2438,7 +2615,7 @@ namespace SmartWaterSystem
             group_waitcmd.Visible = false;
             group_manualSetParm.Visible = true;
             this.cbIsOnLine.CheckedChanged -= new System.EventHandler(this.cbIsOnLine_CheckedChanged);
-            cbIsOnLine.Enabled = false;
+            cbIsOnLine.Enabled = true;
             this.cbIsOnLine.CheckedChanged += new System.EventHandler(this.cbIsOnLine_CheckedChanged);
 
             GlobalValue.MSMQMgr.MSMQEvent -= new MSMQHandler(MSMQMgr_MSMQEvent);
@@ -2449,14 +2626,15 @@ namespace SmartWaterSystem
             CheckEdit ce = (CheckEdit)sender;
             if (ce.Checked)
             {
+                cbParmInstantWaterLevel.Checked = false;
                 cePrec.Checked = false;
                 combPrecHour.SelectedIndex = 0;
             }
         }
 
-        
-
-
-
+        private void cbParmInstantWaterLevel_CheckedChanged(object sender, EventArgs e)
+        {
+            cePrec.Checked = cbParmInstantWaterLevel.Checked;
+        }
     }
 }

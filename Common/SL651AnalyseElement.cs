@@ -115,8 +115,13 @@ namespace SmartWaterSystem
         /// <returns></returns>
         public static string AnalyseElement( byte funcode, byte[] elements, byte[] dt, ref Universal651SerialPortEntity spEntity)
         {
-            int oldelemntslen = elements.Length;  //保留旧的elements数据长度,如果循环一次后，elements的长度没有变化，说明有数据解析不了，则退出递归返回
             string strcontent = "";
+            if (elements == null)
+            {
+                strcontent = "要素信息:空,";
+                return strcontent;
+            }
+            int oldelemntslen = elements.Length;  //保留旧的elements数据长度,如果循环一次后，elements的长度没有变化，说明有数据解析不了，则退出递归返回
             if (spEntity == null)
                 spEntity = new Universal651SerialPortEntity();
             try
@@ -181,7 +186,7 @@ namespace SmartWaterSystem
                         {
                             if (elements[i - 1] == PackageDefine.PwdFlag[0] && elements[i] == PackageDefine.PwdFlag[1])
                             {
-                                strcontent += "新密码:" + string.Format("{0:X2}", elements[i + 1]) + string.Format("{0:X2}", elements[i + 2]) + ",";
+                                strcontent += "新密码:" +BitConverter.ToInt16(new byte[] { elements[i + 2], elements[i + 1] },0) + ",";
                                 spEntity.IsOptPwd = true;
                                 spEntity.CPwd0 = elements[i + 1];
                                 spEntity.CPwd1 = elements[i + 2];
@@ -514,6 +519,17 @@ namespace SmartWaterSystem
                                     string.Format("{0:X2}", elements[i + 3]) + string.Format("{0:X2}", elements[i + 4]) + ",";
                                 spEntity.IsOptCenterAddr = true;
                                 spEntity.CCenterAddr = elements[i + 1];  //第1字节是第1中心站
+                                break;
+                            }
+                        }
+                        for (int i = 1; i < elements.Length - 2; i++)
+                        {
+                            if (elements[i - 1] == PackageDefine.PwdFlag[0] && elements[i] == PackageDefine.PwdFlag[1])
+                            {
+                                strcontent += "新密码:" + BitConverter.ToInt16(new byte[] { elements[i + 2], elements[i + 1] }, 0) + ",";
+                                spEntity.IsOptPwd = true;
+                                spEntity.CPwd0 = elements[i + 1];
+                                spEntity.CPwd1 = elements[i + 2];
                                 break;
                             }
                         }

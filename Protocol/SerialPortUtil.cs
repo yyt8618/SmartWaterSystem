@@ -72,6 +72,7 @@ namespace Protocol
         public bool IsComRecving
         {
             get { return isComRecving; }
+            set { IsComRecving = value; }
         }
         private bool isComSending = false;
         /// <summary>
@@ -272,7 +273,7 @@ namespace Protocol
                     Open();
                 }
                 isComSending = true;
-                AppendBufLine("发送:{0}", ConvertHelper.ByteArrayToHexString(data));
+                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "发送:{0}", ConvertHelper.ByteArrayToHexString(data));
                 if (DiscardInBuffer)
                 {
                     serialPort.DiscardInBuffer();
@@ -289,33 +290,38 @@ namespace Protocol
             }
         }
         List<Package> lstResult = new List<Package>();  //返回结果集(支持多包)
-        List<Package651> lstResult651 = new List<Package651>();  //返回结果集651(支持多包)
-        string receiveErr = "";  //接收错误消息
-        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        public List<Package651> lstResult651 = new List<Package651>();  //返回结果集651(支持多包)
+        public string receiveErr = "";  //接收错误消息
+        public void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            List<byte> packageBytes = new List<byte>();
             try
             {
                 isComRecving = true;//正在读取串口数据
                 nLastRecTime = Environment.TickCount;
                 nStartTime = Environment.TickCount;
                 receiveErr = "";
-                List<byte> packageBytes = new List<byte>();
-
+                
                 int len = serialPort.BytesToRead;
                 byte[] buf = new byte[len];
                 bytesRead = serialPort.Read(buf, 0, len);
                 if (bytesRead > 0)
+                {
+                    //AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));
                     for (int i = 0; i < bytesRead; i++)
                     {
                         ReceiveBytes.Add(buf[i]);
                     }
+                }
 
                 int readCount = 0;//计数
 
                 int index = 0;
+                
                 while (index < ReceiveBytes.Count)
                 {
                     packageBytes.Add(ReceiveBytes[index]);
+
                     if (ReceiveBytes[index] == PackageDefine.EndByte && packageBytes.Count >= PackageDefine.MinLenth)
                     {
                         if (packageBytes[0] != PackageDefine.BeginByte)
@@ -338,7 +344,6 @@ namespace Protocol
 
                         byte[] arr = packageBytes.ToArray();
                         len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);//数据域长度
-
                         Package pack;
                         if (PackageDefine.MinLenth + len == arr.Length && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                         {
@@ -346,14 +351,17 @@ namespace Protocol
                             readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
                             OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
 
-                            AppendBufLine("收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
+                            AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+" 收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
                             packageBytes.Clear();
                             ReceiveBytes.RemoveRange(0, index + 1);
                             index = -1;
                             lstResult.Add(pack);
                         }
                     }
-                    else if (packageBytes.Count >= PackageDefine.MinLenth651 && (packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte651 || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte_Continue))
+                    if (packageBytes.Count >= PackageDefine.MinLenth651 && 
+                        (packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte651 || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte_Continue
+                        || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.ENQ || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EOT
+                        || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.ESC))
                     {
                         bool need_response = true;    //是否回复相应帧(连续几个帧，只回最后一个帧)
                         bool deal = false;
@@ -380,17 +388,26 @@ namespace Protocol
                         if (deal)
                         {
                             byte[] arr = packageBytes.ToArray();
-                            Package651 pack;
+                            Package651 pack651;
                             bool havesubsequent = false;  //是否有后续包
                             string subsequentmsg = "";  //如果是包且有后续，提示当前包数
-                            if ((PackageDefine.MinLenth651 <= arr.Length) & Package651.TryParse(arr, out pack, out havesubsequent, out subsequentmsg))//找到结束字符并且是完整一帧
+                            if ((PackageDefine.MinLenth651 <= arr.Length) & Package651.TryParse(arr, out pack651, out havesubsequent, out subsequentmsg))//找到结束字符并且是完整一帧
                             {
                                 //AppendBufLine("收到{0}:{1}", subsequentmsg, ConvertHelper.ByteArrayToHexString(arr));
                                 packageBytes.Clear();
                                 ReceiveBytes.RemoveRange(0, index + 1);
                                 index = -1;
-                                lstResult651.Add(pack);
+                                lstResult651.Add(pack651);
                             }
+                        }
+                        else if (index > 0 && (index + PackageDefine.MinLenth651 < ReceiveBytes.Count) && 
+                            (ReceiveBytes[index + 1] == PackageDefine.BeginByte651[0] && ReceiveBytes[index + 2] == PackageDefine.BeginByte651[1]))
+                        {
+                            //如果有错误数据在前面，将其去掉
+                            AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "忽略错误数据:{0}", ConvertHelper.ByteArrayToHexString(packageBytes.ToArray()));
+                            packageBytes.Clear();
+                            ReceiveBytes.RemoveRange(0, index + 1);
+                            index = -1;
                         }
                         #endregion
                     }
@@ -401,11 +418,12 @@ namespace Protocol
             catch (Exception ex)
             {
                 AppendBufLine("接收错误:{0}", ex.Message);
+                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "错误数据:{0}", ConvertHelper.ByteArrayToHexString(packageBytes.ToArray()));
                 receiveErr = ex.Message;
             }
             finally
             {
-                Thread.Sleep(1000);
+                //Thread.Sleep(20);
                 isComRecving = false;
             }
         }
@@ -421,8 +439,8 @@ namespace Protocol
                 lstResult651.Clear();
                 ReceiveBytes.Clear();
                 serialPort.DiscardInBuffer();   //清空接收缓冲区     
-                serialPort.DataReceived -= SerialPort_DataReceived;
-                serialPort.DataReceived += SerialPort_DataReceived;
+                //serialPort.DataReceived -= SerialPort_DataReceived;
+                //serialPort.DataReceived += SerialPort_DataReceived;
 
                 SendData(sendData);
 
@@ -459,12 +477,12 @@ namespace Protocol
 
                             if (typeof(T) == typeof(Package))
                             {
-                                serialPort.DataReceived -= SerialPort_DataReceived;
+                                //serialPort.DataReceived -= SerialPort_DataReceived;
                                 return (List<T>)((object)lstResult);
                             }
                             if (typeof(T) == typeof(Package651))
                             {
-                                serialPort.DataReceived -= SerialPort_DataReceived;
+                                //serialPort.DataReceived -= SerialPort_DataReceived;
                                 return (List<T>)((object)lstResult651);
                             }
                         }
@@ -483,8 +501,7 @@ namespace Protocol
                 isComRecving = false;
             }
         }
-
-
+        
         public T SendCommand<T>(byte[] sendData, int timeout = 5, bool needresp = true, bool readnextpack = false) where T : struct
         {
             try
@@ -568,7 +585,7 @@ namespace Protocol
                                 readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
                                 OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
 
-                                AppendBufLine("收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
+                                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
                                 //OnReadPackege(new PackageReceivedEventArgs(pack));
                                 packageBytes.Clear();
                                 return (T)((object)pack);
@@ -606,7 +623,7 @@ namespace Protocol
                                 string subsequentmsg = "";  //如果是包且有后续，提示当前包数
                                 if ((PackageDefine.MinLenth651 <= arr.Length) & Package651.TryParse(arr, out pack, out havesubsequent, out subsequentmsg))//找到结束字符并且是完整一帧
                                 {
-                                    AppendBufLine("收到{0}:{1}",subsequentmsg, ConvertHelper.ByteArrayToHexString(arr));
+                                    AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "收到{0}:{1}",subsequentmsg, ConvertHelper.ByteArrayToHexString(arr));
                                     packageBytes.Clear();
                                     return (T)((object)pack);
                                 }
@@ -651,6 +668,7 @@ namespace Protocol
                 }
             }
         }
+
 
         public List<Package651> SendPackage(Package651 package, int timeout = 3, int times = 2, bool needresp = true, bool readnextpack = false)
         {

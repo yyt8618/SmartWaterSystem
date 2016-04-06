@@ -200,5 +200,8 @@ namespace Entity
         public int TimeintervalReportTime { get; set; }
         #endregion
 
+        //是否是串口循环获取的信息,(循环串口的时候不需要弹出对话框提示)
+        public bool IsSPLoop = true;
+
     }
 }

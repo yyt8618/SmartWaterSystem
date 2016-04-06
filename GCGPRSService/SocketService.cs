@@ -92,15 +92,7 @@ namespace GCGPRSService
         Socket listener;
         bool isRunning = false;
         List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
-        //private List<Package651> _lstSendPack651 = new List<Package651>();
-        ///// <summary>
-        /////  待发送命令651
-        ///// </summary>
-        //List<Package651> lstSendPack651
-        //{
-        //    get { return _lstSendPack651; }
-        //    set { _lstSendPack651 = value; }
-        //}
+
         int SQL_Interval = 3 * 63;  //数据更新时间间隔(second)
         DateTime SQLSync_Time = DateTime.Now.AddHours(-1);  //数据库同步时间,-1:才开启，马上同步一次数据
 
@@ -122,6 +114,7 @@ namespace GCGPRSService
             GlobalValue.Instance.SocketSQLMag.Start();
 
             t_Interval = new Thread(new ThreadStart(Interval_Thread));
+            t_Interval.IsBackground = true;
             t_Interval.Start();
 
             CheckThread_Interval = 1;  //开启socket线程
@@ -212,6 +205,7 @@ namespace GCGPRSService
                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启Socket监听线程!", ConstValue.MSMQTYPE.Msg_Public));
                         isRunning = true;
                         t_socket = new Thread(new ThreadStart(StartListening));
+                        t_socket.IsBackground = true;
                         t_socket.Start();
                     }
                 }
@@ -1359,7 +1353,7 @@ namespace GCGPRSService
                                 }
                             }
                         }
-                        else if (packageBytes.Count >= PackageDefine.MinLenth651 && (packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte651 || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte_Continue))
+                        if (packageBytes.Count >= PackageDefine.MinLenth651 && (packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte651 || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte_Continue))
                         {
                             bool need_response = true;    //是否回复回应帧(连续几个帧，只回最后一个帧)
                             bool deal = false;
@@ -1455,7 +1449,7 @@ namespace GCGPRSService
                                         }
 
                                         OnSendMsg(new SocketEventArgs(string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
-                                                Convert.ToInt16(pack.CenterAddr), Convert.ToInt16(pack.A1), Convert.ToInt16(pack.A2), Convert.ToInt16(pack.A3), Convert.ToInt16(pack.A4), Convert.ToInt16(pack.A5),
+                                                Convert.ToInt16(pack.CenterAddr), String.Format("{0:X2}", pack.A1), String.Format("{0:X2}", pack.A2), String.Format("{0:X2}", pack.A3), String.Format("{0:X2}", pack.A4), String.Format("{0:X2}", pack.A5),
                                                 "0x" + String.Format("{0:X2}", pack.PWD[0]) + string.Format("{0:X2}", pack.PWD[1]), "0x" + String.Format("{0:X2}", pack.FUNCODE), SmartWaterSystem.SL651AnalyseElement.GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
                                                 string.Format("报文长度:{0},报文起始符:{1},{2},发报时间:{3},{4}校验码:{5}",
                                                 pack.DataLength, "0x" + string.Format("{0:X2}", pack.CStart),
@@ -1500,9 +1494,8 @@ namespace GCGPRSService
                                                 }
                                             }
                                         }
-                                        //读取人工置数(39) 查询指定要素(3A) 查询实时数据(37) 链路维持报(2F) 查询版本(45) 查询状态和报警(46) 查询事件记录(50) 设置时间(4A) 查询时间(51)
-                                        if (pack.FUNCODE == 0x39 || pack.FUNCODE == 0x2F || pack.FUNCODE == 0x37 || pack.FUNCODE == 0x3A || pack.FUNCODE == 0x45 || pack.FUNCODE == 0x46 || pack.FUNCODE == 0x4A || pack.FUNCODE == 0x51 || pack.FUNCODE == 0x50)
-                                            need_response = false;
+
+                                        need_response=Package651.NeedResp(pack.FUNCODE);
 
                                         response.dt = new byte[6];
                                         response.dt[0] = ConvertHelper.StringToByte((DateTime.Now.Year - 2000).ToString())[0];

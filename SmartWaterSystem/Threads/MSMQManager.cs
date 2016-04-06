@@ -46,6 +46,7 @@ namespace SmartWaterSystem
         public bool Start()
         {
             t = new Thread(new ThreadStart(MSMQReceiveThread));
+            t.IsBackground = true;
             t.Start();
             return true;
         }
