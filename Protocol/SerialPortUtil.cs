@@ -121,15 +121,10 @@ namespace Protocol
 
         private void AppendBufLine(string log, params object[] args)
         {
-            //if (AppendBufLog != null)
-            //{
-            //    AppendBufLine(string.Format(log, args));
-            //}
             if (args == null)
                 AppendBufLine(log);
             else
                 AppendBufLine(string.Format(log, args));
-            //logger.Info(string.Format(log, args));
         }
 
         private void AppendBufLine(string log, Package package,Package651 package651)
@@ -273,7 +268,7 @@ namespace Protocol
                     Open();
                 }
                 isComSending = true;
-                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "发送:{0}", ConvertHelper.ByteArrayToHexString(data));
+                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " 发送:{0}", ConvertHelper.ByteArrayToHexString(data));
                 if (DiscardInBuffer)
                 {
                     serialPort.DiscardInBuffer();
@@ -307,7 +302,7 @@ namespace Protocol
                 bytesRead = serialPort.Read(buf, 0, len);
                 if (bytesRead > 0)
                 {
-                    //AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));
+                    AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " 收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));
                     for (int i = 0; i < bytesRead; i++)
                     {
                         ReceiveBytes.Add(buf[i]);
@@ -351,7 +346,7 @@ namespace Protocol
                             readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
                             OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
 
-                            AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+" 收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
+                            AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff")+" 收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
                             packageBytes.Clear();
                             ReceiveBytes.RemoveRange(0, index + 1);
                             index = -1;
@@ -404,7 +399,7 @@ namespace Protocol
                             (ReceiveBytes[index + 1] == PackageDefine.BeginByte651[0] && ReceiveBytes[index + 2] == PackageDefine.BeginByte651[1]))
                         {
                             //如果有错误数据在前面，将其去掉
-                            AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "忽略错误数据:{0}", ConvertHelper.ByteArrayToHexString(packageBytes.ToArray()));
+                            AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " 忽略错误数据:{0}", ConvertHelper.ByteArrayToHexString(packageBytes.ToArray()));
                             packageBytes.Clear();
                             ReceiveBytes.RemoveRange(0, index + 1);
                             index = -1;
@@ -418,7 +413,7 @@ namespace Protocol
             catch (Exception ex)
             {
                 AppendBufLine("接收错误:{0}", ex.Message);
-                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "错误数据:{0}", ConvertHelper.ByteArrayToHexString(packageBytes.ToArray()));
+                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " 错误数据:{0}", ConvertHelper.ByteArrayToHexString(packageBytes.ToArray()));
                 receiveErr = ex.Message;
             }
             finally
@@ -435,14 +430,7 @@ namespace Protocol
         {
             try
             {
-                lstResult.Clear();
-                lstResult651.Clear();
-                ReceiveBytes.Clear();
-                serialPort.DiscardInBuffer();   //清空接收缓冲区     
-                //serialPort.DataReceived -= SerialPort_DataReceived;
-                //serialPort.DataReceived += SerialPort_DataReceived;
-
-                SendData(sendData);
+                SendData(sendData,false);
 
                 if (!needresp)
                 {
@@ -450,6 +438,10 @@ namespace Protocol
                     lstT.Add(default(T));
                     return lstT;        //不需要获取下位机返回数据,如SL651确认帧
                 }
+                lstResult.Clear();
+                lstResult651.Clear();
+                serialPort.DiscardInBuffer();   //清空接收缓冲区     
+                ReceiveBytes.Clear();
 
                 nStartTime = Environment.TickCount;
                 isComRecving = true;//正在读取串口数据
@@ -508,8 +500,8 @@ namespace Protocol
             {
                 if (!readnextpack)  //如果readnextpack为true时，表示收到的是多包数据，还有未收完的包，接着接收,不需要发送数据
                 {
-                    serialPort.DiscardInBuffer();   //清空接收缓冲区     
-                    SendData(sendData);
+                    //serialPort.DiscardInBuffer();   //清空接收缓冲区     
+                    SendData(sendData,false);
                     if (!needresp)
                         return default(T);   //不需要获取下位机返回数据,如SL651确认帧
                     Thread.Sleep(50);                       //延时，等待下位机回数据
@@ -585,7 +577,7 @@ namespace Protocol
                                 readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
                                 OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
 
-                                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
+                                AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff")+" 收到:{0}", ConvertHelper.ByteArrayToHexString(arr));
                                 //OnReadPackege(new PackageReceivedEventArgs(pack));
                                 packageBytes.Clear();
                                 return (T)((object)pack);
@@ -623,7 +615,7 @@ namespace Protocol
                                 string subsequentmsg = "";  //如果是包且有后续，提示当前包数
                                 if ((PackageDefine.MinLenth651 <= arr.Length) & Package651.TryParse(arr, out pack, out havesubsequent, out subsequentmsg))//找到结束字符并且是完整一帧
                                 {
-                                    AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "收到{0}:{1}",subsequentmsg, ConvertHelper.ByteArrayToHexString(arr));
+                                    AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " 收到{0}:{1}",subsequentmsg, ConvertHelper.ByteArrayToHexString(arr));
                                     packageBytes.Clear();
                                     return (T)((object)pack);
                                 }

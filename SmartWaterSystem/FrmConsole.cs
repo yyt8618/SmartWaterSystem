@@ -157,6 +157,9 @@ namespace SmartWaterSystem
             showErrMsg = cbErrs.Checked;
         }
 
-
+        private void btnRefurbish_Click(object sender, EventArgs e)
+        {
+            Application.DoEvents();
+        }
     }
 }

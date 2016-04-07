@@ -1688,7 +1688,7 @@ namespace SmartWaterSystem
                         if (packsresp[0].SumPackCount > 1)
                             packcountmsg = "总包数:" + packsresp[i].SumPackCount + "、当前第" + packsresp[i].CurPackCount + "包";
 
-                        GlobalValue.portUtil.AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + string.Format("收到{0}:{1}", packcountmsg, ConvertHelper.ByteArrayToHexString(packsresp[i].OriginalData)));
+                        GlobalValue.portUtil.AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + string.Format(" 收到{0}:{1}", packcountmsg, ConvertHelper.ByteArrayToHexString(packsresp[i].OriginalData)));
                         if (i > 0)
                             lstData.AddRange(packsresp[i].Data);  //多包的时候将多包合并
                         
@@ -1708,7 +1708,7 @@ namespace SmartWaterSystem
                         byte[] bsenddata = tmp.ToResponseArray();
                         tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
                         Thread.Sleep(20);
-                        GlobalValue.Universallog.Read(tmp, 3, 2, false);
+                        GlobalValue.Universallog.Read(tmp, 3, 1, false);
                     }
                     result = true;
                     msg = "";
@@ -1770,7 +1770,7 @@ namespace SmartWaterSystem
                                         //确定是上行还是下行帧,只监听上行帧
                                         if (lstResult651[i].IsUpload)
                                         {
-                                            GlobalValue.portUtil.AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"监听到帧:" + ConvertHelper.ByteArrayToHexString(lstResult651[i].OriginalData));
+                                            GlobalValue.portUtil.AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff")+" 监听到帧:" + ConvertHelper.ByteArrayToHexString(lstResult651[i].OriginalData));
                                             Universal651SerialPortEntity spEntity = null;
                                             if (lstResult651[i].Data != null && lstResult651[i].Data.Length > 0)
                                             {

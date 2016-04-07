@@ -38,6 +38,7 @@ namespace SmartWaterSystem
             this.cbHTTP = new System.Windows.Forms.CheckBox();
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
+            this.btnRefurbish = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnClear
@@ -144,6 +145,23 @@ namespace SmartWaterSystem
             this.cbErrs.UseVisualStyleBackColor = false;
             this.cbErrs.CheckedChanged += new System.EventHandler(this.cbErrs_CheckedChanged);
             // 
+            // btnRefurbish
+            // 
+            this.btnRefurbish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefurbish.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnRefurbish.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnRefurbish.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnRefurbish.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnRefurbish.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnRefurbish.Location = new System.Drawing.Point(636, 4);
+            this.btnRefurbish.Name = "btnRefurbish";
+            this.btnRefurbish.Size = new System.Drawing.Size(52, 23);
+            this.btnRefurbish.TabIndex = 0;
+            this.btnRefurbish.TabStop = false;
+            this.btnRefurbish.Text = "刷新";
+            this.btnRefurbish.UseVisualStyleBackColor = false;
+            this.btnRefurbish.Click += new System.EventHandler(this.btnRefurbish_Click);
+            // 
             // FrmConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -154,6 +172,7 @@ namespace SmartWaterSystem
             this.Controls.Add(this.cbSerialPort);
             this.Controls.Add(this.cbHTTP);
             this.Controls.Add(this.cbShowSocket);
+            this.Controls.Add(this.btnRefurbish);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.txtControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -178,6 +197,6 @@ namespace SmartWaterSystem
         private CheckBox cbHTTP;
         private CheckBox cbSerialPort;
         private CheckBox cbErrs;
-
+        private Button btnRefurbish;
     }
 }

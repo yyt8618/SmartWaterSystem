@@ -328,7 +328,7 @@ namespace SmartWaterSystem
             // 
             // txtA1
             // 
-            this.txtA1.EditValue = "3";
+            this.txtA1.EditValue = "1";
             this.txtA1.Location = new System.Drawing.Point(199, 17);
             this.txtA1.Name = "txtA1";
             this.txtA1.Properties.MaxLength = 4;
