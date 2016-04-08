@@ -70,10 +70,13 @@ namespace SmartWaterSystem
         {
             if (!string.IsNullOrEmpty(msg))
             {
-                if (!msg.EndsWith("\r\n"))
-                    msg += "\r\n";
-                lstCtrlMsg.Add(msg);
-                ctrlMsgChange = true;
+                lock(lockMsgChange)
+                {
+                    if (!msg.EndsWith("\r\n"))
+                        msg += "\r\n";
+                    lstCtrlMsg.Add(msg);
+                    ctrlMsgChange = true;
+                }
             }
         }
 
@@ -81,21 +84,25 @@ namespace SmartWaterSystem
         {
             if (ctrlMsgChange && txtControl.Visible)
             {
-                //去除超过MaxLine行数部分
-                int outliencount = lstCtrlMsg.Count - MaxLine;
-                if (outliencount > 0)
+                lock (lockMsgChange)
                 {
-                    lstCtrlMsg.RemoveRange(0, outliencount);
-                }
+                    //去除超过MaxLine行数部分
+                    int outliencount = lstCtrlMsg.Count - MaxLine;
+                    if (outliencount > 0)
+                    {
+                        lstCtrlMsg.RemoveRange(0, outliencount);
+                    }
 
-                ShowCtrlMsg();
-                ctrlMsgChange = false;
+                    ShowCtrlMsg();
+                    ctrlMsgChange = false;
+                }
             }
         }
 
         private delegate void AddMsgHandle(string msg);
         List<string> lstCtrlMsg = new List<string>();
         bool ctrlMsgChange = false;  //是否有更新消息
+        object lockMsgChange = new object();
         public void ShowCtrlMsg()
         {
             try

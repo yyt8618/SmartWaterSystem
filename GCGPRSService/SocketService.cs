@@ -1609,12 +1609,23 @@ namespace GCGPRSService
                                                 response.PWD = new byte[2];
                                                 response.PWD[0] = pack.PWD[1];
                                                 response.PWD[1] = pack.PWD[0];
-                                                byte[] lens = BitConverter.GetBytes((ushort)8);
+                                                byte[] lens = new byte[2];
+                                                if (havesubsequent)  //如果是多包，且是最后一帧
+                                                {
+                                                    lens = BitConverter.GetBytes((ushort)11);
+                                                    response.CStart = PackageDefine.CStart_Pack;
+                                                }
+                                                else
+                                                {
+                                                    lens = BitConverter.GetBytes((ushort)8);
+                                                    response.CStart = PackageDefine.CStart;
+                                                }
+                                                response.CStart = PackageDefine.CStart;
                                                 response.L0 = lens[0];
                                                 response.L1 = lens[1];
                                                 response.FUNCODE = pack.FUNCODE;
                                                 response.IsUpload = false;
-                                                response.CStart = PackageDefine.CStart;
+                                                
                                                 response.SNum = pack.SNum;
                                                 response.AddrFlag = pack.AddrFlag;
                                                 if (SL651AllowOnLine)

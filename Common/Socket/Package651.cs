@@ -237,6 +237,7 @@ namespace Common
             lstByte.Add(this.PWD[0]);
             lstByte.Add(this.PWD[1]);
             lstByte.Add(this.FUNCODE);
+
             if (this.IsUpload)
                 lstByte.Add((byte)(this.L1 & 0x0F));
             else
@@ -244,6 +245,20 @@ namespace Common
 
             lstByte.Add(this.L0);
             lstByte.Add(this.CStart);
+            
+            if (this.SumPackCount > 0 && this.CurPackCount > 0)  //多包的情况
+            {
+                byte[] b3 = new byte[3];  //包总数及序列号
+                byte[] b2_sum = BitConverter.GetBytes((short)this.SumPackCount);  //总包数
+                b3[0] = (byte)((b2_sum[1] << 4) | (b2_sum[0] >> 4));
+
+                byte[] b2_index = BitConverter.GetBytes((short)this.CurPackCount);  //序号
+                b3[1] = (byte)((b2_sum[0] << 4) | b2_index[1]);
+                b3[2] = b2_index[0];
+
+                lstByte.AddRange(b3);
+            }
+
             lstByte.Add(this.SNum[1]);
             lstByte.Add(this.SNum[0]);
             lstByte.AddRange(this.dt);

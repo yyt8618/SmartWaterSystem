@@ -38,7 +38,9 @@ namespace SmartWaterSystem
             this.cbHTTP = new System.Windows.Forms.CheckBox();
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btnRefurbish = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClear
@@ -49,7 +51,7 @@ namespace SmartWaterSystem
             this.btnClear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnClear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnClear.Location = new System.Drawing.Point(694, 4);
+            this.btnClear.Location = new System.Drawing.Point(711, 3);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(52, 23);
             this.btnClear.TabIndex = 0;
@@ -60,29 +62,30 @@ namespace SmartWaterSystem
             // 
             // txtControl
             // 
+            this.txtControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.txtControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtControl.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txtControl.ForeColor = System.Drawing.Color.Lime;
-            this.txtControl.Location = new System.Drawing.Point(0, 0);
+            this.txtControl.Location = new System.Drawing.Point(0, 33);
             this.txtControl.Multiline = true;
             this.txtControl.Name = "txtControl";
             this.txtControl.ReadOnly = true;
             this.txtControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtControl.Size = new System.Drawing.Size(766, 426);
+            this.txtControl.Size = new System.Drawing.Size(766, 393);
             this.txtControl.TabIndex = 3;
             this.txtControl.TabStop = false;
             // 
             // cbShowSocket
             // 
-            this.cbShowSocket.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbShowSocket.AutoSize = true;
             this.cbShowSocket.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.cbShowSocket.Checked = true;
             this.cbShowSocket.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbShowSocket.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbShowSocket.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.cbShowSocket.Location = new System.Drawing.Point(697, 33);
+            this.cbShowSocket.Location = new System.Drawing.Point(12, 5);
             this.cbShowSocket.Name = "cbShowSocket";
             this.cbShowSocket.Size = new System.Drawing.Size(47, 18);
             this.cbShowSocket.TabIndex = 1;
@@ -93,14 +96,13 @@ namespace SmartWaterSystem
             // 
             // cbHTTP
             // 
-            this.cbHTTP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbHTTP.AutoSize = true;
             this.cbHTTP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.cbHTTP.Checked = true;
             this.cbHTTP.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbHTTP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbHTTP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.cbHTTP.Location = new System.Drawing.Point(697, 57);
+            this.cbHTTP.Location = new System.Drawing.Point(65, 5);
             this.cbHTTP.Name = "cbHTTP";
             this.cbHTTP.Size = new System.Drawing.Size(47, 18);
             this.cbHTTP.TabIndex = 2;
@@ -111,14 +113,13 @@ namespace SmartWaterSystem
             // 
             // cbSerialPort
             // 
-            this.cbSerialPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSerialPort.AutoSize = true;
             this.cbSerialPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.cbSerialPort.Checked = true;
             this.cbSerialPort.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbSerialPort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbSerialPort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.cbSerialPort.Location = new System.Drawing.Point(697, 81);
+            this.cbSerialPort.Location = new System.Drawing.Point(118, 5);
             this.cbSerialPort.Name = "cbSerialPort";
             this.cbSerialPort.Size = new System.Drawing.Size(47, 18);
             this.cbSerialPort.TabIndex = 3;
@@ -129,14 +130,13 @@ namespace SmartWaterSystem
             // 
             // cbErrs
             // 
-            this.cbErrs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbErrs.AutoSize = true;
             this.cbErrs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.cbErrs.Checked = true;
             this.cbErrs.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbErrs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbErrs.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.cbErrs.Location = new System.Drawing.Point(697, 105);
+            this.cbErrs.Location = new System.Drawing.Point(171, 5);
             this.cbErrs.Name = "cbErrs";
             this.cbErrs.Size = new System.Drawing.Size(47, 18);
             this.cbErrs.TabIndex = 4;
@@ -144,6 +144,22 @@ namespace SmartWaterSystem
             this.cbErrs.Text = "错误";
             this.cbErrs.UseVisualStyleBackColor = false;
             this.cbErrs.CheckedChanged += new System.EventHandler(this.cbErrs_CheckedChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.panel1.Controls.Add(this.btnRefurbish);
+            this.panel1.Controls.Add(this.cbErrs);
+            this.panel1.Controls.Add(this.btnClear);
+            this.panel1.Controls.Add(this.cbSerialPort);
+            this.panel1.Controls.Add(this.cbShowSocket);
+            this.panel1.Controls.Add(this.cbHTTP);
+            this.panel1.Location = new System.Drawing.Point(0, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(766, 32);
+            this.panel1.TabIndex = 5;
             // 
             // btnRefurbish
             // 
@@ -153,13 +169,14 @@ namespace SmartWaterSystem
             this.btnRefurbish.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnRefurbish.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnRefurbish.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnRefurbish.Location = new System.Drawing.Point(636, 4);
+            this.btnRefurbish.Location = new System.Drawing.Point(656, 3);
             this.btnRefurbish.Name = "btnRefurbish";
             this.btnRefurbish.Size = new System.Drawing.Size(52, 23);
             this.btnRefurbish.TabIndex = 0;
             this.btnRefurbish.TabStop = false;
             this.btnRefurbish.Text = "刷新";
             this.btnRefurbish.UseVisualStyleBackColor = false;
+            this.btnRefurbish.Visible = false;
             this.btnRefurbish.Click += new System.EventHandler(this.btnRefurbish_Click);
             // 
             // FrmConsole
@@ -168,12 +185,7 @@ namespace SmartWaterSystem
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(766, 426);
-            this.Controls.Add(this.cbErrs);
-            this.Controls.Add(this.cbSerialPort);
-            this.Controls.Add(this.cbHTTP);
-            this.Controls.Add(this.cbShowSocket);
-            this.Controls.Add(this.btnRefurbish);
-            this.Controls.Add(this.btnClear);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -183,6 +195,8 @@ namespace SmartWaterSystem
             this.Text = "监控";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmGPRSConsole_FormClosing);
             this.Load += new System.EventHandler(this.FrmConsole_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,6 +211,7 @@ namespace SmartWaterSystem
         private CheckBox cbHTTP;
         private CheckBox cbSerialPort;
         private CheckBox cbErrs;
+        private Panel panel1;
         private Button btnRefurbish;
     }
 }

@@ -1702,7 +1702,16 @@ namespace SmartWaterSystem
                         Package651 tmp = GlobalValue.SerialPort651OptData;
                         tmp.Data = null;
                         tmp.CS = null;
-                        byte[] lens = BitConverter.GetBytes((ushort)(8));
+                        byte[] lens = new byte[2];
+                        if (packsresp[packsresp.Count - 1].CurPackCount > 0 && packsresp[packsresp.Count - 1].CurPackCount == packsresp[packsresp.Count - 1].SumPackCount)  //多包时,回复的帧中带包序号
+                        {
+                            tmp.CurPackCount = packsresp[packsresp.Count - 1].CurPackCount;
+                            tmp.SumPackCount = packsresp[packsresp.Count - 1].CurPackCount;
+                            lens = BitConverter.GetBytes((ushort)(11));  //多了三个字节的包总数及序列号
+                            tmp.CStart = PackageDefine.CStart_Pack;   //多包起始符不一样，不是02 是16
+                        }
+                        else
+                            lens = BitConverter.GetBytes((ushort)(8));
                         tmp.L0 = lens[0];
                         tmp.L1 = lens[1];
                         byte[] bsenddata = tmp.ToResponseArray();
