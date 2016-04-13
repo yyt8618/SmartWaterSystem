@@ -627,7 +627,7 @@ namespace Common
             //if (Funcode == 0x30 || Funcode == 0x31 || Funcode == 0x32 || Funcode == 0x33 || Funcode == 0x34 || Funcode == 0x35
             //                                || Funcode == 0x38 || Funcode == 0x40 || Funcode == 0x41 || Funcode == 0x42 || Funcode == 0x43 || Funcode == 0x47
             //                                || Funcode == 0x48 || Funcode == 0x49)
-            if(Funcode!=0xE0 && Funcode!=0xE5)
+            if(Funcode!=0xE0 && Funcode!=0xE5 && Funcode!= 0x2F)
                 return true;
             else
                 return false;

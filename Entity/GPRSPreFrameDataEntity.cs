@@ -64,5 +64,15 @@ namespace Entity
             set { _PreValue = value; }
         }
 
+        private float _Voltage = 0f;
+        /// <summary>
+        /// 电压值
+        /// </summary>
+        public float Voltage
+        {
+            get { return _Voltage; }
+            set { _Voltage = value; }
+        }
+
     }
 }

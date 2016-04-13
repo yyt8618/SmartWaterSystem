@@ -49,12 +49,13 @@ namespace DAL
                     command_frame.Connection = SQLHelper.Conn;
                     //command_frame.Transaction = trans;
 
-                    string SQL_PreData = "INSERT INTO Pressure_Real(TerminalID,PressValue,CollTime,UnloadTime,HistoryFlag) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0)";
+                    string SQL_PreData = "INSERT INTO Pressure_Real(TerminalID,PressValue,CollTime,UnloadTime,HistoryFlag,Voltage) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0,@Voltage)";
                     SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@prevalue",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
-                    new SqlParameter("@UploadTime",SqlDbType.DateTime)
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime),
+                    new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
                     SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_PreData;
@@ -83,6 +84,10 @@ namespace DAL
                             parms_predata[1].Value = entity.lstPreData[i].PreValue;
                             parms_predata[2].Value = entity.lstPreData[i].ColTime;
                             parms_predata[3].Value = entity.ModifyTime;
+                            if (entity.lstPreData[i].Voltage == -1)
+                                parms_predata[4].Value = DBNull.Value;
+                            else
+                                parms_predata[4].Value = entity.lstPreData[i].Voltage;
 
                             command_predata.ExecuteNonQuery();
                         }
@@ -122,14 +127,15 @@ namespace DAL
                     command_frame.Connection = SQLHelper.Conn;
                     //command_frame.Transaction = trans;
 
-                    string SQL_PreData = "INSERT INTO Flow_Real(TerminalID,FlowValue,FlowInverted,FlowInstant,CollTime,UnloadTime,HistoryFlag) VALUES(@TerId,@flowvalue,@flowreverse,@flowinstant,@coltime,@UploadTime,0)";
+                    string SQL_PreData = "INSERT INTO Flow_Real(TerminalID,FlowValue,FlowInverted,FlowInstant,CollTime,UnloadTime,HistoryFlag,Voltage) VALUES(@TerId,@flowvalue,@flowreverse,@flowinstant,@coltime,@UploadTime,0,@Voltage)";
                     SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@flowvalue",SqlDbType.Decimal),
                     new SqlParameter("@flowreverse",SqlDbType.Decimal),
                     new SqlParameter("@flowinstant",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
-                    new SqlParameter("@UploadTime",SqlDbType.DateTime)
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime),
+                    new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
                     SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_PreData;
@@ -159,6 +165,10 @@ namespace DAL
                             parms_predata[3].Value = entity.lstFlowData[i].Instant_FlowValue;
                             parms_predata[4].Value = entity.lstFlowData[i].ColTime;
                             parms_predata[5].Value = entity.ModifyTime;
+                            if (entity.lstFlowData[i].Voltage == -1)
+                                parms_predata[6].Value = DBNull.Value;
+                            else
+                                parms_predata[6].Value = entity.lstFlowData[i].Voltage;
 
                             command_predata.ExecuteNonQuery();
                         }

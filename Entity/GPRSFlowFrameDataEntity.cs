@@ -83,5 +83,15 @@ namespace Entity
             get { return _instant_flowValue; }
             set { _instant_flowValue = value; }
         }
+
+        private float _Voltage = 0f;
+        /// <summary>
+        /// 电压值
+        /// </summary>
+        public float Voltage
+        {
+            get { return _Voltage; }
+            set { _Voltage = value; }
+        }
     }
 }
