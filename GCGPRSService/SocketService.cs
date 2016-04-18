@@ -268,7 +268,7 @@ namespace GCGPRSService
                 if (listener != null )
                 {
                     listener.Shutdown(SocketShutdown.Both);
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
                     listener.Close();
                     listener.Dispose();
                 }
@@ -410,7 +410,7 @@ namespace GCGPRSService
                                 {
                                     foreach (CallSocketEntity callentity in lstClient)
                                     {
-                                        if (callentity.DevType == pack.DevType && callentity.TerId!=-1 && callentity.TerId == pack.DevID && callentity.lstWaitSendCmd != null)
+                                        if (callentity.DevType == pack.DevType && callentity.TerId != -1 && callentity.TerId == pack.DevID && callentity.lstWaitSendCmd != null)
                                         {
                                             List<SendPackageEntity> lst_save_pack = new List<SendPackageEntity>();
                                             for (int i = 0; i < callentity.lstWaitSendCmd.Count; i++)  //收到响应帧
@@ -447,7 +447,7 @@ namespace GCGPRSService
                                             int dataindex = (pack.DataLength - 2 - 1) % 8;
                                             if (dataindex != 0)
                                             {
-                                                if(dataindex==2)
+                                                if (dataindex == 2)
                                                 {
                                                     dataindex = (pack.DataLength - 2 - 1 - 2) / 8;
                                                     addtion_voldata = true;
@@ -550,7 +550,7 @@ namespace GCGPRSService
                                                         dataindex = 0;
                                                     }
                                                 }
-                                                
+
                                             }
                                             if (dataindex != 0)
                                             {
@@ -589,7 +589,7 @@ namespace GCGPRSService
                                             framedata.Frame = str_frame;
 
                                             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                            double forward_flowvalue = 0, reverse_flowvalue=0, instant_flowvalue = 0;
+                                            double forward_flowvalue = 0, reverse_flowvalue = 0, instant_flowvalue = 0;
                                             for (int i = 0; i < dataindex; i++)
                                             {
                                                 year = 2000 + Convert.ToInt16(pack.Data[i * 18 + 3]);
@@ -633,7 +633,7 @@ namespace GCGPRSService
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_ALARMINFO)  //从站向主站发送设备报警信息
                                         {
-                                            if (pack.DataLength != 7  && pack.DataLength != 9)   //pack.DataLength == 9 带电压值
+                                            if (pack.DataLength != 7 && pack.DataLength != 9)   //pack.DataLength == 9 带电压值
                                             {
                                                 throw new ArgumentException(DateTime.Now.ToString() + " " + "帧数据长度[" + pack.DataLength + "]不符合(2+1+18*n)或(2+1+18*n+2)规则");
                                             }
@@ -671,7 +671,7 @@ namespace GCGPRSService
                                                 volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
                                             }
 
-                                                bNeedCheckTime = NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
+                                            bNeedCheckTime = NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
                                             OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}]{1}|时间({2})|电压值:{3}V",
                                                  pack.DevID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
                                         }
@@ -1100,15 +1100,15 @@ namespace GCGPRSService
                                                 }
                                                 else if (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL)
                                                 {
-                                                    data.ResidualCl = value/1000;
+                                                    data.ResidualCl = value / 1000;
                                                 }
                                                 else if (pack.C1 == (byte)GPRS_READ.READ_PH)
                                                 {
-                                                    data.PH = value/100;
+                                                    data.PH = value / 100;
                                                 }
 
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}{5}",
-                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value,unit)));
+                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value, unit)));
 
                                                 data.ColTime = new DateTime(year, month, day, hour, minute, sec);
                                                 bNeedCheckTime = NeedCheckTime(data.ColTime);
@@ -1188,7 +1188,7 @@ namespace GCGPRSService
                                         if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPEN)
                                         {
                                             int openangle = Convert.ToInt16(pack.Data[6]);
-                                            float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0)/3;
+                                            float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0) / 3;
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}",
                                                     pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"))));
                                             data.Operate = HydrantOptType.Open;
@@ -1236,7 +1236,7 @@ namespace GCGPRSService
                                     CallSocketEntity currentSocketEntity = null;
                                     foreach (CallSocketEntity callentity in lstClient)
                                     {
-                                        if (callentity.DevType == pack.DevType && callentity.TerId!=-1 && callentity.TerId == pack.DevID)
+                                        if (callentity.DevType == pack.DevType && callentity.TerId != -1 && callentity.TerId == pack.DevID)
                                         {
                                             currentSocketEntity = callentity;
                                             callentity.ClientSocket = handler;
@@ -1389,7 +1389,8 @@ namespace GCGPRSService
                                         sendObj.IsFinal = pack.IsFinal;
                                         sendObj.DevType = pack.DevType;
                                         sendObj.DevID = pack.DevID;
-                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                        if (handler != null && handler.Connected)
+                                            handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                     }
                                     #endregion
 
@@ -1397,7 +1398,8 @@ namespace GCGPRSService
                                     //{
                                     //    currentSocketEntity.lstWaitSendCmd = new List<Package>();
                                     //}
-                                    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                    if (handler != null && handler.Connected)
+                                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                                 }
                             }
                         }
@@ -1699,7 +1701,8 @@ namespace GCGPRSService
 
                                     try
                                     {
-                                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                        if (handler != null && handler.Connected)
+                                            handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                                     }
                                     catch { };
 
@@ -1715,6 +1718,7 @@ namespace GCGPRSService
 
                                     try
                                     {
+                                        if(handler!=null)
                                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                                     }
                                     catch { };
@@ -1741,6 +1745,7 @@ namespace GCGPRSService
                 try
                 {
                     handler.Shutdown(SocketShutdown.Both);
+                    Thread.Sleep(5);
                     handler.Close();
                 }
                 catch { }
@@ -1774,6 +1779,7 @@ namespace GCGPRSService
                 try
                 {
                     handler.Shutdown(SocketShutdown.Both);
+                    Thread.Sleep(5);
                     handler.Close();
                 }
                 catch { }
@@ -1785,22 +1791,27 @@ namespace GCGPRSService
             try
             {
                 Socket handler = ((SendObject)ar.AsyncState).workSocket;
-                int bytesSent = handler.EndSend(ar);
+                if (handler != null && handler.Connected)
+                {
+                    int bytesSent = handler.EndSend(ar);
 
-                bool AllowOnLine = false;
-                foreach (CallSocketEntity callentity in lstClient)
-                {
-                    if (callentity.DevType == ((SendObject)ar.AsyncState).DevType && callentity.TerId == ((SendObject)ar.AsyncState).DevID)
+                    bool AllowOnLine = false;
+                    foreach (CallSocketEntity callentity in lstClient)
                     {
-                        AllowOnLine = callentity.AllowOnLine;
-                        break;
+                        if (callentity.DevType == ((SendObject)ar.AsyncState).DevType && callentity.TerId == ((SendObject)ar.AsyncState).DevID)
+                        {
+                            AllowOnLine = callentity.AllowOnLine;
+                            break;
+                        }
                     }
-                }
-                if ((!AllowOnLine) && ((SendObject)ar.AsyncState).IsFinal)
-                {
-                    Thread.Sleep(10 * 1000);
-                    handler.Shutdown(SocketShutdown.Both);
-                    handler.Close();
+                    if ((!AllowOnLine) && ((SendObject)ar.AsyncState).IsFinal)
+                    {
+                        //Thread.Sleep(50);
+                        //Thread.Sleep(10 * 1000);
+                        handler.Shutdown(SocketShutdown.Both);
+                        Thread.Sleep(5);
+                        handler.Close();
+                    }
                 }
             }
             catch (Exception e)

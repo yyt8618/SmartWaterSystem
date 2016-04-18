@@ -1714,6 +1714,10 @@ namespace SmartWaterSystem
                             lens = BitConverter.GetBytes((ushort)(8));
                         tmp.L0 = lens[0];
                         tmp.L1 = lens[1];
+                        if (SL651AllowOnLine)
+                            tmp.End = PackageDefine.ESC;
+                        else
+                            tmp.End = PackageDefine.EOT;
                         byte[] bsenddata = tmp.ToResponseArray();
                         tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
                         Thread.Sleep(20);

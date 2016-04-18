@@ -458,7 +458,11 @@ namespace SmartWaterSystem
                         if (spEntity.IsOptStandbyCh)
                         {
                             combStandbyChannel.SelectedIndex = spEntity.StandByCh;
-                            txtStandbyChTelnum.Text = spEntity.StandbyChTelnum;
+                            if (!string.IsNullOrEmpty(spEntity.StandbyChTelnum) && spEntity.StandbyChTelnum.StartsWith("A"))  //去掉首字母为'A’
+                                txtStandbyChTelnum.Text = spEntity.StandbyChTelnum.Substring(1);
+                            else
+                                txtStandbyChTelnum.Text = spEntity.StandbyChTelnum;
+
                             combChannelType.SelectedIndex = spEntity.ChannelType;
                         }
                         if (spEntity.IsOptIdentifyNum)
