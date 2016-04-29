@@ -28,34 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.label3 = new System.Windows.Forms.Label();
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.dtpStart = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
-            this.lstDetailView = new System.Windows.Forms.ListView();
-            this.colTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colEnPre = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colOutletPre = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colForFlow = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colRevFlow = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colInstantFlow = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBoxList = new System.Windows.Forms.GroupBox();
+            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.G_Time = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.G_EnPreValue = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.G_OutletPreValue = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.G_ForFlow = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.G_RevFlow = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.G_InsFlow = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupBoxChart = new System.Windows.Forms.GroupBox();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.cbInterval = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnAnalysis = new DevExpress.XtraEditors.SimpleButton();
             this.btnGraph = new DevExpress.XtraEditors.SimpleButton();
+            this.btnExport = new DevExpress.XtraEditors.SimpleButton();
             this.groupBoxList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.groupBoxChart.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbInterval.Properties)).BeginInit();
@@ -99,59 +103,6 @@
             this.label2.TabIndex = 18;
             this.label2.Text = "选择日期：";
             // 
-            // lstDetailView
-            // 
-            this.lstDetailView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colTime,
-            this.colEnPre,
-            this.colOutletPre,
-            this.colForFlow,
-            this.colRevFlow,
-            this.colInstantFlow});
-            this.lstDetailView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstDetailView.Font = new System.Drawing.Font("宋体", 11F);
-            this.lstDetailView.FullRowSelect = true;
-            this.lstDetailView.GridLines = true;
-            this.lstDetailView.Location = new System.Drawing.Point(3, 18);
-            this.lstDetailView.MultiSelect = false;
-            this.lstDetailView.Name = "lstDetailView";
-            this.lstDetailView.ShowGroups = false;
-            this.lstDetailView.Size = new System.Drawing.Size(876, 509);
-            this.lstDetailView.TabIndex = 5;
-            this.lstDetailView.TabStop = false;
-            this.lstDetailView.UseCompatibleStateImageBehavior = false;
-            this.lstDetailView.View = System.Windows.Forms.View.Details;
-            // 
-            // colTime
-            // 
-            this.colTime.Text = "时间";
-            this.colTime.Width = 140;
-            // 
-            // colEnPre
-            // 
-            this.colEnPre.Text = "进口压力";
-            this.colEnPre.Width = 140;
-            // 
-            // colOutletPre
-            // 
-            this.colOutletPre.Text = "出口压力";
-            this.colOutletPre.Width = 140;
-            // 
-            // colForFlow
-            // 
-            this.colForFlow.Text = "正向流量";
-            this.colForFlow.Width = 140;
-            // 
-            // colRevFlow
-            // 
-            this.colRevFlow.Text = "反向流量";
-            this.colRevFlow.Width = 140;
-            // 
-            // colInstantFlow
-            // 
-            this.colInstantFlow.Text = "瞬时流量";
-            this.colInstantFlow.Width = 140;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -172,13 +123,102 @@
             // 
             // groupBoxList
             // 
-            this.groupBoxList.Controls.Add(this.lstDetailView);
+            this.groupBoxList.Controls.Add(this.gridControl1);
             this.groupBoxList.Location = new System.Drawing.Point(1, 41);
             this.groupBoxList.Name = "groupBoxList";
             this.groupBoxList.Size = new System.Drawing.Size(882, 530);
             this.groupBoxList.TabIndex = 22;
             this.groupBoxList.TabStop = false;
             this.groupBoxList.Text = "列表";
+            // 
+            // gridControl1
+            // 
+            this.gridControl1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl1.Location = new System.Drawing.Point(3, 18);
+            this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.Name = "gridControl1";
+            this.gridControl1.Size = new System.Drawing.Size(876, 509);
+            this.gridControl1.TabIndex = 0;
+            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            // 
+            // gridView1
+            // 
+            this.gridView1.ActiveFilterEnabled = false;
+            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.G_Time,
+            this.G_EnPreValue,
+            this.G_OutletPreValue,
+            this.G_ForFlow,
+            this.G_RevFlow,
+            this.G_InsFlow});
+            this.gridView1.GridControl = this.gridControl1;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsBehavior.AllowFixedGroups = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsBehavior.Editable = false;
+            this.gridView1.OptionsBehavior.ReadOnly = true;
+            this.gridView1.OptionsCustomization.AllowGroup = false;
+            this.gridView1.OptionsCustomization.AllowSort = false;
+            this.gridView1.OptionsPrint.PrintDetails = true;
+            this.gridView1.OptionsSelection.ShowCheckBoxSelectorInColumnHeader = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsSelection.ShowCheckBoxSelectorInGroupRow = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
+            // 
+            // G_Time
+            // 
+            this.G_Time.Caption = "时间";
+            this.G_Time.FieldName = "Time";
+            this.G_Time.Name = "G_Time";
+            this.G_Time.OptionsColumn.AllowEdit = false;
+            this.G_Time.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.G_Time.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.G_Time.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.G_Time.OptionsColumn.ReadOnly = true;
+            this.G_Time.Visible = true;
+            this.G_Time.VisibleIndex = 0;
+            // 
+            // G_EnPreValue
+            // 
+            this.G_EnPreValue.Caption = "进口压力";
+            this.G_EnPreValue.FieldName = "EnPreValue";
+            this.G_EnPreValue.Name = "G_EnPreValue";
+            this.G_EnPreValue.Visible = true;
+            this.G_EnPreValue.VisibleIndex = 1;
+            // 
+            // G_OutletPreValue
+            // 
+            this.G_OutletPreValue.Caption = "出口压力";
+            this.G_OutletPreValue.FieldName = "OutletPreValue";
+            this.G_OutletPreValue.Name = "G_OutletPreValue";
+            this.G_OutletPreValue.Visible = true;
+            this.G_OutletPreValue.VisibleIndex = 2;
+            // 
+            // G_ForFlow
+            // 
+            this.G_ForFlow.Caption = "正向流量";
+            this.G_ForFlow.FieldName = "ForFlow";
+            this.G_ForFlow.Name = "G_ForFlow";
+            this.G_ForFlow.Visible = true;
+            this.G_ForFlow.VisibleIndex = 3;
+            // 
+            // G_RevFlow
+            // 
+            this.G_RevFlow.Caption = "反向流量";
+            this.G_RevFlow.FieldName = "RevFlow";
+            this.G_RevFlow.Name = "G_RevFlow";
+            this.G_RevFlow.Visible = true;
+            this.G_RevFlow.VisibleIndex = 4;
+            // 
+            // G_InsFlow
+            // 
+            this.G_InsFlow.Caption = "瞬时流量";
+            this.G_InsFlow.FieldName = "InsFlow";
+            this.G_InsFlow.Name = "G_InsFlow";
+            this.G_InsFlow.Visible = true;
+            this.G_InsFlow.VisibleIndex = 5;
             // 
             // groupBoxChart
             // 
@@ -197,101 +237,101 @@
             this.chart.BackSecondaryColor = System.Drawing.Color.White;
             this.chart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.chart.BorderlineWidth = 2;
-            chartArea3.Area3DStyle.IsClustered = true;
-            chartArea3.Area3DStyle.IsRightAngleAxes = false;
-            chartArea3.Area3DStyle.LightStyle = System.Windows.Forms.DataVisualization.Charting.LightStyle.Realistic;
-            chartArea3.Area3DStyle.Rotation = 25;
-            chartArea3.Area3DStyle.WallWidth = 3;
-            chartArea3.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-            chartArea3.AxisX.IsLabelAutoFit = false;
-            chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea3.AxisX.Title = "时间";
-            chartArea3.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-            chartArea3.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea3.AxisY.IsLabelAutoFit = false;
-            chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea3.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea3.AxisY.Title = "数据";
-            chartArea3.BackColor = System.Drawing.Color.SeaShell;
-            chartArea3.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            chartArea3.BackSecondaryColor = System.Drawing.Color.White;
-            chartArea3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea3.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea3.CursorX.IsUserEnabled = true;
-            chartArea3.CursorX.IsUserSelectionEnabled = true;
-            chartArea3.InnerPlotPosition.Auto = false;
-            chartArea3.InnerPlotPosition.Height = 82.55958F;
-            chartArea3.InnerPlotPosition.Width = 84.2484F;
-            chartArea3.InnerPlotPosition.X = 12.7516F;
-            chartArea3.InnerPlotPosition.Y = 10.04953F;
-            chartArea3.Name = "Default";
-            chartArea3.Position.Auto = false;
-            chartArea3.Position.Height = 86.07874F;
-            chartArea3.Position.Width = 90.63375F;
-            chartArea3.Position.X = 4.346499F;
-            chartArea3.Position.Y = 7.968504F;
-            chartArea3.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart.ChartAreas.Add(chartArea3);
+            chartArea1.Area3DStyle.IsClustered = true;
+            chartArea1.Area3DStyle.IsRightAngleAxes = false;
+            chartArea1.Area3DStyle.LightStyle = System.Windows.Forms.DataVisualization.Charting.LightStyle.Realistic;
+            chartArea1.Area3DStyle.Rotation = 25;
+            chartArea1.Area3DStyle.WallWidth = 3;
+            chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea1.AxisX.Title = "时间";
+            chartArea1.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea1.AxisY.Title = "数据";
+            chartArea1.BackColor = System.Drawing.Color.SeaShell;
+            chartArea1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chartArea1.BackSecondaryColor = System.Drawing.Color.White;
+            chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chartArea1.CursorX.IsUserEnabled = true;
+            chartArea1.CursorX.IsUserSelectionEnabled = true;
+            chartArea1.InnerPlotPosition.Auto = false;
+            chartArea1.InnerPlotPosition.Height = 82.55958F;
+            chartArea1.InnerPlotPosition.Width = 84.2484F;
+            chartArea1.InnerPlotPosition.X = 12.7516F;
+            chartArea1.InnerPlotPosition.Y = 10.04953F;
+            chartArea1.Name = "Default";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 86.07874F;
+            chartArea1.Position.Width = 90.63375F;
+            chartArea1.Position.X = 4.346499F;
+            chartArea1.Position.Y = 7.968504F;
+            chartArea1.ShadowColor = System.Drawing.Color.Transparent;
+            this.chart.ChartAreas.Add(chartArea1);
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.BackColor = System.Drawing.Color.Transparent;
-            legend3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            legend3.IsTextAutoFit = false;
-            legend3.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
-            legend3.Name = "Legend1";
-            legend3.Position.Auto = false;
-            legend3.Position.Height = 5.542725F;
-            legend3.Position.Width = 50.86185F;
-            legend3.Position.X = 25F;
-            legend3.Position.Y = 8F;
-            this.chart.Legends.Add(legend3);
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            legend1.IsTextAutoFit = false;
+            legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
+            legend1.Name = "Legend1";
+            legend1.Position.Auto = false;
+            legend1.Position.Height = 5.542725F;
+            legend1.Position.Width = 50.86185F;
+            legend1.Position.X = 25F;
+            legend1.Position.Y = 8F;
+            this.chart.Legends.Add(legend1);
             this.chart.Location = new System.Drawing.Point(3, 18);
             this.chart.Name = "chart";
-            series11.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            series11.BorderWidth = 2;
-            series11.ChartArea = "Default";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series11.Color = System.Drawing.Color.Red;
-            series11.Legend = "Legend1";
-            series11.Name = "进口压力";
-            series11.ShadowColor = System.Drawing.Color.Black;
-            series11.ShadowOffset = 1;
-            series12.BorderWidth = 2;
-            series12.ChartArea = "Default";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series12.Color = System.Drawing.Color.DeepSkyBlue;
-            series12.Legend = "Legend1";
-            series12.Name = "出口压力";
-            series12.ShadowOffset = 1;
-            series13.ChartArea = "Default";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series13.Legend = "Legend1";
-            series13.Name = "正向流量";
-            series14.ChartArea = "Default";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series14.Legend = "Legend1";
-            series14.Name = "反向流量";
-            series15.ChartArea = "Default";
-            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series15.Legend = "Legend1";
-            series15.Name = "瞬时流量";
-            this.chart.Series.Add(series11);
-            this.chart.Series.Add(series12);
-            this.chart.Series.Add(series13);
-            this.chart.Series.Add(series14);
-            this.chart.Series.Add(series15);
+            series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            series1.BorderWidth = 2;
+            series1.ChartArea = "Default";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Color = System.Drawing.Color.Red;
+            series1.Legend = "Legend1";
+            series1.Name = "进口压力";
+            series1.ShadowColor = System.Drawing.Color.Black;
+            series1.ShadowOffset = 1;
+            series2.BorderWidth = 2;
+            series2.ChartArea = "Default";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = System.Drawing.Color.DeepSkyBlue;
+            series2.Legend = "Legend1";
+            series2.Name = "出口压力";
+            series2.ShadowOffset = 1;
+            series3.ChartArea = "Default";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Legend = "Legend1";
+            series3.Name = "正向流量";
+            series4.ChartArea = "Default";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Legend = "Legend1";
+            series4.Name = "反向流量";
+            series5.ChartArea = "Default";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series5.Legend = "Legend1";
+            series5.Name = "瞬时流量";
+            this.chart.Series.Add(series1);
+            this.chart.Series.Add(series2);
+            this.chart.Series.Add(series3);
+            this.chart.Series.Add(series4);
+            this.chart.Series.Add(series5);
             this.chart.Size = new System.Drawing.Size(877, 509);
             this.chart.TabIndex = 10;
-            title3.BackColor = System.Drawing.Color.Transparent;
-            title3.Font = new System.Drawing.Font("宋体", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            title3.Name = "Default";
-            title3.Position.Auto = false;
-            title3.Position.Width = 90.63375F;
-            title3.Position.X = 4.346499F;
-            title3.Position.Y = 4.968504F;
-            title3.Text = "图表展示";
-            this.chart.Titles.Add(title3);
+            title1.BackColor = System.Drawing.Color.Transparent;
+            title1.Font = new System.Drawing.Font("宋体", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            title1.Name = "Default";
+            title1.Position.Auto = false;
+            title1.Position.Width = 90.63375F;
+            title1.Position.X = 4.346499F;
+            title1.Position.Y = 4.968504F;
+            title1.Text = "图表展示";
+            this.chart.Titles.Add(title1);
             this.chart.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart_GetToolTipText);
             // 
             // cbInterval
@@ -313,7 +353,7 @@
             // 
             // btnAnalysis
             // 
-            this.btnAnalysis.Location = new System.Drawing.Point(632, 7);
+            this.btnAnalysis.Location = new System.Drawing.Point(587, 7);
             this.btnAnalysis.Name = "btnAnalysis";
             this.btnAnalysis.Size = new System.Drawing.Size(87, 27);
             this.btnAnalysis.TabIndex = 4;
@@ -322,23 +362,33 @@
             // 
             // btnGraph
             // 
-            this.btnGraph.Location = new System.Drawing.Point(721, 7);
+            this.btnGraph.Location = new System.Drawing.Point(676, 7);
             this.btnGraph.Name = "btnGraph";
             this.btnGraph.Size = new System.Drawing.Size(87, 27);
             this.btnGraph.TabIndex = 5;
             this.btnGraph.Text = "图表";
             this.btnGraph.Click += new System.EventHandler(this.btnGraph_Click);
             // 
+            // btnExport
+            // 
+            this.btnExport.Location = new System.Drawing.Point(765, 7);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(87, 27);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "导出";
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // PrectrlChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 570);
+            this.Controls.Add(this.groupBoxChart);
+            this.Controls.Add(this.groupBoxList);
+            this.Controls.Add(this.btnExport);
             this.Controls.Add(this.btnGraph);
             this.Controls.Add(this.btnAnalysis);
             this.Controls.Add(this.cbInterval);
-            this.Controls.Add(this.groupBoxChart);
-            this.Controls.Add(this.groupBoxList);
             this.Controls.Add(this.dtpEnd);
             this.Controls.Add(this.dtpStart);
             this.Controls.Add(this.label3);
@@ -355,6 +405,8 @@
             this.Text = "数据详情";
             this.Load += new System.EventHandler(this.PrectrlChartForm_Load);
             this.groupBoxList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.groupBoxChart.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbInterval.Properties)).EndInit();
@@ -369,9 +421,6 @@
         private System.Windows.Forms.DateTimePicker dtpEnd;
         private System.Windows.Forms.DateTimePicker dtpStart;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListView lstDetailView;
-        private System.Windows.Forms.ColumnHeader colTime;
-        private System.Windows.Forms.ColumnHeader colEnPre;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBoxList;
@@ -380,9 +429,14 @@
         private DevExpress.XtraEditors.ComboBoxEdit cbInterval;
         private DevExpress.XtraEditors.SimpleButton btnAnalysis;
         private DevExpress.XtraEditors.SimpleButton btnGraph;
-        private System.Windows.Forms.ColumnHeader colOutletPre;
-        private System.Windows.Forms.ColumnHeader colForFlow;
-        private System.Windows.Forms.ColumnHeader colRevFlow;
-        private System.Windows.Forms.ColumnHeader colInstantFlow;
+        private DevExpress.XtraGrid.GridControl gridControl1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Columns.GridColumn G_Time;
+        private DevExpress.XtraGrid.Columns.GridColumn G_EnPreValue;
+        private DevExpress.XtraGrid.Columns.GridColumn G_OutletPreValue;
+        private DevExpress.XtraGrid.Columns.GridColumn G_ForFlow;
+        private DevExpress.XtraGrid.Columns.GridColumn G_RevFlow;
+        private DevExpress.XtraGrid.Columns.GridColumn G_InsFlow;
+        private DevExpress.XtraEditors.SimpleButton btnExport;
     }
 }

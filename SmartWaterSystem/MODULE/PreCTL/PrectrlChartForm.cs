@@ -136,69 +136,74 @@ namespace SmartWaterSystem
                 tmpaverage_revflow = tmpaverage_revflow / lstData.Count;  //计算平均值
                 tmpaverage_insflow = tmpaverage_insflow / lstData.Count;  //计算平均值
 
-                ListViewItem maxvalueItem = new ListViewItem(new string[]{
-                    "最高",
-                    lstData[maxvalue_index_enpre].EntrancePreData.ToString(),
-                    lstData[maxvalue_index_outletpre].OutletPreData.ToString(),
-                    lstData[maxvalue_index_forflow].ForwardFlow.ToString(),
-                    lstData[maxvalue_index_revflow].ReverseFlow.ToString(),
-                    lstData[maxvalue_index_insflow].InstantFlow.ToString(),
-                });
-                ListViewItem maxtimeItem = new ListViewItem(new string[]{
-                    "出现时间",
-                    lstData[maxvalue_index_enpre].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                    lstData[maxvalue_index_outletpre].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                    lstData[maxvalue_index_forflow].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                    lstData[maxvalue_index_revflow].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                    lstData[maxvalue_index_insflow].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                });
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Time");
+                dt.Columns.Add("EnPreValue");
+                dt.Columns.Add("OutletPreValue");
+                dt.Columns.Add("ForFlow");
+                dt.Columns.Add("RevFlow");
+                dt.Columns.Add("InsFlow");
 
-                ListViewItem minxvalueItem = new ListViewItem(new string[]{
-                    "最低",
-                    lstData[minvalue_index_enpre].EntrancePreData.ToString(),
-                    lstData[minvalue_index_outletpre].OutletPreData.ToString(),
-                    lstData[minvalue_index_forflow].ForwardFlow.ToString(),
-                    lstData[minvalue_index_revflow].ReverseFlow.ToString(),
-                    lstData[minvalue_index_insflow].InstantFlow.ToString(),
-                });
-                ListViewItem mintimeItem = new ListViewItem(new string[]{
-                    "出现时间",
-                    lstData[minvalue_index_enpre].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                    lstData[minvalue_index_outletpre].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                    lstData[minvalue_index_forflow].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                    lstData[minvalue_index_revflow].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                    lstData[minvalue_index_insflow].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                });
+                DataRow row_maxvalue = dt.Rows.Add();
+                row_maxvalue["Time"] = "最高";
+                row_maxvalue["EnPreValue"]= lstData[maxvalue_index_enpre].EntrancePreData.ToString();
+                row_maxvalue["OutletPreValue"]= lstData[maxvalue_index_outletpre].OutletPreData.ToString();
+                row_maxvalue["ForFlow"]= lstData[maxvalue_index_forflow].ForwardFlow.ToString();
+                row_maxvalue["RevFlow"]= lstData[maxvalue_index_revflow].ReverseFlow.ToString();
+                row_maxvalue["InsFlow"]= lstData[maxvalue_index_insflow].InstantFlow.ToString();
 
-                ListViewItem averagexvalueItem = new ListViewItem(new string[]{
-                    "平均",
-                    tmpaverage_enpre.ToString("f4"),
-                    tmpaverage_outletpre.ToString("f4"),
-                    tmpaverage_forflow.ToString("f4"),
-                    tmpaverage_revflow.ToString("f4"),
-                    tmpaverage_insflow.ToString("f4"),
-                });
+                DataRow row_maxtime = dt.Rows.Add();
+                row_maxtime["Time"] = "出现时间";
+                row_maxtime["EnPreValue"] = lstData[maxvalue_index_enpre].CollTime.ToString("yyyy-MM-dd HH:mm");
+                row_maxtime["OutletPreValue"] = lstData[maxvalue_index_outletpre].CollTime.ToString("yyyy-MM-dd HH:mm");
+                row_maxtime["ForFlow"] = lstData[maxvalue_index_forflow].CollTime.ToString("yyyy-MM-dd HH:mm");
+                row_maxtime["RevFlow"] = lstData[maxvalue_index_revflow].CollTime.ToString("yyyy-MM-dd HH:mm");
+                row_maxtime["InsFlow"] = lstData[maxvalue_index_insflow].CollTime.ToString("yyyy-MM-dd HH:mm");
 
-                lstDetailView.BeginUpdate();
-                lstDetailView.Items.Add(maxvalueItem);
-                lstDetailView.Items.Add(maxtimeItem);
-                lstDetailView.Items.Add(minxvalueItem);
-                lstDetailView.Items.Add(mintimeItem);
-                lstDetailView.Items.Add(averagexvalueItem);
+                DataRow row_minvalue = dt.Rows.Add();
+                row_minvalue["Time"] = "最低";
+                row_minvalue["EnPreValue"] = lstData[minvalue_index_enpre].EntrancePreData.ToString();
+                row_minvalue["OutletPreValue"] = lstData[minvalue_index_outletpre].OutletPreData.ToString();
+                row_minvalue["ForFlow"] = lstData[minvalue_index_forflow].ForwardFlow.ToString();
+                row_minvalue["RevFlow"] = lstData[minvalue_index_revflow].ReverseFlow.ToString();
+                row_minvalue["InsFlow"] = lstData[minvalue_index_insflow].InstantFlow.ToString();
+
+                DataRow row_mintime = dt.Rows.Add();
+                row_mintime["Time"] = "出现时间";
+                row_mintime["EnPreValue"] = lstData[minvalue_index_enpre].CollTime.ToString("yyyy-MM-dd HH:mm");
+                row_mintime["OutletPreValue"] = lstData[minvalue_index_outletpre].CollTime.ToString("yyyy-MM-dd HH:mm");
+                row_mintime["ForFlow"] = lstData[minvalue_index_forflow].CollTime.ToString("yyyy-MM-dd HH:mm");
+                row_mintime["RevFlow"] = lstData[minvalue_index_revflow].CollTime.ToString("yyyy-MM-dd HH:mm");
+                row_mintime["InsFlow"] = lstData[minvalue_index_insflow].CollTime.ToString("yyyy-MM-dd HH:mm");
+
+                DataRow row_averagexvalue = dt.Rows.Add();
+                row_averagexvalue["Time"] = "平均";
+                row_averagexvalue["EnPreValue"] = tmpaverage_enpre.ToString("f4");
+                row_averagexvalue["OutletPreValue"] = tmpaverage_outletpre.ToString("f4");
+                row_averagexvalue["ForFlow"] = tmpaverage_forflow.ToString("f4");
+                row_averagexvalue["RevFlow"] = tmpaverage_revflow.ToString("f4");
+                row_averagexvalue["InsFlow"] = tmpaverage_insflow.ToString("f4");
+
+                //dt.Rows.Add(row_maxvalue);
+                //dt.Rows.Add(row_maxtime);
+                //dt.Rows.Add(row_minvalue);
+                //dt.Rows.Add(row_mintime);
+                //dt.Rows.Add(row_averagexvalue);
 
                 for (int i = 0; i < lstData.Count; i++)
                 {
-                    ListViewItem item = new ListViewItem(new string[]{
-                        lstData[i].CollTime.ToString("yyyy-MM-dd HH:mm"),
-                        lstData[i].EntrancePreData.ToString(),
-                        lstData[i].OutletPreData.ToString(),
-                        lstData[i].ForwardFlow.ToString(),
-                        lstData[i].ReverseFlow.ToString(),
-                        lstData[i].InstantFlow.ToString(),
-                    });
-                    lstDetailView.Items.Add(item);
+                    DataRow row = dt.Rows.Add();
+                    row["Time"] = lstData[i].CollTime.ToString("yyyy-MM-dd HH:mm");
+                    row["EnPreValue"] = lstData[i].EntrancePreData.ToString();
+                    row["OutletPreValue"] = lstData[i].OutletPreData.ToString();
+                    row["ForFlow"] = lstData[i].ForwardFlow.ToString();
+                    row["RevFlow"] = lstData[i].ReverseFlow.ToString();
+                    row["InsFlow"] = lstData[i].InstantFlow.ToString();
+
+                    //dt.Rows.Add(row);
                 }
-                lstDetailView.EndUpdate();
+
+                gridControl1.DataSource = dt;
             }
         }
 
@@ -216,7 +221,7 @@ namespace SmartWaterSystem
                 cbInterval.Focus();
                 return false;
             }
-            lstDetailView.Items.Clear();
+            gridControl1.DataSource = null;
             int interval = Convert.ToInt32(cbInterval.Text);
             lstData = dataBll.GetPrectrlDetail(TerminalID, dtpStart.Value, dtpEnd.Value, interval);
 
@@ -242,6 +247,33 @@ namespace SmartWaterSystem
                 return;
             }
             DrawChart();
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            DataTable dt = gridControl1.DataSource as DataTable;
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                ;
+            }
+            else
+            {
+                XtraMessageBox.Show("请先点击分析按钮查询!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dtpStart.Focus();
+                return ;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "导出Excel";
+            saveFileDialog.Filter = "Excel文件(*.xls)|*.xls";
+            DialogResult dialogResult = saveFileDialog.ShowDialog(this);
+            if (dialogResult == DialogResult.OK)
+            {
+                DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
+                //gridControl1.ExportToXls(saveFileDialog.FileName, options);  
+                gridControl1.ExportToExcelOld(saveFileDialog.FileName);
+                DevExpress.XtraEditors.XtraMessageBox.Show("保存成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
 
@@ -320,6 +352,7 @@ namespace SmartWaterSystem
                     break;
             }
         }
+
         #endregion
 
         //private void cbDataType_SelectedIndexChanged(object sender, EventArgs e)
