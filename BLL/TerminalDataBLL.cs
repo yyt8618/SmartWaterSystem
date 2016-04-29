@@ -59,6 +59,23 @@ namespace BLL
             }
         }
 
+        public int InsertGPRSPrectrlData(Queue<GPRSPrectrlFrameDataEntity> datas ,out string msg)
+        {
+            msg = "";
+            try
+            {
+                if (datas.Count == 0)
+                    return 0;
+                return dal.InsertGPRSPrectrlData(datas);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("InsertGPRSPrectrlData", ex);
+                msg = "保存至数据库发生异常";
+                return -1;
+            }
+        }
+
         public int InsertGPRSUniversalData(Queue<GPRSUniversalFrameDataEntity> datas, out string msg)
         {
             msg = "";
@@ -258,6 +275,19 @@ namespace BLL
             }
         }
 
+        public List<PrectrlDetailDataEntity> GetPrectrlDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval)
+        {
+            try
+            {
+                return dal.GetPrectrlDetail(TerminalID, minTime, maxTime, interval);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetPrectrlDetail", ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// 获取指定时间范围的终端压力数据
         /// </summary>
@@ -339,6 +369,19 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("GetFlowDataTop2", ex);
+                return null;
+            }
+        }
+
+        public List<PrectrlDataEntity> GetPrectrlData(List<int> terminalids)
+        {
+            try
+            {
+                return dal.GetPrectrlData(terminalids);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetPrectrlData", ex);
                 return null;
             }
         }

@@ -255,6 +255,12 @@
     <Compile Include="MODULE\OLWQ\OLWQParm651.Designer.cs">
       <DependentUpon>OLWQParm651.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\PreCTL\PrectrlChartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreCTL\PrectrlChartForm.Designer.cs">
+      <DependentUpon>PrectrlChartForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\PreTerminal\PreParmConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -344,6 +350,12 @@
     </Compile>
     <Compile Include="MODULE\UniversalTerminal\UniversalTerParm651.Designer.cs">
       <DependentUpon>UniversalTerParm651.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\PreCTL\PrectrlMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\PreCTL\PrectrlMonitor.Designer.cs">
+      <DependentUpon>PrectrlMonitor.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -467,6 +479,9 @@
     <EmbeddedResource Include="MODULE\OLWQ\OLWQParm651.resx">
       <DependentUpon>OLWQParm651.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreCTL\PrectrlChartForm.resx">
+      <DependentUpon>PrectrlChartForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreParmConfigForm.resx">
       <DependentUpon>PreParmConfigForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -511,6 +526,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\UniversalTerParm651.resx">
       <DependentUpon>UniversalTerParm651.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\PreCTL\PrectrlMonitor.resx">
+      <DependentUpon>PrectrlMonitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -564,121 +582,125 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj">
-      <Project>{3740C324-4DD9-4F69-8256-F6A521A660CC}</Project>
-      <Name>BLL</Name>
+    <ProjectReference Include="..\BLL\BLL.2015.csproj">
+      <Project>{3740c324-4dd9-4f69-8256-f6a521a660cc}</Project>
+      <Name>BLL.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{BB39153E-4B1E-48B3-8790-F4461D4B238B}</Project>
-      <Name>Common</Name>
+    <ProjectReference Include="..\Common\Common.2015.csproj">
+      <Project>{bb39153e-4b1e-48b3-8790-f4461d4b238b}</Project>
+      <Name>Common.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DBUtility\Utility.csproj">
+    <ProjectReference Include="..\DBUtility\Utility.2015.csproj">
       <Project>{3BB68F7C-6C07-4890-9851-C73CE00C17F5}</Project>
-      <Name>Utility</Name>
+      <Name>Utility.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Entity\Entity.csproj">
-      <Project>{A73A7A63-11C8-40BC-AA44-0ACD23F00A0B}</Project>
-      <Name>Entity</Name>
+    <ProjectReference Include="..\Entity\Entity.2015.csproj">
+      <Project>{a73a7a63-11c8-40bc-aa44-0acd23f00a0b}</Project>
+      <Name>Entity.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HydrantMap\HydrantMap.csproj">
+    <ProjectReference Include="..\HydrantMap\HydrantMap.2015.csproj">
       <Project>{D7DF2513-C470-41FC-9E20-DF06E14B73E0}</Project>
-      <Name>HydrantMap</Name>
+      <Name>HydrantMap.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HydrantParm\HydrantParm.csproj">
+    <ProjectReference Include="..\HydrantParm\HydrantParm.2015.csproj">
       <Project>{2A9F946D-51A9-4F64-8B66-A8ABCED76632}</Project>
-      <Name>HydrantParm</Name>
+      <Name>HydrantParm.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IUniversalTerMonitor\UniversalTerMonitor.csproj">
+    <ProjectReference Include="..\IUniversalTerMonitor\UniversalTerMonitor.2015.csproj">
       <Project>{F82DF2C6-BD45-40FE-A467-AD04DD3D0158}</Project>
-      <Name>UniversalTerMonitor</Name>
+      <Name>UniversalTerMonitor.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoiseDataCompare\NoiseDataCompare.csproj">
+    <ProjectReference Include="..\NoiseDataCompare\NoiseDataCompare.2015.csproj">
       <Project>{B67DCBA3-3945-4245-A44F-1ED35E76BAE2}</Project>
-      <Name>NoiseDataCompare</Name>
+      <Name>NoiseDataCompare.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoiseDataMgr\NoiseDataMgr.csproj">
+    <ProjectReference Include="..\NoiseDataMgr\NoiseDataMgr.2015.csproj">
       <Project>{AF8AF8E2-7662-4F81-BBB9-B6E828ABD21D}</Project>
-      <Name>NoiseDataMgr</Name>
+      <Name>NoiseDataMgr.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoiseEnergyAnalysis\NoiseEnergyAnalysis.csproj">
+    <ProjectReference Include="..\NoiseEnergyAnalysis\NoiseEnergyAnalysis.2015.csproj">
       <Project>{7289EE4B-D27F-4C92-BCE2-B599D8DA4127}</Project>
-      <Name>NoiseEnergyAnalysis</Name>
+      <Name>NoiseEnergyAnalysis.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoiseFFT\NoiseFFT.csproj">
+    <ProjectReference Include="..\NoiseFFT\NoiseFFT.2015.csproj">
       <Project>{1B23425E-3641-4B88-BD76-971C12C03713}</Project>
-      <Name>NoiseFFT</Name>
+      <Name>NoiseFFT.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoiseGroupMgr\NoiseGroupMgr.csproj">
+    <ProjectReference Include="..\NoiseGroupMgr\NoiseGroupMgr.2015.csproj">
       <Project>{6B71722E-E09F-417A-8D76-9E6941453FC6}</Project>
-      <Name>NoiseGroupMgr</Name>
+      <Name>NoiseGroupMgr.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoiseMap\NoiseMap.csproj">
+    <ProjectReference Include="..\NoiseMap\NoiseMap.2015.csproj">
       <Project>{8A4C67CC-EDF4-4AD7-9C8A-A8148C17999E}</Project>
-      <Name>NoiseMap</Name>
+      <Name>NoiseMap.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoiseParmSetting\NoiseParmSetting.csproj">
+    <ProjectReference Include="..\NoiseParmSetting\NoiseParmSetting.2015.csproj">
       <Project>{EFD170E0-EA31-45F7-807F-46791484D2D4}</Project>
-      <Name>NoiseParmSetting</Name>
+      <Name>NoiseParmSetting.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoiseRecMgr\NoiseRecMgr.csproj">
+    <ProjectReference Include="..\NoiseRecMgr\NoiseRecMgr.2015.csproj">
       <Project>{8744926E-0AF2-4F41-81D3-98004974856B}</Project>
-      <Name>NoiseRecMgr</Name>
+      <Name>NoiseRecMgr.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OLWQMgr\OLWQMgr.csproj">
+    <ProjectReference Include="..\OLWQMgr\OLWQMgr.2015.csproj">
       <Project>{7ACDC110-2CBA-4054-8DCE-1B113139F233}</Project>
-      <Name>OLWQMgr</Name>
+      <Name>OLWQMgr.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OLWQMonitor\OLWQMonitor.csproj">
+    <ProjectReference Include="..\OLWQMonitor\OLWQMonitor.2015.csproj">
       <Project>{F5E9543A-555D-43D0-8560-48137D2D95C8}</Project>
-      <Name>OLWQMonitor</Name>
+      <Name>OLWQMonitor.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OLWQParm651\OLWQParm651.csproj">
+    <ProjectReference Include="..\OLWQParm651\OLWQParm651.2015.csproj">
       <Project>{C1665859-924D-426A-A53D-40D9DD7B06A6}</Project>
-      <Name>OLWQParm651</Name>
+      <Name>OLWQParm651.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OLWQParm\OLWQParm.csproj">
+    <ProjectReference Include="..\OLWQParm\OLWQParm.2015.csproj">
       <Project>{FC09A207-5505-4DBC-8012-35D025627A60}</Project>
-      <Name>OLWQParm</Name>
+      <Name>OLWQParm.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PreTerAlarm\PreTerAlarm.csproj">
+    <ProjectReference Include="..\PrectrlMonitor\PrectrlMonitor.2015.csproj">
+      <Project>{d29f77a5-6c0e-42c6-ad6b-f41d8684f2b6}</Project>
+      <Name>PrectrlMonitor.2015</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreTerAlarm\PreTerAlarm.2015.csproj">
       <Project>{CFE8708A-7EB0-45D8-BD79-0EDCCA20E94F}</Project>
-      <Name>PreTerAlarm</Name>
+      <Name>PreTerAlarm.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PreTerMgr\PreTerMgr.csproj">
+    <ProjectReference Include="..\PreTerMgr\PreTerMgr.2015.csproj">
       <Project>{F7910E06-3FEB-4D0C-976F-70285B06E90C}</Project>
-      <Name>PreTerMgr</Name>
+      <Name>PreTerMgr.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PreTerMonitor\PreTerMonitor.csproj">
+    <ProjectReference Include="..\PreTerMonitor\PreTerMonitor.2015.csproj">
       <Project>{5701E610-ECA4-4EF5-8475-038C59F4D557}</Project>
-      <Name>PreTerMonitor</Name>
+      <Name>PreTerMonitor.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PreTerParm\PreTerParm.csproj">
+    <ProjectReference Include="..\PreTerParm\PreTerParm.2015.csproj">
       <Project>{0150D7FD-CC7E-40C0-97D5-80457FD1BB1B}</Project>
-      <Name>PreTerParm</Name>
+      <Name>PreTerParm.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PreTerReportHistory\PreTerReportHistory.csproj">
+    <ProjectReference Include="..\PreTerReportHistory\PreTerReportHistory.2015.csproj">
       <Project>{8CFF5DBD-3C8F-4817-BC49-35AC5CEC1A56}</Project>
-      <Name>PreTerReportHistory</Name>
+      <Name>PreTerReportHistory.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PreTerStoppage\PreTerStoppage.csproj">
+    <ProjectReference Include="..\PreTerStoppage\PreTerStoppage.2015.csproj">
       <Project>{73C5ED59-BB50-47C0-97CC-43F82BCA3BA4}</Project>
-      <Name>PreTerStoppage</Name>
+      <Name>PreTerStoppage.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Protocol\Protocol.csproj">
+    <ProjectReference Include="..\Protocol\Protocol.2015.csproj">
       <Project>{CBDF6FF1-FDC4-42BE-A21A-A5559DC20F6F}</Project>
-      <Name>Protocol</Name>
+      <Name>Protocol.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UniversalTerMgr\UniversalTerMgr.csproj">
+    <ProjectReference Include="..\UniversalTerMgr\UniversalTerMgr.2015.csproj">
       <Project>{68C2F608-9553-463D-B638-EC636C6CA59C}</Project>
-      <Name>UniversalTerMgr</Name>
+      <Name>UniversalTerMgr.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UniversalTerParm651\UniversalTerParm651.csproj">
+    <ProjectReference Include="..\UniversalTerParm651\UniversalTerParm651.2015.csproj">
       <Project>{36485A04-6E62-42B0-B9C3-74DBCB78D94D}</Project>
-      <Name>UniversalTerParm651</Name>
+      <Name>UniversalTerParm651.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UniversalTerParm\UniversalTerParm.csproj">
+    <ProjectReference Include="..\UniversalTerParm\UniversalTerParm.2015.csproj">
       <Project>{950E97A0-8ACB-4ADB-BCD4-680945253386}</Project>
-      <Name>UniversalTerParm</Name>
+      <Name>UniversalTerParm.2015</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -740,7 +762,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MODULE\PortablePreTerminal\" />
-    <Folder Include="MODULE\ValveSwitchCTL\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

@@ -132,13 +132,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\Common.2015.csproj">
       <Project>{BB39153E-4B1E-48B3-8790-F4461D4B238B}</Project>
-      <Name>Common</Name>
+      <Name>Common.2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Entity\Entity.csproj">
+    <ProjectReference Include="..\Entity\Entity.2015.csproj">
       <Project>{A73A7A63-11C8-40BC-AA44-0ACD23F00A0B}</Project>
-      <Name>Entity</Name>
+      <Name>Entity.2015</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

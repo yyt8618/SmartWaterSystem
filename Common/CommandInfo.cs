@@ -1183,41 +1183,17 @@ namespace Common
         READ_HYDRANT_KNOCKOVER = 0xA4,
     }
 
-    //public enum GPRS_CTRL
-    //{
-    //    /// <summary>
-    //    /// 设置GPRS招测功能
-    //    /// </summary>
-    //    CTRL_ZHAOCE_ENABLE = 0x70,
-    //    /// <summary>
-    //    /// GPRS招测
-    //    /// </summary>
-    //    CTRL_ZHAOCE = 0x71,
-    //    /// <summary>
-    //    /// 复位
-    //    /// </summary>
-    //    CTRL_RESET = 0x72,
-    //    /// <summary>
-    //    /// 启动终端采集功能
-    //    /// </summary>
-    //    CTRL_COL_ENABLE = 0x73,
-    //    /// <summary>
-    //    /// 读取压力历史数据
-    //    /// </summary>
-    //    CTRL_PREHISTORY = 0x74,
-    //    /// <summary>
-    //    /// 读取流量历史数据
-    //    /// </summary>
-    //    CTRL_FLOWHISTORY = 0x75,
-    //    /// <summary>
-    //    /// 压力数据条数
-    //    /// </summary>
-    //    CTRL_PREDATACOUNT = 0x76,
-    //    /// <summary>
-    //    /// 流浪数据条数
-    //    /// </summary>
-    //    CTRL_FLOWDATACOUNT = 0x77
-    //}
+    public enum PRECTRL_COMMAND
+    {
+        /// <summary>
+        /// 设置时间
+        /// </summary>
+        SET_TIME=0x10,
+        /// <summary>
+        /// 读取压力和流量数据
+        /// </summary>
+        READ_DATA= 0xA3,
+    }
     #endregion
 
     class CommandInfo

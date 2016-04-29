@@ -341,7 +341,7 @@ namespace SmartWaterSystem
                                 if (elements[i + 1] == 0xff && elements[i] == 0xff)
                                     strcontent += "--,";
                                 else
-                                    strcontent += (((double)BitConverter.ToUInt16(new byte[] { elements[i + 1], elements[i] }, 0)) / 1000).ToString("f2") + "cm,";
+                                    strcontent += (((double)BitConverter.ToUInt16(new byte[] { elements[i + 1], elements[i] }, 0)) / 100).ToString("f2") + "cm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }
@@ -1064,7 +1064,7 @@ namespace SmartWaterSystem
                                 if (elements[i + 1] == 0xff && elements[i] == 0xff)
                                     strcontent += "--,";
                                 else
-                                    strcontent += (((double)BitConverter.ToUInt16(new byte[] { elements[i + 1], elements[i] }, 0)) / 1000).ToString("f2") + "cm,";
+                                    strcontent += (((double)BitConverter.ToUInt16(new byte[] { elements[i + 1], elements[i] }, 0)) / 100).ToString("f2") + "cm,";
                             }
                             elements = BytesRemove(elements, sumlen + 2);
                         }

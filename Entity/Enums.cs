@@ -37,6 +37,11 @@ namespace Entity
         /// 通用终端
         /// </summary>
         UniversalTer = 4,
+        /// <summary>
+        /// 压力控制器
+        /// </summary>
+        PressureCtrl = 5,
+
     }
 
     public enum UniversalCollectType

@@ -316,7 +316,7 @@ namespace Protocol
                 while (index < ReceiveBytes.Count)
                 {
                     packageBytes.Add(ReceiveBytes[index]);
-                    packageBytes = CheckHead(packageBytes);  //检查数据头
+                    packageBytes = FormatHelper.CheckHead(packageBytes);  //检查数据头
                     if (packageBytes.Count >= PackageDefine.MinLenth && ReceiveBytes[index] == PackageDefine.EndByte)
                     {
                         if (packageBytes[0] != PackageDefine.BeginByte)
@@ -683,27 +683,6 @@ namespace Protocol
                     throw;
                 }
             }
-        }
-
-        /// <summary>
-        /// 检查数据开头是否是68或者7E协议头，如果不是去掉，直到有正确协议头
-        /// </summary>
-        /// <param name="datas"></param>
-        /// <returns></returns>
-        private List<byte> CheckHead(List<byte> datas)
-        {
-            if (datas.Count > 0)
-            {
-                if (datas[0] == PackageDefine.BeginByte || datas[0] == PackageDefine.BeginByte651[0])
-                    return datas;
-                else
-                {
-                    datas.RemoveAt(0);
-                    return CheckHead(datas);
-                }
-            }
-            else
-                return datas;
         }
 
         public void Send(Package package)

@@ -213,7 +213,7 @@ namespace GCGPRSService
                                             HTTPRespEntity uploadrespentity = bll.UploadGroups(parmentity.TerData);
                                             str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                             break;
-                                        case "uploadflowdata":
+                                        case "uploadflowdata":  //未使用
                                             str_resp_err = "";
                                             UploadFlowDataReqEntity parmflowentity = SmartWaterSystem.JSONSerialize.JsonDeserialize<UploadFlowDataReqEntity>(httpentity.Params);
                                             

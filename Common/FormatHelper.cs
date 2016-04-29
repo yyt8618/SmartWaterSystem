@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Common
 {
@@ -126,6 +127,28 @@ namespace Common
         public static string IntFormatString(int value)
         {
             return value.ToString("D2");
+        }
+
+
+        /// <summary>
+        /// 检查数据开头是否是68或者7E协议头，如果不是去掉，直到有正确协议头
+        /// </summary>
+        /// <param name="datas"></param>
+        /// <returns></returns>
+        public static List<byte> CheckHead(List<byte> datas)
+        {
+            if (datas.Count > 0)
+            {
+                if (datas[0] == PackageDefine.BeginByte || datas[0] == PackageDefine.BeginByte651[0])
+                    return datas;
+                else
+                {
+                    datas.RemoveAt(0);
+                    return CheckHead(datas);
+                }
+            }
+            else
+                return datas;
         }
         #endregion
     }

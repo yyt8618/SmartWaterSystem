@@ -50,10 +50,12 @@
     <Compile Include="ConstValue.cs" />
     <Compile Include="DistanceController.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="PrectrlDataEntity.cs" />
     <Compile Include="FlowDataEntity.cs" />
     <Compile Include="GPRSCmdEntity.cs" />
     <Compile Include="GPRSCmdFlag.cs" />
     <Compile Include="GPRSFlowFrameDataEntity.cs" />
+    <Compile Include="GPRSPrectrlFrameDataEntity.cs" />
     <Compile Include="GPRSPreFrameDataEntity.cs" />
     <Compile Include="HydrantEntity.cs" />
     <Compile Include="NoiseData.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="NoiseResult.cs" />
     <Compile Include="OLWQConfigEntity.cs" />
     <Compile Include="PreDataEntity.cs" />
+    <Compile Include="PrectrlDetailDataEntity.cs" />
     <Compile Include="PreDetailDataEntity.cs" />
     <Compile Include="PreSerialPortOptEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

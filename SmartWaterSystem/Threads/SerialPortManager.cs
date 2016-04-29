@@ -1700,6 +1700,12 @@ namespace SmartWaterSystem
                     if (needconfirm && (packsresp.Count == 1 || (packsresp[packsresp.Count - 1].CurPackCount > 0 && packsresp[packsresp.Count - 1].CurPackCount == packsresp[packsresp.Count - 1].SumPackCount)))
                     {
                         Package651 tmp = GlobalValue.SerialPort651OptData;
+                        tmp.dt[0] = ConvertHelper.StringToByte((DateTime.Now.Year - 2000).ToString())[0];
+                        tmp.dt[1] = ConvertHelper.StringToByte(DateTime.Now.Month.ToString().PadLeft(2, '0'))[0];
+                        tmp.dt[2] = ConvertHelper.StringToByte(DateTime.Now.Day.ToString().PadLeft(2, '0'))[0];
+                        tmp.dt[3] = ConvertHelper.StringToByte(DateTime.Now.Hour.ToString().PadLeft(2, '0'))[0];
+                        tmp.dt[4] = ConvertHelper.StringToByte(DateTime.Now.Minute.ToString().PadLeft(2, '0'))[0];
+                        tmp.dt[5] = ConvertHelper.StringToByte(DateTime.Now.Second.ToString().PadLeft(2, '0'))[0];
                         tmp.Data = null;
                         tmp.CS = null;
                         byte[] lens = new byte[2];
@@ -1807,6 +1813,12 @@ namespace SmartWaterSystem
                                             if (Package651.NeedResp(lstResult651[i].FUNCODE))
                                             {
                                                 Package651 tmp = lstResult651[i];
+                                                tmp.dt[0] = ConvertHelper.StringToByte((DateTime.Now.Year - 2000).ToString())[0];
+                                                tmp.dt[1] = ConvertHelper.StringToByte(DateTime.Now.Month.ToString().PadLeft(2, '0'))[0];
+                                                tmp.dt[2] = ConvertHelper.StringToByte(DateTime.Now.Day.ToString().PadLeft(2, '0'))[0];
+                                                tmp.dt[3] = ConvertHelper.StringToByte(DateTime.Now.Hour.ToString().PadLeft(2, '0'))[0];
+                                                tmp.dt[4] = ConvertHelper.StringToByte(DateTime.Now.Minute.ToString().PadLeft(2, '0'))[0];
+                                                tmp.dt[5] = ConvertHelper.StringToByte(DateTime.Now.Second.ToString().PadLeft(2, '0'))[0];
                                                 tmp.Data = null;
                                                 tmp.CS = null;
                                                 byte[] lens = BitConverter.GetBytes((ushort)(8));

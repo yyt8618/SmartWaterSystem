@@ -552,7 +552,9 @@
             // navBarValveMonitor
             // 
             this.navBarValveMonitor.Caption = "监控及趋势图";
+            this.navBarValveMonitor.LargeImage = global::SmartWaterSystem.Properties.Resources.PreTerMonitor;
             this.navBarValveMonitor.Name = "navBarValveMonitor";
+            this.navBarValveMonitor.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarValveMonitor_LinkClicked);
             // 
             // navBarValveMgr
             // 
@@ -803,6 +805,5 @@
         private DevExpress.XtraBars.BarButtonItem barBtnMSMQSetting;
         private DevExpress.XtraNavBar.NavBarItem navBarUniversalParm651;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
-
     }
 }

@@ -206,6 +206,109 @@ namespace DAL
             }
         }
 
+        public int InsertGPRSPrectrlData(Queue<GPRSPrectrlFrameDataEntity> datas)
+        {
+            lock (ConstValue.obj)
+            {
+                //SqlTransaction trans = null;
+                try
+                {
+                    //trans = SQLHelper.GetTransaction();
+
+                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                    SqlParameter[] parms_frame = new SqlParameter[]{
+                new SqlParameter("@dir",SqlDbType.Int),
+                new SqlParameter("@frame",SqlDbType.VarChar,2000),
+                new SqlParameter("@logtime",SqlDbType.DateTime)
+            };
+                    SqlCommand command_frame = new SqlCommand();
+                    command_frame.CommandText = SQL_Frame;
+                    command_frame.Parameters.AddRange(parms_frame);
+                    command_frame.CommandType = CommandType.Text;
+                    command_frame.Connection = SQLHelper.Conn;
+                    //command_frame.Transaction = trans;
+
+                    string SQL_PrectrlData = "INSERT INTO PreCtrl_Real(TerminalID,Entrance_pre,Outlet_pre,FlowValue,FlowInverted,FlowInstant,AlarmCode,AlarmDesc,CollTime,UnloadTime,Voltage) VALUES(@TerId,@enprevalue,@outletprevalue,@flowvalue,@flowreverse,@flowinstant,@alarmcode,@alarmdesc,@coltime,@UploadTime,@Voltage)";
+                    SqlParameter[] parms_predata = new SqlParameter[]{
+                    new SqlParameter("@TerId",SqlDbType.Int),
+                    new SqlParameter("@enprevalue",SqlDbType.Decimal),
+                    new SqlParameter("@outletprevalue",SqlDbType.Decimal),
+                    new SqlParameter("@flowvalue",SqlDbType.Decimal),
+                    new SqlParameter("@flowreverse",SqlDbType.Decimal),
+
+                    new SqlParameter("@flowinstant",SqlDbType.Decimal),
+                     new SqlParameter("@alarmcode",SqlDbType.TinyInt),
+                    new SqlParameter("@alarmdesc",SqlDbType.NVarChar),
+                    new SqlParameter("@coltime",SqlDbType.DateTime),
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime),
+
+                    new SqlParameter("@Voltage",SqlDbType.Decimal)
+                };
+                    SqlCommand command_predata = new SqlCommand();
+                    command_predata.CommandText = SQL_PrectrlData;
+                    command_predata.Parameters.AddRange(parms_predata);
+                    command_predata.CommandType = CommandType.Text;
+                    command_predata.Connection = SQLHelper.Conn;
+                    //command_predata.Transaction = trans;
+
+                    //string en_point_id = "";
+                    while (datas.Count > 0)
+                    {
+                        GPRSPrectrlFrameDataEntity entity = null;
+                        try
+                        {
+                            entity = datas.Dequeue();
+                            if (!string.IsNullOrEmpty(entity.Frame))
+                            {
+                                parms_frame[0].Value = 1;
+                                parms_frame[1].Value = entity.Frame;
+                                parms_frame[2].Value = entity.ModifyTime;
+
+                                command_frame.ExecuteNonQuery();
+                            }
+
+                            for (int i = 0; i < entity.lstPrectrlData.Count; i++)
+                            {
+                                parms_predata[0].Value = entity.TerId;
+                                parms_predata[1].Value = entity.lstPrectrlData[i].Entrance_preValue;
+                                parms_predata[2].Value = entity.lstPrectrlData[i].Outlet_preValue;
+                                parms_predata[3].Value = entity.lstPrectrlData[i].Forward_FlowValue;
+                                parms_predata[4].Value = entity.lstPrectrlData[i].Reverse_FlowValue;
+
+                                parms_predata[5].Value = entity.lstPrectrlData[i].Instant_FlowValue;
+                                parms_predata[6].Value = entity.lstPrectrlData[i].AlarmCode;
+                                parms_predata[7].Value = entity.lstPrectrlData[i].AlarmDesc;
+                                parms_predata[8].Value = entity.lstPrectrlData[i].ColTime;
+                                parms_predata[9].Value = DateTime.Now;
+
+                                if (entity.lstPrectrlData[i].Voltage == -1)
+                                    parms_predata[10].Value = DBNull.Value;
+                                else
+                                    parms_predata[10].Value = entity.lstPrectrlData[i].Voltage;
+
+                                command_predata.ExecuteNonQuery();
+                            }
+                        }
+                        catch (Exception iex)
+                        {
+                            if (entity != null)
+                                datas.Enqueue(entity);
+                            throw iex;
+                        }
+                    }
+                    //trans.Commit();
+
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    //if (trans != null)
+                    //    trans.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
         public int InsertGPRSUniversalData(Queue<GPRSUniversalFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
@@ -814,6 +917,48 @@ namespace DAL
             return null;
         }
 
+        public List<PrectrlDetailDataEntity> GetPrectrlDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval)
+        {
+            string SQL = @"SELECT entrance_pre,outlet_pre, FlowValue,FlowInverted,FlowInstant,CollTime FROM [PreCtrl_Real] 
+            WHERE (CollTime BETWEEN @mintime AND @maxtime) AND (DATEDIFF(minute,@mintime,CollTime) %@interval = 0) AND TerminalID=@TerId  ORDER BY CollTime";
+
+            SqlParameter[] parms = new SqlParameter[]{
+                new SqlParameter("@TerId",SqlDbType.Int),
+                new SqlParameter("@mintime",SqlDbType.DateTime),
+                new SqlParameter("@maxtime",SqlDbType.DateTime),
+                new SqlParameter("@interval",SqlDbType.Int)
+            };
+
+            parms[0].Value = TerminalID;
+            parms[1].Value = minTime;
+            parms[2].Value = maxTime;
+            parms[3].Value = interval;
+
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, parms))
+            {
+                List<PrectrlDetailDataEntity> lstData = new List<PrectrlDetailDataEntity>();
+                while (reader.Read())
+                {
+                    PrectrlDetailDataEntity entity = new PrectrlDetailDataEntity();
+                    //进口压力
+                    entity.EntrancePreData = reader["entrance_pre"] != DBNull.Value ? Convert.ToDecimal(reader["entrance_pre"]) : 0;
+                    //出口压力
+                    entity.OutletPreData = reader["outlet_pre"] != DBNull.Value ? Convert.ToDecimal(reader["outlet_pre"]) : 0;
+                    //正向流量
+                    entity.ForwardFlow = reader["FlowValue"] != DBNull.Value ? Convert.ToDecimal(reader["FlowValue"]) : 0;
+                    //反向流量
+                    entity.ReverseFlow = reader["FlowInverted"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInverted"]) : 0;
+                    //瞬时流量
+                    entity.InstantFlow = reader["FlowInstant"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInstant"]) : 0;
+                    entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : ConstValue.MinDateTime;
+
+                    lstData.Add(entity);
+                }
+                return lstData;
+            }
+            return null;
+        }
+
         public List<UniversalDetailDataEntity> GetUniversalDetail(string TerminalID, int typeId, DateTime minTime, DateTime maxTime, int interval)
         {
             string SQL = @"SELECT [DataValue],CollTime FROM UniversalTerData 
@@ -1145,6 +1290,67 @@ namespace DAL
 
                         lstData.Add(entity);
                     }
+
+                }
+                return lstData;
+            }
+            return null;
+        }
+
+        public List<PrectrlDataEntity> GetPrectrlData(List<int> terminalids)
+        {
+            if (terminalids == null || terminalids.Count == 0)
+                return null;
+            string str_ids = "";
+            foreach (int id in terminalids)
+            {
+                str_ids += "'" + id + "',";
+            }
+            if (str_ids.EndsWith(","))
+                str_ids = str_ids.Substring(0, str_ids.Length - 1);
+
+            string SQL = string.Format(@"SELECT t.TerminalID,t.TerminalName,t.Address,f.entrance_pre,f.outlet_pre,f.FlowValue,f.FlowInverted,f.FlowInstant,f.CollTime,f.alarmcode,f.alarmdesc 
+                                        FROM [PreCtrl_Real] f,Terminal t WHERE 
+                                        f.TerminalID=t.TerminalID AND t.TerminalType = {0} AND t.TerminalID IN({1}) AND 
+                                        f.id = (SELECT TOP 1 id FROM PreCtrl_Real  
+                                        WHERE f.TerminalID = TerminalID order by UnloadTime DESC) order by TerminalID ASC, CollTime DESC", ((int)TerType.PressureCtrl).ToString(), str_ids);
+
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
+            {
+                List<PrectrlDataEntity> lstData = new List<PrectrlDataEntity>();
+                int terminalid;
+                DateTime coltime;
+                decimal entranceprevalue;
+                decimal outletprevalue;
+                decimal forwardflowvalue;
+                decimal reverseflowvalue;
+                decimal instantflowvalue;
+
+                while (reader.Read())
+                {
+                    entranceprevalue = reader["entrance_pre"] != DBNull.Value ? Convert.ToDecimal(reader["entrance_pre"]) : 0;
+                    outletprevalue = reader["outlet_pre"] != DBNull.Value ? Convert.ToDecimal(reader["outlet_pre"]) : 0;
+                    forwardflowvalue = reader["FlowValue"] != DBNull.Value ? Convert.ToDecimal(reader["FlowValue"]) : 0;
+                    reverseflowvalue = reader["FlowInverted"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInverted"]) : 0;
+                    instantflowvalue = reader["FlowInstant"] != DBNull.Value ? Convert.ToDecimal(reader["FlowInstant"]) : 0;
+                    terminalid = reader["TerminalID"] != DBNull.Value ? Convert.ToInt32(reader["TerminalID"]) : 0;
+                    coltime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]) : DateTime.Now;
+
+                    PrectrlDataEntity entity = new PrectrlDataEntity();
+                    entity.TerminalID = reader["TerminalID"] != DBNull.Value ? Convert.ToInt32(reader["TerminalID"]) : 0;
+                    entity.TerminalName = reader["TerminalName"] != DBNull.Value ? reader["TerminalName"].ToString() : "";
+
+                    entity.EntrancePreValue = entranceprevalue;
+                    entity.OutletPreValue = outletprevalue;
+                    entity.ForwardFlowValue = forwardflowvalue;
+                    entity.ReverseFlowValue = reverseflowvalue;
+                    entity.InstantFlowValue = instantflowvalue;
+                    entity.AlarmCode = (byte)(reader["alarmcode"] != DBNull.Value ? (reader["alarmcode"]) : 0x00);
+                    entity.AlarmDesc= reader["alarmdesc"] != DBNull.Value ? reader["alarmdesc"].ToString() : "";
+
+                    entity.Addr = reader["Address"] != DBNull.Value ? reader["Address"].ToString() : "";
+
+                    lstData.Add(entity);
 
                 }
                 return lstData;

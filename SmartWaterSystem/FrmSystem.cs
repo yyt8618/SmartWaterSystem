@@ -321,6 +321,11 @@ namespace SmartWaterSystem
                     NBG_Hydrant.Visible = true;
                     navBarHydrantMap.Visible = true;
                 }
+                else if(t.Name== "IPrectrlMonitor")     //压力控制器监控
+                {
+                    NBG_ValveSwitch.Visible = true;
+                    navBarValveMonitor.Visible = true;
+                }
             }
         }
 
@@ -593,6 +598,11 @@ namespace SmartWaterSystem
         private void navBarHydrantMap_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             LoadView(typeof(HydrantMap));
+        }
+
+        private void navBarValveMonitor_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            LoadView(typeof(PrectrlMonitor));
         }
         #endregion
 
@@ -951,15 +961,5 @@ namespace SmartWaterSystem
         }
 
         
-
-        
-
-        
-
-        
-
-        
-
-
     }
 }

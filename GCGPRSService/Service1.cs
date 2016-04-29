@@ -200,19 +200,26 @@ namespace GCGPRSService
             try
             {
                 MessageQueue MQueue;
+                /*如果出现不能访问的情况，请按如下操作:
+                *gpedit.msc(组策略),计算机配置->管理模板->系统->远程过程调用->用于未验证的RPC客服端的限制和用于未验证的RPC客服端的限制(禁用)
+                */
                 if (!MessageQueue.Exists(string.Format(ConstValue.MSMQPathToService, ".")))
                 {
                     MQueue = MessageQueue.Create(string.Format(ConstValue.MSMQPathToService, "."));
-                    MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl);
-                    MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl);
+                    MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl, AccessControlEntryType.Set);
+                    MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl, AccessControlEntryType.Set);
+                    MQueue.SetPermissions("SYSTEM", MessageQueueAccessRights.FullControl, AccessControlEntryType.Set);
+                    MQueue.SetPermissions(Environment.UserName, MessageQueueAccessRights.FullControl,AccessControlEntryType.Set);
                     MQueue.Label = "GCGprsMSMQ";
                 }
 
                 if (!MessageQueue.Exists(string.Format(ConstValue.MSMQPathToUI, ".")))
                 {
                     MQueue = MessageQueue.Create(string.Format(ConstValue.MSMQPathToUI, "."));
-                    MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl);    //MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
-                    MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl);
+                    MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl, AccessControlEntryType.Set);    //MQueue.SetPermissions("Administrators", MessageQueueAccessRights.FullControl);
+                    MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl, AccessControlEntryType.Set);
+                    MQueue.SetPermissions("SYSTEM", MessageQueueAccessRights.FullControl, AccessControlEntryType.Set);
+                    MQueue.SetPermissions(Environment.UserName, MessageQueueAccessRights.FullControl, AccessControlEntryType.Set);
                     MQueue.Label = "GCGprsMSMQ";
                 }
             }
