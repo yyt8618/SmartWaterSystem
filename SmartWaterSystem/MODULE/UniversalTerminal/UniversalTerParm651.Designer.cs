@@ -1682,14 +1682,14 @@ namespace SmartWaterSystem
             // 
             // combPrecipitationConstantCtrl
             // 
-            this.combPrecipitationConstantCtrl.EditValue = "定值控制投入";
+            this.combPrecipitationConstantCtrl.EditValue = "GPRS数据传送";
             this.combPrecipitationConstantCtrl.Location = new System.Drawing.Point(5, 17);
             this.combPrecipitationConstantCtrl.Name = "combPrecipitationConstantCtrl";
             this.combPrecipitationConstantCtrl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.combPrecipitationConstantCtrl.Properties.Items.AddRange(new object[] {
-            "定值控制投入(FF)",
-            "定值控制投出(00)",
+            "GPRS数据传送(FF)",
+            "串口数据传送(00)",
             "链路维持报(2F)",
             "测试报(30)",
             "均匀时段报(31)",

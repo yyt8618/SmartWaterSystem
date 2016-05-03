@@ -1432,15 +1432,35 @@ namespace GCGPRSService
                                                 pack_time.C1 = (byte)OLWQ_COMMAND.SET_TIME;
                                             else if (pack.DevType == Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL)
                                                 pack_time.C1 = (byte)HYDRANT_COMMAND.SET_TIME;
-                                            byte[] data = new byte[6];
-                                            data[0] = (byte)(DateTime.Now.Year - 2000);
-                                            data[1] = (byte)DateTime.Now.Month;
-                                            data[2] = (byte)DateTime.Now.Day;
-                                            data[3] = (byte)DateTime.Now.Hour;
-                                            data[4] = (byte)DateTime.Now.Minute;
-                                            data[5] = (byte)DateTime.Now.Second;
-                                            pack_time.DataLength = data.Length;
-                                            pack_time.Data = data;
+
+                                            byte[] data = null;
+                                            if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)  //压力控制器多三个字节,1byte(密码权限=1)+2bytes(管理密码)+6byte(时间数据)，暂时写死
+                                            {
+                                                data = new byte[9];
+                                                data[0] = 0x01;
+                                                data[1] = 0x00;
+                                                data[2] = 0x00;
+                                                data[3] = (byte)(DateTime.Now.Year - 2000);
+                                                data[4] = (byte)DateTime.Now.Month;
+                                                data[5] = (byte)DateTime.Now.Day;
+                                                data[6] = (byte)DateTime.Now.Hour;
+                                                data[7] = (byte)DateTime.Now.Minute;
+                                                data[8] = (byte)DateTime.Now.Second;
+                                                pack_time.DataLength = data.Length;
+                                                pack_time.Data = data;
+                                            }
+                                            else
+                                            {
+                                                data = new byte[6];
+                                                data[0] = (byte)(DateTime.Now.Year - 2000);
+                                                data[1] = (byte)DateTime.Now.Month;
+                                                data[2] = (byte)DateTime.Now.Day;
+                                                data[3] = (byte)DateTime.Now.Hour;
+                                                data[4] = (byte)DateTime.Now.Minute;
+                                                data[5] = (byte)DateTime.Now.Second;
+                                                pack_time.DataLength = data.Length;
+                                                pack_time.Data = data;
+                                            }
                                             //pack_time.CS = pack_time.CreateCS();
 
                                             lstCommandPack.Add(pack_time);

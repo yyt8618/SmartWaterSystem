@@ -622,7 +622,7 @@ namespace SmartWaterSystem
             }
             if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.Universal651SetPreConstCtrl)
             {
-                #region 设置水量定值控制命令
+                #region 设置定值控制命令
                 OnSerialPortNotifyEnable();
                 if (e.TransactStatus == TransStatus.Success)
                 {
@@ -630,14 +630,14 @@ namespace SmartWaterSystem
                     {
                         Universal651SerialPortEntity spEntity = (Universal651SerialPortEntity)e.Tag;
                         if (!spEntity.IsSPLoop)
-                            XtraMessageBox.Show("设置水量定值控制命令成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            XtraMessageBox.Show("设置定值控制命令成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
-                        XtraMessageBox.Show("设置水量定值控制命令成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        XtraMessageBox.Show("设置定值控制命令成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    XtraMessageBox.Show("设置水量定值控制命令失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show("设置定值控制命令失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 #endregion
             }
@@ -2139,8 +2139,8 @@ namespace SmartWaterSystem
 
                 pack.AddrFlag = PackageDefine.AddrFlagHeader;
 
-                /*定值控制投入
-                定值控制投出
+                /*GPRS远程
+                串口数据
                 链路维持报(2F)
                 测试报(30)
                 均匀时段报(31)
@@ -2150,11 +2150,11 @@ namespace SmartWaterSystem
                 人工置数报(35)*/
                 switch(combPrecipitationConstantCtrl.SelectedIndex)
                 {
-                    case 0:     //定值控制投入
-                        pack.Data = new byte[] { 0xFF };   //投入
+                    case 0:     //GPRS数据接收
+                        pack.Data = new byte[] { 0xFF };
                         break;
-                    case 1:     //定值控制投出
-                        pack.Data = new byte[] { 0x00 };   //投出
+                    case 1:     //串口数据接收
+                        pack.Data = new byte[] { 0x00 };
                         break;
                     case 2:
                         pack.Data = new byte[] { 0x2F };
@@ -2186,7 +2186,7 @@ namespace SmartWaterSystem
                 pack.L0 = lens[0];
                 pack.L1 = lens[1];
 
-                ButtonSend("正在设置水量定值控制...", SerialPortType.Universal651SetPreConstCtrl, pack, PackageDefine.ENQ);
+                ButtonSend("正在设置定值控制...", SerialPortType.Universal651SetPreConstCtrl, pack, PackageDefine.ENQ);
             }
         }
 
