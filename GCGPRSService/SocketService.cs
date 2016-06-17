@@ -164,29 +164,30 @@ namespace GCGPRSService
                         }
                         //在线检查
                         bool add = false;
-                        if (client.ClientSocket != null && client.ClientSocket.Connected)
-                        {
-                            try
-                            {
-                                if (client.ClientSocket.Poll(1, SelectMode.SelectRead))
-                                {
-                                    //byte[] temp = new byte[1024];
-                                    //int nRead = client.ClientSocket.Receive(temp);
-                                    //if (nRead == 0)
-                                    //{
+                        add = IsSocketConnected_Poll(client.ClientSocket);
+                        //if (client.ClientSocket != null && client.ClientSocket.Connected)
+                        //{
+                        //    try
+                        //    {
+                        //        if (client.ClientSocket.Poll(1, SelectMode.SelectRead))
+                        //        {
+                        //            //byte[] temp = new byte[1024];
+                        //            //int nRead = client.ClientSocket.Receive(temp);
+                        //            //if (nRead == 0)
+                        //            //{
 
-                                    //}
-                                    //else
-                                    //    add = true;
-                                }
-                                else
-                                    add = true;
-                            }
-                            catch
-                            {
-                                add = false;
-                            }
-                        }
+                        //            //}
+                        //            //else
+                        //            //    add = true;
+                        //        }
+                        //        else
+                        //            add = true;
+                        //    }
+                        //    catch
+                        //    {
+                        //        add = false;
+                        //    }
+                        //}
 
                         if (add && client.TerId!=-1)
                         {
@@ -354,35 +355,44 @@ namespace GCGPRSService
 
         private void AcceptCallback(IAsyncResult ar)
         {
+            StateObject state = new StateObject();
             Socket handler = null;
             try
             {   
                 allDone.Set(); 
                 Socket listener = (Socket)ar.AsyncState;
                 handler = listener.EndAccept(ar);
-                StateObject state = new StateObject();
+                
                 //OnSendMsg(new SocketEventArgs("AcceptCallback线程ID为:  " + Thread.CurrentThread.ManagedThreadId.ToString()));
                 state.workSocket = handler;
-                handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                //handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                 //listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
             }
             catch (Exception ex)
             {
                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收错误:" + ex.Message));
                 logger.ErrorException("AcceptCallback",ex);
-                try
-                {
-                    if (handler != null)
-                    {
-                        handler.Shutdown(SocketShutdown.Both);
-                        handler.Close();
-                    }
+                //try
+                //{
+                //    if (handler != null)
+                //    {
+                //        handler.Shutdown(SocketShutdown.Both);
+                //        handler.Close();
+                //    }
+                //}
+                //catch (Exception ex1)
+                //{
+                //    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收错误(关闭异常):" + ex1.Message));
+                //    logger.ErrorException("AcceptCallback",ex1);
+                //}
+            }
+            finally
+            {
+                try {
+                    if(handler!=null)
+                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                 }
-                catch (Exception ex1)
-                {
-                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收错误(关闭异常):" + ex1.Message));
-                    logger.ErrorException("AcceptCallback",ex1);
-                }
+                catch { }
             }
         }
 
@@ -394,7 +404,7 @@ namespace GCGPRSService
             try
             {
                 // Read data from the client socket. 
-                if (!handler.Connected)
+                if (!IsSocketConnected_Poll(handler))
                     return;
                 bytesRead = handler.EndReceive(ar);
                 if (bytesRead > 0)
@@ -406,11 +416,16 @@ namespace GCGPRSService
                     {
                         ReceiveBytes.Add(state.buffer[i]); 
                     }
+
+                    string str_source = ConvertHelper.ByteToString(state.buffer, bytesRead);
+                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收客户端"+ handler.RemoteEndPoint.ToString() + ", 收到(原始)数据:" + str_source));
+
                     int index = 0;
                     while (index < bytesRead)
                     {
                         packageBytes.Add(ReceiveBytes[index]);
                         packageBytes = FormatHelper.CheckHead(packageBytes);  //检查数据头
+                        #region 68开头协议
                         if (ReceiveBytes[index] == PackageDefine.EndByte && packageBytes.Count >= PackageDefine.MinLenth)
                         {
                             byte[] arr = packageBytes.ToArray();
@@ -533,7 +548,11 @@ namespace GCGPRSService
                                                 GPRSPreDataEntity data = new GPRSPreDataEntity();
                                                 data.PreValue = pressuevalue;
                                                 data.Voltage = volvalue;
-                                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                try
+                                                {
+                                                    data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                }
+                                                catch { data.ColTime = ConstValue.MinDateTime; }
                                                 bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                 framedata.lstPreData.Add(data);
                                             }
@@ -636,7 +655,11 @@ namespace GCGPRSService
                                                 data.Reverse_FlowValue = reverse_flowvalue;
                                                 data.Instant_FlowValue = instant_flowvalue;
                                                 data.Voltage = volvalue;
-                                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                try
+                                                {
+                                                    data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                }
+                                                catch { data.ColTime = ConstValue.MinDateTime; }
                                                 bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                 framedata.lstFlowData.Add(data);
                                             }
@@ -682,7 +705,10 @@ namespace GCGPRSService
                                             {
                                                 volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
                                             }
-
+                                            if (month == 0)
+                                                month = 1;
+                                            if (day == 0)
+                                                day = 1;
                                             bNeedCheckTime = NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
                                             OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}]{1}|时间({2})|电压值:{3}V",
                                                  pack.DevID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
@@ -780,7 +806,11 @@ namespace GCGPRSService
                                                 if (!string.IsNullOrEmpty(data.AlarmDesc))
                                                     data.AlarmDesc += ",";
                                                 data.AlarmDesc += alarm;   //存放两个报警信息
-                                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                try
+                                                {
+                                                    data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                }
+                                                catch { data.ColTime = ConstValue.MinDateTime; }
                                                 bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                 framedata.lstPrectrlData.Add(data);
                                             }
@@ -1223,7 +1253,11 @@ namespace GCGPRSService
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}{5}",
                                                     dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value, unit)));
 
-                                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                try
+                                                {
+                                                    data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                }
+                                                catch { data.ColTime = ConstValue.MinDateTime; }
                                                 bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                 framedata.lstOLWQData.Add(data);
                                             }
@@ -1268,7 +1302,11 @@ namespace GCGPRSService
                                                 data.Conductivity = Condvalue;
                                                 data.Temperature = Tempvalue;
                                                 data.ValueColumnName = "Conductivity";
-                                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                try
+                                                {
+                                                    data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                }
+                                                catch { data.ColTime = ConstValue.MinDateTime; }
                                                 bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                 framedata.lstOLWQData.Add(data);
                                             }
@@ -1295,7 +1333,11 @@ namespace GCGPRSService
                                         sec = Convert.ToInt16(pack.Data[5]);
 
                                         GPRSHydrantDataEntity data = new GPRSHydrantDataEntity();
-                                        data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                        try
+                                        {
+                                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                        }
+                                        catch { data.ColTime = ConstValue.MinDateTime; }
                                         bNeedCheckTime = NeedCheckTime(data.ColTime);
 
                                         if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPEN)
@@ -1522,7 +1564,7 @@ namespace GCGPRSService
                                         sendObj.IsFinal = pack.IsFinal;
                                         sendObj.DevType = pack.DevType;
                                         sendObj.DevID = pack.DevID;
-                                        if (handler != null && handler.Connected)
+                                        if (handler != null && IsSocketConnected_Poll(handler))
                                             handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                     }
                                     #endregion
@@ -1531,11 +1573,13 @@ namespace GCGPRSService
                                     //{
                                     //    currentSocketEntity.lstWaitSendCmd = new List<Package>();
                                     //}
-                                    if (handler != null && handler.Connected)
-                                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                    //if (handler != null && IsSocketConnected_Poll(handler))
+                                    //    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                                 }
                             }
                         }
+                        #endregion
+                        #region SL651协议
                         if (packageBytes.Count >= PackageDefine.MinLenth651 && (packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte651 || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte_Continue))
                         {
                             bool need_response = true;    //是否回复回应帧(连续几个帧，只回最后一个帧)
@@ -1722,7 +1766,7 @@ namespace GCGPRSService
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
-                                                Thread.Sleep(500);  //1
+                                                //Thread.Sleep(500);  //1
                                                 Send651(handler, bsenddata);
                                             }
 
@@ -1825,7 +1869,7 @@ namespace GCGPRSService
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
-                                                Thread.Sleep(500); //3
+                                                //Thread.Sleep(500); //3
                                                 Send651(handler, bsenddata);
                                             }
                                         }
@@ -1834,7 +1878,7 @@ namespace GCGPRSService
 
                                     try
                                     {
-                                        if (handler != null && handler.Connected)
+                                        if (handler != null && IsSocketConnected_Poll(handler))
                                             handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                                     }
                                     catch { };
@@ -1849,16 +1893,18 @@ namespace GCGPRSService
                                     byte[] arr = packageBytes.ToArray();
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 收到错误帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
 
-                                    try
-                                    {
-                                        if(handler!=null)
-                                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
-                                    }
-                                    catch { };
+                                    //try
+                                    //{
+                                    //    if(handler!=null)
+                                    //    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                    //}
+                                    //catch { };
                                 }
                             }
                             #endregion
                         }
+                        #endregion
+
                         index++;
                     }
                 }
@@ -1911,11 +1957,20 @@ namespace GCGPRSService
                 logger.ErrorException("ReadCallback", ex);
                 try
                 {
-                    handler.Shutdown(SocketShutdown.Both);
-                    Thread.Sleep(5);
-                    handler.Close();
+                    //handler.Shutdown(SocketShutdown.Both);
+                    //Thread.Sleep(5);
+                    //handler.Close();
                 }
                 catch { }
+            }
+            finally
+            {
+                try
+                {
+                    if (handler != null && IsSocketConnected_Poll(handler))
+                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                }
+                catch { };
             }
         }
 
@@ -1924,7 +1979,7 @@ namespace GCGPRSService
             try
             {
                 Socket handler = ((SendObject)ar.AsyncState).workSocket;
-                if (handler != null && handler.Connected)
+                if (handler != null && IsSocketConnected_Poll(handler))
                 {
                     int bytesSent = handler.EndSend(ar);
 
@@ -2305,6 +2360,82 @@ namespace GCGPRSService
             }
         }
 
+        // 检查一个Socket是否可连接  
+        //private bool IsSocketConnected_Send(Socket socket)
+        //{
+        //    #region remarks
+        //    /********************************************************************************************
+        //     * 当Socket.Conneted为false时， 如果您需要确定连接的当前状态，请进行非阻塞、零字节的 Send 调用。
+        //     * 如果该调用成功返回或引发 WAEWOULDBLOCK 错误代码 (10035)，则该套接字仍然处于连接状态；
+        //     * 否则，该套接字不再处于连接状态。
+        //     * Depending on http://msdn.microsoft.com/zh-cn/library/system.net.sockets.socket.connected.aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2
+        //    ********************************************************************************************/
+        //    #endregion
+
+        //    #region 过程
+        //    // This is how you can determine whether a socket is still connected.
+        //    bool connectState = true;
+        //    bool blockingState = socket.Blocking;
+        //    try
+        //    {
+        //        byte[] tmp = new byte[1];
+
+        //        socket.Blocking = false;
+        //        socket.Send(tmp, 0, 0);
+        //        //Console.WriteLine("Connected!");
+        //        connectState = true; //若Send错误会跳去执行catch体，而不会执行其try体里其之后的代码
+        //    }
+        //    catch (SocketException e)
+        //    {
+        //        // 10035 == WSAEWOULDBLOCK
+        //        if (e.NativeErrorCode.Equals(10035))
+        //        {
+        //            //Console.WriteLine("Still Connected, but the Send would block");
+        //            connectState = true;
+        //        }
+
+        //        else
+        //        {
+        //            //Console.WriteLine("Disconnected: error code {0}!", e.NativeErrorCode);
+        //            connectState = false;
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        socket.Blocking = blockingState;
+        //    }
+
+        //    //Console.WriteLine("Connected: {0}", client.Connected);
+        //    return connectState;
+        //    #endregion
+        //}
+
+        bool IsSocketConnected_Poll(Socket socket)
+        {
+            #region remarks
+            /* As zendar wrote, it is nice to use the Socket.Poll and Socket.Available, but you need to take into conside                ration
+             * that the socket might not have been initialized in the first place.
+             * This is the last (I believe) piece of information and it is supplied by the Socket.Connected property.
+             * The revised version of the method would looks something like this:
+             * from：http://stackoverflow.com/questions/2661764/how-to-check-if-a-socket-is-connected-disconnected-in-c */
+            #endregion
+
+            #region 过程
+
+            return !((socket.Poll(1000, SelectMode.SelectRead) && (socket.Available == 0)) || !socket.Connected);
+            /* The long, but simpler-to-understand version:
+
+                    bool part1 = s.Poll(1000, SelectMode.SelectRead);
+                    bool part2 = (s.Available == 0);
+                    if ((part1 && part2 ) || !s.Connected)
+                        return false;
+                    else
+                        return true;
+
+            */
+            #endregion
+        }
+
         public void Send651Cmd(Package651 pack)
         {
             if (lstClient == null)
@@ -2330,21 +2461,22 @@ namespace GCGPRSService
                             }
                         }
                         bool isOnline = false;
-                        if (sock.ClientSocket != null && sock.ClientSocket.Connected)
-                        {
-                            try
-                            {
-                                if (sock.ClientSocket.Poll(1, SelectMode.SelectRead))
-                                {
-                                }
-                                else
-                                    isOnline = true;
-                            }
-                            catch
-                            {
-                                isOnline = false;
-                            }
-                        }
+                        isOnline = IsSocketConnected_Poll(sock.ClientSocket);
+                        //if (sock.ClientSocket != null && sock.ClientSocket.Connected)
+                        //{
+                        //    try
+                        //    {
+                        //        if (sock.ClientSocket.Poll(1, SelectMode.SelectRead))
+                        //        {
+                        //        }
+                        //        else
+                        //            isOnline = true;
+                        //    }
+                        //    catch
+                        //    {
+                        //        isOnline = false;
+                        //    }
+                        //}
                         bool issend = false;  //是否已发送
                         if (isOnline)
                         {

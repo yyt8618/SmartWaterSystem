@@ -99,7 +99,7 @@ namespace GCGPRSService
 
                     #region test
                     //UploadFlowDataReqEntity testentity = new UploadFlowDataReqEntity();
-                    //testentity.action="uploadflowdata";
+                    //testentity.action = "uploadflowdata";
                     //testentity.TerData = new List<UpLoadFlowDataEntity>();
                     //UpLoadFlowDataEntity testdata1 = new UpLoadFlowDataEntity();
                     //testdata1.terid = "1";
@@ -109,8 +109,8 @@ namespace GCGPRSService
                     //testdata1.collTime = DateTime.Now.ToString();
                     //testentity.TerData.Add(testdata1);
                     //string strttt = SmartWaterSystem.JSONSerialize.JsonSerialize<UploadFlowDataReqEntity>(testentity);
-                    //long timestamp =0;
-                    //TimeSpan tsp =(TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)));
+                    //long timestamp = 0;
+                    //TimeSpan tsp = (TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)));
                     //timestamp = (long)tsp.TotalMilliseconds;
                     //string md51 = MD5Encrypt.MD5(System.Web.HttpUtility.UrlEncode(strttt + timestamp + Settings.Instance.GetString(SettingKeys.HTTPMD5Key)).ToLower());
                     //HTTPEntity ttpentity = new HTTPEntity();
