@@ -39,8 +39,10 @@ namespace SmartWaterSystem
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnRefurbish = new System.Windows.Forms.Button();
+            this.btnSocketConnect = new System.Windows.Forms.Button();
+            this.picSockConnect = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClear
@@ -150,7 +152,8 @@ namespace SmartWaterSystem
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.panel1.Controls.Add(this.btnRefurbish);
+            this.panel1.Controls.Add(this.picSockConnect);
+            this.panel1.Controls.Add(this.btnSocketConnect);
             this.panel1.Controls.Add(this.cbErrs);
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.cbSerialPort);
@@ -161,23 +164,33 @@ namespace SmartWaterSystem
             this.panel1.Size = new System.Drawing.Size(766, 32);
             this.panel1.TabIndex = 5;
             // 
-            // btnRefurbish
+            // btnSocketConnect
             // 
-            this.btnRefurbish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefurbish.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnRefurbish.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnRefurbish.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnRefurbish.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnRefurbish.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnRefurbish.Location = new System.Drawing.Point(656, 3);
-            this.btnRefurbish.Name = "btnRefurbish";
-            this.btnRefurbish.Size = new System.Drawing.Size(52, 23);
-            this.btnRefurbish.TabIndex = 0;
-            this.btnRefurbish.TabStop = false;
-            this.btnRefurbish.Text = "刷新";
-            this.btnRefurbish.UseVisualStyleBackColor = false;
-            this.btnRefurbish.Visible = false;
-            this.btnRefurbish.Click += new System.EventHandler(this.btnRefurbish_Click);
+            this.btnSocketConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSocketConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnSocketConnect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnSocketConnect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnSocketConnect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnSocketConnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnSocketConnect.Location = new System.Drawing.Point(656, 3);
+            this.btnSocketConnect.Name = "btnSocketConnect";
+            this.btnSocketConnect.Size = new System.Drawing.Size(52, 23);
+            this.btnSocketConnect.TabIndex = 0;
+            this.btnSocketConnect.TabStop = false;
+            this.btnSocketConnect.Text = "连接";
+            this.btnSocketConnect.UseVisualStyleBackColor = false;
+            this.btnSocketConnect.Click += new System.EventHandler(this.btnSocketConnect_Click);
+            // 
+            // picSockConnect
+            // 
+            this.picSockConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            this.picSockConnect.InitialImage = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            this.picSockConnect.Location = new System.Drawing.Point(609, 5);
+            this.picSockConnect.Name = "picSockConnect";
+            this.picSockConnect.Size = new System.Drawing.Size(41, 20);
+            this.picSockConnect.TabIndex = 5;
+            this.picSockConnect.TabStop = false;
             // 
             // FrmConsole
             // 
@@ -197,6 +210,7 @@ namespace SmartWaterSystem
             this.Load += new System.EventHandler(this.FrmConsole_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,6 +226,7 @@ namespace SmartWaterSystem
         private CheckBox cbSerialPort;
         private CheckBox cbErrs;
         private Panel panel1;
-        private Button btnRefurbish;
+        private Button btnSocketConnect;
+        private PictureBox picSockConnect;
     }
 }

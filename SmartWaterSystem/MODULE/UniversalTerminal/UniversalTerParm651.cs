@@ -38,8 +38,8 @@ namespace SmartWaterSystem
 
         void timer_GetWaitCmd_Tick(object sender, EventArgs e)
         {
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
+            GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
+            GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
         }
 
         private void UniversalTerParm651_Load(object sender, EventArgs e)
@@ -85,7 +85,7 @@ namespace SmartWaterSystem
             btnSetTimeintervalReportTime.Enabled = Enabled;
         }
 
-        void MSMQMgr_MSMQEvent(object sender, MSMQEventArgs e)
+        void MSMQMgr_MSMQEvent(object sender, SocketEventArgs e)
         {
             if (e.msmqEntity != null && e.msmqEntity.MsgType == ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag)  //获取SL651协议终端是否允许在线标志
             {
@@ -968,10 +968,10 @@ namespace SmartWaterSystem
             else   //GPRS
             {
                 pack.End = End;
-                MSMQEntity msmqentity = new MSMQEntity();
+                SocketEntity msmqentity = new SocketEntity();
                 msmqentity.MsgType = ConstValue.MSMQTYPE.SL651_Cmd;
                 msmqentity.Pack651 = pack;
-                GlobalValue.MSMQMgr.SendMessage(msmqentity);
+                GlobalValue.SocketMgr.SendMessage(msmqentity);
             }
         }
 
@@ -2201,7 +2201,7 @@ namespace SmartWaterSystem
                 string a4 = gridView_WaitCmd.GetRowCellValue(selectrows[0], "A4").ToString();
                 string a5 = gridView_WaitCmd.GetRowCellValue(selectrows[0], "A5").ToString();
                 string funcode = gridView_WaitCmd.GetRowCellValue(selectrows[0], "funcode").ToString();
-                MSMQEntity msmqentity = new MSMQEntity();
+                SocketEntity msmqentity = new SocketEntity();
                 msmqentity.A1 = Convert.ToByte(a1.Replace("0x",""), 16);
                 msmqentity.A2 = Convert.ToByte(a2.Replace("0x", ""), 16);
                 msmqentity.A3 = Convert.ToByte(a3.Replace("0x", ""), 16);
@@ -2209,7 +2209,7 @@ namespace SmartWaterSystem
                 msmqentity.A5 = Convert.ToByte(a5.Replace("0x", ""), 16);
                 msmqentity.SL651Funcode = Convert.ToByte(funcode.Replace("0x", ""), 16);
                 msmqentity.MsgType = ConstValue.MSMQTYPE.Del_SL651_WaitSendCmd;
-                GlobalValue.MSMQMgr.SendMessage(msmqentity);
+                GlobalValue.SocketMgr.SendMessage(msmqentity);
             }
         }
 
@@ -2576,7 +2576,7 @@ namespace SmartWaterSystem
         private void cbIsOnLine_CheckedChanged(object sender, EventArgs e)
         {
             if (!SwitchComunication.IsOn)  //SerialPort
-                GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
+                GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString()));
             else
                 GlobalValue.SerialPortMgr.SL651AllowOnLine = cbIsOnLine.Checked;
         }
@@ -2596,13 +2596,13 @@ namespace SmartWaterSystem
         private void SetGprsCtrlStatus()
         {
             ButtonEnabled(true);
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));  
+            GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));  
             //GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, ""));      //获取待发送SL651命令
-            GlobalValue.MSMQMgr.SendMessage(new MSMQEntity(ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString())); //设置SL651协议终端是否允许在线标志
+            GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag, cbIsOnLine.Checked.ToString())); //设置SL651协议终端是否允许在线标志
             timer_GetWaitCmd.Enabled = true;  //启用查询GPRS待发送命令定时器 10s
 
-            GlobalValue.MSMQMgr.MSMQEvent -= new MSMQHandler(MSMQMgr_MSMQEvent);
-            GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+            GlobalValue.SocketMgr.SockMsgEvent -= new SocketHandler(MSMQMgr_MSMQEvent);
+            GlobalValue.SocketMgr.SockMsgEvent += new SocketHandler(MSMQMgr_MSMQEvent);
 
             group_waitcmd.Visible = true;
             group_manualSetParm.Visible = false;
@@ -2622,7 +2622,7 @@ namespace SmartWaterSystem
             cbIsOnLine.Enabled = true;
             this.cbIsOnLine.CheckedChanged += new System.EventHandler(this.cbIsOnLine_CheckedChanged);
 
-            GlobalValue.MSMQMgr.MSMQEvent -= new MSMQHandler(MSMQMgr_MSMQEvent);
+            GlobalValue.SocketMgr.SockMsgEvent -= new SocketHandler(MSMQMgr_MSMQEvent);
         }
 
         private void cbParm1h5minWaterLevel_CheckedChanged(object sender, EventArgs e)

@@ -46,22 +46,22 @@ namespace GCGPRSService
         {
             if (string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.HTTPServiceURL)))
             {
-                OnReceiveMsg(DateTime.Now.ToString() + " 启动HTTP服务失败,URL为空");
+                GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " 启动HTTP服务失败,URL为空");
                 return;
             }
             if (string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.HTTPMD5Key)))
             {
-                OnReceiveMsg(DateTime.Now.ToString() + " 启动HTTP服务失败,MD5 Key为空");
+                GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " 启动HTTP服务失败,MD5 Key为空");
                 return;
             }
             listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
             listener.Prefixes.Add(Settings.Instance.GetString(SettingKeys.HTTPServiceURL));
-            OnReceiveMsg(DateTime.Now.ToString() + " 启动HTTP服务,URL:" + Settings.Instance.GetString(SettingKeys.HTTPServiceURL));
+            GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " 启动HTTP服务,URL:" + Settings.Instance.GetString(SettingKeys.HTTPServiceURL));
             isrun = true;
             Thread t = new Thread(new ThreadStart(ServiceThread));
             listener.Start();
             t.Start();
-            OnReceiveMsg(DateTime.Now.ToString() + " 开启HTTP接收线程完成!");
+            GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " 开启HTTP接收线程完成!");
         }
 
         public void Stop()
@@ -69,7 +69,7 @@ namespace GCGPRSService
             isrun = false;
             listener.Close();
 
-            OnReceiveMsg("停止HTTP服务...");
+            GlobalValue.Instance.lstStartRecord.Add("停止HTTP服务...");
         }
 
         public virtual void OnReceiveMsg(string str)
@@ -152,7 +152,7 @@ namespace GCGPRSService
                             {
                                 strrequest = System.Web.HttpUtility.UrlDecode(strrequest, Encoding.UTF8); //UrlDecode
                                 OnReceiveMsg("接收到请求[" + DateTime.Now.ToString() + "]:" + strrequest);
-                                HTTPEntity httpentity = SmartWaterSystem.JSONSerialize.JsonDeserialize<HTTPEntity>(strrequest);  //jsondeSerialize
+                                HTTPEntity httpentity = JSONSerialize.JsonDeserialize_Newtonsoft<HTTPEntity>(strrequest);  //jsondeSerialize
 
                                 if (httpentity == null)
                                 {
@@ -209,13 +209,13 @@ namespace GCGPRSService
                                             break;
                                         case "uploadnoisedata":  //上传噪声数据
                                             str_resp_err = "";
-                                            UploadNoiseDataReqEntity parmentity = SmartWaterSystem.JSONSerialize.JsonDeserialize<UploadNoiseDataReqEntity>(httpentity.Params);
+                                            UploadNoiseDataReqEntity parmentity = SmartWaterSystem.JSONSerialize.JsonDeserialize_Newtonsoft<UploadNoiseDataReqEntity>(httpentity.Params);
                                             HTTPRespEntity uploadrespentity = bll.UploadGroups(parmentity.TerData);
                                             str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                             break;
                                         case "uploadflowdata":  //未使用
                                             str_resp_err = "";
-                                            UploadFlowDataReqEntity parmflowentity = SmartWaterSystem.JSONSerialize.JsonDeserialize<UploadFlowDataReqEntity>(httpentity.Params);
+                                            UploadFlowDataReqEntity parmflowentity = SmartWaterSystem.JSONSerialize.JsonDeserialize_Newtonsoft<UploadFlowDataReqEntity>(httpentity.Params);
                                             
                                             if(parmflowentity!=null && parmflowentity.TerData!=null)
                                             {

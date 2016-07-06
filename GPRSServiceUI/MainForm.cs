@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
-using System.Messaging;
 using System.ServiceProcess;
 using Microsoft.Data.ConnectionUI;
 using System.Text.RegularExpressions;
@@ -18,7 +17,7 @@ namespace GPRSServiceUI
         private const int MaxLine = 1001;
 
         Thread t1;
-        string QueuePath = ".\\private$\\GcGPRSToUI";
+        //string QueuePath = ".\\private$\\GcGPRSToUI";
 
         public MainForm()
         {
@@ -132,48 +131,37 @@ namespace GPRSServiceUI
 
                 SetButtonStatus(serviceController1);
 
-                if (serviceController1 != null)
-                {
-                    serviceController1.Refresh();
+                //if (serviceController1 != null)
+                //{
+                //    serviceController1.Refresh();
+                //    MessageQueue MQueue;
 
-                    //if (serviceController1.Status != ServiceControllerStatus.Running)
-                    //{
-                    //    if (MessageQueue.Exists(QueuePath))
-                    //    {
-                    //        MessageQueue.Delete(QueuePath);
-                    //    }
+                //    if (MessageQueue.Exists(QueuePath))
+                //    {
+                //        MQueue = new MessageQueue(QueuePath);
+                //    }
+                //    else
+                //    {
+                //        MQueue = MessageQueue.Create(QueuePath);
+                //        MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl);
+                //        MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl);
 
-                    //    continue;
-                    //}
+                //        MQueue.Label = "GCGprsMSMQ";
+                //    }
 
-                    MessageQueue MQueue;
+                //    //一次读取全部消息,但是不去除读过的消息
+                //    System.Messaging.Message[] Msg = MQueue.GetAllMessages();
+                //    //删除所有消息
+                //    MQueue.Purge();
 
-                    if (MessageQueue.Exists(QueuePath))
-                    {
-                        MQueue = new MessageQueue(QueuePath);
-                    }
-                    else
-                    {
-                        MQueue = MessageQueue.Create(QueuePath);
-                        MQueue.SetPermissions("Everyone", MessageQueueAccessRights.FullControl);
-                        MQueue.SetPermissions("ANONYMOUS LOGON", MessageQueueAccessRights.FullControl);
-
-                        MQueue.Label = "GCGprsMSMQ";
-                    }
-
-                    //一次读取全部消息,但是不去除读过的消息
-                    System.Messaging.Message[] Msg = MQueue.GetAllMessages();
-                    //删除所有消息
-                    MQueue.Purge();
-
-                    foreach (System.Messaging.Message m in Msg)
-                    {
-                        m.Formatter = new BinaryMessageFormatter();
-                        MSMQEntity msmqEntity = (MSMQEntity)m.Body;
-                        if (msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_Public || msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_HTTP || msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_Socket)
-                            SetCtrlMsg(msmqEntity.Msg + "\r\n");
-                    }
-                }
+                //    foreach (System.Messaging.Message m in Msg)
+                //    {
+                //        m.Formatter = new BinaryMessageFormatter();
+                //        SocketEntity msmqEntity = (SocketEntity)m.Body;
+                //        if (msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_Public || msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_HTTP || msmqEntity.MsgType == ConstValue.MSMQTYPE.Msg_Socket)
+                //            SetCtrlMsg(msmqEntity.Msg + "\r\n");
+                //    }
+                //}
             }
         }
 

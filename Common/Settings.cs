@@ -14,19 +14,10 @@ namespace Common
         public const string Time = "Time";
         public const string SerialPort = "SerialPort";
         public const string BaudRate = "BaudRate";
-        //public const string Max1 = "Max1";
-        //public const string Max2 = "Max2";
-        //public const string Min1 = "Min1";
-        //public const string Min2 = "Min2";
-        //public const string LeakHZ_Template = "LeakHZ_Template";
-        //public const string MaxStandardAMP = "MaxStandardAMP";
-        //public const string MinStandardAMP = "MinStandardAMP";
-        //public const string DCComponentLen = "DCComponentLen";
         public const string Calc = "Calc";
         public const string ComTime_Template = "ComTime_Template";
         public const string RecTime_Template = "RecTime_Template";
         public const string Span_Template = "Span_Template";
-        //public const string LeakValue_Template = "LeakValue_Template";
         public const string Power_Template = "Power_Template";
         public const string ControlPower_Template = "ControlPower_Template";
         public const string Port_Template = "Port_Template";
@@ -57,11 +48,7 @@ namespace Common
         /// 服务监控是否打开
         /// </summary>
         public const string ServiceMonitorEnable = "ServiceMonitorEnable";
-
-        /// <summary>
-        /// MSMQ IP地址
-        /// </summary>
-        public const string MSMQIpAddr = "MSMQAddr";
+        
         /// <summary>
         /// HTTP服务地址
         /// </summary>
@@ -94,7 +81,6 @@ namespace Common
             {SettingKeys.GPRS_PORT,""},
             {SettingKeys.CallDataEnable,"false"},
             {SettingKeys.ServiceMonitorEnable,"true"},
-            {SettingKeys.MSMQIpAddr,""},
             {SettingKeys.HTTPServiceURL,""},
             {SettingKeys.HTTPReqSuviceTime, "30"}
         };

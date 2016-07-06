@@ -254,9 +254,9 @@
             // 
             // barBtnMSMQSetting
             // 
-            this.barBtnMSMQSetting.Caption = "MSMQ";
+            this.barBtnMSMQSetting.Caption = "Socket";
             this.barBtnMSMQSetting.Id = 33;
-            this.barBtnMSMQSetting.LargeGlyph = global::SmartWaterSystem.Properties.Resources.MSMQ;
+            this.barBtnMSMQSetting.LargeGlyph = global::SmartWaterSystem.Properties.Resources.Socket;
             this.barBtnMSMQSetting.Name = "barBtnMSMQSetting";
             this.barBtnMSMQSetting.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnMSMQSetting_ItemClick);
             // 

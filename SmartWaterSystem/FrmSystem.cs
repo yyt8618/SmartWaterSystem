@@ -166,25 +166,22 @@ namespace SmartWaterSystem
 
                 GlobalValue.SerialPortMgr.SerialPortEvent += new SerialPortHandle(SerialPortMgr_SerialPortEvent);
                 GlobalValue.SerialPortMgr.Start();
-
-                //检查消息队列是否按照
-                if (string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.MSMQIpAddr)))
-                {
-                    XtraMessageBox.Show("未设置MSMQ地址,远传终端监控和招测将不能使用!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
+                
+                //if (string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.GPRS_IP))|| string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.GPRS_PORT)))
+                //{
+                //    XtraMessageBox.Show("未设置Socket地址,远传终端监控和招测将不能使用!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //}
+                //else
+                //{
                     try
                     {
-                        //if (MessageQueue.Exists(string.Format("FormatName:Direct=TCP:"+ConstValue.MSMQPathToUI,Settings.Instance.GetString(SettingKeys.MSMQIpAddr)))) ;
-
-                        GlobalValue.MSMQMgr.Start();
+                        GlobalValue.SocketMgr.Start();
                     }
                     catch (InvalidOperationException ex)
                     {
                         XtraMessageBox.Show(ex.Message + ",远传终端监控和招测将不能使用!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                }
+                //}
 
                 SplashScreenManager.CloseForm();
 
@@ -676,7 +673,7 @@ namespace SmartWaterSystem
 
         private void barBtnMSMQSetting_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            FrmMSMQSet msmqSet = new FrmMSMQSet();
+            FrmSocketSet msmqSet = new FrmSocketSet();
             msmqSet.ShowDialog();
         }
 
@@ -949,7 +946,7 @@ namespace SmartWaterSystem
                 GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortMgr_SerialPortEvent);
                 Thread.Sleep(100);
 
-                GlobalValue.MSMQMgr.Stop();
+                GlobalValue.SocketMgr.Stop();
                 Thread.Sleep(100);
             }
             catch { }

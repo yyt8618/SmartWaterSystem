@@ -21,8 +21,57 @@ namespace SmartWaterSystem
             timerCtrl.Tick += new EventHandler(timerCtrl_Tick);
             timerCtrl.Enabled = true;
 
-            GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+            GlobalValue.SocketMgr.SockMsgEvent += new SocketHandler(MSMQMgr_MSMQEvent);
             GlobalValue.SerialPortMgr.serialPortUtil.ShowMsgEvent += new Protocol.ShowMsgHandle(serialPortUtil_ShowMsgEvent);
+            GlobalValue.SocketMgr.SocketConnEvent += SocketMgr_SocketConnEvent;
+        }
+
+        private void SocketMgr_SocketConnEvent(object sender, SocketStatusEventArgs e)
+        {
+            //try
+            //{
+            //    if (e.Connect)
+            //    {
+            //        picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockConnect;
+            //        //btnSocketConnect.Enabled = false;
+            //    }
+            //    else
+            //    {
+            //        picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            //        //btnSocketConnect.Enabled = true;
+            //    }
+            //}
+            //catch { }
+            SocketStatusChange(e.Connect);
+        }
+
+        private delegate void SocketStatusHandle(bool IsConnect);
+        private void SocketStatusChange(bool isconnect)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new SocketStatusHandle(SocketStatusChange), isconnect);
+            }
+            else
+                SetSocketStatus(isconnect);
+        }
+
+        private void SetSocketStatus(bool isconnect)
+        {
+            try
+            {
+                if (isconnect)
+                {
+                    picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockConnect;
+                    //btnSocketConnect.Enabled = false;
+                }
+                else
+                {
+                    picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+                    //btnSocketConnect.Enabled = true;
+                }
+            }
+            catch { }
         }
 
         void serialPortUtil_ShowMsgEvent(string msg)
@@ -39,11 +88,9 @@ namespace SmartWaterSystem
             txtControl.SelectionStart = txtControl.Text.Length;
             txtControl.ScrollToCaret();
             txtControl.SelectedText = "";
-
-            GlobalValue.MSMQMgr.GetServiceStopMsg();
         }
 
-        void MSMQMgr_MSMQEvent(object sender, MSMQEventArgs e)
+        void MSMQMgr_MSMQEvent(object sender, SocketEventArgs e)
         {
             if (e.msmqEntity != null)
             {
@@ -164,9 +211,9 @@ namespace SmartWaterSystem
             showErrMsg = cbErrs.Checked;
         }
 
-        private void btnRefurbish_Click(object sender, EventArgs e)
+        private void btnSocketConnect_Click(object sender, EventArgs e)
         {
-            Application.DoEvents();
+            GlobalValue.SocketMgr.Connect(true);
         }
     }
 }

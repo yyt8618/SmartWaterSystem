@@ -5,6 +5,7 @@ using System.Text;
 using Common;
 using Entity;
 using System.Data;
+using SmartWaterSystem;
 
 namespace GCGPRSService
 {
@@ -19,6 +20,27 @@ namespace GCGPRSService
                     _instance = new GlobalValue();
 
                 return _instance;
+            }
+        }
+
+        /// <summary>
+        /// //启动记录,用于smartsocket连接过来的时候将启动记录发送过去
+        /// </summary>
+        public List<string> lstStartRecord = new List<string>();
+        public string SmartWaterHeartBeatName = "heartbeat";
+        private byte[] _SmartWaterHeartBeat = null;
+        /// <summary>
+        /// SmartWaterSystem程序心跳包
+        /// </summary>
+        public byte[] SmartWaterHeartBeat
+        {
+            get
+            {
+                if (_SmartWaterHeartBeat == null)
+                {
+                    _SmartWaterHeartBeat = Encoding.UTF8.GetBytes(SmartWaterHeartBeatName);
+                }
+                return _SmartWaterHeartBeat;
             }
         }
 

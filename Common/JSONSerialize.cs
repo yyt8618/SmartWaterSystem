@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using Newtonsoft.Json;
 
 namespace SmartWaterSystem
 {
@@ -13,6 +14,7 @@ namespace SmartWaterSystem
             T obj = (T)ser.ReadObject(ms);
             return obj;
         }
+
 
         public static string JsonSerialize<T>(object obj)
         {
@@ -38,5 +40,16 @@ namespace SmartWaterSystem
             else
                 return "";
         }
+
+        public static string JsonSerialize_Newtonsoft(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        public static T JsonDeserialize_Newtonsoft<T>(string jsonString)
+        {
+            return JsonConvert.DeserializeObject<T>(jsonString);
+        }
+
     }
 }

@@ -31,7 +31,7 @@ namespace SmartWaterSystem
         public OLWQMonitor()
         {
             InitializeComponent();
-            GlobalValue.MSMQMgr.MSMQEvent += new MSMQHandler(MSMQMgr_MSMQEvent);
+            GlobalValue.SocketMgr.SockMsgEvent += new SocketHandler(MSMQMgr_MSMQEvent);
             timer1.Interval = 20 * 1000;
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Enabled = true;
@@ -49,9 +49,9 @@ namespace SmartWaterSystem
             if (calldataEnable)
             {
                 //获取终端在线状态
-                MSMQEntity msmqEntity = new MSMQEntity();
+                SocketEntity msmqEntity = new SocketEntity();
                 msmqEntity.MsgType = ConstValue.MSMQTYPE.Get_OnLineState;
-                GlobalValue.MSMQMgr.SendMessage(msmqEntity);
+                GlobalValue.SocketMgr.SendMessage(msmqEntity);
             }
 
             UpdateColorsConfig();
@@ -66,7 +66,7 @@ namespace SmartWaterSystem
             btnClrUpLimit.BackColor = cUpLimit;
         }
 
-        void MSMQMgr_MSMQEvent(object sender, MSMQEventArgs e)
+        void MSMQMgr_MSMQEvent(object sender, SocketEventArgs e)
         {
             if (e.msmqEntity != null && e.msmqEntity.MsgType == ConstValue.MSMQTYPE.Data_OnLineState)
             {
@@ -300,12 +300,12 @@ namespace SmartWaterSystem
                 {
                     return;
                 }
-                MSMQEntity msmqEntity = new MSMQEntity();
+                SocketEntity msmqEntity = new SocketEntity();
                 msmqEntity.MsgType = ConstValue.MSMQTYPE.Cmd_Online;
                 msmqEntity.DevId = Convert.ToInt16(currentTerid);
                 msmqEntity.DevType = ConstValue.DEV_TYPE.OLWQ_CTRL;
                 msmqEntity.AllowOnline = true;
-                GlobalValue.MSMQMgr.SendMessage(msmqEntity);
+                GlobalValue.SocketMgr.SendMessage(msmqEntity);
             }
         }
 
@@ -317,12 +317,12 @@ namespace SmartWaterSystem
                 {
                     return;
                 }
-                MSMQEntity msmqEntity = new MSMQEntity();
+                SocketEntity msmqEntity = new SocketEntity();
                 msmqEntity.MsgType = ConstValue.MSMQTYPE.Cmd_Online;
                 msmqEntity.DevId = Convert.ToInt16(currentTerid);
                 msmqEntity.DevType = ConstValue.DEV_TYPE.OLWQ_CTRL;
                 msmqEntity.AllowOnline = false;
-                GlobalValue.MSMQMgr.SendMessage(msmqEntity);
+                GlobalValue.SocketMgr.SendMessage(msmqEntity);
             }
         }
 

@@ -395,7 +395,7 @@
     <Compile Include="MODULE\NoiseRec\NoiseEnergyAnalysis.Designer.cs">
       <DependentUpon>NoiseEnergyAnalysis.cs</DependentUpon>
     </Compile>
-    <Compile Include="Threads\MSMQManager.cs" />
+    <Compile Include="Threads\SocketManager.cs" />
     <Compile Include="Threads\SerialPortManager.cs" />
     <Compile Include="WelcomSplash.cs">
       <SubType>Form</SubType>
@@ -415,11 +415,11 @@
     <Compile Include="FrmConsole.Designer.cs">
       <DependentUpon>FrmConsole.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmMSMQSet.cs">
+    <Compile Include="FrmSocketSet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMSMQSet.Designer.cs">
-      <DependentUpon>FrmMSMQSet.cs</DependentUpon>
+    <Compile Include="FrmSocketSet.Designer.cs">
+      <DependentUpon>FrmSocketSet.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
@@ -568,8 +568,8 @@
     <EmbeddedResource Include="FrmConsole.resx">
       <DependentUpon>FrmConsole.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmMSMQSet.resx">
-      <DependentUpon>FrmMSMQSet.cs</DependentUpon>
+    <EmbeddedResource Include="FrmSocketSet.resx">
+      <DependentUpon>FrmSocketSet.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -706,7 +706,9 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
-    <None Include="Resources\MSMQ.ico" />
+    <None Include="Resources\SockConnect.ico" />
+    <None Include="Resources\SockNotConnect.ico" />
+    <None Include="Resources\Socket.ico" />
     <None Include="Resources\fullscreen.gif" />
     <None Include="Resources\HydrantMap.png" />
     <None Include="Resources\Products\HydrantMap.png" />

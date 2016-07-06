@@ -37,6 +37,9 @@
     <Reference Include="DevExpress.Sparkline.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\DLL\NLog.dll</HintPath>
     </Reference>
@@ -83,7 +86,7 @@
     <Compile Include="JSONSerialize.cs" />
     <Compile Include="MD5Encrypt.cs" />
     <Compile Include="MetarnetRegex.cs" />
-    <Compile Include="MSMQ\MSMQEntity.cs" />
+    <Compile Include="Socket\SocketEntity.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -94,12 +97,15 @@
     <Compile Include="Settings.cs" />
     <Compile Include="CommandInfo.cs" />
     <Compile Include="SL651AnalyseElement.cs" />
+    <Compile Include="Socket\SmartSocketEntity.cs" />
     <Compile Include="Socket\CallSocketEntity.cs" />
     <Compile Include="Socket\ConvertHelper.cs" />
     <Compile Include="Socket\Package.cs" />
     <Compile Include="Socket\Package651.cs" />
     <Compile Include="Socket\PackageDefine.cs" />
     <Compile Include="Socket\ServiceManager.cs" />
+    <Compile Include="Socket\SocketHelper.cs" />
+    <Compile Include="Socket\StateObject.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>
   <ItemGroup>

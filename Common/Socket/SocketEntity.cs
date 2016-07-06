@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System;
 using Entity;
+using System.Runtime.Serialization;
+
 namespace Common
 {
-    [Serializable]
-    public class MSMQEntity
+    [DataContract]
+    public class SocketEntity
     {
         private string _msg = "";
+        [DataMember(Order =0)]
         public string Msg
         {
             get { return _msg; }
@@ -18,6 +21,7 @@ namespace Common
         /// <summary>
         /// 消息类型
         /// </summary>
+        [DataMember(Order = 1)]
         public Entity.ConstValue.MSMQTYPE MsgType
         {
             get { return _type; }
@@ -28,6 +32,7 @@ namespace Common
         /// <summary>
         /// 设备类型
         /// </summary>
+        [DataMember(Order = 2)]
         public ConstValue.DEV_TYPE DevType
         {
             get { return _DevType; }
@@ -38,6 +43,7 @@ namespace Common
         /// <summary>
         /// 设备ID
         /// </summary>
+        [DataMember(Order = 3)]
         public short DevId
         {
             get { return _DevId; }
@@ -47,33 +53,40 @@ namespace Common
         /// <summary>
         /// 终端地址A5
         /// </summary>
+        [DataMember(Order = 4)]
         public byte A5 { get; set; }
         /// <summary>
         /// 终端地址A4
         /// </summary>
+        [DataMember(Order = 5)]
         public byte A4 { get; set; }
         /// <summary>
         /// 终端地址A3
         /// </summary>
+        [DataMember(Order = 6)]
         public byte A3 { get; set; }
         /// <summary>
         /// 终端地址A2
         /// </summary>
+        [DataMember(Order = 7)]
         public byte A2 { get; set; }
         /// <summary>
         /// 终端地址A1
         /// </summary>
+        [DataMember(Order = 8)]
         public byte A1 { get; set; }
 
         /// <summary>
         /// SL651功能码
         /// </summary>
+        [DataMember(Order = 9)]
         public byte SL651Funcode { get; set; }
 
         private bool _AllowOnLine = true;
         /// <summary>
         /// 是否允许在线
         /// </summary>
+        [DataMember(Order = 10)]
         public bool AllowOnline
         {
             get { return _AllowOnLine; }
@@ -84,6 +97,7 @@ namespace Common
         /// <summary>
         /// 在线终端列表(用于返回给UI显示)
         /// </summary>
+        [DataMember(Order = 11)]
         public List<OnLineTerEntity> lstOnLine
         {
             get { return _lstOnLine; }
@@ -94,6 +108,7 @@ namespace Common
         /// <summary>
         /// 招测数据类型
         /// </summary>
+        [DataMember(Order = 12)]
         public CallDataTypeEntity CallDataType
         {
             get { return _callDataType; }
@@ -104,30 +119,32 @@ namespace Common
         /// <summary>
         /// SL651下送命令帧
         /// </summary>
+        [DataMember(Order = 13)]
         public Package651 Pack651
         {
             get { return _pack651; }
             set { _pack651 = value; }
         }
 
-        public MSMQEntity()
+        public SocketEntity()
         {
         }
 
-        public MSMQEntity(Entity.ConstValue.MSMQTYPE type, string msg)
+        public SocketEntity(Entity.ConstValue.MSMQTYPE type, string msg)
         {
             this._type = type;
             this._msg = msg;
         }
     }
 
-    [Serializable]
+    [DataContract]
     public class OnLineTerEntity
     {
         private ConstValue.DEV_TYPE _DevType;
         /// <summary>
         /// 设备类型
         /// </summary>
+        [DataMember(Order = 0)]
         public ConstValue.DEV_TYPE DevType
         {
             get { return _DevType; }
@@ -138,6 +155,7 @@ namespace Common
         /// <summary>
         /// 设备ID
         /// </summary>
+        [DataMember(Order = 1)]
         public short DevId
         {
             get { return _DevId; }

@@ -6,13 +6,15 @@ using System.Net;
 using Common;
 using Entity;
 using System.Data;
+using System.Text;
+using SmartWaterSystem;
 
 namespace GCGPRSService
 {
     public class SocketEventArgs : EventArgs
     {
-        private MSMQEntity _jsonmsg;// = "";
-        public MSMQEntity JsonMsg
+        private SocketEntity _jsonmsg;// = "";
+        public SocketEntity JsonMsg
         {
             get { return _jsonmsg; }
             set { _jsonmsg = value; }
@@ -20,13 +22,13 @@ namespace GCGPRSService
 
         public SocketEventArgs(Entity.ConstValue.MSMQTYPE MsgType, string msg)
         {
-            MSMQEntity msmqEntity = new MSMQEntity();
+            SocketEntity msmqEntity = new SocketEntity();
             msmqEntity.MsgType = MsgType;
             msmqEntity.Msg = msg;
             _jsonmsg = msmqEntity; // JsonConvert.SerializeObject(msmqEntity);
         }
 
-        public SocketEventArgs(Entity.ConstValue.MSMQTYPE MsgType, MSMQEntity msg)
+        public SocketEventArgs(Entity.ConstValue.MSMQTYPE MsgType, SocketEntity msg)
         {
             msg.MsgType = MsgType;
             _jsonmsg = msg;
@@ -34,7 +36,7 @@ namespace GCGPRSService
 
         public SocketEventArgs(string msg)
         {
-            MSMQEntity msmqEntity = new MSMQEntity();
+            SocketEntity msmqEntity = new SocketEntity();
             msmqEntity.MsgType = Entity.ConstValue.MSMQTYPE.Msg_Socket;
             msmqEntity.Msg = msg;
             _jsonmsg = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
@@ -42,34 +44,18 @@ namespace GCGPRSService
 
         public SocketEventArgs(string msg,Entity.ConstValue.MSMQTYPE type)
         {
-            MSMQEntity msmqEntity = new MSMQEntity();
+            SocketEntity msmqEntity = new SocketEntity();
             msmqEntity.MsgType = type;
             msmqEntity.Msg = msg;
             _jsonmsg = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
         }
 
-        public SocketEventArgs(MSMQEntity msg)
+        public SocketEventArgs(SocketEntity msg)
         {
             _jsonmsg = msg;
         }
     }
 
-    public class StateObject
-    {
-        // Client socket.     
-        public Socket workSocket = null;
-        // Size of receive buffer.     
-        public const int BufferSize = 1152;
-        // Receive buffer.     
-        public byte[] buffer = new byte[BufferSize];
-        // Received data string.     
-        public List<Package> lstBuffer = new List<Package>();
-
-        public void AppendBuffer(Package pack)
-        {
-            lstBuffer.Add(pack);
-        }
-    }
     public class SendObject
     {
         // Client socket.     
@@ -80,18 +66,21 @@ namespace GCGPRSService
         public short DevID;
     }
 
-    public delegate void cmdEventHandle(object sender, SocketEventArgs e);
+    //public delegate void cmdEventHandle(object sender, SocketEventArgs e);
 
     public class SocketManager
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("SocketService");
         public ManualResetEvent allDone = new ManualResetEvent(false);
-        public event cmdEventHandle cmdEvent;
+        //public event cmdEventHandle cmdEvent;
         Thread t_socket;
         Thread t_Interval;
         Socket listener;
         bool isRunning = false;
         List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
+        int maxSmartClient = 5;   //SmartWaterSystem.exe 的最大socket连接数
+        object obj_smartsocket = new object();      //SmartWaterSystem.exe的socket连接列表锁
+        List<SmartSocketEntity> lstSmartClient = new List<SmartSocketEntity>(); //SmartWaterSystem.exe 的socket连接列表
 
         int SQL_Interval = 3 * 63;  //数据更新时间间隔(second)
         DateTime SQLSync_Time = DateTime.Now.AddHours(-1);  //数据库同步时间,-1:才开启，马上同步一次数据
@@ -101,15 +90,24 @@ namespace GCGPRSService
 
         bool SL651AllowOnLine = false;  //SL651协议终端是否在线,默认不在线
 
-        public virtual void OnSendMsg(SocketEventArgs e)
+        public void OnSendMsg(SocketEventArgs e)
         {
-            if (cmdEvent != null)
-                cmdEvent(this, e);
+            lock (obj_smartsocket)
+            {
+                foreach (SmartSocketEntity smartsock in lstSmartClient)
+                {
+                    string msg = JSONSerialize.JsonSerialize_Newtonsoft(e.JsonMsg);
+                    if (!SocketSend(smartsock.ClientSocket, msg, false))
+                    {
+                        smartsock.MsgBuff.Add(msg);  //缓存发送失败的消息,在下次心跳到来的时候重发
+                    }
+                }
+            }
         }
 
         public void T_Listening()
         {
-            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启数据库线程!", ConstValue.MSMQTYPE.Msg_Public));
+            GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " 开启数据库线程!");
             GlobalValue.Instance.SocketSQLMag.SQLEvent += new SQLHandle(sqlmanager_SQLEvent);
             GlobalValue.Instance.SocketSQLMag.Start();
 
@@ -119,7 +117,7 @@ namespace GCGPRSService
 
             CheckThread_Interval = 1;  //开启socket线程
 
-            MSMQEntity msmqEntity = new MSMQEntity();
+            SocketEntity msmqEntity = new SocketEntity();
             msmqEntity.lstOnLine = new List<OnLineTerEntity>();
             OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
         }
@@ -146,7 +144,7 @@ namespace GCGPRSService
                 if (OnLineState_Interval-- == 0)
                 {
                     OnLineState_Interval = 5*60;
-                    MSMQEntity msmqEntity = new MSMQEntity();
+                    SocketEntity msmqEntity = new SocketEntity();
                     msmqEntity.lstOnLine = new List<OnLineTerEntity>();
                     foreach (CallSocketEntity client in lstClient)
                     {
@@ -164,46 +162,35 @@ namespace GCGPRSService
                         }
                         //在线检查
                         bool add = false;
-                        add = IsSocketConnected_Poll(client.ClientSocket);
-                        //if (client.ClientSocket != null && client.ClientSocket.Connected)
-                        //{
-                        //    try
-                        //    {
-                        //        if (client.ClientSocket.Poll(1, SelectMode.SelectRead))
-                        //        {
-                        //            //byte[] temp = new byte[1024];
-                        //            //int nRead = client.ClientSocket.Receive(temp);
-                        //            //if (nRead == 0)
-                        //            //{
-
-                        //            //}
-                        //            //else
-                        //            //    add = true;
-                        //        }
-                        //        else
-                        //            add = true;
-                        //    }
-                        //    catch
-                        //    {
-                        //        add = false;
-                        //    }
-                        //}
+                        add = SocketHelper.IsSocketConnected_Poll(client.ClientSocket);
 
                         if (add && client.TerId!=-1)
                         {
                             msmqEntity.lstOnLine.Add(new OnLineTerEntity(client.DevType, client.TerId));
-                            //lstOnLine.Add(client);
                         }
                     }
-                    //lstClient = lstOnLine;  //将意外断开连接的的去除
                     OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
+
+                    //检查lstSmartClient保留在线的socket客户端
+                    lock(obj_smartsocket)
+                    {
+                        List<SmartSocketEntity> lsttmp = new List<SmartSocketEntity>();
+                        foreach (SmartSocketEntity smartsock in lstSmartClient)
+                        {
+                            if (SocketHelper.IsSocketConnected_Poll(smartsock.ClientSocket))
+                            {
+                                lsttmp.Add(smartsock);
+                            }
+                        }
+                        lstSmartClient = lsttmp;
+                    }
                 }
                 if (CheckThread_Interval-- == 0)
                 {
                     CheckThread_Interval = 2 * 60;
                     if (t_socket == null || (t_socket != null && !t_socket.IsAlive))
                     {
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 开启Socket监听线程!", ConstValue.MSMQTYPE.Msg_Public));
+                        GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " 开启Socket监听线程!");
                         isRunning = true;
                         t_socket = new Thread(new ThreadStart(StartListening));
                         t_socket.IsBackground = true;
@@ -303,13 +290,13 @@ namespace GCGPRSService
             string ip = Settings.Instance.GetString(SettingKeys.GPRS_IP);
             if (string.IsNullOrEmpty(ip))
             {
-                OnSendMsg(new SocketEventArgs("GPRS远传服务停止,请设置IP与端口号!", ConstValue.MSMQTYPE.Msg_Public));
+                GlobalValue.Instance.lstStartRecord.Add("GPRS远传服务停止,请设置IP与端口号!");
                 t_socket.Abort();
                 return;
             }
             if(string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.GPRS_PORT)))
             {
-                OnSendMsg(new SocketEventArgs("GPRS远传服务停止,请设置IP与端口号!", ConstValue.MSMQTYPE.Msg_Public));
+                GlobalValue.Instance.lstStartRecord.Add("GPRS远传服务停止,请设置IP与端口号!");
                 t_socket.Abort();
                 return;
             }
@@ -339,14 +326,14 @@ namespace GCGPRSService
             }
             catch (SocketException sockEx)
             {
-                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止! Exp:" + sockEx.Message, ConstValue.MSMQTYPE.Msg_Public));
+                GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止! Exp:" + sockEx.Message);
                 logger.ErrorException("StartListening", sockEx);
                 if (t_socket != null && t_socket.IsAlive)
                     t_socket.Abort();
             }
             catch (Exception e)
             {
-                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止!", ConstValue.MSMQTYPE.Msg_Public));
+                GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " GPRS远传服务发生异常，将停止!");
                 logger.ErrorException("StartListening", e);
                 if (t_socket != null && t_socket.IsAlive)
                     t_socket.Abort();
@@ -363,28 +350,12 @@ namespace GCGPRSService
                 Socket listener = (Socket)ar.AsyncState;
                 handler = listener.EndAccept(ar);
                 
-                //OnSendMsg(new SocketEventArgs("AcceptCallback线程ID为:  " + Thread.CurrentThread.ManagedThreadId.ToString()));
                 state.workSocket = handler;
-                //handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
-                //listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
             }
             catch (Exception ex)
             {
                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收错误:" + ex.Message));
                 logger.ErrorException("AcceptCallback",ex);
-                //try
-                //{
-                //    if (handler != null)
-                //    {
-                //        handler.Shutdown(SocketShutdown.Both);
-                //        handler.Close();
-                //    }
-                //}
-                //catch (Exception ex1)
-                //{
-                //    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收错误(关闭异常):" + ex1.Message));
-                //    logger.ErrorException("AcceptCallback",ex1);
-                //}
             }
             finally
             {
@@ -397,28 +368,167 @@ namespace GCGPRSService
         }
 
         private void ReadCallback(IAsyncResult ar)
-        {  
+        {
             StateObject state = (StateObject)ar.AsyncState;
             Socket handler = state.workSocket;
             int bytesRead = 0;
             try
             {
                 // Read data from the client socket. 
-                if (!IsSocketConnected_Poll(handler))
+                if (!SocketHelper.IsSocketConnected_Poll(handler))
                     return;
                 bytesRead = handler.EndReceive(ar);
                 if (bytesRead > 0)
                 {
+                    //判断是否是SmartWater的连接
+                    bool isclientconn = false;
+                    for (int i = 0; i < bytesRead -SocketHelper.SocketByteSplit.Length; i++)
+                    {
+                        bool btmp = true;
+                        for (int j = 0; j < SocketHelper.SocketByteSplit.Length; j++)  //判断是否包含SmartWaterHead标记,如果包含则认为是SmartWater的连接
+                        {
+                            if (state.buffer[i + j] != SocketHelper.SocketByteSplit[j])
+                            {
+                                btmp = false;
+                                break;
+                            }
+                        }
+                        if (btmp)
+                        {
+                            isclientconn = true;
+                            break;
+                        }
+                    }
+                    #region SmartSocket
+                    if (isclientconn)   //如果是SmartWaterSystem程序的socket连接,则保存socket连接对象,并解析数据
+                    {
+                        try
+                        {
+                            for (int i = 0; i < bytesRead; i++)
+                            {
+                                state.lstBuffer.Add(state.buffer[i]);
+                            }
+                            List<byte> lstBuffercopy = new List<byte>(state.lstBuffer);
+                            string[] strmsgs = SocketHelper.SplitSocketMsg(ref state.lstBuffer, ref state.msgpart);
+                            if (strmsgs != null && strmsgs.Length > 0)
+                            {
+                                foreach (string strtmp in strmsgs)
+                                {
+                                    if (!string.IsNullOrEmpty(strtmp))
+                                    {
+                                        if (strtmp.Trim() == GlobalValue.Instance.SmartWaterHeartBeatName) //为空的时候是心跳包
+                                        {
+                                            #region 心跳包
+                                            IPAddress ip = ((System.Net.IPEndPoint)handler.RemoteEndPoint).Address;
+                                            string strip = ip.ToString();
+                                            bool existsmartsocket = false;
+                                            for (int i = 0; i < lstSmartClient.Count; i++)  //是否存在已连接的对象
+                                            {
+                                                if (lstSmartClient[i].IP == strip)
+                                                {
+                                                    existsmartsocket = true;
+                                                    lstSmartClient[i].ClientSocket = handler;
+                                                    if (lstSmartClient[i].MsgBuff.Count > 0)  //是否有缓存的消息,如果有,将消息发送出去
+                                                    {
+                                                        List<string> lsttmpmsg = new List<string>();   //将发送失败的消息存至该变量,以便于重发
+                                                        foreach (string str in lstSmartClient[i].MsgBuff)
+                                                        {
+                                                            if (!string.IsNullOrEmpty(str))
+                                                            {
+                                                                if (!SocketSend(handler, str, false))   //发送缓存的消息
+                                                                {
+                                                                    lsttmpmsg.Add(str);
+                                                                }
+                                                            }
+                                                        }
+                                                        lstSmartClient[i].MsgBuff = lsttmpmsg;  //将发送失败消息保存,以便重发
+                                                    }
+                                                    break;
+                                                }
+                                            }
+
+                                            if (!existsmartsocket)
+                                            {
+                                                lock (obj_smartsocket)
+                                                {
+                                                    if (lstSmartClient.Count > maxSmartClient) //不能超过最大连接数,如果大于最大连接数的话，则找一个失效的连接
+                                                    {
+                                                        bool bsave = false;
+                                                        for (int i = 0; i < lstSmartClient.Count; i++)
+                                                        {
+                                                            if (!SocketHelper.IsSocketConnected_Poll(lstSmartClient[i].ClientSocket))
+                                                            {
+                                                                lstSmartClient[i].ClientSocket = handler;
+                                                                lstSmartClient[i].IP = strip;
+                                                                lstSmartClient[i].MsgBuff.Clear();
+                                                                bsave = true;
+                                                            }
+                                                        }
+                                                        if (!bsave)
+                                                        {
+                                                            //达到最大连接数提示
+                                                            SocketEntity mEntity = new SocketEntity();
+                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Public;
+                                                            mEntity.Msg = "已达到最大连接数,拒接连接";
+                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        lstSmartClient.Add(new SmartSocketEntity(handler, strip));
+                                                        foreach (string startrec in GlobalValue.Instance.lstStartRecord)  //将启动的信息发送给新上线的客户端
+                                                        {
+                                                            SocketEntity mEntity = new SocketEntity();
+                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Public;
+                                                            mEntity.Msg = startrec;
+                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            #endregion
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+                                                //处理命令消息
+                                                SocketEntity sockMsg = JSONSerialize.JsonDeserialize_Newtonsoft<SocketEntity>(strtmp);
+                                                ReceiveMsg(sockMsg);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                logger.ErrorException("处理命令消息", ex);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ;
+                        }
+                        try
+                        {
+                            if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
+                                handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                        }
+                        catch { };
+                        return;
+                    }
+                    #endregion
+
                     List<byte> packageBytes = new List<byte>();
                     List<byte> ReceiveBytes = new List<byte>();
 
                     for (int i = 0; i < bytesRead; i++)
                     {
-                        ReceiveBytes.Add(state.buffer[i]); 
+                        ReceiveBytes.Add(state.buffer[i]);
                     }
 
                     string str_source = ConvertHelper.ByteToString(state.buffer, bytesRead);
-                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收客户端"+ handler.RemoteEndPoint.ToString() + ", 收到(原始)数据:" + str_source));
+                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收客户端" + handler.RemoteEndPoint.ToString() + ", 收到(原始)数据:" + str_source));
 
                     int index = 0;
                     while (index < bytesRead)
@@ -752,7 +862,7 @@ namespace GCGPRSService
                                             {
                                                 parmalarm = "";
                                                 alarm = "";
-                                                if ((pack.Data[i*24+22] & 0x01) == 1)  //进口压力上限报警
+                                                if ((pack.Data[i * 24 + 22] & 0x01) == 1)  //进口压力上限报警
                                                     parmalarm += "进口压力上限报警";
                                                 else if (((pack.Data[i * 24 + 22] & 0x02) >> 1) == 1)   //进口压力下限报警
                                                     parmalarm += "进口压力下限报警";
@@ -789,7 +899,7 @@ namespace GCGPRSService
                                                 float instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 24 + 21], pack.Data[i * 24 + 20], pack.Data[i * 24 + 19], pack.Data[i * 24 + 18] }, 0);
 
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力控制器[{1}]|参数报警({2})|设备报警({3})|采集时间({4})|进口压力:{5}MPa|出口压力:{6}MPa|正向流量值:{7}|反向流量值:{8}|瞬时流量值:{9}",
-                                                        i,pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
+                                                        i, pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
 
                                                 GPRSPrectrlDataEntity data = new GPRSPrectrlDataEntity();
                                                 data.Entrance_preValue = entrance_prevalue;
@@ -1405,7 +1515,7 @@ namespace GCGPRSService
                                                 }
                                             }
                                             //将在线信息发送给UI更新
-                                            MSMQEntity msmqEntity = new MSMQEntity();
+                                            SocketEntity msmqEntity = new SocketEntity();
                                             msmqEntity.lstOnLine = new List<OnLineTerEntity>();
                                             msmqEntity.lstOnLine.Add(new OnLineTerEntity(callentity.DevType, callentity.TerId));
                                             OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
@@ -1564,7 +1674,7 @@ namespace GCGPRSService
                                         sendObj.IsFinal = pack.IsFinal;
                                         sendObj.DevType = pack.DevType;
                                         sendObj.DevID = pack.DevID;
-                                        if (handler != null && IsSocketConnected_Poll(handler))
+                                        if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
                                             handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                     }
                                     #endregion
@@ -1579,6 +1689,7 @@ namespace GCGPRSService
                             }
                         }
                         #endregion
+
                         #region SL651协议
                         if (packageBytes.Count >= PackageDefine.MinLenth651 && (packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte651 || packageBytes[packageBytes.Count - 1 - 2] == PackageDefine.EndByte_Continue))
                         {
@@ -1618,7 +1729,7 @@ namespace GCGPRSService
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  收到帧数据"));
 #endif
                                     int clientindex = -1;  //查找或添加
-                                    for(int i=0; i < lstClient.Count; i++)
+                                    for (int i = 0; i < lstClient.Count; i++)
                                     {
                                         if (lstClient[i].A1 == pack.A1 && lstClient[i].A2 == pack.A2 && lstClient[i].A3 == pack.A3 && lstClient[i].A4 == pack.A4 && lstClient[i].A5 == pack.A5)
                                         {
@@ -1647,9 +1758,9 @@ namespace GCGPRSService
                                             lstClient[clientindex].multiData = new List<byte>();
                                         lstClient[clientindex].multiData.AddRange(pack.Data);
                                     }
-                                        Universal651SerialPortEntity spEntity = null;  //不使用
-                                        string analyseStr = "";
-                                        byte[] analyseData = pack.Data;
+                                    Universal651SerialPortEntity spEntity = null;  //不使用
+                                    string analyseStr = "";
+                                    byte[] analyseData = pack.Data;
                                     if (havesubsequent) //如果是多包的情况,且是最后一帧
                                     {
                                         if (pack.CurPackCount > 1 && pack.SumPackCount == pack.CurPackCount)
@@ -1722,7 +1833,7 @@ namespace GCGPRSService
                                             }
                                         }
 
-                                        need_response=Package651.NeedResp(pack.FUNCODE);
+                                        need_response = Package651.NeedResp(pack.FUNCODE);
 
                                         response.dt = new byte[6];
                                         response.dt[0] = ConvertHelper.StringToByte((DateTime.Now.Year - 2000).ToString())[0];
@@ -1853,7 +1964,7 @@ namespace GCGPRSService
                                                 response.L1 = lens[1];
                                                 response.FUNCODE = pack.FUNCODE;
                                                 response.IsUpload = false;
-                                                
+
                                                 response.SNum = pack.SNum;
                                                 response.AddrFlag = pack.AddrFlag;
                                                 if (SL651AllowOnLine)
@@ -1878,7 +1989,7 @@ namespace GCGPRSService
 
                                     try
                                     {
-                                        if (handler != null && IsSocketConnected_Poll(handler))
+                                        if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
                                             handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                                     }
                                     catch { };
@@ -1893,12 +2004,6 @@ namespace GCGPRSService
                                     byte[] arr = packageBytes.ToArray();
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 收到错误帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
 
-                                    //try
-                                    //{
-                                    //    if(handler!=null)
-                                    //    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
-                                    //}
-                                    //catch { };
                                 }
                             }
                             #endregion
@@ -1931,9 +2036,9 @@ namespace GCGPRSService
             }
             catch (SocketException sockex)
             {
-                foreach(CallSocketEntity callsocket in lstClient)
+                foreach (CallSocketEntity callsocket in lstClient)
                 {
-                    if (callsocket.ClientSocket.Equals(handler) && callsocket.TerId!=-1)
+                    if (callsocket.ClientSocket.Equals(handler) && callsocket.TerId != -1)
                     {
                         string str_devtype = "";
                         if (callsocket.DevType == ConstValue.DEV_TYPE.Data_CTRL)
@@ -1967,7 +2072,7 @@ namespace GCGPRSService
             {
                 try
                 {
-                    if (handler != null && IsSocketConnected_Poll(handler))
+                    if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                 }
                 catch { };
@@ -1979,7 +2084,7 @@ namespace GCGPRSService
             try
             {
                 Socket handler = ((SendObject)ar.AsyncState).workSocket;
-                if (handler != null && IsSocketConnected_Poll(handler))
+                if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
                 {
                     int bytesSent = handler.EndSend(ar);
 
@@ -2360,82 +2465,6 @@ namespace GCGPRSService
             }
         }
 
-        // 检查一个Socket是否可连接  
-        //private bool IsSocketConnected_Send(Socket socket)
-        //{
-        //    #region remarks
-        //    /********************************************************************************************
-        //     * 当Socket.Conneted为false时， 如果您需要确定连接的当前状态，请进行非阻塞、零字节的 Send 调用。
-        //     * 如果该调用成功返回或引发 WAEWOULDBLOCK 错误代码 (10035)，则该套接字仍然处于连接状态；
-        //     * 否则，该套接字不再处于连接状态。
-        //     * Depending on http://msdn.microsoft.com/zh-cn/library/system.net.sockets.socket.connected.aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2
-        //    ********************************************************************************************/
-        //    #endregion
-
-        //    #region 过程
-        //    // This is how you can determine whether a socket is still connected.
-        //    bool connectState = true;
-        //    bool blockingState = socket.Blocking;
-        //    try
-        //    {
-        //        byte[] tmp = new byte[1];
-
-        //        socket.Blocking = false;
-        //        socket.Send(tmp, 0, 0);
-        //        //Console.WriteLine("Connected!");
-        //        connectState = true; //若Send错误会跳去执行catch体，而不会执行其try体里其之后的代码
-        //    }
-        //    catch (SocketException e)
-        //    {
-        //        // 10035 == WSAEWOULDBLOCK
-        //        if (e.NativeErrorCode.Equals(10035))
-        //        {
-        //            //Console.WriteLine("Still Connected, but the Send would block");
-        //            connectState = true;
-        //        }
-
-        //        else
-        //        {
-        //            //Console.WriteLine("Disconnected: error code {0}!", e.NativeErrorCode);
-        //            connectState = false;
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        socket.Blocking = blockingState;
-        //    }
-
-        //    //Console.WriteLine("Connected: {0}", client.Connected);
-        //    return connectState;
-        //    #endregion
-        //}
-
-        bool IsSocketConnected_Poll(Socket socket)
-        {
-            #region remarks
-            /* As zendar wrote, it is nice to use the Socket.Poll and Socket.Available, but you need to take into conside                ration
-             * that the socket might not have been initialized in the first place.
-             * This is the last (I believe) piece of information and it is supplied by the Socket.Connected property.
-             * The revised version of the method would looks something like this:
-             * from：http://stackoverflow.com/questions/2661764/how-to-check-if-a-socket-is-connected-disconnected-in-c */
-            #endregion
-
-            #region 过程
-
-            return !((socket.Poll(1000, SelectMode.SelectRead) && (socket.Available == 0)) || !socket.Connected);
-            /* The long, but simpler-to-understand version:
-
-                    bool part1 = s.Poll(1000, SelectMode.SelectRead);
-                    bool part2 = (s.Available == 0);
-                    if ((part1 && part2 ) || !s.Connected)
-                        return false;
-                    else
-                        return true;
-
-            */
-            #endregion
-        }
-
         public void Send651Cmd(Package651 pack)
         {
             if (lstClient == null)
@@ -2461,22 +2490,7 @@ namespace GCGPRSService
                             }
                         }
                         bool isOnline = false;
-                        isOnline = IsSocketConnected_Poll(sock.ClientSocket);
-                        //if (sock.ClientSocket != null && sock.ClientSocket.Connected)
-                        //{
-                        //    try
-                        //    {
-                        //        if (sock.ClientSocket.Poll(1, SelectMode.SelectRead))
-                        //        {
-                        //        }
-                        //        else
-                        //            isOnline = true;
-                        //    }
-                        //    catch
-                        //    {
-                        //        isOnline = false;
-                        //    }
-                        //}
+                        isOnline = SocketHelper.IsSocketConnected_Poll(sock.ClientSocket);
                         bool issend = false;  //是否已发送
                         if (isOnline)
                         {
@@ -2545,7 +2559,7 @@ namespace GCGPRSService
                         }
                 }
             }
-            MSMQEntity msmqEnt = new MSMQEntity();
+            SocketEntity msmqEnt = new SocketEntity();
             msmqEnt.MsgType= ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd;
             msmqEnt.Msg = SmartWaterSystem.JSONSerialize.JsonSerialize<List<Package651>>(lstWaitSendCmd);
             SocketEventArgs socketargs = new SocketEventArgs(ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd, msmqEnt);
@@ -2622,6 +2636,90 @@ namespace GCGPRSService
             SL651AllowOnLine = allowOnline;
         }
 
+        /// <summary>
+        /// 接收socket发送过来的消息
+        /// </summary>
+        /// <param name="Msg"></param>
+        private void ReceiveMsg(SocketEntity Msg)
+        {
+            if (Msg != null)
+            {
+                if (Msg.MsgType == ConstValue.MSMQTYPE.Cmd_Online)
+                    GlobalValue.Instance.SocketMag.SetOnLineClient(Msg.DevType, Msg.DevId, Msg.AllowOnline);
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.Get_OnLineState)
+                    GlobalValue.Instance.SocketMag.GetTerminalOnLineState();
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.Cmd_CallData && Msg.CallDataType != null)
+                    GlobalValue.Instance.SocketMag.ClientCallData(Msg.DevType, Msg.DevId, Msg.CallDataType);
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.SQL_Syncing)
+                    GlobalValue.Instance.SocketMag.SetSQL_SyncingStatus();
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.SL651_Cmd)
+                {
+                    if (Msg.Pack651 != null)
+                        GlobalValue.Instance.SocketMag.Send651Cmd(Msg.Pack651);
+                    GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();  //发送完毕获取待发送SL651命令列表
+                }
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.Set_SL651_AllowOnlineFlag)
+                {
+                    GlobalValue.Instance.SocketMag.SetSL651AllowOnLineFlag(Msg.Msg.ToLower() == "true");
+                    GlobalValue.Instance.SocketMag.GetSL651AllowOnLineFlag();
+                }
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.Get_SL651_AllowOnlineFlag)
+                    GlobalValue.Instance.SocketMag.GetSL651AllowOnLineFlag();
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd)
+                {
+                    GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();
+                }
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.Del_SL651_WaitSendCmd)
+                {
+                    //del
+                    GlobalValue.Instance.SocketMag.DelSL651WaitSendCmd(Msg.A1, Msg.A2, Msg.A3, Msg.A4, Msg.A5, Msg.SL651Funcode);
+                    GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();
+                }
+
+                //Other
+            }
+        }
+
+        /// <summary>
+        /// socket发送消息
+        /// </summary>
+        /// <param name="sock"></param>
+        /// <param name="entitymsg"></param>
+        /// <param name="needreply">是否需要重试</param>
+        /// <returns></returns>
+        public bool SocketSend(Socket sock, string entitymsg,bool needreply)
+        {
+            try {
+                if (string.IsNullOrEmpty(entitymsg))
+                    return true;
+                if(!SocketHelper.IsSocketConnected_Poll(sock))
+                {
+                    return false;
+                }
+                entitymsg = SocketHelper.SocketMsgSplit + entitymsg + SocketHelper.SocketMsgSplit;
+                byte[] bs = Encoding.UTF8.GetBytes(entitymsg);
+
+                SendObject sendObj = new SendObject();
+                sendObj.workSocket = sock;
+                sock.BeginSend(bs, 0, bs.Length, 0, new AsyncCallback(SmartSendCallback), sendObj);
+                return true;
+            }
+            catch {
+                return false;
+            }
+        }
+
+        private void SmartSendCallback(IAsyncResult ar)
+        {
+            try
+            {
+                Socket handler = ((SendObject)ar.AsyncState).workSocket;
+                int bytesSent = handler.EndSend(ar);
+            }
+            catch (Exception e)
+            {
+            }
+        }
 
     }
 

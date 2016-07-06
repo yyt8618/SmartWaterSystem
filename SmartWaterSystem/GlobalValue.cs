@@ -31,7 +31,7 @@ namespace SmartWaterSystem
         }
         #endregion
 
-        public static MSMQManager MSMQMgr = new MSMQManager();
+        public static SocketManager SocketMgr = new SocketManager();
         public static SerialPortManager SerialPortMgr = new SerialPortManager();
         public static UniversalLog Universallog = new UniversalLog();                            //通用终端串口操作对象
         public static OLWQLog OLWQlog = new OLWQLog();                                          //水质终端串口操作对象
