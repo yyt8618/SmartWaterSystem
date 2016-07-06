@@ -213,7 +213,7 @@ namespace SmartWaterSystem
 
         private void btnSocketConnect_Click(object sender, EventArgs e)
         {
-            GlobalValue.SocketMgr.Connect(true);
+            GlobalValue.SocketMgr.ReConnect();
         }
     }
 }

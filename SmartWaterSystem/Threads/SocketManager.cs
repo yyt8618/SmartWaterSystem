@@ -178,11 +178,18 @@ namespace SmartWaterSystem
         {
             if (socket != null)
             {
-                //如果还是连接到一样的地址,则不需要去连接
-                if (socket.RemoteEndPoint!=null && ((System.Net.IPEndPoint)socket.RemoteEndPoint).Address.ToString() == Settings.Instance.GetString(SettingKeys.GPRS_IP))
-                    Connect(false);
+                if (socket.Connected)  //如果连接过,判断地址是否一样
+                {
+                    //如果还是连接到一样的地址,则不需要去连接
+                    if (((System.Net.IPEndPoint)socket.RemoteEndPoint).Address.ToString() == Settings.Instance.GetString(SettingKeys.GPRS_IP))
+                        Connect(false);
+                    else
+                        DisConnect(socket);
+                }
                 else
-                    DisConnect(socket);
+                {
+                    Connect(false);
+                }
             }
             else
                 Connect(true);
@@ -192,28 +199,16 @@ namespace SmartWaterSystem
         {
             try {
                 sock.Shutdown(SocketShutdown.Both);
+                Thread.Sleep(20);
                 disconnecting = true;
-                sock.BeginDisconnect(true, new AsyncCallback(EndDisconnect), sock);
-                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, DateTime.Now.ToString() + "正在断开Socket连接,请稍候...")));
+                sock.Close();
+                sock = null;
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, DateTime.Now.ToString() + "正在断开Socket重新连接,请稍候...")));
+                Connect(true);
             }
             catch(Exception ex)
             {
                 ;
-            }
-        }
-
-        private void EndDisconnect(IAsyncResult result)
-        {
-            try
-            {
-                OnSockConnEvent(new SocketStatusEventArgs(false));
-                Socket client = (Socket)result.AsyncState;
-                client.EndDisconnect(result);
-
-                Connect(true);
-            }
-            catch
-            {
             }
             finally
             {
@@ -252,6 +247,8 @@ namespace SmartWaterSystem
             StateObject state = (StateObject)ar.AsyncState;
             try
             {
+                if (!state.workSocket.Connected)
+                    return;
                 int REnd = state.workSocket.EndReceive(ar);
                 if (REnd > 0)
                 {

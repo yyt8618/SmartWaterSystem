@@ -301,7 +301,7 @@ namespace SmartWaterSystem
             // 
             // txtCenterAddr
             // 
-            this.txtCenterAddr.EditValue = "1";
+            this.txtCenterAddr.EditValue = "0";
             this.txtCenterAddr.Location = new System.Drawing.Point(410, 16);
             this.txtCenterAddr.Name = "txtCenterAddr";
             this.txtCenterAddr.Size = new System.Drawing.Size(30, 20);
@@ -328,7 +328,7 @@ namespace SmartWaterSystem
             // 
             // txtA1
             // 
-            this.txtA1.EditValue = "1";
+            this.txtA1.EditValue = "0";
             this.txtA1.Location = new System.Drawing.Point(199, 17);
             this.txtA1.Name = "txtA1";
             this.txtA1.Properties.MaxLength = 4;
