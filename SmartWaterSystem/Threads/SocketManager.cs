@@ -258,18 +258,21 @@ namespace SmartWaterSystem
                     }
 
                     string[] strmsgs = SocketHelper.SplitSocketMsg(ref state.lstBuffer, ref state.msgpart);
-                    foreach (string strtmp in strmsgs)
+                    if (strmsgs != null)
                     {
-                        if (!string.IsNullOrEmpty(strtmp))
+                        foreach (string strtmp in strmsgs)
                         {
-                            try
+                            if (!string.IsNullOrEmpty(strtmp))
                             {
-                                SocketEntity msmqEntity = JSONSerialize.JsonDeserialize_Newtonsoft<SocketEntity>(strtmp);
-                                if (msmqEntity != null)
-                                    OnSockMsgEvent(new SocketEventArgs(msmqEntity));
-                            }
-                            catch (Exception ex)
-                            {
+                                try
+                                {
+                                    SocketEntity msmqEntity = JSONSerialize.JsonDeserialize_Newtonsoft<SocketEntity>(strtmp);
+                                    if (msmqEntity != null)
+                                        OnSockMsgEvent(new SocketEventArgs(msmqEntity));
+                                }
+                                catch (Exception ex)
+                                {
+                                }
                             }
                         }
                     }

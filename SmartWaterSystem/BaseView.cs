@@ -11,7 +11,6 @@ namespace SmartWaterSystem
 {
     public partial class BaseView : DevExpress.XtraEditors.XtraUserControl
     {
-
         public BaseView()
         {
             InitializeComponent();

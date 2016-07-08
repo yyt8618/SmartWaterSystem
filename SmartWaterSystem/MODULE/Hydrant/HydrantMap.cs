@@ -13,6 +13,7 @@ namespace SmartWaterSystem
 {
     public partial class HydrantMap :BaseView, IHydrantMap
     {
+
         NLog.Logger logger = NLog.LogManager.GetLogger("HydrantMap");
         public HydrantMap()
         {

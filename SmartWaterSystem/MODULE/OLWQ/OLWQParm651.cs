@@ -14,6 +14,7 @@ namespace SmartWaterSystem
 {
     public partial class OLWQParm651 : BaseView, IOLWQParm651
     {
+
         public OLWQParm651()
         {
             InitializeComponent();

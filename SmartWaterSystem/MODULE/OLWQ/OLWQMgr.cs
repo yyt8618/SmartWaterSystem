@@ -13,6 +13,7 @@ namespace SmartWaterSystem
 {
     public partial class OLWQMgr : BaseView, IOLWQMgr
     {
+
         TerminalDataBLL Terbll = new TerminalDataBLL();
 
         public OLWQMgr()

@@ -129,35 +129,41 @@ namespace SmartWaterSystem
                 //#endregion
                 #endregion
 
+                bool DatabaseConnected = false;
                 SQLHelper.ConnectionString = Settings.Instance.GetString(SettingKeys.DBString);
                 if (!string.IsNullOrEmpty(SQLHelper.ConnectionString))
                 {
                     bool sqlconnect = SQLHelper.TryConn(SQLHelper.ConnectionString);
                     if (!sqlconnect)
                     {
-                        if (DialogResult.No == XtraMessageBox.Show("连接SQL数据库失败，请设置数据库连接!", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Error))
+                        if (DialogResult.No == XtraMessageBox.Show("连接SQL数据库失败,部分页面不会显示，请设置数据库连接!", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Error))
                         {
-                            logger.Info("TryConn func:SQL数据库连接失败，主动退出");
-                            Application.Exit();
+                            //logger.Info("TryConn func:SQL数据库连接失败，主动退出");
+                            //Application.Exit();
                         }
                         else
                         {
                             barBtnSetDBConnect_ItemClick(null, null);
                         }
                     }
+                    else
+                        DatabaseConnected = true;
                 }
                 else
                 {
                     barBtnSetDBConnect_ItemClick(null, null);
                 }
 
-                if (SplashScreenManager.Default.IsSplashFormVisible)
+                if (DatabaseConnected)
                 {
-                    SplashScreenManager.Default.SendCommand(null, "正在加载数据...");
+                    if (SplashScreenManager.Default.IsSplashFormVisible)
+                    {
+                        SplashScreenManager.Default.SendCommand(null, "正在加载数据...");
+                    }
+                    GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
+                    GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                    GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
                 }
-                GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
-                GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
-                GlobalValue.controllerList = NoiseDataBaseHelper.GetController();
 
                 if (SplashScreenManager.Default.IsSplashFormVisible)
                 {
@@ -192,6 +198,7 @@ namespace SmartWaterSystem
             {
                 XtraMessageBox.Show("初始化异常", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 logger.ErrorException("FrmSystem_Load", ex);
+                logger.Info(ex.StackTrace);
                 Application.Exit();
             }
         }
@@ -200,129 +207,150 @@ namespace SmartWaterSystem
         {
             
         }
-
-        //void SQLSynctimer_Tick(object sender, EventArgs e)
-        //{
-        //    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncTerminal);
-        //    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncPreTerConfig);
-        //    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayType);
-        //    GlobalValue.SQLSyncMgr.Send(SqlSyncType.SyncUpdate_UniversalTerWayConfig);
-        //}
+        
+        /// <summary>
+        /// 如果页面需要连接数据库，检查数据库连接,检查能连接才能打开页面
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckDBConnect()
+        {
+            SQLHelper.ConnectionString = Settings.Instance.GetString(SettingKeys.DBString);
+            if (!string.IsNullOrEmpty(SQLHelper.ConnectionString))
+            {
+                bool sqlconnect = SQLHelper.TryConn(SQLHelper.ConnectionString);
+                if (!sqlconnect)
+                {
+                    return false;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         private void InitNavigate()
         {
-            foreach (Type t in lstType)
+            try {
+                bool DBConnect = CheckDBConnect();
+                foreach (Type t in lstType)
+                {
+                    if (t.Name == "INoiseDataMgr" && DBConnect)  //噪声数据管理
+                    {
+                        NBG_Noise.Visible = true;
+                        navBarNoiseDataManager.Visible = true;
+                    }
+                    else if (t.Name == "INoiseRecMgr" && DBConnect)        //噪声记录仪管理
+                    {
+                        NBG_Noise.Visible = true;
+                        navBarNoiseRecorderManager.Visible = true;
+                    }
+                    else if (t.Name == "INoiseGroupMgr" && DBConnect)  //噪声分组管理
+                    {
+                        NBG_Noise.Visible = true;
+                        navBarNoiseGroupManager.Visible = true;
+                    }
+                    else if (t.Name == "INoiseMap" && DBConnect)    //噪声地图
+                    {
+                        NBG_Noise.Visible = true;
+                        navBarNoiseMap.Visible = true;
+                    }
+                    else if (t.Name == "INoiseParmSetting" && DBConnect) //噪声记录仪参数设置
+                    {
+                        NBG_Noise.Visible = true;
+                        navBarNoiseParmSet.Visible = true;
+                    }
+                    else if (t.Name == "INoiseFFT" )    //噪声记录仪傅里叶分析
+                    {
+                        NBG_Noise.Visible = true;
+                        navBarNoiseFFT.Visible = true;
+                    }
+                    else if (t.Name == "INoiseDataCompare" && DBConnect)  //噪声记录仪数据比较
+                    {
+                        NBG_Noise.Visible = true;
+                        navBarNoiseCompare.Visible = true;
+                    }
+                    else if (t.Name == "INoiseEnergyAnalysis" && DBConnect) //噪声记录仪能量分析
+                    {
+                        NBG_Noise.Visible = true;
+                        navBarNoiseEnergy.Visible = true;
+                    }
+                    else if (t.Name == "IPreTerParm")  //压力终端参数配置和读取
+                    {
+                        NBG_PreT.Visible = true;
+                        navBarPreTerParm.Visible = true;
+                    }
+                    else if (t.Name == "IPreTerMgr" && DBConnect)  //压力终端配置和管理
+                    {
+                        NBG_PreT.Visible = true;
+                        navBarPreTerMgr.Visible = true;
+                    }
+                    else if (t.Name == "IPreTerMonitor" && DBConnect)  //压力终端实时列表监控、趋势图
+                    {
+                        NBG_PreT.Visible = true;
+                        navBarPreTerMonitor.Visible = true;
+                    }
+                    else if (t.Name == "IUniversalTerParm")  //通用终端参数设置和读取
+                    {
+                        NBG_UniversalT.Visible = true;
+                        navBarUniversalParm.Visible = true;
+                    }
+                    else if (t.Name == "IUniversalTerMgr" && DBConnect)   //通用终端管理
+                    {
+                        NBG_UniversalT.Visible = true;
+                        navBarUniversalMgr.Visible = true;
+                    }
+                    else if (t.Name == "IUniversalTerMonitor" && DBConnect)   //通用终端数据展示
+                    {
+                        NBG_UniversalT.Visible = true;
+                        navBarUniversalMonitor.Visible = true;
+                    }
+                    else if (t.Name == "IUniversalTerParm651")   //通用终端参数设置SL651
+                    {
+                        NBG_UniversalT.Visible = true;
+                        navBarUniversalParm651.Visible = true;
+                    }
+                    else if (t.Name == "IOLWQMgr" && DBConnect)   //在线水质
+                    {
+                        NBG_OLWQ.Visible = true;
+                        navBarOLWQMgr.Visible = true;
+                    }
+                    else if (t.Name == "IOLWQMonitor" && DBConnect)   //在线水质
+                    {
+                        NBG_OLWQ.Visible = true;
+                        navBarOLWQMonitor.Visible = true;
+                    }
+                    else if (t.Name == "IOLWQParm")   //在线水质
+                    {
+                        NBG_OLWQ.Visible = true;
+                        navBarOLWQParm.Visible = true;
+                    }
+                    else if (t.Name == "IOLWQParm651")  //在线水质
+                    {
+                        NBG_OLWQ.Visible = true;
+                        navBarOLWQParm651.Visible = true;
+                    }
+                    else if (t.Name == "IHydrantParm")  //消防栓
+                    {
+                        NBG_Hydrant.Visible = true;
+                        navBarHydrantParm.Visible = true;
+                    }
+                    else if (t.Name == "IHydrantMap" && DBConnect)  //消防栓地图
+                    {
+                        NBG_Hydrant.Visible = true;
+                        navBarHydrantMap.Visible = true;
+                    }
+                    else if (t.Name == "IPrectrlMonitor" && DBConnect)     //压力控制器监控
+                    {
+                        NBG_ValveSwitch.Visible = true;
+                        navBarValveMonitor.Visible = true;
+                    }
+                }
+            }catch(Exception ex)
             {
-                if(t.Name=="INoiseDataMgr")  //噪声数据管理
-                {
-                    NBG_Noise.Visible = true; 
-                    navBarNoiseDataManager.Visible=true;
-                }
-                else if (t.Name == "INoiseRecMgr")        //噪声记录仪管理
-                {
-                    NBG_Noise.Visible = true;
-                    navBarNoiseRecorderManager.Visible=true;
-                }
-                else if (t.Name == "INoiseGroupMgr")  //噪声分组管理
-                {
-                    NBG_Noise.Visible = true;
-                    navBarNoiseGroupManager.Visible=true;
-                }
-                else if (t.Name == "INoiseMap")    //噪声地图
-                {
-                    NBG_Noise.Visible = true;
-                    navBarNoiseMap.Visible=true;
-                }
-                else if (t.Name == "INoiseParmSetting") //噪声记录仪参数设置
-                {
-                    NBG_Noise.Visible = true;
-                    navBarNoiseParmSet.Visible=true;
-                }
-                else if (t.Name=="INoiseFFT")    //噪声记录仪傅里叶分析
-                {
-                    NBG_Noise.Visible = true;
-                    navBarNoiseFFT.Visible=true;
-                }
-                else if (t.Name == "INoiseDataCompare")  //噪声记录仪数据比较
-                {
-                    NBG_Noise.Visible = true;
-                    navBarNoiseCompare.Visible=true;
-                }
-                else if (t.Name=="INoiseEnergyAnalysis") //噪声记录仪能量分析
-                {
-                    NBG_Noise.Visible = true;
-                    navBarNoiseEnergy.Visible=true;
-                }
-                else if (t.Name=="IPreTerParm")  //压力终端参数配置和读取
-                {
-                    NBG_PreT.Visible = true;
-                    navBarPreTerParm.Visible = true;
-                }
-                else if (t.Name=="IPreTerMgr")  //压力终端配置和管理
-                {
-                    NBG_PreT.Visible = true;
-                    navBarPreTerMgr.Visible = true;
-                }
-                else if (t.Name=="IPreTerMonitor")  //压力终端实时列表监控、趋势图
-                {
-                    NBG_PreT.Visible = true;
-                    navBarPreTerMonitor.Visible = true;
-                }
-                else if (t.Name == "IUniversalTerParm")  //通用终端参数设置和读取
-                {
-                    NBG_UniversalT.Visible = true;
-                    navBarUniversalParm.Visible = true;
-                }
-                else if (t.Name == "IUniversalTerMgr")   //通用终端管理
-                {
-                    NBG_UniversalT.Visible = true;
-                    navBarUniversalMgr.Visible = true;
-                }
-                else if (t.Name == "IUniversalTerMonitor")   //通用终端数据展示
-                {
-                    NBG_UniversalT.Visible = true;
-                    navBarUniversalMonitor.Visible = true;
-                }
-                else if (t.Name == "IUniversalTerParm651")   //通用终端参数设置SL651
-                {
-                    NBG_UniversalT.Visible = true;
-                    navBarUniversalParm651.Visible = true;
-                }
-                else if (t.Name == "IOLWQMgr")   //在线水质
-                {
-                    NBG_OLWQ.Visible = true;
-                    navBarOLWQMgr.Visible = true;
-                }
-                else if (t.Name == "IOLWQMonitor")   //在线水质
-                {
-                    NBG_OLWQ.Visible = true;
-                    navBarOLWQMonitor.Visible = true;
-                }
-                else if (t.Name == "IOLWQParm")   //在线水质
-                {
-                    NBG_OLWQ.Visible = true;
-                    navBarOLWQParm.Visible = true;
-                }
-                else if (t.Name == "IOLWQParm651")  //在线水质
-                {
-                    NBG_OLWQ.Visible = true;
-                    navBarOLWQParm651.Visible = true;
-                }
-                else if (t.Name == "IHydrantParm")  //消防栓
-                {
-                    NBG_Hydrant.Visible = true;
-                    navBarHydrantParm.Visible = true;
-                }
-                else if (t.Name == "IHydrantMap")  //消防栓地图
-                {
-                    NBG_Hydrant.Visible = true;
-                    navBarHydrantMap.Visible = true;
-                }
-                else if(t.Name== "IPrectrlMonitor")     //压力控制器监控
-                {
-                    NBG_ValveSwitch.Visible = true;
-                    navBarValveMonitor.Visible = true;
-                }
+                logger.Info(ex.StackTrace);
+                throw ex;
             }
         }
 
@@ -612,7 +640,7 @@ namespace SmartWaterSystem
                 if (GlobalValue.portUtil != null && GlobalValue.portUtil.IsOpen)
                     GlobalValue.portUtil.Close();
 
-                Application.Exit();
+                this.Close();
             }
         }
 

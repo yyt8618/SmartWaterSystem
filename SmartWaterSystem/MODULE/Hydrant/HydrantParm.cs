@@ -14,6 +14,7 @@ namespace SmartWaterSystem
 {
     public partial class HydrantParm : BaseView, IHydrantParm
     {
+
         DataTable HistoryData = new DataTable("HistoryTable");
         public HydrantParm()
         {
