@@ -39,8 +39,9 @@ namespace SmartWaterSystem
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnSocketConnect = new System.Windows.Forms.Button();
             this.picSockConnect = new System.Windows.Forms.PictureBox();
+            this.btnSocketConnect = new System.Windows.Forms.Button();
+            this.btnDisconnect = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +57,7 @@ namespace SmartWaterSystem
             this.btnClear.Location = new System.Drawing.Point(711, 3);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(52, 23);
-            this.btnClear.TabIndex = 0;
+            this.btnClear.TabIndex = 6;
             this.btnClear.TabStop = false;
             this.btnClear.Text = "清除";
             this.btnClear.UseVisualStyleBackColor = false;
@@ -76,7 +77,7 @@ namespace SmartWaterSystem
             this.txtControl.ReadOnly = true;
             this.txtControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtControl.Size = new System.Drawing.Size(766, 393);
-            this.txtControl.TabIndex = 3;
+            this.txtControl.TabIndex = 1;
             this.txtControl.TabStop = false;
             // 
             // cbShowSocket
@@ -90,7 +91,7 @@ namespace SmartWaterSystem
             this.cbShowSocket.Location = new System.Drawing.Point(12, 5);
             this.cbShowSocket.Name = "cbShowSocket";
             this.cbShowSocket.Size = new System.Drawing.Size(47, 18);
-            this.cbShowSocket.TabIndex = 1;
+            this.cbShowSocket.TabIndex = 0;
             this.cbShowSocket.TabStop = false;
             this.cbShowSocket.Text = "远传";
             this.cbShowSocket.UseVisualStyleBackColor = false;
@@ -107,7 +108,7 @@ namespace SmartWaterSystem
             this.cbHTTP.Location = new System.Drawing.Point(65, 5);
             this.cbHTTP.Name = "cbHTTP";
             this.cbHTTP.Size = new System.Drawing.Size(47, 18);
-            this.cbHTTP.TabIndex = 2;
+            this.cbHTTP.TabIndex = 1;
             this.cbHTTP.TabStop = false;
             this.cbHTTP.Text = "手机";
             this.cbHTTP.UseVisualStyleBackColor = false;
@@ -124,7 +125,7 @@ namespace SmartWaterSystem
             this.cbSerialPort.Location = new System.Drawing.Point(118, 5);
             this.cbSerialPort.Name = "cbSerialPort";
             this.cbSerialPort.Size = new System.Drawing.Size(47, 18);
-            this.cbSerialPort.TabIndex = 3;
+            this.cbSerialPort.TabIndex = 2;
             this.cbSerialPort.TabStop = false;
             this.cbSerialPort.Text = "串口";
             this.cbSerialPort.UseVisualStyleBackColor = false;
@@ -141,7 +142,7 @@ namespace SmartWaterSystem
             this.cbErrs.Location = new System.Drawing.Point(171, 5);
             this.cbErrs.Name = "cbErrs";
             this.cbErrs.Size = new System.Drawing.Size(47, 18);
-            this.cbErrs.TabIndex = 4;
+            this.cbErrs.TabIndex = 3;
             this.cbErrs.TabStop = false;
             this.cbErrs.Text = "错误";
             this.cbErrs.UseVisualStyleBackColor = false;
@@ -153,6 +154,7 @@ namespace SmartWaterSystem
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.panel1.Controls.Add(this.picSockConnect);
+            this.panel1.Controls.Add(this.btnDisconnect);
             this.panel1.Controls.Add(this.btnSocketConnect);
             this.panel1.Controls.Add(this.cbErrs);
             this.panel1.Controls.Add(this.btnClear);
@@ -162,7 +164,18 @@ namespace SmartWaterSystem
             this.panel1.Location = new System.Drawing.Point(0, 2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(766, 32);
-            this.panel1.TabIndex = 5;
+            this.panel1.TabIndex = 0;
+            // 
+            // picSockConnect
+            // 
+            this.picSockConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            this.picSockConnect.InitialImage = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            this.picSockConnect.Location = new System.Drawing.Point(566, 6);
+            this.picSockConnect.Name = "picSockConnect";
+            this.picSockConnect.Size = new System.Drawing.Size(41, 20);
+            this.picSockConnect.TabIndex = 5;
+            this.picSockConnect.TabStop = false;
             // 
             // btnSocketConnect
             // 
@@ -172,25 +185,31 @@ namespace SmartWaterSystem
             this.btnSocketConnect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnSocketConnect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnSocketConnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnSocketConnect.Location = new System.Drawing.Point(656, 3);
+            this.btnSocketConnect.Location = new System.Drawing.Point(607, 3);
             this.btnSocketConnect.Name = "btnSocketConnect";
             this.btnSocketConnect.Size = new System.Drawing.Size(52, 23);
-            this.btnSocketConnect.TabIndex = 0;
+            this.btnSocketConnect.TabIndex = 4;
             this.btnSocketConnect.TabStop = false;
             this.btnSocketConnect.Text = "连接";
             this.btnSocketConnect.UseVisualStyleBackColor = false;
             this.btnSocketConnect.Click += new System.EventHandler(this.btnSocketConnect_Click);
             // 
-            // picSockConnect
+            // btnDisconnect
             // 
-            this.picSockConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-            this.picSockConnect.InitialImage = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-            this.picSockConnect.Location = new System.Drawing.Point(609, 5);
-            this.picSockConnect.Name = "picSockConnect";
-            this.picSockConnect.Size = new System.Drawing.Size(41, 20);
-            this.picSockConnect.TabIndex = 5;
-            this.picSockConnect.TabStop = false;
+            this.btnDisconnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDisconnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnDisconnect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDisconnect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDisconnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnDisconnect.Location = new System.Drawing.Point(659, 3);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(52, 23);
+            this.btnDisconnect.TabIndex = 5;
+            this.btnDisconnect.TabStop = false;
+            this.btnDisconnect.Text = "断开";
+            this.btnDisconnect.UseVisualStyleBackColor = false;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // FrmConsole
             // 
@@ -228,5 +247,6 @@ namespace SmartWaterSystem
         private Panel panel1;
         private Button btnSocketConnect;
         private PictureBox picSockConnect;
+        private Button btnDisconnect;
     }
 }

@@ -63,12 +63,10 @@ namespace SmartWaterSystem
                 if (isconnect)
                 {
                     picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockConnect;
-                    //btnSocketConnect.Enabled = false;
                 }
                 else
                 {
                     picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-                    //btnSocketConnect.Enabled = true;
                 }
             }
             catch { }
@@ -160,11 +158,7 @@ namespace SmartWaterSystem
                     ctrlmsg += lstCtrlMsg[i];
                 }
                 txtControl.ResetText();
-                //txtControl.Text+=ctrlmsg;
                 txtControl.AppendText(ctrlmsg);
-                //txtControl.SelectionStart = txtControl.Text.Length;
-                //txtControl.ScrollToCaret();
-                //txtControl.SelectedText = "";
             }
             catch (Exception ex)
             {
@@ -214,6 +208,11 @@ namespace SmartWaterSystem
         private void btnSocketConnect_Click(object sender, EventArgs e)
         {
             GlobalValue.SocketMgr.ReConnect();
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            GlobalValue.SocketMgr.DisConnect();
         }
     }
 }

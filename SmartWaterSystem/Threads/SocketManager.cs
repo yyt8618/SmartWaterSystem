@@ -86,11 +86,6 @@ namespace SmartWaterSystem
             heartthread.IsBackground = true;
             heartthread.Start();
             
-            //if (!Connect())
-            //{
-            //    return false;
-            //}
-            
             return true;
         }
 
@@ -103,8 +98,11 @@ namespace SmartWaterSystem
                 
                 try
                 {
-                    socket.Send(data);
-                    OnSockConnEvent(new SocketStatusEventArgs(true));
+                    if (!disconnecting)  //如果是正在断开连接,直接返回
+                    {
+                        socket.Send(data);
+                        OnSockConnEvent(new SocketStatusEventArgs(true));
+                    }
                 }
                 catch
                 {
@@ -165,6 +163,7 @@ namespace SmartWaterSystem
                         socket.BeginConnect(ipaddr, Settings.Instance.GetInt(SettingKeys.GPRS_PORT), new AsyncCallback(ConnectCallback), socket);
                     }
                 }
+                disconnecting = false;
                 return true;
             }
             catch(Exception ex) {
@@ -195,9 +194,27 @@ namespace SmartWaterSystem
                 Connect(true);
         }
 
-        public void DisConnect(Socket sock)
+        public void DisConnect()
         {
             try {
+                socket.Shutdown(SocketShutdown.Both);
+                Thread.Sleep(20);
+                disconnecting = true;
+                socket.Close();
+                socket = null;
+                OnSockConnEvent(new SocketStatusEventArgs(false));
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, DateTime.Now.ToString() + " Socket连接已断开!")));
+            }
+            catch(Exception ex)
+            {
+                ;
+            }
+        }
+
+        public void DisConnect(Socket sock)
+        {
+            try
+            {
                 sock.Shutdown(SocketShutdown.Both);
                 Thread.Sleep(20);
                 disconnecting = true;
@@ -206,7 +223,7 @@ namespace SmartWaterSystem
                 OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, DateTime.Now.ToString() + "正在断开Socket重新连接,请稍候...")));
                 Connect(true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ;
             }
