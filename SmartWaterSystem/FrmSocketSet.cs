@@ -118,6 +118,17 @@ namespace SmartWaterSystem
             }
         }
 
-
+        private void repositoryItemCheckEdit1_CheckedChanged(object sender, EventArgs e)
+        {
+                DataTable dt = gridControl1.DataSource as DataTable;
+                if (dt != null && dt.Rows.Count >0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        dt.Rows[i]["Selected"] = false;
+                    }
+                }
+            gridControl1.RefreshDataSource();
+        }
     }
 }
