@@ -426,7 +426,7 @@ namespace Protocol
         List<byte> ReceiveBytes = new List<byte>();
         int nLastRecTime = Environment.TickCount;   //单次接收超时时间
         int nStartTime = Environment.TickCount;     //总接收超时时间
-        public List<T> SendCommand1<T>(byte[] sendData, int timeout = 5, bool needresp = true) where T : struct
+        public List<T> SendCommand651<T>(byte[] sendData, int timeout = 5, bool needresp = true) where T : struct
         {
             try
             {
@@ -666,7 +666,7 @@ namespace Protocol
         {
             try
             {
-                List<Package651> result = SendCommand1<Package651>(package.ToResponseArray(), timeout, needresp);
+                List<Package651> result = SendCommand651<Package651>(package.ToResponseArray(), timeout, needresp);
                 return result;
             }
             catch (Exception ex)

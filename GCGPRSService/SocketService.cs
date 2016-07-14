@@ -1294,6 +1294,7 @@ namespace GCGPRSService
                                     }
                                     else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.OLWQ_CTRL)
                                     {
+                                        bool addtion_voldata = false;   //是否在数据段最后增加了两个字节的电压数据
                                         #region 水质终端
                                         if ((pack.C1 == (byte)GPRS_READ.READ_TURBIDITY) || (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL) ||
                                             (pack.C1 == (byte)GPRS_READ.READ_PH))  //从站向主站发送水质采集数据
@@ -1301,9 +1302,18 @@ namespace GCGPRSService
                                             int dataindex = (pack.DataLength - 2 - 1) % 8;
                                             if (dataindex != 0)
                                             {
-                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+8*n)规则");
+                                                if (dataindex == 2)
+                                                {
+                                                    dataindex = (pack.DataLength - 2 - 1 - 2) / 8;
+                                                    addtion_voldata = true;
+                                                }
+                                                else
+                                                {
+                                                    throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+8*n)或(2+1+8*n+2)规则");  //最后增加两个字节的电压数据
+                                                }
                                             }
-                                            dataindex = (pack.DataLength - 2 - 1) / 8;
+                                            else
+                                                dataindex = (pack.DataLength - 2 - 1) / 8;
 
                                             GPRSOLWQFrameDataEntity framedata = new GPRSOLWQFrameDataEntity();
                                             framedata.TerId = pack.DevID.ToString();
@@ -1334,6 +1344,10 @@ namespace GCGPRSService
                                                 valuecolumnname = "PH";
                                             }
 
+                                            float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
+                                            if (addtion_voldata)  //电压
+                                                volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
+
                                             for (int i = 0; i < dataindex; i++)
                                             {
                                                 year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
@@ -1360,9 +1374,9 @@ namespace GCGPRSService
                                                     data.PH = value / 100;
                                                 }
 
-                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}{5}",
-                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value, unit)));
-
+                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}{5}|电压值:{6}V",
+                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value, unit, volvalue)));
+                                                data.Voltage = volvalue;
                                                 try
                                                 {
                                                     data.ColTime = new DateTime(year, month, day, hour, minute, sec);
@@ -1380,9 +1394,18 @@ namespace GCGPRSService
                                             int dataindex = (pack.DataLength - 2 - 1) % 12;
                                             if (dataindex != 0)
                                             {
-                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+10*n)规则");
+                                                if (dataindex == 2)
+                                                {
+                                                    dataindex = (pack.DataLength - 2 - 1 - 2) / 12;
+                                                    addtion_voldata = true;
+                                                }
+                                                else
+                                                {
+                                                    throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+10*n)或(2+1+10*n+2)规则");  //最后增加两个字节的电压数据
+                                                }
                                             }
-                                            dataindex = (pack.DataLength - 2 - 1) / 12;
+                                            else
+                                                dataindex = (pack.DataLength - 2 - 1) / 12;
 
                                             GPRSOLWQFrameDataEntity framedata = new GPRSOLWQFrameDataEntity();
                                             framedata.TerId = pack.DevID.ToString();
@@ -1392,6 +1415,10 @@ namespace GCGPRSService
                                             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
                                             float Condvalue = 0;
                                             float Tempvalue = 0;
+
+                                            float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
+                                            if (addtion_voldata)  //电压
+                                                volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
 
                                             for (int i = 0; i < dataindex; i++)
                                             {
@@ -1405,13 +1432,14 @@ namespace GCGPRSService
                                                 Condvalue = ((float)BitConverter.ToInt32(new byte[] { pack.Data[i * 12 + 12], pack.Data[i * 12 + 11], pack.Data[i * 12 + 10], pack.Data[i * 12 + 9] }, 0)) / 100;
                                                 Tempvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 12 + 14], pack.Data[i * 12 + 13] }, 0)) / 10;
 
-                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|电导率值:{3}us/cm,温度:{4}℃",
-                                                    i, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Condvalue.ToString("f2"), Tempvalue.ToString("f1"))));
+                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|电导率值:{3}us/cm,温度:{4}℃|电压值:{5}V",
+                                                    i, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Condvalue.ToString("f2"), Tempvalue.ToString("f1"), volvalue)));
 
                                                 GPRSOLWQDataEntity data = new GPRSOLWQDataEntity();
                                                 data.Conductivity = Condvalue;
                                                 data.Temperature = Tempvalue;
                                                 data.ValueColumnName = "Conductivity";
+                                                data.Voltage = volvalue;
                                                 try
                                                 {
                                                     data.ColTime = new DateTime(year, month, day, hour, minute, sec);
@@ -1423,6 +1451,144 @@ namespace GCGPRSService
 
                                             GlobalValue.Instance.GPRS_OLWQFrameData.Enqueue(framedata);  //通知存储线程处理
                                             GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertOLWQValue);
+                                        }
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_OLWQFLOW) //从站向主站发送流量采集数据(水质终端)
+                                        {
+                                            if (pack.Data[2] == 0x02)   //上海肯特(KENT)水表
+                                            {
+                                                #region 上海肯特(KENT)水表
+                                                int dataindex = (pack.DataLength - 2 - 2 - 1) % (6 + 36);  //两字节报警,1字节厂家类型,
+                                                if (dataindex != 0)
+                                                {
+                                                    throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+(6+36)*n)规则");
+                                                }
+                                                dataindex = (pack.DataLength - 2 - 2 - 1) / (6 + 36);
+
+                                                int alarmflag = 0;
+                                                //报警标志
+                                                alarmflag = BitConverter.ToInt16(new byte[] { pack.Data[0], pack.Data[1] }, 0);
+
+                                                float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
+                                                if (pack.DataLength - (6+36)*dataindex -3 == 2)  //最后余两个字节则认为是电压值
+                                                    volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
+
+                                                GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
+                                                framedata.TerId = pack.DevID.ToString();
+                                                framedata.ModifyTime = DateTime.Now;
+                                                framedata.Frame = str_frame;
+
+                                                int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                                double forward_flowvalue = 0, reverse_flowvalue = 0, instant_flowvalue = 0;
+                                                for (int i = 0; i < dataindex; i++)
+                                                {
+                                                    year = 2000 + Convert.ToInt16(pack.Data[i * 42 + 3]);
+                                                    month = Convert.ToInt16(pack.Data[i * 42 + 4]);
+                                                    day = Convert.ToInt16(pack.Data[i * 42 + 5]);
+                                                    hour = Convert.ToInt16(pack.Data[i * 42 + 6]);
+                                                    minute = Convert.ToInt16(pack.Data[i * 42 + 7]);
+                                                    sec = Convert.ToInt16(pack.Data[i * 42 + 8]);
+
+                                                    byte balarm = 0x00;  //水表报警
+                                                    string errmsg = "";
+                                                    if (KERTFlow.ProcessFrameData(pack.Data, i * 42 + 3 + 6, 36, out forward_flowvalue, out reverse_flowvalue, out instant_flowvalue, out balarm, out errmsg))
+                                                    {
+                                                        string str_alarm = "空";
+                                                        if ((balarm & 0x10) == 0x10)
+                                                        { str_alarm = "励磁报警"; }
+                                                        else if ((balarm & 0x08) == 0x08)
+                                                        { str_alarm = "空管报警"; }
+                                                        else if ((balarm & 0x04) == 0x04)
+                                                        { str_alarm = "流浪反向报警"; }
+                                                        else if ((balarm & 0x10) == 0x10)
+                                                        { str_alarm = "流量上限报警"; }
+                                                        else if ((balarm & 0x10) == 0x10)
+                                                        { str_alarm = "流量下限报警"; }
+                                                        OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V",
+                                                           i, pack.DevID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue)));
+
+                                                        GPRSFlowDataEntity data = new GPRSFlowDataEntity();
+                                                        data.Forward_FlowValue = forward_flowvalue;
+                                                        data.Reverse_FlowValue = reverse_flowvalue;
+                                                        data.Instant_FlowValue = instant_flowvalue;
+                                                        data.Voltage = volvalue;
+                                                        try
+                                                        {
+                                                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                                                        }
+                                                        catch { data.ColTime = ConstValue.MinDateTime; }
+                                                        bNeedCheckTime = NeedCheckTime(data.ColTime);
+                                                        framedata.lstFlowData.Add(data);
+
+                                                        GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
+                                                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
+                                                    }
+                                                    else
+                                                    {
+                                                        OnSendMsg(new SocketEventArgs(string.Format("水质终端[{0}]|报警标志({1})|采集时间({2})|错误:{3}",
+                                                            pack.DevID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
+                                                    }
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                OnSendMsg(new SocketEventArgs("水质终端["+ pack.DevID + "]错误未知水表类型!"));
+                                            }
+                                            #endregion
+                                            
+                                        }
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_OLWQALARM)  //从站向主站发送设备报警信息(水质终端)
+                                        {
+                                            if (pack.DataLength != 7 && pack.DataLength != 9)   //pack.DataLength == 9 带电压值
+                                            {
+                                                throw new ArgumentException(DateTime.Now.ToString() + " " + "帧数据长度[" + pack.DataLength + "]不符合(2+1+18*n)或(2+1+18*n+2)规则");
+                                            }
+
+                                            string alarm = "";
+                                            //报警
+                                            /*
+                                             * A0—电池低压报警。
+                                             * A1—浊度报警。
+                                             * A2—余氯报警。
+                                             * A3—流量报警。
+                                             * A4—PH报警。
+                                             * A5—电导率报警。
+                                             * A6～A7—备用
+                                             */
+
+                                            if ((pack.Data[0] & 0x01) == 1)  //电池低压报警
+                                                alarm += "电池低压报警";
+                                            else if (((pack.Data[0] & 0x02) >> 1) == 1)   //浊度报警
+                                                alarm += "浊度报警";
+                                            else if (((pack.Data[0] & 0x04) >> 2) == 1)   //余氯报警
+                                                alarm += "余氯报警";
+                                            else if (((pack.Data[0] & 0x08) >> 3) == 1)  //流量报警
+                                                alarm += "流量报警";
+                                            else if (((pack.Data[0] & 0x10) >> 4) == 1)  //PH报警
+                                                alarm += "PH报警";
+                                            else if (((pack.Data[0] & 0x20) >> 5) == 1)  //电导率报警
+                                                alarm += "电导率报警";
+
+                                            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                                            year = 2000 + Convert.ToInt16(pack.Data[1]);
+                                            month = Convert.ToInt16(pack.Data[2]);
+                                            day = Convert.ToInt16(pack.Data[3]);
+                                            hour = Convert.ToInt16(pack.Data[4]);
+                                            minute = Convert.ToInt16(pack.Data[5]);
+                                            sec = Convert.ToInt16(pack.Data[6]);
+
+                                            float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
+                                            if (pack.DataLength == 9)   //pack.DataLength == 9 带电压值
+                                            {
+                                                volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
+                                            }
+                                            if (month == 0)
+                                                month = 1;
+                                            if (day == 0)
+                                                day = 1;
+                                            bNeedCheckTime = NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
+                                            OnSendMsg(new SocketEventArgs(string.Format("水质终端[{0}]{1}|时间({2})|电压值:{3}V",
+                                                 pack.DevID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
                                         }
                                         #endregion
                                     }

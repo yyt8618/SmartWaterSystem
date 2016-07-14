@@ -547,10 +547,10 @@ namespace SmartWaterSystem
             this.ceConductivityState.Enabled = false;
             this.ceConductivityState.Location = new System.Drawing.Point(345, 2);
             this.ceConductivityState.Name = "ceConductivityState";
-            this.ceConductivityState.Properties.Caption = "电导率/温度";
+            this.ceConductivityState.Properties.Caption = "电导率/温度(或其它485采集)";
             this.ceConductivityState.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceConductivityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
-            this.ceConductivityState.Size = new System.Drawing.Size(91, 19);
+            this.ceConductivityState.Size = new System.Drawing.Size(180, 19);
             this.ceConductivityState.TabIndex = 3;
             // 
             // ceTurbidityState

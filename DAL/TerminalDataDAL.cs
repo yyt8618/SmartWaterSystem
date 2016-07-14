@@ -415,17 +415,19 @@ namespace DAL
                     command_frame.Connection = SQLHelper.Conn;
                     //command_frame.Transaction = trans;
 
-                    string SQL_Data = "INSERT INTO OLWQ_Real(TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime,UnloadTime,ValueColumnName) VALUES(@TerId,@Turbidity,@ResidualCl,@PH,@Cond,@Temp,@coltime,@UploadTime,@valuename)";
+                    string SQL_Data = "INSERT INTO OLWQ_Real(TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime,UnloadTime,ValueColumnName,Voltage) VALUES(@TerId,@Turbidity,@ResidualCl,@PH,@Cond,@Temp,@coltime,@UploadTime,@valuename,@Voltage)";
                     SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@Turbidity",SqlDbType.Decimal),
                     new SqlParameter("@ResidualCl",SqlDbType.Decimal),
                     new SqlParameter("@PH",SqlDbType.Decimal),
                     new SqlParameter("@Cond",SqlDbType.Decimal),
+
                     new SqlParameter("@Temp",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
-                    new SqlParameter("@valuename",SqlDbType.NVarChar)
+                    new SqlParameter("@valuename",SqlDbType.NVarChar),
+                    new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
                     SqlCommand command_data = new SqlCommand();
                     command_data.CommandText = SQL_Data;
@@ -453,10 +455,12 @@ namespace DAL
                                 parms_predata[2].Value = entity.lstOLWQData[i].ResidualCl;
                                 parms_predata[3].Value = entity.lstOLWQData[i].PH;
                                 parms_predata[4].Value = entity.lstOLWQData[i].Conductivity;
+
                                 parms_predata[5].Value = entity.lstOLWQData[i].Temperature;
                                 parms_predata[6].Value = entity.lstOLWQData[i].ColTime;
                                 parms_predata[7].Value = entity.ModifyTime;
                                 parms_predata[8].Value = entity.lstOLWQData[i].ValueColumnName;
+                                parms_predata[9].Value = entity.lstOLWQData[i].Voltage;
 
                                 command_data.ExecuteNonQuery();
                             }

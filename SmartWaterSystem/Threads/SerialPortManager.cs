@@ -240,6 +240,8 @@ namespace SmartWaterSystem
                 object obj = null;
 
                 OnSerialPortEvent(new SerialPortEventArgs((SerialPortType)evt, TransStatus.Start, "", null));
+                GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived -= GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;  //发送命令时去除委托
+                
                 switch (evt)
                 {
                     case (uint)SerialPortType.None:
@@ -1647,6 +1649,7 @@ namespace SmartWaterSystem
                         #endregion
                         break;
                 }
+                GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived += GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;  //发送完成后,恢复委托
                 OnSerialPortEvent(new SerialPortEventArgs((SerialPortType)evt, result ? TransStatus.Success : TransStatus.Fail, msg, obj));
             }
         }

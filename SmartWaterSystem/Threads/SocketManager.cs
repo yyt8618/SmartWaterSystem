@@ -115,7 +115,7 @@ namespace SmartWaterSystem
         }
 
         //正在断开连接的时候,不能去连接
-        private bool disconnecting = false;
+        private bool disconnecting = true;
         private void HeartPack(int sendcount = 1)
         {
             byte[] data = Encoding.UTF8.GetBytes(SmartWaterHeartBeat);

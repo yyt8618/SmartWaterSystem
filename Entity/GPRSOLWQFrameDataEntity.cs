@@ -113,5 +113,15 @@ namespace Entity
             get { return _valueColumnName; }
             set { _valueColumnName = value; }
         }
+
+        private float _Voltage = 0f;
+        /// <summary>
+        /// 电压值
+        /// </summary>
+        public float Voltage
+        {
+            get { return _Voltage; }
+            set { _Voltage = value; }
+        }
     }
 }

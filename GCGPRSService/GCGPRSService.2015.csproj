@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="GlobalValue.cs" />
     <Compile Include="HTTPService.cs" />
+    <Compile Include="KERTFlow.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

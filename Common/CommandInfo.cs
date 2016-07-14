@@ -1162,6 +1162,14 @@ namespace Common
         /// </summary>
         READ_CONDUCTIVITY=0xA3,
         /// <summary>
+        /// 水质终端流量
+        /// </summary>
+        READ_OLWQFLOW=0xA4,
+        /// <summary>
+        /// 水质终端报警
+        /// </summary>
+        READ_OLWQALARM= 0xAB,
+        /// <summary>
         /// 消防栓打开
         /// </summary>
         READ_HYDRANT_OPEN = 0xA0,
