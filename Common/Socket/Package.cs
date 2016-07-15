@@ -163,22 +163,30 @@ namespace Common
         /// </summary>
         public int ID
         {
+            //get
+            //{
+            //    return BitConverter.ToInt32(new byte[] { ID0, ID1, ID2, ID3 }, 0);
+            //}
+            //set
+            //{
+            //    string str = Convert.ToString(value, 16).PadLeft(8, '0');
+            //    if (str == null || str.Length == 0 || str.Length > 8)
+            //    {
+            //        throw new Exception("ID长度溢出");
+            //    }
+            //    byte[] temp = ConvertHelper.HexStringToByteArray(str);
+            //    ID3 = temp[0];
+            //    ID2 = temp[1];
+            //    ID1 = temp[2];
+            //    ID0 = temp[3];
+            //}
             get
             {
-                return BitConverter.ToInt32(new byte[] { ID0, ID1, ID2, ID3 }, 0);
-            }
-            set
-            {
-                string str = Convert.ToString(value, 16).PadLeft(8, '0');
-                if (str == null || str.Length == 0 || str.Length > 8)
-                {
-                    throw new Exception("ID长度溢出");
-                }
-                byte[] temp = ConvertHelper.HexStringToByteArray(str);
-                ID3 = temp[0];
-                ID2 = temp[1];
-                ID1 = temp[2];
-                ID0 = temp[3];
+                int id = BitConverter.ToInt32(new byte[] { ID0, ID1, ID2, 0x00 }, 0);
+                //类型作为id高位  这样是为了不同类型的终端都可以上传相同类型的数据(如:压力终端和水质终端都可以上传流量数据)的情况下，加入设备类型作为id区分
+                //设备类型不直接转换而是单独乘100000是为了将ID值减小并且容易看懂
+                id += Convert.ToInt32(ID3) * 100000;  
+                return id;
             }
         }
 

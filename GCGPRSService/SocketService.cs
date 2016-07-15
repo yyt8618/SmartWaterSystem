@@ -306,8 +306,8 @@ namespace GCGPRSService
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
             // Create a TCP/IP socket.     
             listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            listener.ReceiveTimeout = 60 * 1000;  //设置超时
-            listener.SendTimeout = 60 * 1000;
+            listener.ReceiveTimeout = 30 * 1000;  //设置超时
+            listener.SendTimeout = 30 * 1000;
             try
             {
                 //OnSendMsg(new SocketEventArgs("监听时的线程:" + Thread.CurrentThread.ManagedThreadId.ToString()));
@@ -633,7 +633,7 @@ namespace GCGPRSService
                                             preFlag = Convert.ToInt16(pack.Data[2]);
 
                                             GPRSPreFrameDataEntity framedata = new GPRSPreFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
+                                            framedata.TerId = pack.ID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -653,7 +653,7 @@ namespace GCGPRSService
 
                                                 pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0)) / 1000;
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力终端[{1}]|报警({2})|压力标志({3})|采集时间({4})|压力值:{5}MPa|电压值:{6}V",
-                                                    i, pack.DevID, alarm, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, volvalue)));
+                                                    i, pack.ID, alarm, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, volvalue)));
 
                                                 GPRSPreDataEntity data = new GPRSPreDataEntity();
                                                 data.PreValue = pressuevalue;
@@ -725,7 +725,7 @@ namespace GCGPRSService
                                                 volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
 
                                             GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
+                                            framedata.TerId = pack.ID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -750,14 +750,14 @@ namespace GCGPRSService
                                                     instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 20], pack.Data[i * 18 + 19], pack.Data[i * 18 + 18], pack.Data[i * 18 + 17] }, 0);
 
                                                     OnSendMsg(new SocketEventArgs(string.Format("index({0})|流量终端[{1}]|报警标志({2})|流量标志({3})|采集时间({4})|正向流量值:{5}|反向流量值:{6}|瞬时流量值:{7}|电压值:{8}V",
-                                                        i, pack.DevID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue)));
+                                                        i, pack.ID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue)));
                                                 }
                                                 else
                                                 {
                                                     string flowvalue = String.Format("{0:X2}", pack.Data[i * 18 + 12]) + String.Format("{0:X2}", pack.Data[i * 18 + 11]) + String.Format("{0:X2}", pack.Data[i * 18 + 10]) + String.Format("{0:X2}", pack.Data[i * 18 + 9]);
                                                     forward_flowvalue = Convert.ToDouble(flowvalue) / 100;
                                                     OnSendMsg(new SocketEventArgs(string.Format("index({0})|流量终端[{1}]|报警标志({2})|流量标志({3})|采集时间({4})|日累计流量值:{5}|电压值:{6}V",
-                                                        i, pack.DevID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, volvalue)));
+                                                        i, pack.ID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, volvalue)));
                                                 }
 
                                                 GPRSFlowDataEntity data = new GPRSFlowDataEntity();
@@ -821,7 +821,7 @@ namespace GCGPRSService
                                                 day = 1;
                                             bNeedCheckTime = NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
                                             OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}]{1}|时间({2})|电压值:{3}V",
-                                                 pack.DevID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
+                                                 pack.ID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
                                         }
                                         #endregion
                                     }
@@ -854,7 +854,7 @@ namespace GCGPRSService
                                              */
 
                                             GPRSPrectrlFrameDataEntity framedata = new GPRSPrectrlFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
+                                            framedata.TerId = pack.ID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -899,7 +899,7 @@ namespace GCGPRSService
                                                 float instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 24 + 21], pack.Data[i * 24 + 20], pack.Data[i * 24 + 19], pack.Data[i * 24 + 18] }, 0);
 
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力控制器[{1}]|参数报警({2})|设备报警({3})|采集时间({4})|进口压力:{5}MPa|出口压力:{6}MPa|正向流量值:{7}|反向流量值:{8}|瞬时流量值:{9}",
-                                                        i, pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
+                                                        i, pack.ID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
 
                                                 GPRSPrectrlDataEntity data = new GPRSPrectrlDataEntity();
                                                 data.Entrance_preValue = entrance_prevalue;
@@ -961,7 +961,7 @@ namespace GCGPRSService
                                             }
                                             int calibration = 819;// BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
                                             GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
+                                            framedata.TerId = pack.ID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -1005,7 +1005,7 @@ namespace GCGPRSService
                                                         if (datavalue < 0)
                                                             datavalue = 0;
                                                         OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}",
-                                                            i, pack.DevID, name, calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString())));
+                                                            i, pack.ID, name, calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString())));
 
                                                         GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                                                         data.DataValue = datavalue;
@@ -1037,7 +1037,7 @@ namespace GCGPRSService
                                         {
                                             #region 通用终端脉冲
                                             GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
+                                            framedata.TerId = pack.ID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -1104,7 +1104,7 @@ namespace GCGPRSService
                                                             datavalue = PluseUnits[j] * datavalue;  //脉冲计数*单位脉冲值
                                                             datavalue = Convert.ToDouble(datavalue.ToString("F" + Precisions[j]));  //精度调整
                                                             OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]脉冲{2}路|采集时间({3})|{4}:{5}{6}",
-                                                                i, pack.DevID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
+                                                                i, pack.ID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
 
                                                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                                                             data.DataValue = datavalue;
@@ -1182,7 +1182,7 @@ namespace GCGPRSService
                                             }
                                             int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
                                             GPRSUniversalFrameDataEntity framedata = new GPRSUniversalFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
+                                            framedata.TerId = pack.ID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -1262,7 +1262,7 @@ namespace GCGPRSService
                                                             datavalue = MaxMeasureRanges[j] * datavalue;  //系数
                                                             datavalue = Convert.ToDouble(datavalue.ToString("F" + Precisions[j]));  //精度调整
                                                             OnSendMsg(new SocketEventArgs(string.Format("index({0})|通用终端[{1}]RS485 {2}路|采集时间({3})|{4}:{5}{6}",
-                                                                i, pack.DevID, name, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
+                                                                i, pack.ID, name, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j])));
 
                                                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                                                             data.DataValue = datavalue;
@@ -1316,7 +1316,7 @@ namespace GCGPRSService
                                                 dataindex = (pack.DataLength - 2 - 1) / 8;
 
                                             GPRSOLWQFrameDataEntity framedata = new GPRSOLWQFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
+                                            framedata.TerId = pack.ID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -1375,7 +1375,7 @@ namespace GCGPRSService
                                                 }
 
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}{5}|电压值:{6}V",
-                                                    dataindex, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value, unit, volvalue)));
+                                                    dataindex, pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value, unit, volvalue)));
                                                 data.Voltage = volvalue;
                                                 try
                                                 {
@@ -1408,7 +1408,7 @@ namespace GCGPRSService
                                                 dataindex = (pack.DataLength - 2 - 1) / 12;
 
                                             GPRSOLWQFrameDataEntity framedata = new GPRSOLWQFrameDataEntity();
-                                            framedata.TerId = pack.DevID.ToString();
+                                            framedata.TerId = pack.ID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -1433,7 +1433,7 @@ namespace GCGPRSService
                                                 Tempvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 12 + 14], pack.Data[i * 12 + 13] }, 0)) / 10;
 
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|电导率值:{3}us/cm,温度:{4}℃|电压值:{5}V",
-                                                    i, pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Condvalue.ToString("f2"), Tempvalue.ToString("f1"), volvalue)));
+                                                    i, pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Condvalue.ToString("f2"), Tempvalue.ToString("f1"), volvalue)));
 
                                                 GPRSOLWQDataEntity data = new GPRSOLWQDataEntity();
                                                 data.Conductivity = Condvalue;
@@ -1473,7 +1473,7 @@ namespace GCGPRSService
                                                     volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
 
                                                 GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
-                                                framedata.TerId = pack.DevID.ToString();
+                                                framedata.TerId = pack.ID.ToString();
                                                 framedata.ModifyTime = DateTime.Now;
                                                 framedata.Frame = str_frame;
 
@@ -1504,7 +1504,7 @@ namespace GCGPRSService
                                                         else if ((balarm & 0x10) == 0x10)
                                                         { str_alarm = "流量下限报警"; }
                                                         OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V",
-                                                           i, pack.DevID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue)));
+                                                           i, pack.ID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue)));
 
                                                         GPRSFlowDataEntity data = new GPRSFlowDataEntity();
                                                         data.Forward_FlowValue = forward_flowvalue;
@@ -1525,14 +1525,14 @@ namespace GCGPRSService
                                                     else
                                                     {
                                                         OnSendMsg(new SocketEventArgs(string.Format("水质终端[{0}]|报警标志({1})|采集时间({2})|错误:{3}",
-                                                            pack.DevID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
+                                                            pack.ID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
                                                     }
                                                 }
 
                                             }
                                             else
                                             {
-                                                OnSendMsg(new SocketEventArgs("水质终端["+ pack.DevID + "]错误未知水表类型!"));
+                                                OnSendMsg(new SocketEventArgs("水质终端["+ pack.ID + "]错误未知水表类型!"));
                                             }
                                             #endregion
                                             
@@ -1588,7 +1588,7 @@ namespace GCGPRSService
                                                 day = 1;
                                             bNeedCheckTime = NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
                                             OnSendMsg(new SocketEventArgs(string.Format("水质终端[{0}]{1}|时间({2})|电压值:{3}V",
-                                                 pack.DevID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
+                                                 pack.ID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
                                         }
                                         #endregion
                                     }
@@ -1596,7 +1596,7 @@ namespace GCGPRSService
                                     {
                                         #region 消防栓
                                         GPRSHydrantFrameDataEntity framedata = new GPRSHydrantFrameDataEntity();
-                                        framedata.TerId = pack.DevID.ToString();
+                                        framedata.TerId = pack.ID.ToString();
                                         framedata.ModifyTime = DateTime.Now;
                                         framedata.Frame = str_frame;
 
@@ -1621,7 +1621,7 @@ namespace GCGPRSService
                                             int openangle = Convert.ToInt16(pack.Data[6]);
                                             float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0) / 3;
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}",
-                                                    pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"))));
+                                                    pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"))));
                                             data.Operate = HydrantOptType.Open;
                                             data.PreValue = prevalue;
                                             data.OpenAngle = openangle;
@@ -1629,27 +1629,27 @@ namespace GCGPRSService
                                         else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_CLOSE)
                                         {
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被关闭|时间({1})",
-                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                                       pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
                                             data.Operate = HydrantOptType.Close;
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPENANGLE)
                                         {
                                             int openangle = Convert.ToInt16(pack.Data[6]);
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]开度|时间({1})|开度:{2}",
-                                                    pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle)));
+                                                    pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle)));
                                             data.OpenAngle = openangle;
                                             data.Operate = HydrantOptType.OpenAngle;
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_IMPACT)
                                         {
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被撞击|时间({1})",
-                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                                       pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
                                             data.Operate = HydrantOptType.Impact;
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_KNOCKOVER)
                                         {
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被撞倒|时间({1})",
-                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                                       pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
                                             data.Operate = HydrantOptType.KnockOver;
                                         }
 
@@ -2265,8 +2265,6 @@ namespace GCGPRSService
                     }
                     if ((!AllowOnLine) && ((SendObject)ar.AsyncState).IsFinal)
                     {
-                        //Thread.Sleep(50);
-                        //Thread.Sleep(10 * 1000);
                         handler.Shutdown(SocketShutdown.Both);
                         Thread.Sleep(5);
                         handler.Close();
