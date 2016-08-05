@@ -129,6 +129,16 @@ namespace BLL
             }
         }
 
+        public static int GetGroupIdByRec(string RecorderId)
+        {
+            string sql = @"SELECT GroupId FROM MP_GroupRecorder WHERE RecorderId = " + RecorderId;
+            object gID = SQLHelper.ExecuteScalar(sql);
+            if (gID == null)
+                return 0;
+            else
+                return Convert.ToInt32(gID);
+        }
+
         /// <summary>
         /// 从数据库中获取记录仪分组列表
         /// </summary>
@@ -159,18 +169,7 @@ namespace BLL
 					gp.RecorderList = (from item in recList.AsEnumerable()
 							   where item.GroupID == gp.ID
 							   select item).ToList();
-
-					//sql = "SELECT RecorderId FROM MP_GroupRecorder WHERE GroupId = " + group.ID.ToString();
-					//DataTable dtGroupRecorder = DbForAccess.GetDataTable(sql);
-					//for (int j = 0; j < recList.Count; j++)
-					//{
-					//    for (int k = 0; k < dtGroupRecorder.Rows.Count; k++)
-					//    {
-					//        int recID = (int)dtGroupRecorder.Rows[k]["RecorderId"];
-					//        if (recID == recList[j].ID)
-					//            gp.RecorderList.Add(recList[j]);
-					//    }
-					//}
+                    
                     recGroupList.Add(gp);
                 }
 
@@ -197,22 +196,6 @@ namespace BLL
 				recGroupList = (from item in recAllList.AsEnumerable()
 								where item.GroupID == groupID
 								   select item).ToList();
-
-				//sql = @"SELECT RecorderId FROM MP_GroupRecorder WHERE GroupId =" + groupID;
-				//DataTable dtGroupRecorder = DbForAccess.GetDataTable(sql);
-
-				//for (int i = 0; i < dtGroupRecorder.Rows.Count; i++)
-				//{
-				//    int id = (int)dtGroupRecorder.Rows[i]["RecorderId"];
-				//    for (int j = 0; j < recAllList.Count; j++)
-				//    {
-				//        if (recAllList[j].ID == id)
-				//        {
-				//            recGroupList.Add(recAllList[j]);
-				//            break;
-				//        }
-				//    }
-				//}
 
                 return recGroupList;
             }

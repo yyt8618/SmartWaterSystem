@@ -14,7 +14,7 @@ namespace Common
         public const int BufferSize = 4096;
         // Receive buffer.     
         public byte[] buffer = new byte[BufferSize];
-        // Receive buffer. 仅用于SmartWater连接使用
+        // Receive buffer. 用于SmartWater和噪声远传控制器多包使用
         public List<byte> lstBuffer = new List<byte>();
         /// <summary>
         /// 部分未处理数据缓存(仅用于SmartWater连接使用)

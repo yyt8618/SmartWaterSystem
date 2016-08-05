@@ -257,6 +257,17 @@ namespace GCGPRSService
                     OnSendMsg(new SocketEventArgs("水质终端数据保存失败:" + e.Msg));
                 }
             }
+            else if (e.SQLType == SQLType.InsertNoiseValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("噪声数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("噪声数据保存失败:" + e.Msg));
+                }
+            }
         }
 
         public void Close()
@@ -1656,6 +1667,77 @@ namespace GCGPRSService
                                         framedata.lstHydrantData.Add(data);
                                         GlobalValue.Instance.GPRS_HydrantFrameData.Enqueue(framedata);  //通知存储线程处理
                                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertHydrantValue);
+                                        #endregion
+                                    }
+                                    else if(pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.NOISE_CTRL)
+                                    {
+                                        #region 噪声数据远传控制器
+                                        if (pack.C1 == (byte)GPRS_READ.READ_NOISEDATA)  //从站向主站发送噪声采集数据
+                                        {
+                                            int dataindex = (pack.DataLength) % 2;
+                                            if (dataindex != 0)
+                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2*n)规则");  //GPRS远程压力终端在数据段最后增加两个字节的电压数据
+                                            else
+                                                dataindex = (pack.DataLength) / 2;
+                                            GPRSNoiseFrameDataEntity framedata = new GPRSNoiseFrameDataEntity();
+                                            framedata.TerId = pack.ID.ToString();
+                                            framedata.ModifyTime = DateTime.Now;
+                                            framedata.Frame = str_frame;
+
+                                            GPRSHydrantDataEntity data = new GPRSHydrantDataEntity();
+                                            bNeedCheckTime = false;
+                                            float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
+                                            volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
+
+                                            int sumpackcount = Convert.ToInt32(pack.Data[2]);
+                                            int curpackindex = Convert.ToInt32(pack.Data[3]);
+
+                                            if (sumpackcount != curpackindex && !pack.IsFinal)
+                                            {
+                                                for (int i = 4; i < pack.DataLength - 2; i++)  //多包时，当前不是最后一包时缓存数据至state.lstBuffer中
+                                                {
+                                                    state.lstBuffer.Add(pack.Data[i]);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                List<byte> lstbytes = new List<byte>();
+                                                if (curpackindex > 1)  //多包时获取缓存的数据拼接成完整的数据
+                                                {
+                                                    lstbytes.AddRange(state.lstBuffer);
+                                                    state.lstBuffer.Clear();
+                                                }
+                                                for (int i = 4; i < pack.DataLength - 2; i++)  //添加当前包数据
+                                                {
+                                                    lstbytes.Add(pack.Data[i]);
+                                                }
+                                                UpLoadNoiseDataEntity noisedataentity = new UpLoadNoiseDataEntity();
+                                                noisedataentity.TerId = pack.DevID.ToString();
+                                                noisedataentity.GroupId = "";
+                                                noisedataentity.ColTime = DateTime.Now.ToString();
+                                                for (int i = 0; i+1 < lstbytes.Count; i += 2)
+                                                {
+                                                    noisedataentity.Data += BitConverter.ToInt16(new byte[] { lstbytes[i + 1], lstbytes[i] }, 0) + ",";
+                                                }
+                                                if (noisedataentity.Data.EndsWith(","))
+                                                    noisedataentity.Data = noisedataentity.Data.Substring(0, noisedataentity.Data.Length - 1);
+                                                framedata.NoiseData = noisedataentity;
+
+                                                
+                                            }
+                                            string strcurnoisedata = "";  //当前包的数据,用于显示
+                                            for (int i = 4; i+1 < pack.DataLength - 2; i += 2)
+                                            {
+                                                strcurnoisedata += BitConverter.ToInt16(new byte[] { pack.Data[i + 1], pack.Data[i] }, 0) + ",";
+                                            }
+                                            if (strcurnoisedata.EndsWith(","))
+                                                strcurnoisedata = strcurnoisedata.Substring(0, strcurnoisedata.Length - 1);
+                                            OnSendMsg(new SocketEventArgs(string.Format("噪声远传控制器[{0}]|总包数:{1}、当前第{2}包|噪声数据:{3}|电压值:{4}V",
+                                                   pack.DevID, sumpackcount, curpackindex, strcurnoisedata, volvalue)));
+
+                                            GlobalValue.Instance.GPRS_NoiseFrameData.Enqueue(framedata);  //通知存储线程处理
+                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertNoiseValue);
+                                        }
                                         #endregion
                                     }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Entity;
 using DAL;
 using System.Data;
+using System.Data.SqlClient;
+using Common;
 
 namespace BLL
 {
@@ -122,6 +124,73 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("InsertGPRSHydrantData", ex);
+                msg = "保存至数据库发生异常";
+                return -1;
+            }
+        }
+
+        public int InsertGPRSNoiseData(Queue<GPRSNoiseFrameDataEntity> datas, out string msg)
+        {
+            msg = "";
+            try
+            {
+                if (datas.Count == 0)
+                    return 0;
+                lock (ConstValue.obj)
+                {
+                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                    SqlParameter[] parms_frame = new SqlParameter[]{
+                new SqlParameter("@dir",SqlDbType.Int),
+                new SqlParameter("@frame",SqlDbType.VarChar,2000),
+                new SqlParameter("@logtime",SqlDbType.DateTime)
+            };
+                    SqlCommand command_frame = new SqlCommand();
+                    command_frame.CommandText = SQL_Frame;
+                    command_frame.Parameters.AddRange(parms_frame);
+                    command_frame.CommandType = CommandType.Text;
+                    command_frame.Connection = SQLHelper.Conn;
+
+                    List<UpLoadNoiseDataEntity> lstNoiseData = new List<UpLoadNoiseDataEntity>();
+                    while (datas.Count > 0)
+                    {
+                        GPRSNoiseFrameDataEntity entity = null;
+                        try
+                        {
+                            entity = datas.Dequeue();
+                            parms_frame[0].Value = 1;
+                            parms_frame[1].Value = entity.Frame;
+                            parms_frame[2].Value = entity.ModifyTime;
+                            if (entity.NoiseData != null)
+                                lstNoiseData.Add(entity.NoiseData);
+                            command_frame.ExecuteNonQuery();
+                        }
+                        catch (Exception iex)
+                        {
+                            if (entity != null)
+                                datas.Enqueue(entity);
+                            throw iex;
+                        }
+                    }
+
+                    if (lstNoiseData != null && lstNoiseData.Count > 0)
+                    {
+                        HttpDataBLL httpdata = new HttpDataBLL();
+                        HTTPRespEntity resp = httpdata.UploadGroups(lstNoiseData);   //处理噪声数据
+                        if (resp.code == 1)
+                            return 1;
+                        else
+                        {
+                            msg = resp.msg;
+                            return resp.code;
+                        }
+                    }
+                    else
+                        return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("InsertGPRSNoiseData", ex);
                 msg = "保存至数据库发生异常";
                 return -1;
             }

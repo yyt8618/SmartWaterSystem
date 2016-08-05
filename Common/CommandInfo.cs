@@ -1189,6 +1189,10 @@ namespace Common
         /// 消防栓撞倒
         /// </summary>
         READ_HYDRANT_KNOCKOVER = 0xA4,
+        /// <summary>
+        /// 远传控制器向主站发送噪声采集数据
+        /// </summary>
+        READ_NOISEDATA = 0xA4,
     }
 
     public enum PRECTRL_COMMAND

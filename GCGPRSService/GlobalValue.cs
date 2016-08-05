@@ -118,6 +118,16 @@ namespace GCGPRSService
             set { _GPRS_PrectrlFrameData = value; }
         }
 
+        private Queue<GPRSNoiseFrameDataEntity> _GPRS_NoiseFrameData = new Queue<GPRSNoiseFrameDataEntity>();
+        /// <summary>
+        /// 噪声远传控制器帧队列
+        /// </summary>
+        public Queue<GPRSNoiseFrameDataEntity> GPRS_NoiseFrameData
+        {
+            get { return _GPRS_NoiseFrameData; }
+            set { _GPRS_NoiseFrameData = value; }
+        }
+
         private List<GPRSCmdEntity> _lstGprsCmd = new List<GPRSCmdEntity>();
         /// <summary>
         /// GPRS下送命令
