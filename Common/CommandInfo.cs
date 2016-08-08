@@ -106,6 +106,10 @@ namespace Common
     {
         #region 设置
         /// <summary>
+        /// 远传控制器ID
+        /// </summary>
+        WRITE_NOISE_CTRL_ID=0x1d,
+        /// <summary>
         /// 无线通讯
         /// </summary>
         WRITE_WIRELESS = 0x18,

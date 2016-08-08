@@ -545,7 +545,7 @@ namespace Protocol
             data[0] = (byte)(value ? 0x1 : 0x0);
             package.Data = data;
             package.CS = package.CreateCS();
-            if (value)  //value = true,启动时需要获取第一组32个原始数据用于漏水第一种方法判断的数据
+            if (false)  //value = true,启动时需要获取第一组32个原始数据用于漏水第一种方法判断的数据
             {
                 ////清除记录仪数据
                 //bool bclear =  ClearData(id);
@@ -623,24 +623,28 @@ namespace Protocol
 
                 try
                 {
+                    Thread.Sleep(100);
                     return serialPortUtil.ReadData(id, 5);  //1
                 }
                 catch (TimeoutException e1)
                 {
                     try
                     {
+                        Thread.Sleep(100);
                         return serialPortUtil.ReadData(id, 5);  //2
                     }
                     catch (TimeoutException e2)
                     {
                         try
                         {
+                            Thread.Sleep(100);
                             return serialPortUtil.ReadData(id, 5);  //3
                         }
                         catch (TimeoutException e3)
                         {
                             try
                             {
+                                Thread.Sleep(100);
                                 return serialPortUtil.ReadData(id, 5);  //4
                             }
                             catch (TimeoutException e4)

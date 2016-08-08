@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.btnSetStandValue = new DevExpress.XtraEditors.SimpleButton();
+            this.btnGetStandValue = new DevExpress.XtraEditors.SimpleButton();
             this.btnUpdate = new DevExpress.XtraEditors.SimpleButton();
             this.btnDeleteRec = new DevExpress.XtraEditors.SimpleButton();
             this.txtRecNote = new DevExpress.XtraEditors.MemoEdit();
@@ -46,54 +48,39 @@
             this.lblRecState = new System.Windows.Forms.Label();
             this.btnStop = new DevExpress.XtraEditors.SimpleButton();
             this.btnStart = new DevExpress.XtraEditors.SimpleButton();
-            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
-            this.FlagRemoteSwitch = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagInterval = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagStartEndTime = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagSendTime = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagTime = new DevExpress.XtraEditors.PictureEdit();
-            this.spinEdit1 = new DevExpress.XtraEditors.SpinEdit();
+            this.ceRemoteSwitch = new DevExpress.XtraEditors.CheckEdit();
+            this.ceComTime = new DevExpress.XtraEditors.CheckEdit();
+            this.ceInterval = new DevExpress.XtraEditors.CheckEdit();
+            this.ceColTime = new DevExpress.XtraEditors.CheckEdit();
+            this.ceDT = new DevExpress.XtraEditors.CheckEdit();
+            this.label1 = new System.Windows.Forms.Label();
+            this.spinEditInterval = new DevExpress.XtraEditors.SpinEdit();
             this.btnApplySet = new DevExpress.XtraEditors.SimpleButton();
             this.btnReadSet = new DevExpress.XtraEditors.SimpleButton();
             this.btnReadT = new DevExpress.XtraEditors.SimpleButton();
             this.btnCleanFlash = new DevExpress.XtraEditors.SimpleButton();
             this.comboBoxDist = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
-            this.comboBoxGprsBaud = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.FlagIP = new DevExpress.XtraEditors.PictureEdit();
-            this.FlagPort = new DevExpress.XtraEditors.PictureEdit();
+            this.txtRemotingID = new DevExpress.XtraEditors.TextEdit();
+            this.btnApplyCtrlSet = new DevExpress.XtraEditors.SimpleButton();
+            this.btnReadCtrlSet = new DevExpress.XtraEditors.SimpleButton();
+            this.txtCurConId = new DevExpress.XtraEditors.TextEdit();
             this.txtConId = new DevExpress.XtraEditors.TextEdit();
-            this.label20 = new System.Windows.Forms.Label();
-            this.txtConPort = new DevExpress.XtraEditors.TextEdit();
             this.label3 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.txtPower = new DevExpress.XtraEditors.TextEdit();
-            this.txtFre = new DevExpress.XtraEditors.TextEdit();
+            this.txtConPort = new DevExpress.XtraEditors.TextEdit();
             this.txtConIP = new DevExpress.XtraEditors.TextEdit();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.comboBoxWakeTime = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboBoxBaud = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboBoxRate = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.ceRemotingID = new DevExpress.XtraEditors.CheckEdit();
+            this.ceConIP = new DevExpress.XtraEditors.CheckEdit();
+            this.ceConId = new DevExpress.XtraEditors.CheckEdit();
+            this.ceConPort = new DevExpress.XtraEditors.CheckEdit();
             this.btnNow = new DevExpress.XtraEditors.SimpleButton();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtComTime = new DevExpress.XtraEditors.TextEdit();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label16 = new System.Windows.Forms.Label();
-            this.txtRecTime1 = new DevExpress.XtraEditors.TextEdit();
+            this.txtColTimeEnd = new DevExpress.XtraEditors.TextEdit();
             this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.txtRecTime = new DevExpress.XtraEditors.TextEdit();
+            this.txtColTimeStart = new DevExpress.XtraEditors.TextEdit();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.txtRecNum = new DevExpress.XtraEditors.TextEdit();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
@@ -109,38 +96,34 @@
             this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.FlagConId = new DevExpress.XtraEditors.PictureEdit();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNote.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStartStandValue.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakValue.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecID.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
-            this.groupControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagRemoteSwitch.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagInterval.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagStartEndTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagSendTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceRemoteSwitch.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceComTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceColTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceDT.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEditInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxDist.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxGprsBaud.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagIP.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagPort.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRemotingID.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCurConId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConPort.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPower.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFre.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConIP.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxWakeTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBaud.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxRate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceRemotingID.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceConIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceConId.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceConPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtColTimeEnd.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtColTimeStart.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
@@ -148,11 +131,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecordList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagConId.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.btnSetStandValue);
+            this.groupControl1.Controls.Add(this.btnGetStandValue);
             this.groupControl1.Controls.Add(this.btnUpdate);
             this.groupControl1.Controls.Add(this.btnDeleteRec);
             this.groupControl1.Controls.Add(this.txtRecNote);
@@ -168,9 +154,28 @@
             this.groupControl1.Controls.Add(this.btnGetRecID);
             this.groupControl1.Location = new System.Drawing.Point(4, 3);
             this.groupControl1.Name = "groupControl1";
+            this.groupControl1.ShowCaption = false;
             this.groupControl1.Size = new System.Drawing.Size(250, 260);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息";
+            // 
+            // btnSetStandValue
+            // 
+            this.btnSetStandValue.Enabled = false;
+            this.btnSetStandValue.Location = new System.Drawing.Point(195, 95);
+            this.btnSetStandValue.Name = "btnSetStandValue";
+            this.btnSetStandValue.Size = new System.Drawing.Size(33, 21);
+            this.btnSetStandValue.TabIndex = 9;
+            this.btnSetStandValue.Text = "设置";
+            // 
+            // btnGetStandValue
+            // 
+            this.btnGetStandValue.Enabled = false;
+            this.btnGetStandValue.Location = new System.Drawing.Point(156, 95);
+            this.btnGetStandValue.Name = "btnGetStandValue";
+            this.btnGetStandValue.Size = new System.Drawing.Size(33, 21);
+            this.btnGetStandValue.TabIndex = 8;
+            this.btnGetStandValue.Text = "获取";
             // 
             // btnUpdate
             // 
@@ -178,7 +183,7 @@
             this.btnUpdate.Location = new System.Drawing.Point(169, 227);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(67, 23);
-            this.btnUpdate.TabIndex = 4;
+            this.btnUpdate.TabIndex = 14;
             this.btnUpdate.Text = "更新信息";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
@@ -187,7 +192,7 @@
             this.btnDeleteRec.Location = new System.Drawing.Point(92, 227);
             this.btnDeleteRec.Name = "btnDeleteRec";
             this.btnDeleteRec.Size = new System.Drawing.Size(67, 23);
-            this.btnDeleteRec.TabIndex = 1;
+            this.btnDeleteRec.TabIndex = 13;
             this.btnDeleteRec.Text = "删除记录仪";
             this.btnDeleteRec.Click += new System.EventHandler(this.btnDeleteRec_Click);
             // 
@@ -197,7 +202,7 @@
             this.txtRecNote.Name = "txtRecNote";
             this.txtRecNote.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtRecNote.Size = new System.Drawing.Size(108, 100);
-            this.txtRecNote.TabIndex = 3;
+            this.txtRecNote.TabIndex = 11;
             // 
             // label18
             // 
@@ -205,7 +210,7 @@
             this.label18.Location = new System.Drawing.Point(27, 35);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(67, 14);
-            this.label18.TabIndex = 72;
+            this.label18.TabIndex = 0;
             this.label18.Text = "记录仪编号";
             // 
             // btnAddRec
@@ -213,7 +218,7 @@
             this.btnAddRec.Location = new System.Drawing.Point(15, 227);
             this.btnAddRec.Name = "btnAddRec";
             this.btnAddRec.Size = new System.Drawing.Size(67, 23);
-            this.btnAddRec.TabIndex = 0;
+            this.btnAddRec.TabIndex = 12;
             this.btnAddRec.Text = "添加记录仪";
             this.btnAddRec.Click += new System.EventHandler(this.btnAddRec_Click);
             // 
@@ -224,7 +229,7 @@
             this.txtStartStandValue.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtStartStandValue.Properties.MaxLength = 4;
             this.txtStartStandValue.Size = new System.Drawing.Size(45, 20);
-            this.txtStartStandValue.TabIndex = 2;
+            this.txtStartStandValue.TabIndex = 7;
             // 
             // txtLeakValue
             // 
@@ -233,7 +238,7 @@
             this.txtLeakValue.Properties.Mask.EditMask = "f0";
             this.txtLeakValue.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtLeakValue.Size = new System.Drawing.Size(45, 20);
-            this.txtLeakValue.TabIndex = 2;
+            this.txtLeakValue.TabIndex = 4;
             // 
             // label4
             // 
@@ -241,7 +246,7 @@
             this.label4.Location = new System.Drawing.Point(51, 98);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(43, 14);
-            this.label4.TabIndex = 78;
+            this.label4.TabIndex = 6;
             this.label4.Text = "启动值";
             // 
             // label2
@@ -250,7 +255,7 @@
             this.label2.Location = new System.Drawing.Point(27, 67);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 14);
-            this.label2.TabIndex = 78;
+            this.label2.TabIndex = 3;
             this.label2.Text = "幅度警戒值";
             // 
             // txtRecID
@@ -260,7 +265,7 @@
             this.txtRecID.Properties.Mask.EditMask = "f0";
             this.txtRecID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtRecID.Size = new System.Drawing.Size(45, 20);
-            this.txtRecID.TabIndex = 0;
+            this.txtRecID.TabIndex = 1;
             this.txtRecID.TextChanged += new System.EventHandler(this.txtRecID_TextChanged);
             // 
             // label13
@@ -269,7 +274,7 @@
             this.label13.Location = new System.Drawing.Point(64, 124);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(31, 14);
-            this.label13.TabIndex = 76;
+            this.label13.TabIndex = 10;
             this.label13.Text = "备注";
             // 
             // label45
@@ -278,7 +283,7 @@
             this.label45.Location = new System.Drawing.Point(153, 68);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(19, 14);
-            this.label45.TabIndex = 81;
+            this.label45.TabIndex = 5;
             this.label45.Text = "%";
             // 
             // btnGetRecID
@@ -287,228 +292,156 @@
             this.btnGetRecID.Location = new System.Drawing.Point(156, 32);
             this.btnGetRecID.Name = "btnGetRecID";
             this.btnGetRecID.Size = new System.Drawing.Size(59, 23);
-            this.btnGetRecID.TabIndex = 1;
+            this.btnGetRecID.TabIndex = 2;
             this.btnGetRecID.Text = "读取编号";
             this.btnGetRecID.Click += new System.EventHandler(this.btnGetRecID_Click);
             // 
             // lblRecState
             // 
             this.lblRecState.AutoSize = true;
-            this.lblRecState.Location = new System.Drawing.Point(18, 168);
+            this.lblRecState.Location = new System.Drawing.Point(36, 181);
             this.lblRecState.Name = "lblRecState";
             this.lblRecState.Size = new System.Drawing.Size(87, 14);
-            this.lblRecState.TabIndex = 20;
+            this.lblRecState.TabIndex = 23;
             this.lblRecState.Text = "运行状态  未知";
             // 
             // btnStop
             // 
             this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(100, 196);
+            this.btnStop.Location = new System.Drawing.Point(90, 204);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(51, 23);
-            this.btnStop.TabIndex = 22;
+            this.btnStop.Size = new System.Drawing.Size(86, 23);
+            this.btnStop.TabIndex = 25;
             this.btnStop.Text = "停止";
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // btnStart
             // 
             this.btnStart.Enabled = false;
-            this.btnStart.Location = new System.Drawing.Point(45, 196);
+            this.btnStart.Location = new System.Drawing.Point(4, 204);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(51, 23);
-            this.btnStart.TabIndex = 21;
+            this.btnStart.Size = new System.Drawing.Size(86, 23);
+            this.btnStart.TabIndex = 24;
             this.btnStart.Text = "启动";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // groupControl2
+            // ceRemoteSwitch
             // 
-            this.groupControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.groupControl2.Controls.Add(this.FlagRemoteSwitch);
-            this.groupControl2.Controls.Add(this.FlagInterval);
-            this.groupControl2.Controls.Add(this.FlagStartEndTime);
-            this.groupControl2.Controls.Add(this.FlagSendTime);
-            this.groupControl2.Controls.Add(this.FlagTime);
-            this.groupControl2.Controls.Add(this.spinEdit1);
-            this.groupControl2.Controls.Add(this.btnApplySet);
-            this.groupControl2.Controls.Add(this.lblRecState);
-            this.groupControl2.Controls.Add(this.btnReadSet);
-            this.groupControl2.Controls.Add(this.btnReadT);
-            this.groupControl2.Controls.Add(this.btnCleanFlash);
-            this.groupControl2.Controls.Add(this.btnStop);
-            this.groupControl2.Controls.Add(this.comboBoxDist);
-            this.groupControl2.Controls.Add(this.label7);
-            this.groupControl2.Controls.Add(this.btnStart);
-            this.groupControl2.Controls.Add(this.groupControl4);
-            this.groupControl2.Controls.Add(this.btnNow);
-            this.groupControl2.Controls.Add(this.label17);
-            this.groupControl2.Controls.Add(this.label1);
-            this.groupControl2.Controls.Add(this.txtComTime);
-            this.groupControl2.Controls.Add(this.dateTimePicker);
-            this.groupControl2.Controls.Add(this.label16);
-            this.groupControl2.Controls.Add(this.txtRecTime1);
-            this.groupControl2.Controls.Add(this.label15);
-            this.groupControl2.Controls.Add(this.label14);
-            this.groupControl2.Controls.Add(this.txtRecTime);
-            this.groupControl2.Controls.Add(this.label8);
-            this.groupControl2.Controls.Add(this.label9);
-            this.groupControl2.Controls.Add(this.label10);
-            this.groupControl2.Controls.Add(this.label11);
-            this.groupControl2.Controls.Add(this.txtRecNum);
-            this.groupControl2.Location = new System.Drawing.Point(260, 3);
-            this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(534, 260);
-            this.groupControl2.TabIndex = 1;
-            this.groupControl2.Text = "设备参数";
-            this.groupControl2.BackColorChanged += new System.EventHandler(this.groupControl2_BackColorChanged);
+            this.ceRemoteSwitch.Location = new System.Drawing.Point(7, 147);
+            this.ceRemoteSwitch.Name = "ceRemoteSwitch";
+            this.ceRemoteSwitch.Properties.Caption = "远传功能";
+            this.ceRemoteSwitch.Size = new System.Drawing.Size(92, 19);
+            this.ceRemoteSwitch.TabIndex = 20;
             // 
-            // FlagRemoteSwitch
+            // ceComTime
             // 
-            this.FlagRemoteSwitch.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
-            this.FlagRemoteSwitch.Location = new System.Drawing.Point(435, 15);
-            this.FlagRemoteSwitch.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagRemoteSwitch.Name = "FlagRemoteSwitch";
-            this.FlagRemoteSwitch.Properties.AllowDisposeImage = true;
-            this.FlagRemoteSwitch.Properties.AllowFocused = false;
-            this.FlagRemoteSwitch.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagRemoteSwitch.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagRemoteSwitch.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagRemoteSwitch.Properties.ShowMenu = false;
-            this.FlagRemoteSwitch.Size = new System.Drawing.Size(20, 20);
-            this.FlagRemoteSwitch.TabIndex = 25;
-            this.FlagRemoteSwitch.Visible = false;
+            this.ceComTime.Location = new System.Drawing.Point(7, 35);
+            this.ceComTime.Name = "ceComTime";
+            this.ceComTime.Properties.Caption = "通讯时间";
+            this.ceComTime.Size = new System.Drawing.Size(92, 19);
+            this.ceComTime.TabIndex = 4;
             // 
-            // FlagInterval
+            // ceInterval
             // 
-            this.FlagInterval.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
-            this.FlagInterval.Location = new System.Drawing.Point(221, 102);
-            this.FlagInterval.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagInterval.Name = "FlagInterval";
-            this.FlagInterval.Properties.AllowDisposeImage = true;
-            this.FlagInterval.Properties.AllowFocused = false;
-            this.FlagInterval.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagInterval.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagInterval.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagInterval.Properties.ShowMenu = false;
-            this.FlagInterval.Size = new System.Drawing.Size(20, 20);
-            this.FlagInterval.TabIndex = 17;
-            this.FlagInterval.Visible = false;
+            this.ceInterval.Location = new System.Drawing.Point(7, 91);
+            this.ceInterval.Name = "ceInterval";
+            this.ceInterval.Properties.Caption = "采集间隔";
+            this.ceInterval.Size = new System.Drawing.Size(92, 19);
+            this.ceInterval.TabIndex = 14;
             // 
-            // FlagStartEndTime
+            // ceColTime
             // 
-            this.FlagStartEndTime.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
-            this.FlagStartEndTime.Location = new System.Drawing.Point(221, 72);
-            this.FlagStartEndTime.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagStartEndTime.Name = "FlagStartEndTime";
-            this.FlagStartEndTime.Properties.AllowDisposeImage = true;
-            this.FlagStartEndTime.Properties.AllowFocused = false;
-            this.FlagStartEndTime.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagStartEndTime.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagStartEndTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagStartEndTime.Properties.ShowMenu = false;
-            this.FlagStartEndTime.Size = new System.Drawing.Size(20, 20);
-            this.FlagStartEndTime.TabIndex = 13;
-            this.FlagStartEndTime.Visible = false;
+            this.ceColTime.Location = new System.Drawing.Point(7, 63);
+            this.ceColTime.Name = "ceColTime";
+            this.ceColTime.Properties.Caption = "采集时间";
+            this.ceColTime.Size = new System.Drawing.Size(92, 19);
+            this.ceColTime.TabIndex = 8;
             // 
-            // FlagSendTime
+            // ceDT
             // 
-            this.FlagSendTime.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
-            this.FlagSendTime.Location = new System.Drawing.Point(221, 42);
-            this.FlagSendTime.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagSendTime.Name = "FlagSendTime";
-            this.FlagSendTime.Properties.AllowDisposeImage = true;
-            this.FlagSendTime.Properties.AllowFocused = false;
-            this.FlagSendTime.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagSendTime.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagSendTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagSendTime.Properties.ShowMenu = false;
-            this.FlagSendTime.Size = new System.Drawing.Size(20, 20);
-            this.FlagSendTime.TabIndex = 7;
-            this.FlagSendTime.Visible = false;
+            this.ceDT.Location = new System.Drawing.Point(7, 7);
+            this.ceDT.Name = "ceDT";
+            this.ceDT.Properties.Caption = "记录仪时间";
+            this.ceDT.Size = new System.Drawing.Size(92, 19);
+            this.ceDT.TabIndex = 0;
             // 
-            // FlagTime
+            // label1
             // 
-            this.FlagTime.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
-            this.FlagTime.Location = new System.Drawing.Point(221, 12);
-            this.FlagTime.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagTime.Name = "FlagTime";
-            this.FlagTime.Properties.AllowDisposeImage = true;
-            this.FlagTime.Properties.AllowFocused = false;
-            this.FlagTime.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagTime.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagTime.Properties.ShowMenu = false;
-            this.FlagTime.Size = new System.Drawing.Size(20, 20);
-            this.FlagTime.TabIndex = 3;
-            this.FlagTime.Visible = false;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(22, 121);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 14);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "记录数量";
             // 
-            // spinEdit1
+            // spinEditInterval
             // 
-            this.spinEdit1.EditValue = new decimal(new int[] {
+            this.spinEditInterval.EditValue = new decimal(new int[] {
             4,
             0,
             0,
             0});
-            this.spinEdit1.Location = new System.Drawing.Point(87, 105);
-            this.spinEdit1.Name = "spinEdit1";
-            this.spinEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.spinEditInterval.Location = new System.Drawing.Point(105, 90);
+            this.spinEditInterval.Name = "spinEditInterval";
+            this.spinEditInterval.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.spinEdit1.Properties.MaxValue = new decimal(new int[] {
+            this.spinEditInterval.Properties.MaxValue = new decimal(new int[] {
             120,
             0,
             0,
             0});
-            this.spinEdit1.Properties.MinValue = new decimal(new int[] {
+            this.spinEditInterval.Properties.MinValue = new decimal(new int[] {
             4,
             0,
             0,
             0});
-            this.spinEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.spinEdit1.Size = new System.Drawing.Size(61, 20);
-            this.spinEdit1.TabIndex = 15;
-            this.spinEdit1.ValueChanged += new System.EventHandler(this.spinEdit1_ValueChanged);
+            this.spinEditInterval.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.spinEditInterval.Size = new System.Drawing.Size(61, 20);
+            this.spinEditInterval.TabIndex = 15;
+            this.spinEditInterval.ValueChanged += new System.EventHandler(this.spinEdit1_ValueChanged);
             // 
             // btnApplySet
             // 
             this.btnApplySet.Enabled = false;
-            this.btnApplySet.Location = new System.Drawing.Point(391, 231);
+            this.btnApplySet.Location = new System.Drawing.Point(176, 231);
             this.btnApplySet.Name = "btnApplySet";
-            this.btnApplySet.Size = new System.Drawing.Size(100, 23);
-            this.btnApplySet.TabIndex = 30;
+            this.btnApplySet.Size = new System.Drawing.Size(86, 23);
+            this.btnApplySet.TabIndex = 29;
             this.btnApplySet.Text = "应用当前设置";
             this.btnApplySet.Click += new System.EventHandler(this.btnApplySet_Click);
             // 
             // btnReadSet
             // 
             this.btnReadSet.Enabled = false;
-            this.btnReadSet.Location = new System.Drawing.Point(277, 231);
+            this.btnReadSet.Location = new System.Drawing.Point(90, 231);
             this.btnReadSet.Name = "btnReadSet";
-            this.btnReadSet.Size = new System.Drawing.Size(100, 23);
-            this.btnReadSet.TabIndex = 29;
+            this.btnReadSet.Size = new System.Drawing.Size(86, 23);
+            this.btnReadSet.TabIndex = 28;
             this.btnReadSet.Text = "读取设备参数";
             this.btnReadSet.Click += new System.EventHandler(this.btnReadSet_Click);
             // 
             // btnReadT
             // 
-            this.btnReadT.Location = new System.Drawing.Point(163, 231);
+            this.btnReadT.Location = new System.Drawing.Point(4, 231);
             this.btnReadT.Name = "btnReadT";
-            this.btnReadT.Size = new System.Drawing.Size(100, 23);
-            this.btnReadT.TabIndex = 28;
+            this.btnReadT.Size = new System.Drawing.Size(86, 23);
+            this.btnReadT.TabIndex = 27;
             this.btnReadT.Text = "读取模板参数";
             this.btnReadT.Click += new System.EventHandler(this.btnReadT_Click);
             // 
             // btnCleanFlash
             // 
             this.btnCleanFlash.Enabled = false;
-            this.btnCleanFlash.Location = new System.Drawing.Point(43, 231);
+            this.btnCleanFlash.Location = new System.Drawing.Point(176, 204);
             this.btnCleanFlash.Name = "btnCleanFlash";
-            this.btnCleanFlash.Size = new System.Drawing.Size(106, 23);
-            this.btnCleanFlash.TabIndex = 27;
+            this.btnCleanFlash.Size = new System.Drawing.Size(86, 23);
+            this.btnCleanFlash.TabIndex = 26;
             this.btnCleanFlash.Text = "清除数据";
             this.btnCleanFlash.Click += new System.EventHandler(this.btnCleanFlash_Click);
             // 
             // comboBoxDist
             // 
-            this.comboBoxDist.Location = new System.Drawing.Point(364, 15);
+            this.comboBoxDist.Location = new System.Drawing.Point(105, 146);
             this.comboBoxDist.Name = "comboBoxDist";
             this.comboBoxDist.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -516,313 +449,151 @@
             "关闭",
             "开启"});
             this.comboBoxDist.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxDist.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxDist.TabIndex = 24;
+            this.comboBoxDist.Size = new System.Drawing.Size(61, 20);
+            this.comboBoxDist.TabIndex = 21;
             this.comboBoxDist.SelectedIndexChanged += new System.EventHandler(this.comboBoxDist_SelectedIndexChanged);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(300, 18);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 14);
-            this.label7.TabIndex = 23;
-            this.label7.Text = "远传功能";
             // 
             // groupControl4
             // 
-            this.groupControl4.Controls.Add(this.comboBoxGprsBaud);
-            this.groupControl4.Controls.Add(this.FlagIP);
-            this.groupControl4.Controls.Add(this.FlagConId);
-            this.groupControl4.Controls.Add(this.FlagPort);
+            this.groupControl4.Controls.Add(this.txtRemotingID);
+            this.groupControl4.Controls.Add(this.btnApplyCtrlSet);
+            this.groupControl4.Controls.Add(this.btnReadCtrlSet);
+            this.groupControl4.Controls.Add(this.txtCurConId);
             this.groupControl4.Controls.Add(this.txtConId);
-            this.groupControl4.Controls.Add(this.label20);
-            this.groupControl4.Controls.Add(this.txtConPort);
             this.groupControl4.Controls.Add(this.label3);
-            this.groupControl4.Controls.Add(this.label22);
-            this.groupControl4.Controls.Add(this.txtPower);
-            this.groupControl4.Controls.Add(this.txtFre);
+            this.groupControl4.Controls.Add(this.txtConPort);
             this.groupControl4.Controls.Add(this.txtConIP);
-            this.groupControl4.Controls.Add(this.label23);
-            this.groupControl4.Controls.Add(this.label24);
-            this.groupControl4.Controls.Add(this.label19);
-            this.groupControl4.Controls.Add(this.label12);
-            this.groupControl4.Controls.Add(this.label6);
-            this.groupControl4.Controls.Add(this.label5);
-            this.groupControl4.Controls.Add(this.label21);
-            this.groupControl4.Controls.Add(this.comboBoxWakeTime);
-            this.groupControl4.Controls.Add(this.comboBoxBaud);
-            this.groupControl4.Controls.Add(this.comboBoxRate);
-            this.groupControl4.Location = new System.Drawing.Point(244, 43);
+            this.groupControl4.Controls.Add(this.ceRemotingID);
+            this.groupControl4.Controls.Add(this.ceConIP);
+            this.groupControl4.Controls.Add(this.ceConId);
+            this.groupControl4.Controls.Add(this.ceConPort);
+            this.groupControl4.Location = new System.Drawing.Point(304, 14);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(287, 171);
-            this.groupControl4.TabIndex = 26;
+            this.groupControl4.Size = new System.Drawing.Size(221, 216);
+            this.groupControl4.TabIndex = 0;
             this.groupControl4.Text = "远程控制器";
             // 
-            // comboBoxGprsBaud
+            // txtRemotingID
             // 
-            this.comboBoxGprsBaud.EditValue = "9600";
-            this.comboBoxGprsBaud.Location = new System.Drawing.Point(218, 142);
-            this.comboBoxGprsBaud.Name = "comboBoxGprsBaud";
-            this.comboBoxGprsBaud.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxGprsBaud.Properties.Items.AddRange(new object[] {
-            "1200",
-            "2400",
-            "4800",
-            "9600"});
-            this.comboBoxGprsBaud.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxGprsBaud.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxGprsBaud.TabIndex = 20;
-            this.comboBoxGprsBaud.SelectedIndexChanged += new System.EventHandler(this.comboBoxDist_SelectedIndexChanged);
+            this.txtRemotingID.Location = new System.Drawing.Point(79, 87);
+            this.txtRemotingID.Name = "txtRemotingID";
+            this.txtRemotingID.Properties.Mask.EditMask = "f0";
+            this.txtRemotingID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtRemotingID.Size = new System.Drawing.Size(104, 20);
+            this.txtRemotingID.TabIndex = 4;
             // 
-            // FlagIP
+            // btnApplyCtrlSet
             // 
-            this.FlagIP.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
-            this.FlagIP.Location = new System.Drawing.Point(170, 73);
-            this.FlagIP.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagIP.Name = "FlagIP";
-            this.FlagIP.Properties.AllowDisposeImage = true;
-            this.FlagIP.Properties.AllowFocused = false;
-            this.FlagIP.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagIP.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagIP.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagIP.Properties.ShowMenu = false;
-            this.FlagIP.Size = new System.Drawing.Size(20, 20);
-            this.FlagIP.TabIndex = 8;
-            this.FlagIP.Visible = false;
+            this.btnApplyCtrlSet.Enabled = false;
+            this.btnApplyCtrlSet.Location = new System.Drawing.Point(116, 183);
+            this.btnApplyCtrlSet.Name = "btnApplyCtrlSet";
+            this.btnApplyCtrlSet.Size = new System.Drawing.Size(86, 23);
+            this.btnApplyCtrlSet.TabIndex = 13;
+            this.btnApplyCtrlSet.Text = "应用当前设置";
+            this.btnApplyCtrlSet.Click += new System.EventHandler(this.btnApplyCtrlSet_Click);
             // 
-            // FlagPort
+            // btnReadCtrlSet
             // 
-            this.FlagPort.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
-            this.FlagPort.Location = new System.Drawing.Point(170, 50);
-            this.FlagPort.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagPort.Name = "FlagPort";
-            this.FlagPort.Properties.AllowDisposeImage = true;
-            this.FlagPort.Properties.AllowFocused = false;
-            this.FlagPort.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagPort.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagPort.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagPort.Properties.ShowMenu = false;
-            this.FlagPort.Size = new System.Drawing.Size(20, 20);
-            this.FlagPort.TabIndex = 5;
-            this.FlagPort.Visible = false;
+            this.btnReadCtrlSet.Enabled = false;
+            this.btnReadCtrlSet.Location = new System.Drawing.Point(30, 183);
+            this.btnReadCtrlSet.Name = "btnReadCtrlSet";
+            this.btnReadCtrlSet.Size = new System.Drawing.Size(86, 23);
+            this.btnReadCtrlSet.TabIndex = 12;
+            this.btnReadCtrlSet.Text = "读取设备参数";
+            this.btnReadCtrlSet.Click += new System.EventHandler(this.btnReadCtrlSet_Click);
+            // 
+            // txtCurConId
+            // 
+            this.txtCurConId.Location = new System.Drawing.Point(79, 26);
+            this.txtCurConId.Name = "txtCurConId";
+            this.txtCurConId.Properties.Mask.EditMask = "f0";
+            this.txtCurConId.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtCurConId.Size = new System.Drawing.Size(104, 20);
+            this.txtCurConId.TabIndex = 1;
             // 
             // txtConId
             // 
-            this.txtConId.Location = new System.Drawing.Point(66, 27);
+            this.txtConId.Location = new System.Drawing.Point(79, 55);
             this.txtConId.Name = "txtConId";
             this.txtConId.Properties.Mask.EditMask = "f0";
             this.txtConId.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtConId.Size = new System.Drawing.Size(104, 20);
             this.txtConId.TabIndex = 1;
             // 
-            // label20
+            // label3
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(8, 30);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(55, 14);
-            this.label20.TabIndex = 0;
-            this.label20.Text = "控制器ID";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 14);
+            this.label3.TabIndex = 78;
+            this.label3.Text = "控制器ID";
             // 
             // txtConPort
             // 
             this.txtConPort.EditValue = "";
-            this.txtConPort.Location = new System.Drawing.Point(66, 50);
+            this.txtConPort.Location = new System.Drawing.Point(79, 151);
             this.txtConPort.Name = "txtConPort";
             this.txtConPort.Properties.Mask.EditMask = "f0";
             this.txtConPort.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtConPort.Properties.MaxLength = 4;
             this.txtConPort.Size = new System.Drawing.Size(104, 20);
-            this.txtConPort.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(131, 99);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 14);
-            this.label3.TabIndex = 20;
-            this.label3.Text = "MHz";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(8, 53);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(55, 14);
-            this.label22.TabIndex = 3;
-            this.label22.Text = "远传端口";
-            // 
-            // txtPower
-            // 
-            this.txtPower.EditValue = "";
-            this.txtPower.Location = new System.Drawing.Point(66, 119);
-            this.txtPower.Name = "txtPower";
-            this.txtPower.Size = new System.Drawing.Size(63, 20);
-            this.txtPower.TabIndex = 14;
-            // 
-            // txtFre
-            // 
-            this.txtFre.EditValue = "433.920";
-            this.txtFre.Location = new System.Drawing.Point(66, 96);
-            this.txtFre.Name = "txtFre";
-            this.txtFre.Size = new System.Drawing.Size(63, 20);
-            this.txtFre.TabIndex = 10;
+            this.txtConPort.TabIndex = 10;
             // 
             // txtConIP
             // 
-            this.txtConIP.Location = new System.Drawing.Point(66, 73);
+            this.txtConIP.Location = new System.Drawing.Point(79, 119);
             this.txtConIP.Name = "txtConIP";
+            this.txtConIP.Properties.Mask.EditMask = "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
+            this.txtConIP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtConIP.Size = new System.Drawing.Size(104, 20);
             this.txtConIP.TabIndex = 7;
             // 
-            // label23
+            // ceRemotingID
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(8, 145);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(55, 14);
-            this.label23.TabIndex = 17;
-            this.label23.Text = "唤醒时间";
+            this.ceRemotingID.Location = new System.Drawing.Point(5, 88);
+            this.ceRemotingID.Name = "ceRemotingID";
+            this.ceRemotingID.Properties.Caption = "记录仪ID";
+            this.ceRemotingID.Size = new System.Drawing.Size(92, 19);
+            this.ceRemotingID.TabIndex = 3;
             // 
-            // label24
+            // ceConIP
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(142, 145);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(72, 14);
-            this.label24.TabIndex = 19;
-            this.label24.Text = "GPRS波特率";
+            this.ceConIP.Location = new System.Drawing.Point(5, 120);
+            this.ceConIP.Name = "ceConIP";
+            this.ceConIP.Properties.Caption = "远传地址";
+            this.ceConIP.Size = new System.Drawing.Size(92, 19);
+            this.ceConIP.TabIndex = 6;
             // 
-            // label19
+            // ceConId
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(159, 122);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(55, 14);
-            this.label19.TabIndex = 15;
-            this.label19.Text = "串口速率";
+            this.ceConId.Location = new System.Drawing.Point(5, 56);
+            this.ceConId.Name = "ceConId";
+            this.ceConId.Properties.Caption = "控制器ID";
+            this.ceConId.Size = new System.Drawing.Size(92, 19);
+            this.ceConId.TabIndex = 0;
             // 
-            // label12
+            // ceConPort
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(8, 122);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(55, 14);
-            this.label12.TabIndex = 13;
-            this.label12.Text = "发射功率";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(159, 99);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(55, 14);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "无线速率";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 99);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 14);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "收发频率";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(8, 76);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(55, 14);
-            this.label21.TabIndex = 6;
-            this.label21.Text = "远传地址";
-            // 
-            // comboBoxWakeTime
-            // 
-            this.comboBoxWakeTime.EditValue = "1s";
-            this.comboBoxWakeTime.Location = new System.Drawing.Point(66, 142);
-            this.comboBoxWakeTime.Name = "comboBoxWakeTime";
-            this.comboBoxWakeTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxWakeTime.Properties.Items.AddRange(new object[] {
-            "1s",
-            "2s",
-            "3s",
-            "4s",
-            "5s"});
-            this.comboBoxWakeTime.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxWakeTime.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxWakeTime.TabIndex = 18;
-            this.comboBoxWakeTime.SelectedIndexChanged += new System.EventHandler(this.comboBoxDist_SelectedIndexChanged);
-            // 
-            // comboBoxBaud
-            // 
-            this.comboBoxBaud.EditValue = "9600";
-            this.comboBoxBaud.Location = new System.Drawing.Point(218, 119);
-            this.comboBoxBaud.Name = "comboBoxBaud";
-            this.comboBoxBaud.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxBaud.Properties.Items.AddRange(new object[] {
-            "1200",
-            "2400",
-            "4800",
-            "9600"});
-            this.comboBoxBaud.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxBaud.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxBaud.TabIndex = 16;
-            this.comboBoxBaud.SelectedIndexChanged += new System.EventHandler(this.comboBoxDist_SelectedIndexChanged);
-            // 
-            // comboBoxRate
-            // 
-            this.comboBoxRate.EditValue = "20K";
-            this.comboBoxRate.Location = new System.Drawing.Point(218, 96);
-            this.comboBoxRate.Name = "comboBoxRate";
-            this.comboBoxRate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxRate.Properties.Items.AddRange(new object[] {
-            "5K",
-            "10K",
-            "20K",
-            "40K"});
-            this.comboBoxRate.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxRate.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxRate.TabIndex = 12;
-            this.comboBoxRate.SelectedIndexChanged += new System.EventHandler(this.comboBoxDist_SelectedIndexChanged);
+            this.ceConPort.Location = new System.Drawing.Point(5, 152);
+            this.ceConPort.Name = "ceConPort";
+            this.ceConPort.Properties.Caption = "远传端口";
+            this.ceConPort.Size = new System.Drawing.Size(92, 19);
+            this.ceConPort.TabIndex = 9;
             // 
             // btnNow
             // 
             this.btnNow.Enabled = false;
-            this.btnNow.Location = new System.Drawing.Point(176, 14);
+            this.btnNow.Location = new System.Drawing.Point(194, 5);
             this.btnNow.Name = "btnNow";
             this.btnNow.Size = new System.Drawing.Size(42, 23);
             this.btnNow.TabIndex = 2;
             this.btnNow.Text = "同步";
             this.btnNow.Click += new System.EventHandler(this.btnNow_Click);
             // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(19, 48);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(55, 14);
-            this.label17.TabIndex = 4;
-            this.label17.Text = "通讯时间";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 14);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "记录仪时间";
-            // 
             // txtComTime
             // 
-            this.txtComTime.Location = new System.Drawing.Point(87, 45);
+            this.txtComTime.Location = new System.Drawing.Point(105, 34);
             this.txtComTime.Name = "txtComTime";
             this.txtComTime.Properties.Mask.EditMask = "f0";
             this.txtComTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -833,7 +604,7 @@
             // 
             this.dateTimePicker.CustomFormat = "HH:mm:ss";
             this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker.Location = new System.Drawing.Point(87, 14);
+            this.dateTimePicker.Location = new System.Drawing.Point(105, 5);
             this.dateTimePicker.MinDate = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.ShowUpDown = true;
@@ -844,79 +615,52 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(121, 78);
+            this.label16.Location = new System.Drawing.Point(139, 65);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(35, 14);
             this.label16.TabIndex = 10;
             this.label16.Text = "点 至";
             // 
-            // txtRecTime1
+            // txtColTimeEnd
             // 
-            this.txtRecTime1.Location = new System.Drawing.Point(164, 75);
-            this.txtRecTime1.Name = "txtRecTime1";
-            this.txtRecTime1.Properties.ReadOnly = true;
-            this.txtRecTime1.Size = new System.Drawing.Size(28, 20);
-            this.txtRecTime1.TabIndex = 11;
+            this.txtColTimeEnd.Location = new System.Drawing.Point(182, 62);
+            this.txtColTimeEnd.Name = "txtColTimeEnd";
+            this.txtColTimeEnd.Properties.ReadOnly = true;
+            this.txtColTimeEnd.Size = new System.Drawing.Size(28, 20);
+            this.txtColTimeEnd.TabIndex = 11;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(199, 78);
+            this.label15.Location = new System.Drawing.Point(217, 65);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(19, 14);
             this.label15.TabIndex = 12;
             this.label15.Text = "点";
             // 
-            // label14
+            // txtColTimeStart
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(19, 78);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(55, 14);
-            this.label14.TabIndex = 8;
-            this.label14.Text = "采集时间";
-            // 
-            // txtRecTime
-            // 
-            this.txtRecTime.Location = new System.Drawing.Point(87, 75);
-            this.txtRecTime.Name = "txtRecTime";
-            this.txtRecTime.Properties.Mask.EditMask = "f0";
-            this.txtRecTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            this.txtRecTime.Size = new System.Drawing.Size(28, 20);
-            this.txtRecTime.TabIndex = 9;
-            this.txtRecTime.EditValueChanged += new System.EventHandler(this.txtRecTime_EditValueChanged);
+            this.txtColTimeStart.Location = new System.Drawing.Point(105, 62);
+            this.txtColTimeStart.Name = "txtColTimeStart";
+            this.txtColTimeStart.Properties.Mask.EditMask = "f0";
+            this.txtColTimeStart.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtColTimeStart.Size = new System.Drawing.Size(28, 20);
+            this.txtColTimeStart.TabIndex = 9;
+            this.txtColTimeStart.EditValueChanged += new System.EventHandler(this.txtRecTime_EditValueChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(121, 48);
+            this.label8.Location = new System.Drawing.Point(139, 37);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 14);
             this.label8.TabIndex = 6;
             this.label8.Text = "点";
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(20, 138);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(55, 14);
-            this.label9.TabIndex = 18;
-            this.label9.Text = "记录数量";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(18, 108);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(55, 14);
-            this.label10.TabIndex = 14;
-            this.label10.Text = "采集间隔";
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(154, 108);
+            this.label11.Location = new System.Drawing.Point(172, 93);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(48, 14);
             this.label11.TabIndex = 16;
@@ -925,10 +669,10 @@
             // txtRecNum
             // 
             this.txtRecNum.EditValue = "30";
-            this.txtRecNum.Location = new System.Drawing.Point(87, 135);
+            this.txtRecNum.Location = new System.Drawing.Point(105, 118);
             this.txtRecNum.Name = "txtRecNum";
             this.txtRecNum.Properties.ReadOnly = true;
-            this.txtRecNum.Size = new System.Drawing.Size(86, 20);
+            this.txtRecNum.Size = new System.Drawing.Size(61, 20);
             this.txtRecNum.TabIndex = 19;
             // 
             // groupControl3
@@ -937,7 +681,7 @@
             this.groupControl3.Location = new System.Drawing.Point(4, 269);
             this.groupControl3.Name = "groupControl3";
             this.groupControl3.Size = new System.Drawing.Size(790, 223);
-            this.groupControl3.TabIndex = 65;
+            this.groupControl3.TabIndex = 2;
             this.groupControl3.Text = "记录仪列表";
             // 
             // gridControlRec
@@ -1078,28 +822,45 @@
             // 
             this.timer1.Interval = 1000;
             // 
-            // FlagConId
+            // panelControl1
             // 
-            this.FlagConId.EditValue = global::SmartWaterSystem.Properties.Resources.cross1;
-            this.FlagConId.Location = new System.Drawing.Point(170, 29);
-            this.FlagConId.Margin = new System.Windows.Forms.Padding(0);
-            this.FlagConId.Name = "FlagConId";
-            this.FlagConId.Properties.AllowDisposeImage = true;
-            this.FlagConId.Properties.AllowFocused = false;
-            this.FlagConId.Properties.Appearance.BackColor = System.Drawing.Color.White;
-            this.FlagConId.Properties.Appearance.Options.UseBackColor = true;
-            this.FlagConId.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.FlagConId.Properties.ShowMenu = false;
-            this.FlagConId.Size = new System.Drawing.Size(20, 20);
-            this.FlagConId.TabIndex = 5;
-            this.FlagConId.Visible = false;
+            this.panelControl1.Controls.Add(this.dateTimePicker);
+            this.panelControl1.Controls.Add(this.groupControl4);
+            this.panelControl1.Controls.Add(this.btnApplySet);
+            this.panelControl1.Controls.Add(this.ceRemoteSwitch);
+            this.panelControl1.Controls.Add(this.btnReadSet);
+            this.panelControl1.Controls.Add(this.txtRecNum);
+            this.panelControl1.Controls.Add(this.btnReadT);
+            this.panelControl1.Controls.Add(this.ceComTime);
+            this.panelControl1.Controls.Add(this.btnCleanFlash);
+            this.panelControl1.Controls.Add(this.label11);
+            this.panelControl1.Controls.Add(this.btnStop);
+            this.panelControl1.Controls.Add(this.btnStart);
+            this.panelControl1.Controls.Add(this.ceInterval);
+            this.panelControl1.Controls.Add(this.label8);
+            this.panelControl1.Controls.Add(this.ceColTime);
+            this.panelControl1.Controls.Add(this.txtColTimeStart);
+            this.panelControl1.Controls.Add(this.ceDT);
+            this.panelControl1.Controls.Add(this.label15);
+            this.panelControl1.Controls.Add(this.label1);
+            this.panelControl1.Controls.Add(this.txtColTimeEnd);
+            this.panelControl1.Controls.Add(this.spinEditInterval);
+            this.panelControl1.Controls.Add(this.label16);
+            this.panelControl1.Controls.Add(this.txtComTime);
+            this.panelControl1.Controls.Add(this.lblRecState);
+            this.panelControl1.Controls.Add(this.btnNow);
+            this.panelControl1.Controls.Add(this.comboBoxDist);
+            this.panelControl1.Location = new System.Drawing.Point(260, 3);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(532, 260);
+            this.panelControl1.TabIndex = 30;
             // 
             // NoiseRecMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.groupControl3);
-            this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl1);
             this.Name = "NoiseRecMgr";
             this.Size = new System.Drawing.Size(797, 494);
@@ -1111,33 +872,28 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtStartStandValue.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakValue.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecID.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
-            this.groupControl2.ResumeLayout(false);
-            this.groupControl2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagRemoteSwitch.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagInterval.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagStartEndTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagSendTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceRemoteSwitch.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceComTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceColTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceDT.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEditInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxDist.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
             this.groupControl4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxGprsBaud.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagIP.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagPort.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRemotingID.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCurConId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConPort.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPower.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFre.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConIP.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxWakeTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBaud.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxRate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceRemotingID.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceConIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceConId.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceConPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtColTimeEnd.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtColTimeStart.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
@@ -1145,7 +901,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecordList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FlagConId.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.panelControl1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1153,7 +911,6 @@
         #endregion
 
         private DevExpress.XtraEditors.GroupControl groupControl1;
-        private DevExpress.XtraEditors.GroupControl groupControl2;
         private DevExpress.XtraEditors.SimpleButton btnReadT;
         private DevExpress.XtraEditors.SimpleButton btnAddRec;
         private DevExpress.XtraEditors.SimpleButton btnDeleteRec;
@@ -1173,28 +930,19 @@
         private DevExpress.XtraEditors.TextEdit txtRecID;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label1;
         private  DevExpress.XtraEditors.TextEdit txtComTime;
         private System.Windows.Forms.DateTimePicker dateTimePicker;
         private System.Windows.Forms.Label label16;
-        private  DevExpress.XtraEditors.TextEdit txtRecTime1;
+        private  DevExpress.XtraEditors.TextEdit txtColTimeEnd;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
-        private  DevExpress.XtraEditors.TextEdit txtRecTime;
+        private  DevExpress.XtraEditors.TextEdit txtColTimeStart;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private DevExpress.XtraEditors.TextEdit txtRecNum;
         private DevExpress.XtraEditors.GroupControl groupControl4;
         private  DevExpress.XtraEditors.TextEdit txtConId;
-        private System.Windows.Forms.Label label20;
         private  DevExpress.XtraEditors.TextEdit txtConPort;
-        private System.Windows.Forms.Label label22;
         private  DevExpress.XtraEditors.TextEdit txtConIP;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label7;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxDist;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
@@ -1209,29 +957,26 @@
         private System.Windows.Forms.Timer timer1;
         private DevExpress.XtraEditors.SimpleButton btnCleanFlash;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
-        private DevExpress.XtraEditors.SpinEdit spinEdit1;
-        private DevExpress.XtraEditors.PictureEdit FlagTime;
-        private DevExpress.XtraEditors.PictureEdit FlagInterval;
-        private DevExpress.XtraEditors.PictureEdit FlagStartEndTime;
-        private DevExpress.XtraEditors.PictureEdit FlagSendTime;
-        private DevExpress.XtraEditors.PictureEdit FlagIP;
-        private DevExpress.XtraEditors.PictureEdit FlagPort;
-        private DevExpress.XtraEditors.PictureEdit FlagRemoteSwitch;
+        private DevExpress.XtraEditors.SpinEdit spinEditInterval;
         private DevExpress.XtraEditors.TextEdit txtStartStandValue;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label24;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxGprsBaud;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxWakeTime;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxBaud;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxRate;
-        private DevExpress.XtraEditors.TextEdit txtPower;
-        private DevExpress.XtraEditors.TextEdit txtFre;
+        private DevExpress.XtraEditors.SimpleButton btnReadCtrlSet;
+        private DevExpress.XtraEditors.SimpleButton btnApplyCtrlSet;
+        private DevExpress.XtraEditors.TextEdit txtRemotingID;
+        private DevExpress.XtraEditors.CheckEdit ceDT;
+        private DevExpress.XtraEditors.CheckEdit ceRemoteSwitch;
+        private DevExpress.XtraEditors.CheckEdit ceComTime;
+        private DevExpress.XtraEditors.CheckEdit ceInterval;
+        private DevExpress.XtraEditors.CheckEdit ceColTime;
+        private DevExpress.XtraEditors.CheckEdit ceRemotingID;
+        private DevExpress.XtraEditors.CheckEdit ceConIP;
+        private DevExpress.XtraEditors.CheckEdit ceConPort;
+        private DevExpress.XtraEditors.CheckEdit ceConId;
+        private System.Windows.Forms.Label label1;
+        private DevExpress.XtraEditors.TextEdit txtCurConId;
         private System.Windows.Forms.Label label3;
-        private DevExpress.XtraEditors.PictureEdit FlagConId;
+        private DevExpress.XtraEditors.SimpleButton btnSetStandValue;
+        private DevExpress.XtraEditors.SimpleButton btnGetStandValue;
+        private DevExpress.XtraEditors.PanelControl panelControl1;
     }
 }

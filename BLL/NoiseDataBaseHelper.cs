@@ -59,8 +59,8 @@ namespace BLL
                         {
                             rec.Data = new NoiseData();
                             rec.Data.GroupID = Convert.ToInt32(reader["GroupId"]);
-                            rec.Data.ReadTime = Convert.ToDateTime(reader.GetString(5));
-                            rec.Data.UploadTime = Convert.ToDateTime(reader.GetString(6));
+                            rec.Data.ReadTime = Convert.ToDateTime(reader["CollTime"]);
+                            rec.Data.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
                             rec.Data.UploadFlag = Convert.ToInt32(reader["HistoryFlag"]);
 
                             string[] strAmp = reader["LeakValue"].ToString().Split(',');
@@ -92,7 +92,7 @@ namespace BLL
                         }
                     }
 
-                    sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,COllTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
+                    sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
                     using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
                     {
                         if (reader.Read())
@@ -101,8 +101,8 @@ namespace BLL
                             rec.Result.GroupID = Convert.ToInt32(reader["GroupId"]);
                             rec.Result.RecorderID = rec.ID;
                             rec.Result.IsLeak = Convert.ToInt32(reader["IsLeak"]);
-                            rec.Result.ReadTime = Convert.ToDateTime(reader.GetString(6));
-                            rec.Result.UploadTime = Convert.ToDateTime(reader.GetString(7));
+                            rec.Result.ReadTime = Convert.ToDateTime(reader["CollTime"]);
+                            rec.Result.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
                             rec.Result.LeakAmplitude = Convert.ToDouble(reader["MinLeakValue"]);
                             rec.Result.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
                             rec.Result.EnergyValue = Convert.ToDouble(reader["EnergyValue"]);

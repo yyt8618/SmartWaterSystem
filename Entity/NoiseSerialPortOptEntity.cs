@@ -8,16 +8,28 @@ namespace Entity
         /// <summary>
         /// 设备ID
         /// </summary>
+        public bool IsOptID = false;
         public short ID
         {
             get { return _id; }
             set { _id = value; }
         }
 
+        private short _setid;
+        /// <summary>
+        /// 远传控制器待设置ID
+        /// </summary>
+        public short SetID
+        {
+            get { return _setid; }
+            set { _setid = value; }
+        }
+
         private DateTime _dt;
         /// <summary>
         /// 时间
         /// </summary>
+        public bool IsOptDT = false;
         public DateTime dt
         {
             get { return _dt; }
@@ -28,6 +40,7 @@ namespace Entity
         /// <summary>
         /// 远传通讯时间
         /// </summary>
+        public bool IsOptComTime = false;
         public int ComTime
         {
             get { return _comtime; }
@@ -38,6 +51,7 @@ namespace Entity
         /// <summary>
         /// 采集开始时间
         /// </summary>
+        public bool IsOptColTime = false;  //采集时间
         public int colstarttime
         {
             get { return _colstarttime; }
@@ -57,6 +71,7 @@ namespace Entity
         /// <summary>
         /// 采集时间间隔
         /// </summary>
+        public bool IsOptInterval = false;
         public int Interval
         {
             get { return _interval; }
@@ -67,6 +82,7 @@ namespace Entity
         /// <summary>
         /// 远传启动停止
         /// </summary>
+        public bool IsOptRemoteSwitch = false;
         public bool RemoteSwitch
         {
             get { return _RemoteSwitch; }
@@ -77,6 +93,7 @@ namespace Entity
         /// <summary>
         /// 读取远传控制器设备与记录仪设备对应的ID号
         /// </summary>
+        public bool IsOptRemoteId = false;
         public int RemoteId
         {
             get { return _remoteId; }
@@ -87,6 +104,7 @@ namespace Entity
         /// <summary>
         /// IP
         /// </summary>
+        public bool IsOptIP = false;
         public string IP
         {
             get { return _ip; }
@@ -97,6 +115,7 @@ namespace Entity
         /// <summary>
         /// 端口号
         /// </summary>
+        public bool IsOptPort = false;
         public int Port
         {
             get { return _port; }
@@ -167,11 +186,13 @@ namespace Entity
         /// <summary>
         /// 是否启动
         /// </summary>
+        public bool IsOptEnable = false;
         public bool Enable
         {
             get { return _Enable; }
             set { _Enable = value; }
         }
+
 
         public NoiseSerialPortOptEntity()
         {

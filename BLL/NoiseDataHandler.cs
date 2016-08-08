@@ -1430,7 +1430,20 @@ namespace BLL
 
                     double max_amp, max_frq, min_amp, min_frq;//, leak_amp, leak_frq;
                     int leaktmp = NoiseDataHandler.IsLeak3(amp, frq, recorder.LeakValue, out max_amp, out max_frq, out min_amp, out min_frq, out ru[0], out ru[1]);
-                    if (-1 == isLeak1)
+                    //if (-1 == isLeak1)
+                    //{
+                    //    isLeak1 = leaktmp;
+                    //    leakprobability += ru[0] * 0.5 / 100;
+                    //}
+                    if(0 == isLeak1)  //能量强度小于设定最小值
+                    {
+                        isLeak1 = leaktmp;
+                        if (ru[0] >= 100)
+                            leakprobability = 1;
+                        else
+                            leakprobability = 0;
+                    }
+                    else if(-1 == isLeak1)  //能量值处于最大最小标准值中间
                     {
                         isLeak1 = leaktmp;
                         leakprobability += ru[0] * 0.5 / 100;

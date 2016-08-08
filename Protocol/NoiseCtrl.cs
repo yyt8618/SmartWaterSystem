@@ -200,21 +200,40 @@ namespace Protocol
             package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_CTRL_NOISE_LOG_ID;
             package.DataLength = 4;
             byte[] data = new byte[package.DataLength];
-
-            string str = Convert.ToString((byte)Entity.ConstValue.DEV_TYPE.NOISE_LOG, 16).PadLeft(2, '0') + Convert.ToString(logID, 16).PadLeft(2, '0');
-            if (str.Length != 4)
-            {
-                throw new Exception("记录仪ID长度溢出");
-            }
-            byte[] temp = ConvertHelper.HexStringToByteArray(str);
-            for (int i = 0; i < temp.Length; i++)
-            {
-                data[i] = temp[i];
-            }
+            data =BitConverter.GetBytes((int)logID);
+            Array.Reverse(data);
+            data[0] = (byte)Entity.ConstValue.DEV_TYPE.NOISE_LOG;  //设置类型(记录仪)
             package.Data = data;
             package.CS = package.CreateCS();
             return Write(package);
+        }
 
+        /// <summary>
+        /// 设置远传控制器设备ID号
+        /// </summary>
+        /// <param name="curctrlID">当前控制器ID</param>
+        /// <param name="newctrlID">设置的控制器ID</param>
+        /// <returns></returns>
+        public bool WriteNoiseCtrlID(short curctrlID,short newctrlID)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+            package.DevID = curctrlID;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_NOISE_CTRL_ID;
+
+            byte[] data = BitConverter.GetBytes((int)newctrlID);
+            List<byte> lstbyte = new List<byte>();
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                lstbyte.Add(data[i]);
+            }
+            lstbyte[0] = (byte)Entity.ConstValue.DEV_TYPE.NOISE_CTRL;  //设置设备类型
+            package.DataLength = data.Length;
+            package.Data = lstbyte.ToArray();
+
+            package.CS = package.CreateCS();
+            return Write(package);
         }
 
         #endregion
@@ -432,8 +451,9 @@ namespace Protocol
                 {
                     throw new Exception("数据损坏");
                 }
-                Array.Reverse(result.Data);
 
+                Array.Reverse(result.Data);
+                result.Data[3] = 0x00;  //将记录仪类型去掉
                 return BitConverter.ToInt32(result.Data, 0);
             }
             catch (Exception ex)

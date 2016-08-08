@@ -21,18 +21,21 @@ namespace SmartWaterSystem
     public enum SerialPortType : uint
     {
         None = 0,
-        NoiseWriteTime,  //设置时间
-        NoiseWriteRemoteSendTime,//设置远传通信时间
-        NoiseWriteStartEndTime,  //设置记录时间段
-        NoiseWriteInterval,    //设置采集间隔
+        //NoiseWriteTime,  //设置时间
+        //NoiseWriteRemoteSendTime,//设置远传通信时间
+        //NoiseWriteStartEndTime,  //设置记录时间段
+        //NoiseWriteInterval,    //设置采集间隔
 
-        NoiseCtrlStartOrStop,  //设置开关
-        NoiseWriteRemoteSwitch, //设置远传功能
+        //NoiseCtrlStartOrStop,  //设置开关
+        //NoiseWriteRemoteSwitch, //设置远传功能
         NoiseStart,             //设置启动
         NoiseStop,              //设置停止
         NoiseClearData,         //设置清除数据
 
         NoiseReadParm,          //读取参数数据
+        NoiseSetParm,           //设置参数数据
+        NoiseCtrlReadParm,      //噪声远传控制器读取参数数据
+        NoiseCtrlSetParm,       //噪声远传控制器设置参数数据
         NoiseReadData,          //读取数据
         NoiseBatchWrite,        //批量设置
         UniversalReset, //通用终端复位
@@ -174,7 +177,7 @@ namespace SmartWaterSystem
     public class SerialPortManager : SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 63;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
+        private const int eventcount = 60;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -247,52 +250,122 @@ namespace SmartWaterSystem
                     case (uint)SerialPortType.None:
                         Thread.CurrentThread.Abort();
                         break;
-                    case (uint)SerialPortType.NoiseWriteTime:
-                        {
-                            msg = ""; obj = null;
-                            result = GlobalValue.Noiselog.WriteTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.dt);
-                        }
-                        break;
-                    case (uint)SerialPortType.NoiseWriteRemoteSendTime:
-                        result = GlobalValue.Noiselog.WriteRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.ComTime);
-                        break;
-                    case (uint)SerialPortType.NoiseWriteStartEndTime:
-                        result = GlobalValue.Noiselog.WriteStartEndTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.colstarttime, GlobalValue.NoiseSerialPortOptData.colendtime);
-                        break;
-                    case (uint)SerialPortType.NoiseWriteInterval:
-                        result = GlobalValue.Noiselog.WriteInterval(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Interval);
-                        break;
-                    case (uint)SerialPortType.NoiseWriteRemoteSwitch:
-                        #region 噪声记录仪远传设置(开关、ip、port)
+                    case (uint)SerialPortType.NoiseCtrlReadParm:
+                        #region 噪声记录仪读取参数
                         {
                             try
                             {
-                                result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
-                                if (!result)
-                                    break;
-                                if (GlobalValue.NoiseSerialPortOptData.RemoteSwitch)
+                                //result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
+                                //if (!result)
+                                //    break;
+                                //if (GlobalValue.NoiseSerialPortOptData.RemoteSwitch)
+                                //{
+                                NoiseSerialPortOptEntity result_data = new NoiseSerialPortOptEntity();
+                                NoiseCtrl ctrl = new NoiseCtrl();
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptID)
                                 {
-                                    NoiseCtrl ctrl = new NoiseCtrl();
-                                    result = ctrl.WriteCtrlToNoiseLogID((short)GlobalValue.NoiseSerialPortOptData.RemoteId, GlobalValue.NoiseSerialPortOptData.ID);
-                                    if (!result)
-                                        break;
-                                    result = ctrl.Write_IP(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.IP);
-                                    if (!result)
-                                        break;
-                                    result = ctrl.WritePortName(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Port.ToString());
-                                    if (!result)
-                                        break;
-                                    result = ctrl.WriteWireless((short)GlobalValue.NoiseSerialPortOptData.RemoteId, (int)GlobalValue.NoiseSerialPortOptData.Frequency * 1000, GlobalValue.NoiseSerialPortOptData.Rate,
-                                        GlobalValue.NoiseSerialPortOptData.Power, GlobalValue.NoiseSerialPortOptData.Baud, GlobalValue.NoiseSerialPortOptData.WakeTime);
-                                    if (!result)
-                                        break;
-                                    result = ctrl.WriteGPRSBaurate((short)GlobalValue.NoiseSerialPortOptData.RemoteId, GlobalValue.NoiseSerialPortOptData.GprsBaud);
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器ID..."));
+                                    result_data.ID = ctrl.ReadNoiseCtrlID();
                                 }
+                                else
+                                {
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteId)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器对应记录仪ID..."));
+                                        result_data.RemoteId = ctrl.ReadCtrlNoisLogID(GlobalValue.NoiseSerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptIP)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传IP地址..."));
+                                        result_data.IP = ctrl.ReadIP(GlobalValue.NoiseSerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptPort)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传端口号..."));
+                                        result_data.Port = Convert.ToInt32(ctrl.ReadPort(GlobalValue.NoiseSerialPortOptData.ID));
+                                    }
+                                }
+                                result = true;
+                                obj = result_data;
+                                //result = ctrl.WriteWireless((short)GlobalValue.NoiseSerialPortOptData.RemoteId, (int)GlobalValue.NoiseSerialPortOptData.Frequency * 1000, GlobalValue.NoiseSerialPortOptData.Rate,
+                                //    GlobalValue.NoiseSerialPortOptData.Power, GlobalValue.NoiseSerialPortOptData.Baud, GlobalValue.NoiseSerialPortOptData.WakeTime);
+                                //if (!result)
+                                //    break;
+                                //result = ctrl.WriteGPRSBaurate((short)GlobalValue.NoiseSerialPortOptData.RemoteId, GlobalValue.NoiseSerialPortOptData.GprsBaud);
+                                //}
                             }
                             catch (Exception ex)
                             {
                                 result = false;
-                                logger.ErrorException("WriteRemoteSwitch", ex);
+                                logger.ErrorException("NoiseCtrlReadParm", ex);
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.NoiseCtrlSetParm:
+                        #region 噪声记录仪远传设置(开关、ip、port)
+                        {
+                            try
+                            {
+                                NoiseCtrl ctrl = new NoiseCtrl();
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptID)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传控制器ID..."));
+                                    result = ctrl.WriteNoiseCtrlID(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.SetID);
+                                }
+                                else
+                                {
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteId)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传控制器对应记录仪ID..."));
+                                        result = ctrl.WriteCtrlToNoiseLogID(GlobalValue.NoiseSerialPortOptData.ID, (short)GlobalValue.NoiseSerialPortOptData.RemoteId);
+                                    }
+                                    
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptIP)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传控制器远传地址IP..."));
+                                        result = ctrl.Write_IP(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.IP);
+                                    }
+                                    
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptPort)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传控制器远传端口号..."));
+                                        result = ctrl.WritePortName(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Port.ToString());
+                                    }
+                                    //result = ctrl.WriteWireless((short)GlobalValue.NoiseSerialPortOptData.RemoteId, (int)GlobalValue.NoiseSerialPortOptData.Frequency * 1000, GlobalValue.NoiseSerialPortOptData.Rate,
+                                    //    GlobalValue.NoiseSerialPortOptData.Power, GlobalValue.NoiseSerialPortOptData.Baud, GlobalValue.NoiseSerialPortOptData.WakeTime);
+                                    //if (!result)
+                                    //    break;
+                                    //result = ctrl.WriteGPRSBaurate((short)GlobalValue.NoiseSerialPortOptData.RemoteId, GlobalValue.NoiseSerialPortOptData.GprsBaud);
+                                }
+                                obj = null;
+                                //result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
+                                //if (!result)
+                                //    break;
+                                //if (GlobalValue.NoiseSerialPortOptData.RemoteSwitch)
+                                //{
+                                //    NoiseCtrl ctrl = new NoiseCtrl();
+                                //    result = ctrl.WriteCtrlToNoiseLogID((short)GlobalValue.NoiseSerialPortOptData.RemoteId, GlobalValue.NoiseSerialPortOptData.ID);
+                                //    if (!result)
+                                //        break;
+                                //    result = ctrl.Write_IP(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.IP);
+                                //    if (!result)
+                                //        break;
+                                //    result = ctrl.WritePortName(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Port.ToString());
+                                //    if (!result)
+                                //        break;
+                                //    result = ctrl.WriteWireless((short)GlobalValue.NoiseSerialPortOptData.RemoteId, (int)GlobalValue.NoiseSerialPortOptData.Frequency * 1000, GlobalValue.NoiseSerialPortOptData.Rate,
+                                //        GlobalValue.NoiseSerialPortOptData.Power, GlobalValue.NoiseSerialPortOptData.Baud, GlobalValue.NoiseSerialPortOptData.WakeTime);
+                                //    if (!result)
+                                //        break;
+                                //    result = ctrl.WriteGPRSBaurate((short)GlobalValue.NoiseSerialPortOptData.RemoteId, GlobalValue.NoiseSerialPortOptData.GprsBaud);
+                                //}
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                logger.ErrorException("NoiseCtrlSetParm", ex);
                                 msg = ex.Message;
                             }
                         }
@@ -305,18 +378,19 @@ namespace SmartWaterSystem
                             {
                                 short[] Originaldata = null;
                                 result = GlobalValue.Noiselog.CtrlStartOrStop(GlobalValue.NoiseSerialPortOptData.ID, true, out Originaldata);
-                                if (Originaldata == null || (Originaldata != null && (BLL.NoiseDataHandler.GetAverage(Originaldata) < 450)))  //没有读到标准值，重试2次
-                                {
-                                    string startvalue = "";
-                                    if (Originaldata != null)
-                                        foreach (double d in Originaldata)
-                                        {
-                                            startvalue += d.ToString() + " ";
-                                        }
-                                    msg = "启动失败,请重试[" + startvalue + "]!";
-                                    result = false;
-                                }
-                                obj = Originaldata;
+                                //if (Originaldata == null || (Originaldata != null && (BLL.NoiseDataHandler.GetAverage(Originaldata) < 450)))  //没有读到标准值，重试2次
+                                //{
+                                //    string startvalue = "";
+                                //    if (Originaldata != null)
+                                //        foreach (double d in Originaldata)
+                                //        {
+                                //            startvalue += d.ToString() + " ";
+                                //        }
+                                //    msg = "启动失败,请重试[" + startvalue + "]!";
+                                //    result = false;
+                                //}
+                                //obj = Originaldata;
+                                obj = null;
                             }
                             catch (Exception ex)
                             {
@@ -365,55 +439,131 @@ namespace SmartWaterSystem
                                 NoiseSerialPortOptEntity result_data = new NoiseSerialPortOptEntity();
                                 result_data.ID = GlobalValue.NoiseSerialPortOptData.ID;
                                 // 读取时间
-                                OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取时间..."));
-                                byte[] tt1 = GlobalValue.Noiselog.ReadTime(GlobalValue.NoiseSerialPortOptData.ID);
-                                result_data.dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
-                                // 读取远传通讯时间
-                                OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传通讯时间..."));
-                                result_data.ComTime = Convert.ToInt32(GlobalValue.Noiselog.ReadRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID));
-                                // 读取记录时间段
-                                OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取记录时间段..."));
-                                byte[] tt = GlobalValue.Noiselog.ReadStartEndTime(GlobalValue.NoiseSerialPortOptData.ID);
-                                result_data.colstarttime = Convert.ToInt32(tt[0]);
-                                result_data.colendtime = Convert.ToInt32(tt[1]);
-
-                                // 读取采集间隔
-                                OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取采集时间间隔..."));
-                                result_data.Interval = GlobalValue.Noiselog.ReadInterval(GlobalValue.NoiseSerialPortOptData.ID);
-                                // 读取远传功能
-                                OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传开关状态..."));
-                                result_data.RemoteSwitch = GlobalValue.Noiselog.ReadRemote(GlobalValue.NoiseSerialPortOptData.ID);
-                                if (result_data.RemoteSwitch)
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptDT)
                                 {
-                                    NoiseCtrl ctrl = new NoiseCtrl();
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取时间..."));
+                                    byte[] tt1 = GlobalValue.Noiselog.ReadTime(GlobalValue.NoiseSerialPortOptData.ID);
+                                    result_data.dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
+                                }
+                                // 读取远传通讯时间
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传通讯时间..."));
+                                    result_data.ComTime = Convert.ToInt32(GlobalValue.Noiselog.ReadRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID));
+                                }
+                                // 读取记录时间段
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptColTime)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取记录时间段..."));
+                                    byte[] tt = GlobalValue.Noiselog.ReadStartEndTime(GlobalValue.NoiseSerialPortOptData.ID);
+                                    result_data.colstarttime = Convert.ToInt32(tt[0]);
+                                    result_data.colendtime = Convert.ToInt32(tt[1]);
+                                }
+                                // 读取采集间隔
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptInterval)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取采集时间间隔..."));
+                                    result_data.Interval = GlobalValue.Noiselog.ReadInterval(GlobalValue.NoiseSerialPortOptData.ID);
+                                }
+                                // 读取远传功能
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传开关状态..."));
+                                    result_data.RemoteSwitch = GlobalValue.Noiselog.ReadRemote(GlobalValue.NoiseSerialPortOptData.ID);
+                                }
+                                //if (result_data.RemoteSwitch)
+                                //{
+                                //    NoiseCtrl ctrl = new NoiseCtrl();
 
-                                    //串口读取远传控制器设备与记录仪设备对应的ID号
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传ID..."));
-                                    result_data.RemoteId = (short)ctrl.ReadCtrlNoisLogID(GlobalValue.NoiseSerialPortOptData.ID);
+                                //    //串口读取远传控制器设备与记录仪设备对应的ID号
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传ID..."));
+                                //    result_data.RemoteId = (short)ctrl.ReadCtrlNoisLogID(GlobalValue.NoiseSerialPortOptData.ID);
 
-                                    // 读取远传端口
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传端口..."));
-                                    result_data.Port = Convert.ToInt32(ctrl.ReadPort(GlobalValue.NoiseSerialPortOptData.ID));
+                                //    // 读取远传端口
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传端口..."));
+                                //    result_data.Port = Convert.ToInt32(ctrl.ReadPort(GlobalValue.NoiseSerialPortOptData.ID));
 
-                                    // 读取远传地址
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传地址..."));
-                                    result_data.IP = ctrl.ReadIP(GlobalValue.NoiseSerialPortOptData.ID);
+                                //    // 读取远传地址
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传地址..."));
+                                //    result_data.IP = ctrl.ReadIP(GlobalValue.NoiseSerialPortOptData.ID);
 
-                                    //读取无线参数
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传无线参数..."));
-                                    int[] wirelessparm = ctrl.ReadWireless(GlobalValue.NoiseSerialPortOptData.ID);
-                                    //收发频率（3byte）+无线速率（1byte）+发射功率（1byte）+串口速率（1byte）+唤醒时间（1byte）
-                                    if (wirelessparm != null && wirelessparm.Length == 5)
-                                    {
-                                        result_data.Frequency = Convert.ToDouble(wirelessparm[0]) / 1000;
-                                        result_data.Rate = wirelessparm[1];
-                                        result_data.Power = wirelessparm[2];
-                                        result_data.Baud = wirelessparm[3];
-                                        result_data.WakeTime = wirelessparm[4];
-                                    }
+                                //    //读取无线参数
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传无线参数..."));
+                                //    int[] wirelessparm = ctrl.ReadWireless(GlobalValue.NoiseSerialPortOptData.ID);
+                                //    //收发频率（3byte）+无线速率（1byte）+发射功率（1byte）+串口速率（1byte）+唤醒时间（1byte）
+                                //    if (wirelessparm != null && wirelessparm.Length == 5)
+                                //    {
+                                //        result_data.Frequency = Convert.ToDouble(wirelessparm[0]) / 1000;
+                                //        result_data.Rate = wirelessparm[1];
+                                //        result_data.Power = wirelessparm[2];
+                                //        result_data.Baud = wirelessparm[3];
+                                //        result_data.WakeTime = wirelessparm[4];
+                                //    }
 
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取GPRS通讯波特率..."));
-                                    result_data.GprsBaud = ctrl.ReadGPRSBaudrate(GlobalValue.NoiseSerialPortOptData.ID);
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取GPRS通讯波特率..."));
+                                //    result_data.GprsBaud = ctrl.ReadGPRSBaudrate(GlobalValue.NoiseSerialPortOptData.ID);
+                                //}
+                                result = true;
+                                obj = result_data;
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.NoiseSetParm:
+                        #region 噪声记录仪设置参数
+                        {
+                            try
+                            {
+                                NoiseSerialPortOptEntity result_data = new NoiseSerialPortOptEntity();
+                                result_data.ID = GlobalValue.NoiseSerialPortOptData.ID;
+                                // 设置时间
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptDT)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置时间..."));
+                                    result = GlobalValue.Noiselog.WriteTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.dt);
+                                    if (!result)
+                                        break;
+                                }
+                                
+                                // 设置远传通讯时间
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传通讯时间..."));
+                                    result = GlobalValue.Noiselog.WriteRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.ComTime);
+                                    if (!result)
+                                        break;
+                                }
+                                
+                                // 设置记录时间段
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptColTime)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置记录时间段..."));
+                                    result = GlobalValue.Noiselog.WriteStartEndTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.colstarttime, GlobalValue.NoiseSerialPortOptData.colendtime);
+                                    if (!result)
+                                        break;
+                                }
+                                
+                                // 设置采集间隔
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptInterval)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置采集时间间隔..."));
+                                    result = GlobalValue.Noiselog.WriteInterval(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Interval);
+                                    if (!result)
+                                        break;
+                                }
+                                
+                                // 设置远传功能
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传开关状态..."));
+                                    result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
+                                    if (!result)
+                                        break;
                                 }
                                 result = true;
                                 obj = result_data;

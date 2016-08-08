@@ -20,6 +20,8 @@ namespace SmartWaterSystem
 {
     public partial class NoiseDataMgr : BaseView, INoiseDataMgr
     {
+        NLog.Logger logger = NLog.LogManager.GetLogger("NoiseDataMgr");
+
         private bool isReading;
         private List<NoiseRecorder> selectList = new List<NoiseRecorder>();
         private int rowHandle = 0;
@@ -127,6 +129,8 @@ namespace SmartWaterSystem
                         str = "不漏水";
                     else if (re.IsLeak == 1)
                         str = "漏水";
+                    else if (re.IsLeak == -1)
+                        str = "漏水";
                     dt.Rows.Add(new object[] { GlobalValue.recorderList[i].ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str,(re.LeakProbability*100).ToString("f1")+"%" });
                 }
 
@@ -161,6 +165,8 @@ namespace SmartWaterSystem
                     str = "不漏水";
                 else if (re.IsLeak == 1)
                     str = "漏水";
+                else if (re.IsLeak == -1)
+                    str ="漏水";
                 dt.Rows.Add(new object[] { rec.ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str, (re.LeakProbability * 100).ToString("f1") + "%" });
             }
 
@@ -232,6 +238,11 @@ namespace SmartWaterSystem
                     e.DisplayText = "不漏水";
                     e.Appearance.BackColor = Color.SpringGreen;
                 }
+                else if(isLeak == -1)
+                {
+                    e.DisplayText = "漏水";
+                    e.Appearance.BackColor = Color.Red;
+                }
                 else
                 {
                     e.DisplayText = "漏水";
@@ -278,43 +289,45 @@ namespace SmartWaterSystem
         // 读取数据
         private void simpleButtonRead_Click(object sender, EventArgs e)
         {
-            if (!GlobalValue.portUtil.IsOpen)
+            try
             {
-                return;
-            }
-
-            List<int> readIdtmp = new List<int>(); // 需要读取的ID列表
-            //bool isError = false;
-
-            for (int j = 0; j < selectList.Count; j++)
-            {
-                if (!readIdtmp.Contains(selectList[j].ID))
-                    readIdtmp.Add(selectList[j].ID);
-            }
-            if (selectList.Count != 0)
-            {
-                dataList = new List<NoiseData>();
-                resultList = new List<NoiseResult>();
-
-                List<NoiseRecorder> lstSelecttmp = new List<NoiseRecorder>();
-                lstSelecttmp.AddRange(selectList.OrderBy(a => a.ID));
-                selectList = lstSelecttmp;
-                foreach (var id in readIdtmp)
+                if (!GlobalValue.portUtil.IsOpen)
                 {
-                    ReadIdList.Enqueue(id);
+                    return;
                 }
 
-                simpleButtonRead.Enabled = false;
-                simpleButtonSelectAll.Enabled = false;
-                simpleButtonUnSelect.Enabled = false;
-                
-                GlobalValue.Noiselog.ValueChanged -= new ReadDataChangedEventHandler(log_ValueChanged);
-                GlobalValue.Noiselog.ValueChanged += new ReadDataChangedEventHandler(log_ValueChanged);
+                List<int> readIdtmp = new List<int>(); // 需要读取的ID列表
+                                                       //bool isError = false;
 
-                NoiseDataHandler.FourierData.Clear();
-                isReading = true;
-                //new Action(() =>
-                //{
+                for (int j = 0; j < selectList.Count; j++)
+                {
+                    if (!readIdtmp.Contains(selectList[j].ID))
+                        readIdtmp.Add(selectList[j].ID);
+                }
+                if (selectList.Count != 0)
+                {
+                    dataList = new List<NoiseData>();
+                    resultList = new List<NoiseResult>();
+
+                    List<NoiseRecorder> lstSelecttmp = new List<NoiseRecorder>();
+                    lstSelecttmp.AddRange(selectList.OrderBy(a => a.ID));
+                    selectList = lstSelecttmp;
+                    foreach (var id in readIdtmp)
+                    {
+                        ReadIdList.Enqueue(id);
+                    }
+
+                    simpleButtonRead.Enabled = false;
+                    simpleButtonSelectAll.Enabled = false;
+                    simpleButtonUnSelect.Enabled = false;
+
+                    GlobalValue.Noiselog.ValueChanged -= new ReadDataChangedEventHandler(log_ValueChanged);
+                    GlobalValue.Noiselog.ValueChanged += new ReadDataChangedEventHandler(log_ValueChanged);
+
+                    NoiseDataHandler.FourierData.Clear();
+                    isReading = true;
+                    //new Action(() =>
+                    //{
                     try
                     {
                         ReadData(Convert.ToInt16(ReadIdList.Dequeue()));
@@ -349,11 +362,17 @@ namespace SmartWaterSystem
                         //    }
                         //}
                     }
-                //}).BeginInvoke(null, null);
+                    //}).BeginInvoke(null, null);
+                }
+                else
+                {
+                    XtraMessageBox.Show("请勾选需要读取的记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                XtraMessageBox.Show("请勾选需要读取的记录仪！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                logger.ErrorException("simpleButtonRead_Click", ex);
+                logger.Info(ex.StackTrace);
             }
         }
 
@@ -563,11 +582,15 @@ namespace SmartWaterSystem
         {
             if (e.Column.Caption == "读取进度")
             {
-                decimal percent = Convert.ToDecimal(e.CellValue);
-                int width = (int)(percent * e.Bounds.Width / 100);//涨跌幅最大为10%，所以要乘以10来计算比例，沾满一个单元格为10%  
-                Rectangle rect = new Rectangle(e.Bounds.X, e.Bounds.Y, width, e.Bounds.Height);
-                Brush b = Brushes.LightSteelBlue; //MediumTurquoise;
-                e.Graphics.FillRectangle(b, rect);
+                try
+                {
+                    decimal percent = Convert.ToDecimal(e.CellValue);
+                    int width = (int)(percent * e.Bounds.Width / 100);//涨跌幅最大为10%，所以要乘以10来计算比例，沾满一个单元格为10%  
+                    Rectangle rect = new Rectangle(e.Bounds.X, e.Bounds.Y, width, e.Bounds.Height);
+                    Brush b = Brushes.LightSteelBlue; //MediumTurquoise;
+                    e.Graphics.FillRectangle(b, rect);
+                }
+                catch { }
             }
         }
 

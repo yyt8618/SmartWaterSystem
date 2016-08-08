@@ -1692,51 +1692,62 @@ namespace GCGPRSService
                                             int sumpackcount = Convert.ToInt32(pack.Data[2]);
                                             int curpackindex = Convert.ToInt32(pack.Data[3]);
 
-                                            if (sumpackcount != curpackindex && !pack.IsFinal)
+                                            if(curpackindex == 1)
+                                                state.lstBuffer.Clear();   //收到第一包清空缓存
+                                            bool needprocess = true;  //是否处理当前包
+                                            if (curpackindex > 1 && (state.NoisePackIndex == curpackindex)) //如果当前包和上一包序号一样则不处理
                                             {
-                                                for (int i = 4; i < pack.DataLength - 2; i++)  //多包时，当前不是最后一包时缓存数据至state.lstBuffer中
-                                                {
-                                                    state.lstBuffer.Add(pack.Data[i]);
-                                                }
+                                                needprocess = false;
                                             }
-                                            else
+                                            if (needprocess)
                                             {
-                                                List<byte> lstbytes = new List<byte>();
-                                                if (curpackindex > 1)  //多包时获取缓存的数据拼接成完整的数据
+                                                state.NoisePackIndex = curpackindex;   //记录当前收到包的序号
+                                                if (sumpackcount != curpackindex && !pack.IsFinal)
                                                 {
-                                                    lstbytes.AddRange(state.lstBuffer);
-                                                    state.lstBuffer.Clear();
+                                                    for (int i = 4; i < pack.DataLength - 2; i++)  //多包时，当前不是最后一包时缓存数据至state.lstBuffer中
+                                                    {
+                                                        state.lstBuffer.Add(pack.Data[i]);
+                                                    }
                                                 }
-                                                for (int i = 4; i < pack.DataLength - 2; i++)  //添加当前包数据
+                                                else
                                                 {
-                                                    lstbytes.Add(pack.Data[i]);
-                                                }
-                                                UpLoadNoiseDataEntity noisedataentity = new UpLoadNoiseDataEntity();
-                                                noisedataentity.TerId = pack.DevID.ToString();
-                                                noisedataentity.GroupId = "";
-                                                noisedataentity.ColTime = DateTime.Now.ToString();
-                                                for (int i = 0; i+1 < lstbytes.Count; i += 2)
-                                                {
-                                                    noisedataentity.Data += BitConverter.ToInt16(new byte[] { lstbytes[i + 1], lstbytes[i] }, 0) + ",";
-                                                }
-                                                if (noisedataentity.Data.EndsWith(","))
-                                                    noisedataentity.Data = noisedataentity.Data.Substring(0, noisedataentity.Data.Length - 1);
-                                                framedata.NoiseData = noisedataentity;
+                                                    List<byte> lstbytes = new List<byte>();
+                                                    if (curpackindex > 1)  //多包时获取缓存的数据拼接成完整的数据
+                                                    {
+                                                        lstbytes.AddRange(state.lstBuffer);
+                                                        state.lstBuffer.Clear();
+                                                    }
+                                                    for (int i = 4; i < pack.DataLength - 2; i++)  //添加当前包数据
+                                                    {
+                                                        lstbytes.Add(pack.Data[i]);
+                                                    }
+                                                    UpLoadNoiseDataEntity noisedataentity = new UpLoadNoiseDataEntity();
+                                                    noisedataentity.TerId = pack.DevID.ToString();
+                                                    noisedataentity.GroupId = "";
+                                                    noisedataentity.ColTime = DateTime.Now.ToString();
+                                                    for (int i = 0; i + 1 < lstbytes.Count; i += 2)
+                                                    {
+                                                        noisedataentity.Data += BitConverter.ToInt16(new byte[] { lstbytes[i], lstbytes[i + 1] }, 0) + ",";
+                                                    }
+                                                    if (noisedataentity.Data.EndsWith(","))
+                                                        noisedataentity.Data = noisedataentity.Data.Substring(0, noisedataentity.Data.Length - 1);
+                                                    framedata.NoiseData = noisedataentity;
 
-                                                
-                                            }
-                                            string strcurnoisedata = "";  //当前包的数据,用于显示
-                                            for (int i = 4; i+1 < pack.DataLength - 2; i += 2)
-                                            {
-                                                strcurnoisedata += BitConverter.ToInt16(new byte[] { pack.Data[i + 1], pack.Data[i] }, 0) + ",";
-                                            }
-                                            if (strcurnoisedata.EndsWith(","))
-                                                strcurnoisedata = strcurnoisedata.Substring(0, strcurnoisedata.Length - 1);
-                                            OnSendMsg(new SocketEventArgs(string.Format("噪声远传控制器[{0}]|总包数:{1}、当前第{2}包|噪声数据:{3}|电压值:{4}V",
-                                                   pack.DevID, sumpackcount, curpackindex, strcurnoisedata, volvalue)));
 
-                                            GlobalValue.Instance.GPRS_NoiseFrameData.Enqueue(framedata);  //通知存储线程处理
-                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertNoiseValue);
+                                                }
+                                                string strcurnoisedata = "";  //当前包的数据,用于显示
+                                                for (int i = 4; i + 1 < pack.DataLength - 2; i += 2)
+                                                {
+                                                    strcurnoisedata += BitConverter.ToInt16(new byte[] { pack.Data[i], pack.Data[i + 1] }, 0) + ",";
+                                                }
+                                                if (strcurnoisedata.EndsWith(","))
+                                                    strcurnoisedata = strcurnoisedata.Substring(0, strcurnoisedata.Length - 1);
+                                                OnSendMsg(new SocketEventArgs(string.Format("噪声远传控制器[{0}]|总包数:{1}、当前第{2}包|噪声数据:{3}|电压值:{4}V",
+                                                       pack.DevID, sumpackcount, curpackindex, strcurnoisedata, volvalue)));
+
+                                                GlobalValue.Instance.GPRS_NoiseFrameData.Enqueue(framedata);  //通知存储线程处理
+                                                GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertNoiseValue);
+                                            }
                                         }
                                         #endregion
                                     }

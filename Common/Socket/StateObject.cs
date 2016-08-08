@@ -17,6 +17,10 @@ namespace Common
         // Receive buffer. 用于SmartWater和噪声远传控制器多包使用
         public List<byte> lstBuffer = new List<byte>();
         /// <summary>
+        /// 噪声的当前包数(从1开始)
+        /// </summary>
+        public int NoisePackIndex = 1;
+        /// <summary>
         /// 部分未处理数据缓存(仅用于SmartWater连接使用)
         /// </summary>
         public string msgpart = "";

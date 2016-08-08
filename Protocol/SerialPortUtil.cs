@@ -642,6 +642,7 @@ namespace Protocol
         {
             try
             {
+                Thread.Sleep(100);
                 Package result = SendCommand<Package>(package.ToArray(), timeout);
                 return result;
             }
@@ -893,7 +894,7 @@ namespace Protocol
                     {
                         AppendBufLine("获取设备{0}数据等待超时...[当前设置为{1}秒超时]", package.DevID, timeout);
                         if (getReadResponse)
-                            throw new ArgumentNullException("没有读取到数据");
+                            throw new Exception("没有读取到数据!");
                         else
                             throw new TimeoutException("等待超时...");
                     }
@@ -998,10 +999,9 @@ namespace Protocol
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
             finally
             {

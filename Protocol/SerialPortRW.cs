@@ -30,7 +30,7 @@ namespace Protocol
 
         #endregion
 
-        public Package Read(Package package,int timeout = 3,int times=2)
+        public Package Read(Package package,int timeout = 4,int times=2)
         {
             try
             {
@@ -42,7 +42,6 @@ namespace Protocol
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -74,9 +73,9 @@ namespace Protocol
             {
                 return Read(package).IsSuccess;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
     }
