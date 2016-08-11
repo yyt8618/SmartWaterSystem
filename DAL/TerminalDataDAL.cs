@@ -1313,11 +1313,14 @@ namespace DAL
             if (str_ids.EndsWith(","))
                 str_ids = str_ids.Substring(0, str_ids.Length - 1);
 
+            //string SQL = string.Format(@"SELECT t.TerminalID,t.TerminalName,t.Address,f.entrance_pre,f.outlet_pre,f.FlowValue,f.FlowInverted,f.FlowInstant,f.CollTime,f.alarmcode,f.alarmdesc 
+            //                            FROM [PreCtrl_Real] f,Terminal t WHERE 
+            //                            f.TerminalID=t.TerminalID AND t.TerminalType = {0} AND t.TerminalID IN({1}) AND 
+            //                            f.id = (SELECT TOP 1 id FROM PreCtrl_Real  
+            //                            WHERE f.TerminalID = TerminalID order by UnloadTime DESC) order by TerminalID ASC, CollTime DESC", ((int)TerType.PressureCtrl).ToString(), str_ids);
             string SQL = string.Format(@"SELECT t.TerminalID,t.TerminalName,t.Address,f.entrance_pre,f.outlet_pre,f.FlowValue,f.FlowInverted,f.FlowInstant,f.CollTime,f.alarmcode,f.alarmdesc 
-                                        FROM [PreCtrl_Real] f,Terminal t WHERE 
-                                        f.TerminalID=t.TerminalID AND t.TerminalType = {0} AND t.TerminalID IN({1}) AND 
-                                        f.id = (SELECT TOP 1 id FROM PreCtrl_Real  
-                                        WHERE f.TerminalID = TerminalID order by UnloadTime DESC) order by TerminalID ASC, CollTime DESC", ((int)TerType.PressureCtrl).ToString(), str_ids);
+                                            FROM [PreCtrl_Real] f LEFT JOIN Terminal t ON f.TerminalID=t.TerminalID WHERE t.TerminalType = {0} AND f.ID IN
+                                            (SELECT MAX(ID) FROM PreCtrl_Real WHERE TerminalID IN({1}) GROUP BY TerminalID) ORDER BY f.TerminalID", ((int)TerType.PressureCtrl).ToString(), str_ids);
 
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {

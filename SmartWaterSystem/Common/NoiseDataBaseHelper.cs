@@ -65,7 +65,7 @@ namespace SmartWaterSystem
 
                             string[] strAmp = reader["LeakValue"].ToString().Split(',');
                             double[] amp = new double[strAmp.Length];
-                            for (int j = 0; j < strAmp.Length && strAmp.Length > 1; j++)
+                            for (int j = 0; j < strAmp.Length ; j++)  //&& strAmp.Length > 1
                             {
                                 if (!string.IsNullOrEmpty(strAmp[j]))
                                     amp[j] = Convert.ToDouble(strAmp[j]);
@@ -295,36 +295,19 @@ namespace SmartWaterSystem
         /// </summary>
         /// <param name="rec"></param>
         /// <returns></returns>
-        public static int SaveStandData(int GroupID,int RecorderID,short[] OriginalData)
+        public static int SaveStandData(int GroupID, int RecorderID, int StandValue)
         {
             try
             {
-                if (OriginalData != null && OriginalData.Length == 32)
-                {
-                    if (DeleteStandData(GroupID, RecorderID) == -1)
-                    {
-                        return -1;
-                    }
-
-                    string strDa = string.Empty;
-                    for (int i = 0; i < OriginalData.Length; i++)
-                    {
-                        if (i == OriginalData.Length - 1)
-                            strDa += OriginalData[i];
-                        else
-                            strDa += OriginalData[i] + ",";
-                    }
-
-                    string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
-                          GroupID, RecorderID, strDa);
-                    SQLHelper.ExecuteNonQuery(SQL);
-
-                    return 1;
-                }
-                else
+                if (DeleteStandData(GroupID, RecorderID) == -1)
                 {
                     return -1;
                 }
+                string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
+                      GroupID, RecorderID, StandValue);
+                SQLHelper.ExecuteNonQuery(SQL);
+
+                return 1;
             }
             catch (Exception ex)
             {

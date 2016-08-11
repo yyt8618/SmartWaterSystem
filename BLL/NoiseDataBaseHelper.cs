@@ -278,36 +278,29 @@ namespace BLL
         /// </summary>
         /// <param name="rec"></param>
         /// <returns></returns>
-        public static int SaveStandData(int GroupID,int RecorderID,short[] OriginalData)
+        public static int SaveStandData(int GroupID,int RecorderID,int StandValue)
         {
             try
             {
-                if (OriginalData != null && OriginalData.Length == 32)
-                {
                     if (DeleteStandData(GroupID, RecorderID) == -1)
                     {
                         return -1;
                     }
 
-                    string strDa = string.Empty;
-                    for (int i = 0; i < OriginalData.Length; i++)
-                    {
-                        if (i == OriginalData.Length - 1)
-                            strDa += OriginalData[i];
-                        else
-                            strDa += OriginalData[i] + ",";
-                    }
+                    //string strDa = string.Empty;
+                    //for (int i = 0; i < OriginalData.Length; i++)
+                    //{
+                    //    if (i == OriginalData.Length - 1)
+                    //        strDa += OriginalData[i];
+                    //    else
+                    //        strDa += OriginalData[i] + ",";
+                    //}
 
                     string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
-                          GroupID, RecorderID, strDa);
+                          GroupID, RecorderID, StandValue);
                     SQLHelper.ExecuteNonQuery(SQL);
 
                     return 1;
-                }
-                else
-                {
-                    return -1;
-                }
             }
             catch (Exception ex)
             {
@@ -321,46 +314,46 @@ namespace BLL
         /// <param name="GroupID"></param>
         /// <param name="RecorderID"></param>
         /// <returns></returns>
-        public static short[] GetStandData(int GroupID, int RecorderID)
+        public static int GetStandData(int GroupID, int RecorderID)
         {
             try
             {
                 string SQL = string.Format("SELECT Data FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
 
-                string str_data = string.Empty;
-                DataTable dt = SQLHelper.ExecuteDataTable(SQL);
-                if (dt != null && dt.Rows != null && dt.Rows.Count > 0)
-                {
-                    str_data = dt.Rows[0]["Data"] != DBNull.Value ? dt.Rows[0]["Data"].ToString() : "";
-                }
-                //using (System.Data.OleDb.OleDbDataReader reader = DbForAccess.GetDataReader(SQL))
+                //string str_data = string.Empty;
+                //DataTable dt = SQLHelper.ExecuteDataTable(SQL);
+                //if (dt != null && dt.Rows != null && dt.Rows.Count > 0)
                 //{
-                //    if (reader.Read())
+                //    str_data = dt.Rows[0]["Data"] != DBNull.Value ? dt.Rows[0]["Data"].ToString() : "";
+                //}
+                using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL,null))
+                {
+                    if (reader.Read())
+                    {
+                        return reader["Data"] != DBNull.Value ? Convert.ToInt32(reader["Data"]) : 0;
+                    }
+                }
+
+                //if (!string.IsNullOrEmpty(str_data))
+                //{
+                //    List<short> lstData = new List<short>();
+                //    string[] str_datas = str_data.Split(',');
+                //    if (str_datas != null && str_datas.Length == 32)
                 //    {
-                //        str_data = reader["Data"] != DBNull.Value ? reader["Data"].ToString() : "";
+                //        foreach (string tmp in str_datas)
+                //        {
+                //            if (Regex.IsMatch(tmp, @"^\d+$"))
+                //                lstData.Add(Convert.ToInt16(tmp));
+                //        }
                 //    }
+                //    return lstData.ToArray();
                 //}
 
-                if (!string.IsNullOrEmpty(str_data))
-                {
-                    List<short> lstData = new List<short>();
-                    string[] str_datas = str_data.Split(',');
-                    if (str_datas != null && str_datas.Length == 32)
-                    {
-                        foreach (string tmp in str_datas)
-                        {
-                            if (Regex.IsMatch(tmp, @"^\d+$"))
-                                lstData.Add(Convert.ToInt16(tmp));
-                        }
-                    }
-                    return lstData.ToArray();
-                }
-
-                return null;
+                return 0;
             }
             catch (Exception ex)
             {
-                return null;
+                return 0;
             }
         }
 

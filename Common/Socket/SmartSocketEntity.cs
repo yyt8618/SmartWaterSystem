@@ -6,10 +6,11 @@ namespace Common
 {
     public class SmartSocketEntity
     {
-        public SmartSocketEntity(Socket socket,string Ip)
+        public SmartSocketEntity(Socket socket,string IP, string ID)
         {
             this._clientSocket = socket;
-            this._IP = Ip;
+            this._IP = IP;
+            this._ID = ID;
         }
 
         private Socket _clientSocket;
@@ -22,16 +23,23 @@ namespace Common
             set { _clientSocket = value; }
         }
 
-        private string _IP;
+        private string _ID;
         /// <summary>
-        /// smart终端的IP地址
+        /// smart终端的ID
         /// </summary>
+        public string ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+
+        private string _IP;
         public string IP
         {
             get { return _IP; }
             set { _IP = value; }
         }
-
+        
         private List<string> _MsgBuff = new List<string>();
         /// <summary>
         /// 消息缓存,如果发送的消息有失败的,缓存到这里

@@ -78,7 +78,7 @@ namespace GCGPRSService
         Socket listener;
         bool isRunning = false;
         List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
-        int maxSmartClient = 5;   //SmartWaterSystem.exe 的最大socket连接数
+        int maxSmartClient = 6;   //SmartWaterSystem.exe 的最大socket连接数
         object obj_smartsocket = new object();      //SmartWaterSystem.exe的socket连接列表锁
         List<SmartSocketEntity> lstSmartClient = new List<SmartSocketEntity>(); //SmartWaterSystem.exe 的socket连接列表
 
@@ -357,10 +357,12 @@ namespace GCGPRSService
             Socket handler = null;
             try
             {   
-                allDone.Set(); 
+                allDone.Set();
                 Socket listener = (Socket)ar.AsyncState;
                 handler = listener.EndAccept(ar);
-                
+
+                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "上线"));
+
                 state.workSocket = handler;
             }
             catch (Exception ex)
@@ -373,6 +375,7 @@ namespace GCGPRSService
                 try {
                     if(handler!=null)
                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                    
                 }
                 catch { }
             }
@@ -421,21 +424,24 @@ namespace GCGPRSService
                             }
                             List<byte> lstBuffercopy = new List<byte>(state.lstBuffer);
                             string[] strmsgs = SocketHelper.SplitSocketMsg(ref state.lstBuffer, ref state.msgpart);
+                            int smartindex = -1;
                             if (strmsgs != null && strmsgs.Length > 0)
                             {
                                 foreach (string strtmp in strmsgs)
                                 {
                                     if (!string.IsNullOrEmpty(strtmp))
                                     {
-                                        if (strtmp.Trim() == GlobalValue.Instance.SmartWaterHeartBeatName) //为空的时候是心跳包
+                                        smartindex = strtmp.IndexOf(GlobalValue.Instance.SmartWaterHeartBeatName);
+                                        if (smartindex>-1) //心跳包
                                         {
                                             #region 心跳包
                                             IPAddress ip = ((System.Net.IPEndPoint)handler.RemoteEndPoint).Address;
                                             string strip = ip.ToString();
+                                            string SmartID = strtmp.Substring(GlobalValue.Instance.SmartWaterHeartBeatName.Length);  //获取ID
                                             bool existsmartsocket = false;
                                             for (int i = 0; i < lstSmartClient.Count; i++)  //是否存在已连接的对象
                                             {
-                                                if (lstSmartClient[i].IP == strip)
+                                                if (lstSmartClient[i].IP == strip && lstSmartClient[i].ID == SmartID)
                                                 {
                                                     existsmartsocket = true;
                                                     lstSmartClient[i].ClientSocket = handler;
@@ -471,6 +477,7 @@ namespace GCGPRSService
                                                             {
                                                                 lstSmartClient[i].ClientSocket = handler;
                                                                 lstSmartClient[i].IP = strip;
+                                                                lstSmartClient[i].ID = SmartID;
                                                                 lstSmartClient[i].MsgBuff.Clear();
                                                                 bsave = true;
                                                             }
@@ -486,7 +493,7 @@ namespace GCGPRSService
                                                     }
                                                     else
                                                     {
-                                                        lstSmartClient.Add(new SmartSocketEntity(handler, strip));
+                                                        lstSmartClient.Add(new SmartSocketEntity(handler, strip, SmartID));
                                                         foreach (string startrec in GlobalValue.Instance.lstStartRecord)  //将启动的信息发送给新上线的客户端
                                                         {
                                                             SocketEntity mEntity = new SocketEntity();
@@ -552,6 +559,7 @@ namespace GCGPRSService
                             byte[] arr = packageBytes.ToArray();
                             int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);  //数据域长度
                             Package pack;
+                            
                             if ((PackageDefine.MinLenth + len == arr.Length) && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
@@ -865,7 +873,7 @@ namespace GCGPRSService
                                              */
 
                                             GPRSPrectrlFrameDataEntity framedata = new GPRSPrectrlFrameDataEntity();
-                                            framedata.TerId = pack.ID.ToString();
+                                            framedata.TerId = pack.DevID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
@@ -910,7 +918,7 @@ namespace GCGPRSService
                                                 float instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 24 + 21], pack.Data[i * 24 + 20], pack.Data[i * 24 + 19], pack.Data[i * 24 + 18] }, 0);
 
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力控制器[{1}]|参数报警({2})|设备报警({3})|采集时间({4})|进口压力:{5}MPa|出口压力:{6}MPa|正向流量值:{7}|反向流量值:{8}|瞬时流量值:{9}",
-                                                        i, pack.ID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
+                                                        i, pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue)));
 
                                                 GPRSPrectrlDataEntity data = new GPRSPrectrlDataEntity();
                                                 data.Entrance_preValue = entrance_prevalue;
@@ -1465,9 +1473,9 @@ namespace GCGPRSService
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_OLWQFLOW) //从站向主站发送流量采集数据(水质终端)
                                         {
+                                            #region 上海肯特(KENT)水表
                                             if (pack.Data[2] == 0x02)   //上海肯特(KENT)水表
                                             {
-                                                #region 上海肯特(KENT)水表
                                                 int dataindex = (pack.DataLength - 2 - 2 - 1) % (6 + 36);  //两字节报警,1字节厂家类型,
                                                 if (dataindex != 0)
                                                 {
@@ -1530,8 +1538,7 @@ namespace GCGPRSService
                                                         bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                         framedata.lstFlowData.Add(data);
 
-                                                        GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
-                                                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
+                                                        
                                                     }
                                                     else
                                                     {
@@ -1539,14 +1546,14 @@ namespace GCGPRSService
                                                             pack.ID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
                                                     }
                                                 }
-
+                                                GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
+                                                GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
                                             }
                                             else
                                             {
                                                 OnSendMsg(new SocketEventArgs("水质终端["+ pack.ID + "]错误未知水表类型!"));
                                             }
                                             #endregion
-                                            
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_OLWQALARM)  //从站向主站发送设备报警信息(水质终端)
                                         {
@@ -1733,7 +1740,7 @@ namespace GCGPRSService
                                                         noisedataentity.Data = noisedataentity.Data.Substring(0, noisedataentity.Data.Length - 1);
                                                     framedata.NoiseData = noisedataentity;
 
-
+                                                    bNeedCheckTime = true;  //每天传一次,一天校时一次,不适用NeedCheckTime方法校时
                                                 }
                                                 string strcurnoisedata = "";  //当前包的数据,用于显示
                                                 for (int i = 4; i + 1 < pack.DataLength - 2; i += 2)
@@ -1843,6 +1850,8 @@ namespace GCGPRSService
                                                 pack_time.C1 = (byte)OLWQ_COMMAND.SET_TIME;
                                             else if (pack.DevType == Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL)
                                                 pack_time.C1 = (byte)HYDRANT_COMMAND.SET_TIME;
+                                            else if (pack.DevType == ConstValue.DEV_TYPE.NOISE_CTRL)
+                                                pack_time.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_TIME;
 
                                             byte[] data = null;
                                             if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)  //压力控制器多三个字节,1byte(密码权限=1)+2bytes(管理密码)+6byte(时间数据)，暂时写死
@@ -2334,7 +2343,8 @@ namespace GCGPRSService
                     if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                 }
-                catch { };
+                catch(Exception ex)
+                { };
             }
         }
 
@@ -2359,6 +2369,7 @@ namespace GCGPRSService
                     if ((!AllowOnLine) && ((SendObject)ar.AsyncState).IsFinal)
                     {
                         handler.Shutdown(SocketShutdown.Both);
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "下线"));
                         Thread.Sleep(5);
                         handler.Close();
                     }

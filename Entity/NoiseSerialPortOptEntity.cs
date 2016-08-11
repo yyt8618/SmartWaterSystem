@@ -193,6 +193,16 @@ namespace Entity
             set { _Enable = value; }
         }
 
+        private int _StandValue = 0;
+        /// <summary>
+        /// 启动值(标准值)
+        /// </summary>
+        public int StandValue
+        {
+            get { return _StandValue; }
+            set { _StandValue = value; }
+        }
+
 
         public NoiseSerialPortOptEntity()
         {

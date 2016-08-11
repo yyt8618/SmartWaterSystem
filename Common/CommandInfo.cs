@@ -35,7 +35,10 @@ namespace Common
         /// 远传发送时间
         /// </summary>
         WRITE_REMOTE_SEND_TIME = 0x17,
-
+        /// <summary>
+        /// 串口设置记录仪启动值(标准值)
+        /// </summary>
+        WRITE_NOISE_STANDVALUE = 0x1e,
         #endregion
 
         #region 读取配置
@@ -67,6 +70,10 @@ namespace Common
         /// 串口读取记录仪的ID
         /// </summary>
         READ_NOISE_LOG_ID = 0x4e,
+        /// <summary>
+        /// 串口读取记录仪启动值(标准值)
+        /// </summary>
+        READ_NOISE_STANDVALUE=0x48,
         #endregion
 
         #region 发送
@@ -105,6 +112,10 @@ namespace Common
     public enum NOISE_CTRL_COMMAND
     {
         #region 设置
+        /// <summary>
+        /// 设置时间
+        /// </summary>
+        SET_NOISE_TIME=0x11,
         /// <summary>
         /// 远传控制器ID
         /// </summary>

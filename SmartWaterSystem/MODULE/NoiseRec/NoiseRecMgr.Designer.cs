@@ -167,6 +167,7 @@
             this.btnSetStandValue.Size = new System.Drawing.Size(33, 21);
             this.btnSetStandValue.TabIndex = 9;
             this.btnSetStandValue.Text = "设置";
+            this.btnSetStandValue.Click += new System.EventHandler(this.btnSetStandValue_Click);
             // 
             // btnGetStandValue
             // 
@@ -176,6 +177,7 @@
             this.btnGetStandValue.Size = new System.Drawing.Size(33, 21);
             this.btnGetStandValue.TabIndex = 8;
             this.btnGetStandValue.Text = "获取";
+            this.btnGetStandValue.Click += new System.EventHandler(this.btnGetStandValue_Click);
             // 
             // btnUpdate
             // 

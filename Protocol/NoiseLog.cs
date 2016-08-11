@@ -196,6 +196,27 @@ namespace Protocol
             return Write(package);
         }
 
+        /// <summary>
+        /// 设置启动值(标准值)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="StandValue"></param>
+        /// <returns></returns>
+        public bool WriteStandValue(short id, int StandValue)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_NOISE_STANDVALUE;
+            byte[] data = BitConverter.GetBytes((short)StandValue);
+            Array.Reverse(data);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+            return Write(package);
+        }
+
         #endregion
 
         #region 读取
@@ -730,6 +751,48 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             serialPortUtil.SendData(package.ToArray());
+        }
+
+        /// <summary>
+        /// 读取噪声标准值(启动值)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int ReadNoiseStandValue(short id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_LOG_COMMAND.READ_NOISE_STANDVALUE;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            try
+            {
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("无数据");
+                }
+                if (result.Data.Length != 2)
+                {
+                    throw new Exception("数据损坏");
+                }
+                Array.Reverse(result.Data);
+                return BitConverter.ToInt16(result.Data, 0);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion

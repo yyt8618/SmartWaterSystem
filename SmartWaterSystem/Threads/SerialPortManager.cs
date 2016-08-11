@@ -30,6 +30,8 @@ namespace SmartWaterSystem
         //NoiseWriteRemoteSwitch, //设置远传功能
         NoiseStart,             //设置启动
         NoiseStop,              //设置停止
+        NoiseGetStandValue,     //噪声获取启动值(标准值)
+        NoiseSetStandValue,     //噪声设置启动值(标准值)
         NoiseClearData,         //设置清除数据
 
         NoiseReadParm,          //读取参数数据
@@ -177,7 +179,7 @@ namespace SmartWaterSystem
     public class SerialPortManager : SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 60;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
+        private const int eventcount = 62;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -255,11 +257,6 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                //result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
-                                //if (!result)
-                                //    break;
-                                //if (GlobalValue.NoiseSerialPortOptData.RemoteSwitch)
-                                //{
                                 NoiseSerialPortOptEntity result_data = new NoiseSerialPortOptEntity();
                                 NoiseCtrl ctrl = new NoiseCtrl();
                                 if (GlobalValue.NoiseSerialPortOptData.IsOptID)
@@ -407,6 +404,39 @@ namespace SmartWaterSystem
                             {
                                 short[] Originaldata = null;
                                 result = GlobalValue.Noiselog.CtrlStartOrStop(GlobalValue.NoiseSerialPortOptData.ID, false, out Originaldata);
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.NoiseGetStandValue:
+                        #region 获取噪声记录仪启动值(标准值)
+                        {
+                            try
+                            {
+                                NoiseSerialPortOptEntity result_data = new NoiseSerialPortOptEntity();
+                                result_data.Rate = GlobalValue.Noiselog.ReadNoiseStandValue(GlobalValue.NoiseSerialPortOptData.ID);
+                                result = true;
+                                obj = result_data;
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
+                    case (uint)SerialPortType.NoiseSetStandValue:
+                        #region 设置噪声记录仪启动值(标准值)
+                        {
+                            try
+                            {
+                                result = GlobalValue.Noiselog.WriteStandValue(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.StandValue);
                             }
                             catch (Exception ex)
                             {

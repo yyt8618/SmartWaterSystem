@@ -440,13 +440,13 @@ namespace SmartWaterSystem
 
                 if (!string.IsNullOrEmpty(txtStartStandValue.Text))
                 {
-                    short singledata=  Convert.ToInt16(txtStartStandValue.Text);
-                    short[] Originaldata = new short[32];
-                    for (int i = 0; i < 32; i++)
-                    {
-                        Originaldata[i] = singledata;  //将录入值复制成32个数
-                    }
-                    if (NoiseDataBaseHelper.SaveStandData(-1, newRec.ID, Originaldata) < 0)
+                    int singledata=  Convert.ToInt32(txtStartStandValue.Text);
+                    //short[] Originaldata = new short[32];
+                    //for (int i = 0; i < 32; i++)
+                    //{
+                    //    Originaldata[i] = singledata;  //将录入值复制成32个数
+                    //}
+                    if (NoiseDataBaseHelper.SaveStandData(-1, newRec.ID, singledata) < 0)
                     {
                         ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -533,6 +533,8 @@ namespace SmartWaterSystem
 
             btnStart.Enabled = enable;
             btnStop.Enabled = enable;
+            btnGetStandValue.Enabled = enable;
+            btnSetStandValue.Enabled = enable;
             //btnCleanFlash.Enabled = enable;
             btnReadT.Enabled = enable;
             btnReadSet.Enabled = enable;
@@ -1144,7 +1146,58 @@ namespace SmartWaterSystem
                     ShowDialog("清除记录仪数据失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseGetStandValue)
+            {
+                string message = string.Empty;
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+
+                EnableControls(true);
+                EnableRibbonBar();
+                EnableNavigateBar();
+                HideWaitForm();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    txtStartStandValue.Text = "0";
+                    if (e.Tag != null)
+                    {
+                        NoiseSerialPortOptEntity read_result = (NoiseSerialPortOptEntity)e.Tag;
+                        txtStartStandValue.Text = read_result.StandValue.ToString();
+                    }
+                    ShowDialog("读取启动值成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    ShowDialog("读取启动值失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseSetStandValue)
+            {
+                string message = string.Empty;
+                if (e.Tag != null)
+                    message = e.Tag.ToString();
+
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+
+                EnableControls(true);
+                EnableRibbonBar();
+                EnableNavigateBar();
+                HideWaitForm();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    ShowDialog("设置启动值成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    ShowDialog("设置启动值失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
         }
 
         // 应用设置
@@ -1497,13 +1550,13 @@ namespace SmartWaterSystem
             {
                 if (!string.IsNullOrEmpty(txtStartStandValue.Text))
                 {
-                    short singledata = Convert.ToInt16(txtStartStandValue.Text);
-                    short[] Originaldata = new short[32];
-                    for (int i = 0; i < 32; i++)
-                    {
-                        Originaldata[i] = singledata;  //将录入值复制成32个数
-                    }
-                    if (NoiseDataBaseHelper.SaveStandData(-1, id, Originaldata) < 0)
+                    int standvalue = Convert.ToInt32(txtStartStandValue.Text);
+                    //short[] Originaldata = new short[32];
+                    //for (int i = 0; i < 32; i++)
+                    //{
+                    //    Originaldata[i] = singledata;  //将录入值复制成32个数
+                    //}
+                    if (NoiseDataBaseHelper.SaveStandData(-1, id, standvalue) < 0)
                     {
                         ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -1611,6 +1664,8 @@ namespace SmartWaterSystem
             btnNow.Enabled = Enabled;
             btnStart.Enabled = Enabled;
             btnStop.Enabled = Enabled;
+            btnGetStandValue.Enabled = Enabled;
+            btnSetStandValue.Enabled = Enabled;
             //btnCleanFlash.Enabled = Enabled;
         }
 
@@ -1779,6 +1834,143 @@ namespace SmartWaterSystem
         }
 
         #endregion
-        
+
+        private void btnGetStandValue_Click(object sender, EventArgs e)
+        {
+            if (!isSetting)
+            {
+                short id = 0;
+                bool isError = false;
+                try
+                {
+                    if (!Regex.IsMatch(txtRecID.Text, @"^\d{1,5}$"))
+                    {
+                        XtraMessageBox.Show("请输入记录仪ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtRecID.Focus();
+                        return;
+                    }
+                    
+
+                    EnableControls(false);
+                    DisableRibbonBar();
+                    DisableNavigateBar();
+                    ShowWaitForm("", "正在读取启动值...");
+                    id = Convert.ToInt16(txtRecID.Text);
+                    btnGetStandValue.Enabled = false;
+                    
+                    if (GlobalValue.NoiseSerialPortOptData == null)
+                        GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
+                    GlobalValue.NoiseSerialPortOptData.ID = id;
+                    
+                    BeginSerialPortDelegate();
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseGetStandValue);
+                }
+                catch (TimeoutException)
+                {
+                    ShowDialog("记录仪" + id + "读取启动值超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    isError = true;
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnGetStandValue.Enabled = true;
+                }
+                catch (ArgumentNullException)
+                {
+                    ShowDialog("记录仪" + id + "读取启动值数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    isError = true;
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnGetStandValue.Enabled = true;
+                }
+                catch (Exception ex)
+                {
+                    ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    isError = true;
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnGetStandValue.Enabled = true;
+                }
+                finally
+                {
+                }
+            }
+        }
+
+        private void btnSetStandValue_Click(object sender, EventArgs e)
+        {
+            if (!isSetting)
+            {
+                short id = 0;
+                bool isError = false;
+                try
+                {
+                    if (!Regex.IsMatch(txtRecID.Text, @"^\d{1,5}$"))
+                    {
+                        XtraMessageBox.Show("请输入记录仪ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtRecID.Focus();
+                        return;
+                    }
+                    if (!Regex.IsMatch(txtStartStandValue.Text, @"^[4-9]\d{2}$"))
+                    {
+                        XtraMessageBox.Show("请输入有效的启动值[400-999]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtStartStandValue.Focus();
+                        return;
+                    }
+
+                    EnableControls(false);
+                    DisableRibbonBar();
+                    DisableNavigateBar();
+                    ShowWaitForm("", "正在设置启动值...");
+
+                    id = Convert.ToInt16(txtRecID.Text);
+                    btnSetStandValue.Enabled = false;
+
+                    if (GlobalValue.NoiseSerialPortOptData == null)
+                        GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
+                    GlobalValue.NoiseSerialPortOptData.ID = id;
+                    GlobalValue.NoiseSerialPortOptData.StandValue = Convert.ToInt32(txtStartStandValue.Text);
+                    BeginSerialPortDelegate();
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseSetStandValue);
+                }
+                catch (TimeoutException)
+                {
+                    ShowDialog("记录仪" + id + "启动值设置超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    isError = true;
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnSetStandValue.Enabled = true;
+                }
+                catch (ArgumentNullException)
+                {
+                    ShowDialog("记录仪" + id + "设置启动值数据为空！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    isError = true;
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnSetStandValue.Enabled = true;
+                }
+                catch (Exception ex)
+                {
+                    ShowDialog(ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    isError = true;
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    btnSetStandValue.Enabled = true;
+                }
+                finally
+                {
+                }
+            }
+        }
     }
 }

@@ -51,7 +51,8 @@ namespace SmartWaterSystem
         NLog.Logger logger = NLog.LogManager.GetLogger("MSMQManager");
         public event SocketHandler SockMsgEvent;
         public event SocketConnHandle SocketConnEvent;
-        string SmartWaterHeartBeat = SocketHelper.SocketMsgSplit+"heartbeat"+ SocketHelper.SocketMsgSplit;
+        //心跳包增加一个12位的数值作为服务器端区分终端的ID
+        string SmartWaterHeartBeat = SocketHelper.SocketMsgSplit + "heartbeat" + DateTime.Now.ToString("ddHHmmssffff") + SocketHelper.SocketMsgSplit;
         Socket socket = null;   //连接的socket对象
         //发送时，一条数据可能有截断的作为两次发送，将前面一包最后不是完整一条(MSMQEntity)的数据保存,并与下一包进行拼接
         public string msgpart = "";
@@ -94,7 +95,7 @@ namespace SmartWaterSystem
             byte[] data = Encoding.UTF8.GetBytes(SmartWaterHeartBeat);
             while (true)
             {
-                Thread.Sleep(60 * 1000);
+                Thread.Sleep(30 * 1000);
                 
                 try
                 {
