@@ -1859,7 +1859,10 @@ namespace SmartWaterSystem
             try
             {
                 SPLoopRunning = false;
+                Thread.Sleep(20);
                 bool readnextpack = false; //是否读取下一个包(多包时,第一包readnextpack = false,后面readnextpack = true)
+                GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived -= GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;
+                GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived += GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;
                 List<Package651> packsresp = GlobalValue.Universallog.Read(GlobalValue.SerialPort651OptData, 4, 1, true, readnextpack);
                 if (packsresp != null && packsresp.Count > 0)
                 {

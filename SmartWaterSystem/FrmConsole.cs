@@ -8,7 +8,7 @@ namespace SmartWaterSystem
     public partial class FrmConsole : DevExpress.XtraEditors.XtraForm
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmGPRSConsole");
-        private const int MaxLine = 1000;
+        private const int MaxLine = 2000;
         private bool showHttpMsg = true;  //是否显示HTTP消息
         private bool showSocketMsg = true;   //是否显示Socket消息
         private bool showErrMsg = true;     //是否显示错误信息
@@ -214,5 +214,12 @@ namespace SmartWaterSystem
         {
             GlobalValue.SocketMgr.DisConnect();
         }
+
+        //复制消息至剪贴板
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetDataObject(txtControl.Text, true);
+        }
+        
     }
 }
