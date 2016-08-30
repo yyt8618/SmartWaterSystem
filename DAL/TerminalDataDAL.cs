@@ -567,7 +567,116 @@ namespace DAL
                 }
             }
         }
-        
+
+        public int InsertWaterworkerData(Queue<GPRSWaterWorkerFrameDataEntity> datas)
+        {
+            lock (ConstValue.obj)
+            {
+                //SqlTransaction trans = null;
+                try
+                {
+                    //trans = SQLHelper.GetTransaction();
+
+                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                    SqlParameter[] parms_frame = new SqlParameter[]{
+                new SqlParameter("@dir",SqlDbType.Int),
+                new SqlParameter("@frame",SqlDbType.VarChar,2000),
+                new SqlParameter("@logtime",SqlDbType.DateTime)
+            };
+                    SqlCommand command_frame = new SqlCommand();
+                    command_frame.CommandText = SQL_Frame;
+                    command_frame.Parameters.AddRange(parms_frame);
+                    command_frame.CommandType = CommandType.Text;
+                    command_frame.Connection = SQLHelper.Conn;
+                    //command_frame.Transaction = trans;
+
+                    string SQL_Data = @"INSERT INTO Waterworker_Real([TerminalID],[ActivePower_No1],[ReActivePower_No1],[ActivePower_No2],[ReActivePower_No2],[ActivePower_No3],[ReActivePower_No3],[ActivePower_No4],[ReActivePower_No4],[Pressure],[LiquidLevel],[FlowValue1],[FlowValue2],[Switch1],[Switch2],[Switch3],[Switch4],CollTime,UnloadTime) 
+                                VALUES(@TerId,@activepower1,@reactivepower1,@activepower2,@reactivepower2,@activepower3,@reactivepower3,@activepower4,@reactivepower4,@prevalue,@liquidlevel,@flowvalue1,@flowvalue2,@switch1,@switch2,@switch3,@switch4,@colltime,@UploadTime)";
+                    SqlParameter[] parms_data = new SqlParameter[]{
+                    new SqlParameter("@TerId",SqlDbType.Int),
+                    new SqlParameter("@activepower1",SqlDbType.Decimal),
+                    new SqlParameter("@reactivepower1",SqlDbType.Decimal),
+                    new SqlParameter("@activepower2",SqlDbType.Decimal),
+                    new SqlParameter("@reactivepower2",SqlDbType.Decimal),
+
+                    new SqlParameter("@activepower3",SqlDbType.Decimal),
+                    new SqlParameter("@reactivepower3",SqlDbType.Decimal),
+                    new SqlParameter("@activepower4",SqlDbType.Decimal),
+                    new SqlParameter("@reactivepower4",SqlDbType.Decimal),
+                    new SqlParameter("@prevalue",SqlDbType.Decimal),
+
+                    new SqlParameter("@liquidlevel",SqlDbType.Decimal),
+                    new SqlParameter("@flowvalue1",SqlDbType.Decimal),
+                    new SqlParameter("@flowvalue2",SqlDbType.Decimal),
+                    new SqlParameter("@switch1",SqlDbType.SmallInt),
+                    new SqlParameter("@switch2",SqlDbType.SmallInt),
+
+                    new SqlParameter("@switch3",SqlDbType.SmallInt),
+                    new SqlParameter("@switch4",SqlDbType.SmallInt),
+                    new SqlParameter("@colltime",SqlDbType.DateTime),
+                    new SqlParameter("@UploadTime",SqlDbType.DateTime)
+                };
+                    SqlCommand command_predata = new SqlCommand();
+                    command_predata.CommandText = SQL_Data;
+                    command_predata.Parameters.AddRange(parms_data);
+                    command_predata.CommandType = CommandType.Text;
+                    command_predata.Connection = SQLHelper.Conn;
+                    //command_predata.Transaction = trans;
+
+                    while (datas.Count > 0)
+                    {
+                        GPRSWaterWorkerFrameDataEntity entity = null;
+                        try
+                        {
+                            entity = datas.Dequeue();
+                            parms_frame[0].Value = 1;
+                            parms_frame[1].Value = entity.Frame;
+                            parms_frame[2].Value = entity.ModifyTime;
+
+                            command_frame.ExecuteNonQuery();
+
+                            parms_data[0].Value = entity.TerId;
+                            parms_data[1].Value = entity.Activenerge1;
+                            parms_data[2].Value = entity.Rectivenerge1;
+                            parms_data[3].Value = entity.Activenerge2;
+                            parms_data[4].Value = entity.Rectivenerge2;
+                            parms_data[5].Value = entity.Activenerge3;
+                            parms_data[6].Value = entity.Rectivenerge3;
+                            parms_data[7].Value = entity.Activenerge4;
+                            parms_data[8].Value = entity.Rectivenerge4;
+                            parms_data[9].Value = entity.Pressure;
+                            parms_data[10].Value = entity.LiquidLevel;
+                            parms_data[11].Value = entity.Flow1;
+                            parms_data[12].Value = entity.Flow2;
+                            parms_data[13].Value = entity.Switch1 ? 1 : 0;
+                            parms_data[14].Value = entity.Switch2 ? 1 : 0;
+                            parms_data[15].Value = entity.Switch3 ? 1 : 0;
+                            parms_data[16].Value = entity.Switch4 ? 1 : 0;
+                            parms_data[17].Value = entity.ModifyTime;
+                            parms_data[18].Value = entity.ModifyTime;
+
+                            command_predata.ExecuteNonQuery();
+                        }
+                        catch (Exception iex)
+                        {
+                            if (entity != null)
+                                datas.Enqueue(entity);
+                            throw iex;
+                        }
+                    }
+                    //trans.Commit();
+
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    //if (trans != null)
+                    //    trans.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
         /// <summary>
         /// 获取需要下发的参数
         /// </summary>

@@ -24,6 +24,7 @@ namespace GCGPRSService
         InsertPrectrlValue,
 
         InsertNoiseValue,
+        InsertWaterworkerValue,
     }
 
     public class SQLNotifyEventArgs : EventArgs
@@ -72,7 +73,7 @@ namespace GCGPRSService
         private NLog.Logger logger = NLog.LogManager.GetLogger("SocketSQLThread");
         TerminalDataBLL dataBll = new TerminalDataBLL();
 
-        private const int eventcount = 11;
+        private const int eventcount = 12;
         private IntPtr[] hEvent = new IntPtr[eventcount];
         public event SQLHandle SQLEvent;
 
@@ -204,6 +205,13 @@ namespace GCGPRSService
                         {
                             #region 保存噪声数据帧至数据库
                             result = dataBll.InsertGPRSNoiseData(GlobalValue.Instance.GPRS_NoiseFrameData, out msg);
+                            #endregion
+                        }
+                        break;
+                    case (uint)SQLType.InsertWaterworkerValue:
+                        {
+                            #region 保存水厂数据帧至数据库
+                            result = dataBll.InsertWaterworkerData(GlobalValue.Instance.GPRS_WaterworkerFrameData, out msg);
                             #endregion
                         }
                         break;

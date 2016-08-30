@@ -128,6 +128,16 @@ namespace GCGPRSService
             set { _GPRS_NoiseFrameData = value; }
         }
 
+        private Queue<GPRSWaterWorkerFrameDataEntity> _GPRS_WaterworkerFrameData = new Queue<GPRSWaterWorkerFrameDataEntity>();
+        /// <summary>
+        /// GPRS水厂帧队列
+        /// </summary>
+        public Queue<GPRSWaterWorkerFrameDataEntity> GPRS_WaterworkerFrameData
+        {
+            get { return _GPRS_WaterworkerFrameData; }
+            set { _GPRS_WaterworkerFrameData = value; }
+        }
+
         private List<GPRSCmdEntity> _lstGprsCmd = new List<GPRSCmdEntity>();
         /// <summary>
         /// GPRS下送命令

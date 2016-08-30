@@ -50,6 +50,7 @@
     <Compile Include="ConstValue.cs" />
     <Compile Include="DistanceController.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="GPRSWaterWorkerFrameDataEntity.cs" />
     <Compile Include="GPRSNoiseFrameDataEntity.cs" />
     <Compile Include="PrectrlDataEntity.cs" />
     <Compile Include="FlowDataEntity.cs" />

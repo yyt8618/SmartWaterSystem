@@ -1181,6 +1181,10 @@ namespace Common
         /// </summary>
         READ_OLWQFLOW=0xA4,
         /// <summary>
+        /// 水质终端温度
+        /// </summary>
+        READ_TEMP = 0xA5,
+        /// <summary>
         /// 水质终端报警
         /// </summary>
         READ_OLWQALARM= 0xAB,
@@ -1208,6 +1212,10 @@ namespace Common
         /// 远传控制器向主站发送噪声采集数据
         /// </summary>
         READ_NOISEDATA = 0xA4,
+        /// <summary>
+        /// 水厂PLC采集数据
+        /// </summary>
+        READ_WATERWORKSDATA = 0xA0,
     }
 
     public enum PRECTRL_COMMAND

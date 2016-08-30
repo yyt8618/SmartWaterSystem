@@ -129,6 +129,23 @@ namespace BLL
             }
         }
 
+        public int InsertWaterworkerData(Queue<GPRSWaterWorkerFrameDataEntity> datas, out string msg)
+        {
+            msg = "";
+            try
+            {
+                if (datas.Count == 0)
+                    return 0;
+                return dal.InsertWaterworkerData(datas);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("InsertWaterworkerData", ex);
+                msg = "保存至数据库发生异常";
+                return -1;
+            }
+        }
+
         public int InsertGPRSNoiseData(Queue<GPRSNoiseFrameDataEntity> datas, out string msg)
         {
             msg = "";

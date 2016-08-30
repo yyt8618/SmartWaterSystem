@@ -15,3 +15,4 @@ tlp:谭丽萍 pg:彭工
 2015-1-28  增加读取数据超时重复读取逻辑，超时读取四次，每次超时5秒
 2016-7-27  数据库表DL_Noise_Real将OriginalData字段长度改为5000
 2016-8-11  数据库表ST_Noise_StandData将data字段改为int数据类型
+2016-8-30  新建表Waterworker_Real,版本号8-30

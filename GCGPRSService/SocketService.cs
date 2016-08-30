@@ -268,6 +268,17 @@ namespace GCGPRSService
                     OnSendMsg(new SocketEventArgs("噪声数据保存失败:" + e.Msg));
                 }
             }
+            else if (e.SQLType == SQLType.InsertWaterworkerValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("水厂数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("水厂数据保存失败:" + e.Msg));
+                }
+            }
         }
 
         public void Close()
@@ -1362,6 +1373,12 @@ namespace GCGPRSService
                                                 unit = "ph";
                                                 valuecolumnname = "PH";
                                             }
+                                            else if ( pack.C1 == (byte)GPRS_READ.READ_TEMP)
+                                            {
+                                                name = "温度";
+                                                unit = "℃";
+                                                valuecolumnname = "Temperature";
+                                            }
 
                                             float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
                                             if (addtion_voldata)  //电压
@@ -1758,7 +1775,85 @@ namespace GCGPRSService
                                         }
                                         #endregion
                                     }
+                                    else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.WATER_WORKS)
+                                    {
+                                        #region 水厂数据
+                                        if (pack.C1 == (byte)GPRS_READ.READ_WATERWORKSDATA)  //水厂PLC采集数据
+                                        {
+                                            if (pack.DataLength != 52)
+                                            {
+                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合固定长度(52byte)规则");
+                                            }
 
+                                            GPRSWaterWorkerFrameDataEntity framedata = new GPRSWaterWorkerFrameDataEntity();
+                                            framedata.TerId = pack.ID.ToString();
+                                            framedata.ModifyTime = DateTime.Now;
+                                            framedata.Frame = str_frame;
+
+                                            int i = 0;
+                                            //float activenerge1 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8], pack.Data[7], pack.Data[6] }, 0)) / 100;         //1#有功电量
+                                            //float reactivenerge1 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[13], pack.Data[12], pack.Data[11], pack.Data[10] }, 0)) / 100;         //1#无功电量
+                                            //float activenerge2 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[17], pack.Data[16], pack.Data[15], pack.Data[14] }, 0)) / 100;         //2#有功电量
+                                            //float reactivenerge2 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[21], pack.Data[20], pack.Data[19], pack.Data[18] }, 0)) / 100;         //2#无功电量
+                                            //float activenerge3 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[25], pack.Data[24], pack.Data[23], pack.Data[22] }, 0)) / 100;         //3#有功电量
+                                            //float reactivenerge3 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[29], pack.Data[28], pack.Data[27], pack.Data[26] }, 0)) / 100;         //3#无功电量
+                                            //float activenerge4 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[33], pack.Data[32], pack.Data[31], pack.Data[30] }, 0)) / 100;         //4#有功电量
+                                            //float reactivenerge4 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[37], pack.Data[36], pack.Data[35], pack.Data[34] }, 0)) / 100;         //4#无功电量
+                                            string stractivenerge1 = String.Format("{0:X2}", pack.Data[i + 0]) + String.Format("{0:X2}", pack.Data[i + 1]) + String.Format("{0:X2}", pack.Data[i + 2]) + String.Format("{0:X2}", pack.Data[i + 3]);
+                                            double activenerge1 = Convert.ToSingle(stractivenerge1) / 100;         //1#有功电量
+                                            string strreactivenerge1 = String.Format("{0:X2}", pack.Data[i + 4]) + String.Format("{0:X2}", pack.Data[i + 5]) + String.Format("{0:X2}", pack.Data[i + 6]) + String.Format("{0:X2}", pack.Data[i + 7]);
+                                            double reactivenerge1 = Convert.ToSingle(strreactivenerge1) / 100;         //1#无功电量
+                                            string stractivenerge2 = String.Format("{0:X2}", pack.Data[i + 8]) + String.Format("{0:X2}", pack.Data[i + 9]) + String.Format("{0:X2}", pack.Data[i + 10]) + String.Format("{0:X2}", pack.Data[i + 11]);
+                                            double activenerge2 = Convert.ToSingle(stractivenerge2) / 100;         //2#有功电量
+                                            string strreactivenerge2 = String.Format("{0:X2}", pack.Data[i + 12]) + String.Format("{0:X2}", pack.Data[i + 13]) + String.Format("{0:X2}", pack.Data[i + 14]) + String.Format("{0:X2}", pack.Data[i + 15]);
+                                            double reactivenerge2 = Convert.ToSingle(strreactivenerge2) / 100;         //2#无功电量
+                                            string stractivenerge3 = String.Format("{0:X2}", pack.Data[i + 16]) + String.Format("{0:X2}", pack.Data[i + 17]) + String.Format("{0:X2}", pack.Data[i + 18]) + String.Format("{0:X2}", pack.Data[i + 19]);
+                                            double activenerge3 = Convert.ToSingle(stractivenerge3) / 100;         //3#有功电量
+                                            string strreactivenerge3 = String.Format("{0:X2}", pack.Data[i + 20]) + String.Format("{0:X2}", pack.Data[i + 21]) + String.Format("{0:X2}", pack.Data[i + 22]) + String.Format("{0:X2}", pack.Data[i + 23]);
+                                            double reactivenerge3 = Convert.ToSingle(strreactivenerge3) / 100;         //3#无功电量
+                                            string stractivenerge4 = String.Format("{0:X2}", pack.Data[i + 24]) + String.Format("{0:X2}", pack.Data[i + 25]) + String.Format("{0:X2}", pack.Data[i + 26]) + String.Format("{0:X2}", pack.Data[i + 27]);
+                                            double activenerge4 = Convert.ToSingle(stractivenerge4) / 100;         //4#有功电量
+                                            string strreactivenerge4 = String.Format("{0:X2}", pack.Data[i + 28]) + String.Format("{0:X2}", pack.Data[i + 29]) + String.Format("{0:X2}", pack.Data[i + 30]) + String.Format("{0:X2}", pack.Data[i + 31]);
+                                            double reactivenerge4 = Convert.ToSingle(strreactivenerge4) / 100;         //4#无功电量
+
+                                            double pressure = BitConverter.ToSingle(new byte[] { pack.Data[i +35], pack.Data[i + 34], pack.Data[i +33], pack.Data[i +32] }, 0);         //出口压力
+                                            double liquidlevel = BitConverter.ToSingle(new byte[] { pack.Data[i +39], pack.Data[i +38], pack.Data[i +37], pack.Data[i +36] }, 0);         //液位
+                                            double flow1 = BitConverter.ToSingle(new byte[] { pack.Data[i + 43], pack.Data[i + 42], pack.Data[i + 41], pack.Data[i + 40] }, 0);         //流量1
+                                            double flow2 = BitConverter.ToSingle(new byte[] { pack.Data[i + 47], pack.Data[i + 46], pack.Data[i + 45], pack.Data[i + 44] }, 0);         //流量2
+                                            //2个字节表示一个开关状态,第一个字节没有用  0x00 0x01表示开  0x00 0x00表示关
+                                            bool switch1 = pack.Data[i + 48] > 0 ? true : false;            //开关状态1
+                                            bool switch2 = pack.Data[i + 49] > 0 ? true : false;            //开关状态2
+                                            bool switch3 = pack.Data[i + 50] > 0 ? true : false;            //开关状态3
+                                            bool switch4 = pack.Data[i + 51] > 0 ? true : false;            //开关状态4
+
+                                            OnSendMsg(new SocketEventArgs(string.Format("水厂数据[{0}]|1#有功电量:{1}|1#无功电量:{2}|2#有功电量:{3}|2#无功电量:{4}|3#有功电量:{5}|3#无功电量:{6}|4#有功电量:{7}|4#无功电量:{8}|出口压力:{9}|液位:{10}|流量1:{11}|流量2:{12}|开关状态1:{13}|开关状态2:{14}|开关状态3:{15}|开关状态4:{16}",
+                                                pack.ID, activenerge1, reactivenerge1, activenerge2, reactivenerge2, activenerge3, reactivenerge3, activenerge4, reactivenerge4,
+                                                pressure, liquidlevel, flow1, flow2, switch1 ? "开" : "关", switch2 ? "开" : "关", switch3 ? "开" : "关", switch4 ? "开" : "关")));
+
+                                            framedata.Activenerge1 = activenerge1;
+                                            framedata.Rectivenerge1 = reactivenerge1;
+                                            framedata.Activenerge2 = activenerge2;
+                                            framedata.Rectivenerge2 = reactivenerge2;
+                                            framedata.Activenerge3 = activenerge3;
+                                            framedata.Rectivenerge3 = reactivenerge3;
+                                            framedata.Activenerge4 = activenerge4;
+                                            framedata.Rectivenerge4 = reactivenerge4;
+                                            framedata.Pressure = pressure;
+                                            framedata.LiquidLevel = liquidlevel;
+                                            framedata.Flow1 = flow1;
+                                            framedata.Flow2 = flow2;
+                                            framedata.Switch1 = switch1;
+                                            framedata.Switch2 = switch2;
+                                            framedata.Switch3 = switch3;
+                                            framedata.Switch4 = switch4;
+                                            
+                                            //bNeedCheckTime = NeedCheckTime(framedata.ColTime);
+
+                                            GlobalValue.Instance.GPRS_WaterworkerFrameData.Enqueue(framedata);  //通知存储线程处理
+                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertWaterworkerValue);
+                                        }
+                                        #endregion
+                                    }
                                     #endregion
 
                                     Package response = new Package();
@@ -1834,6 +1929,7 @@ namespace GCGPRSService
                                             }
                                         }
 
+                                        #region 校时
                                         if (bNeedCheckTime)
                                         {
                                             Package pack_time = new Package();
@@ -1885,6 +1981,7 @@ namespace GCGPRSService
 
                                             lstCommandPack.Add(pack_time);
                                         }
+                                        #endregion
 
                                         for (int i = 0; i < lstCommandPack.Count; i++)
                                         {

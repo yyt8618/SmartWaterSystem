@@ -98,7 +98,11 @@ namespace Entity
             /// <summary>
             /// 消防栓
             /// </summary>
-            HYDRANT_CTRL = 0x08
+            HYDRANT_CTRL = 0x08,
+            /// <summary>
+            /// 水厂
+            /// </summary>
+            WATER_WORKS=0x10,
         }
 
     }
