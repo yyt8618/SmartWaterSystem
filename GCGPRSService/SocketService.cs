@@ -1324,10 +1324,10 @@ namespace GCGPRSService
                                     }
                                     else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.OLWQ_CTRL)
                                     {
-                                        bool addtion_voldata = false;   //是否在数据段最后增加了两个字节的电压数据
                                         #region 水质终端
+                                        bool addtion_voldata = false;   //是否在数据段最后增加了两个字节的电压数据
                                         if ((pack.C1 == (byte)GPRS_READ.READ_TURBIDITY) || (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL) ||
-                                            (pack.C1 == (byte)GPRS_READ.READ_PH))  //从站向主站发送水质采集数据
+                                            (pack.C1 == (byte)GPRS_READ.READ_PH)|| (pack.C1 == (byte)GPRS_READ.READ_TEMP))  //从站向主站发送水质采集数据
                                         {
                                             int dataindex = (pack.DataLength - 2 - 1) % 8;
                                             if (dataindex != 0)
@@ -1408,6 +1408,10 @@ namespace GCGPRSService
                                                 else if (pack.C1 == (byte)GPRS_READ.READ_PH)
                                                 {
                                                     data.PH = value / 100;
+                                                }
+                                                else if (pack.C1 == (byte)GPRS_READ.READ_TEMP)
+                                                {
+                                                    data.Temperature = value;
                                                 }
 
                                                 OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}{5}|电压值:{6}V",
@@ -1713,8 +1717,11 @@ namespace GCGPRSService
                                             float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
                                             volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
 
-                                            int sumpackcount = Convert.ToInt32(pack.Data[2]);
-                                            int curpackindex = Convert.ToInt32(pack.Data[3]);
+                                            //记录仪ID（4byte）＋启动值（2byte）＋总帧数（1byte）＋帧号（1byte）＋ 数据（128byte）＋ 电压（2byte）
+                                            int logId = BitConverter.ToInt32(new byte[] { pack.Data[3], pack.Data[2], pack.Data[1], 0x00 }, 0);  //记录仪ID
+                                            int standvalue=BitConverter.ToInt16(new byte[] { pack.Data[5], pack.Data[4] }, 0);      //启动值
+                                            int sumpackcount = Convert.ToInt32(pack.Data[6]);
+                                            int curpackindex = Convert.ToInt32(pack.Data[7]);
 
                                             if(curpackindex == 1)
                                                 state.lstBuffer.Clear();   //收到第一包清空缓存
@@ -1728,7 +1735,7 @@ namespace GCGPRSService
                                                 state.NoisePackIndex = curpackindex;   //记录当前收到包的序号
                                                 if (sumpackcount != curpackindex && !pack.IsFinal)
                                                 {
-                                                    for (int i = 4; i < pack.DataLength - 2; i++)  //多包时，当前不是最后一包时缓存数据至state.lstBuffer中
+                                                    for (int i = 8; i < pack.DataLength - 2; i++)  //多包时，当前不是最后一包时缓存数据至state.lstBuffer中
                                                     {
                                                         state.lstBuffer.Add(pack.Data[i]);
                                                     }
@@ -1741,15 +1748,17 @@ namespace GCGPRSService
                                                         lstbytes.AddRange(state.lstBuffer);
                                                         state.lstBuffer.Clear();
                                                     }
-                                                    for (int i = 4; i < pack.DataLength - 2; i++)  //添加当前包数据
+                                                    for (int i = 8; i < pack.DataLength - 2; i++)  //添加当前包数据
                                                     {
                                                         lstbytes.Add(pack.Data[i]);
                                                     }
                                                     UpLoadNoiseDataEntity noisedataentity = new UpLoadNoiseDataEntity();
-                                                    noisedataentity.TerId = pack.DevID.ToString();
+                                                    noisedataentity.TerId = logId.ToString();  // pack.DevID.ToString();
                                                     noisedataentity.GroupId = "";
+                                                    //启动值
+                                                    noisedataentity.cali = standvalue;
                                                     noisedataentity.ColTime = DateTime.Now.ToString();
-                                                    for (int i = 0; i + 1 < lstbytes.Count; i += 2)
+                                                    for (int i = 2; i + 1 < lstbytes.Count; i += 2)
                                                     {
                                                         noisedataentity.Data += BitConverter.ToInt16(new byte[] { lstbytes[i], lstbytes[i + 1] }, 0) + ",";
                                                     }
@@ -1760,14 +1769,14 @@ namespace GCGPRSService
                                                     bNeedCheckTime = true;  //每天传一次,一天校时一次,不适用NeedCheckTime方法校时
                                                 }
                                                 string strcurnoisedata = "";  //当前包的数据,用于显示
-                                                for (int i = 4; i + 1 < pack.DataLength - 2; i += 2)
+                                                for (int i = 8; i + 1 < pack.DataLength - 2; i += 2)
                                                 {
                                                     strcurnoisedata += BitConverter.ToInt16(new byte[] { pack.Data[i], pack.Data[i + 1] }, 0) + ",";
                                                 }
                                                 if (strcurnoisedata.EndsWith(","))
                                                     strcurnoisedata = strcurnoisedata.Substring(0, strcurnoisedata.Length - 1);
-                                                OnSendMsg(new SocketEventArgs(string.Format("噪声远传控制器[{0}]|总包数:{1}、当前第{2}包|噪声数据:{3}|电压值:{4}V",
-                                                       pack.DevID, sumpackcount, curpackindex, strcurnoisedata, volvalue)));
+                                                OnSendMsg(new SocketEventArgs(string.Format("噪声远传控制器[{0}]|记录仪[{1}]|启动值[{2}]|总包数:{3}、当前第{4}包|噪声数据:{5}|电压值:{6}V",
+                                                       pack.DevID, logId, standvalue, sumpackcount, curpackindex, strcurnoisedata, volvalue)));
 
                                                 GlobalValue.Instance.GPRS_NoiseFrameData.Enqueue(framedata);  //通知存储线程处理
                                                 GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertNoiseValue);
@@ -1780,25 +1789,17 @@ namespace GCGPRSService
                                         #region 水厂数据
                                         if (pack.C1 == (byte)GPRS_READ.READ_WATERWORKSDATA)  //水厂PLC采集数据
                                         {
-                                            if (pack.DataLength != 52)
+                                            if (pack.DataLength != 50)
                                             {
-                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合固定长度(52byte)规则");
+                                                throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合固定长度(50byte)规则");
                                             }
 
                                             GPRSWaterWorkerFrameDataEntity framedata = new GPRSWaterWorkerFrameDataEntity();
-                                            framedata.TerId = pack.ID.ToString();
+                                            framedata.TerId = pack.DevID.ToString();
                                             framedata.ModifyTime = DateTime.Now;
                                             framedata.Frame = str_frame;
 
                                             int i = 0;
-                                            //float activenerge1 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8], pack.Data[7], pack.Data[6] }, 0)) / 100;         //1#有功电量
-                                            //float reactivenerge1 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[13], pack.Data[12], pack.Data[11], pack.Data[10] }, 0)) / 100;         //1#无功电量
-                                            //float activenerge2 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[17], pack.Data[16], pack.Data[15], pack.Data[14] }, 0)) / 100;         //2#有功电量
-                                            //float reactivenerge2 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[21], pack.Data[20], pack.Data[19], pack.Data[18] }, 0)) / 100;         //2#无功电量
-                                            //float activenerge3 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[25], pack.Data[24], pack.Data[23], pack.Data[22] }, 0)) / 100;         //3#有功电量
-                                            //float reactivenerge3 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[29], pack.Data[28], pack.Data[27], pack.Data[26] }, 0)) / 100;         //3#无功电量
-                                            //float activenerge4 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[33], pack.Data[32], pack.Data[31], pack.Data[30] }, 0)) / 100;         //4#有功电量
-                                            //float reactivenerge4 = ((float)BitConverter.ToInt16(new byte[] { pack.Data[37], pack.Data[36], pack.Data[35], pack.Data[34] }, 0)) / 100;         //4#无功电量
                                             string stractivenerge1 = String.Format("{0:X2}", pack.Data[i + 0]) + String.Format("{0:X2}", pack.Data[i + 1]) + String.Format("{0:X2}", pack.Data[i + 2]) + String.Format("{0:X2}", pack.Data[i + 3]);
                                             double activenerge1 = Convert.ToSingle(stractivenerge1) / 100;         //1#有功电量
                                             string strreactivenerge1 = String.Format("{0:X2}", pack.Data[i + 4]) + String.Format("{0:X2}", pack.Data[i + 5]) + String.Format("{0:X2}", pack.Data[i + 6]) + String.Format("{0:X2}", pack.Data[i + 7]);
@@ -1816,18 +1817,18 @@ namespace GCGPRSService
                                             string strreactivenerge4 = String.Format("{0:X2}", pack.Data[i + 28]) + String.Format("{0:X2}", pack.Data[i + 29]) + String.Format("{0:X2}", pack.Data[i + 30]) + String.Format("{0:X2}", pack.Data[i + 31]);
                                             double reactivenerge4 = Convert.ToSingle(strreactivenerge4) / 100;         //4#无功电量
 
-                                            double pressure = BitConverter.ToSingle(new byte[] { pack.Data[i +35], pack.Data[i + 34], pack.Data[i +33], pack.Data[i +32] }, 0);         //出口压力
-                                            double liquidlevel = BitConverter.ToSingle(new byte[] { pack.Data[i +39], pack.Data[i +38], pack.Data[i +37], pack.Data[i +36] }, 0);         //液位
-                                            double flow1 = BitConverter.ToSingle(new byte[] { pack.Data[i + 43], pack.Data[i + 42], pack.Data[i + 41], pack.Data[i + 40] }, 0);         //流量1
-                                            double flow2 = BitConverter.ToSingle(new byte[] { pack.Data[i + 47], pack.Data[i + 46], pack.Data[i + 45], pack.Data[i + 44] }, 0);         //流量2
+                                            double pressure = (double)BitConverter.ToInt16(new byte[] { pack.Data[i +33], pack.Data[i +32] }, 0)/1000;         //出口压力
+                                            double liquidlevel = BitConverter.ToSingle(new byte[] { pack.Data[i +37], pack.Data[i +36], pack.Data[i +35], pack.Data[i +34] }, 0);         //液位
+                                            double flow1 = BitConverter.ToInt32(new byte[] { pack.Data[i + 41], pack.Data[i + 40], pack.Data[i + 39], pack.Data[i + 38] }, 0);         //流量1
+                                            double flow2 = BitConverter.ToInt32(new byte[] { pack.Data[i + 45], pack.Data[i + 44], pack.Data[i + 43], pack.Data[i + 42] }, 0);         //流量2
                                             //2个字节表示一个开关状态,第一个字节没有用  0x00 0x01表示开  0x00 0x00表示关
-                                            bool switch1 = pack.Data[i + 48] > 0 ? true : false;            //开关状态1
-                                            bool switch2 = pack.Data[i + 49] > 0 ? true : false;            //开关状态2
-                                            bool switch3 = pack.Data[i + 50] > 0 ? true : false;            //开关状态3
-                                            bool switch4 = pack.Data[i + 51] > 0 ? true : false;            //开关状态4
+                                            bool switch1 = pack.Data[i + 46] > 0 ? true : false;            //开关状态1
+                                            bool switch2 = pack.Data[i + 47] > 0 ? true : false;            //开关状态2
+                                            bool switch3 = pack.Data[i + 48] > 0 ? true : false;            //开关状态3
+                                            bool switch4 = pack.Data[i + 49] > 0 ? true : false;            //开关状态4
 
                                             OnSendMsg(new SocketEventArgs(string.Format("水厂数据[{0}]|1#有功电量:{1}|1#无功电量:{2}|2#有功电量:{3}|2#无功电量:{4}|3#有功电量:{5}|3#无功电量:{6}|4#有功电量:{7}|4#无功电量:{8}|出口压力:{9}|液位:{10}|流量1:{11}|流量2:{12}|开关状态1:{13}|开关状态2:{14}|开关状态3:{15}|开关状态4:{16}",
-                                                pack.ID, activenerge1, reactivenerge1, activenerge2, reactivenerge2, activenerge3, reactivenerge3, activenerge4, reactivenerge4,
+                                                pack.DevID, activenerge1, reactivenerge1, activenerge2, reactivenerge2, activenerge3, reactivenerge3, activenerge4, reactivenerge4,
                                                 pressure, liquidlevel, flow1, flow2, switch1 ? "开" : "关", switch2 ? "开" : "关", switch3 ? "开" : "关", switch4 ? "开" : "关")));
 
                                             framedata.Activenerge1 = activenerge1;
@@ -1883,6 +1884,7 @@ namespace GCGPRSService
                                         }
                                     }
 
+                                    //Thread.Sleep(500);
                                     #region 发送后续命令帧
                                     if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
                                         || bNeedCheckTime || lstCommandPack.Count > 0) && pack.IsFinal)
@@ -1947,7 +1949,7 @@ namespace GCGPRSService
                                             else if (pack.DevType == Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL)
                                                 pack_time.C1 = (byte)HYDRANT_COMMAND.SET_TIME;
                                             else if (pack.DevType == ConstValue.DEV_TYPE.NOISE_CTRL)
-                                                pack_time.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_TIME;
+                                                pack_time.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_GPRSTIME;
 
                                             byte[] data = null;
                                             if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)  //压力控制器多三个字节,1byte(密码权限=1)+2bytes(管理密码)+6byte(时间数据)，暂时写死

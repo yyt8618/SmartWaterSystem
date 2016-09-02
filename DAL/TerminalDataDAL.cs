@@ -590,29 +590,30 @@ namespace DAL
                     command_frame.Connection = SQLHelper.Conn;
                     //command_frame.Transaction = trans;
 
-                    string SQL_Data = @"INSERT INTO Waterworker_Real([TerminalID],[ActivePower_No1],[ReActivePower_No1],[ActivePower_No2],[ReActivePower_No2],[ActivePower_No3],[ReActivePower_No3],[ActivePower_No4],[ReActivePower_No4],[Pressure],[LiquidLevel],[FlowValue1],[FlowValue2],[Switch1],[Switch2],[Switch3],[Switch4],CollTime,UnloadTime) 
-                                VALUES(@TerId,@activepower1,@reactivepower1,@activepower2,@reactivepower2,@activepower3,@reactivepower3,@activepower4,@reactivepower4,@prevalue,@liquidlevel,@flowvalue1,@flowvalue2,@switch1,@switch2,@switch3,@switch4,@colltime,@UploadTime)";
+                    string SQL_Data = @"INSERT INTO Waterworker_Real([TrmlID],[TrmlName],[ActivePower_No1],[ReActivePower_No1],[ActivePower_No2],[ReActivePower_No2],[ActivePower_No3],[ReActivePower_No3],[ActivePower_No4],[ReActivePower_No4],[OutPressure],[LevelMeter],[FlowMeter_No1],[FlowMeter_No2],[SwitchStatu_No1],[SwitchStatu_No2],[SwitchStatu_No3],[SwitchStatu_No4],[CollTime],[UnloadTime]) 
+                                VALUES(@TerId,@TerName,@activepower1,@reactivepower1,@activepower2,@reactivepower2,@activepower3,@reactivepower3,@activepower4,@reactivepower4,@prevalue,@liquidlevel,@flowvalue1,@flowvalue2,@switch1,@switch2,@switch3,@switch4,@colltime,@UploadTime)";
                     SqlParameter[] parms_data = new SqlParameter[]{
-                    new SqlParameter("@TerId",SqlDbType.Int),
+                    new SqlParameter("@TerId",SqlDbType.VarChar,50),
+                    new SqlParameter("@TerName",SqlDbType.VarChar,50),
                     new SqlParameter("@activepower1",SqlDbType.Decimal),
                     new SqlParameter("@reactivepower1",SqlDbType.Decimal),
                     new SqlParameter("@activepower2",SqlDbType.Decimal),
-                    new SqlParameter("@reactivepower2",SqlDbType.Decimal),
 
+                    new SqlParameter("@reactivepower2",SqlDbType.Decimal),
                     new SqlParameter("@activepower3",SqlDbType.Decimal),
                     new SqlParameter("@reactivepower3",SqlDbType.Decimal),
                     new SqlParameter("@activepower4",SqlDbType.Decimal),
                     new SqlParameter("@reactivepower4",SqlDbType.Decimal),
-                    new SqlParameter("@prevalue",SqlDbType.Decimal),
 
+                    new SqlParameter("@prevalue",SqlDbType.Decimal),
                     new SqlParameter("@liquidlevel",SqlDbType.Decimal),
                     new SqlParameter("@flowvalue1",SqlDbType.Decimal),
                     new SqlParameter("@flowvalue2",SqlDbType.Decimal),
-                    new SqlParameter("@switch1",SqlDbType.SmallInt),
-                    new SqlParameter("@switch2",SqlDbType.SmallInt),
+                    new SqlParameter("@switch1",SqlDbType.Bit),
 
-                    new SqlParameter("@switch3",SqlDbType.SmallInt),
-                    new SqlParameter("@switch4",SqlDbType.SmallInt),
+                    new SqlParameter("@switch2",SqlDbType.Bit),
+                    new SqlParameter("@switch3",SqlDbType.Bit),
+                    new SqlParameter("@switch4",SqlDbType.Bit),
                     new SqlParameter("@colltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime)
                 };
@@ -636,24 +637,33 @@ namespace DAL
                             command_frame.ExecuteNonQuery();
 
                             parms_data[0].Value = entity.TerId;
-                            parms_data[1].Value = entity.Activenerge1;
-                            parms_data[2].Value = entity.Rectivenerge1;
-                            parms_data[3].Value = entity.Activenerge2;
-                            parms_data[4].Value = entity.Rectivenerge2;
-                            parms_data[5].Value = entity.Activenerge3;
-                            parms_data[6].Value = entity.Rectivenerge3;
-                            parms_data[7].Value = entity.Activenerge4;
-                            parms_data[8].Value = entity.Rectivenerge4;
-                            parms_data[9].Value = entity.Pressure;
-                            parms_data[10].Value = entity.LiquidLevel;
-                            parms_data[11].Value = entity.Flow1;
-                            parms_data[12].Value = entity.Flow2;
-                            parms_data[13].Value = entity.Switch1 ? 1 : 0;
-                            parms_data[14].Value = entity.Switch2 ? 1 : 0;
-                            parms_data[15].Value = entity.Switch3 ? 1 : 0;
-                            parms_data[16].Value = entity.Switch4 ? 1 : 0;
-                            parms_data[17].Value = entity.ModifyTime;
+                            parms_data[1].Value = "";
+                            if (entity.TerId == "1")  //名称写死 16-8-31
+                                parms_data[1].Value = "一水厂一泵房";       
+                            else if (entity.TerId == "2")
+                                parms_data[1].Value = "一水厂二泵房";
+                            else if (entity.TerId == "3")
+                                parms_data[1].Value = "二水厂一泵房";
+                            else if (entity.TerId == "4")
+                                parms_data[1].Value = "二水厂二泵房";
+                            parms_data[2].Value = entity.Activenerge1;
+                            parms_data[3].Value = entity.Rectivenerge1;
+                            parms_data[4].Value = entity.Activenerge2;
+                            parms_data[5].Value = entity.Rectivenerge2;
+                            parms_data[6].Value = entity.Activenerge3;
+                            parms_data[7].Value = entity.Rectivenerge3;
+                            parms_data[8].Value = entity.Activenerge4;
+                            parms_data[9].Value = entity.Rectivenerge4;
+                            parms_data[10].Value = entity.Pressure;
+                            parms_data[11].Value = entity.LiquidLevel;
+                            parms_data[12].Value = entity.Flow1;
+                            parms_data[13].Value = entity.Flow2;
+                            parms_data[14].Value = entity.Switch1 ? 1 : 0;
+                            parms_data[15].Value = entity.Switch2 ? 1 : 0;
+                            parms_data[16].Value = entity.Switch3 ? 1 : 0;
+                            parms_data[17].Value = entity.Switch4 ? 1 : 0;
                             parms_data[18].Value = entity.ModifyTime;
+                            parms_data[19].Value = entity.ModifyTime;
 
                             command_predata.ExecuteNonQuery();
                         }

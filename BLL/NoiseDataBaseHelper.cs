@@ -44,7 +44,7 @@ namespace BLL
                     sql = "SELECT * FROM MT_RecorderSet WHERE RecorderId = " + rec.ID.ToString();
                     DataTable recSet = SQLHelper.ExecuteDataTable(sql);
                     rec.RecordTime = Convert.ToInt32(recSet.Rows[0]["RecordTime"]);
-                    rec.CommunicationTime = Convert.ToInt32(recSet.Rows[0]["CommunicationTime"]);
+                    //rec.CommunicationTime = Convert.ToInt32(recSet.Rows[0]["CommunicationTime"]);
                     rec.PickSpan = Convert.ToInt32(recSet.Rows[0]["PickSpan"]);
                     rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
                     rec.ControlerPower = Convert.ToInt32(recSet.Rows[0]["Controler_Power"]);
@@ -246,8 +246,8 @@ namespace BLL
 
                 sql = string.Format(
                 @"UPDATE MT_RecorderSet 
-                SET RecordTime = {0},PickSpan = {1},Controler_Power = {2},StartEnd_Power = {3},CommunicationTime = {4},LeakValue = {5} WHERE RecorderId = {6}",
-                rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.CommunicationTime, rec.LeakValue, rec.ID);
+                SET RecordTime = {0},PickSpan = {1},Controler_Power = {2},StartEnd_Power = {3},LeakValue = {4} WHERE RecorderId = {5}",
+                rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.LeakValue, rec.ID);
                 query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
@@ -258,7 +258,7 @@ namespace BLL
             }
         }
 
-        public static int DeleteStandData(int GroupID, int RecorderID)
+        public static int DeleteStandData(string GroupID, string RecorderID)
         {
             try
             {
@@ -278,7 +278,7 @@ namespace BLL
         /// </summary>
         /// <param name="rec"></param>
         /// <returns></returns>
-        public static int SaveStandData(int GroupID,int RecorderID,int StandValue)
+        public static int SaveStandData(string GroupID,string RecorderID,int StandValue)
         {
             try
             {
@@ -434,9 +434,9 @@ namespace BLL
 
                 query = SQLHelper.ExecuteNonQuery(sql, parms);
 
-                sql = string.Format(@"INSERT INTO MT_RecorderSet(RecorderId, RecordTime, PickSpan, Controler_Power, StartEnd_Power, CommunicationTime, LeakValue) 
+                sql = string.Format(@"INSERT INTO MT_RecorderSet(RecorderId, RecordTime, PickSpan, Controler_Power, StartEnd_Power, LeakValue) 
                 VALUES({0},{1},{2},{3},{4},{5},{6})",
-                    rec.ID, rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.CommunicationTime, rec.LeakValue);
+                    rec.ID, rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.LeakValue);
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }

@@ -155,46 +155,6 @@ namespace Protocol
             return Write(package);
         }
 
-        /// <summary>
-        /// 串口设置记录仪远传功能
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="IsOpen">是否打开 默认关</param>
-        /// <returns></returns>
-        public bool WriteRemoteSwitch(short id, bool IsOpen)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
-            package.DevID = id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_REMOTE_SWITCH;
-            package.DataLength = 1;
-            byte[] data = new byte[package.DataLength];
-            data[0] = (byte)(IsOpen ? 1 : 0);
-            package.Data = data;
-            package.CS = package.CreateCS();
-            return Write(package);
-        }
-        /// <summary>
-        /// 串口设置记录仪远传发送时间（远传发送频率：1次/天）
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="time">发送时间(发送时间不能设置在记录仪采集数据的时间段内)</param>
-        /// <returns></returns>
-        public bool WriteRemoteSendTime(short id, int time)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
-            package.DevID = id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_REMOTE_SEND_TIME;
-            package.DataLength = 1;
-            byte[] data = new byte[package.DataLength];
-            data[0] = (byte)time;
-            package.Data = data;
-            package.CS = package.CreateCS();
-            return Write(package);
-        }
 
         /// <summary>
         /// 设置启动值(标准值)
@@ -388,89 +348,7 @@ namespace Protocol
                 throw ex;
             }
         }
-        /// <summary>
-        /// 串口读取记录仪远传功能
-        /// </summary>
-        /// <param name="id">帧ID为记录仪的ID</param>
-        /// <returns></returns>
-        public bool ReadRemote(short id)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
-            package.DevID = id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)NOISE_LOG_COMMAND.READ_REMOTE;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            try
-            {
-                Package result = Read(package);
-                if (!result.IsSuccess || result.Data == null)
-                {
-                    throw new Exception("获取失败");
-                }
-                if (result.Data.Length == 0)
-                {
-                    throw new Exception("无数据");
-                }
-                if (result.Data.Length != 1)
-                {
-                    throw new Exception("数据损坏");
-                }
-                return result.Data[0] == 1;
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        /// <summary>
-        /// 串口读取记录仪远传发送时间（远传发送频率：1次/天）
-        /// </summary>
-        /// <param name="id">帧ID为记录仪的ID</param>
-        /// <returns></returns>
-        public byte ReadRemoteSendTime(short id)
-        {
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
-            package.DevID = id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)NOISE_LOG_COMMAND.READ_REMOTE_SEND_TIME;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            try
-            {
-                Package result = Read(package);
-                if (!result.IsSuccess || result.Data == null)
-                {
-                    throw new Exception("获取失败");
-                }
-                if (result.Data.Length == 0)
-                {
-                    throw new Exception("无数据");
-                }
-                if (result.Data.Length != 1)
-                {
-                    throw new Exception("数据损坏");
-                }
-                return result.Data[0];
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-
+        
         /// <summary>
         /// 串口读取记录仪的ID(如:1)（此条帧ID为记录仪广播ID：0x04000000） 
         /// </summary>
@@ -627,13 +505,56 @@ namespace Protocol
             return Write(clear);
         }
 
+        /// <summary>
+        /// 串口读取记录仪的数据总数和启动值
+        /// </summary>
+        /// <returns></returns>
+        public void ReadNoiseLogDataSum2Standvalue(short id,out short datasum,out short standvalue)
+        {
+            datasum = standvalue = 0;
+
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_LOG_COMMAND.CTRL_START_READ;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            try
+            {
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("无数据");
+                }
+                if (result.Data.Length != 4)
+                {
+                    throw new Exception("数据损坏");
+                }
+                //数据总长度（2byte）+启动值（2byte）
+                datasum = BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+                standvalue = BitConverter.ToInt16(new byte[] { result.Data[3], result.Data[2] }, 0);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         ReadDataEventArgs data = null;
         /// <summary>
         /// 读取数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public short[] Read(short id, int timeOut = 30)
+        public short[] ReadData(short id, int packindex, int timeOut = 30)
         {
             try
             {
@@ -642,31 +563,33 @@ namespace Protocol
                     timeOut = Settings.Instance.GetInt(SettingKeys.TimeOut);
                 }
 
+                byte curpackindex = 0x01;  //从第1包开始读
+                byte maxindex = BitConverter.GetBytes(packindex)[0];
                 try
                 {
                     Thread.Sleep(100);
-                    return serialPortUtil.ReadData(id, 5);  //1
+                    return serialPortUtil.ReadNoiseLogData(id, maxindex,ref curpackindex, 5);  //1
                 }
                 catch (TimeoutException e1)
                 {
                     try
                     {
                         Thread.Sleep(100);
-                        return serialPortUtil.ReadData(id, 5);  //2
+                        return serialPortUtil.ReadNoiseLogData(id, maxindex, ref curpackindex, 5);  //2
                     }
                     catch (TimeoutException e2)
                     {
                         try
                         {
                             Thread.Sleep(100);
-                            return serialPortUtil.ReadData(id, 5);  //3
+                            return serialPortUtil.ReadNoiseLogData(id, maxindex, ref curpackindex, 5);  //3
                         }
                         catch (TimeoutException e3)
                         {
                             try
                             {
                                 Thread.Sleep(100);
-                                return serialPortUtil.ReadData(id, 5);  //4
+                                return serialPortUtil.ReadNoiseLogData(id, maxindex, ref curpackindex, 5);  //4
                             }
                             catch (TimeoutException e4)
                             {
@@ -682,28 +605,7 @@ namespace Protocol
             }
 
         }
-
-        /// <summary>
-        /// 异步方式获取记录仪数据
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="callBack">回调函数</param>
-        /// <param name="stateObject">异步状态信息</param>
-        /// <param name="timeOut">超时 默认30秒</param>
-        /// <returns></returns>
-        public IAsyncResult BeginRead(short id, AsyncCallback callBack, int timeOut = 30)
-        {
-            try
-            {
-                AsyncLoadDataEventHandler read = new AsyncLoadDataEventHandler(Read);
-                return read.BeginInvoke(id, timeOut, callBack, read);
-            }
-            catch (Exception e)
-            {
-                // Hide inside method invoking stack  
-                throw e;
-            }
-        }
+        
         /// <summary>
         /// 等待挂起的异步读取完成
         /// </summary>
@@ -736,23 +638,7 @@ namespace Protocol
             }
             return data;
         }
-
-
-        public void ReadData(short id)
-        {
-
-            Package package = new Package();
-            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.DevID = id;
-
-            package.C1 = (byte)NOISE_LOG_COMMAND.CTRL_START_READ;
-            package.DataLength = 0;
-            package.CS = package.CreateCS();
-
-            serialPortUtil.SendData(package.ToArray());
-        }
-
+        
         /// <summary>
         /// 读取噪声标准值(启动值)
         /// </summary>

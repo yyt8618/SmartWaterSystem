@@ -39,7 +39,7 @@ namespace Entity
         /// <summary>
         /// 通讯时间(点)
         /// </summary>
-        public int CommunicationTime { get; set; }
+        //public int CommunicationTime { get; set; }
 
         /// <summary>
         /// 记录时间(点)

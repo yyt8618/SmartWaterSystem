@@ -53,20 +53,15 @@
             this.btnReadTemplate = new DevExpress.XtraEditors.SimpleButton();
             this.btnSaveGroupSet = new DevExpress.XtraEditors.SimpleButton();
             this.comboBoxEditPower = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboBoxDist = new DevExpress.XtraEditors.ComboBoxEdit();
             this.label3 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.btnNow = new DevExpress.XtraEditors.SimpleButton();
-            this.label17 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtComTime = new DevExpress.XtraEditors.TextEdit();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label16 = new System.Windows.Forms.Label();
             this.txtRecTime1 = new DevExpress.XtraEditors.TextEdit();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.txtRecTime = new DevExpress.XtraEditors.TextEdit();
-            this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -89,8 +84,6 @@
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakValue.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxDist.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum.Properties)).BeginInit();
@@ -288,20 +281,15 @@
             this.groupControl3.Controls.Add(this.btnReadTemplate);
             this.groupControl3.Controls.Add(this.btnSaveGroupSet);
             this.groupControl3.Controls.Add(this.comboBoxEditPower);
-            this.groupControl3.Controls.Add(this.comboBoxDist);
             this.groupControl3.Controls.Add(this.label3);
-            this.groupControl3.Controls.Add(this.label7);
             this.groupControl3.Controls.Add(this.btnNow);
-            this.groupControl3.Controls.Add(this.label17);
             this.groupControl3.Controls.Add(this.label1);
-            this.groupControl3.Controls.Add(this.txtComTime);
             this.groupControl3.Controls.Add(this.dateTimePicker);
             this.groupControl3.Controls.Add(this.label16);
             this.groupControl3.Controls.Add(this.txtRecTime1);
             this.groupControl3.Controls.Add(this.label15);
             this.groupControl3.Controls.Add(this.label14);
             this.groupControl3.Controls.Add(this.txtRecTime);
-            this.groupControl3.Controls.Add(this.label8);
             this.groupControl3.Controls.Add(this.label9);
             this.groupControl3.Controls.Add(this.label10);
             this.groupControl3.Controls.Add(this.label11);
@@ -363,7 +351,7 @@
             // 
             // comboBoxEditPower
             // 
-            this.comboBoxEditPower.Location = new System.Drawing.Point(110, 175);
+            this.comboBoxEditPower.Location = new System.Drawing.Point(114, 136);
             this.comboBoxEditPower.Name = "comboBoxEditPower";
             this.comboBoxEditPower.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -374,36 +362,14 @@
             this.comboBoxEditPower.Size = new System.Drawing.Size(63, 20);
             this.comboBoxEditPower.TabIndex = 103;
             // 
-            // comboBoxDist
-            // 
-            this.comboBoxDist.Location = new System.Drawing.Point(379, 176);
-            this.comboBoxDist.Name = "comboBoxDist";
-            this.comboBoxDist.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxDist.Properties.Items.AddRange(new object[] {
-            "关闭",
-            "开启"});
-            this.comboBoxDist.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxDist.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxDist.TabIndex = 101;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(48, 177);
+            this.label3.Location = new System.Drawing.Point(45, 139);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 14);
             this.label3.TabIndex = 102;
             this.label3.Text = "运行状态";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(317, 178);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 14);
-            this.label7.TabIndex = 100;
-            this.label7.Text = "远传功能";
             // 
             // btnNow
             // 
@@ -414,15 +380,6 @@
             this.btnNow.Text = "同步";
             this.btnNow.Click += new System.EventHandler(this.btnNow_Click);
             // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(48, 89);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(55, 14);
-            this.label17.TabIndex = 79;
-            this.label17.Text = "通讯时间";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -431,15 +388,6 @@
             this.label1.Size = new System.Drawing.Size(67, 14);
             this.label1.TabIndex = 98;
             this.label1.Text = "记录仪时间";
-            // 
-            // txtComTime
-            // 
-            this.txtComTime.Location = new System.Drawing.Point(115, 86);
-            this.txtComTime.Name = "txtComTime";
-            this.txtComTime.Properties.Mask.EditMask = "f0";
-            this.txtComTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            this.txtComTime.Size = new System.Drawing.Size(28, 20);
-            this.txtComTime.TabIndex = 80;
             // 
             // dateTimePicker
             // 
@@ -498,15 +446,6 @@
             this.txtRecTime.TabIndex = 85;
             this.txtRecTime.EditValueChanged += new System.EventHandler(this.txtRecTime_EditValueChanged);
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(150, 90);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(19, 14);
-            this.label8.TabIndex = 86;
-            this.label8.Text = "点";
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -519,7 +458,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(48, 131);
+            this.label10.Location = new System.Drawing.Point(45, 93);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(55, 14);
             this.label10.TabIndex = 88;
@@ -528,7 +467,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(184, 132);
+            this.label11.Location = new System.Drawing.Point(181, 94);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(48, 14);
             this.label11.TabIndex = 89;
@@ -545,7 +484,7 @@
             // 
             // nUpDownSamSpan
             // 
-            this.nUpDownSamSpan.Location = new System.Drawing.Point(116, 127);
+            this.nUpDownSamSpan.Location = new System.Drawing.Point(114, 89);
             this.nUpDownSamSpan.Maximum = new decimal(new int[] {
             120,
             0,
@@ -631,8 +570,6 @@
             this.groupControl3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakValue.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxDist.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum.Properties)).EndInit();
@@ -652,19 +589,14 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
         private DevExpress.XtraEditors.GroupControl groupControl2;
         private DevExpress.XtraEditors.GroupControl groupControl3;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxDist;
-        private System.Windows.Forms.Label label7;
         public DevExpress.XtraEditors.SimpleButton btnNow;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label1;
-        private DevExpress.XtraEditors.TextEdit txtComTime;
         private System.Windows.Forms.DateTimePicker dateTimePicker;
         private System.Windows.Forms.Label label16;
         private DevExpress.XtraEditors.TextEdit txtRecTime1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private DevExpress.XtraEditors.TextEdit txtRecTime;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;

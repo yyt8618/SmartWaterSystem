@@ -60,6 +60,7 @@ namespace BLL
                             }
                         }
 
+
                         short terid=Convert.ToInt16(dataentity.TerId.Trim());
                         if (string.IsNullOrEmpty(dataentity.GroupId))  //如果组ID为空，则补全(GPRS远传的数据没有组ID信息)
                         {
@@ -67,6 +68,8 @@ namespace BLL
                         }
                         if (lstdata.Count > 0 && !string.IsNullOrEmpty(dataentity.GroupId))
                         {
+                            NoiseDataBaseHelper.SaveStandData(dataentity.GroupId, dataentity.TerId, dataentity.cali);
+
                             result.Add(terid, lstdata.ToArray());
 
                             NoiseRecorder recorder = new NoiseRecorder();
@@ -80,6 +83,7 @@ namespace BLL
                             if (!string.IsNullOrEmpty(dataentity.GroupId))
                                 recorder1.GroupID = Convert.ToInt32(dataentity.GroupId);
                             lstRecorder.Add(recorder1);
+
                         }
                     }
                     

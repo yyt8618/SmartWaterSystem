@@ -121,7 +121,7 @@ namespace SmartWaterSystem
 		private void DataBinding()
 		{
 			txtRecID.Text = Recorder.ID.ToString();
-			txtComTime.Text = Recorder.CommunicationTime.ToString();
+			//txtComTime.Text = Recorder.CommunicationTime.ToString();
 			txtRecNum.Text = Recorder.RecordNum.ToString();
 			txtRecTime.Text = Recorder.RecordTime.ToString();
 			txtRecTime1.Text = (Recorder.RecordTime + (Recorder.RecordNum * Recorder.PickSpan / 60)).ToString();

@@ -38,7 +38,7 @@ namespace Common
         /// <summary>
         /// 串口设置记录仪启动值(标准值)
         /// </summary>
-        WRITE_NOISE_STANDVALUE = 0x1e,
+        WRITE_NOISE_STANDVALUE = 0x15,
         #endregion
 
         #region 读取配置
@@ -73,7 +73,7 @@ namespace Common
         /// <summary>
         /// 串口读取记录仪启动值(标准值)
         /// </summary>
-        READ_NOISE_STANDVALUE=0x48,
+        READ_NOISE_STANDVALUE=0x45,
         #endregion
 
         #region 发送
@@ -93,13 +93,17 @@ namespace Common
         /// </summary>
         CTRL_START_OR_STOP = 0x70,
         /// <summary>
-        /// 串口读取记录仪数据
+        /// 串口读取记录仪数据总数和启动值
         /// </summary>
         CTRL_START_READ = 0x71,
         /// <summary>
         /// 清除FLASH
         /// </summary>
         CTRL_CLEAR_FLASH = 0x72,
+        /// <summary>
+        /// 读取记录仪数据
+        /// </summary>
+        CTRL_READDATA = 0xa0,
         /// <summary>
         /// 读取静态基准值
         /// </summary>
@@ -113,13 +117,25 @@ namespace Common
     {
         #region 设置
         /// <summary>
-        /// 设置时间
+        /// 设置时间(远传校时)
         /// </summary>
-        SET_NOISE_TIME=0x11,
+        SET_NOISE_GPRSTIME=0x11,
         /// <summary>
         /// 远传控制器ID
         /// </summary>
         WRITE_NOISE_CTRL_ID=0x1d,
+        /// <summary>
+        /// 远传功能开关
+        /// </summary>
+        WRITE_REMOTE_SWITCH = 0x1f,
+        /// <summary>
+        /// 设置时间(串口)
+        /// </summary>
+        WRITE_TIME =0x17,
+        /// <summary>
+        /// 远传发送时间
+        /// </summary>
+        WRITE_REMOTE_SEND_TIME = 0x1e,
         /// <summary>
         /// 无线通讯
         /// </summary>
@@ -144,6 +160,10 @@ namespace Common
 
         #region 读取
         /// <summary>
+        /// 串口读取远传控制器时间
+        /// </summary>
+        READ_TIME=0x47,
+        /// <summary>
         /// 串口读取远传控制器无线通讯
         /// </summary>
         READ_WIRELESS = 0x48,
@@ -163,6 +183,14 @@ namespace Common
         /// 串口读取远传控制器设备与记录仪设备对应的ID号
         /// </summary>
         READ_CTRL_NOISE_LOG_ID = 0x4c,
+        /// <summary>
+        /// 串口读取远传控制器远传发送时间
+        /// </summary>
+        READ_REMOTE_SEND_TIME = 0x4d,
+        /// <summary>
+        /// 串口读取远传控制器远传开关
+        /// </summary>
+        READ_REMOTE =0x4e,
         /// <summary>
         /// 串口读取远程控制器的ID
         /// </summary>

@@ -15,11 +15,11 @@ namespace Common
         public const string SerialPort = "SerialPort";
         public const string BaudRate = "BaudRate";
         public const string Calc = "Calc";
-        public const string ComTime_Template = "ComTime_Template";
+        //public const string ComTime_Template = "ComTime_Template";
         public const string RecTime_Template = "RecTime_Template";
         public const string Span_Template = "Span_Template";
         public const string Power_Template = "Power_Template";
-        public const string ControlPower_Template = "ControlPower_Template";
+        //public const string ControlPower_Template = "ControlPower_Template";
         public const string Port_Template = "Port_Template";
         public const string Adress_Template = "Adress_Template";
         public const string Skin = "Skin";

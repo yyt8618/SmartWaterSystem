@@ -458,7 +458,7 @@ namespace SmartWaterSystem
 
         private void btnReadTemplate_Click(object sender, EventArgs e)
         {
-            txtComTime.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
+            //txtComTime.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
             txtRecTime.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
             nUpDownSamSpan.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
             txtRecNum.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
@@ -467,8 +467,8 @@ namespace SmartWaterSystem
             int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;
 
-            int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
-            comboBoxDist.SelectedIndex = conPower;
+            //int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
+            //comboBoxDist.SelectedIndex = conPower;
         }
 
         private void btnSaveGroupSet_Click(object sender, EventArgs e)
@@ -516,7 +516,7 @@ namespace SmartWaterSystem
                             // 设置记录仪时间
                             GlobalValue.NoiseSerialPortOptData.dt = this.dateTimePicker.Value;
                             // 设置远传通讯时间
-                            GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
+                            //GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
                             // 设置记录时间段
                             GlobalValue.NoiseSerialPortOptData.colstarttime = Convert.ToInt32(txtRecTime.Text);
                             GlobalValue.NoiseSerialPortOptData.colendtime = Convert.ToInt32(txtRecTime1.Text);
@@ -524,14 +524,14 @@ namespace SmartWaterSystem
                             GlobalValue.NoiseSerialPortOptData.Interval = (int)nUpDownSamSpan.Value;
                             
                             // 设置远传功能
-                            if (comboBoxDist.SelectedIndex == 1)
-                            {
-                                GlobalValue.NoiseSerialPortOptData.RemoteSwitch =true;
-                            }
-                            else
-                            {
-                                GlobalValue.NoiseSerialPortOptData.RemoteSwitch = false;
-                            }
+                            //if (comboBoxDist.SelectedIndex == 1)
+                            //{
+                            //    GlobalValue.NoiseSerialPortOptData.RemoteSwitch =true;
+                            //}
+                            //else
+                            //{
+                            //    GlobalValue.NoiseSerialPortOptData.RemoteSwitch = false;
+                            //}
 
                             foreach (NoiseRecorder alterRec in OptRecList)
                             {
@@ -545,17 +545,17 @@ namespace SmartWaterSystem
                                     alterRec.Power = 0;
                                 }
 
-                                alterRec.CommunicationTime = GlobalValue.NoiseSerialPortOptData.ComTime;
+                                //alterRec.CommunicationTime = GlobalValue.NoiseSerialPortOptData.ComTime;
                                 alterRec.RecordTime = Convert.ToInt32(txtRecTime.Text);
                                 alterRec.PickSpan = GlobalValue.NoiseSerialPortOptData.Interval;
-                                if (comboBoxDist.SelectedIndex == 1)
-                                {
-                                    alterRec.ControlerPower = 1;
-                                }
-                                else
-                                {
-                                    alterRec.ControlerPower = 0;
-                                }
+                                //if (comboBoxDist.SelectedIndex == 1)
+                                //{
+                                //    alterRec.ControlerPower = 1;
+                                //}
+                                //else
+                                //{
+                                //    alterRec.ControlerPower = 0;
+                                //}
                             }
                             GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(OptRecList[0].ID);
                             currentOptRecIndex = 0;
@@ -747,14 +747,14 @@ namespace SmartWaterSystem
         {
             bool ok;
             msg = string.Empty;
-            ok = MetarnetRegex.IsTime(txtComTime.Text);
-            if (!ok)
-            {
-                txtComTime.Focus();
-                txtComTime.SelectAll();
-                msg = "通讯时间设置错误！";
-                return ok;
-            }
+            //ok = MetarnetRegex.IsTime(txtComTime.Text);
+            //if (!ok)
+            //{
+            //    txtComTime.Focus();
+            //    txtComTime.SelectAll();
+            //    msg = "通讯时间设置错误！";
+            //    return ok;
+            //}
             ok = MetarnetRegex.IsTime(txtRecTime.Text);
             if (!ok)
             {
@@ -801,17 +801,17 @@ namespace SmartWaterSystem
             //}
 
             // 通讯时间与记录时间不能重叠
-            int comTime = Convert.ToInt32(txtComTime.Text);
+            //int comTime = Convert.ToInt32(txtComTime.Text);
             int recTime1 = Convert.ToInt32(txtRecTime.Text);
             int recTime2 = Convert.ToInt32(txtRecTime1.Text);
 
-            if (comTime == recTime1 || comTime == recTime2 || (comTime > recTime1 && comTime < recTime2))
-            {
-                txtComTime.Focus();
-                txtComTime.SelectAll();
-                msg = "通讯时间/记录时间设置重叠！";
-                return false;
-            }
+            //if (comTime == recTime1 || comTime == recTime2 || (comTime > recTime1 && comTime < recTime2))
+            //{
+            //    txtComTime.Focus();
+            //    txtComTime.SelectAll();
+            //    msg = "通讯时间/记录时间设置重叠！";
+            //    return false;
+            //}
 
             return ok;
         }

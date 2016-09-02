@@ -39,16 +39,19 @@ namespace SmartWaterSystem
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.picSockConnect = new System.Windows.Forms.PictureBox();
+            this.btnDisconnect = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnSocketConnect = new System.Windows.Forms.Button();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.picSockConnect = new System.Windows.Forms.PictureBox();
-            this.btnDisconnect = new System.Windows.Forms.Button();
-            this.btnCopy = new System.Windows.Forms.Button();
-            this.btnSocketConnect = new System.Windows.Forms.Button();
+            this.CombRemotingID = new DevExpress.XtraEditors.CheckedComboBoxEdit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CombRemotingID.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClear
@@ -59,10 +62,10 @@ namespace SmartWaterSystem
             this.btnClear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnClear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnClear.Location = new System.Drawing.Point(711, 3);
+            this.btnClear.Location = new System.Drawing.Point(823, 3);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(52, 23);
-            this.btnClear.TabIndex = 6;
+            this.btnClear.TabIndex = 8;
             this.btnClear.TabStop = false;
             this.btnClear.Text = "清除";
             this.btnClear.UseVisualStyleBackColor = false;
@@ -81,8 +84,8 @@ namespace SmartWaterSystem
             this.txtControl.Name = "txtControl";
             this.txtControl.ReadOnly = true;
             this.txtControl.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtControl.Size = new System.Drawing.Size(766, 393);
-            this.txtControl.TabIndex = 1;
+            this.txtControl.Size = new System.Drawing.Size(878, 459);
+            this.txtControl.TabIndex = 0;
             this.txtControl.TabStop = false;
             // 
             // cbShowSocket
@@ -158,9 +161,11 @@ namespace SmartWaterSystem
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.panel1.Controls.Add(this.CombRemotingID);
             this.panel1.Controls.Add(this.picSockConnect);
             this.panel1.Controls.Add(this.btnDisconnect);
             this.panel1.Controls.Add(this.btnCopy);
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btnSocketConnect);
             this.panel1.Controls.Add(this.cbErrs);
             this.panel1.Controls.Add(this.btnClear);
@@ -169,43 +174,15 @@ namespace SmartWaterSystem
             this.panel1.Controls.Add(this.cbHTTP);
             this.panel1.Location = new System.Drawing.Point(0, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(766, 32);
+            this.panel1.Size = new System.Drawing.Size(878, 32);
             this.panel1.TabIndex = 0;
-            // 
-            // barDockControlTop
-            // 
-            this.barDockControlTop.CausesValidation = false;
-            this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
-            this.barDockControlTop.Size = new System.Drawing.Size(766, 0);
-            // 
-            // barDockControlBottom
-            // 
-            this.barDockControlBottom.CausesValidation = false;
-            this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 426);
-            this.barDockControlBottom.Size = new System.Drawing.Size(766, 0);
-            // 
-            // barDockControlLeft
-            // 
-            this.barDockControlLeft.CausesValidation = false;
-            this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 426);
-            // 
-            // barDockControlRight
-            // 
-            this.barDockControlRight.CausesValidation = false;
-            this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(766, 0);
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 426);
             // 
             // picSockConnect
             // 
             this.picSockConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
             this.picSockConnect.InitialImage = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-            this.picSockConnect.Location = new System.Drawing.Point(514, 6);
+            this.picSockConnect.Location = new System.Drawing.Point(574, 6);
             this.picSockConnect.Name = "picSockConnect";
             this.picSockConnect.Size = new System.Drawing.Size(41, 20);
             this.picSockConnect.TabIndex = 5;
@@ -219,10 +196,10 @@ namespace SmartWaterSystem
             this.btnDisconnect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnDisconnect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnDisconnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnDisconnect.Location = new System.Drawing.Point(607, 3);
+            this.btnDisconnect.Location = new System.Drawing.Point(719, 3);
             this.btnDisconnect.Name = "btnDisconnect";
             this.btnDisconnect.Size = new System.Drawing.Size(52, 23);
-            this.btnDisconnect.TabIndex = 5;
+            this.btnDisconnect.TabIndex = 6;
             this.btnDisconnect.TabStop = false;
             this.btnDisconnect.Text = "断开";
             this.btnDisconnect.UseVisualStyleBackColor = false;
@@ -236,14 +213,31 @@ namespace SmartWaterSystem
             this.btnCopy.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnCopy.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnCopy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnCopy.Location = new System.Drawing.Point(659, 3);
+            this.btnCopy.Location = new System.Drawing.Point(771, 3);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(52, 23);
-            this.btnCopy.TabIndex = 4;
+            this.btnCopy.TabIndex = 7;
             this.btnCopy.TabStop = false;
             this.btnCopy.Text = "复制";
             this.btnCopy.UseVisualStyleBackColor = false;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.button1.Enabled = false;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.button1.Location = new System.Drawing.Point(667, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(52, 23);
+            this.button1.TabIndex = 5;
+            this.button1.TabStop = false;
+            this.button1.Text = "暂停";
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // btnSocketConnect
             // 
@@ -253,7 +247,7 @@ namespace SmartWaterSystem
             this.btnSocketConnect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnSocketConnect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnSocketConnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnSocketConnect.Location = new System.Drawing.Point(555, 3);
+            this.btnSocketConnect.Location = new System.Drawing.Point(615, 3);
             this.btnSocketConnect.Name = "btnSocketConnect";
             this.btnSocketConnect.Size = new System.Drawing.Size(52, 23);
             this.btnSocketConnect.TabIndex = 4;
@@ -261,6 +255,53 @@ namespace SmartWaterSystem
             this.btnSocketConnect.Text = "连接";
             this.btnSocketConnect.UseVisualStyleBackColor = false;
             this.btnSocketConnect.Click += new System.EventHandler(this.btnSocketConnect_Click);
+            // 
+            // barDockControlTop
+            // 
+            this.barDockControlTop.CausesValidation = false;
+            this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlTop.Size = new System.Drawing.Size(878, 0);
+            // 
+            // barDockControlBottom
+            // 
+            this.barDockControlBottom.CausesValidation = false;
+            this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 492);
+            this.barDockControlBottom.Size = new System.Drawing.Size(878, 0);
+            // 
+            // barDockControlLeft
+            // 
+            this.barDockControlLeft.CausesValidation = false;
+            this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 492);
+            // 
+            // barDockControlRight
+            // 
+            this.barDockControlRight.CausesValidation = false;
+            this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.barDockControlRight.Location = new System.Drawing.Point(878, 0);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 492);
+            // 
+            // CombRemotingID
+            // 
+            this.CombRemotingID.EditValue = "";
+            this.CombRemotingID.Location = new System.Drawing.Point(388, 6);
+            this.CombRemotingID.Name = "CombRemotingID";
+            this.CombRemotingID.Properties.AllowMultiSelect = true;
+            this.CombRemotingID.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.CombRemotingID.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.CombRemotingID.Properties.Appearance.Options.UseBackColor = true;
+            this.CombRemotingID.Properties.Appearance.Options.UseForeColor = true;
+            this.CombRemotingID.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.CombRemotingID.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "娄底"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "自己机器")});
+            this.CombRemotingID.Size = new System.Drawing.Size(104, 20);
+            this.CombRemotingID.TabIndex = 9;
+            this.CombRemotingID.Visible = false;
             // 
             // FrmConsole
             // 
@@ -272,7 +313,7 @@ namespace SmartWaterSystem
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(766, 426);
+            this.ClientSize = new System.Drawing.Size(878, 492);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtControl);
             this.Controls.Add(this.barDockControlLeft);
@@ -290,6 +331,7 @@ namespace SmartWaterSystem
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CombRemotingID.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -313,5 +355,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraBars.BarDockControl barDockControlBottom;
         private DevExpress.XtraBars.BarDockControl barDockControlLeft;
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
+        private Button button1;
+        private DevExpress.XtraEditors.CheckedComboBoxEdit CombRemotingID;
     }
 }

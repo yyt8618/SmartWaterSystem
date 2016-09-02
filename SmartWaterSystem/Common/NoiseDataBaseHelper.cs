@@ -44,7 +44,7 @@ namespace SmartWaterSystem
                     sql = "SELECT * FROM MT_RecorderSet WHERE RecorderId = " + rec.ID.ToString();
                     DataTable recSet = SQLHelper.ExecuteDataTable(sql);
                     rec.RecordTime = Convert.ToInt32(recSet.Rows[0]["RecordTime"]);
-                    rec.CommunicationTime = Convert.ToInt32(recSet.Rows[0]["CommunicationTime"]);
+                    //rec.CommunicationTime = Convert.ToInt32(recSet.Rows[0]["CommunicationTime"]);
                     rec.PickSpan = Convert.ToInt32(recSet.Rows[0]["PickSpan"]);
                     rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
                     rec.ControlerPower = Convert.ToInt32(recSet.Rows[0]["Controler_Power"]);
@@ -263,8 +263,8 @@ namespace SmartWaterSystem
 
                 sql = string.Format(
                 @"UPDATE MT_RecorderSet 
-                SET RecordTime = {0},PickSpan = {1},Controler_Power = {2},StartEnd_Power = {3},CommunicationTime = {4},LeakValue = {5} WHERE RecorderId = {6}",
-                rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.CommunicationTime, rec.LeakValue, rec.ID);
+                SET RecordTime = {0},PickSpan = {1},Controler_Power = {2},StartEnd_Power = {3},LeakValue = {4} WHERE RecorderId = {5}",
+                rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.LeakValue, rec.ID);
                 query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
@@ -290,6 +290,21 @@ namespace SmartWaterSystem
             }
         }
 
+        public static int DeleteStandData(int RecorderID)
+        {
+            try
+            {
+                string SQL = string.Empty;
+                SQL = string.Format(@"DELETE FROM ST_Noise_StandData WHERE RecorderID='{0}'", RecorderID);
+                SQLHelper.ExecuteNonQuery(SQL);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
         /// <summary>
         /// 保存启动时获取的32个数据(用于漏点确定)
         /// </summary>
@@ -305,6 +320,31 @@ namespace SmartWaterSystem
                 }
                 string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
                       GroupID, RecorderID, StandValue);
+                SQLHelper.ExecuteNonQuery(SQL);
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// 保存启动时获取的32个数据(用于漏点确定)
+        /// </summary>
+        /// <param name="rec"></param>
+        /// <returns></returns>
+        public static int SaveStandData(int RecorderID, int StandValue)
+        {
+            try
+            {
+                if (DeleteStandData(RecorderID) == -1)
+                {
+                    return -1;
+                }
+                string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) SELECT GroupId,RecorderId,{0} FROM MP_GroupRecorder WHERE RecorderId={1}",
+                      StandValue, RecorderID);
                 SQLHelper.ExecuteNonQuery(SQL);
 
                 return 1;
@@ -441,9 +481,9 @@ namespace SmartWaterSystem
 
                 query = SQLHelper.ExecuteNonQuery(sql, parms);
 
-                sql = string.Format(@"INSERT INTO MT_RecorderSet(RecorderId, RecordTime, PickSpan, Controler_Power, StartEnd_Power, CommunicationTime, LeakValue) 
-                VALUES({0},{1},{2},{3},{4},{5},{6})",
-                    rec.ID, rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.CommunicationTime, rec.LeakValue);
+                sql = string.Format(@"INSERT INTO MT_RecorderSet(RecorderId, RecordTime, PickSpan, Controler_Power, StartEnd_Power, LeakValue) 
+                VALUES({0},{1},{2},{3},{4},{5})",
+                    rec.ID, rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.LeakValue);
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }

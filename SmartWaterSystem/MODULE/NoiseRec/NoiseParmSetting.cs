@@ -38,15 +38,15 @@ namespace SmartWaterSystem
             #endregion
 
             #region 模板参数
-            txtComTime_T.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
+            //txtComTime_T.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
             txtRecTime_T.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
             nUpDownSamSpan_T.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
             txtRecNum_T.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
             txtLeakValue_T.Text = NoiseParmbll.GetParm(ConstValue.LeakValue_Template);
             int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             comboBoxEditPower.SelectedIndex = power;
-            int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
-            comboBoxEditDist.SelectedIndex = power;
+            //int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
+            //comboBoxEditDist.SelectedIndex = power;
 
             txtConPort_T.Text = Settings.Instance.GetString(SettingKeys.Port_Template);
             txtConAdree_T.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
@@ -158,14 +158,14 @@ namespace SmartWaterSystem
             bool ok;
             msg = string.Empty;
 
-            ok = MetarnetRegex.IsTime(txtComTime_T.Text);
-            if (!ok)
-            {
-                txtComTime_T.Focus();
-                txtComTime_T.SelectAll();
-                msg = "通讯时间设置错误！";
-                return ok;
-            }
+            //ok = MetarnetRegex.IsTime(txtComTime_T.Text);
+            //if (!ok)
+            //{
+            //    txtComTime_T.Focus();
+            //    txtComTime_T.SelectAll();
+            //    msg = "通讯时间设置错误！";
+            //    return ok;
+            //}
             ok = MetarnetRegex.IsTime(txtRecTime_T.Text);
             if (!ok)
             {
@@ -201,17 +201,17 @@ namespace SmartWaterSystem
             }
 
             // 通讯时间与记录时间不能重叠
-            int comTime = Convert.ToInt32(txtComTime_T.Text);
+            //int comTime = Convert.ToInt32(txtComTime_T.Text);
             int recTime1 = Convert.ToInt32(txtRecTime_T.Text);
             int recTime2 = Convert.ToInt32(txtRecTime1_T.Text);
 
-            if (comTime == recTime1 || comTime == recTime2 || (comTime > recTime1 && comTime < recTime2))
-            {
-                txtComTime_T.Focus();
-                txtComTime_T.SelectAll();
-                msg = "通讯时间/记录时间设置重叠！";
-                return false;
-            }
+            //if (comTime == recTime1 || comTime == recTime2 || (comTime > recTime1 && comTime < recTime2))
+            //{
+            //    txtComTime_T.Focus();
+            //    txtComTime_T.SelectAll();
+            //    msg = "通讯时间/记录时间设置重叠！";
+            //    return false;
+            //}
 
             return ok;
         }
@@ -226,12 +226,12 @@ namespace SmartWaterSystem
                     throw new Exception(msg);
                 }
 
-                Settings.Instance.SetValue(SettingKeys.ComTime_Template, txtComTime_T.Text);
+                //Settings.Instance.SetValue(SettingKeys.ComTime_Template, txtComTime_T.Text);
                 Settings.Instance.SetValue(SettingKeys.RecTime_Template, txtRecTime_T.Text);
                 Settings.Instance.SetValue(SettingKeys.Span_Template, nUpDownSamSpan_T.Value.ToString());
                 NoiseParmbll.SetParm(ConstValue.LeakValue_Template, txtLeakValue_T.Text);
-                Settings.Instance.SetValue(SettingKeys.Power_Template, comboBoxEditPower.SelectedIndex.ToString());
-                Settings.Instance.SetValue(SettingKeys.ControlPower_Template, comboBoxEditDist.SelectedIndex.ToString());
+                //Settings.Instance.SetValue(SettingKeys.Power_Template, comboBoxEditPower.SelectedIndex.ToString());
+                //Settings.Instance.SetValue(SettingKeys.ControlPower_Template, comboBoxEditDist.SelectedIndex.ToString());
                 Settings.Instance.SetValue(SettingKeys.Port_Template, txtConPort_T.Text);
                 Settings.Instance.SetValue(SettingKeys.Adress_Template, txtConAdree_T.Text);
 

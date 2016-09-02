@@ -421,7 +421,7 @@
             // 
             // NBG_Noise
             // 
-            this.NBG_Noise.Caption = "噪声记录仪";
+            this.NBG_Noise.Caption = "管网漏损监测";
             this.NBG_Noise.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.LargeIconsList;
             this.NBG_Noise.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarNoiseDataManager),

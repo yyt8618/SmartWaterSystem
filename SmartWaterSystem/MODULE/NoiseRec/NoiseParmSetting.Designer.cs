@@ -54,7 +54,6 @@
             this.txtMax1 = new DevExpress.XtraEditors.TextEdit();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox10 = new DevExpress.XtraEditors.GroupControl();
-            this.comboBoxEditDist = new DevExpress.XtraEditors.ComboBoxEdit();
             this.comboBoxEditPower = new DevExpress.XtraEditors.ComboBoxEdit();
             this.label56 = new System.Windows.Forms.Label();
             this.txtLeakValue_T = new DevExpress.XtraEditors.TextEdit();
@@ -68,18 +67,14 @@
             this.txtConAdree_T = new DevExpress.XtraEditors.TextEdit();
             this.label29 = new System.Windows.Forms.Label();
             this.txtRecNum_T = new DevExpress.XtraEditors.TextEdit();
-            this.label31 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
             this.txtRecTime_T = new DevExpress.XtraEditors.TextEdit();
             this.label37 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.txtRecTime1_T = new DevExpress.XtraEditors.TextEdit();
             this.label39 = new System.Windows.Forms.Label();
-            this.txtComTime_T = new DevExpress.XtraEditors.TextEdit();
-            this.label40 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
@@ -98,7 +93,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtMax1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox10)).BeginInit();
             this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditDist.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakValue_T.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDownSamSpan_T)).BeginInit();
@@ -109,7 +103,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum_T.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime_T.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1_T.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtComTime_T.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -123,9 +116,9 @@
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.groupControl1);
-            this.groupBox1.Location = new System.Drawing.Point(107, 205);
+            this.groupBox1.Location = new System.Drawing.Point(107, 187);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(583, 262);
+            this.groupBox1.Size = new System.Drawing.Size(583, 280);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.Text = "计算参数";
             // 
@@ -356,7 +349,6 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.comboBoxEditDist);
             this.groupBox10.Controls.Add(this.comboBoxEditPower);
             this.groupBox10.Controls.Add(this.label56);
             this.groupBox10.Controls.Add(this.txtLeakValue_T);
@@ -366,36 +358,19 @@
             this.groupBox10.Controls.Add(this.nUpDownSamSpan_T);
             this.groupBox10.Controls.Add(this.gbControlSet1);
             this.groupBox10.Controls.Add(this.txtRecNum_T);
-            this.groupBox10.Controls.Add(this.label31);
             this.groupBox10.Controls.Add(this.label33);
             this.groupBox10.Controls.Add(this.label34);
             this.groupBox10.Controls.Add(this.label35);
-            this.groupBox10.Controls.Add(this.label36);
             this.groupBox10.Controls.Add(this.txtRecTime_T);
             this.groupBox10.Controls.Add(this.label37);
             this.groupBox10.Controls.Add(this.label38);
             this.groupBox10.Controls.Add(this.txtRecTime1_T);
             this.groupBox10.Controls.Add(this.label39);
-            this.groupBox10.Controls.Add(this.txtComTime_T);
-            this.groupBox10.Controls.Add(this.label40);
             this.groupBox10.Location = new System.Drawing.Point(107, 7);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(583, 192);
+            this.groupBox10.Size = new System.Drawing.Size(583, 174);
             this.groupBox10.TabIndex = 19;
             this.groupBox10.Text = "记录仪参数模板";
-            // 
-            // comboBoxEditDist
-            // 
-            this.comboBoxEditDist.Location = new System.Drawing.Point(332, 56);
-            this.comboBoxEditDist.Name = "comboBoxEditDist";
-            this.comboBoxEditDist.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditDist.Properties.Items.AddRange(new object[] {
-            "关闭",
-            "开启"});
-            this.comboBoxEditDist.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxEditDist.Size = new System.Drawing.Size(63, 20);
-            this.comboBoxEditDist.TabIndex = 105;
             // 
             // comboBoxEditPower
             // 
@@ -413,7 +388,7 @@
             // label56
             // 
             this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(197, 161);
+            this.label56.Location = new System.Drawing.Point(197, 134);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(19, 14);
             this.label56.TabIndex = 71;
@@ -421,7 +396,7 @@
             // 
             // txtLeakValue_T
             // 
-            this.txtLeakValue_T.Location = new System.Drawing.Point(106, 156);
+            this.txtLeakValue_T.Location = new System.Drawing.Point(106, 129);
             this.txtLeakValue_T.Name = "txtLeakValue_T";
             this.txtLeakValue_T.Properties.Mask.EditMask = "f0";
             this.txtLeakValue_T.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -431,7 +406,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(18, 160);
+            this.label10.Location = new System.Drawing.Point(18, 133);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(67, 14);
             this.label10.TabIndex = 52;
@@ -457,7 +432,7 @@
             // 
             // nUpDownSamSpan_T
             // 
-            this.nUpDownSamSpan_T.Location = new System.Drawing.Point(106, 91);
+            this.nUpDownSamSpan_T.Location = new System.Drawing.Point(106, 64);
             this.nUpDownSamSpan_T.Maximum = new decimal(new int[] {
             120,
             0,
@@ -484,7 +459,7 @@
             this.gbControlSet1.Controls.Add(this.label27);
             this.gbControlSet1.Controls.Add(this.txtConAdree_T);
             this.gbControlSet1.Controls.Add(this.label29);
-            this.gbControlSet1.Location = new System.Drawing.Point(263, 83);
+            this.gbControlSet1.Location = new System.Drawing.Point(243, 54);
             this.gbControlSet1.Name = "gbControlSet1";
             this.gbControlSet1.Size = new System.Drawing.Size(248, 97);
             this.gbControlSet1.TabIndex = 39;
@@ -524,25 +499,16 @@
             // 
             // txtRecNum_T
             // 
-            this.txtRecNum_T.Location = new System.Drawing.Point(106, 123);
+            this.txtRecNum_T.Location = new System.Drawing.Point(106, 96);
             this.txtRecNum_T.Name = "txtRecNum_T";
             this.txtRecNum_T.Properties.ReadOnly = true;
             this.txtRecNum_T.Size = new System.Drawing.Size(86, 20);
             this.txtRecNum_T.TabIndex = 29;
             // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(261, 58);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(55, 14);
-            this.label31.TabIndex = 30;
-            this.label31.Text = "远传功能";
-            // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(174, 95);
+            this.label33.Location = new System.Drawing.Point(174, 68);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(48, 14);
             this.label33.TabIndex = 23;
@@ -551,7 +517,7 @@
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(31, 96);
+            this.label34.Location = new System.Drawing.Point(31, 69);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(55, 14);
             this.label34.TabIndex = 19;
@@ -560,24 +526,15 @@
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(31, 128);
+            this.label35.Location = new System.Drawing.Point(31, 101);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(55, 14);
             this.label35.TabIndex = 17;
             this.label35.Text = "记录数量";
             // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(141, 35);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(19, 14);
-            this.label36.TabIndex = 14;
-            this.label36.Text = "点";
-            // 
             // txtRecTime_T
             // 
-            this.txtRecTime_T.Location = new System.Drawing.Point(106, 59);
+            this.txtRecTime_T.Location = new System.Drawing.Point(106, 32);
             this.txtRecTime_T.Name = "txtRecTime_T";
             this.txtRecTime_T.Properties.Mask.EditMask = "f0";
             this.txtRecTime_T.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -589,7 +546,7 @@
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(31, 63);
+            this.label37.Location = new System.Drawing.Point(31, 36);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(55, 14);
             this.label37.TabIndex = 12;
@@ -598,7 +555,7 @@
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(219, 63);
+            this.label38.Location = new System.Drawing.Point(219, 36);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(19, 14);
             this.label38.TabIndex = 11;
@@ -606,7 +563,7 @@
             // 
             // txtRecTime1_T
             // 
-            this.txtRecTime1_T.Location = new System.Drawing.Point(187, 59);
+            this.txtRecTime1_T.Location = new System.Drawing.Point(187, 32);
             this.txtRecTime1_T.Name = "txtRecTime1_T";
             this.txtRecTime1_T.Properties.ReadOnly = true;
             this.txtRecTime1_T.Size = new System.Drawing.Size(28, 20);
@@ -615,29 +572,11 @@
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(141, 63);
+            this.label39.Location = new System.Drawing.Point(141, 36);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(35, 14);
             this.label39.TabIndex = 8;
             this.label39.Text = "点 至";
-            // 
-            // txtComTime_T
-            // 
-            this.txtComTime_T.Location = new System.Drawing.Point(106, 29);
-            this.txtComTime_T.Name = "txtComTime_T";
-            this.txtComTime_T.Properties.Mask.EditMask = "f0";
-            this.txtComTime_T.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            this.txtComTime_T.Size = new System.Drawing.Size(28, 20);
-            this.txtComTime_T.TabIndex = 5;
-            // 
-            // label40
-            // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(29, 33);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(55, 14);
-            this.label40.TabIndex = 4;
-            this.label40.Text = "通讯时间";
             // 
             // NoiseParmSetting
             // 
@@ -669,7 +608,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupBox10)).EndInit();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditDist.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditPower.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeakValue_T.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDownSamSpan_T)).EndInit();
@@ -681,7 +619,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum_T.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime_T.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1_T.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtComTime_T.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -712,7 +649,6 @@
         private DevExpress.XtraEditors.TextEdit txtMax1;
         private System.Windows.Forms.Label label12;
         private DevExpress.XtraEditors.GroupControl groupBox10;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditDist;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditPower;
         private System.Windows.Forms.Label label56;
         public DevExpress.XtraEditors.TextEdit txtLeakValue_T;
@@ -726,18 +662,14 @@
         public DevExpress.XtraEditors.TextEdit txtConAdree_T;
         private System.Windows.Forms.Label label29;
         public DevExpress.XtraEditors.TextEdit txtRecNum_T;
-        private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Label label36;
         public DevExpress.XtraEditors.TextEdit txtRecTime_T;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label label38;
         private DevExpress.XtraEditors.TextEdit txtRecTime1_T;
         private System.Windows.Forms.Label label39;
-        public DevExpress.XtraEditors.TextEdit txtComTime_T;
-        private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label8;
         private DevExpress.XtraEditors.TextEdit txtMinStandardAMP;
 

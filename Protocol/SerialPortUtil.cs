@@ -699,8 +699,15 @@ namespace Protocol
             }
         }
 
-
-        public short[] ReadData(short id, int timeout = 30)
+        /// <summary>
+        /// 读取噪声记录仪数据
+        /// </summary>
+        /// <param name="id">记录仪编号</param>
+        /// <param name="maxindex"></param>
+        /// <param name="curpackindex">要读取的帧索引</param>
+        /// <param name="timeout">超时时间</param>
+        /// <returns></returns>
+        public short[] ReadNoiseLogData(short id,byte maxindex, ref byte curpackindex, int timeout = 30)
         {
             try
             {
@@ -711,11 +718,12 @@ namespace Protocol
                 package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
                 package.DevID = id;
 
-                package.C1 = (byte)NOISE_LOG_COMMAND.CTRL_START_READ;
-                package.DataLength = 0;
+                package.C1 = (byte)NOISE_LOG_COMMAND.CTRL_READDATA;
+                package.DataLength = 1;
+                package.Data = new byte[] { curpackindex };  //1个字节长度
                 package.CS = package.CreateCS();
-
-                AppendBufLine("开始获取设备{0}数据...", id);
+                
+                AppendBufLine("开始获取设备{0}数据,index[" + curpackindex + "]...", id);
                 Send(package);
 
                 Queue<byte> ByteQueue = new Queue<byte>();
@@ -776,33 +784,39 @@ namespace Protocol
                                 }
                                 else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
                                 {
-                                    int total = pack.IsFinal ? pack.DataLength : pack.AllDataLength;
-                                    readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
-                                    OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = readCount, TotalStep = total });
+                                    //int total = pack.IsFinal ? pack.DataLength : pack.AllDataLength;
+                                    //readCount += pack.IsFinal ? pack.DataLength : pack.DataLength - 3;
+                                    OnValueChanged(new ValueEventArgs() { DevID = pack.DevID, CurrentStep = curpackindex, TotalStep = maxindex });
 
                                     OnReadPackege(new PackageReceivedEventArgs(pack));//触发事件
                                     packageCache.Add(pack);
                                     AppendBufLine("已收到第{0}帧", packageCache.Count);
-                                    //AppendBufLine("第{0}帧:{1}", pack.DataNum, pack);
 
-                                    Package response = new Package();
-                                    response.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
-                                    response.DevID = pack.DevID;
-                                    response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE;
-                                    response.C1 = (byte)NOISE_LOG_COMMAND.SEND_RESPONSE_DATA;
-                                    response.DataLength = 0;
-                                    response.Data = null;
-                                    response.CS = response.CreateCS();
-                                    AppendBufLine("发送回应...", null);
-                                    SendData(response.ToArray(), false);
-
+                                    //Package response = new Package();
+                                    //response.DevType = Entity.ConstValue.DEV_TYPE.NOISE_LOG;
+                                    //response.DevID = pack.DevID;
+                                    //response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE;
+                                    //response.C1 = (byte)NOISE_LOG_COMMAND.SEND_RESPONSE_DATA;
+                                    //response.DataLength = 0;
+                                    //response.Data = null;
+                                    //response.CS = response.CreateCS();
+                                    //AppendBufLine("发送回应...", null);
+                                    //SendData(response.ToArray(), false);
+                                    curpackindex++;
+                                    if (curpackindex <= maxindex)
+                                    {
+                                        package.Data = new byte[] { curpackindex };  //1个字节长度
+                                        package.CS = package.CreateCS();
+                                        AppendBufLine("开始获取下一帧数据,index[" + curpackindex + "]...", null);
+                                        SendData(package.ToArray(), false);
+                                    }
                                 }
                                 packageBytes.Clear();
                             }
                         }
                     }
 
-                    if (packageCache.Exists(obj => obj.IsFinal))
+                    if (curpackindex > maxindex)//(packageCache.Exists(obj => obj.IsFinal))
                     {
                         Package final = packageCache.Find(obj => obj.IsFinal);
                         List<Package> tmp = packageCache.FindAll(obj => obj.DevID == final.DevID).Distinct().ToList();

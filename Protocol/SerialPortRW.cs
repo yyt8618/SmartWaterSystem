@@ -30,7 +30,7 @@ namespace Protocol
 
         #endregion
 
-        public Package Read(Package package,int timeout = 4,int times=2)
+        public Package Read(Package package,int timeout = 6,int times=2)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace Protocol
             }
         }
 
-        public List<Package651> Read(Package651 package,int timeout = 3, int times = 2, bool needresp = true,bool readnextpack=false)
+        public List<Package651> Read(Package651 package,int timeout = 4, int times = 2, bool needresp = true,bool readnextpack=false)
         {
             try
             {

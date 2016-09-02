@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Entity
 {
@@ -89,12 +90,12 @@ namespace Entity
             set { _RemoteSwitch = value; }
         }
 
-        private int _remoteId;
+        private List<int> _remoteId;
         /// <summary>
         /// 读取远传控制器设备与记录仪设备对应的ID号
         /// </summary>
         public bool IsOptRemoteId = false;
-        public int RemoteId
+        public List<int> RemoteId
         {
             get { return _remoteId; }
             set { _remoteId = value; }
@@ -215,7 +216,7 @@ namespace Entity
         }
 
         public NoiseSerialPortOptEntity(short id, DateTime dt, int comtime, int colstarttime,
-            int colendtime, int interval, bool remoteswitch,int remoteid, string ip, int port,
+            int colendtime, int interval, bool remoteswitch,List<int> remoteid, string ip, int port,
             double fre,int rate,int power,int baud,int gprsbaud,int waketime)
         {
             this._id = id;

@@ -253,7 +253,7 @@ namespace SmartWaterSystem
                         Thread.CurrentThread.Abort();
                         break;
                     case (uint)SerialPortType.NoiseCtrlReadParm:
-                        #region 噪声记录仪读取参数
+                        #region 噪声记录仪控制器读取参数
                         {
                             try
                             {
@@ -266,10 +266,29 @@ namespace SmartWaterSystem
                                 }
                                 else
                                 {
+                                    // 读取时间
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptDT)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器时间..."));
+                                        byte[] tt1 = ctrl.ReadTime(GlobalValue.NoiseSerialPortOptData.ID);
+                                        result_data.dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
+                                    }
                                     if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteId)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器对应记录仪ID..."));
                                         result_data.RemoteId = ctrl.ReadCtrlNoisLogID(GlobalValue.NoiseSerialPortOptData.ID);
+                                    }
+                                    // 读取远传功能
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器远传开关状态..."));
+                                        result_data.RemoteSwitch = ctrl.ReadRemote(GlobalValue.NoiseSerialPortOptData.ID);
+                                    }
+                                    // 读取远传通讯时间
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器通讯时间..."));
+                                        result_data.ComTime = Convert.ToInt32(ctrl.ReadRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID));
                                     }
                                     if (GlobalValue.NoiseSerialPortOptData.IsOptIP)
                                     {
@@ -301,7 +320,7 @@ namespace SmartWaterSystem
                         #endregion
                         break;
                     case (uint)SerialPortType.NoiseCtrlSetParm:
-                        #region 噪声记录仪远传设置(开关、ip、port)
+                        #region 噪声记录仪控制器远传设置(开关、ip、port)
                         {
                             try
                             {
@@ -316,9 +335,32 @@ namespace SmartWaterSystem
                                     if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteId)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传控制器对应记录仪ID..."));
-                                        result = ctrl.WriteCtrlToNoiseLogID(GlobalValue.NoiseSerialPortOptData.ID, (short)GlobalValue.NoiseSerialPortOptData.RemoteId);
+                                        result = ctrl.WriteCtrlToNoiseLogID(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteId);
                                     }
-                                    
+                                    // 设置时间
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptDT)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置时间..."));
+                                        result = ctrl.WriteTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.dt);
+                                        if (!result)
+                                            break;
+                                    }
+                                    // 设置远传功能
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传开关状态..."));
+                                        result = ctrl.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
+                                        if (!result)
+                                            break;
+                                    }
+                                    // 设置远传通讯时间
+                                    if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传通讯时间..."));
+                                        result = ctrl.WriteRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.ComTime);
+                                        if (!result)
+                                            break;
+                                    }
                                     if (GlobalValue.NoiseSerialPortOptData.IsOptIP)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传控制器远传地址IP..."));
@@ -476,11 +518,11 @@ namespace SmartWaterSystem
                                     result_data.dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
                                 }
                                 // 读取远传通讯时间
-                                if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
-                                {
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传通讯时间..."));
-                                    result_data.ComTime = Convert.ToInt32(GlobalValue.Noiselog.ReadRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID));
-                                }
+                                //if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                                //{
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传通讯时间..."));
+                                //    result_data.ComTime = Convert.ToInt32(GlobalValue.Noiselog.ReadRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID));
+                                //}
                                 // 读取记录时间段
                                 if (GlobalValue.NoiseSerialPortOptData.IsOptColTime)
                                 {
@@ -496,11 +538,11 @@ namespace SmartWaterSystem
                                     result_data.Interval = GlobalValue.Noiselog.ReadInterval(GlobalValue.NoiseSerialPortOptData.ID);
                                 }
                                 // 读取远传功能
-                                if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
-                                {
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传开关状态..."));
-                                    result_data.RemoteSwitch = GlobalValue.Noiselog.ReadRemote(GlobalValue.NoiseSerialPortOptData.ID);
-                                }
+                                //if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                                //{
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传开关状态..."));
+                                //    result_data.RemoteSwitch = GlobalValue.Noiselog.ReadRemote(GlobalValue.NoiseSerialPortOptData.ID);
+                                //}
                                 //if (result_data.RemoteSwitch)
                                 //{
                                 //    NoiseCtrl ctrl = new NoiseCtrl();
@@ -561,13 +603,13 @@ namespace SmartWaterSystem
                                 }
                                 
                                 // 设置远传通讯时间
-                                if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
-                                {
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传通讯时间..."));
-                                    result = GlobalValue.Noiselog.WriteRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.ComTime);
-                                    if (!result)
-                                        break;
-                                }
+                                //if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                                //{
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传通讯时间..."));
+                                //    result = GlobalValue.Noiselog.WriteRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.ComTime);
+                                //    if (!result)
+                                //        break;
+                                //}
                                 
                                 // 设置记录时间段
                                 if (GlobalValue.NoiseSerialPortOptData.IsOptColTime)
@@ -588,13 +630,13 @@ namespace SmartWaterSystem
                                 }
                                 
                                 // 设置远传功能
-                                if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
-                                {
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传开关状态..."));
-                                    result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
-                                    if (!result)
-                                        break;
-                                }
+                                //if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                                //{
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传开关状态..."));
+                                //    result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
+                                //    if (!result)
+                                //        break;
+                                //}
                                 result = true;
                                 obj = result_data;
                             }
@@ -611,7 +653,12 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                short[] arr = GlobalValue.Noiselog.Read(GlobalValue.NoiseSerialPortOptData.ID);
+                                short datasum = 0, standvalue = 0;
+                                GlobalValue.Noiselog.ReadNoiseLogDataSum2Standvalue(GlobalValue.NoiseSerialPortOptData.ID, out datasum, out standvalue);
+                                decimal dpacksum = (decimal)datasum / 256;
+                                int packsum = (int)Math.Ceiling(dpacksum);
+                                NoiseDataBaseHelper.SaveStandData(GlobalValue.NoiseSerialPortOptData.ID, standvalue);  //保存启动值
+                                short[] arr = GlobalValue.Noiselog.ReadData(GlobalValue.NoiseSerialPortOptData.ID, packsum);
                                 result = true;
                                 obj = arr;
                             }
@@ -636,12 +683,12 @@ namespace SmartWaterSystem
                                 // 设置时间
                                 OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseBatchWrite, "正在设置记录仪[" + GlobalValue.NoiseSerialPortOptData.ID + "]时间..."));
                                 result = GlobalValue.Noiselog.WriteTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.dt);
-                                if (result)
-                                {
-                                    // 设置远传通讯时间
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseBatchWrite, "正在设置记录仪[" + GlobalValue.NoiseSerialPortOptData.ID + "]远传通讯时间..."));
-                                    result = GlobalValue.Noiselog.WriteRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.ComTime);
-                                }
+                                //if (result)
+                                //{
+                                //    // 设置远传通讯时间
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseBatchWrite, "正在设置记录仪[" + GlobalValue.NoiseSerialPortOptData.ID + "]远传通讯时间..."));
+                                //    result = GlobalValue.Noiselog.WriteRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.ComTime);
+                                //}
                                 if (result)
                                 {
                                     // 设置记录时间段
@@ -654,12 +701,12 @@ namespace SmartWaterSystem
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseBatchWrite, "正在设置记录仪[" + GlobalValue.NoiseSerialPortOptData.ID + "]采集间隔..."));
                                     result = GlobalValue.Noiselog.WriteInterval(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Interval);
                                 }
-                                if (result)
-                                {
-                                    // 设置远传功能
-                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseBatchWrite, "正在设置记录仪[" + GlobalValue.NoiseSerialPortOptData.ID + "]远传功能..."));
-                                    result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
-                                }
+                                //if (result)
+                                //{
+                                //    // 设置远传功能
+                                //    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseBatchWrite, "正在设置记录仪[" + GlobalValue.NoiseSerialPortOptData.ID + "]远传功能..."));
+                                //    result = GlobalValue.Noiselog.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
+                                //}
                                 if (result)
                                 {
                                     // 设置开关

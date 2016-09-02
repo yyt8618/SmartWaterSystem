@@ -25,7 +25,7 @@ namespace Protocol
             package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_TIME;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_TIME;
             byte[] data = new byte[3];
             data[0] = (byte)time.Hour;
             data[1] = (byte)time.Minute;
@@ -191,18 +191,27 @@ namespace Protocol
         /// <param name="ctrlID">控制器ID</param>
         /// <param name="logID">记录仪ID</param>
         /// <returns></returns>
-        public bool WriteCtrlToNoiseLogID(short ctrlID, short logID)
+        public bool WriteCtrlToNoiseLogID(short ctrlID, List<int> logID)
         {
             Package package = new Package();
             package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
             package.DevID = ctrlID;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_CTRL_NOISE_LOG_ID;
-            package.DataLength = 4;
-            byte[] data = new byte[package.DataLength];
-            data =BitConverter.GetBytes((int)logID);
+
+            List<byte> lstbyte = new List<byte>();
+            for(int i=0;i<logID.Count;i++)
+            {
+                byte[] tmp = BitConverter.GetBytes(logID[i]);
+                tmp[3] = (byte)Entity.ConstValue.DEV_TYPE.NOISE_LOG;      //设备类型
+                lstbyte.AddRange(tmp);
+            }
+            //package.DataLength = 4;
+            byte[] data = lstbyte.ToArray();
+            //data =BitConverter.GetBytes((int)logID);
+
             Array.Reverse(data);
-            data[0] = (byte)Entity.ConstValue.DEV_TYPE.NOISE_LOG;  //设置类型(记录仪)
+            package.DataLength = data.Length;
             package.Data = data;
             package.CS = package.CreateCS();
             return Write(package);
@@ -235,10 +244,173 @@ namespace Protocol
             package.CS = package.CreateCS();
             return Write(package);
         }
+        /// <summary>
+        /// 串口设置记录仪远传功能
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="IsOpen">是否打开 默认关</param>
+        /// <returns></returns>
+        public bool WriteRemoteSwitch(short id, bool IsOpen)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_REMOTE_SWITCH;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = (byte)(IsOpen ? 1 : 0);
+            package.Data = data;
+            package.CS = package.CreateCS();
+            return Write(package);
+        }
 
+        /// <summary>
+        /// 串口设置记录仪远传发送时间（远传发送频率：1次/天）
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="time">发送时间(发送时间不能设置在记录仪采集数据的时间段内)</param>
+        /// <returns></returns>
+        public bool WriteRemoteSendTime(short id, int time)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_REMOTE_SEND_TIME;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = (byte)time;
+            package.Data = data;
+            package.CS = package.CreateCS();
+            return Write(package);
+        }
         #endregion
 
         #region 读取
+        /// <summary>
+        /// 读取时间 数据顺序为：时、分、秒
+        /// </summary>
+        /// <param name="id">帧ID为记录仪的ID</param>
+        /// <returns>数据顺序为：时、分、秒</returns>
+        public byte[] ReadTime(short id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.READ_TIME;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            try
+            {
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("无数据");
+                }
+                if (result.Data.Length != 3)
+                {
+                    throw new Exception("数据损坏");
+                }
+                return result.Data;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 串口读取远传功能
+        /// </summary>
+        /// <param name="id">帧ID为记录仪的ID</param>
+        /// <returns></returns>
+        public bool ReadRemote(short id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.READ_REMOTE; 
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            try
+            {
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("无数据");
+                }
+                if (result.Data.Length != 1)
+                {
+                    throw new Exception("数据损坏");
+                }
+                return result.Data[0] == 1;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        /// <summary>
+        /// 串口读取远传发送时间（远传发送频率：1次/天）
+        /// </summary>
+        /// <param name="id">帧ID为记录仪的ID</param>
+        /// <returns></returns>
+        public byte ReadRemoteSendTime(short id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.READ_REMOTE_SEND_TIME; 
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            try
+            {
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("无数据");
+                }
+                if (result.Data.Length != 1)
+                {
+                    throw new Exception("数据损坏");
+                }
+                return result.Data[0];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
 
 
         /// <summary>
@@ -424,7 +596,7 @@ namespace Protocol
         /// 串口读取远传控制器设备与记录仪设备对应的ID号
         /// </summary>
         /// <returns></returns>
-        public int ReadCtrlNoisLogID(short id)
+        public List<int> ReadCtrlNoisLogID(short id)
         {
             Package package = new Package();
             package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
@@ -447,18 +619,23 @@ namespace Protocol
                 {
                     throw new Exception("无数据");
                 }
-                if (result.Data.Length != 4)
+                if ((result.Data.Length % 4) != 0)
                 {
                     throw new Exception("数据损坏");
                 }
 
-                Array.Reverse(result.Data);
-                result.Data[3] = 0x00;  //将记录仪类型去掉
-                return BitConverter.ToInt32(result.Data, 0);
+                //Array.Reverse(result.Data);
+                List<int> lstId = new List<int>();
+                for(int i=0;i< result.Data.Length/4;i++)
+                {
+                    lstId.Add(BitConverter.ToInt32(new byte[] { result.Data[i*4 + 3], result.Data[i*4 + 2], result.Data[i*4 + 1], 0x00 }, 0));
+                }
+                //result.Data[3] = 0x00;  //将记录仪类型去掉
+                //return BitConverter.ToInt32(result.Data, 0);
+                return lstId;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

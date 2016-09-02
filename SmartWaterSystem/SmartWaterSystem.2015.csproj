@@ -194,12 +194,6 @@
     <Compile Include="FrmSystem.Designer.cs">
       <DependentUpon>FrmSystem.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmTemplateSet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmTemplateSet.Designer.cs">
-      <DependentUpon>FrmTemplateSet.cs</DependentUpon>
-    </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseFFT.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -448,9 +442,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSystem.resx">
       <DependentUpon>FrmSystem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmTemplateSet.resx">
-      <DependentUpon>FrmTemplateSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseFFT.resx">
       <DependentUpon>NoiseFFT.cs</DependentUpon>

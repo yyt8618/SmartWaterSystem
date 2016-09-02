@@ -54,14 +54,14 @@ namespace SmartWaterSystem
                 msg = "记录仪编号设置错误！";
                 return ok;
             }
-            ok = MetarnetRegex.IsTime(txtComTime.Text);
-            if (!ok)
-            {
-                txtComTime.Focus();
-                txtComTime.SelectAll();
-                msg = "通讯时间设置错误！";
-                return ok;
-            }
+            //ok = MetarnetRegex.IsTime(txtComTime.Text);
+            //if (!ok)
+            //{
+            //    txtComTime.Focus();
+            //    txtComTime.SelectAll();
+            //    msg = "通讯时间设置错误！";
+            //    return ok;
+            //}
             ok = MetarnetRegex.IsTime(txtColTimeStart.Text);
             if (!ok)
             {
@@ -108,17 +108,17 @@ namespace SmartWaterSystem
             }
 
             // 通讯时间与记录时间不能重叠
-            int comTime = Convert.ToInt32(txtComTime.Text);
-            int recTime1 = Convert.ToInt32(txtColTimeStart.Text);
-            int recTime2 = Convert.ToInt32(txtColTimeEnd.Text);
+            //int comTime = Convert.ToInt32(txtComTime.Text);
+            //int recTime1 = Convert.ToInt32(txtColTimeStart.Text);
+            //int recTime2 = Convert.ToInt32(txtColTimeEnd.Text);
 
-            if (comTime == recTime1 || comTime == recTime2 || (comTime > recTime1 && comTime < recTime2))
-            {
-                txtComTime.Focus();
-                txtComTime.SelectAll();
-                msg = "通讯时间/记录时间设置重叠！";
-                return false;
-            }
+            //if (comTime == recTime1 || comTime == recTime2 || (comTime > recTime1 && comTime < recTime2))
+            //{
+            //    txtComTime.Focus();
+            //    txtComTime.SelectAll();
+            //    msg = "通讯时间/记录时间设置重叠！";
+            //    return false;
+            //}
 
             return ok;
         }
@@ -134,18 +134,20 @@ namespace SmartWaterSystem
             //col.DataType = System.Type.GetType("System.Boolean"); ;
             dt.Columns.Add("编号");
             dt.Columns.Add("漏水警戒值");
-            dt.Columns.Add("通讯时间");
             dt.Columns.Add("采集时间");
             dt.Columns.Add("远传功能");
             dt.Columns.Add("添加时间");
             dt.Columns.Add("备注");
 
+            this.CombRemotingID.Properties.Items.Clear();
             for (int i = 0; i < GlobalValue.recorderList.Count; i++)
             {
                 NoiseRecorder rec = GlobalValue.recorderList[i];
-                dt.Rows.Add(new object[] { rec.ID, rec.LeakValue, rec.CommunicationTime, rec.RecordTime, rec.ControlerPower, rec.AddDate, rec.Remark });
-            }
+                dt.Rows.Add(new object[] { rec.ID, rec.LeakValue, rec.RecordTime, rec.ControlerPower, rec.AddDate, rec.Remark });
 
+                this.CombRemotingID.Properties.Items.Add(new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, rec.ID.ToString()));
+            }
+            
             // 绑定数据
             MethodInvoker mi = (new MethodInvoker(() =>
             {
@@ -379,9 +381,14 @@ namespace SmartWaterSystem
         }
 
         // 时间同步
-        private void btnNow_Click(object sender, EventArgs e)
+        private void btnNowRec_Click(object sender, EventArgs e)
         {
-            dateTimePicker.Value = DateTime.Now;
+            dateTimePickerRec.Value = DateTime.Now;
+        }
+
+        private void btnNowCon_Click(object sender, EventArgs e)
+        {
+            dateTimePickerCon.Value = DateTime.Now;
         }
 
         // 添加记录仪
@@ -416,7 +423,7 @@ namespace SmartWaterSystem
                 NoiseRecorder newRec = new NoiseRecorder();
                 newRec.ID = Convert.ToInt32(txtRecID.Text);
                 newRec.AddDate = DateTime.Now;
-                newRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
+                //newRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
                 if (comboBoxDist.SelectedIndex == 1)
                     newRec.ControlerPower = 1;
                 else if (comboBoxDist.SelectedIndex == 0)
@@ -503,24 +510,24 @@ namespace SmartWaterSystem
         // 读取模板参数
         private void btnReadT_Click(object sender, EventArgs e)
         {
-            txtComTime.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
+            //txtComTime.Text = Settings.Instance.GetString(SettingKeys.ComTime_Template);
             txtColTimeStart.Text = Settings.Instance.GetString(SettingKeys.RecTime_Template);
             spinEditInterval.Value = Settings.Instance.GetInt(SettingKeys.Span_Template);
             txtRecNum.Text = (GlobalValue.Time * 60 / Settings.Instance.GetInt(SettingKeys.Span_Template)).ToString();
             txtLeakValue.Text = (new BLL.NoiseParmBLL()).GetParm(ConstValue.LeakValue_Template);
 
-            //int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
+            int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
             //comboBoxEditPower.SelectedIndex = power;
 
-            int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
-            if (conPower == 1)
-            {
-                comboBoxDist.SelectedIndex = conPower;
-                txtConPort.Text = Settings.Instance.GetString(SettingKeys.Port_Template);
-                txtConIP.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
-            }
-            else
-                comboBoxDist.SelectedIndex = conPower;
+            //int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
+            //if (conPower == 1)
+            //{
+                //comboBoxDist.SelectedIndex = conPower;
+            //    txtConPort.Text = Settings.Instance.GetString(SettingKeys.Port_Template);
+            //    txtConIP.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
+            //}
+            //else
+            //    comboBoxDist.SelectedIndex = conPower;
         }
 
         private void EnableControls(bool enable)
@@ -561,9 +568,9 @@ namespace SmartWaterSystem
 
                 GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(txtRecID.Text);
 
-                if (ceDT.Checked)
+                if (ceDTRec.Checked)
                 {
-                    GlobalValue.NoiseSerialPortOptData.IsOptDT = ceDT.Checked;
+                    GlobalValue.NoiseSerialPortOptData.IsOptDT = ceDTRec.Checked;
                     haveread = true;
                 }
                 if (ceComTime.Checked)
@@ -649,6 +656,21 @@ namespace SmartWaterSystem
                     if(ceRemotingID.Checked)
                     {
                         GlobalValue.NoiseSerialPortOptData.IsOptRemoteId = ceRemotingID.Checked;
+                        haveread = true;
+                    }
+                    if (ceDTCon.Checked)
+                    {
+                        GlobalValue.NoiseSerialPortOptData.IsOptDT = ceDTCon.Checked;
+                        haveread = true;
+                    }
+                    if (ceRemoteSwitch.Checked)
+                    {
+                        GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch = ceRemoteSwitch.Checked;
+                        haveread = true;
+                    }
+                    if(ceComTime.Checked)
+                    {
+                        GlobalValue.NoiseSerialPortOptData.IsOptComTime = ceComTime.Checked;
                         haveread = true;
                     }
                     if(ceConIP.Checked)
@@ -739,17 +761,57 @@ namespace SmartWaterSystem
                     //alterCtrl.RecordID = alterRec.ID;
                     //alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
                     //alterCtrl.IPAdress = txtConIP.Text;
+                    if (ceDTCon.Checked)
+                    {
+                        GlobalValue.NoiseSerialPortOptData.IsOptDT = ceDTCon.Checked;
+                        GlobalValue.NoiseSerialPortOptData.dt = dateTimePickerCon.Value;
+                        haveset = true;
+                    }
 
                     if (ceRemotingID.Checked)
                     {
-                        if (!Regex.IsMatch(txtRemotingID.Text, @"^\d{1,3}$"))
+                        for(int i=0;i<CombRemotingID.Properties.Items.Count;i++)
                         {
-                            XtraMessageBox.Show("请输入正确的记录仪ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtRemotingID.Focus();
-                            return;
+
                         }
                         GlobalValue.NoiseSerialPortOptData.IsOptRemoteId = ceRemotingID.Checked;
-                        GlobalValue.NoiseSerialPortOptData.RemoteId = Convert.ToInt32(txtRemotingID.Text);
+                        List<int> lstRemoteId = new List<int>();
+                        string[] strids = CombRemotingID.Text.Split(',');
+                        if(strids!=null && strids.Length>0)
+                        {
+                            for(int i = 0; i < strids.Length; i++)
+                            {
+                                if (!string.IsNullOrEmpty(strids[i]))
+                                    lstRemoteId.Add(Convert.ToInt32(strids[i]));
+                            }
+                        }
+                        //校验
+                        if (lstRemoteId.Count == 0)
+                        {
+                            XtraMessageBox.Show("请选择记录仪ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CombRemotingID.Focus();
+                            return;
+                        }
+                        GlobalValue.NoiseSerialPortOptData.RemoteId = lstRemoteId;
+                        haveset = true;
+                    }
+                    if (ceRemoteSwitch.Checked)
+                    {
+                        GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch = ceRemoteSwitch.Checked;
+                        GlobalValue.NoiseSerialPortOptData.RemoteSwitch = comboBoxDist.SelectedIndex == 1 ? true : false;
+                        haveset = true;
+                    }
+
+                    if (ceComTime.Checked)
+                    {
+                        if (!Regex.IsMatch(txtComTime.Text, @"^\d{1,2}$"))
+                        {
+                            XtraMessageBox.Show("请输入通讯时间!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtComTime.Focus();
+                            return;
+                        }
+                        GlobalValue.NoiseSerialPortOptData.IsOptComTime = ceComTime.Checked;
+                        GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
                         haveset = true;
                     }
                     if (ceConIP.Checked)
@@ -867,10 +929,10 @@ namespace SmartWaterSystem
                         NoiseSerialPortOptEntity read_result = (NoiseSerialPortOptEntity)e.Tag;
                         //时间
                         if (GlobalValue.NoiseSerialPortOptData.IsOptDT)
-                            this.dateTimePicker.Value = read_result.dt;
+                            this.dateTimePickerRec.Value = read_result.dt;
                         // 读取远传通讯时间
-                        if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
-                            this.txtComTime.Text = read_result.ComTime.ToString();
+                        //if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                        //    this.txtComTime.Text = read_result.ComTime.ToString();
                         //记录时间段
                         if (GlobalValue.NoiseSerialPortOptData.IsOptColTime)
                         {
@@ -880,17 +942,17 @@ namespace SmartWaterSystem
                         //采集间隔
                         if (GlobalValue.NoiseSerialPortOptData.IsOptInterval)
                             spinEditInterval.Value = read_result.Interval;
-                        if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
-                        {
-                            if (read_result.RemoteSwitch)
-                            {
-                                comboBoxDist.SelectedIndex = 1;
-                            }
-                            else
-                            {
-                                comboBoxDist.SelectedIndex = 0;
-                            }
-                        }
+                        //if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                        //{
+                        //    if (read_result.RemoteSwitch)
+                        //    {
+                        //        comboBoxDist.SelectedIndex = 1;
+                        //    }
+                        //    else
+                        //    {
+                        //        comboBoxDist.SelectedIndex = 0;
+                        //    }
+                        //}
                     }
                     ShowDialog("读取记录仪参数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -976,7 +1038,50 @@ namespace SmartWaterSystem
                         }
                         //记录仪ID
                         if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteId)
-                            this.txtRemotingID.Text = read_result.RemoteId.ToString();
+                        {
+                            for(int i = 0; i<this.CombRemotingID.Properties.Items.Count;i++)  //将选中状态去除
+                            {
+                                CombRemotingID.Properties.Items[i].CheckState = CheckState.Unchecked;
+                            }
+                            if (read_result.RemoteId!=null && read_result.RemoteId.Count>0)
+                            {
+                                for(int i =0;i<read_result.RemoteId.Count;i++)
+                                {
+                                    bool bcontain = false;  //标记是否列表中已包含
+                                    for (int j =0; j < CombRemotingID.Properties.Items.Count;j++)
+                                    {
+                                        if(read_result.RemoteId[i].ToString()== CombRemotingID.Properties.Items[j].Description)
+                                        {
+                                            bcontain = true;
+                                            CombRemotingID.Properties.Items[j].CheckState = CheckState.Checked;
+                                        }
+                                    }
+                                    if(!bcontain) //未包含的情况下添加进列表
+                                    {
+                                        this.CombRemotingID.Properties.Items.Add(new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null,read_result.RemoteId[i].ToString(),CheckState.Checked));
+                                    }
+                                }
+                            }
+                        }
+                        
+                        //时间
+                        if (GlobalValue.NoiseSerialPortOptData.IsOptDT)
+                            this.dateTimePickerCon.Value = read_result.dt;
+                        //开关
+                        if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                        {
+                            if (read_result.RemoteSwitch)
+                            {
+                                comboBoxDist.SelectedIndex = 1;
+                            }
+                            else
+                            {
+                                comboBoxDist.SelectedIndex = 0;
+                            }
+                        }
+                        // 读取远传通讯时间
+                        if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                            this.txtComTime.Text = read_result.ComTime.ToString();
                         // 读取远传IP
                         if (GlobalValue.NoiseSerialPortOptData.IsOptIP)
                             this.txtConIP.Text = read_result.IP.ToString();
@@ -1211,7 +1316,6 @@ namespace SmartWaterSystem
             {
                 //btnApplySet.Enabled = false;
                 GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
-                bool haveread = false;
                 if (!Regex.IsMatch(txtRecID.Text, @"^\d{1,5}$"))
                 {
                     XtraMessageBox.Show("请输入记录仪ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1236,25 +1340,25 @@ namespace SmartWaterSystem
                 //alterCtrl.IPAdress = txtConIP.Text;
                 
                 bool haveset = false;
-                if (ceDT.Checked)
+                if (ceDTRec.Checked)
                 {
-                    GlobalValue.NoiseSerialPortOptData.IsOptDT = ceDT.Checked;
-                    GlobalValue.NoiseSerialPortOptData.dt = dateTimePicker.Value;
+                    GlobalValue.NoiseSerialPortOptData.IsOptDT = ceDTRec.Checked;
+                    GlobalValue.NoiseSerialPortOptData.dt = dateTimePickerRec.Value;
                     haveset = true;
                 }
-                if(ceComTime.Checked)
-                {
-                    if(!Regex.IsMatch(txtComTime.Text,@"^\d{1,2}$"))
-                    {
-                        XtraMessageBox.Show("请输入通讯时间!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        txtComTime.Focus();
-                        return;
-                    }
-                    alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
-                    GlobalValue.NoiseSerialPortOptData.IsOptComTime = ceComTime.Checked;
-                    GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
-                    haveset = true;
-                }
+                //if(ceComTime.Checked)
+                //{
+                //    if(!Regex.IsMatch(txtComTime.Text,@"^\d{1,2}$"))
+                //    {
+                //        XtraMessageBox.Show("请输入通讯时间!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //        txtComTime.Focus();
+                //        return;
+                //    }
+                //    //alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
+                //    GlobalValue.NoiseSerialPortOptData.IsOptComTime = ceComTime.Checked;
+                //    GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
+                //    haveset = true;
+                //}
                 if(ceColTime.Checked)
                 {
                     if (!Regex.IsMatch(txtColTimeStart.Text, @"^\d{1,2}$"))
@@ -1276,23 +1380,23 @@ namespace SmartWaterSystem
                     GlobalValue.NoiseSerialPortOptData.colendtime = Convert.ToInt32(txtColTimeEnd.Text);
 
                     //通讯时间和采集时间不能重复
-                    if (ceComTime.Checked)
-                    {
-                        int comtime = GlobalValue.NoiseSerialPortOptData.ComTime;
-                        if (comtime == 0)
-                            comtime = 24;
-                        int endtime = GlobalValue.NoiseSerialPortOptData.colendtime;
-                        if (GlobalValue.NoiseSerialPortOptData.colstarttime > endtime)
-                        {
-                            endtime += 24;
-                        }
-                        if(comtime >= GlobalValue.NoiseSerialPortOptData.colstarttime && comtime <= endtime)
-                        {
-                            XtraMessageBox.Show("通讯时间不能和采集时间重叠!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtComTime.Focus();
-                            return;
-                        }
-                    }
+                    //if (ceComTime.Checked)
+                    //{
+                    //    int comtime = GlobalValue.NoiseSerialPortOptData.ComTime;
+                    //    if (comtime == 0)
+                    //        comtime = 24;
+                    //    int endtime = GlobalValue.NoiseSerialPortOptData.colendtime;
+                    //    if (GlobalValue.NoiseSerialPortOptData.colstarttime > endtime)
+                    //    {
+                    //        endtime += 24;
+                    //    }
+                    //    if(comtime >= GlobalValue.NoiseSerialPortOptData.colstarttime && comtime <= endtime)
+                    //    {
+                    //        XtraMessageBox.Show("通讯时间不能和采集时间重叠!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //        txtComTime.Focus();
+                    //        return;
+                    //    }
+                    //}
 
                     haveset = true;
                 }
@@ -1309,13 +1413,13 @@ namespace SmartWaterSystem
                     GlobalValue.NoiseSerialPortOptData.Interval = Convert.ToInt32(spinEditInterval.Value);
                     haveset = true;
                 }
-                if(ceRemoteSwitch.Checked)
-                {
-                    alterRec.ControlerPower = comboBoxDist.SelectedIndex;
-                    GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch = ceRemoteSwitch.Checked;
-                    GlobalValue.NoiseSerialPortOptData.RemoteSwitch = comboBoxDist.SelectedIndex == 1 ? true : false;
-                    haveset = true;
-                }
+                //if(ceRemoteSwitch.Checked)
+                //{
+                //    alterRec.ControlerPower = comboBoxDist.SelectedIndex;
+                //    GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch = ceRemoteSwitch.Checked;
+                //    GlobalValue.NoiseSerialPortOptData.RemoteSwitch = comboBoxDist.SelectedIndex == 1 ? true : false;
+                //    haveset = true;
+                //}
                 if (!haveset)
                 {
                     XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1373,9 +1477,13 @@ namespace SmartWaterSystem
         {
             try
             {
-                DateTime datenow = this.dateTimePicker.Value;
+                DateTime datenow = this.dateTimePickerRec.Value;
                 if (datenow.CompareTo(DateTime.Now.AddDays(-1)) > -1)
-                    this.dateTimePicker.Value = datenow.AddSeconds(1);
+                    this.dateTimePickerRec.Value = datenow.AddSeconds(1);
+
+                datenow = this.dateTimePickerCon.Value;
+                if (datenow.CompareTo(DateTime.Now.AddDays(-1)) > -1)
+                    this.dateTimePickerCon.Value = datenow.AddSeconds(1);
             }
             catch (Exception ex)
             {
@@ -1395,7 +1503,7 @@ namespace SmartWaterSystem
                                      select item).ToList()[0];
 
                 txtRecID.Text = rec.ID.ToString();
-                txtComTime.Text = rec.CommunicationTime.ToString();
+                //txtComTime.Text = rec.CommunicationTime.ToString();
                 txtColTimeStart.Text = rec.RecordTime.ToString();
                 short[] standvalue = NoiseDataBaseHelper.GetStandData(-1, rec.ID);
                 if (standvalue != null && standvalue.Length > 0)
@@ -1661,7 +1769,7 @@ namespace SmartWaterSystem
             btnApplyCtrlSet.Enabled = Enabled;
             btnGetRecID.Enabled = Enabled;
             //btnGetConID.Enabled = Enabled;
-            btnNow.Enabled = Enabled;
+            btnNowRec.Enabled = Enabled;
             btnStart.Enabled = Enabled;
             btnStop.Enabled = Enabled;
             btnGetStandValue.Enabled = Enabled;
@@ -1972,5 +2080,6 @@ namespace SmartWaterSystem
                 }
             }
         }
+
     }
 }
