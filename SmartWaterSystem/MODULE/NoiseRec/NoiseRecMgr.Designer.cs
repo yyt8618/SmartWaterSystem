@@ -596,7 +596,7 @@
             // 
             this.ceDTCon.Location = new System.Drawing.Point(11, 70);
             this.ceDTCon.Name = "ceDTCon";
-            this.ceDTCon.Properties.Caption = "记录仪时间";
+            this.ceDTCon.Properties.Caption = "控制器时间";
             this.ceDTCon.Size = new System.Drawing.Size(92, 19);
             this.ceDTCon.TabIndex = 4;
             // 

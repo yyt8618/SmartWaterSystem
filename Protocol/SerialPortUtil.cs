@@ -9,7 +9,6 @@ using System.Management;
 using Common;
 using Entity;
 
-
 namespace Protocol
 {
     /// <summary>
@@ -22,6 +21,7 @@ namespace Protocol
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortUtil");
 
         private static readonly SerialPortUtil instance = new SerialPortUtil();
+        List<byte> ReceiveBytes = new List<byte>();
 
         public static SerialPortUtil GetInstance()
         {
@@ -234,24 +234,29 @@ namespace Protocol
         /// </summary>
         public void Close()
         {
-            if (serialPort.IsOpen)
-            {
-                AppendBufLine("正在关闭串口\"{0}\"...", serialPort.PortName);
-                isComClosing = true;
-                if (isComSending)
+            try {
+                if (serialPort.IsOpen)
                 {
+                    AppendBufLine("正在关闭串口\"{0}\"...", serialPort.PortName);
+                    isComClosing = true;
+                    Thread.Sleep(150);
+                    if (isComSending)
+                    {
+                        isComClosing = false;
+                        throw new Exception("当前正在发送指令，无法关闭");
+                    }
+                    if (isComRecving)
+                    {
+                        isComClosing = false;
+                        throw new Exception("当前接收指令，无法关闭");
+                    }
+                    serialPort.Close();
+                    AppendBufLine("串口\"{0}\"已关闭！", serialPort.PortName);
                     isComClosing = false;
-                    throw new Exception("当前正在发送指令，无法关闭");
                 }
-                if (isComRecving)
-                {
-                    isComClosing = false;
-                    throw new Exception("当前接收指令，无法关闭");
-                }
-                serialPort.Close();
-                AppendBufLine("串口\"{0}\"已关闭！", serialPort.PortName);
-                isComClosing = false;
             }
+            catch(Exception ex)
+            { }
         }
 
         /// <summary>
@@ -300,9 +305,10 @@ namespace Protocol
                 int len = serialPort.BytesToRead;
                 byte[] buf = new byte[len];
                 bytesRead = serialPort.Read(buf, 0, len);
+                string strspdata = serialPort.ReadLine();
                 if (bytesRead > 0)
                 {
-                    AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " 收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));
+                    AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " DataReceived收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));
                     for (int i = 0; i < bytesRead; i++)
                     {
                         ReceiveBytes.Add(buf[i]);
@@ -423,7 +429,6 @@ namespace Protocol
             }
         }
         int bytesRead = 0;
-        List<byte> ReceiveBytes = new List<byte>();
         int nLastRecTime = Environment.TickCount;   //单次接收超时时间
         int nStartTime = Environment.TickCount;     //总接收超时时间
         public List<T> SendCommand651<T>(byte[] sendData, int timeout = 5, bool needresp = true) where T : struct
@@ -504,13 +509,15 @@ namespace Protocol
                     SendData(sendData,false);
                     if (!needresp)
                         return default(T);   //不需要获取下位机返回数据,如SL651确认帧
-                    Thread.Sleep(50);                       //延时，等待下位机回数据
+                    Thread.Sleep(200);                       //延时，等待下位机回数据
+                    ReceiveBytes.Clear();
                 }
 
                 List<byte> packageBytes = new List<byte>();
                 int readCount = 0;//计数
 
                 int nStartTime = Environment.TickCount;
+                isComRecving = true;//正在读取串口数据
                 while (true)
                 {
                     if (Environment.TickCount - nStartTime > timeout * 1000)    //超时
@@ -522,33 +529,27 @@ namespace Protocol
                         AppendBufLine("获取数据中途串口关闭！",null);
                         throw new Exception("关闭串口，停止获取数据。");
                     }
-                    isComRecving = true;//正在读取串口数据
+                    
                     int bytesRead = 0;
-                    List<byte> ReceiveBytes = new List<byte>();
                     while (serialPort.BytesToRead > 0)
                     {
                         int len = serialPort.BytesToRead;
                         byte[] buf = new byte[len];
                         bytesRead = serialPort.Read(buf, 0, len);
-                        //foreach (var item in buf)
-                        //{
-                        //    ByteQueue.Enqueue(item);
-                        //}
+
+                        AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " 收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));
                         for (int i = 0; i < bytesRead; i++)
                         {
                             ReceiveBytes.Add(buf[i]);
                         }
                     }
-                    int index = 0;
-                    while (index < bytesRead)
+
+                    int index = packageBytes.Count;
+                    while (index < ReceiveBytes.Count)
                     {
-                        //byte byteItem = ByteQueue.Dequeue();
                         packageBytes.Add(ReceiveBytes[index]);
                         if (ReceiveBytes[index] == PackageDefine.EndByte && packageBytes.Count >= PackageDefine.MinLenth)
                         {
-                            //if (bytes[0] == (byte)0x00)
-                            //    bytes.RemoveAt(0);
-
                             if (packageBytes[0] != PackageDefine.BeginByte)
                             {
                                 bool first_BeginByte = false;
@@ -726,6 +727,8 @@ namespace Protocol
                 AppendBufLine("开始获取设备{0}数据,index[" + curpackindex + "]...", id);
                 Send(package);
 
+                Thread.Sleep(100);
+
                 Queue<byte> ByteQueue = new Queue<byte>();
                 List<Package> packageCache = new List<Package>();
                 List<byte> packageBytes = new List<byte>();
@@ -733,6 +736,7 @@ namespace Protocol
 
                 int nStartTime = Environment.TickCount;
                 bool getReadResponse = false;  //是否响应了读取命令
+                isComRecving = true;//正在读取串口数据
                 while (true)
                 {
                     if (Environment.TickCount - nStartTime > timeout * 1000)    //超时
@@ -748,7 +752,7 @@ namespace Protocol
                         AppendBufLine("获取设备{0}数据中途串口被关闭！", id);
                         throw new Exception("关闭串口，停止获取数据。");
                     }
-                    isComRecving = true;//正在读取串口数据
+                    
                     while (serialPort.BytesToRead > 0)
                     {
                         int len = serialPort.BytesToRead;
@@ -828,7 +832,7 @@ namespace Protocol
 
                         foreach (var item in q)
                         {
-                            for (int i = 3; i < item.DataLength; i++)
+                            for (int i = 0; i < item.DataLength; i++)
                             {
                                 result.Add(item.Data[i]);
                             }
@@ -839,8 +843,8 @@ namespace Protocol
                         byte[] t = new byte[2];
                         for (int i = 0; i + 1 < result.Count; i = i + 2)
                         {
-                            t[0] = result[i];
-                            t[1] = result[i + 1];
+                            t[0] = result[i+1];
+                            t[1] = result[i];
                             output.Add(BitConverter.ToInt16(t, 0));
                         }
 
@@ -902,6 +906,7 @@ namespace Protocol
 
                 int nStartTime = Environment.TickCount;
                 bool getReadResponse = false;  //是否响应了读取命令
+                isComRecving = true;//正在读取串口数据
                 while (true)
                 {
                     if (Environment.TickCount - nStartTime > timeout * 1000)    //超时
@@ -917,7 +922,7 @@ namespace Protocol
                         AppendBufLine("获取设备{0}数据中途串口被关闭！", package.DevID);
                         throw new Exception("关闭串口，停止获取数据。");
                     }
-                    isComRecving = true;//正在读取串口数据
+                    
                     while (serialPort.BytesToRead > 0)
                     {
                         int len = serialPort.BytesToRead;
@@ -1045,6 +1050,7 @@ namespace Protocol
 
                 int nStartTime = Environment.TickCount;
                 bool getReadResponse = false;  //是否响应了读取命令
+                isComRecving = true;//正在读取串口数据
                 while (true)
                 {
                     if (Environment.TickCount - nStartTime > timeout * 1000)    //超时
@@ -1060,7 +1066,7 @@ namespace Protocol
                         AppendBufLine("获取设备{0}数据中途串口被关闭！", package.DevID);
                         throw new Exception("关闭串口，停止获取数据。");
                     }
-                    isComRecving = true;//正在读取串口数据
+                    
                     while (serialPort.BytesToRead > 0)
                     {
                         int len = serialPort.BytesToRead;

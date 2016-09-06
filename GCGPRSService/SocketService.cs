@@ -1760,7 +1760,7 @@ namespace GCGPRSService
                                                     noisedataentity.ColTime = DateTime.Now.ToString();
                                                     for (int i = 2; i + 1 < lstbytes.Count; i += 2)
                                                     {
-                                                        noisedataentity.Data += BitConverter.ToInt16(new byte[] { lstbytes[i], lstbytes[i + 1] }, 0) + ",";
+                                                        noisedataentity.Data += BitConverter.ToInt16(new byte[] { lstbytes[i + 1], lstbytes[i] }, 0) + ",";
                                                     }
                                                     if (noisedataentity.Data.EndsWith(","))
                                                         noisedataentity.Data = noisedataentity.Data.Substring(0, noisedataentity.Data.Length - 1);
@@ -1771,7 +1771,7 @@ namespace GCGPRSService
                                                 string strcurnoisedata = "";  //当前包的数据,用于显示
                                                 for (int i = 8; i + 1 < pack.DataLength - 2; i += 2)
                                                 {
-                                                    strcurnoisedata += BitConverter.ToInt16(new byte[] { pack.Data[i], pack.Data[i + 1] }, 0) + ",";
+                                                    strcurnoisedata += BitConverter.ToInt16(new byte[] { pack.Data[i + 1], pack.Data[i] }, 0) + ",";
                                                 }
                                                 if (strcurnoisedata.EndsWith(","))
                                                     strcurnoisedata = strcurnoisedata.Substring(0, strcurnoisedata.Length - 1);

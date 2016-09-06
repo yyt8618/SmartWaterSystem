@@ -6,51 +6,47 @@ using System.Windows.Forms;
 using System.IO;
 using DevExpress.XtraEditors;
 using ChartDirector;
-using System.Security.Permissions;
-using BLL;
 
 namespace SmartWaterSystem
 {
-    public partial class HydrantMap :BaseView, IHydrantMap
+    public partial class NoiseMap : BaseView, INoiseMap
     {
-
-        NLog.Logger logger = NLog.LogManager.GetLogger("HydrantMap");
-        public HydrantMap()
+        NLog.Logger logger = NLog.LogManager.GetLogger("NoiseMap");
+        public NoiseMap()
         {
             InitializeComponent();
 
             try
             {
-                Uri uri = new Uri(Path.Combine(Application.StartupPath, ".\\HydrantMap\\BaiduMap.htm"));
+                Uri uri = new Uri(Path.Combine(Application.StartupPath, ".\\NoiseMap\\NoiseBaiduMap.htm"));
                 webBrowser1.Url = uri;
-                MapForScripting mapscripting=new MapForScripting();
+                MapForScripting mapscripting = new MapForScripting();
                 mapscripting.webBrow = this.webBrowser1;
                 webBrowser1.ObjectForScripting = mapscripting;
             }
             catch (Exception ex)
             {
-                logger.ErrorException("HydrantMap_Load", ex);
-                XtraMessageBox.Show("加载地图出现异常!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                logger.ErrorException("NoiseMap_Load", ex);
+                XtraMessageBox.Show("加载地图出现异常!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         public override void OnLoad()
         {
-            
         }
 
-        HydrantFullScreen frm = null;
+        MapFullScreen frm = null;
         private void btnFullScreen_Click(object sender, EventArgs e)
         {
-            frm = new HydrantFullScreen();
+            frm = new MapFullScreen();
             AddEventKeyUp(this.webBrowser1);
             this.Controls.Clear();
             frm.Controls.Add(this.webBrowser1);
             frm.ShowDialog();
         }
 
-        
-        private void AddEventKeyUp(Control control){
+        private void AddEventKeyUp(Control control)
+        {
             try
             {
                 if (control != null)
@@ -99,6 +95,7 @@ namespace SmartWaterSystem
                 }
             }
         }
-        
+
+
     }
 }

@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace SmartWaterSystem
 {
-    public partial class HydrantFullScreen : Form
+    public partial class MapFullScreen : Form
     {
-        public HydrantFullScreen()
+        public MapFullScreen()
         {
             InitializeComponent();
         }

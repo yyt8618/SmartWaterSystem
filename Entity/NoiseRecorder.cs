@@ -26,6 +26,26 @@ namespace Entity
         /// </summary>
         public int GroupID { get; set; }
 
+        private string _longtitude;
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public string Longtitude
+        {
+            get { return _longtitude; }
+            set { _longtitude = value; }
+        }
+
+        private string _latitude;
+        /// <summary>
+        /// 纬度
+        /// </summary>
+        public string Latitude
+        {
+            get { return _latitude; }
+            set { _latitude = value; }
+        }
+
         /// <summary>
         /// 备注
         /// </summary>

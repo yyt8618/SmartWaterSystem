@@ -460,15 +460,7 @@ namespace SmartWaterSystem
                     Dictionary<short, short[]> result = new Dictionary<short, short[]>();
                     result.Add(GlobalValue.NoiseSerialPortOptData.ID, (short[])e.Tag);
                     string TestPath = Application.StartupPath + @"\Data\记录仪{0}\";
-                    try {
-                        if (!Directory.Exists(TestPath))
-                            Directory.CreateDirectory(TestPath);
-                    }
-                    catch(Exception ex)
-                    {
-                        ShowDialog("创建文件夹错误,errmsg:" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
+                    
                     string errmsg = NoiseDataHandler.CallbackReaded(result, selectList, TestPath, ref GlobalValue.recorderList);
                     if (!string.IsNullOrEmpty(errmsg))
                     {

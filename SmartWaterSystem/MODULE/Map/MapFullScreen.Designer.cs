@@ -1,6 +1,6 @@
 ﻿namespace SmartWaterSystem
 {
-    partial class HydrantFullScreen
+    partial class MapFullScreen
     {
         /// <summary>
         /// Required designer variable.

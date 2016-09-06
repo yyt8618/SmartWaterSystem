@@ -30,7 +30,7 @@ namespace Protocol
 
         #endregion
 
-        public Package Read(Package package,int timeout = 6,int times=2)
+        public Package Read(Package package,int timeout = 4,int times=2)
         {
             try
             {

@@ -79,33 +79,33 @@ namespace SmartWaterSystem
                 return ok;
             }
 
-            if (comboBoxDist.SelectedIndex == 1)
-            {
-                ok = MetarnetRegex.IsUint(txtConId.Text);
-                if (!ok)
-                {
-                    txtConId.Focus();
-                    txtConId.SelectAll();
-                    msg = "控制器编号设置错误！";
-                    return ok;
-                }
-                ok = MetarnetRegex.IsUint(txtConPort.Text);
-                if (!ok)
-                {
-                    txtConPort.Focus();
-                    txtConPort.SelectAll();
-                    msg = "远传端口设置错误！";
-                    return ok;
-                }
-                ok = MetarnetRegex.IsIPv4(txtConIP.Text);
-                if (!ok)
-                {
-                    txtConIP.Focus();
-                    txtConIP.SelectAll();
-                    msg = "远传地址设置错误！";
-                    return ok;
-                }
-            }
+            //if (comboBoxDist.SelectedIndex == 1)
+            //{
+            //    ok = MetarnetRegex.IsUint(txtConId.Text);
+            //    if (!ok)
+            //    {
+            //        txtConId.Focus();
+            //        txtConId.SelectAll();
+            //        msg = "控制器编号设置错误！";
+            //        return ok;
+            //    }
+            //    ok = MetarnetRegex.IsUint(txtConPort.Text);
+            //    if (!ok)
+            //    {
+            //        txtConPort.Focus();
+            //        txtConPort.SelectAll();
+            //        msg = "远传端口设置错误！";
+            //        return ok;
+            //    }
+            //    ok = MetarnetRegex.IsIPv4(txtConIP.Text);
+            //    if (!ok)
+            //    {
+            //        txtConIP.Focus();
+            //        txtConIP.SelectAll();
+            //        msg = "远传地址设置错误！";
+            //        return ok;
+            //    }
+            //}
 
             // 通讯时间与记录时间不能重叠
             //int comTime = Convert.ToInt32(txtComTime.Text);
@@ -424,12 +424,12 @@ namespace SmartWaterSystem
                 newRec.ID = Convert.ToInt32(txtRecID.Text);
                 newRec.AddDate = DateTime.Now;
                 //newRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
-                if (comboBoxDist.SelectedIndex == 1)
-                    newRec.ControlerPower = 1;
-                else if (comboBoxDist.SelectedIndex == 0)
-                    newRec.ControlerPower = 0;
-                else
-                    throw new Exception("未选择远传功能！");
+                //if (comboBoxDist.SelectedIndex == 1)
+                //    newRec.ControlerPower = 1;
+                //else if (comboBoxDist.SelectedIndex == 0)
+                //    newRec.ControlerPower = 0;
+                //else
+                //    throw new Exception("未选择远传功能！");
 
                 newRec.LeakValue = Convert.ToInt32(txtLeakValue.Text);
                 newRec.Remark = txtRecNote.Text;

@@ -443,6 +443,11 @@ namespace SmartWaterSystem
 
                     BandSerialPortEvent("IHydrantParm");
                 }
+                else
+                {
+                    barBtnSerialOpen.Enabled = false;
+                    barBtnSerialClose.Enabled = true;
+                }
             }
             catch (Exception ex)
             {
@@ -457,6 +462,7 @@ namespace SmartWaterSystem
             {
                 if (GlobalValue.portUtil.IsOpen)
                 {
+                    Application.DoEvents();
                     GlobalValue.portUtil.Close();
                     barStaticItemWait.Caption = "串口已关闭";
                     barBtnSerialOpen.Enabled = true;
@@ -638,7 +644,10 @@ namespace SmartWaterSystem
             if (dr == System.Windows.Forms.DialogResult.Yes)
             {
                 if (GlobalValue.portUtil != null && GlobalValue.portUtil.IsOpen)
+                {
+                    Application.DoEvents();
                     GlobalValue.portUtil.Close();
+                }
 
                 this.Close();
             }

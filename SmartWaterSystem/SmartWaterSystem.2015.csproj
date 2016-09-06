@@ -150,24 +150,24 @@
     <Compile Include="BaseView.Designer.cs">
       <DependentUpon>BaseView.cs</DependentUpon>
     </Compile>
-    <Compile Include="MapForScripting.cs" />
-    <Compile Include="MODULE\Hydrant\HydrantFullScreen.cs">
+    <Compile Include="MODULE\Map\MapForScripting.cs" />
+    <Compile Include="MODULE\Map\HydrantMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\Map\HydrantMap.Designer.cs">
+      <DependentUpon>HydrantMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\Map\MapFullScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MODULE\Hydrant\HydrantFullScreen.Designer.cs">
-      <DependentUpon>HydrantFullScreen.cs</DependentUpon>
+    <Compile Include="MODULE\Map\MapFullScreen.Designer.cs">
+      <DependentUpon>MapFullScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\Hydrant\HydrantParm.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MODULE\Hydrant\HydrantParm.Designer.cs">
       <DependentUpon>HydrantParm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MODULE\Hydrant\HydrantMap.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MODULE\Hydrant\HydrantMap.Designer.cs">
-      <DependentUpon>HydrantMap.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\Hydrant\HydrantDetail.cs">
       <SubType>Form</SubType>
@@ -207,10 +207,10 @@
       <DependentUpon>FrmParamViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalValue.cs" />
-    <Compile Include="MODULE\NoiseRec\NoiseMap.cs">
+    <Compile Include="MODULE\Map\NoiseMap.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MODULE\NoiseRec\NoiseMap.Designer.cs">
+    <Compile Include="MODULE\Map\NoiseMap.Designer.cs">
       <DependentUpon>NoiseMap.cs</DependentUpon>
     </Compile>
     <Compile Include="MODULE\NoiseRec\NoiseParmSetting.cs">
@@ -422,14 +422,11 @@
     <EmbeddedResource Include="BaseView.resx">
       <DependentUpon>BaseView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\Hydrant\HydrantFullScreen.resx">
-      <DependentUpon>HydrantFullScreen.cs</DependentUpon>
+    <EmbeddedResource Include="MODULE\Map\MapFullScreen.resx">
+      <DependentUpon>MapFullScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\Hydrant\HydrantParm.resx">
       <DependentUpon>HydrantParm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\Hydrant\HydrantMap.resx">
-      <DependentUpon>HydrantMap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\Hydrant\HydrantDetail.resx">
       <DependentUpon>HydrantDetail.cs</DependentUpon>
@@ -449,7 +446,7 @@
     <EmbeddedResource Include="FrmParamViewer.resx">
       <DependentUpon>FrmParamViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\NoiseRec\NoiseMap.resx">
+    <EmbeddedResource Include="MODULE\Map\NoiseMap.resx">
       <DependentUpon>NoiseMap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\NoiseRec\NoiseParmSetting.resx">
@@ -696,7 +693,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gc.ico" />
-    <Content Include="MODULE\NoiseRec\BaiduMap.htm" />
     <Content Include="Resources\SockConnect.ico" />
     <Content Include="Resources\SockNotConnect.ico" />
     <None Include="Resources\Socket.ico" />

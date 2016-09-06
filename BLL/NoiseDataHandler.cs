@@ -1371,37 +1371,46 @@ namespace BLL
                         {
                             tmpData[k] = result[key][k + j * spanCount];
                         }
+                        //////////////////////////////////////////////////////////////////////////////////////////
+                        // for test
+                        if (!string.IsNullOrEmpty(textPath))
+                        {
+                            try
+                            {
+                                textPath = string.Format(textPath, recorder.ID);
+                                if (!Directory.Exists(textPath))
+                                    Directory.CreateDirectory(textPath);
+                            }
+                            catch (Exception ex)
+                            {
+                                return "创建文件夹错误,errmsg:" + ex.Message;
+                            }
+
+                            StreamWriter sw = new StreamWriter(string.Format("{0}转换前数据{1}.txt", textPath, fla));
+                            foreach (var item in tmpData)
+                            {
+                                sw.WriteLine(item);
+                            }
+                            sw.Flush();
+                            sw.Close();
+                        }
+                        //////////////////////////////////////////////////////////////////////////////////////////
 
                         if (tmpData.Max() < 0)
                         {
-                            ; //无效数据
+                            ;  //无效数据
                         }
                         else
                         {
-                            //////////////////////////////////////////////////////////////////////////////////////////
-                            // for test
-                            textPath = string.Format(textPath, recorder.ID);
-                            if (!string.IsNullOrEmpty(textPath))
-                            {
-                                if (!Directory.Exists(textPath))
-                                    Directory.CreateDirectory(textPath);
-
-                                StreamWriter sw = new StreamWriter(string.Format("{0}转换前数据{1}.txt", textPath, fla));
-                                foreach (var item in tmpData)
-                                {
-                                    sw.WriteLine(item);
-                                }
-                                sw.Flush();
-                                sw.Close();
-                            }
-
-                            //////////////////////////////////////////////////////////////////////////////////////////
-
                             data.Add(tmpData);
                             tmpData.CopyTo(tmpData_IsLeak, 0);
                             data_isleak1.Add(tmpData_IsLeak);
                             fla++;
                         }
+                    }
+                    if(data.Count==0)
+                    {
+                        return "无有效数据或者数据量太少!";
                     }
                     double[] amp = null;
                     double[] frq = null;

@@ -40,6 +40,8 @@ namespace SmartWaterSystem
                     rec.Remark = dtRecorder.Rows[i]["Remark"].ToString();
                     rec.AddDate = Convert.ToDateTime(dtRecorder.Rows[i]["AddDate"]);
                     rec.GroupState = Convert.ToInt32(dtRecorder.Rows[i]["GroupState"]);
+                    rec.Longtitude = dtRecorder.Rows[i]["longitude"] != DBNull.Value ? dtRecorder.Rows[i]["longitude"].ToString() : "";
+                    rec.Latitude = dtRecorder.Rows[i]["latitude"] != DBNull.Value ? dtRecorder.Rows[i]["latitude"].ToString() : "";
 
                     sql = "SELECT * FROM MT_RecorderSet WHERE RecorderId = " + rec.ID.ToString();
                     DataTable recSet = SQLHelper.ExecuteDataTable(sql);
@@ -197,23 +199,7 @@ namespace SmartWaterSystem
 				recGroupList = (from item in recAllList.AsEnumerable()
 								where item.GroupID == groupID
 								   select item).ToList();
-
-				//sql = @"SELECT RecorderId FROM MP_GroupRecorder WHERE GroupId =" + groupID;
-				//DataTable dtGroupRecorder = DbForAccess.GetDataTable(sql);
-
-				//for (int i = 0; i < dtGroupRecorder.Rows.Count; i++)
-				//{
-				//    int id = (int)dtGroupRecorder.Rows[i]["RecorderId"];
-				//    for (int j = 0; j < recAllList.Count; j++)
-				//    {
-				//        if (recAllList[j].ID == id)
-				//        {
-				//            recGroupList.Add(recAllList[j]);
-				//            break;
-				//        }
-				//    }
-				//}
-
+                
                 return recGroupList;
             }
 			catch (Exception ex)
@@ -258,7 +244,7 @@ namespace SmartWaterSystem
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"UPDATE EN_NoiseRecorder SET Remark = '{0}',GroupState = {1} WHERE RecorderId = {2}", rec.Remark, rec.GroupState, rec.ID);
+                sql = string.Format(@"UPDATE EN_NoiseRecorder SET Remark = '{0}',GroupState = {1},Longitude='{2}',Latitude='{3}' WHERE RecorderId = {4}", rec.Remark, rec.GroupState, rec.Longtitude, rec.Latitude, rec.ID);
                 query = SQLHelper.ExecuteNonQuery(sql);
 
                 sql = string.Format(
@@ -269,7 +255,7 @@ namespace SmartWaterSystem
 
                 return query;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return -1;
             }
@@ -373,14 +359,6 @@ namespace SmartWaterSystem
                 {
                     str_data = dt.Rows[0]["Data"] != DBNull.Value ? dt.Rows[0]["Data"].ToString() : "";
                 }
-                //using (System.Data.OleDb.OleDbDataReader reader = DbForAccess.GetDataReader(SQL))
-                //{
-                //    if (reader.Read())
-                //    {
-                //        str_data = reader["Data"] != DBNull.Value ? reader["Data"].ToString() : "";
-                //    }
-                //}
-
                 if (!string.IsNullOrEmpty(str_data))
                 {
                     List<short> lstData = new List<short>();
@@ -467,17 +445,22 @@ namespace SmartWaterSystem
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"INSERT INTO EN_NoiseRecorder(RecorderId,AddDate,Remark,GroupState) VALUES(@RecorderId,@AddDate,@Remark,@GroupState)",
+                sql = string.Format(@"INSERT INTO EN_NoiseRecorder(RecorderId,AddDate,Remark,GroupState,longitude,latitude) VALUES(@RecorderId,@AddDate,@Remark,@GroupState,@lng,@lat)",
                     rec.ID, rec.AddDate, rec.Remark, rec.GroupState);
                 SqlParameter[] parms = new SqlParameter[]{
                     new SqlParameter("@RecorderId",DbType.String),
                     new SqlParameter("@AddDate",DbType.DateTime),
                     new SqlParameter("@Remark",DbType.String),
-                    new SqlParameter("@GroupState",DbType.Int32) };
+                    new SqlParameter("@GroupState",DbType.Int32),
+                    new SqlParameter("@lng",SqlDbType.Float),
+                    new SqlParameter("@lat",SqlDbType.Float)
+                };
                 parms[0].Value = rec.ID;
                 parms[1].Value = rec.AddDate;
                 parms[2].Value = rec.Remark;
                 parms[3].Value = rec.GroupState;
+                parms[4].Value = rec.Longtitude;
+                parms[5].Value = rec.Latitude;
 
                 query = SQLHelper.ExecuteNonQuery(sql, parms);
 
