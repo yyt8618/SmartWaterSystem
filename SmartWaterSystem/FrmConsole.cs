@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using System.IO;
+using Common;
+using System.Text;
 
 namespace SmartWaterSystem
 {
@@ -25,23 +28,21 @@ namespace SmartWaterSystem
             GlobalValue.SerialPortMgr.serialPortUtil.ShowMsgEvent += new Protocol.ShowMsgHandle(serialPortUtil_ShowMsgEvent);
             GlobalValue.SocketMgr.SocketConnEvent += SocketMgr_SocketConnEvent;
         }
+        
+        private void FrmConsole_Load(object sender, EventArgs e)
+        {
+            FrmConsole.CheckForIllegalCrossThreadCalls = false;
+            ShowCtrlMsg();
+
+            txtControl.SelectionStart = txtControl.Text.Length;
+            txtControl.ScrollToCaret();
+            txtControl.SelectedText = "";
+
+            UpdateSocketList();
+        }
 
         private void SocketMgr_SocketConnEvent(object sender, SocketStatusEventArgs e)
         {
-            //try
-            //{
-            //    if (e.Connect)
-            //    {
-            //        picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockConnect;
-            //        //btnSocketConnect.Enabled = false;
-            //    }
-            //    else
-            //    {
-            //        picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-            //        //btnSocketConnect.Enabled = true;
-            //    }
-            //}
-            //catch { }
             SocketStatusChange(e.Connect);
         }
 
@@ -76,16 +77,6 @@ namespace SmartWaterSystem
         {
             if(!string.IsNullOrEmpty(msg))
                 SetCtrlMsg(msg);
-        }
-
-        private void FrmConsole_Load(object sender, EventArgs e)
-        {
-            FrmConsole.CheckForIllegalCrossThreadCalls = false;
-            ShowCtrlMsg();
-
-            txtControl.SelectionStart = txtControl.Text.Length;
-            txtControl.ScrollToCaret();
-            txtControl.SelectedText = "";
         }
 
         void MSMQMgr_MSMQEvent(object sender, SocketEventArgs e)
@@ -220,6 +211,114 @@ namespace SmartWaterSystem
         {
             Clipboard.SetDataObject(txtControl.Text, true);
         }
-        
+
+        private void FrmConsole_VisibleChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        public void UpdateSocketList()
+        {
+            try
+            {
+                this.comboSocketServer.SelectedIndexChanged -= new System.EventHandler(this.comboSocketServer_SelectedIndexChanged);
+                if (File.Exists(GlobalValue.SocketConfigFilePath))
+                {
+                    using (StreamReader reader = new StreamReader(GlobalValue.SocketConfigFilePath, Encoding.UTF8))
+                    {
+                        string selectedrow = Settings.Instance.GetString(SettingKeys.GPRS_IP) + "\t" + Settings.Instance.GetString(SettingKeys.GPRS_PORT);
+                        string selectname = "";
+                        comboSocketServer.SelectedIndex = -1;
+                        do
+                        {
+                            string strrow = reader.ReadLine();
+                            if (!string.IsNullOrEmpty(strrow))
+                            {
+                                string[] strcols = strrow.Split('\t');
+                                if (strcols != null && strcols.Length == 3)
+                                {
+                                    comboSocketServer.Properties.Items.Add(strcols[0]);
+                                    bool bcontain = false;  //标记是否列表中已包含
+                                    for (int i = 0; i < comboSocketServer.Properties.Items.Count; i++)
+                                    {
+                                        if (strcols[0] == comboSocketServer.Properties.Items[i].ToString())
+                                        {
+                                            bcontain = true;
+                                        }
+                                    }
+
+                                    if (!bcontain) //未包含的情况下添加进列表
+                                    {
+                                        comboSocketServer.Properties.Items.Add(strcols[0]);
+                                    }
+
+                                    if (strrow.Contains(selectedrow))
+                                        selectname = strcols[0];
+                                }
+                            }
+
+                        } while (!reader.EndOfStream);
+                        //设置选中的数据
+                        if (!string.IsNullOrEmpty(selectname))
+                        {
+                            for (int i = 0; i < comboSocketServer.Properties.Items.Count; i++)
+                            {
+                                if (selectname == comboSocketServer.Properties.Items[i].ToString())
+                                {
+                                    comboSocketServer.SelectedIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("初始化Socket列表失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.comboSocketServer.SelectedIndexChanged += new System.EventHandler(this.comboSocketServer_SelectedIndexChanged);
+            }
+        }
+
+        private void comboSocketServer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(comboSocketServer.SelectedIndex>-1)
+            {
+                try
+                {
+                    if (File.Exists(GlobalValue.SocketConfigFilePath))
+                    {
+                        using (StreamReader reader = new StreamReader(GlobalValue.SocketConfigFilePath, Encoding.UTF8))
+                        {
+                            do
+                            {
+                                string strrow = reader.ReadLine();
+                                if (!string.IsNullOrEmpty(strrow))
+                                {
+                                    string[] strcols = strrow.Split('\t');
+                                    if (strcols != null && strcols.Length == 3)
+                                    {
+                                        if(strcols[0] == comboSocketServer.SelectedItem.ToString())
+                                        {
+                                            Settings.Instance.SetValue(SettingKeys.GPRS_IP, strcols[1]);
+                                            Settings.Instance.SetValue(SettingKeys.GPRS_PORT, strcols[2]);
+                                        }
+                                    }
+                                }
+
+                            } while (!reader.EndOfStream);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show("设置Socket失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

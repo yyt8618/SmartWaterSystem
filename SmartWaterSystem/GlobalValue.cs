@@ -21,6 +21,7 @@ namespace SmartWaterSystem
         internal static string TestPath = Application.StartupPath + @"\Data\";
         internal static List<int> reReadIdList = new List<int>();                                // 需要重新读取的记录仪ID集合
         internal static string Text = "IGC DataLog系列产品应用软件";
+        internal static string SocketConfigFilePath= Application.StartupPath + @"\SocketAddr.txt";  //SOCKET配置文件地址
 
         #region 系统主界面
         private static FrmSystem _mainForm;

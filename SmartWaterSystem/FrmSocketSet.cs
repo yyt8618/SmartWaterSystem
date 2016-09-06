@@ -15,7 +15,6 @@ namespace SmartWaterSystem
 {
     public partial class FrmSocketSet : DevExpress.XtraEditors.XtraForm
     {
-        string configfilepath = Application.StartupPath + @"\SocketAddr.txt";
         DataTable dt = new DataTable("SocketAddr");
 
         public FrmSocketSet()
@@ -31,10 +30,10 @@ namespace SmartWaterSystem
             dt.Columns.Add("Port");
 
             try {
-                if (File.Exists(configfilepath))
+                if (File.Exists(GlobalValue.SocketConfigFilePath))
                 {
                     string selectedrow = Settings.Instance.GetString(SettingKeys.GPRS_IP) + "\t" + Settings.Instance.GetString(SettingKeys.GPRS_PORT);
-                    using (StreamReader reader = new StreamReader(configfilepath, Encoding.UTF8))
+                    using (StreamReader reader = new StreamReader(GlobalValue.SocketConfigFilePath, Encoding.UTF8))
                     {
                         do
                         {
@@ -97,7 +96,7 @@ namespace SmartWaterSystem
                     return;
                 }
 
-                using (StreamWriter writer = new StreamWriter(configfilepath, false, Encoding.UTF8))
+                using (StreamWriter writer = new StreamWriter(GlobalValue.SocketConfigFilePath, false, Encoding.UTF8))
                 {
                     foreach (DataRow dr in dt.Rows)
                     {
@@ -109,6 +108,9 @@ namespace SmartWaterSystem
 
                 Settings.Instance.SetValue(SettingKeys.GPRS_IP, checkedip);
                 Settings.Instance.SetValue(SettingKeys.GPRS_PORT, checkedport);
+
+                if (GlobalValue.MainForm.gprsconsole != null)
+                    GlobalValue.MainForm.gprsconsole.UpdateSocketList();  //更新FrmConsole界面上的Socket服务列表
 
                 XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

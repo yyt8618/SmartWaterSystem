@@ -700,7 +700,7 @@ namespace SmartWaterSystem
             }
         }
 
-        FrmConsole gprsconsole = new FrmConsole();
+        public FrmConsole gprsconsole = new FrmConsole();
         private void barBtnGPRSConsole_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (gprsconsole.WindowState == FormWindowState.Minimized)
