@@ -324,6 +324,10 @@ namespace SmartWaterSystem
                 bool isError = false;
                 try
                 {
+                    if (DialogResult.No == XtraMessageBox.Show("停止将会删除记录仪数据,是否继续?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+                    {
+                        return;
+                    }
                     if (!Regex.IsMatch(txtRecID.Text, @"^\d{1,5}$"))
                     {
                         XtraMessageBox.Show("请输入记录仪ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -744,6 +748,13 @@ namespace SmartWaterSystem
                     {
                         return;
                     }
+                    //初始化ID，清除控件数据
+                    CombRemotingID.Properties.Items.Clear();
+                    comboBoxDist.SelectedIndex = -1;
+                    txtComTime.Text = "";
+                    txtConIP.Text = "";
+                    txtConPort.Text = "";
+
                     GlobalValue.NoiseSerialPortOptData.IsOptID = ceConId.Checked;
                     GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(txtCurConId.Text);
                     GlobalValue.NoiseSerialPortOptData.SetID = Convert.ToInt16(txtConId.Text);
@@ -1039,13 +1050,13 @@ namespace SmartWaterSystem
                         //记录仪ID
                         if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteId)
                         {
-                            for(int i = 0; i<this.CombRemotingID.Properties.Items.Count;i++)  //将选中状态去除
-                            {
-                                CombRemotingID.Properties.Items[i].CheckState = CheckState.Unchecked;
-                            }
                             if (read_result.RemoteId!=null && read_result.RemoteId.Count>0)
                             {
-                                for(int i =0;i<read_result.RemoteId.Count;i++)
+                                for (int i = 0; i < this.CombRemotingID.Properties.Items.Count; i++)  //将选中状态去除
+                                {
+                                    CombRemotingID.Properties.Items[i].CheckState = CheckState.Unchecked;
+                                }
+                                for (int i =0;i<read_result.RemoteId.Count;i++)
                                 {
                                     bool bcontain = false;  //标记是否列表中已包含
                                     for (int j =0; j < CombRemotingID.Properties.Items.Count;j++)
@@ -1058,10 +1069,16 @@ namespace SmartWaterSystem
                                     }
                                     if(!bcontain) //未包含的情况下添加进列表
                                     {
-                                        this.CombRemotingID.Properties.Items.Add(new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null,read_result.RemoteId[i].ToString(),CheckState.Checked));
+                                        CombRemotingID.Properties.Items.Add(new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null,read_result.RemoteId[i].ToString(),CheckState.Checked));
                                     }
                                 }
                             }
+                            else if(read_result.RemoteId.Count == 0)
+                            {
+                                CombRemotingID.Text = "空";
+                                //CombRemotingID.Properties.Items.Add(new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "空", CheckState.Checked));
+                            }
+                            CombRemotingID.Refresh();
                         }
                         
                         //时间
@@ -1122,7 +1139,7 @@ namespace SmartWaterSystem
                     ShowDialog("设置远传控制器参数成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                     GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
-                    BindRecord();
+                    //BindRecord();
                 }
                 else
                 {
@@ -1549,7 +1566,7 @@ namespace SmartWaterSystem
                     txtConPort.Text = dc.Port.ToString();
                     txtConIP.Text = dc.IPAdress.ToString();
                 }
-                comboBoxDist.SelectedIndex = rec.ControlerPower;
+                //comboBoxDist.SelectedIndex = rec.ControlerPower;
 
                 btnDeleteRec.Enabled = true;
 

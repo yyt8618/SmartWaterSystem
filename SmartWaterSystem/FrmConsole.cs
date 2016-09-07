@@ -143,13 +143,16 @@ namespace SmartWaterSystem
         {
             try
             {
-                string ctrlmsg = "";
-                for (int i = 0; i < lstCtrlMsg.Count; i++)
+                if (btnPause.Text == "暂停")
                 {
-                    ctrlmsg += lstCtrlMsg[i];
+                    string ctrlmsg = "";
+                    for (int i = 0; i < lstCtrlMsg.Count; i++)
+                    {
+                        ctrlmsg += lstCtrlMsg[i];
+                    }
+                    txtControl.ResetText();
+                    txtControl.AppendText(ctrlmsg);
                 }
-                txtControl.ResetText();
-                txtControl.AppendText(ctrlmsg);
             }
             catch (Exception ex)
             {
@@ -318,6 +321,16 @@ namespace SmartWaterSystem
                 {
                     XtraMessageBox.Show("设置Socket失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            if (btnPause.Text == "暂停")
+                btnPause.Text = "继续";
+            else {
+                btnPause.Text = "暂停";
+                ShowCtrlMsg();
             }
         }
     }

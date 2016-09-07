@@ -16,7 +16,7 @@ namespace SmartWaterSystem
             this.labelProductName.Text = AssemblyProduct;
             this.labelVersion.Text =
                 String.Format("{0}.{1} Build({2})", version.Major, version.Minor, File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString("yyyyMMdd"));
-            this.labelCopyright.Text = "上海敢创水业科技有限公司 Copyright© 2014";
+            this.labelCopyright.Text = "上海敢创科技有限公司 Copyright© 2014";
             this.labelCompanyName.Text = string.Empty;
         }
 

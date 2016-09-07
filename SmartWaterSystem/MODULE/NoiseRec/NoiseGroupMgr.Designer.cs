@@ -144,7 +144,7 @@
             // 
             this.treeListColumnID.Caption = "名称";
             this.treeListColumnID.FieldName = "ID";
-            this.treeListColumnID.MinWidth = 32;
+            this.treeListColumnID.MinWidth = 34;
             this.treeListColumnID.Name = "treeListColumnID";
             this.treeListColumnID.OptionsColumn.AllowEdit = false;
             this.treeListColumnID.OptionsColumn.ReadOnly = true;
@@ -185,7 +185,7 @@
             this.groupControl2.Controls.Add(this.label13);
             this.groupControl2.Location = new System.Drawing.Point(233, 5);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(325, 220);
+            this.groupControl2.Size = new System.Drawing.Size(325, 316);
             this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "基本信息";
             // 
@@ -296,11 +296,12 @@
             this.groupControl3.Controls.Add(this.txtRecNum);
             this.groupControl3.Controls.Add(this.nUpDownSamSpan);
             this.groupControl3.Enabled = false;
-            this.groupControl3.Location = new System.Drawing.Point(233, 231);
+            this.groupControl3.Location = new System.Drawing.Point(658, 461);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(561, 257);
+            this.groupControl3.Size = new System.Drawing.Size(136, 27);
             this.groupControl3.TabIndex = 2;
             this.groupControl3.Text = "记录仪参数批量设置";
+            this.groupControl3.Visible = false;
             // 
             // txtLeakValue
             // 
@@ -512,7 +513,7 @@
             this.groupControl4.Controls.Add(this.btnImportRec);
             this.groupControl4.Location = new System.Drawing.Point(564, 5);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(230, 220);
+            this.groupControl4.Size = new System.Drawing.Size(230, 316);
             this.groupControl4.TabIndex = 3;
             this.groupControl4.Text = "当前可分配记录仪列表";
             // 

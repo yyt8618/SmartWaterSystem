@@ -46,6 +46,7 @@
             this.simpleButtonUnSelect = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonSelectAll = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.btnRefreshData = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonAny = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonComapre = new DevExpress.XtraEditors.SimpleButton();
             this.gridControlResult = new DevExpress.XtraGrid.GridControl();
@@ -67,7 +68,6 @@
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.barStaticItem1 = new DevExpress.XtraBars.BarStaticItem();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-            this.btnRefreshData = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewGroupList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).BeginInit();
@@ -264,6 +264,15 @@
             this.groupControl2.Size = new System.Drawing.Size(465, 488);
             this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "数据分析结果列表";
+            // 
+            // btnRefreshData
+            // 
+            this.btnRefreshData.Location = new System.Drawing.Point(178, 458);
+            this.btnRefreshData.Name = "btnRefreshData";
+            this.btnRefreshData.Size = new System.Drawing.Size(90, 23);
+            this.btnRefreshData.TabIndex = 1;
+            this.btnRefreshData.Text = "刷新";
+            this.btnRefreshData.Click += new System.EventHandler(this.btnRefreshData_Click);
             // 
             // simpleButtonAny
             // 
@@ -469,15 +478,6 @@
             this.barButtonItem1.Id = 1;
             this.barButtonItem1.Name = "barButtonItem1";
             // 
-            // btnRefreshData
-            // 
-            this.btnRefreshData.Location = new System.Drawing.Point(178, 458);
-            this.btnRefreshData.Name = "btnRefreshData";
-            this.btnRefreshData.Size = new System.Drawing.Size(90, 23);
-            this.btnRefreshData.TabIndex = 1;
-            this.btnRefreshData.Text = "刷新";
-            this.btnRefreshData.Click += new System.EventHandler(this.btnRefreshData_Click);
-            // 
             // NoiseDataMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -503,6 +503,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

@@ -615,17 +615,18 @@ namespace Protocol
                 {
                     throw new Exception("获取失败");
                 }
-                if (result.Data.Length == 0)
-                {
-                    throw new Exception("无数据");
-                }
                 if ((result.Data.Length % 4) != 0)
                 {
                     throw new Exception("数据损坏");
                 }
-
-                //Array.Reverse(result.Data);
                 List<int> lstId = new List<int>();
+                if (result.Data.Length == 0)
+                {
+                    //throw new Exception("无数据");
+                    return lstId;
+                }
+                //Array.Reverse(result.Data);
+                
                 for(int i=0;i< result.Data.Length/4;i++)
                 {
                     lstId.Add(BitConverter.ToInt32(new byte[] { result.Data[i*4 + 3], result.Data[i*4 + 2], result.Data[i*4 + 1], 0x00 }, 0));

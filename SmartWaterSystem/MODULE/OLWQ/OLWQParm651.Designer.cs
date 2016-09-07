@@ -549,7 +549,7 @@ namespace SmartWaterSystem
             this.ceConductivityState.Name = "ceConductivityState";
             this.ceConductivityState.Properties.Caption = "电导率/温度(或其它485采集)";
             this.ceConductivityState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceConductivityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceConductivityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceConductivityState.Size = new System.Drawing.Size(180, 19);
             this.ceConductivityState.TabIndex = 3;
             // 
@@ -560,7 +560,7 @@ namespace SmartWaterSystem
             this.ceTurbidityState.Name = "ceTurbidityState";
             this.ceTurbidityState.Properties.Caption = "浊度";
             this.ceTurbidityState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceTurbidityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceTurbidityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceTurbidityState.Size = new System.Drawing.Size(48, 19);
             this.ceTurbidityState.TabIndex = 2;
             // 
@@ -571,7 +571,7 @@ namespace SmartWaterSystem
             this.cePHState.Name = "cePHState";
             this.cePHState.Properties.Caption = "PH";
             this.cePHState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePHState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.cePHState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.cePHState.Size = new System.Drawing.Size(48, 19);
             this.cePHState.TabIndex = 1;
             // 
@@ -581,7 +581,7 @@ namespace SmartWaterSystem
             this.ceColConfig.Name = "ceColConfig";
             this.ceColConfig.Properties.Caption = "采集功能配置";
             this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceColConfig.Size = new System.Drawing.Size(90, 19);
             this.ceColConfig.TabIndex = 0;
             this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
@@ -812,7 +812,7 @@ namespace SmartWaterSystem
             this.ceTurbidityInterval.Name = "ceTurbidityInterval";
             this.ceTurbidityInterval.Properties.Caption = "采集时间间隔";
             this.ceTurbidityInterval.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceTurbidityInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceTurbidityInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceTurbidityInterval.Size = new System.Drawing.Size(117, 19);
             this.ceTurbidityInterval.TabIndex = 0;
             this.ceTurbidityInterval.CheckedChanged += new System.EventHandler(this.ceTurbidityInterval_CheckedChanged);

@@ -264,43 +264,41 @@ namespace SmartWaterSystem
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器ID..."));
                                     result_data.ID = ctrl.ReadNoiseCtrlID();
                                 }
-                                else
+                                // 读取时间
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptDT)
                                 {
-                                    // 读取时间
-                                    if (GlobalValue.NoiseSerialPortOptData.IsOptDT)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器时间..."));
-                                        byte[] tt1 = ctrl.ReadTime(GlobalValue.NoiseSerialPortOptData.ID);
-                                        result_data.dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
-                                    }
-                                    if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteId)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器对应记录仪ID..."));
-                                        result_data.RemoteId = ctrl.ReadCtrlNoisLogID(GlobalValue.NoiseSerialPortOptData.ID);
-                                    }
-                                    // 读取远传功能
-                                    if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器远传开关状态..."));
-                                        result_data.RemoteSwitch = ctrl.ReadRemote(GlobalValue.NoiseSerialPortOptData.ID);
-                                    }
-                                    // 读取远传通讯时间
-                                    if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器通讯时间..."));
-                                        result_data.ComTime = Convert.ToInt32(ctrl.ReadRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID));
-                                    }
-                                    if (GlobalValue.NoiseSerialPortOptData.IsOptIP)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传IP地址..."));
-                                        result_data.IP = ctrl.ReadIP(GlobalValue.NoiseSerialPortOptData.ID);
-                                    }
-                                    if (GlobalValue.NoiseSerialPortOptData.IsOptPort)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传端口号..."));
-                                        result_data.Port = Convert.ToInt32(ctrl.ReadPort(GlobalValue.NoiseSerialPortOptData.ID));
-                                    }
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器时间..."));
+                                    byte[] tt1 = ctrl.ReadTime(GlobalValue.NoiseSerialPortOptData.ID);
+                                    result_data.dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, tt1[0], tt1[1], tt1[2]);
                                 }
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteId)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器对应记录仪ID..."));
+                                    result_data.RemoteId = ctrl.ReadCtrlNoisLogID(GlobalValue.NoiseSerialPortOptData.ID);
+                                }
+                                // 读取远传功能
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器远传开关状态..."));
+                                    result_data.RemoteSwitch = ctrl.ReadRemote(GlobalValue.NoiseSerialPortOptData.ID);
+                                }
+                                // 读取远传通讯时间
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器通讯时间..."));
+                                    result_data.ComTime = Convert.ToInt32(ctrl.ReadRemoteSendTime(GlobalValue.NoiseSerialPortOptData.ID));
+                                }
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptIP)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传IP地址..."));
+                                    result_data.IP = ctrl.ReadIP(GlobalValue.NoiseSerialPortOptData.ID);
+                                }
+                                if (GlobalValue.NoiseSerialPortOptData.IsOptPort)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传端口号..."));
+                                    result_data.Port = Convert.ToInt32(ctrl.ReadPort(GlobalValue.NoiseSerialPortOptData.ID));
+                                }
+
                                 result = true;
                                 obj = result_data;
                                 //result = ctrl.WriteWireless((short)GlobalValue.NoiseSerialPortOptData.RemoteId, (int)GlobalValue.NoiseSerialPortOptData.Frequency * 1000, GlobalValue.NoiseSerialPortOptData.Rate,
@@ -461,7 +459,7 @@ namespace SmartWaterSystem
                             try
                             {
                                 NoiseSerialPortOptEntity result_data = new NoiseSerialPortOptEntity();
-                                result_data.Rate = GlobalValue.Noiselog.ReadNoiseStandValue(GlobalValue.NoiseSerialPortOptData.ID);
+                                result_data.StandValue = GlobalValue.Noiselog.ReadNoiseStandValue(GlobalValue.NoiseSerialPortOptData.ID);
                                 result = true;
                                 obj = result_data;
                             }

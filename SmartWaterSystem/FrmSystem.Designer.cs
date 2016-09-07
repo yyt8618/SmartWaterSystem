@@ -122,7 +122,7 @@
             // barStaticItem2
             // 
             this.barStaticItem2.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
-            this.barStaticItem2.Caption = "上海敢创水业科技有限公司";
+            this.barStaticItem2.Caption = "上海敢创科技有限公司";
             this.barStaticItem2.Id = 1;
             this.barStaticItem2.Name = "barStaticItem2";
             this.barStaticItem2.TextAlignment = System.Drawing.StringAlignment.Near;
@@ -685,7 +685,7 @@
             // defaultLookAndFeel1
             // 
             this.defaultLookAndFeel1.LookAndFeel.SkinName = "Seven Classic";
-            this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             // 
             // ribbonPageGroup1
             // 

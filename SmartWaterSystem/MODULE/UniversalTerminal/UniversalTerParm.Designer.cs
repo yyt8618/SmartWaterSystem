@@ -216,7 +216,7 @@ namespace SmartWaterSystem
             this.ceColConfig.Name = "ceColConfig";
             this.ceColConfig.Properties.Caption = "采集功能配置";
             this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceColConfig.Size = new System.Drawing.Size(90, 19);
             this.ceColConfig.TabIndex = 15;
             this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
@@ -249,7 +249,7 @@ namespace SmartWaterSystem
             this.cePluseState.Name = "cePluseState";
             this.cePluseState.Properties.Caption = "脉冲量";
             this.cePluseState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePluseState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.cePluseState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.cePluseState.Size = new System.Drawing.Size(60, 19);
             this.cePluseState.TabIndex = 1;
             // 
@@ -260,7 +260,7 @@ namespace SmartWaterSystem
             this.cemodbusprotocolstatus.Name = "cemodbusprotocolstatus";
             this.cemodbusprotocolstatus.Properties.Caption = "modbus协议";
             this.cemodbusprotocolstatus.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cemodbusprotocolstatus.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.cemodbusprotocolstatus.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.cemodbusprotocolstatus.Size = new System.Drawing.Size(90, 19);
             this.cemodbusprotocolstatus.TabIndex = 0;
             // 
@@ -271,7 +271,7 @@ namespace SmartWaterSystem
             this.ceRS485State.Name = "ceRS485State";
             this.ceRS485State.Properties.Caption = "RS485";
             this.ceRS485State.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceRS485State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceRS485State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceRS485State.Size = new System.Drawing.Size(72, 19);
             this.ceRS485State.TabIndex = 2;
             // 
@@ -282,7 +282,7 @@ namespace SmartWaterSystem
             this.ceSimulate2State.Name = "ceSimulate2State";
             this.ceSimulate2State.Properties.Caption = "第2路模拟量";
             this.ceSimulate2State.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceSimulate2State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceSimulate2State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceSimulate2State.Size = new System.Drawing.Size(90, 19);
             this.ceSimulate2State.TabIndex = 4;
             // 
@@ -293,7 +293,7 @@ namespace SmartWaterSystem
             this.ceSimulate1State.Name = "ceSimulate1State";
             this.ceSimulate1State.Properties.Caption = "第1路模拟量";
             this.ceSimulate1State.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceSimulate1State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceSimulate1State.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceSimulate1State.Size = new System.Drawing.Size(90, 19);
             this.ceSimulate1State.TabIndex = 3;
             // 
@@ -419,7 +419,7 @@ namespace SmartWaterSystem
             this.ceModbusExeFlag.Name = "ceModbusExeFlag";
             this.ceModbusExeFlag.Properties.Caption = "RS485采集modbus协议配置";
             this.ceModbusExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceModbusExeFlag.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceModbusExeFlag.Size = new System.Drawing.Size(177, 19);
             this.ceModbusExeFlag.TabIndex = 6;
             this.ceModbusExeFlag.CheckedChanged += new System.EventHandler(this.ceModbusExeFlag_CheckedChanged);
@@ -430,7 +430,7 @@ namespace SmartWaterSystem
             this.ceCollectRS485.Name = "ceCollectRS485";
             this.ceCollectRS485.Properties.Caption = "采集RS485";
             this.ceCollectRS485.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceCollectRS485.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceCollectRS485.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceCollectRS485.Size = new System.Drawing.Size(117, 19);
             this.ceCollectRS485.TabIndex = 3;
             this.ceCollectRS485.CheckedChanged += new System.EventHandler(this.ceCollectRS485_CheckedChanged);
@@ -441,7 +441,7 @@ namespace SmartWaterSystem
             this.ceCollectPluse.Name = "ceCollectPluse";
             this.ceCollectPluse.Properties.Caption = "采集脉冲量";
             this.ceCollectPluse.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceCollectPluse.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceCollectPluse.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceCollectPluse.Size = new System.Drawing.Size(87, 19);
             this.ceCollectPluse.TabIndex = 2;
             this.ceCollectPluse.CheckedChanged += new System.EventHandler(this.ceCollectPluse_CheckedChanged);
@@ -452,7 +452,7 @@ namespace SmartWaterSystem
             this.ceCollectSimulate.Name = "ceCollectSimulate";
             this.ceCollectSimulate.Properties.Caption = "采集模拟量";
             this.ceCollectSimulate.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceCollectSimulate.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceCollectSimulate.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceCollectSimulate.Size = new System.Drawing.Size(85, 19);
             this.ceCollectSimulate.TabIndex = 0;
             this.ceCollectSimulate.CheckedChanged += new System.EventHandler(this.ceCollectSimulate_CheckedChanged);

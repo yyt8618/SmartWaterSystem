@@ -299,6 +299,7 @@
             this.btnGetRecID.Size = new System.Drawing.Size(59, 23);
             this.btnGetRecID.TabIndex = 2;
             this.btnGetRecID.Text = "读取编号";
+            this.btnGetRecID.Visible = false;
             this.btnGetRecID.Click += new System.EventHandler(this.btnGetRecID_Click);
             // 
             // lblRecState
@@ -442,6 +443,7 @@
             this.btnCleanFlash.Size = new System.Drawing.Size(86, 23);
             this.btnCleanFlash.TabIndex = 16;
             this.btnCleanFlash.Text = "清除数据";
+            this.btnCleanFlash.Visible = false;
             this.btnCleanFlash.Click += new System.EventHandler(this.btnCleanFlash_Click);
             // 
             // comboBoxDist
@@ -732,13 +734,13 @@
             // 
             this.gridControlRec.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControlRec.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlRec.Location = new System.Drawing.Point(2, 22);
+            this.gridControlRec.Location = new System.Drawing.Point(2, 21);
             this.gridControlRec.MainView = this.gridViewRecordList;
             this.gridControlRec.Name = "gridControlRec";
             this.gridControlRec.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit2,
             this.repositoryItemCheckEdit1});
-            this.gridControlRec.Size = new System.Drawing.Size(786, 199);
+            this.gridControlRec.Size = new System.Drawing.Size(786, 200);
             this.gridControlRec.TabIndex = 0;
             this.gridControlRec.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewRecordList});

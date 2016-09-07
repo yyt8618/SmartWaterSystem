@@ -383,7 +383,7 @@ namespace SmartWaterSystem
             this.ceConductivityState.Name = "ceConductivityState";
             this.ceConductivityState.Properties.Caption = "电导率";
             this.ceConductivityState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceConductivityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceConductivityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceConductivityState.Size = new System.Drawing.Size(58, 19);
             this.ceConductivityState.TabIndex = 4;
             // 
@@ -394,7 +394,7 @@ namespace SmartWaterSystem
             this.ceResidualClState.Name = "ceResidualClState";
             this.ceResidualClState.Properties.Caption = "余氯";
             this.ceResidualClState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceResidualClState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceResidualClState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceResidualClState.Size = new System.Drawing.Size(49, 19);
             this.ceResidualClState.TabIndex = 1;
             // 
@@ -405,7 +405,7 @@ namespace SmartWaterSystem
             this.ceTurbidityState.Name = "ceTurbidityState";
             this.ceTurbidityState.Properties.Caption = "浊度";
             this.ceTurbidityState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceTurbidityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceTurbidityState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceTurbidityState.Size = new System.Drawing.Size(48, 19);
             this.ceTurbidityState.TabIndex = 3;
             // 
@@ -416,7 +416,7 @@ namespace SmartWaterSystem
             this.cePHState.Name = "cePHState";
             this.cePHState.Properties.Caption = "PH";
             this.cePHState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePHState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.cePHState.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.cePHState.Size = new System.Drawing.Size(48, 19);
             this.cePHState.TabIndex = 2;
             // 
@@ -426,7 +426,7 @@ namespace SmartWaterSystem
             this.ceColConfig.Name = "ceColConfig";
             this.ceColConfig.Properties.Caption = "采集功能配置";
             this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceColConfig.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceColConfig.Size = new System.Drawing.Size(90, 19);
             this.ceColConfig.TabIndex = 0;
             this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
@@ -546,7 +546,7 @@ namespace SmartWaterSystem
             this.ceTurbidityInterval.Name = "ceTurbidityInterval";
             this.ceTurbidityInterval.Properties.Caption = "浊度采集时间间隔";
             this.ceTurbidityInterval.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceTurbidityInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceTurbidityInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceTurbidityInterval.Size = new System.Drawing.Size(117, 19);
             this.ceTurbidityInterval.TabIndex = 0;
             this.ceTurbidityInterval.CheckedChanged += new System.EventHandler(this.ceTurbidityInterval_CheckedChanged);
@@ -557,7 +557,7 @@ namespace SmartWaterSystem
             this.ceResidualClInterval.Name = "ceResidualClInterval";
             this.ceResidualClInterval.Properties.Caption = "余氯采集时间间隔";
             this.ceResidualClInterval.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceResidualClInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceResidualClInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceResidualClInterval.Size = new System.Drawing.Size(119, 19);
             this.ceResidualClInterval.TabIndex = 0;
             this.ceResidualClInterval.CheckedChanged += new System.EventHandler(this.ceResidualCl_CheckedChanged);
@@ -856,7 +856,7 @@ namespace SmartWaterSystem
             this.cePHInterval.Name = "cePHInterval";
             this.cePHInterval.Properties.Caption = "PH采集时间间隔";
             this.cePHInterval.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePHInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.cePHInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.cePHInterval.Size = new System.Drawing.Size(117, 19);
             this.cePHInterval.TabIndex = 0;
             this.cePHInterval.CheckedChanged += new System.EventHandler(this.cePHInterval_CheckedChanged);
@@ -972,7 +972,7 @@ namespace SmartWaterSystem
             this.ceConductivityInterval.Name = "ceConductivityInterval";
             this.ceConductivityInterval.Properties.Caption = "电导率采集时间间隔";
             this.ceConductivityInterval.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceConductivityInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
+            //this.ceConductivityInterval.Properties.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             this.ceConductivityInterval.Size = new System.Drawing.Size(144, 19);
             this.ceConductivityInterval.TabIndex = 0;
             this.ceConductivityInterval.CheckedChanged += new System.EventHandler(this.ceConductivityInterval_CheckedChanged);
