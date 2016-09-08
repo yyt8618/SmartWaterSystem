@@ -17,13 +17,13 @@ namespace Entity
         /// </summary>
         public string GroupId = "";
         /// <summary>
-        /// 启动值(标准值)
-        /// </summary>
-        public int cali;
-        /// <summary>
         /// 终端编号
         /// </summary>
         public string TerId = "";
+        /// <summary>
+        /// 启动值(标准值)
+        /// </summary>
+        public int cali;
         /// <summary>
         /// 采集的数据(使用','分隔)
         /// </summary>

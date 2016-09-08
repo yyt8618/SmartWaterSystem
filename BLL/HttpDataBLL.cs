@@ -52,16 +52,15 @@ namespace BLL
                         {
                             foreach (string strdata in strdatas)
                             {
-                                short shdata  =0;
-                                if (short.TryParse(strdata, out shdata) && shdata>0)
+                                short shdata = 0;
+                                if (short.TryParse(strdata, out shdata) && shdata > 0)
                                 {
                                     lstdata.Add(shdata);
                                 }
                             }
                         }
 
-
-                        short terid=Convert.ToInt16(dataentity.TerId.Trim());
+                        short terid = Convert.ToInt16(dataentity.TerId.Trim());
                         if (string.IsNullOrEmpty(dataentity.GroupId))  //如果组ID为空，则补全(GPRS远传的数据没有组ID信息)
                         {
                             dataentity.GroupId = NoiseDataBaseHelper.GetGroupIdByRec(dataentity.TerId).ToString();
@@ -83,7 +82,6 @@ namespace BLL
                             if (!string.IsNullOrEmpty(dataentity.GroupId))
                                 recorder1.GroupID = Convert.ToInt32(dataentity.GroupId);
                             lstRecorder.Add(recorder1);
-
                         }
                     }
                     
@@ -108,7 +106,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                logger.ErrorException("GetGroupsInfo", ex);
+                logger.ErrorException("UploadGroups", ex);
                 resp.code = -1;
                 resp.msg = "服务器异常";
             }

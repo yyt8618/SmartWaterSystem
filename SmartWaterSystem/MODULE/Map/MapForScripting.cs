@@ -122,7 +122,7 @@ namespace SmartWaterSystem
                                 state = "normal";
                             else if (GlobalValue.recorderList[i].Result.IsLeak == 1)
                                 state = "leak";
-                            pers = (GlobalValue.recorderList[i].Result.LeakProbability * 100).ToString("f2") + "%";
+                            pers = (GlobalValue.recorderList[i].Result.LeakProbability * 100).ToString("f0") + "%";
                         }
                         str += "{\"id\":\"" + GlobalValue.recorderList[i].ID + "\",\"remark\":\"" + GlobalValue.recorderList[i].Remark +
                             "\",\"lng\":\"" + GlobalValue.recorderList[i].Longtitude + "\",\"lat\":\"" + GlobalValue.recorderList[i].Latitude +
@@ -139,29 +139,9 @@ namespace SmartWaterSystem
 
         public void addNoiseMarker(string id, string leakvalue,string standvalue,string remark, string lng, string lat)
         {
-            //HydrantBLL bll = new HydrantBLL();
-            //bool result = bll.Insert(id, addr, lng, lat);
-            //if (!result)
-            //{
-            //    XtraMessageBox.Show("添加记录仪出现异常!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    webBrow.Document.InvokeScript("reload", null);
-            //}
             try
             {
                 string msg = string.Empty;
-                //if (!ValidateRecorderManageInput(out msg))
-                //{
-                //    throw new Exception(msg);
-                //}
-                //for (int i = 0; i < gridViewRecordList.RowCount; i++)
-                //{
-                //    int id = Convert.ToInt32(gridViewRecordList.GetRowCellValue(i, "编号"));
-                //    if (id == Convert.ToInt32(txtRecID.Text))
-                //    {
-                //        XtraMessageBox.Show("记录仪编号[" + id + "]已存在!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //        return;
-                //    }
-                //}
                 if (!string.IsNullOrEmpty(standvalue))
                 {
                     if (!Regex.IsMatch(standvalue, @"^[4-9]\d{2}$"))

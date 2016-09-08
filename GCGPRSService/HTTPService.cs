@@ -242,7 +242,7 @@ namespace GCGPRSService
                                             break;
                                     }
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
                                     str_resp_err = "解析异常";
                                 }
