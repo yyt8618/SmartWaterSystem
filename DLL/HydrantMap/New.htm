@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新增消防栓</title>
+</head>
+<body>
+    <form name="input" action="BaiduMap.htm" method="post">
+        <center>
+            <table border="0">
+                <tr>
+                    <td>消防栓编号:</td>
+                    <td>
+                        <input type="text" id="txtid"
+                               onkeyup="value = value.replace(/[^\d]/g, '').substring(0,3)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>地址:</td>
+                    <td><input type="text" id="txtaddr" /></td>
+                </tr>
+            </table>
+            <input type="button" onclick="returnParent();" value="确定" float="center" />
+        </center>
+    </form>
+
+    <script type="text/javascript">
+        function returnParent() {
+            //var person = "{ firstname: 'Bill', lastname: 'gates', age: 56, eyecolor: 'blue' }";
+            //var person1 = eval("(" + person + ")");
+            //alert(person1.lastname);
+            var id = document.getElementById("txtid").value;
+            if (id = undefined || id == "" || id == "undefined")
+            {
+                alert("请输入消防栓编号!");
+                return;
+            }
+            var selectValue= new Array(2);
+            selectValue[0] = document.getElementById("txtid").value;
+            selectValue[1] = document.getElementById("txtaddr").value;
+            window.returnValue = selectValue;
+            window.close();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新增/更新记录仪</title>
+</head>
+<body>
+    <form name="input" action="BaiduMap.htm" method="post">
+        <center>
+            <table border="0">
+                <tr>
+                    <td>记录仪编号:</td>
+                    <td>
+                        <input type="text" id="txtid"
+                               onkeyup="value = value.replace(/[^\d]/g, '').substring(0,3)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>幅度警戒值(1-100)</td>
+                    <td>
+                        <input type="text" id="txtLeakValue"
+                               onkeyup="value= value.replace(/[^\d]/g,'').substring(0,2)" />
+                    </td>
+                    <td>%</td>
+                </tr>
+                <tr>
+                    <td>启动值(400-999)</td>
+                    <td>
+                        <input type="text" id="txtStandValue"
+                               onkeyup="value= value.replace(/[^\d]/g,'').substring(0,3)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>备注:</td>
+                    <td><input type="text" id="txtremark" /></td>
+                </tr>
+            </table>
+            <input type="button" onclick="returnParent();" value="确定" float="center" />
+        </center>
+    </form>
+
+    <script type="text/javascript">
+        function returnParent() {
+            var id = document.getElementById("txtid").value;
+            if (id == undefined || id == "" || id == "undefined")
+            {
+                alert("请输入记录仪编号!");
+                return;
+            }
+            var leakvalue = document.getElementById("txtLeakValue").value;
+            if (leakvalue == undefined || leakvalue == "" || leakvalue == "undefined")
+            {
+                alert("请输入幅度警戒值!");
+                return;
+            }
+            var standvalue = document.getElementById("txtStandValue").value;
+            if (standvalue == undefined || standvalue == "" || standvalue == "undefined")
+            {
+                alert("请输入启动值!");
+                return;
+            }
+            var selectValue= new Array(4);
+            selectValue[0] = document.getElementById("txtid").value;
+            selectValue[1] = document.getElementById("txtLeakValue").value;
+            selectValue[2] = document.getElementById("txtStandValue").value;
+            selectValue[3] = document.getElementById("txtremark").value;
+            window.returnValue = selectValue;
+            window.close();
+        }
+    </script>
+</body>
+</html>

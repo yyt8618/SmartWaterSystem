@@ -301,6 +301,11 @@ namespace SmartWaterSystem
                     //dispose();
                 }
             }
+            catch(ArgumentException argex)
+            {
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Err, DateTime.Now.ToString() + " Socket连接发生错误,断开连接!")));
+                DisConnect();
+            }
             catch (SocketException sockex)
             {
                 OnSockConnEvent(new SocketStatusEventArgs(false));

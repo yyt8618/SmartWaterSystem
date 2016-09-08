@@ -1487,7 +1487,7 @@ namespace SmartWaterSystem
             //BindRecord();
             this.timer1.Interval = 1000;   //1s
             this.timer1.Tick += new EventHandler(timer1_Tick);
-            this.timer1.Enabled = true;
+            //this.timer1.Enabled = true;
         }
 
         void timer1_Tick(object sender, EventArgs e)

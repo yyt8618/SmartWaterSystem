@@ -462,8 +462,11 @@ namespace SmartWaterSystem
             {
                 if (GlobalValue.portUtil.IsOpen)
                 {
-                    Application.DoEvents();
+                    GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived -= GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;
+                    while (GlobalValue.portUtil.IsComRecving)
+                        Application.DoEvents();
                     GlobalValue.portUtil.Close();
+
                     barStaticItemWait.Caption = "串口已关闭";
                     barBtnSerialOpen.Enabled = true;
                     barBtnSerialClose.Enabled = false;
@@ -643,11 +646,7 @@ namespace SmartWaterSystem
             DialogResult dr = DevExpress.XtraEditors.XtraMessageBox.Show("确定退出系统？", "请确定", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == System.Windows.Forms.DialogResult.Yes)
             {
-                if (GlobalValue.portUtil != null && GlobalValue.portUtil.IsOpen)
-                {
-                    Application.DoEvents();
-                    GlobalValue.portUtil.Close();
-                }
+                barBtnSerialClose_ItemClick(null, null);
 
                 this.Close();
             }
@@ -978,10 +977,10 @@ namespace SmartWaterSystem
                 //GlobalValue.SQLSyncMgr.Stop();
                 //GlobalValue.SQLSyncMgr.SQLSyncEvent -= new SQLSyncEventHandler(SQLSyncMgr_SQLSyncEvent);
                 //Thread.Sleep(100);
-
-                GlobalValue.SerialPortMgr.Stop();
-                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortMgr_SerialPortEvent);
-                Thread.Sleep(100);
+                barBtnSerialClose_ItemClick(null, null);
+                //GlobalValue.SerialPortMgr.Stop();
+                //GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortMgr_SerialPortEvent);
+                //Thread.Sleep(100);
 
                 GlobalValue.SocketMgr.Stop();
                 Thread.Sleep(100);

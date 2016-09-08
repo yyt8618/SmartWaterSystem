@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=21ad438ed3d5d5fc1e81985ad4199d71"></script>
+	<title>噪声Baidu地图</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");    // 创建Map实例
+	map.centerAndZoom(new BMap.Point(112.973, 28.232), 12);  // 初始化地图,设置中心点坐标和地图级别
+	//map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+	map.setCurrentCity("长沙");          // 设置地图显示的城市 此项是必须设置的
+	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
+	function getBoundary() {
+	    var bdary = new BMap.Boundary();
+	    bdary.get("长沙市", function (rs) {       //获取行政区域
+	        map.clearOverlays();        //清除地图覆盖物       
+	        var count = rs.boundaries.length; //行政区域的点有多少个
+	        if (count === 0) {
+	            alert('未能获取当前输入行政区域');
+	            return;
+	        }
+	        var pointArray = [];
+	        for (var i = 0; i < count; i++) {
+	            var ply = new BMap.Polygon(rs.boundaries[i], { strokeWeight: 2, strokeColor: "#ff0000" }); //建立多边形覆盖物
+	            map.addOverlay(ply);  //添加覆盖物
+	            ply.setFillOpacity(0); //设置透明度
+	            pointArray = pointArray.concat(ply.getPath());
+	        }
+	        map.setViewport(pointArray);    //调整视野
+	    });
+	}
+
+	var top_left_control = new BMap.ScaleControl({anchor:BMAP_ANCHOR_TOP_LEFT});  //左上角,添加比例尺
+	var top_left_navigation = new BMap.NavigationControl();	//左上角,添加默认缩放平移控件
+	var overViewOpen = new BMap.OverviewMapControl({ isOpen: true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT });  //鹰眼控件
+	map.addControl(top_left_control);
+	map.addControl(top_left_navigation);
+	map.addControl(overViewOpen);
+
+	var noise_leak = new BMap.Icon("NoiseLeak.ico", new BMap.Size(20, 32));	//消防栓打开/开度图标
+	var noise_normal = new BMap.Icon("Noraml.ico", new BMap.Size(20, 32));	//正常图标
+    //菜单
+	var menu = new BMap.ContextMenu();
+	var txtMenuItem = [
+        {
+            text: '添加记录仪',
+            callback: inputNoiseInfo
+        },
+		{
+		    text: '放大',
+		    callback: function () { map.zoomIn() }
+		},
+		{
+		    text: '缩小',
+		    callback: function () { map.zoomOut() }
+		},
+        {
+            text: '刷新',
+            callback: reload
+        }
+	];
+	for (var i = 0; i < txtMenuItem.length; i++) {
+	    menu.addItem(new BMap.MenuItem(txtMenuItem[i].text, txtMenuItem[i].callback, 50));
+	}
+	map.addContextMenu(menu);
+
+    function reload()
+    {
+        window.location.reload();
+    }
+	function inputNoiseInfo(e)
+	{
+	    var args = window.showModalDialog("New.htm", null, "dialogWidth=350px;dialogHeight=160px");
+	    if (args != undefined && typeof (args) != undefined && args.length == 4) {
+	        addNoise(args[0], args[1], args[2], args[3], e.lng, e.lat, "", "none", true);
+	    }
+	}
+	function addNoise(id,leakvalue,standvalue,remark,lng,lat,state,pers,isinsert)
+	{
+	    if (existNoise(id))
+	    {
+	        alert("记录仪["+id+"]已经存在!");
+	        return;
+	    }
+	    var marker;
+		switch(state)
+		{
+			case "leak":
+				marker = new BMap.Marker(new BMap.Point(lng,lat),{icon:noise_leak});
+				break;
+			case "normal":
+				marker = new BMap.Marker(new BMap.Point(lng,lat),{icon:noise_normal});
+				break;
+			default:
+				marker = new BMap.Marker(new BMap.Point(lng,lat),{icon:noise_normal});
+				break;
+		}
+	    //marker.enableDragging();
+	    map.addOverlay(marker);
+	    //marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+		var label= "编号:" + id;
+		if (pers != "none")
+		    label += "," + pers;
+	    marker.setLabel(new BMap.Label(label, { offset: new BMap.Size(25, -10) }));
+	    marker.addEventListener("dragend", dragMarker );
+
+	    //marker菜单
+	    var menu_mark = new BMap.ContextMenu();
+	    menu_mark.addItem(new BMap.MenuItem("删除", delMarker, 20));
+		//menu_mark.addItem(new BMap.MenuItem("取消报警",unAlarm,20));
+	    //menu_mark.addItem(new BMap.MenuItem("修改", modifyMarker, 20));
+	    marker.addContextMenu(menu_mark);   //添加右键菜单
+		marker.addEventListener("click",getDetail);
+	    if (isinsert == true)
+	        window.external.addNoiseMarker(id, leakvalue, standvalue, remark, lng, lat);
+	}
+	function getDetail(e)
+	{
+	    //window.external.showDetail(getidbylabel(e.target.getLabel().content));
+	}
+	function unAlarm(e,ee,marker)
+	{
+	    //window.external.NoiseunAlarm(getidbylabel(marker.getLabel().content));
+		//marker.setIcon(noise_normal);
+	}
+	function getidbylabel(content)
+	{
+		var strs = content.split(",");
+		return strs[0].replace('编号:', '');
+	}
+	function existNoise(id)
+	{
+	    var allOverlay = map.getOverlays();
+	    for (var i = 0; i < allOverlay.length; i++) {
+	        if (allOverlay[i].zc!= undefined && allOverlay[i].getLabel() != null) {
+	            if (getidbylabel(allOverlay[i].getLabel().content) == id) {
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+	}
+	function getNoise(id) {
+	    var allOverlay = map.getOverlays();
+	    for (var i = 0; i < allOverlay.length; i++) {
+	        if (allOverlay[i].zc != undefined && allOverlay[i].getLabel() != null) {
+	            if (getidbylabel(allOverlay[i].getLabel().content) == id) {
+	                return allOverlay[i];
+	            }
+	        }
+	    }
+	    return null;
+	}
+	function delMarker(e, ee, marker) {
+	    var result = confirm('是否删除！');
+	    if (result) {
+	        window.external.delNoiseMarker(getidbylabel(marker.getLabel().content));
+	        marker.remove();
+	    }
+	}
+	function dragMarker(e) {
+	    var id = getidbylabel(e.target.getLabel().content);
+	    if (id != undefined && id != null && id != "") {
+	        window.external.modifyNoiseCoordinate(id, e.point.lng, e.point.lat);
+        }
+	}
+	function requireLoadMarkers() {
+	    window.external.getNoiseMarkers();
+	}
+	function loadMarkers(jsonmarkers) {
+		map.clearOverlays();
+	    if (jsonmarkers != undefined && jsonmarkers != null && jsonmarkers != "") {
+	        var markers = eval("data=" + jsonmarkers);
+            for(var i = 0; i < markers.length; i++) {
+                addNoise(markers[i].id, "", "", markers[i].remark, markers[i].lng, markers[i].lat, markers[i].state, markers[i].pers, false);
+            }
+	    }
+	}
+
+	requireLoadMarkers();
+	setInterval("requireLoadMarkers()",1*60*1000);   //每隔一段时间刷新状态
+</script>

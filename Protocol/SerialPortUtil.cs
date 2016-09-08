@@ -72,7 +72,7 @@ namespace Protocol
         public bool IsComRecving
         {
             get { return isComRecving; }
-            set { IsComRecving = value; }
+            set { isComRecving = value; }
         }
         private bool isComSending = false;
         /// <summary>
@@ -245,11 +245,11 @@ namespace Protocol
                         isComClosing = false;
                         throw new Exception("当前正在发送指令，无法关闭");
                     }
-                    if (isComRecving)
-                    {
-                        isComClosing = false;
-                        throw new Exception("当前接收指令，无法关闭");
-                    }
+                    //if (isComRecving)
+                    //{
+                    //    isComClosing = false;
+                    //    throw new Exception("当前接收指令，无法关闭");
+                    //}
                     serialPort.Close();
                     AppendBufLine("串口\"{0}\"已关闭！", serialPort.PortName);
                     isComClosing = false;
@@ -305,7 +305,6 @@ namespace Protocol
                 int len = serialPort.BytesToRead;
                 byte[] buf = new byte[len];
                 bytesRead = serialPort.Read(buf, 0, len);
-                string strspdata = serialPort.ReadLine();
                 if (bytesRead > 0)
                 {
                     AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " DataReceived收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));

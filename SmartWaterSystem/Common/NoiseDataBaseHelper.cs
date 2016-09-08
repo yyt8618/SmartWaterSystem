@@ -459,8 +459,14 @@ namespace SmartWaterSystem
                 parms[1].Value = rec.AddDate;
                 parms[2].Value = rec.Remark;
                 parms[3].Value = rec.GroupState;
-                parms[4].Value = rec.Longtitude;
-                parms[5].Value = rec.Latitude;
+                if (rec.Longtitude == null)
+                    parms[4].Value = DBNull.Value;
+                else
+                    parms[4].Value = rec.Longtitude;
+                if (rec.Latitude == null)
+                    parms[5].Value = DBNull.Value;
+                else
+                    parms[5].Value = rec.Latitude;
 
                 query = SQLHelper.ExecuteNonQuery(sql, parms);
 
