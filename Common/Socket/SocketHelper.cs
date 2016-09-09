@@ -23,9 +23,15 @@ namespace SmartWaterSystem
             #endregion
 
             #region 过程
-            if (socket == null)
+            try {
+                if (socket == null)
+                    return false;
+                return !((socket.Poll(1000, SelectMode.SelectRead) && (socket.Available == 0)) || !socket.Connected);
+            }
+            catch
+            {
                 return false;
-            return !((socket.Poll(1000, SelectMode.SelectRead) && (socket.Available == 0)) || !socket.Connected);
+            }
             #endregion
         }
 
