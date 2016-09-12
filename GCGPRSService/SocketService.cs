@@ -1898,6 +1898,7 @@ namespace GCGPRSService
                                         response.CS = response.CreateCS();
 
                                         byte[] bsenddata = response.ToArray();
+
 #if debug
                                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else

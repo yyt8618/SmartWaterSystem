@@ -11,6 +11,7 @@ using Entity;
 using System.Net;
 using System.IO;
 using System.Text.RegularExpressions;
+using BLL;
 
 namespace SmartWaterSystem
 {
@@ -731,88 +732,114 @@ namespace SmartWaterSystem
             string error_flag = "";
             try
             {
-                btnApplySet.Enabled = false;
-                //VisiableFlag(false);  //隐藏标记
-
+                bool haveset = false;
                 if (!Regex.IsMatch(txtCurConId.Text, @"^\d{1,3}$"))
                 {
                     XtraMessageBox.Show("请输入控制器ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtCurConId.Focus();
                     return;
                 }
-                GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
-                bool haveset = false;
-                if (ceConId.Checked)
+                if (!SwitchComunication.IsOn)  //GPRS
                 {
-                    if (DialogResult.No == XtraMessageBox.Show("设置设备编号会初始化设备参数,是否继续?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+                    #region 设置GPRS
+                    List<Package> lstPack = new List<Package>();
+                    if (ceColTime.Checked)
                     {
-                        return;
-                    }
-                    //初始化ID，清除控件数据
-                    CombRemotingID.Properties.Items.Clear();
-                    comboBoxDist.SelectedIndex = -1;
-                    txtComTime.Text = "";
-                    txtConIP.Text = "";
-                    txtConPort.Text = "";
-
-                    GlobalValue.NoiseSerialPortOptData.IsOptID = ceConId.Checked;
-                    GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(txtCurConId.Text);
-                    GlobalValue.NoiseSerialPortOptData.SetID = Convert.ToInt16(txtConId.Text);
-                    haveset = true;
-                }
-                else
-                {
-                    GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(txtCurConId.Text);
-
-                    //alterCtrl = new DistanceController();
-                    //alterRec = (from item in GlobalValue.recorderList
-                    //            where item.ID == id
-                    //            select item).ToList()[0];
-                    //alterCtrl.ID = Convert.ToInt32(txtConId.Text);
-                    //alterCtrl.RecordID = alterRec.ID;
-                    //alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
-                    //alterCtrl.IPAdress = txtConIP.Text;
-                    if (ceDTCon.Checked)
-                    {
-                        GlobalValue.NoiseSerialPortOptData.IsOptDT = ceDTCon.Checked;
-                        GlobalValue.NoiseSerialPortOptData.dt = dateTimePickerCon.Value;
-                        haveset = true;
-                    }
-
-                    if (ceRemotingID.Checked)
-                    {
-                        for(int i=0;i<CombRemotingID.Properties.Items.Count;i++)
+                        if (!Regex.IsMatch(txtRecID.Text, @"^\d{1,5}$"))
                         {
-
-                        }
-                        GlobalValue.NoiseSerialPortOptData.IsOptRemoteId = ceRemotingID.Checked;
-                        List<int> lstRemoteId = new List<int>();
-                        string[] strids = CombRemotingID.Text.Split(',');
-                        if(strids!=null && strids.Length>0)
-                        {
-                            for(int i = 0; i < strids.Length; i++)
-                            {
-                                if (!string.IsNullOrEmpty(strids[i]))
-                                    lstRemoteId.Add(Convert.ToInt32(strids[i]));
-                            }
-                        }
-                        //校验
-                        if (lstRemoteId.Count == 0)
-                        {
-                            XtraMessageBox.Show("请选择记录仪ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            CombRemotingID.Focus();
+                            XtraMessageBox.Show("请输入记录仪ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtRecID.Focus();
                             return;
                         }
-                        GlobalValue.NoiseSerialPortOptData.RemoteId = lstRemoteId;
-                        haveset = true;
-                    }
-                    if (ceRemoteSwitch.Checked)
-                    {
-                        GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch = ceRemoteSwitch.Checked;
-                        GlobalValue.NoiseSerialPortOptData.RemoteSwitch = comboBoxDist.SelectedIndex == 1 ? true : false;
-                        haveset = true;
-                    }
+                        if (!Regex.IsMatch(txtColTimeStart.Text, @"^\d{1,2}$"))
+                        {
+                            XtraMessageBox.Show("请输入起始采集时间!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtColTimeStart.Focus();
+                            return;
+                        }
+                        if (!Regex.IsMatch(txtColTimeEnd.Text, @"^\d{1,2}$"))
+                        {
+                            XtraMessageBox.Show("请输入最后采集时间!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtColTimeEnd.Focus();
+                            return;
+                        }
 
+                        Package package = new Package();
+                        package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+                        package.DevID = Convert.ToInt16(txtCurConId.Text);
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_START_END_TIME;
+                        package.DataLength = 6;
+                        byte[] data = new byte[package.DataLength];  //记录仪ID(4byte)+时间（2byte）
+                        byte[] recid=BitConverter.GetBytes(Convert.ToInt32(txtRecID.Text));  //记录仪ID
+                        Array.Reverse(recid);
+                        recid[0] = (byte)ConstValue.DEV_TYPE.NOISE_LOG;
+                        data[0] = recid[0];
+                        data[1] = recid[1];
+                        data[2] = recid[2];
+                        data[3] = recid[3];
+                        data[4] = (byte)Convert.ToByte(txtColTimeStart.Text);
+                        data[5] = (byte)Convert.ToByte(txtColTimeEnd.Text);
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstPack.Add(package);
+
+                        haveset = true;
+                    }
+                    if (ceInterval.Checked)
+                    {
+                        if (!Regex.IsMatch(txtRecID.Text, @"^\d{1,5}$"))
+                        {
+                            XtraMessageBox.Show("请输入记录仪ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtRecID.Focus();
+                            return;
+                        }
+                        if (!Regex.IsMatch(spinEditInterval.Text, @"^\d{1,2}$") && spinEditInterval.Value <= 0)
+                        {
+                            XtraMessageBox.Show("请输入正确采集间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            spinEditInterval.Focus();
+                            return;
+                        }
+                        Package package = new Package();
+                        package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+                        package.DevID = Convert.ToInt16(txtCurConId.Text);
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)NOISE_LOG_COMMAND.WRITE_INTERVAL;
+                        package.DataLength = 5;
+                        byte[] data = new byte[package.DataLength];  //记录仪ID(4byte)+间隔时间（1byte）
+                        byte[] recid = BitConverter.GetBytes(Convert.ToInt32(txtRecID.Text));  //记录仪ID
+                        Array.Reverse(recid);
+                        recid[0] = (byte)ConstValue.DEV_TYPE.NOISE_LOG;
+                        data[0] = recid[0];
+                        data[1] = recid[1];
+                        data[2] = recid[2];
+                        data[3] = recid[3];
+                        data[4] = (byte)Convert.ToInt32(spinEditInterval.Value);
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstPack.Add(package);
+                        haveset = true;
+                    }
+                    if (ceDTCon.Checked)
+                    {
+                        Package package = new Package();
+                        package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+                        package.DevID = Convert.ToInt16(txtCurConId.Text);
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_TIME;
+                        byte[] data = new byte[6];
+                        data[0] = (byte)(dateTimePickerCon.Value.Year - 2000);
+                        data[1] = (byte)dateTimePickerCon.Value.Month;
+                        data[2] = (byte)dateTimePickerCon.Value.Day;
+                        data[3] = (byte)dateTimePickerCon.Value.Hour;
+                        data[4] = (byte)dateTimePickerCon.Value.Minute;
+                        data[5] = (byte)dateTimePickerCon.Value.Second;
+                        package.DataLength = data.Length;
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstPack.Add(package);
+                        haveset = true;
+                    }
                     if (ceComTime.Checked)
                     {
                         if (!Regex.IsMatch(txtComTime.Text, @"^\d{1,2}$"))
@@ -821,74 +848,186 @@ namespace SmartWaterSystem
                             txtComTime.Focus();
                             return;
                         }
-                        GlobalValue.NoiseSerialPortOptData.IsOptComTime = ceComTime.Checked;
-                        GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
+                        Package package = new Package();
+                        package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+                        package.DevID = Convert.ToInt16(txtCurConId.Text);
+                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                        package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_REMOTE_SEND_TIME;
+                        package.DataLength = 1;
+                        byte[] data = new byte[package.DataLength];
+                        data[0] = (byte)Convert.ToInt32(txtComTime.Text);
+                        package.Data = data;
+                        package.CS = package.CreateCS();
+                        lstPack.Add(package);
                         haveset = true;
                     }
-                    if (ceConIP.Checked)
-                    {
-                        if (!Regex.IsMatch(txtConIP.Text, @"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$"))
-                        {
-                            XtraMessageBox.Show("请输入正确的IP地址!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtConIP.Focus();
-                            return;
-                        }
-                        GlobalValue.NoiseSerialPortOptData.IsOptIP = ceConIP.Checked;
-                        string str_ip = "";   //需要将ip处理成15位长度,如:192.168.010.125
-                        string[] str_ips = txtConIP.Text.Split('.');
-                        if (str_ips != null && str_ips.Length > 0)
-                        {
-                            foreach (string ippart in str_ips)
-                            {
-                                if (ippart.Length == 1)
-                                {
-                                    str_ip += "00" + ippart + ".";
-                                }
-                                else if (ippart.Length == 2)
-                                {
-                                    str_ip += "0" + ippart + ".";
-                                }
-                                else
-                                {
-                                    str_ip += ippart + ".";
-                                }
-                            }
-                        }
-                        if (str_ip.EndsWith("."))
-                            str_ip = str_ip.Substring(0, str_ip.Length - 1);
-                        GlobalValue.NoiseSerialPortOptData.IP = str_ip;
 
-                        haveset = true;
-                    }
-                    if (ceConPort.Checked)
-                    {
-                        if (!Regex.IsMatch(txtConPort.Text, @"^\d{1,4}$"))
-                        {
-                            XtraMessageBox.Show("请输入正确的端口号(1-4位长度)!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtConPort.Focus();
-                            return;
-                        }
-                        GlobalValue.NoiseSerialPortOptData.IsOptPort = ceConPort.Checked;
-                        GlobalValue.NoiseSerialPortOptData.Port = Convert.ToInt32(txtConPort.Text);
-                        haveset = true;
-                    }
                     if (!haveset)
                     {
                         XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
+
+                    TerminalDataBLL terBll = new TerminalDataBLL();
+                    foreach (Package pack in lstPack)
+                    {
+                        if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
+                        {
+                            XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
+                    }
+                    
+                    XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    #endregion
                 }
-                
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在设置远传控制器参数...");
-                BeginSerialPortDelegate();
-                GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
-                GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
-                Application.DoEvents();
-                SetStaticItem("正在设置远传控制器参数...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseCtrlSetParm);
+                else
+                {
+                    #region 设置串口
+                    btnApplySet.Enabled = false;
+                    GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
+
+                    if (ceConId.Checked)
+                    {
+                        if (DialogResult.No == XtraMessageBox.Show("设置设备编号会初始化设备参数,是否继续?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
+                        {
+                            return;
+                        }
+                        //初始化ID，清除控件数据
+                        CombRemotingID.Properties.Items.Clear();
+                        comboBoxDist.SelectedIndex = -1;
+                        txtComTime.Text = "";
+                        txtConIP.Text = "";
+                        txtConPort.Text = "";
+
+                        GlobalValue.NoiseSerialPortOptData.IsOptID = ceConId.Checked;
+                        GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(txtCurConId.Text);
+                        GlobalValue.NoiseSerialPortOptData.SetID = Convert.ToInt16(txtConId.Text);
+                        haveset = true;
+                    }
+                    else
+                    {
+                        GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(txtCurConId.Text);
+
+                        if (ceDTCon.Checked)
+                        {
+                            GlobalValue.NoiseSerialPortOptData.IsOptDT = ceDTCon.Checked;
+                            GlobalValue.NoiseSerialPortOptData.dt = dateTimePickerCon.Value;
+                            haveset = true;
+                        }
+
+                        if (ceRemotingID.Checked)
+                        {
+                            for (int i = 0; i < CombRemotingID.Properties.Items.Count; i++)
+                            {
+
+                            }
+                            GlobalValue.NoiseSerialPortOptData.IsOptRemoteId = ceRemotingID.Checked;
+                            List<int> lstRemoteId = new List<int>();
+                            string[] strids = CombRemotingID.Text.Split(',');
+                            if (strids != null && strids.Length > 0)
+                            {
+                                for (int i = 0; i < strids.Length; i++)
+                                {
+                                    if (!string.IsNullOrEmpty(strids[i]))
+                                        lstRemoteId.Add(Convert.ToInt32(strids[i]));
+                                }
+                            }
+                            //校验
+                            if (lstRemoteId.Count == 0)
+                            {
+                                XtraMessageBox.Show("请选择记录仪ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                CombRemotingID.Focus();
+                                return;
+                            }
+                            GlobalValue.NoiseSerialPortOptData.RemoteId = lstRemoteId;
+                            haveset = true;
+                        }
+                        if (ceRemoteSwitch.Checked)
+                        {
+                            GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch = ceRemoteSwitch.Checked;
+                            GlobalValue.NoiseSerialPortOptData.RemoteSwitch = comboBoxDist.SelectedIndex == 1 ? true : false;
+                            haveset = true;
+                        }
+
+                        if (ceComTime.Checked)
+                        {
+                            if (!Regex.IsMatch(txtComTime.Text, @"^\d{1,2}$"))
+                            {
+                                XtraMessageBox.Show("请输入通讯时间!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                txtComTime.Focus();
+                                return;
+                            }
+                            GlobalValue.NoiseSerialPortOptData.IsOptComTime = ceComTime.Checked;
+                            GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
+                            haveset = true;
+                        }
+                        if (ceConIP.Checked)
+                        {
+                            if (!Regex.IsMatch(txtConIP.Text, @"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$"))
+                            {
+                                XtraMessageBox.Show("请输入正确的IP地址!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                txtConIP.Focus();
+                                return;
+                            }
+                            GlobalValue.NoiseSerialPortOptData.IsOptIP = ceConIP.Checked;
+                            string str_ip = "";   //需要将ip处理成15位长度,如:192.168.010.125
+                            string[] str_ips = txtConIP.Text.Split('.');
+                            if (str_ips != null && str_ips.Length > 0)
+                            {
+                                foreach (string ippart in str_ips)
+                                {
+                                    if (ippart.Length == 1)
+                                    {
+                                        str_ip += "00" + ippart + ".";
+                                    }
+                                    else if (ippart.Length == 2)
+                                    {
+                                        str_ip += "0" + ippart + ".";
+                                    }
+                                    else
+                                    {
+                                        str_ip += ippart + ".";
+                                    }
+                                }
+                            }
+                            if (str_ip.EndsWith("."))
+                                str_ip = str_ip.Substring(0, str_ip.Length - 1);
+                            GlobalValue.NoiseSerialPortOptData.IP = str_ip;
+
+                            haveset = true;
+                        }
+                        if (ceConPort.Checked)
+                        {
+                            if (!Regex.IsMatch(txtConPort.Text, @"^\d{1,4}$"))
+                            {
+                                XtraMessageBox.Show("请输入正确的端口号(1-4位长度)!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                txtConPort.Focus();
+                                return;
+                            }
+                            GlobalValue.NoiseSerialPortOptData.IsOptPort = ceConPort.Checked;
+                            GlobalValue.NoiseSerialPortOptData.Port = Convert.ToInt32(txtConPort.Text);
+                            haveset = true;
+                        }
+                        if (!haveset)
+                        {
+                            XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
+                    }
+
+                    EnableControls(false);
+                    DisableRibbonBar();
+                    DisableNavigateBar();
+                    ShowWaitForm("", "正在设置远传控制器参数...");
+                    BeginSerialPortDelegate();
+                    GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                    GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                    Application.DoEvents();
+                    SetStaticItem("正在设置远传控制器参数...");
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseCtrlSetParm);
+                    #endregion
+                }
 
             }
             catch (Exception ex)
@@ -899,11 +1038,6 @@ namespace SmartWaterSystem
             }
             finally
             {
-                //EnableRibbonBar();
-                //EnableNavigateBar();
-                //HideWaitForm();
-                //btnApplySet.Enabled = true;
-                //isSetting = false;
             }
         }
 
@@ -1328,10 +1462,8 @@ namespace SmartWaterSystem
         {
             isSetting = true;
 
-            //string error_flag = "";
             try
             {
-                //btnApplySet.Enabled = false;
                 GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
                 if (!Regex.IsMatch(txtRecID.Text, @"^\d{1,5}$"))
                 {
@@ -1351,10 +1483,6 @@ namespace SmartWaterSystem
                 alterRec.Remark = txtRecNote.Text;
                 
                 alterCtrl = new DistanceController();
-                //alterCtrl.ID = Convert.ToInt32(txtCurConId.Text);
-                //alterCtrl.RecordID = alterRec.ID;
-                //alterCtrl.Port = Convert.ToInt32(txtConPort.Text);
-                //alterCtrl.IPAdress = txtConIP.Text;
                 
                 bool haveset = false;
                 if (ceDTRec.Checked)
@@ -1363,19 +1491,6 @@ namespace SmartWaterSystem
                     GlobalValue.NoiseSerialPortOptData.dt = dateTimePickerRec.Value;
                     haveset = true;
                 }
-                //if(ceComTime.Checked)
-                //{
-                //    if(!Regex.IsMatch(txtComTime.Text,@"^\d{1,2}$"))
-                //    {
-                //        XtraMessageBox.Show("请输入通讯时间!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //        txtComTime.Focus();
-                //        return;
-                //    }
-                //    //alterRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
-                //    GlobalValue.NoiseSerialPortOptData.IsOptComTime = ceComTime.Checked;
-                //    GlobalValue.NoiseSerialPortOptData.ComTime = Convert.ToInt32(txtComTime.Text);
-                //    haveset = true;
-                //}
                 if(ceColTime.Checked)
                 {
                     if (!Regex.IsMatch(txtColTimeStart.Text, @"^\d{1,2}$"))
@@ -1395,25 +1510,7 @@ namespace SmartWaterSystem
                     GlobalValue.NoiseSerialPortOptData.IsOptColTime = ceColTime.Checked;
                     GlobalValue.NoiseSerialPortOptData.colstarttime = Convert.ToInt32(txtColTimeStart.Text);
                     GlobalValue.NoiseSerialPortOptData.colendtime = Convert.ToInt32(txtColTimeEnd.Text);
-
-                    //通讯时间和采集时间不能重复
-                    //if (ceComTime.Checked)
-                    //{
-                    //    int comtime = GlobalValue.NoiseSerialPortOptData.ComTime;
-                    //    if (comtime == 0)
-                    //        comtime = 24;
-                    //    int endtime = GlobalValue.NoiseSerialPortOptData.colendtime;
-                    //    if (GlobalValue.NoiseSerialPortOptData.colstarttime > endtime)
-                    //    {
-                    //        endtime += 24;
-                    //    }
-                    //    if(comtime >= GlobalValue.NoiseSerialPortOptData.colstarttime && comtime <= endtime)
-                    //    {
-                    //        XtraMessageBox.Show("通讯时间不能和采集时间重叠!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //        txtComTime.Focus();
-                    //        return;
-                    //    }
-                    //}
+                    
 
                     haveset = true;
                 }
@@ -1430,13 +1527,6 @@ namespace SmartWaterSystem
                     GlobalValue.NoiseSerialPortOptData.Interval = Convert.ToInt32(spinEditInterval.Value);
                     haveset = true;
                 }
-                //if(ceRemoteSwitch.Checked)
-                //{
-                //    alterRec.ControlerPower = comboBoxDist.SelectedIndex;
-                //    GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch = ceRemoteSwitch.Checked;
-                //    GlobalValue.NoiseSerialPortOptData.RemoteSwitch = comboBoxDist.SelectedIndex == 1 ? true : false;
-                //    haveset = true;
-                //}
                 if (!haveset)
                 {
                     XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1456,19 +1546,12 @@ namespace SmartWaterSystem
             }
             catch (Exception ex)
             {
-                //SetErrorFlag(error_flag);
                 ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SetStaticItem("设置失败");
             }
             finally
             {
-                //EnableRibbonBar();
-                //EnableNavigateBar();
-                //HideWaitForm();
-                //btnApplySet.Enabled = true;
-                //isSetting = false;
             }
-            //}).BeginInvoke(null, null);
         }
 
         private void gridViewRecordList_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
@@ -1522,18 +1605,18 @@ namespace SmartWaterSystem
                 txtRecID.Text = rec.ID.ToString();
                 //txtComTime.Text = rec.CommunicationTime.ToString();
                 txtColTimeStart.Text = rec.RecordTime.ToString();
-                short[] standvalue = NoiseDataBaseHelper.GetStandData(-1, rec.ID);
-                if (standvalue != null && standvalue.Length > 0)
-                {
-                    int sumstandvalue = 0;
-                    for (int i = 0; i < standvalue.Length; i++)
-                    {
-                        sumstandvalue += standvalue[i];
-                    }
-                    txtStartStandValue.Text = (sumstandvalue / standvalue.Length).ToString();
-                }
-                else
-                    txtStartStandValue.Text = "";
+                int standvalue = NoiseDataBaseHelper.GetStandData(rec.GroupID, rec.ID);
+                //if (standvalue != null && standvalue.Length > 0)
+                //{
+                //    int sumstandvalue = 0;
+                //    for (int i = 0; i < standvalue.Length; i++)
+                //    {
+                //        sumstandvalue += standvalue[i];
+                //    }
+                //    txtStartStandValue.Text = (sumstandvalue / standvalue.Length).ToString();
+                //}
+                //else
+                    txtStartStandValue.Text = standvalue.ToString();
 
                 spinEditInterval.Value = rec.PickSpan;
                 txtRecNum.Text = (GlobalValue.Time * 60 / rec.PickSpan).ToString();
@@ -1780,18 +1863,21 @@ namespace SmartWaterSystem
 
         public override void SerialPortEvent(bool Enabled)
         {
-            btnApplySet.Enabled = Enabled;
-            btnReadSet.Enabled = Enabled;
-            btnReadCtrlSet.Enabled = Enabled;
-            btnApplyCtrlSet.Enabled = Enabled;
-            btnGetRecID.Enabled = Enabled;
-            //btnGetConID.Enabled = Enabled;
-            btnNowRec.Enabled = Enabled;
-            btnStart.Enabled = Enabled;
-            btnStop.Enabled = Enabled;
-            btnGetStandValue.Enabled = Enabled;
-            btnSetStandValue.Enabled = Enabled;
-            //btnCleanFlash.Enabled = Enabled;
+            if (SwitchComunication.IsOn)  //串口
+            {
+                btnApplySet.Enabled = Enabled;
+                btnReadSet.Enabled = Enabled;
+                btnReadCtrlSet.Enabled = Enabled;
+                btnApplyCtrlSet.Enabled = Enabled;
+                btnGetRecID.Enabled = Enabled;
+                //btnGetConID.Enabled = Enabled;
+                btnNowRec.Enabled = Enabled;
+                btnStart.Enabled = Enabled;
+                btnStop.Enabled = Enabled;
+                btnGetStandValue.Enabled = Enabled;
+                btnSetStandValue.Enabled = Enabled;
+                //btnCleanFlash.Enabled = Enabled;
+            }
         }
 
         private void spinEdit1_ValueChanged(object sender, EventArgs e)
@@ -2097,6 +2183,85 @@ namespace SmartWaterSystem
                 }
             }
         }
+
+        #region 通讯切换
+        private void SwitchComunication_Click(object sender, EventArgs e)
+        {
+            if (SwitchComunication.IsOn)  //Grps
+            {
+                SetGprsCtrlStatus();
+            }
+            else   //串口
+            {
+                SetSerialPortCtrlStatus();
+            }
+        }
+        #endregion
+
+        private void SetSerialPortCtrlStatus()
+        {
+            btnReadCtrlSet.Enabled = GlobalValue.portUtil.IsOpen;
+            btnApplyCtrlSet.Enabled = GlobalValue.portUtil.IsOpen;
+            ceConId.Enabled = true;
+            txtConId.Enabled = true;
+            ceDTCon.Enabled = true;
+            dateTimePickerCon.Enabled = true;
+            ceRemotingID.Enabled = true;
+            CombRemotingID.Enabled = true;
+            ceRemoteSwitch.Enabled = true;
+            comboBoxDist.Enabled = true;
+            ceComTime.Enabled = true;
+            txtComTime.Enabled = true;
+            ceConIP.Enabled = true;
+            txtConIP.Enabled = true;
+            ceConPort.Enabled = true;
+            txtConPort.Enabled = true;
+
+            btnStart.Enabled = GlobalValue.portUtil.IsOpen;
+            btnStop.Enabled = GlobalValue.portUtil.IsOpen;
+            btnCleanFlash.Enabled = GlobalValue.portUtil.IsOpen;
+            btnReadSet.Enabled = GlobalValue.portUtil.IsOpen;
+            btnApplySet.Enabled = GlobalValue.portUtil.IsOpen;
+            ceDTRec.Enabled = true;
+            dateTimePickerRec.Enabled = true;
+            ceColTime.Enabled = true;
+            txtColTimeStart.Enabled = true;
+            ceInterval.Enabled = true;
+            spinEditInterval.Enabled = true;
+        }
+
+        private void SetGprsCtrlStatus()
+        {
+            btnReadCtrlSet.Enabled = false;
+            btnApplyCtrlSet.Enabled = true;
+            ceConId.Enabled = false;
+            txtConId.Enabled = false;
+            ceDTCon.Enabled = true;
+            dateTimePickerCon.Enabled = true;
+            ceRemotingID.Enabled = false;
+            CombRemotingID.Enabled = false;
+            ceRemoteSwitch.Enabled = false;
+            comboBoxDist.Enabled = false;
+            ceComTime.Enabled = true;
+            txtComTime.Enabled = true;
+            ceConIP.Enabled = false;
+            txtConIP.Enabled = false;
+            ceConPort.Enabled = false;
+            txtConPort.Enabled = false;
+
+            btnStart.Enabled = false;
+            btnStop.Enabled = false;
+            btnCleanFlash.Enabled = false;
+            btnReadSet.Enabled = false;
+            btnApplySet.Enabled = false;
+            ceDTRec.Enabled = false;
+            dateTimePickerRec.Enabled = false;
+            ceColTime.Enabled = true;
+            txtColTimeStart.Enabled = true;
+            ceInterval.Enabled = true;
+            spinEditInterval.Enabled = true;
+        }
+
 
     }
 }

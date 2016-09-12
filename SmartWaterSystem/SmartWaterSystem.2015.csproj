@@ -150,6 +150,12 @@
     <Compile Include="BaseView.Designer.cs">
       <DependentUpon>BaseView.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSearch.Designer.cs">
+      <DependentUpon>FrmSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\Map\MapForScripting.cs" />
     <Compile Include="MODULE\Map\HydrantMap.cs">
       <SubType>UserControl</SubType>
@@ -421,6 +427,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseView.resx">
       <DependentUpon>BaseView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSearch.resx">
+      <DependentUpon>FrmSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\Map\MapFullScreen.resx">
       <DependentUpon>MapFullScreen.cs</DependentUpon>

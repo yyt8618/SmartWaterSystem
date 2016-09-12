@@ -131,7 +131,7 @@ namespace SmartWaterSystem
                         str = "漏水";
                     else if (re.IsLeak == -1)
                         str = "漏水";
-                    dt.Rows.Add(new object[] { GlobalValue.recorderList[i].ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str,(re.LeakProbability*100).ToString("f1")+"%" });
+                    dt.Rows.Add(new object[] { gp.RecorderList[i].ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str,(re.LeakProbability*100).ToString("f1")+"%" });
                 }
 
             }
@@ -221,7 +221,8 @@ namespace SmartWaterSystem
                 NoiseResult temp = (from item in GlobalValue.recorderList
                                     where item.ID == tempId
                                     select item).ToList()[0].Result;
-                isLeak = temp.IsLeak;
+                if (temp != null)
+                    isLeak = temp.IsLeak;
             }
             else if (e.Column.Caption == "幅度")
             {

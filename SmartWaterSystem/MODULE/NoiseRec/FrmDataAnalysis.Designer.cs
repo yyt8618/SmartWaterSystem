@@ -43,14 +43,11 @@ namespace SmartWaterSystem
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.txtRecTime = new DevExpress.XtraEditors.TextEdit();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.txtRecTime1 = new DevExpress.XtraEditors.TextEdit();
             this.label16 = new System.Windows.Forms.Label();
-            this.txtComTime = new DevExpress.XtraEditors.TextEdit();
-            this.label17 = new System.Windows.Forms.Label();
             this.groupBox2 = new DevExpress.XtraEditors.GroupControl();
             this.PicBox = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -83,7 +80,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBox)).BeginInit();
@@ -111,14 +107,11 @@ namespace SmartWaterSystem
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.txtRecTime);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.txtRecTime1);
             this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.txtComTime);
-            this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Location = new System.Drawing.Point(1, 373);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(387, 225);
@@ -189,7 +182,7 @@ namespace SmartWaterSystem
             // 
             // txtPickSpan
             // 
-            this.txtPickSpan.Location = new System.Drawing.Point(228, 96);
+            this.txtPickSpan.Location = new System.Drawing.Point(231, 69);
             this.txtPickSpan.Name = "txtPickSpan";
             this.txtPickSpan.Properties.ReadOnly = true;
             this.txtPickSpan.Size = new System.Drawing.Size(29, 20);
@@ -197,7 +190,7 @@ namespace SmartWaterSystem
             // 
             // txtRecNum
             // 
-            this.txtRecNum.Location = new System.Drawing.Point(228, 126);
+            this.txtRecNum.Location = new System.Drawing.Point(231, 99);
             this.txtRecNum.Name = "txtRecNum";
             this.txtRecNum.Properties.ReadOnly = true;
             this.txtRecNum.Size = new System.Drawing.Size(86, 20);
@@ -206,7 +199,7 @@ namespace SmartWaterSystem
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(261, 99);
+            this.label11.Location = new System.Drawing.Point(264, 72);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(48, 14);
             this.label11.TabIndex = 53;
@@ -215,7 +208,7 @@ namespace SmartWaterSystem
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(156, 97);
+            this.label10.Location = new System.Drawing.Point(159, 70);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(55, 14);
             this.label10.TabIndex = 52;
@@ -224,24 +217,15 @@ namespace SmartWaterSystem
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(156, 127);
+            this.label9.Location = new System.Drawing.Point(159, 100);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(55, 14);
             this.label9.TabIndex = 51;
             this.label9.Text = "记录数量";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(263, 36);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(19, 14);
-            this.label8.TabIndex = 50;
-            this.label8.Text = "点";
-            // 
             // txtRecTime
             // 
-            this.txtRecTime.Location = new System.Drawing.Point(228, 64);
+            this.txtRecTime.Location = new System.Drawing.Point(231, 37);
             this.txtRecTime.Name = "txtRecTime";
             this.txtRecTime.Properties.ReadOnly = true;
             this.txtRecTime.Size = new System.Drawing.Size(29, 20);
@@ -250,7 +234,7 @@ namespace SmartWaterSystem
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(155, 65);
+            this.label14.Location = new System.Drawing.Point(158, 38);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(55, 14);
             this.label14.TabIndex = 48;
@@ -259,7 +243,7 @@ namespace SmartWaterSystem
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(342, 67);
+            this.label15.Location = new System.Drawing.Point(345, 40);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(19, 14);
             this.label15.TabIndex = 47;
@@ -267,7 +251,7 @@ namespace SmartWaterSystem
             // 
             // txtRecTime1
             // 
-            this.txtRecTime1.Location = new System.Drawing.Point(308, 64);
+            this.txtRecTime1.Location = new System.Drawing.Point(311, 37);
             this.txtRecTime1.Name = "txtRecTime1";
             this.txtRecTime1.Properties.ReadOnly = true;
             this.txtRecTime1.Size = new System.Drawing.Size(29, 20);
@@ -276,28 +260,11 @@ namespace SmartWaterSystem
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(263, 67);
+            this.label16.Location = new System.Drawing.Point(266, 40);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(35, 14);
             this.label16.TabIndex = 45;
             this.label16.Text = "点 至";
-            // 
-            // txtComTime
-            // 
-            this.txtComTime.Location = new System.Drawing.Point(228, 34);
-            this.txtComTime.Name = "txtComTime";
-            this.txtComTime.Properties.ReadOnly = true;
-            this.txtComTime.Size = new System.Drawing.Size(29, 20);
-            this.txtComTime.TabIndex = 44;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(155, 35);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(55, 14);
-            this.label17.TabIndex = 43;
-            this.label17.Text = "通讯时间";
             // 
             // groupBox2
             // 
@@ -534,7 +501,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNum.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecTime1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBox2)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -562,14 +528,11 @@ namespace SmartWaterSystem
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
         private DevExpress.XtraEditors.TextEdit txtRecTime;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private DevExpress.XtraEditors.TextEdit txtRecTime1;
         private System.Windows.Forms.Label label16;
-        private DevExpress.XtraEditors.TextEdit txtComTime;
-        private System.Windows.Forms.Label label17;
 		private DevExpress.XtraEditors.GroupControl groupBox2;
         private DevExpress.XtraEditors.TextEdit txtMinHz;
         private DevExpress.XtraEditors.TextEdit txtMinNoise;

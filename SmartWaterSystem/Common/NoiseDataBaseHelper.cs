@@ -347,38 +347,23 @@ namespace SmartWaterSystem
         /// <param name="GroupID"></param>
         /// <param name="RecorderID"></param>
         /// <returns></returns>
-        public static short[] GetStandData(int GroupID, int RecorderID)
+        public static int GetStandData(int GroupID, int RecorderID)
         {
             try
             {
                 string SQL = string.Format("SELECT Data FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
 
-                string str_data = string.Empty;
                 DataTable dt = SQLHelper.ExecuteDataTable(SQL);
                 if (dt != null && dt.Rows != null && dt.Rows.Count > 0)
                 {
-                    str_data = dt.Rows[0]["Data"] != DBNull.Value ? dt.Rows[0]["Data"].ToString() : "";
-                }
-                if (!string.IsNullOrEmpty(str_data))
-                {
-                    List<short> lstData = new List<short>();
-                    string[] str_datas = str_data.Split(',');
-                    if (str_datas != null && str_datas.Length == 32)
-                    {
-                        foreach (string tmp in str_datas)
-                        {
-                            if (Regex.IsMatch(tmp, @"^\d+$"))
-                                lstData.Add(Convert.ToInt16(tmp));
-                        }
-                    }
-                    return lstData.ToArray();
+                    return dt.Rows[0]["Data"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["Data"]) : 0;
                 }
 
-                return null;
+                return 0;
             }
             catch (Exception ex)
             {
-                return null;
+                return 0;
             }
         }
 

@@ -5,6 +5,7 @@ using DevExpress.XtraEditors;
 using System.IO;
 using Common;
 using System.Text;
+using System.Diagnostics;
 
 namespace SmartWaterSystem
 {
@@ -333,5 +334,107 @@ namespace SmartWaterSystem
                 ShowCtrlMsg();
             }
         }
+
+        #region 工具
+        private void comboToolBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboToolBox.SelectedItem.ToString())
+            {
+                case "计算器":
+                    OpenTool("calc");
+                    break;
+                case "串口调试助手":
+                    OpenTool(Application.StartupPath + "\\ToolBox\\UartAssist.exe");
+                    break;
+                case "网络调试助手":
+                    OpenTool(Application.StartupPath + "\\ToolBox\\NetAssist.exe");
+                    break;
+                case "串口通讯调试器":
+                    OpenTool(Application.StartupPath + "\\ToolBox\\串口通讯调试器.exe");
+                    break;
+            }
+            this.comboToolBox.SelectedIndexChanged -= new System.EventHandler(this.comboToolBox_SelectedIndexChanged);
+            comboToolBox.SelectedIndex = -1;
+            comboToolBox.Text = "工具箱";
+            this.comboToolBox.SelectedIndexChanged += new System.EventHandler(this.comboToolBox_SelectedIndexChanged);
+        }
+        private void OpenTool(string toolname)
+        {
+            try
+            {
+                Process.Start(toolname);
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region 查找
+        FrmSearch frmsearch = new FrmSearch();
+        private void txtControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 70)  //Ctrl+F
+            {
+                frmsearch.frmCtrl = this;
+                btnPause.Text = "继续";
+                frmsearch.Show();
+            }
+        }
+
+        public string FindText(string content, RichTextBoxFinds options, bool MatchCase)
+        {
+            int startIndex;
+            int endIndex;
+
+            if ((options & RichTextBoxFinds.Reverse) == RichTextBoxFinds.Reverse)
+            {
+                startIndex = 0;
+                endIndex = txtControl.SelectionStart;
+            }
+            else
+            {
+                startIndex = txtControl.SelectionStart + txtControl.SelectionLength;
+                endIndex = txtControl.Text.Length;
+            }
+            int index = -1;
+            if (MatchCase)
+                index = txtControl.Find(content, startIndex, endIndex, RichTextBoxFinds.MatchCase | options);
+            else
+                index = txtControl.Find(content, startIndex, endIndex, options);
+
+            if (index >= 0) //如果找到
+                ShowSelection(txtControl, index, content.Length);
+            else
+                return "找不到\"" + content + "\"";
+            return "";
+        }
+
+        //查找第一个
+        public void FindFirst(RichTextBox rich, string content)
+        {
+            int index = rich.Find(content, 0);
+            if (index >= 0) ShowSelection(rich, index, content.Length);
+        }
+
+        //查找最后一个
+        public void FindLast(RichTextBox rich, string content)
+        {
+            int index = rich.Find(content, rich.Text.Length, RichTextBoxFinds.Reverse);
+            if (index >= 0) ShowSelection(rich, index, content.Length);
+        }
+
+        //选择搜索到的文本
+        private void ShowSelection(RichTextBox rich, int index, int length)
+        {
+            rich.SelectionStart = index;
+            rich.SelectionLength = length;
+            //rich.SelectionColor = Color.Red;
+            rich.Focus();
+        }
+        #endregion
+
+        
     }
 }

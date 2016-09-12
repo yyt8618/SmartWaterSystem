@@ -678,7 +678,7 @@ namespace BLL
             leakprobability = 0; //漏水概率
             double maxstandvalue = noiseparmBll.GetParmD(ConstValue.MaxStandardAMP);
             double minstandvalue = noiseparmBll.GetParmD(ConstValue.MinStandardAMP);
-            int standdata = NoiseDataBaseHelper.GetStandData(-1, RecorderID);  //GroupID全部取-1，因为ID不重复
+            int standdata = NoiseDataBaseHelper.GetStandData(GroupID, RecorderID);  //GroupID全部取-1，因为ID不重复
 
             if (standdata == 0)  //0表示没有查询到或者无效的
                 return -1;
