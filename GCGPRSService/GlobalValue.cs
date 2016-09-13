@@ -24,6 +24,11 @@ namespace GCGPRSService
         }
 
         /// <summary>
+        /// 更新lstGprsCmd锁
+        /// </summary>
+        public object lstGprsCmdLock = new object();
+
+        /// <summary>
         /// //启动记录,用于smartsocket连接过来的时候将启动记录发送过去
         /// </summary>
         public List<string> lstStartRecord = new List<string>();

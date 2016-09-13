@@ -148,7 +148,7 @@ namespace GCGPRSService
                                     bool exist = false;
                                     foreach(GPRSCmdFlag flag in GlobalValue.Instance.lstSendedCmdId)
                                     {
-                                        if(flag.TableId == GlobalValue.Instance.lstGprsCmd[i].TableId)
+                                        if(flag.TableId == GlobalValue.Instance.lstGprsCmd[i].TableId) 
                                         {
                                             exist = true;
                                             break;
@@ -159,7 +159,11 @@ namespace GCGPRSService
                                         lstTmp.Add(GlobalValue.Instance.lstGprsCmd[i]);
                                     }
                                 }
-                                GlobalValue.Instance.lstGprsCmd = lstTmp;
+                                GlobalValue.Instance.lstSendedCmdId.Clear();
+                                lock (GlobalValue.Instance.lstGprsCmdLock)
+                                {
+                                    GlobalValue.Instance.lstGprsCmd = lstTmp;
+                                }
                             }
                             #endregion
                         }

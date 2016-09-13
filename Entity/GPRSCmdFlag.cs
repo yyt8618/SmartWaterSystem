@@ -13,14 +13,14 @@ namespace Entity
             set { _tableId = value; }
         }
 
-        private int _index = -1;
+        private int _SendCount = 0;
         /// <summary>
-        /// lstGprsCmd的索引
+        /// 发送次数,用于更新到数据库
         /// </summary>
-        public int Index
+        public int SendCount
         {
-            get { return _index; }
-            set { _index = value; }
+            get { return _SendCount; }
+            set { _SendCount = value; }
         }
     }
 }

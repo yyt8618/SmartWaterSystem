@@ -137,6 +137,10 @@ namespace Common
         /// </summary>
         WRITE_REMOTE_SEND_TIME = 0x1e,
         /// <summary>
+        /// 远传发送时间(远传)
+        /// </summary>
+        WRITE_REMOTE_GPRSSEND_TIME = 0x17,
+        /// <summary>
         /// 无线通讯
         /// </summary>
         WRITE_WIRELESS = 0x18,

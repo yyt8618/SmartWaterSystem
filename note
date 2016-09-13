@@ -16,4 +16,5 @@ tlp:谭丽萍 pg:彭工
 2016-7-27  数据库表DL_Noise_Real将OriginalData字段长度改为5000
 2016-8-11  数据库表ST_Noise_StandData将data字段改为int数据类型
 2016-8-30  新建表Waterworker_Real,版本号8-30
-2016=9-2   表En_NoiseRecorder增加列longitude、latitude用于保存坐标
+2016-9-2   表En_NoiseRecorder增加列longitude、latitude用于保存坐标
+2016-9-12  表ParamToDev增加列SendedCount用于记录下送命令发送次数

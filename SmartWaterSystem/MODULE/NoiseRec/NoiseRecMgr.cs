@@ -826,7 +826,7 @@ namespace SmartWaterSystem
                         package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
                         package.DevID = Convert.ToInt16(txtCurConId.Text);
                         package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                        package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_TIME;
+                        package.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_GPRSTIME;
                         byte[] data = new byte[6];
                         data[0] = (byte)(dateTimePickerCon.Value.Year - 2000);
                         data[1] = (byte)dateTimePickerCon.Value.Month;
@@ -852,7 +852,7 @@ namespace SmartWaterSystem
                         package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
                         package.DevID = Convert.ToInt16(txtCurConId.Text);
                         package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                        package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_REMOTE_SEND_TIME;
+                        package.C1 = (byte)NOISE_CTRL_COMMAND.WRITE_REMOTE_GPRSSEND_TIME;
                         package.DataLength = 1;
                         byte[] data = new byte[package.DataLength];
                         data[0] = (byte)Convert.ToInt32(txtComTime.Text);

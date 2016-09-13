@@ -91,5 +91,15 @@ namespace Entity
             set { _SendedFlag = value; }
         }
 
+        private int _SendedCount = 0;
+        /// <summary>
+        /// 发送次数,达到一定次数,则不再发送该帧
+        /// </summary>
+        public int SendedCount
+        {
+            get { return _SendedCount; }
+            set { _SendedCount = value; }
+        }
+
     }
 }

@@ -78,7 +78,7 @@ namespace GCGPRSService
         Socket listener;
         bool isRunning = false;
         List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
-        int maxSmartClient = 6;   //SmartWaterSystem.exe 的最大socket连接数
+        int maxSmartClient = 8;   //SmartWaterSystem.exe 的最大socket连接数
         object obj_smartsocket = new object();      //SmartWaterSystem.exe的socket连接列表锁
         List<SmartSocketEntity> lstSmartClient = new List<SmartSocketEntity>(); //SmartWaterSystem.exe 的socket连接列表
 
@@ -573,8 +573,14 @@ namespace GCGPRSService
                             
                             if ((PackageDefine.MinLenth + len == arr.Length) && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
+                                bool bNeedCheckTime = false;  //是否需要校时
+                                List<Package> lstCommandPack = new List<Package>();
+                                Package response = new Package();
+
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
                                 {
+                                    #region 处理响应帧
+                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到响应帧:" + str_source));
                                     foreach (CallSocketEntity callentity in lstClient)
                                     {
                                         if (callentity.DevType == pack.DevType && callentity.TerId != -1 && callentity.TerId == pack.DevID && callentity.lstWaitSendCmd != null)
@@ -594,6 +600,48 @@ namespace GCGPRSService
                                             callentity.lstWaitSendCmd = lst_save_pack;
                                         }
                                     }
+
+                                    if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                    {
+                                        for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
+                                        {
+                                            if (GlobalValue.Instance.lstGprsCmd[j].DeviceId == pack.DevID && (byte)GlobalValue.Instance.lstGprsCmd[j].DevTypeId == (byte)pack.DevType && (byte)GlobalValue.Instance.lstGprsCmd[j].FunCode == pack.C1)
+                                            {
+                                                if (GlobalValue.Instance.lstGprsCmd[j].TableId == -1)  //-1用在生成的自动校时
+                                                {
+                                                    lock (GlobalValue.Instance.lstGprsCmdLock)
+                                                        {   GlobalValue.Instance.lstGprsCmd.RemoveAt(j); }  //生成的自动校时直接删除
+                                                }
+                                                else
+                                                {
+                                                    GPRSCmdFlag flag = new GPRSCmdFlag();
+                                                    flag.TableId = GlobalValue.Instance.lstGprsCmd[j].TableId;
+                                                    GlobalValue.Instance.lstGprsCmd[j].SendedFlag = 1;  //标记为已发送，防止后边重发
+                                                    flag.SendCount = 0;  //0:成功发送,收到响应帧
+                                                    GlobalValue.Instance.lstSendedCmdId.Add(flag);
+                                                }
+                                            }
+                                            //失败次数多于3次,则删除
+                                            if (GlobalValue.Instance.lstGprsCmd[j].SendedCount > 3)
+                                            {
+                                                if (GlobalValue.Instance.lstGprsCmd[j].TableId == -1)  //-1用在生成的自动校时
+                                                {
+                                                    lock (GlobalValue.Instance.lstGprsCmdLock)
+                                                    { GlobalValue.Instance.lstGprsCmd.RemoveAt(j); }  //生成的自动校时直接删除
+                                                }
+                                                else
+                                                {
+                                                    GPRSCmdFlag flag = new GPRSCmdFlag();
+                                                    flag.TableId = GlobalValue.Instance.lstGprsCmd[j].TableId;
+                                                    flag.SendCount = GlobalValue.Instance.lstGprsCmd[j].SendedCount;  //未收到响应帧,发送次数超过限制
+                                                    GlobalValue.Instance.lstSendedCmdId.Add(flag);
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                    GlobalValue.Instance.SocketSQLMag.Send(SQLType.UpdateSendParmFlag);
+                                    #endregion
                                 }
                                 else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧
                                 {
@@ -603,7 +651,6 @@ namespace GCGPRSService
 #else
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据"));
 #endif
-                                    bool bNeedCheckTime = false;  //是否需要校时
                                     #region 解析数据
                                     if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL)
                                     {
@@ -1327,7 +1374,7 @@ namespace GCGPRSService
                                         #region 水质终端
                                         bool addtion_voldata = false;   //是否在数据段最后增加了两个字节的电压数据
                                         if ((pack.C1 == (byte)GPRS_READ.READ_TURBIDITY) || (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL) ||
-                                            (pack.C1 == (byte)GPRS_READ.READ_PH)|| (pack.C1 == (byte)GPRS_READ.READ_TEMP))  //从站向主站发送水质采集数据
+                                            (pack.C1 == (byte)GPRS_READ.READ_PH) || (pack.C1 == (byte)GPRS_READ.READ_TEMP))  //从站向主站发送水质采集数据
                                         {
                                             int dataindex = (pack.DataLength - 2 - 1) % 8;
                                             if (dataindex != 0)
@@ -1373,7 +1420,7 @@ namespace GCGPRSService
                                                 unit = "ph";
                                                 valuecolumnname = "PH";
                                             }
-                                            else if ( pack.C1 == (byte)GPRS_READ.READ_TEMP)
+                                            else if (pack.C1 == (byte)GPRS_READ.READ_TEMP)
                                             {
                                                 name = "温度";
                                                 unit = "℃";
@@ -1509,7 +1556,7 @@ namespace GCGPRSService
                                                 alarmflag = BitConverter.ToInt16(new byte[] { pack.Data[0], pack.Data[1] }, 0);
 
                                                 float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
-                                                if (pack.DataLength - (6+36)*dataindex -3 == 2)  //最后余两个字节则认为是电压值
+                                                if (pack.DataLength - (6 + 36) * dataindex - 3 == 2)  //最后余两个字节则认为是电压值
                                                     volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
 
                                                 GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
@@ -1559,7 +1606,7 @@ namespace GCGPRSService
                                                         bNeedCheckTime = NeedCheckTime(data.ColTime);
                                                         framedata.lstFlowData.Add(data);
 
-                                                        
+
                                                     }
                                                     else
                                                     {
@@ -1572,7 +1619,7 @@ namespace GCGPRSService
                                             }
                                             else
                                             {
-                                                OnSendMsg(new SocketEventArgs("水质终端["+ pack.ID + "]错误未知水表类型!"));
+                                                OnSendMsg(new SocketEventArgs("水质终端[" + pack.ID + "]错误未知水表类型!"));
                                             }
                                             #endregion
                                         }
@@ -1697,7 +1744,7 @@ namespace GCGPRSService
                                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertHydrantValue);
                                         #endregion
                                     }
-                                    else if(pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.NOISE_CTRL)
+                                    else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.NOISE_CTRL)
                                     {
                                         #region 噪声数据远传控制器
                                         if (pack.C1 == (byte)GPRS_READ.READ_NOISEDATA)  //从站向主站发送噪声采集数据
@@ -1719,11 +1766,11 @@ namespace GCGPRSService
 
                                             //记录仪ID（4byte）＋启动值（2byte）＋总帧数（1byte）＋帧号（1byte）＋ 数据（128byte）＋ 电压（2byte）
                                             int logId = BitConverter.ToInt32(new byte[] { pack.Data[3], pack.Data[2], pack.Data[1], 0x00 }, 0);  //记录仪ID
-                                            int standvalue=BitConverter.ToInt16(new byte[] { pack.Data[5], pack.Data[4] }, 0);      //启动值
+                                            int standvalue = BitConverter.ToInt16(new byte[] { pack.Data[5], pack.Data[4] }, 0);      //启动值
                                             int sumpackcount = Convert.ToInt32(pack.Data[6]);
                                             int curpackindex = Convert.ToInt32(pack.Data[7]);
 
-                                            if(curpackindex == 1)
+                                            if (curpackindex == 1)
                                                 state.lstBuffer.Clear();   //收到第一包清空缓存
                                             bool needprocess = true;  //是否处理当前包
                                             if (curpackindex > 1 && (state.NoisePackIndex == curpackindex)) //如果当前包和上一包序号一样则不处理
@@ -1817,8 +1864,8 @@ namespace GCGPRSService
                                             string strreactivenerge4 = String.Format("{0:X2}", pack.Data[i + 28]) + String.Format("{0:X2}", pack.Data[i + 29]) + String.Format("{0:X2}", pack.Data[i + 30]) + String.Format("{0:X2}", pack.Data[i + 31]);
                                             double reactivenerge4 = Convert.ToSingle(strreactivenerge4) / 100;         //4#无功电量
 
-                                            double pressure = (double)BitConverter.ToInt16(new byte[] { pack.Data[i +33], pack.Data[i +32] }, 0)/1000;         //出口压力
-                                            double liquidlevel = BitConverter.ToSingle(new byte[] { pack.Data[i +37], pack.Data[i +36], pack.Data[i +35], pack.Data[i +34] }, 0);         //液位
+                                            double pressure = (double)BitConverter.ToInt16(new byte[] { pack.Data[i + 33], pack.Data[i + 32] }, 0) / 1000;         //出口压力
+                                            double liquidlevel = BitConverter.ToSingle(new byte[] { pack.Data[i + 37], pack.Data[i + 36], pack.Data[i + 35], pack.Data[i + 34] }, 0);         //液位
                                             double flow1 = BitConverter.ToInt32(new byte[] { pack.Data[i + 41], pack.Data[i + 40], pack.Data[i + 39], pack.Data[i + 38] }, 0);         //流量1
                                             double flow2 = BitConverter.ToInt32(new byte[] { pack.Data[i + 45], pack.Data[i + 44], pack.Data[i + 43], pack.Data[i + 42] }, 0);         //流量2
                                             //2个字节表示一个开关状态,第一个字节没有用  0x00 0x01表示开  0x00 0x00表示关
@@ -1847,7 +1894,7 @@ namespace GCGPRSService
                                             framedata.Switch2 = switch2;
                                             framedata.Switch3 = switch3;
                                             framedata.Switch4 = switch4;
-                                            
+
                                             //bNeedCheckTime = NeedCheckTime(framedata.ColTime);
 
                                             GlobalValue.Instance.GPRS_WaterworkerFrameData.Enqueue(framedata);  //通知存储线程处理
@@ -1857,9 +1904,7 @@ namespace GCGPRSService
                                     }
                                     #endregion
 
-                                    Package response = new Package();
                                     response.DevID = pack.DevID;
-                                    List<Package> lstCommandPack = new List<Package>();
                                     CallSocketEntity currentSocketEntity = null;
                                     foreach (CallSocketEntity callentity in lstClient)
                                     {
@@ -1885,9 +1930,15 @@ namespace GCGPRSService
                                     }
 
                                     //Thread.Sleep(500);
-                                    #region 发送后续命令帧
-                                    if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
-                                        || bNeedCheckTime || lstCommandPack.Count > 0) && pack.IsFinal)
+                                }
+
+                                #region 发送后续命令帧
+                                if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                    || bNeedCheckTime || lstCommandPack.Count > 0) && pack.IsFinal)
+                                {
+                                    byte[] bsenddata;
+                                    SendObject sendObj = new SendObject();
+                                    if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧则需要应答响应帧
                                     {
                                         #region 回复响应帧
                                         response.DevType = pack.DevType;
@@ -1897,14 +1948,13 @@ namespace GCGPRSService
                                         response.Data = null;
                                         response.CS = response.CreateCS();
 
-                                        byte[] bsenddata = response.ToArray();
+                                        bsenddata = response.ToArray();
 
 #if debug
                                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
-                                        SendObject sendObj = new SendObject();
                                         sendObj.workSocket = handler;
                                         sendObj.IsFinal = false;
                                         sendObj.DevType = pack.DevType;
@@ -1912,148 +1962,144 @@ namespace GCGPRSService
 
                                         handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                         #endregion
+                                    }
 
-                                        if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                    if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                    {
+                                        for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
                                         {
-                                            for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
+                                            if (GlobalValue.Instance.lstGprsCmd[i].SendedFlag == 0 && GlobalValue.Instance.lstGprsCmd[i].DeviceId == (int)pack.DevID && GlobalValue.Instance.lstGprsCmd[i].DevTypeId == (int)pack.DevType)
                                             {
-                                                if (GlobalValue.Instance.lstGprsCmd[i].DeviceId == (int)pack.DevID && GlobalValue.Instance.lstGprsCmd[i].DevTypeId == (int)pack.DevType)
-                                                {
-                                                    Package CommandPack = new Package();
-                                                    CommandPack.DevID = pack.DevID;
-                                                    CommandPack.DevType = pack.DevType;
-                                                    CommandPack.C0 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].CtrlCode);
-                                                    CommandPack.C1 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].FunCode);
-                                                    CommandPack.Data = ConvertHelper.StringToByte(GlobalValue.Instance.lstGprsCmd[i].Data);
-                                                    CommandPack.DataLength = CommandPack.Data.Length;
-                                                    //CommandPack.CS = CommandPack.CreateCS();
-                                                    lstCommandPack.Add(CommandPack);
-                                                }
+                                                Package CommandPack = new Package();
+                                                CommandPack.DevID = pack.DevID;
+                                                CommandPack.DevType = pack.DevType;
+                                                CommandPack.C0 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].CtrlCode);
+                                                CommandPack.C1 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].FunCode);
+                                                CommandPack.Data = ConvertHelper.StringToByte(GlobalValue.Instance.lstGprsCmd[i].Data);
+                                                CommandPack.DataLength = CommandPack.Data.Length;
+                                                //CommandPack.CS = CommandPack.CreateCS();
+                                                lstCommandPack.Add(CommandPack);
+                                                GlobalValue.Instance.lstGprsCmd[i].SendedCount++;  //记录发送次数
+
+                                                break;  //只添加一条,每次都发送一条等待回应帧再发送下一条
                                             }
-                                        }
-
-                                        #region 校时
-                                        if (bNeedCheckTime)
-                                        {
-                                            Package pack_time = new Package();
-                                            pack_time.DevType = pack.DevType;
-                                            pack_time.DevID = pack.DevID;
-                                            pack_time.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                                            if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)
-                                                pack_time.C1 = (byte)PRECTRL_COMMAND.SET_TIME;
-                                            else if (pack.DevType == Entity.ConstValue.DEV_TYPE.Data_CTRL)
-                                                pack_time.C1 = (byte)PreTer_COMMAND.SET_TIME;
-                                            else if (pack.DevType == Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
-                                                pack_time.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
-                                            else if (pack.DevType == Entity.ConstValue.DEV_TYPE.OLWQ_CTRL)
-                                                pack_time.C1 = (byte)OLWQ_COMMAND.SET_TIME;
-                                            else if (pack.DevType == Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL)
-                                                pack_time.C1 = (byte)HYDRANT_COMMAND.SET_TIME;
-                                            else if (pack.DevType == ConstValue.DEV_TYPE.NOISE_CTRL)
-                                                pack_time.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_GPRSTIME;
-
-                                            byte[] data = null;
-                                            if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)  //压力控制器多三个字节,1byte(密码权限=1)+2bytes(管理密码)+6byte(时间数据)，暂时写死
-                                            {
-                                                data = new byte[9];
-                                                data[0] = 0x01;
-                                                data[1] = 0x00;
-                                                data[2] = 0x00;
-                                                data[3] = (byte)(DateTime.Now.Year - 2000);
-                                                data[4] = (byte)DateTime.Now.Month;
-                                                data[5] = (byte)DateTime.Now.Day;
-                                                data[6] = (byte)DateTime.Now.Hour;
-                                                data[7] = (byte)DateTime.Now.Minute;
-                                                data[8] = (byte)DateTime.Now.Second;
-                                                pack_time.DataLength = data.Length;
-                                                pack_time.Data = data;
-                                            }
-                                            else
-                                            {
-                                                data = new byte[6];
-                                                data[0] = (byte)(DateTime.Now.Year - 2000);
-                                                data[1] = (byte)DateTime.Now.Month;
-                                                data[2] = (byte)DateTime.Now.Day;
-                                                data[3] = (byte)DateTime.Now.Hour;
-                                                data[4] = (byte)DateTime.Now.Minute;
-                                                data[5] = (byte)DateTime.Now.Second;
-                                                pack_time.DataLength = data.Length;
-                                                pack_time.Data = data;
-                                            }
-                                            //pack_time.CS = pack_time.CreateCS();
-
-                                            lstCommandPack.Add(pack_time);
-                                        }
-                                        #endregion
-
-                                        for (int i = 0; i < lstCommandPack.Count; i++)
-                                        {
-                                            Package commandpack = lstCommandPack[i];
-                                            if (i != (lstCommandPack.Count - 1))
-                                                commandpack.C0 = ((byte)(commandpack.C0 | 0x08));  //不是最后一个帧
-                                            commandpack.CS = commandpack.CreateCS();
-                                            bsenddata = commandpack.ToArray();
-#if debug
-                                            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
-#else
-                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
-#endif
-                                            sendObj = new SendObject();
-                                            sendObj.workSocket = handler;
-                                            sendObj.IsFinal = (i == (lstCommandPack.Count - 1)) ? true : false;
-                                            sendObj.DevType = pack.DevType;
-                                            sendObj.DevID = pack.DevID;
-                                            handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
-
-                                            if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
-                                            {
-                                                for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
-                                                {
-                                                    if (GlobalValue.Instance.lstGprsCmd[j].DevTypeId == (int)commandpack.DevType && GlobalValue.Instance.lstGprsCmd[j].FunCode == commandpack.C1
-                                                        && GlobalValue.Instance.lstGprsCmd[j].DeviceId == commandpack.DevID)
-                                                    {
-                                                        GPRSCmdFlag flag = new GPRSCmdFlag();
-                                                        flag.Index = i;
-                                                        flag.TableId = GlobalValue.Instance.lstGprsCmd[j].TableId;
-                                                        GlobalValue.Instance.lstSendedCmdId.Add(flag);
-                                                    }
-                                                }
-                                            }
-                                            GlobalValue.Instance.SocketSQLMag.Send(SQLType.UpdateSendParmFlag);
                                         }
                                     }
-                                    else
-                                    {
-                                        response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_MASTER;
-                                        response.DevType = pack.DevType;
-                                        response.C1 = (byte)pack.C1;
-                                        response.DataLength = 0;
-                                        response.Data = null;
-                                        response.CS = response.CreateCS();
 
-                                        byte[] bsenddata = response.ToArray();
-#if debug
-                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
-#else
-                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
-#endif
-                                        SendObject sendObj = new SendObject();
-                                        sendObj.workSocket = handler;
-                                        sendObj.IsFinal = pack.IsFinal;
-                                        sendObj.DevType = pack.DevType;
-                                        sendObj.DevID = pack.DevID;
-                                        if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
-                                            handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                    #region 校时
+                                    if (bNeedCheckTime)
+                                    {
+                                        Package pack_time = new Package();
+                                        pack_time.DevType = pack.DevType;
+                                        pack_time.DevID = pack.DevID;
+                                        pack_time.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                                        if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)
+                                            pack_time.C1 = (byte)PRECTRL_COMMAND.SET_TIME;
+                                        else if (pack.DevType == Entity.ConstValue.DEV_TYPE.Data_CTRL)
+                                            pack_time.C1 = (byte)PreTer_COMMAND.SET_TIME;
+                                        else if (pack.DevType == Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
+                                            pack_time.C1 = (byte)UNIVERSAL_COMMAND.SET_TIME;
+                                        else if (pack.DevType == Entity.ConstValue.DEV_TYPE.OLWQ_CTRL)
+                                            pack_time.C1 = (byte)OLWQ_COMMAND.SET_TIME;
+                                        else if (pack.DevType == Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL)
+                                            pack_time.C1 = (byte)HYDRANT_COMMAND.SET_TIME;
+                                        else if (pack.DevType == ConstValue.DEV_TYPE.NOISE_CTRL)
+                                            pack_time.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_GPRSTIME;
+
+                                        byte[] data = null;
+                                        if (pack.DevType == Entity.ConstValue.DEV_TYPE.PRESS_CTRL)  //压力控制器多三个字节,1byte(密码权限=1)+2bytes(管理密码)+6byte(时间数据)，暂时写死
+                                        {
+                                            data = new byte[9];
+                                            data[0] = 0x01;
+                                            data[1] = 0x00;
+                                            data[2] = 0x00;
+                                            data[3] = (byte)(DateTime.Now.Year - 2000);
+                                            data[4] = (byte)DateTime.Now.Month;
+                                            data[5] = (byte)DateTime.Now.Day;
+                                            data[6] = (byte)DateTime.Now.Hour;
+                                            data[7] = (byte)DateTime.Now.Minute;
+                                            data[8] = (byte)DateTime.Now.Second;
+                                            pack_time.DataLength = data.Length;
+                                            pack_time.Data = data;
+                                        }
+                                        else
+                                        {
+                                            data = new byte[6];
+                                            data[0] = (byte)(DateTime.Now.Year - 2000);
+                                            data[1] = (byte)DateTime.Now.Month;
+                                            data[2] = (byte)DateTime.Now.Day;
+                                            data[3] = (byte)DateTime.Now.Hour;
+                                            data[4] = (byte)DateTime.Now.Minute;
+                                            data[5] = (byte)DateTime.Now.Second;
+                                            pack_time.DataLength = data.Length;
+                                            pack_time.Data = data;
+                                        }
+                                        //pack_time.CS = pack_time.CreateCS();
+                                        if (lstCommandPack.Count > 0)  //已经有需要下送的命令,由于一次只下送一条命令，校时命令需要放在所有命令之后,将校时命令放入命令缓存
+                                        {
+                                            GPRSCmdEntity timeCmd = new GPRSCmdEntity();
+                                            timeCmd.DeviceId = pack_time.DevID;
+                                            timeCmd.CtrlCode = pack_time.C0;
+                                            timeCmd.FunCode = pack_time.C1;
+                                            timeCmd.DevTypeId = Convert.ToInt32(pack_time.DevType);
+                                            timeCmd.Data=ConvertHelper.ByteToString(pack_time.Data, pack_time.DataLength);
+                                            timeCmd.DataLen = timeCmd.Data.Length;
+                                            timeCmd.TableId = -1;
+                                            lock (GlobalValue.Instance.lstGprsCmdLock)
+                                            { GlobalValue.Instance.lstGprsCmd.Add(timeCmd); }
+                                        }
+
+                                        lstCommandPack.Add(pack_time);  //校时命令添加进来,下边只发送第一条命令,加入校时命令，用于后面判断是不是最后一个帧
                                     }
                                     #endregion
 
-                                    //if (currentSocketEntity != null)   //如果有需要发送的帧数据，在最后认为已经发送完，清除
-                                    //{
-                                    //    currentSocketEntity.lstWaitSendCmd = new List<Package>();
-                                    //}
-                                    //if (handler != null && IsSocketConnected_Poll(handler))
-                                    //    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                                    if(lstCommandPack.Count>0)//for (int i = 0; i < lstCommandPack.Count; i++)
+                                    {
+                                        Package commandpack = lstCommandPack[0];  //i
+                                        if (0 != (lstCommandPack.Count - 1))  //i
+                                            commandpack.C0 = ((byte)(commandpack.C0 | 0x08));  //不是最后一个帧
+                                        commandpack.CS = commandpack.CreateCS();
+                                        bsenddata = commandpack.ToArray();
+
+                                        Thread.Sleep(200);  //帧之间间隔
+#if debug
+                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+#else
+                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
+#endif
+                                        sendObj = new SendObject();
+                                        sendObj.workSocket = handler;
+                                        sendObj.IsFinal = (0 == (lstCommandPack.Count - 1)) ? true : false;  //i
+                                        sendObj.DevType = pack.DevType;
+                                        sendObj.DevID = pack.DevID;
+                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                    }
                                 }
+                                else if(pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE) //接收到的数据帧则需要应答响应帧
+                                {
+                                    response.CommandType = CTRL_COMMAND_TYPE.RESPONSE_BY_MASTER;
+                                    response.DevType = pack.DevType;
+                                    response.C1 = (byte)pack.C1;
+                                    response.DataLength = 0;
+                                    response.Data = null;
+                                    response.CS = response.CreateCS();
+
+                                    byte[] bsenddata = response.ToArray();
+#if debug
+                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+#else
+                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
+#endif
+                                    SendObject sendObj = new SendObject();
+                                    sendObj.workSocket = handler;
+                                    sendObj.IsFinal = pack.IsFinal;
+                                    sendObj.DevType = pack.DevType;
+                                    sendObj.DevID = pack.DevID;
+                                    if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
+                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                }
+                                #endregion
+
                             }
                         }
                         #endregion
@@ -2468,10 +2514,11 @@ namespace GCGPRSService
                     }
                     if ((!AllowOnLine) && ((SendObject)ar.AsyncState).IsFinal)
                     {
-                        handler.Shutdown(SocketShutdown.Both);
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "下线"));
-                        Thread.Sleep(5);
-                        handler.Close();
+                        //不主动下线
+                        //handler.Shutdown(SocketShutdown.Both);
+                        //OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "下线"));
+                        //Thread.Sleep(5);
+                        //handler.Close();
                     }
                 }
             }

@@ -738,20 +738,26 @@ namespace DAL
 
                     trans = SQLHelper.GetTransaction();
 
-                    string SQL = "UPDATE ParamToDev SET SendedFlag=1 WHERE ID=@id";
-                    SqlParameter parm =  new SqlParameter("@id",SqlDbType.Int);
+                    string SQL = "UPDATE ParamToDev SET SendedFlag=@flag, SendedCount=@sendcount WHERE ID=@id";
+                    SqlParameter[] parms = new SqlParameter[]
+                        {new SqlParameter("@flag",SqlDbType.Int),
+                        new SqlParameter("@sendcount",SqlDbType.Int),
+                        new SqlParameter("@id",SqlDbType.Int)
+                        };
+                        
 
                     SqlCommand command = new SqlCommand();
                     command.CommandText = SQL;
-                    command.Parameters.Add(parm);
+                    command.Parameters.AddRange(parms);
                     command.CommandType = CommandType.Text;
                     command.Connection = SQLHelper.Conn;
                     command.Transaction = trans;
 
-                    for (int i = 0; i<ids.Count; i++)
+                    for (int i = 0; i < ids.Count; i++)
                     {
-                        parm.Value = ids[i].TableId;
-
+                        parms[0].Value = ids[i].SendCount > 0 ? -1 : 1;  //发送次数大于0认为是发送超过限定次数失败
+                        parms[1].Value = ids[i].SendCount;
+                        parms[2].Value = ids[i].TableId;
                         command.ExecuteNonQuery();
                     }
                     trans.Commit();
