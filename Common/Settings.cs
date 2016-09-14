@@ -61,6 +61,10 @@ namespace Common
         /// HTTP请求MD5校验Key
         /// </summary>
         public const string HTTPMD5Key = "HTTPMD5Key";
+        /// <summary>
+        /// FrmConsole页面输入日志记录位置
+        /// </summary>
+        public const string ConsoleLogPath = "ConsoleLogPath";
     }
 
     /// <summary>

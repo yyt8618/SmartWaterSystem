@@ -123,6 +123,10 @@ namespace SmartWaterSystem
             {
                 lock (lockMsgChange)
                 {
+                    if(picBoxLog.Tag.ToString()=="1")
+                    {
+                        WriteLog();
+                    }
                     ShowCtrlMsg();
                     ctrlMsgChange = false;
                 }
@@ -219,12 +223,7 @@ namespace SmartWaterSystem
         {
             Clipboard.SetDataObject(txtControl.Text, true);
         }
-
-        private void FrmConsole_VisibleChanged(object sender, EventArgs e)
-        {
-            
-        }
-
+        
         public void UpdateSocketList()
         {
             try
@@ -437,8 +436,119 @@ namespace SmartWaterSystem
             //rich.SelectionColor = Color.Red;
             rich.Focus();
         }
+
         #endregion
 
+        #region 记录Console内容
+        StreamWriter sw = null;
+        private void picBoxLog_Click(object sender, EventArgs e)
+        {
+            if (((System.Windows.Forms.MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                string logpath = Settings.Instance.GetString(SettingKeys.ConsoleLogPath);
+                if (string.IsNullOrEmpty(logpath))
+                {
+                    XtraMessageBox.Show("请先设置文件保存位置!");
+                    return;
+                }
+                if (picBoxLog.Tag != null)
+                {
+                    if (Convert.ToInt32(picBoxLog.Tag) == 0)//不记录日志到文件
+                    {
+                        picBoxLog.Tag = 1;      //开始记录
+                        picBoxLog.Image = global::SmartWaterSystem.Properties.Resources.WriteLog1;
+                    }
+                    else    //停止记录
+                    {
+                        CloseWriter();
+                    }
+                }
+                else
+                    picBoxLog.Tag = 0;
+            }
+            else if (((System.Windows.Forms.MouseEventArgs)e).Button == MouseButtons.Right)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                //设置文件类型
+                sfd.Filter = "文本文件（*.txt）|*.txt";
+
+                //设置默认文件类型显示顺序
+                sfd.FilterIndex = 1;
+
+                //保存对话框是否记忆上次打开的目录
+                sfd.RestoreDirectory = true;
+
+                sfd.InitialDirectory = "%systemdrive%%homepath%";
+                sfd.FileName = DateTime.Now.ToString("yyyy-MM-dd") + "输出文件.txt";
+
+
+                //点了保存按钮进入
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    string localFilePath = sfd.FileName.ToString(); //获得文件路径
+                    Settings.Instance.SetValue(SettingKeys.ConsoleLogPath, localFilePath);
+                    CloseWriter();
+                }
+            }
+        }
         
+        private void WriteLog()
+        {
+            try
+            {
+                string logpath = Settings.Instance.GetString(SettingKeys.ConsoleLogPath);
+                if (string.IsNullOrEmpty(logpath))
+                    return;
+                string dir =Path.GetDirectoryName(logpath);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                if (!File.Exists(logpath))
+                {
+                    FileStream fs=File.Create(logpath);
+                    fs.Close();
+                }
+                if (File.Exists(logpath))
+                {
+                    if (sw == null)
+                        sw = File.AppendText(logpath);
+                    if (lstCtrlMsg != null && lstCtrlMsg.Count > 0)
+                    {
+                        for (int i = 0; i < lstCtrlMsg.Count; i++)
+                        {
+                            sw.Write(lstCtrlMsg[i]);
+                        }
+                    }
+                    sw.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("WriteLog", ex);
+                SetCtrlMsg(DateTime.Now.ToString() + " 记录日志发生错误,ex:" + ex.Message);
+            }
+        }
+
+        private void CloseWriter()
+        {
+            try
+            {
+                if (sw != null)
+                {
+                    sw.Flush();
+                    sw.Close();
+                    sw = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("CloseWriter", ex);
+                SetCtrlMsg(DateTime.Now.ToString() + " 关闭StreamWriter发生错误,ex:" + ex.Message);
+            }
+        }
+
+        #endregion
+
     }
 }

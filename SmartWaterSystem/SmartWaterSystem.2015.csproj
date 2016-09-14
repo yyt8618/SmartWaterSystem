@@ -704,6 +704,8 @@
     <Content Include="gc.ico" />
     <Content Include="Resources\SockConnect.ico" />
     <Content Include="Resources\SockNotConnect.ico" />
+    <None Include="Resources\WriteLog.ico" />
+    <None Include="Resources\WriteLog.gif" />
     <None Include="Resources\Socket.ico" />
     <None Include="Resources\fullscreen.gif" />
     <None Include="Resources\HydrantMap.png" />

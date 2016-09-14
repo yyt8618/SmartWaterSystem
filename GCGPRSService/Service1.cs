@@ -89,7 +89,7 @@ namespace GCGPRSService
                 SocketEntity mEntity = new SocketEntity();
                 mEntity.MsgType = ConstValue.MSMQTYPE.Msg_HTTP;
                 mEntity.Msg = e.Msg;
-                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(mEntity));
+                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Msg_HTTP,e.Msg));
             }
         }
     }

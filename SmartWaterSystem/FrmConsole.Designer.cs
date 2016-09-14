@@ -40,8 +40,8 @@ namespace SmartWaterSystem
             this.cbErrs = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkedComboBoxEdit1 = new DevExpress.XtraEditors.CheckedComboBoxEdit();
+            this.comboToolBox = new DevExpress.XtraEditors.ComboBoxEdit();
             this.comboSocketServer = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.picSockConnect = new System.Windows.Forms.PictureBox();
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
@@ -50,12 +50,14 @@ namespace SmartWaterSystem
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.comboToolBox = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.picBoxLog = new System.Windows.Forms.PictureBox();
+            this.picSockConnect = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClear
@@ -168,6 +170,7 @@ namespace SmartWaterSystem
             this.panel1.Controls.Add(this.checkedComboBoxEdit1);
             this.panel1.Controls.Add(this.comboToolBox);
             this.panel1.Controls.Add(this.comboSocketServer);
+            this.panel1.Controls.Add(this.picBoxLog);
             this.panel1.Controls.Add(this.picSockConnect);
             this.panel1.Controls.Add(this.btnDisconnect);
             this.panel1.Controls.Add(this.btnCopy);
@@ -195,22 +198,47 @@ namespace SmartWaterSystem
             this.checkedComboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.checkedComboBoxEdit1.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "数据帧"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "压力终端"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "压力控制器"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "通用终端"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "水质终端"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "消防栓"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "噪声远传"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "水厂")});
-            this.checkedComboBoxEdit1.Size = new System.Drawing.Size(87, 20);
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "数据帧(socket)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "压力流量终端(socket)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "压力控制器(socket)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "通用终端(socket)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "水质终端(socket)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "消防栓(socket)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "噪声远传(socket)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "水厂(socket)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "手机"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "串口"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "错误")});
+            this.checkedComboBoxEdit1.Size = new System.Drawing.Size(42, 20);
             this.checkedComboBoxEdit1.TabIndex = 10;
             this.checkedComboBoxEdit1.Visible = false;
+            // 
+            // comboToolBox
+            // 
+            this.comboToolBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboToolBox.EditValue = "工具箱";
+            this.comboToolBox.Location = new System.Drawing.Point(328, 4);
+            this.comboToolBox.Name = "comboToolBox";
+            this.comboToolBox.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.comboToolBox.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.comboToolBox.Properties.Appearance.Options.UseBackColor = true;
+            this.comboToolBox.Properties.Appearance.Options.UseForeColor = true;
+            this.comboToolBox.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comboToolBox.Properties.Items.AddRange(new object[] {
+            "计算器",
+            "串口调试助手",
+            "网络调试助手",
+            "串口通讯调试器"});
+            this.comboToolBox.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.comboToolBox.Size = new System.Drawing.Size(94, 20);
+            this.comboToolBox.TabIndex = 4;
+            this.comboToolBox.SelectedIndexChanged += new System.EventHandler(this.comboToolBox_SelectedIndexChanged);
             // 
             // comboSocketServer
             // 
             this.comboSocketServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboSocketServer.Location = new System.Drawing.Point(445, 4);
+            this.comboSocketServer.Location = new System.Drawing.Point(423, 4);
             this.comboSocketServer.Name = "comboSocketServer";
             this.comboSocketServer.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.comboSocketServer.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
@@ -222,17 +250,6 @@ namespace SmartWaterSystem
             this.comboSocketServer.Size = new System.Drawing.Size(123, 20);
             this.comboSocketServer.TabIndex = 4;
             this.comboSocketServer.SelectedIndexChanged += new System.EventHandler(this.comboSocketServer_SelectedIndexChanged);
-            // 
-            // picSockConnect
-            // 
-            this.picSockConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-            this.picSockConnect.InitialImage = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-            this.picSockConnect.Location = new System.Drawing.Point(574, 6);
-            this.picSockConnect.Name = "picSockConnect";
-            this.picSockConnect.Size = new System.Drawing.Size(41, 20);
-            this.picSockConnect.TabIndex = 5;
-            this.picSockConnect.TabStop = false;
             // 
             // btnDisconnect
             // 
@@ -330,27 +347,29 @@ namespace SmartWaterSystem
             this.barDockControlRight.Location = new System.Drawing.Point(878, 0);
             this.barDockControlRight.Size = new System.Drawing.Size(0, 492);
             // 
-            // comboToolBox
+            // picBoxLog
             // 
-            this.comboToolBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboToolBox.EditValue = "工具箱";
-            this.comboToolBox.Location = new System.Drawing.Point(317, 4);
-            this.comboToolBox.Name = "comboToolBox";
-            this.comboToolBox.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.comboToolBox.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.comboToolBox.Properties.Appearance.Options.UseBackColor = true;
-            this.comboToolBox.Properties.Appearance.Options.UseForeColor = true;
-            this.comboToolBox.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboToolBox.Properties.Items.AddRange(new object[] {
-            "计算器",
-            "串口调试助手",
-            "网络调试助手",
-            "串口通讯调试器"});
-            this.comboToolBox.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboToolBox.Size = new System.Drawing.Size(123, 20);
-            this.comboToolBox.TabIndex = 4;
-            this.comboToolBox.SelectedIndexChanged += new System.EventHandler(this.comboToolBox_SelectedIndexChanged);
+            this.picBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picBoxLog.Image = ((System.Drawing.Image)(resources.GetObject("picBoxLog.Image")));
+            this.picBoxLog.Location = new System.Drawing.Point(549, -2);
+            this.picBoxLog.Name = "picBoxLog";
+            this.picBoxLog.Size = new System.Drawing.Size(23, 26);
+            this.picBoxLog.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxLog.TabIndex = 5;
+            this.picBoxLog.TabStop = false;
+            this.picBoxLog.Tag = "0";
+            this.picBoxLog.Click += new System.EventHandler(this.picBoxLog_Click);
+            // 
+            // picSockConnect
+            // 
+            this.picSockConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            this.picSockConnect.InitialImage = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            this.picSockConnect.Location = new System.Drawing.Point(574, 6);
+            this.picSockConnect.Name = "picSockConnect";
+            this.picSockConnect.Size = new System.Drawing.Size(41, 20);
+            this.picSockConnect.TabIndex = 5;
+            this.picSockConnect.TabStop = false;
             // 
             // FrmConsole
             // 
@@ -377,13 +396,13 @@ namespace SmartWaterSystem
             this.Text = "监控";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmGPRSConsole_FormClosing);
             this.Load += new System.EventHandler(this.FrmConsole_Load);
-            this.VisibleChanged += new System.EventHandler(this.FrmConsole_VisibleChanged);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -411,5 +430,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.ComboBoxEdit comboSocketServer;
         private DevExpress.XtraEditors.CheckedComboBoxEdit checkedComboBoxEdit1;
         private DevExpress.XtraEditors.ComboBoxEdit comboToolBox;
+        private PictureBox picBoxLog;
     }
 }
