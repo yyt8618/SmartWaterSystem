@@ -132,7 +132,10 @@ namespace GCGPRSService
                     case (uint)SQLType.GetSendParm:
                         {
                             #region 获取GPRS下送帧
-                            GlobalValue.Instance.lstGprsCmd = dataBll.GetGPRSParm();
+                            lock (GlobalValue.Instance.lstGprsCmdLock)
+                            {
+                                GlobalValue.Instance.lstGprsCmd = dataBll.GetGPRSParm();
+                            }
                             #endregion
                         }
                         break;

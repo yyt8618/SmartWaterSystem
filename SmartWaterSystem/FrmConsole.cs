@@ -12,7 +12,7 @@ namespace SmartWaterSystem
     public partial class FrmConsole : DevExpress.XtraEditors.XtraForm
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmGPRSConsole");
-        private const int MaxLine = 1200;
+        private const int MaxLine = 2000;
         private bool showHttpMsg = true;  //是否显示HTTP消息
         private bool showSocketMsg = true;   //是否显示Socket消息
         private bool showErrMsg = true;     //是否显示错误信息
@@ -21,7 +21,7 @@ namespace SmartWaterSystem
         {
             InitializeComponent();
 
-            timerCtrl.Interval = 100;
+            timerCtrl.Interval = 150;
             timerCtrl.Tick += new EventHandler(timerCtrl_Tick);
             timerCtrl.Enabled = true;
 
@@ -123,13 +123,6 @@ namespace SmartWaterSystem
             {
                 lock (lockMsgChange)
                 {
-                    //去除超过MaxLine行数部分
-                    int outliencount = lstCtrlMsg.Count - MaxLine;
-                    if (outliencount > 0)
-                    {
-                        lstCtrlMsg.RemoveRange(0, outliencount);
-                    }
-
                     ShowCtrlMsg();
                     ctrlMsgChange = false;
                 }
@@ -140,19 +133,30 @@ namespace SmartWaterSystem
         List<string> lstCtrlMsg = new List<string>();
         bool ctrlMsgChange = false;  //是否有更新消息
         object lockMsgChange = new object();
+        string lastline = "";
         public void ShowCtrlMsg()
         {
             try
             {
                 if (btnPause.Text == "暂停")
                 {
-                    string ctrlmsg = "";
                     for (int i = 0; i < lstCtrlMsg.Count; i++)
                     {
-                        ctrlmsg += lstCtrlMsg[i];
+                        txtControl.AppendText(lstCtrlMsg[i]);
                     }
-                    txtControl.ResetText();
-                    txtControl.AppendText(ctrlmsg);
+                    if (txtControl.Lines.Length > MaxLine)
+                    {
+                        int moreLines = txtControl.Lines.Length - MaxLine;
+                        string[] lines = txtControl.Lines;
+                        Array.Copy(lines, moreLines, lines, 0, MaxLine);
+                        lastline = lines[MaxLine - 1]+ "\r\n";
+                        Array.Resize(ref lines, MaxLine-1);
+                        txtControl.Lines = lines;
+                        txtControl.AppendText(lastline);  //前一行的直接复制导致ScrollToCaret不能滚动到最后一行显示，需要将最后一行用AppendText方法再调用ScrollToCaret才能滚动到最后一行
+                    }
+
+                    txtControl.ScrollToCaret();
+                    lstCtrlMsg.Clear();
                 }
             }
             catch (Exception ex)

@@ -820,26 +820,26 @@ namespace SmartWaterSystem
                         lstPack.Add(package);
                         haveset = true;
                     }
-                    if (ceDTCon.Checked)
-                    {
-                        Package package = new Package();
-                        package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
-                        package.DevID = Convert.ToInt16(txtCurConId.Text);
-                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                        package.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_GPRSTIME;
-                        byte[] data = new byte[6];
-                        data[0] = (byte)(dateTimePickerCon.Value.Year - 2000);
-                        data[1] = (byte)dateTimePickerCon.Value.Month;
-                        data[2] = (byte)dateTimePickerCon.Value.Day;
-                        data[3] = (byte)dateTimePickerCon.Value.Hour;
-                        data[4] = (byte)dateTimePickerCon.Value.Minute;
-                        data[5] = (byte)dateTimePickerCon.Value.Second;
-                        package.DataLength = data.Length;
-                        package.Data = data;
-                        package.CS = package.CreateCS();
-                        lstPack.Add(package);
-                        haveset = true;
-                    }
+                    //if (ceDTCon.Checked)
+                    //{
+                    //    Package package = new Package();
+                    //    package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+                    //    package.DevID = Convert.ToInt16(txtCurConId.Text);
+                    //    package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+                    //    package.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_GPRSTIME;
+                    //    byte[] data = new byte[6];
+                    //    data[0] = (byte)(dateTimePickerCon.Value.Year - 2000);
+                    //    data[1] = (byte)dateTimePickerCon.Value.Month;
+                    //    data[2] = (byte)dateTimePickerCon.Value.Day;
+                    //    data[3] = (byte)dateTimePickerCon.Value.Hour;
+                    //    data[4] = (byte)dateTimePickerCon.Value.Minute;
+                    //    data[5] = (byte)dateTimePickerCon.Value.Second;
+                    //    package.DataLength = data.Length;
+                    //    package.Data = data;
+                    //    package.CS = package.CreateCS();
+                    //    lstPack.Add(package);
+                    //    haveset = true;
+                    //}
                     if (ceComTime.Checked)
                     {
                         if (!Regex.IsMatch(txtComTime.Text, @"^\d{1,2}$"))
@@ -2236,8 +2236,8 @@ namespace SmartWaterSystem
             btnApplyCtrlSet.Enabled = true;
             ceConId.Enabled = false;
             txtConId.Enabled = false;
-            ceDTCon.Enabled = true;
-            dateTimePickerCon.Enabled = true;
+            ceDTCon.Enabled = false;
+            dateTimePickerCon.Enabled = false;
             ceRemotingID.Enabled = false;
             CombRemotingID.Enabled = false;
             ceRemoteSwitch.Enabled = false;

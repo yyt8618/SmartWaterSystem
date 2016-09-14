@@ -605,12 +605,14 @@ namespace GCGPRSService
                                     {
                                         for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
                                         {
-                                            if (GlobalValue.Instance.lstGprsCmd[j].DeviceId == pack.DevID && (byte)GlobalValue.Instance.lstGprsCmd[j].DevTypeId == (byte)pack.DevType && (byte)GlobalValue.Instance.lstGprsCmd[j].FunCode == pack.C1)
+                                            if (GlobalValue.Instance.lstGprsCmd[j].DeviceId == pack.DevID && (byte)GlobalValue.Instance.lstGprsCmd[j].DevTypeId == (byte)pack.DevType &&
+                                                (byte)GlobalValue.Instance.lstGprsCmd[j].FunCode == pack.C1)  //SendedCount>0判断左右 只有发送过的才能更新,如噪声远传的话，记录仪1和2一起发送相同功能码，收到响应帧区分不出
                                             {
                                                 if (GlobalValue.Instance.lstGprsCmd[j].TableId == -1)  //-1用在生成的自动校时
                                                 {
                                                     lock (GlobalValue.Instance.lstGprsCmdLock)
-                                                        {   GlobalValue.Instance.lstGprsCmd.RemoveAt(j); }  //生成的自动校时直接删除
+                                                    { GlobalValue.Instance.lstGprsCmd.RemoveAt(j); }  //生成的自动校时直接删除
+                                                    break;      //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，收到响应帧区分不出
                                                 }
                                                 else
                                                 {
@@ -619,8 +621,12 @@ namespace GCGPRSService
                                                     GlobalValue.Instance.lstGprsCmd[j].SendedFlag = 1;  //标记为已发送，防止后边重发
                                                     flag.SendCount = 0;  //0:成功发送,收到响应帧
                                                     GlobalValue.Instance.lstSendedCmdId.Add(flag);
+                                                    break;      //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，收到响应帧区分不出
                                                 }
                                             }
+                                        }
+                                        for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
+                                        {
                                             //失败次数多于3次,则删除
                                             if (GlobalValue.Instance.lstGprsCmd[j].SendedCount > 3)
                                             {
@@ -638,7 +644,6 @@ namespace GCGPRSService
                                                 }
                                             }
                                         }
-
                                     }
                                     GlobalValue.Instance.SocketSQLMag.Send(SQLType.UpdateSendParmFlag);
                                     #endregion
@@ -1966,6 +1971,7 @@ namespace GCGPRSService
 
                                     if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
                                     {
+                                        bool isupdate = false;
                                         for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
                                         {
                                             if (GlobalValue.Instance.lstGprsCmd[i].SendedFlag == 0 && GlobalValue.Instance.lstGprsCmd[i].DeviceId == (int)pack.DevID && GlobalValue.Instance.lstGprsCmd[i].DevTypeId == (int)pack.DevType)
@@ -1979,9 +1985,11 @@ namespace GCGPRSService
                                                 CommandPack.DataLength = CommandPack.Data.Length;
                                                 //CommandPack.CS = CommandPack.CreateCS();
                                                 lstCommandPack.Add(CommandPack);
-                                                GlobalValue.Instance.lstGprsCmd[i].SendedCount++;  //记录发送次数
-
-                                                break;  //只添加一条,每次都发送一条等待回应帧再发送下一条
+                                                if (!isupdate)  //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，区分不出
+                                                {
+                                                    GlobalValue.Instance.lstGprsCmd[i].SendedCount++;  //记录发送次数
+                                                    isupdate = true;
+                                                }
                                             }
                                         }
                                     }

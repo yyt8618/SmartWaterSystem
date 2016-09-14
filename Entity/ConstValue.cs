@@ -7,9 +7,7 @@ namespace Entity
 {
     public class ConstValue
     {
-        public static string MSMQPathToUI = "{0}\\private$\\GcGPRSToUI";
         public static string MSMQServiceName = "GCGPRSService";
-        public static string MSMQPathToService = "{0}\\private$\\GcGPRSToService";
 
         //噪声参数 Noise_Parm Table
         public static string DCComponentLen = "DCComponentLen";
@@ -43,6 +41,7 @@ namespace Entity
         {
             None,
             Msg_Socket,   //消息类型:Socket消息
+            //Msg_Frame,    //消息
             Msg_HTTP,     //消息类型:HTTP消息
             Msg_Public,   //消息类型:公共消息
             Msg_Err,      //消息类型:错误消息,消息类型用于FrmConsole页面判断哪些消息需要显示,Msg_Public全部显示,Msg_Socket和Msg_HTTP通过勾选判断
