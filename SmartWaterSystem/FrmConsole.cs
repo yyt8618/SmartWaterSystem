@@ -443,9 +443,9 @@ namespace SmartWaterSystem
         StreamWriter sw = null;
         private void picBoxLog_Click(object sender, EventArgs e)
         {
+            string logpath = Settings.Instance.GetString(SettingKeys.ConsoleLogPath);
             if (((System.Windows.Forms.MouseEventArgs)e).Button == MouseButtons.Left)
             {
-                string logpath = Settings.Instance.GetString(SettingKeys.ConsoleLogPath);
                 if (string.IsNullOrEmpty(logpath))
                 {
                     XtraMessageBox.Show("请先设置文件保存位置!");
@@ -460,7 +460,8 @@ namespace SmartWaterSystem
                     }
                     else    //停止记录
                     {
-                        CloseWriter();
+                        picBoxLog.Tag = 0;      //不记录
+                        picBoxLog.Image = global::SmartWaterSystem.Properties.Resources.WriteLog;
                     }
                 }
                 else
@@ -468,26 +469,13 @@ namespace SmartWaterSystem
             }
             else if (((System.Windows.Forms.MouseEventArgs)e).Button == MouseButtons.Right)
             {
-                SaveFileDialog sfd = new SaveFileDialog();
-                //设置文件类型
-                sfd.Filter = "文本文件（*.txt）|*.txt";
-
-                //设置默认文件类型显示顺序
-                sfd.FilterIndex = 1;
-
-                //保存对话框是否记忆上次打开的目录
-                sfd.RestoreDirectory = true;
-
-                sfd.InitialDirectory = "%systemdrive%%homepath%";
-                sfd.FileName = DateTime.Now.ToString("yyyy-MM-dd") + "输出文件.txt";
-
-
-                //点了保存按钮进入
-                if (sfd.ShowDialog() == DialogResult.OK)
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                fbd.ShowNewFolderButton = true;
+                fbd.SelectedPath = logpath;
+                if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    string localFilePath = sfd.FileName.ToString(); //获得文件路径
+                    string localFilePath = fbd.SelectedPath; //获得文件路径
                     Settings.Instance.SetValue(SettingKeys.ConsoleLogPath, localFilePath);
-                    CloseWriter();
                 }
             }
         }
@@ -499,20 +487,19 @@ namespace SmartWaterSystem
                 string logpath = Settings.Instance.GetString(SettingKeys.ConsoleLogPath);
                 if (string.IsNullOrEmpty(logpath))
                     return;
-                string dir =Path.GetDirectoryName(logpath);
-                if (!Directory.Exists(dir))
+                if (!Directory.Exists(logpath))
                 {
-                    Directory.CreateDirectory(dir);
+                    Directory.CreateDirectory(logpath);
                 }
-                if (!File.Exists(logpath))
+                string filepath = Path.Combine(logpath, DateTime.Now.ToString("yyyy-MM-dd") + "_Console.txt");
+                if (!File.Exists(filepath))
                 {
-                    FileStream fs=File.Create(logpath);
+                    FileStream fs=File.Create(filepath);
                     fs.Close();
                 }
-                if (File.Exists(logpath))
+                if (File.Exists(filepath))
                 {
-                    if (sw == null)
-                        sw = File.AppendText(logpath);
+                    sw = File.AppendText(filepath);
                     if (lstCtrlMsg != null && lstCtrlMsg.Count > 0)
                     {
                         for (int i = 0; i < lstCtrlMsg.Count; i++)
@@ -528,23 +515,9 @@ namespace SmartWaterSystem
                 logger.ErrorException("WriteLog", ex);
                 SetCtrlMsg(DateTime.Now.ToString() + " 记录日志发生错误,ex:" + ex.Message);
             }
-        }
-
-        private void CloseWriter()
-        {
-            try
+            finally
             {
-                if (sw != null)
-                {
-                    sw.Flush();
-                    sw.Close();
-                    sw = null;
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException("CloseWriter", ex);
-                SetCtrlMsg(DateTime.Now.ToString() + " 关闭StreamWriter发生错误,ex:" + ex.Message);
+                sw.Close();
             }
         }
 
