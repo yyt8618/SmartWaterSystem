@@ -12,7 +12,7 @@ namespace SmartWaterSystem
     public partial class FrmConsole : DevExpress.XtraEditors.XtraForm
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmGPRSConsole");
-        private const int MaxLine = 2000;
+        private const int MaxLine = 3500;
         private bool showHttpMsg = true;  //是否显示HTTP消息
         private bool showSocketMsg = true;   //是否显示Socket消息
         private bool showErrMsg = true;     //是否显示错误信息
@@ -148,7 +148,7 @@ namespace SmartWaterSystem
                     {
                         txtControl.AppendText(lstCtrlMsg[i]);
                     }
-                    if (txtControl.Lines.Length > MaxLine)
+                    if (txtControl.Lines.Length > MaxLine+200)  //200行作为缓存,这样的话就不需要每次都执行下面的耗时操作
                     {
                         int moreLines = txtControl.Lines.Length - MaxLine;
                         string[] lines = txtControl.Lines;

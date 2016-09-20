@@ -18,4 +18,5 @@ tlp:谭丽萍 pg:彭工
 2016-8-30  新建表Waterworker_Real,版本号8-30
 2016-9-2   表En_NoiseRecorder增加列longitude、latitude用于保存坐标
 2016-9-12  表ParamToDev增加列SendedCount用于记录下送命令发送次数
+2016-9-20  表DL_Noise_Real中列OriginalData将长度由5000改为5500
 

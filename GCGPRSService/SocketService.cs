@@ -407,21 +407,25 @@ namespace GCGPRSService
                 {
                     //判断是否是SmartWater的连接
                     bool isclientconn = false;
-                    for (int i = 0; i < bytesRead -SocketHelper.SocketByteSplit.Length; i++)
-                    {
-                        bool btmp = true;
-                        for (int j = 0; j < SocketHelper.SocketByteSplit.Length; j++)  //判断是否包含SmartWaterHead标记,如果包含则认为是SmartWater的连接
+                    if (state.buffer[0] == PackageDefine.BeginByte && state.buffer[bytesRead - 1] == PackageDefine.EndByte)  //增加帧头尾判断，防止数据中有'@@@'的数据导致判断错误
+                        isclientconn = false;
+                    else {
+                        for (int i = 0; i < bytesRead - SocketHelper.SocketByteSplit.Length; i++)
                         {
-                            if (state.buffer[i + j] != SocketHelper.SocketByteSplit[j])
+                            bool btmp = true;
+                            for (int j = 0; j < SocketHelper.SocketByteSplit.Length; j++)  //判断是否包含SmartWaterHead标记,如果包含则认为是SmartWater的连接
                             {
-                                btmp = false;
+                                if (state.buffer[i + j] != SocketHelper.SocketByteSplit[j])
+                                {
+                                    btmp = false;
+                                    break;
+                                }
+                            }
+                            if (btmp)
+                            {
+                                isclientconn = true;
                                 break;
                             }
-                        }
-                        if (btmp)
-                        {
-                            isclientconn = true;
-                            break;
                         }
                     }
                     #region SmartSocket
