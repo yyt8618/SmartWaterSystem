@@ -251,28 +251,34 @@ namespace SmartWaterSystem
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            DataTable dt = gridControl1.DataSource as DataTable;
-            if (dt != null && dt.Rows.Count > 0)
-            {
-                ;
-            }
-            else
-            {
-                XtraMessageBox.Show("请先点击分析按钮查询!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dtpStart.Focus();
-                return ;
-            }
+            try {
+                DataTable dt = gridControl1.DataSource as DataTable;
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    ;
+                }
+                else
+                {
+                    XtraMessageBox.Show("请先点击分析按钮查询!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dtpStart.Focus();
+                    return;
+                }
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Title = "导出Excel";
-            saveFileDialog.Filter = "Excel文件(*.xls)|*.xls";
-            DialogResult dialogResult = saveFileDialog.ShowDialog(this);
-            if (dialogResult == DialogResult.OK)
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Title = "导出Excel";
+                saveFileDialog.Filter = "CSV文件(*.csv)|*.csv";
+                DialogResult dialogResult = saveFileDialog.ShowDialog(this);
+                if (dialogResult == DialogResult.OK)
+                {
+                    DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
+                    //gridControl1.ExportToXls(saveFileDialog.FileName, options);  
+                    gridControl1.ExportToCsv(saveFileDialog.FileName);
+                    DevExpress.XtraEditors.XtraMessageBox.Show("保存成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch(Exception ex)
             {
-                DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
-                //gridControl1.ExportToXls(saveFileDialog.FileName, options);  
-                gridControl1.ExportToExcelOld(saveFileDialog.FileName);
-                DevExpress.XtraEditors.XtraMessageBox.Show("保存成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DevExpress.XtraEditors.XtraMessageBox.Show("导出失败,ex:"+ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -352,8 +352,8 @@ namespace SmartWaterSystem
                 case "网络调试助手":
                     OpenTool(Application.StartupPath + "\\ToolBox\\NetAssist.exe");
                     break;
-                case "串口通讯调试器":
-                    OpenTool(Application.StartupPath + "\\ToolBox\\串口通讯调试器.exe");
+                case "C#超级通信调试工具":
+                    OpenTool(Application.StartupPath + "\\ToolBox\\C#超级通信调试工具.exe");
                     break;
             }
             this.comboToolBox.SelectedIndexChanged -= new System.EventHandler(this.comboToolBox_SelectedIndexChanged);

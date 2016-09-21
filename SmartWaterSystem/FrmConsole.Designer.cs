@@ -42,6 +42,8 @@ namespace SmartWaterSystem
             this.checkedComboBoxEdit1 = new DevExpress.XtraEditors.CheckedComboBoxEdit();
             this.comboToolBox = new DevExpress.XtraEditors.ComboBoxEdit();
             this.comboSocketServer = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.picBoxLog = new System.Windows.Forms.PictureBox();
+            this.picSockConnect = new System.Windows.Forms.PictureBox();
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
@@ -50,8 +52,6 @@ namespace SmartWaterSystem
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.picBoxLog = new System.Windows.Forms.PictureBox();
-            this.picSockConnect = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).BeginInit();
@@ -226,10 +226,10 @@ namespace SmartWaterSystem
             this.comboToolBox.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.comboToolBox.Properties.Items.AddRange(new object[] {
-            "计算器",
+            "C#超级通信调试工具",
             "串口调试助手",
             "网络调试助手",
-            "串口通讯调试器"});
+            "计算器"});
             this.comboToolBox.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboToolBox.Size = new System.Drawing.Size(94, 20);
             this.comboToolBox.TabIndex = 4;
@@ -250,6 +250,30 @@ namespace SmartWaterSystem
             this.comboSocketServer.Size = new System.Drawing.Size(123, 20);
             this.comboSocketServer.TabIndex = 4;
             this.comboSocketServer.SelectedIndexChanged += new System.EventHandler(this.comboSocketServer_SelectedIndexChanged);
+            // 
+            // picBoxLog
+            // 
+            this.picBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picBoxLog.Image = ((System.Drawing.Image)(resources.GetObject("picBoxLog.Image")));
+            this.picBoxLog.Location = new System.Drawing.Point(549, -2);
+            this.picBoxLog.Name = "picBoxLog";
+            this.picBoxLog.Size = new System.Drawing.Size(23, 26);
+            this.picBoxLog.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxLog.TabIndex = 5;
+            this.picBoxLog.TabStop = false;
+            this.picBoxLog.Tag = "0";
+            this.picBoxLog.Click += new System.EventHandler(this.picBoxLog_Click);
+            // 
+            // picSockConnect
+            // 
+            this.picSockConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            this.picSockConnect.InitialImage = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
+            this.picSockConnect.Location = new System.Drawing.Point(574, 6);
+            this.picSockConnect.Name = "picSockConnect";
+            this.picSockConnect.Size = new System.Drawing.Size(41, 20);
+            this.picSockConnect.TabIndex = 5;
+            this.picSockConnect.TabStop = false;
             // 
             // btnDisconnect
             // 
@@ -346,30 +370,6 @@ namespace SmartWaterSystem
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.barDockControlRight.Location = new System.Drawing.Point(878, 0);
             this.barDockControlRight.Size = new System.Drawing.Size(0, 492);
-            // 
-            // picBoxLog
-            // 
-            this.picBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picBoxLog.Image = ((System.Drawing.Image)(resources.GetObject("picBoxLog.Image")));
-            this.picBoxLog.Location = new System.Drawing.Point(549, -2);
-            this.picBoxLog.Name = "picBoxLog";
-            this.picBoxLog.Size = new System.Drawing.Size(23, 26);
-            this.picBoxLog.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxLog.TabIndex = 5;
-            this.picBoxLog.TabStop = false;
-            this.picBoxLog.Tag = "0";
-            this.picBoxLog.Click += new System.EventHandler(this.picBoxLog_Click);
-            // 
-            // picSockConnect
-            // 
-            this.picSockConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picSockConnect.Image = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-            this.picSockConnect.InitialImage = global::SmartWaterSystem.Properties.Resources.SockNotConnect;
-            this.picSockConnect.Location = new System.Drawing.Point(574, 6);
-            this.picSockConnect.Name = "picSockConnect";
-            this.picSockConnect.Size = new System.Drawing.Size(41, 20);
-            this.picSockConnect.TabIndex = 5;
-            this.picSockConnect.TabStop = false;
             // 
             // FrmConsole
             // 
