@@ -201,7 +201,7 @@ namespace SmartWaterSystem
                 socket.Shutdown(SocketShutdown.Both);
                 Thread.Sleep(20);
                 disconnecting = true;
-                socket.Close();
+                //socket.Close();
                 socket = null;
                 OnSockConnEvent(new SocketStatusEventArgs(false));
                 OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, DateTime.Now.ToString() + " Socket连接已断开!")));

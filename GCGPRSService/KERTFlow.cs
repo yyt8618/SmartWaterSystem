@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,75 @@ namespace GCGPRSService
     /// </summary>
     public class KERTFlow
     {
+        public static GPRSFlowFrameDataEntity ProcessData(int dataindex,string tername,string id,string frame,byte[] data,int datalen,out bool bNeedCheckTime)
+        {
+            int alarmflag = 0;
+            //报警标志
+            alarmflag = BitConverter.ToInt16(new byte[] { data[0], data[1] }, 0);
+
+            float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
+            if (datalen - (6 + 36) * dataindex - 3 == 2)  //最后余两个字节则认为是电压值
+                volvalue = ((float)BitConverter.ToInt16(new byte[] { data[datalen - 1], data[datalen - 2] }, 0)) / 1000;
+
+            GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
+            framedata.TerId = id;
+            framedata.ModifyTime = DateTime.Now;
+            framedata.Frame = frame;
+
+            bNeedCheckTime = false;
+
+            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+            double forward_flowvalue = 0, reverse_flowvalue = 0, instant_flowvalue = 0;
+            for (int i = 0; i < dataindex; i++)
+            {
+                year = 2000 + Convert.ToInt16(data[i * 42 + 3]);
+                month = Convert.ToInt16(data[i * 42 + 4]);
+                day = Convert.ToInt16(data[i * 42 + 5]);
+                hour = Convert.ToInt16(data[i * 42 + 6]);
+                minute = Convert.ToInt16(data[i * 42 + 7]);
+                sec = Convert.ToInt16(data[i * 42 + 8]);
+
+                byte balarm = 0x00;  //水表报警
+                string errmsg = "";
+                if (KERTFlow.ProcessDataUnit(data, i * 42 + 3 + 6, 36, out forward_flowvalue, out reverse_flowvalue, out instant_flowvalue, out balarm, out errmsg))
+                {
+                    string str_alarm = "空";
+                    if ((balarm & 0x10) == 0x10)
+                    { str_alarm = "励磁报警"; }
+                    else if ((balarm & 0x08) == 0x08)
+                    { str_alarm = "空管报警"; }
+                    else if ((balarm & 0x04) == 0x04)
+                    { str_alarm = "流浪反向报警"; }
+                    else if ((balarm & 0x10) == 0x10)
+                    { str_alarm = "流量上限报警"; }
+                    else if ((balarm & 0x10) == 0x10)
+                    { str_alarm = "流量下限报警"; }
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("index({0})|[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V",
+                       i, tername+id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue)));
+
+                    GPRSFlowDataEntity flowdata = new GPRSFlowDataEntity();
+                    flowdata.Forward_FlowValue = forward_flowvalue;
+                    flowdata.Reverse_FlowValue = reverse_flowvalue;
+                    flowdata.Instant_FlowValue = instant_flowvalue;
+                    flowdata.Voltage = volvalue;
+                    try
+                    {
+                        flowdata.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                    }
+                    catch { flowdata.ColTime = ConstValue.MinDateTime; }
+                    bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(flowdata.ColTime);
+                    framedata.lstFlowData.Add(flowdata);
+
+                }
+                else
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("[{0}]|报警标志({1})|采集时间({2})|错误:{3}",
+                        tername+id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
+                }
+            }
+            return framedata;
+        }
+
         /// <summary>
         /// 处理肯特水表数据(不包含时间数据)
         /// </summary>
@@ -20,7 +90,7 @@ namespace GCGPRSService
         /// <param name="reverseflow">反向流量</param>
         /// <param name="instantflow">瞬时流量</param>
         /// <returns></returns>
-        public static bool ProcessFrameData(byte[] data,int startindex,int datalen,out double forwardflow,out double reverseflow,out double instantflow,out byte alarm,out string errmsg)
+        public static bool ProcessDataUnit(byte[] data,int startindex,int datalen,out double forwardflow,out double reverseflow,out double instantflow,out byte alarm,out string errmsg)
         {
             alarm = 0x00;
             errmsg = "";

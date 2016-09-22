@@ -329,7 +329,7 @@ namespace SmartWaterSystem
                 {
                     return -1;
                 }
-                string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) SELECT GroupId,RecorderId,{0} FROM MP_GroupRecorder WHERE RecorderId={1}",
+                string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) SELECT TOP 1 GroupId,RecorderId,{0} FROM MP_GroupRecorder WHERE RecorderId={1}",
                       StandValue, RecorderID);
                 SQLHelper.ExecuteNonQuery(SQL);
 

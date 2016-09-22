@@ -1149,6 +1149,10 @@ namespace Common
         /// </summary>
         READ_ALARMINFO = 0xA2,
         /// <summary>
+        /// 压力从站向主站发送流量采集数据
+        /// </summary>
+        READ_PREFLOWDATA = 0xA4,
+        /// <summary>
         /// 通用终端发送脉冲数据
         /// </summary>
         READ_UNIVERSAL_PLUSE=0xA0,

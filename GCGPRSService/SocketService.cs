@@ -400,11 +400,11 @@ namespace GCGPRSService
             try
             {
                 // Read data from the client socket. 
-                if (!SocketHelper.IsSocketConnected_Poll(handler))
-                    return;
                 bytesRead = handler.EndReceive(ar);
                 if (bytesRead > 0)
                 {
+                    if (!SocketHelper.IsSocketConnected_Poll(handler))
+                        return;
                     //判断是否是SmartWater的连接
                     bool isclientconn = false;
                     if (state.buffer[0] == PackageDefine.BeginByte && state.buffer[bytesRead - 1] == PackageDefine.EndByte)  //增加帧头尾判断，防止数据中有'@@@'的数据导致判断错误
@@ -914,6 +914,29 @@ namespace GCGPRSService
                                             bNeedCheckTime = NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
                                             OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}]{1}|时间({2})|电压值:{3}V",
                                                  pack.ID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
+                                        }
+                                        else if (pack.C1 == (byte)GPRS_READ.READ_PREFLOWDATA) //从站向主站发送流量采集数据(水质终端)
+                                        {
+                                            #region 上海肯特(KENT)水表
+                                            if (pack.Data[2] == 0x02)   //上海肯特(KENT)水表
+                                            {
+                                                int dataindex = (pack.DataLength - 2 - 2 - 1) % (6 + 36);  //两字节报警,1字节厂家类型,
+                                                if (dataindex != 0)
+                                                {
+                                                    throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+1+(6+36)*n)规则");
+                                                }
+                                                dataindex = (pack.DataLength - 2 - 2 - 1) / (6 + 36);
+
+                                                GPRSFlowFrameDataEntity framedata = KERTFlow.ProcessData(dataindex, "压力流量终端", pack.ID.ToString(), str_frame, pack.Data, pack.DataLength, out bNeedCheckTime);
+
+                                                GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
+                                                GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
+                                            }
+                                            else
+                                            {
+                                                OnSendMsg(new SocketEventArgs("压力流量终端[" + pack.ID + "]错误未知水表类型!"));
+                                            }
+                                            #endregion
                                         }
                                         #endregion
                                     }
@@ -1566,69 +1589,8 @@ namespace GCGPRSService
                                                 }
                                                 dataindex = (pack.DataLength - 2 - 2 - 1) / (6 + 36);
 
-                                                int alarmflag = 0;
-                                                //报警标志
-                                                alarmflag = BitConverter.ToInt16(new byte[] { pack.Data[0], pack.Data[1] }, 0);
-
-                                                float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
-                                                if (pack.DataLength - (6 + 36) * dataindex - 3 == 2)  //最后余两个字节则认为是电压值
-                                                    volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
-
-                                                GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
-                                                framedata.TerId = pack.ID.ToString();
-                                                framedata.ModifyTime = DateTime.Now;
-                                                framedata.Frame = str_frame;
-
-                                                int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                                                double forward_flowvalue = 0, reverse_flowvalue = 0, instant_flowvalue = 0;
-                                                for (int i = 0; i < dataindex; i++)
-                                                {
-                                                    year = 2000 + Convert.ToInt16(pack.Data[i * 42 + 3]);
-                                                    month = Convert.ToInt16(pack.Data[i * 42 + 4]);
-                                                    day = Convert.ToInt16(pack.Data[i * 42 + 5]);
-                                                    hour = Convert.ToInt16(pack.Data[i * 42 + 6]);
-                                                    minute = Convert.ToInt16(pack.Data[i * 42 + 7]);
-                                                    sec = Convert.ToInt16(pack.Data[i * 42 + 8]);
-
-                                                    byte balarm = 0x00;  //水表报警
-                                                    string errmsg = "";
-                                                    if (KERTFlow.ProcessFrameData(pack.Data, i * 42 + 3 + 6, 36, out forward_flowvalue, out reverse_flowvalue, out instant_flowvalue, out balarm, out errmsg))
-                                                    {
-                                                        string str_alarm = "空";
-                                                        if ((balarm & 0x10) == 0x10)
-                                                        { str_alarm = "励磁报警"; }
-                                                        else if ((balarm & 0x08) == 0x08)
-                                                        { str_alarm = "空管报警"; }
-                                                        else if ((balarm & 0x04) == 0x04)
-                                                        { str_alarm = "流浪反向报警"; }
-                                                        else if ((balarm & 0x10) == 0x10)
-                                                        { str_alarm = "流量上限报警"; }
-                                                        else if ((balarm & 0x10) == 0x10)
-                                                        { str_alarm = "流量下限报警"; }
-                                                        OnSendMsg(new SocketEventArgs(string.Format("index({0})|水质终端[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V",
-                                                           i, pack.ID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue)));
-
-                                                        GPRSFlowDataEntity data = new GPRSFlowDataEntity();
-                                                        data.Forward_FlowValue = forward_flowvalue;
-                                                        data.Reverse_FlowValue = reverse_flowvalue;
-                                                        data.Instant_FlowValue = instant_flowvalue;
-                                                        data.Voltage = volvalue;
-                                                        try
-                                                        {
-                                                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                                                        }
-                                                        catch { data.ColTime = ConstValue.MinDateTime; }
-                                                        bNeedCheckTime = NeedCheckTime(data.ColTime);
-                                                        framedata.lstFlowData.Add(data);
-
-
-                                                    }
-                                                    else
-                                                    {
-                                                        OnSendMsg(new SocketEventArgs(string.Format("水质终端[{0}]|报警标志({1})|采集时间({2})|错误:{3}",
-                                                            pack.ID, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
-                                                    }
-                                                }
+                                                GPRSFlowFrameDataEntity framedata = KERTFlow.ProcessData(dataindex,"水质终端", pack.ID.ToString(), str_frame, pack.Data, pack.DataLength, out bNeedCheckTime);
+                                                
                                                 GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
                                                 GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
                                             }
@@ -2445,6 +2407,15 @@ namespace GCGPRSService
                         index++;
                     }
                 }
+                else
+                {
+                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "下线,Thread:"+Thread.CurrentThread.ManagedThreadId));
+                    try
+                    {
+                        handler.Disconnect(false);
+                    }
+                    catch { }
+                }
             }
             catch (ArgumentException argex)
             {
@@ -2468,25 +2439,21 @@ namespace GCGPRSService
             }
             catch (SocketException sockex)
             {
-                foreach (CallSocketEntity callsocket in lstClient)
-                {
-                    if (callsocket.ClientSocket.Equals(handler) && callsocket.TerId != -1)
+                try {
+                    foreach (CallSocketEntity callsocket in lstClient)
                     {
-                        string str_devtype = "";
-                        if (callsocket.DevType == ConstValue.DEV_TYPE.Data_CTRL)
+                        if (callsocket.ClientSocket != null && callsocket.ClientSocket.Equals(handler) && callsocket.TerId != -1)
                         {
-                            str_devtype = "终端";
-                        }
-                        else if (callsocket.DevType == ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
-                        {
-                            str_devtype = "通用终端";
-                        }
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " " + str_devtype + "[" + callsocket.TerId + "]下线!"));
-                        callsocket.ClientSocket = null;
+                            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " [" + callsocket.TerId + "]下线!"));
+                            callsocket.ClientSocket = null;
 
-                        OnLineState_Interval = 1;  //发送下线消息
-                        break;
+                            OnLineState_Interval = 1;  //发送下线消息
+                            break;
+                        }
                     }
+                }catch(Exception ex)
+                {
+                    
                 }
             }
             catch (Exception ex)
@@ -2551,7 +2518,7 @@ namespace GCGPRSService
         /// 是否需要校时判断
         /// </summary>
         /// <returns></returns>
-        private bool NeedCheckTime(DateTime devTime)
+        public bool NeedCheckTime(DateTime devTime)
         {
             TimeSpan ts = DateTime.Now - (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));   //0点校时
             if (Math.Abs(ts.TotalMinutes) < 10)

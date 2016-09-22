@@ -186,7 +186,7 @@ namespace SmartWaterSystem
                 if (!string.IsNullOrEmpty(standvalue))
                 {
                     int singledata = Convert.ToInt32(standvalue);
-                    if (NoiseDataBaseHelper.SaveStandData(-1, newRec.ID, singledata) < 0)
+                    if (NoiseDataBaseHelper.SaveStandData(newRec.ID, singledata) < 0)
                     {
                         XtraMessageBox.Show("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -204,7 +204,7 @@ namespace SmartWaterSystem
             {
                 int RecId = Convert.ToInt32(id);
                 NoiseDataBaseHelper.DeleteRecorder(RecId);
-                if (NoiseDataBaseHelper.DeleteStandData(-1, RecId) < 0)
+                if (NoiseDataBaseHelper.DeleteStandData(RecId) < 0)
                 {
                     XtraMessageBox.Show("删除记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

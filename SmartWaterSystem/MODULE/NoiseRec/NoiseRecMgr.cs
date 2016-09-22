@@ -458,7 +458,7 @@ namespace SmartWaterSystem
                     //{
                     //    Originaldata[i] = singledata;  //将录入值复制成32个数
                     //}
-                    if (NoiseDataBaseHelper.SaveStandData(-1, newRec.ID, singledata) < 0)
+                    if (NoiseDataBaseHelper.SaveStandData(newRec.ID, singledata) < 0)
                     {
                         ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -485,7 +485,7 @@ namespace SmartWaterSystem
                         {
                             int recID = Convert.ToInt32(gridViewRecordList.GetRowCellValue(selectedRows[i], "编号"));
                             NoiseDataBaseHelper.DeleteRecorder(recID);
-                            if (NoiseDataBaseHelper.DeleteStandData(-1, recID) < 0)
+                            if (NoiseDataBaseHelper.DeleteStandData(recID) < 0)
                             {
                                 ShowDialog("删除记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
@@ -1764,7 +1764,7 @@ namespace SmartWaterSystem
                     //{
                     //    Originaldata[i] = singledata;  //将录入值复制成32个数
                     //}
-                    if (NoiseDataBaseHelper.SaveStandData(-1, id, standvalue) < 0)
+                    if (NoiseDataBaseHelper.SaveStandData(id, standvalue) < 0)
                     {
                         ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
