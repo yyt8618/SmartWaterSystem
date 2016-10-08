@@ -90,7 +90,7 @@
 	}
 	function addHydrant(id,addr,lng,lat,state,pressvalue,openangle,isinsert)
 	{
-	    if (existHydrant(id))
+	    if (isinsert && existHydrant(id))
 	    {
 	        alert("消防栓["+id+"]已经存在!");
 	        return;
@@ -143,7 +143,8 @@
 	function unAlarm(e,ee,marker)
 	{
 	    window.external.HydrantunAlarm(getidbylabel(marker.getLabel().content));
-		marker.setIcon(hydrant_close);
+	    //marker.setIcon(hydrant_close);
+	    requireLoadMarkers();
 	}
 	function getidbylabel(content)
 	{
@@ -190,7 +191,11 @@
 	    window.external.getHydrantMarkers();
 	}
 	function loadMarkers(jsonmarkers) {
-		map.clearOverlays();
+	    map.clearOverlays();
+	    var allOverlay = map.getOverlays();
+	    for (var i = 0; i < allOverlay.length; i++) {
+	        allOverlay[i].remove();
+	    }
 	    if (jsonmarkers != undefined && jsonmarkers != null && jsonmarkers != "") {
 	        var markers = eval("data=" + jsonmarkers);
             for(var i = 0; i < markers.length; i++) {

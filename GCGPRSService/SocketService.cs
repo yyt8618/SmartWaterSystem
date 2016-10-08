@@ -1659,7 +1659,7 @@ namespace GCGPRSService
                                     {
                                         #region 消防栓
                                         GPRSHydrantFrameDataEntity framedata = new GPRSHydrantFrameDataEntity();
-                                        framedata.TerId = pack.ID.ToString();
+                                        framedata.TerId = pack.DevID.ToString();
                                         framedata.ModifyTime = DateTime.Now;
                                         framedata.Frame = str_frame;
 
@@ -1684,7 +1684,7 @@ namespace GCGPRSService
                                             int openangle = Convert.ToInt16(pack.Data[6]);
                                             float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0) / 3;
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}",
-                                                    pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"))));
+                                                    pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"))));
                                             data.Operate = HydrantOptType.Open;
                                             data.PreValue = prevalue;
                                             data.OpenAngle = openangle;
@@ -1692,27 +1692,27 @@ namespace GCGPRSService
                                         else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_CLOSE)
                                         {
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被关闭|时间({1})",
-                                                       pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
                                             data.Operate = HydrantOptType.Close;
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPENANGLE)
                                         {
                                             int openangle = Convert.ToInt16(pack.Data[6]);
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]开度|时间({1})|开度:{2}",
-                                                    pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle)));
+                                                    pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle)));
                                             data.OpenAngle = openangle;
                                             data.Operate = HydrantOptType.OpenAngle;
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_IMPACT)
                                         {
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被撞击|时间({1})",
-                                                       pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
                                             data.Operate = HydrantOptType.Impact;
                                         }
                                         else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_KNOCKOVER)
                                         {
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被撞倒|时间({1})",
-                                                       pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                                                       pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
                                             data.Operate = HydrantOptType.KnockOver;
                                         }
 
@@ -2409,7 +2409,7 @@ namespace GCGPRSService
                 }
                 else
                 {
-                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "下线,Thread:"+Thread.CurrentThread.ManagedThreadId));
+                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "下线"));
                     try
                     {
                         handler.Disconnect(false);
@@ -2444,7 +2444,7 @@ namespace GCGPRSService
                     {
                         if (callsocket.ClientSocket != null && callsocket.ClientSocket.Equals(handler) && callsocket.TerId != -1)
                         {
-                            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " [" + callsocket.TerId + "]下线!"));
+                            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString()));
                             callsocket.ClientSocket = null;
 
                             OnLineState_Interval = 1;  //发送下线消息

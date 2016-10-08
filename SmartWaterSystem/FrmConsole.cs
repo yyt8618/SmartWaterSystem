@@ -331,9 +331,15 @@ namespace SmartWaterSystem
         private void btnPause_Click(object sender, EventArgs e)
         {
             if (btnPause.Text == "暂停")
+            {
                 btnPause.Text = "继续";
+                this.btnPause.BackColor = System.Drawing.Color.Red;
+                this.btnPause.ForeColor = System.Drawing.Color.Black;
+            }
             else {
                 btnPause.Text = "暂停";
+                this.btnPause.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+                this.btnPause.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
                 ShowCtrlMsg();
             }
         }
@@ -382,6 +388,8 @@ namespace SmartWaterSystem
             {
                 frmsearch.frmCtrl = this;
                 btnPause.Text = "继续";
+                this.btnPause.BackColor = System.Drawing.Color.Red;
+                this.btnPause.ForeColor = System.Drawing.Color.Black;
                 frmsearch.Show();
             }
         }
