@@ -56,10 +56,9 @@ namespace Common
                 {
                     cmd = new SqlCommand();
                 }
-
+                cmd.Parameters.Clear();
                 PrepareCommand(cmd, null, null, cmdText, commandParameters);
                 int val = cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
                 return val;
             }
         }
@@ -85,9 +84,9 @@ namespace Common
                 {
                     cmd = new SqlCommand();
                 }
+                cmd.Parameters.Clear();
                 PrepareCommand(cmd, connection, null, cmdText, commandParameters);
                 int val = cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
                 return val;
             }
         }
@@ -113,9 +112,9 @@ namespace Common
                 {
                     cmd = new SqlCommand();
                 }
+                cmd.Parameters.Clear();
                 PrepareCommand(cmd, (SqlConnection)trans.Connection, trans, cmdText, commandParameters);
                 int val = cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
                 return val;
             }
         }
@@ -129,9 +128,9 @@ namespace Common
                 {
                     cmd = new SqlCommand();
                 }
+                cmd.Parameters.Clear();
                 PrepareCommand(cmd, null, null, cmdText, commandParameters);
                 SqlDataReader rdr = cmd.ExecuteReader();
-                cmd.Parameters.Clear();
                 return rdr;
             }
         }
@@ -144,9 +143,9 @@ namespace Common
                 {
                     cmd = new SqlCommand();
                 }
+                cmd.Parameters.Clear();
                 PrepareCommand(cmd, null, null, cmdText, commandParameters);
                 object o = cmd.ExecuteScalar();
-                cmd.Parameters.Clear();
                 return o;
             }
         }
@@ -159,12 +158,12 @@ namespace Common
                 {
                     cmd = new SqlCommand();
                 }
+                cmd.Parameters.Clear();
                 PrepareCommand(cmd, null, null, cmdText, commandParameters);
                 SqlDataAdapter adp = new SqlDataAdapter();
                 adp.SelectCommand = cmd;
                 DataTable tb = new DataTable();
                 adp.Fill(tb);
-                cmd.Parameters.Clear();
                 return tb;
             }
         }
