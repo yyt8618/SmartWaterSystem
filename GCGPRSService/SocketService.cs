@@ -722,6 +722,13 @@ namespace GCGPRSService
                                             else if (((pack.Data[1] & 0x80) >> 7) == 1)  //压力2斜率下限报警
                                                 alarm += "压力2斜率下限报警";
 
+                                            /****************************************宿州校准压力值********************************************/
+                                            double[] RectifyValue = new double[] {  //修偏数组
+                                                -0.009, 0, 0.03, 0.013, 0, -0.029, 0, 0, 0, -0.011,
+                                                -0.008, -0.026, -0.009, -0.006, -0.009, -0.021, 0, -0.01, 0, -0.01,
+                                                -0.007, -0.019, -0.021, -0.048, -0.01, -0.007, -0.014, -0.013, 0, -0.023 };
+                                            /**************************************************************************************************/
+
                                             preFlag = Convert.ToInt16(pack.Data[2]);
 
                                             GPRSPreFrameDataEntity framedata = new GPRSPreFrameDataEntity();
@@ -744,8 +751,16 @@ namespace GCGPRSService
                                                 sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
 
                                                 pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0)) / 1000;
-                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力终端[{1}]|报警({2})|压力标志({3})|采集时间({4})|压力值:{5}MPa|电压值:{6}V",
-                                                    i, pack.ID, alarm, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, volvalue)));
+                                                float TmpRectifyValue = 0;
+                                                if (pack.ID > 0 && pack.ID <= 30)
+                                                {
+                                                    TmpRectifyValue = (float)RectifyValue[pack.ID - 1];
+                                                    pressuevalue += TmpRectifyValue;
+                                                    if (pressuevalue < 0)
+                                                        pressuevalue = 0;
+                                                }
+                                                OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力终端[{1}]|报警({2})|压力标志({3})|采集时间({4})|压力值:{5}MPa(纠偏值{6})|电压值:{7}V",
+                                                    i, pack.ID, alarm, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, TmpRectifyValue, volvalue)));
 
                                                 GPRSPreDataEntity data = new GPRSPreDataEntity();
                                                 data.PreValue = pressuevalue;
