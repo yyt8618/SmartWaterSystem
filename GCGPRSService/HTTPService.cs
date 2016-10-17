@@ -39,7 +39,7 @@ namespace GCGPRSService
         private bool isrun = false;
         HttpListener listener = new HttpListener();
         HttpDataBLL bll = new HttpDataBLL();
-
+        
         public event HTTPReceiveMessage HTTPMessageEvent;
 
         public void Start()
@@ -98,17 +98,17 @@ namespace GCGPRSService
                     byte[] buffer = new byte[1024];
 
                     #region test
-                    //UploadFlowDataReqEntity testentity = new UploadFlowDataReqEntity();
-                    //testentity.action = "uploadflowdata";
-                    //testentity.TerData = new List<UpLoadFlowDataEntity>();
-                    //UpLoadFlowDataEntity testdata1 = new UpLoadFlowDataEntity();
-                    //testdata1.terid = "1";
-                    //testdata1.flowvalue = "100.123";
-                    //testdata1.flowinverted = "2344.0";
-                    //testdata1.flowinstant = "233.23";
-                    //testdata1.collTime = DateTime.Now.ToString();
-                    //testentity.TerData.Add(testdata1);
-                    //string strttt = SmartWaterSystem.JSONSerialize.JsonSerialize<UploadFlowDataReqEntity>(testentity);
+                    UploadFlowDataReqEntity testentity = new UploadFlowDataReqEntity();
+                    testentity.action = "uploadflowdata";
+                    testentity.TerData = new List<UpLoadFlowDataEntity>();
+                    UpLoadFlowDataEntity testdata1 = new UpLoadFlowDataEntity();
+                    testdata1.terid = "1";
+                    testdata1.flowvalue = "100.123";
+                    testdata1.flowinverted = "2344.0";
+                    testdata1.flowinstant = "233.23";
+                    testdata1.collTime = DateTime.Now.ToString();
+                    testentity.TerData.Add(testdata1);
+                    string strttt = SmartWaterSystem.JSONSerialize.JsonSerialize<UploadFlowDataReqEntity>(testentity);
                     //long timestamp = 0;
                     //TimeSpan tsp = (TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)));
                     //timestamp = (long)tsp.TotalMilliseconds;
@@ -119,6 +119,24 @@ namespace GCGPRSService
                     //ttpentity.digest = md51;
                     //string reqtemp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPEntity>(ttpentity);
                     //string urltemp = System.Web.HttpUtility.UrlEncode(reqtemp, Encoding.UTF8);
+
+                    SaveHydrantReqEntity testhyentity = new SaveHydrantReqEntity();
+                    testhyentity.HydrantID = "5";
+                    testhyentity.Addr = "addr123";
+                    testhyentity.Latitude = "114.2344566";
+                    testhyentity.Longtitude = "23.234556";
+                    testhyentity.Remark = "测试备注";
+                    strttt = SmartWaterSystem.JSONSerialize.JsonSerialize<SaveHydrantReqEntity>(testhyentity);
+                    long timestamp = 0;
+                    TimeSpan tsp = (TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)));
+                    timestamp = (long)tsp.TotalMilliseconds;
+                    string md51 = MD5Encrypt.MD5(System.Web.HttpUtility.UrlEncode(strttt + timestamp + Settings.Instance.GetString(SettingKeys.HTTPMD5Key)).ToLower());
+                    HTTPEntity ttpentity = new HTTPEntity();
+                    ttpentity.timestamp = timestamp.ToString();
+                    ttpentity.Params = strttt;
+                    ttpentity.digest = md51;
+                    string reqtemp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPEntity>(ttpentity);
+                    string urltemp = System.Web.HttpUtility.UrlEncode(reqtemp, Encoding.UTF8);
                     #endregion
 
                     if (context.Request.HttpMethod.ToLower().Equals("get"))
@@ -240,6 +258,37 @@ namespace GCGPRSService
                                             uploadrespentity.code = 1;
                                             str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                             break;
+                                        #region 消防栓
+                                        case "gethydrants":         //获取所有消防栓
+                                            str_resp_err = "";
+                                            GetHydrantRespEntity gethydrantrespentity = bll.GetHydrants();
+                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<GetHydrantRespEntity>(gethydrantrespentity);
+                                            break;
+                                        case "savehydrant":          //新增/修改消防栓
+                                            str_resp_err = "";
+                                            SaveHydrantReqEntity savehydrantentity = SmartWaterSystem.JSONSerialize.JsonDeserialize_Newtonsoft<SaveHydrantReqEntity>(httpentity.Params);
+                                            uploadrespentity = bll.SaveHydrantInfo(savehydrantentity);
+                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
+                                            break;
+                                        case "delhydrant":          //删除消防栓
+                                            str_resp_err = "";
+                                            DelHydrantReqEntity delhydrantentity = SmartWaterSystem.JSONSerialize.JsonDeserialize_Newtonsoft<DelHydrantReqEntity>(httpentity.Params);
+                                            uploadrespentity = bll.DelHydrant(delhydrantentity.HydrantID);
+                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
+                                            break;
+                                        case "modifyhydrantcoord":     //修改坐标
+                                            str_resp_err = "";
+                                            ModifyHyCoordReqEntity modifyhydrantentity = SmartWaterSystem.JSONSerialize.JsonDeserialize_Newtonsoft<ModifyHyCoordReqEntity>(httpentity.Params);
+                                            uploadrespentity = bll.ModifyHydrantCoordinate(modifyhydrantentity);
+                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
+                                            break;
+                                        case "gethydrantdetail":       //获取消防栓明细
+                                            str_resp_err = "";
+                                            HyrdrantDetailReqEntity hydetailntity = SmartWaterSystem.JSONSerialize.JsonDeserialize_Newtonsoft<HyrdrantDetailReqEntity>(httpentity.Params);
+                                            GetHydrantDetailRespEntity HydrantDetailResp = bll.GetHydrantDetail(hydetailntity);
+                                            str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<GetHydrantDetailRespEntity>(HydrantDetailResp);
+                                            break;
+                                        #endregion
                                     }
                                 }
                                 catch (Exception ex)

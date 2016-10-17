@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DAL;
 using Entity;
+using System.Text.RegularExpressions;
 
 namespace BLL
 {
@@ -11,6 +12,7 @@ namespace BLL
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("HttpDataBLL");
         HttpDataDAL dal = new HttpDataDAL();
+        HydrantBLL Hybll = new HydrantBLL();
 
         public GetGroupsRespEntity GetGroupsInfo()
         {
@@ -112,5 +114,177 @@ namespace BLL
             }
             return resp;
         }
+
+        #region 消防栓
+        public GetHydrantRespEntity GetHydrants()
+        {
+            GetHydrantRespEntity resp = new GetHydrantRespEntity();
+            resp.code = 1;
+            resp.msg = "";
+            try
+            {
+                resp.lstHydrant=Hybll.SelectAll();
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetHydrants", ex);
+                resp.code = -1;
+                resp.msg = "服务器异常";
+                resp.lstHydrant = null;
+            }
+            return resp;
+        }
+
+        public HTTPRespEntity SaveHydrantInfo(SaveHydrantReqEntity data)
+        {
+            HTTPRespEntity resp = new HTTPRespEntity();
+            resp.code = 1;
+            resp.msg = "";
+            try
+            {
+                if(string.IsNullOrEmpty(data.HydrantID))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端ID不能为空";
+                }
+                if (Regex.IsMatch(data.HydrantID,"^\\d{1,8$"))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端ID不合法";
+                }
+                if (Hybll.HydrantExist(data.HydrantID))  //update
+                {
+                     if(!Hybll.Update(data.HydrantID, data.Addr, data.Longtitude, data.Latitude, data.Remark))
+                    {
+                        resp.code = -1;
+                        resp.msg = "保存发生异常!";
+                    }
+                }
+                else
+                {
+                    if(!Hybll.Insert(data.HydrantID, data.Addr, data.Longtitude, data.Latitude, data.Remark))
+                    {
+                        resp.code = -1;
+                        resp.msg = "保存发生异常!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("SaveHydrantInfo", ex);
+                resp.code = -1;
+                resp.msg = "服务器异常";
+            }
+            return resp;
+        }
+
+        public HTTPRespEntity DelHydrant(string id)
+        {
+            HTTPRespEntity resp = new HTTPRespEntity();
+            resp.code = 1;
+            resp.msg = "";
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端ID不能为空";
+                }
+                if (Regex.IsMatch(id, "^\\d{1,8$"))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端ID不合法";
+                }
+                if (!Hybll.Delete(id))
+                {
+                    resp.code = -1;
+                    resp.msg = "删除失败,服务器异常";
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("SaveHydrantInfo", ex);
+                resp.code = -1;
+                resp.msg = "服务器异常";
+            }
+            return resp;
+        }
+
+        public HTTPRespEntity ModifyHydrantCoordinate(ModifyHyCoordReqEntity data)
+        {
+            HTTPRespEntity resp = new HTTPRespEntity();
+            resp.code = 1;
+            resp.msg = "";
+            try
+            {
+                if (string.IsNullOrEmpty(data.HydrantID))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端ID不能为空";
+                }
+                if (Regex.IsMatch(data.HydrantID, "^\\d{1,8$"))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端ID不合法";
+                }
+                if (!Hybll.modifyCoordinate(data.HydrantID,data.Longtitude,data.Latitude))
+                {
+                    resp.code = -1;
+                    resp.msg = "修改失败,服务器异常";
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("ModifyHydrantCoordinate", ex);
+                resp.code = -1;
+                resp.msg = "服务器异常";
+            }
+            return resp;
+        }
+
+        public GetHydrantDetailRespEntity GetHydrantDetail(HyrdrantDetailReqEntity data)
+        {
+            GetHydrantDetailRespEntity resp = new GetHydrantDetailRespEntity();
+            resp.code = 1;
+            resp.msg = "";
+            try
+            {
+                if (string.IsNullOrEmpty(data.id))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端ID不能为空";
+                }
+                if (Regex.IsMatch(data.id, "^\\d{1,8$"))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端ID不合法";
+                }
+                if(string.IsNullOrEmpty(data.mintime))
+                {
+                    resp.code = -1;
+                    resp.msg = "请输入起始时间";
+                }
+                DateTime minTime = Convert.ToDateTime(data.mintime);
+                DateTime maxTime = DateTime.Now;
+                if(!string.IsNullOrEmpty(data.maxtime))
+                {
+                    maxTime=Convert.ToDateTime(data.maxtime);
+                }
+                if(((maxTime - minTime)).TotalDays >5)
+                {
+                    resp.code = -1;
+                    resp.msg = "查询区间不能超过5天";
+                }
+                resp.lstData= Hybll.GetHydrantDetail(data.id, data.opt, minTime, maxTime, data.interval);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetHydrantDetail", ex);
+                resp.code = -1;
+                resp.msg = "服务器异常";
+            }
+            return resp;
+        }
+        #endregion
     }
 }

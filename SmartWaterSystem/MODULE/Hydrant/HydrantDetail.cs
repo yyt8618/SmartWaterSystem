@@ -66,7 +66,7 @@ namespace SmartWaterSystem
                             break;
                     }
                     ListViewItem item = new ListViewItem(new string[]{
-                        lstData[i].CollTime.ToString("yyyy-MM-dd HH:mm"),
+                        lstData[i].CollTime,
                         str_opt,
                         pressvalue,
                         openangle

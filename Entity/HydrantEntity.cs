@@ -87,14 +87,34 @@ namespace Entity
             set { _IsAlarm = value; }
         }
 
-        private DateTime _CollTime;
+        private string _CollTime;
         /// <summary>
         /// 采集时间
         /// </summary>
-        public DateTime CollTime
+        public string CollTime
         {
             get { return _CollTime; }
             set { _CollTime = value; }
+        }
+
+        private string _Remark="";
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark
+        {
+            get { return _Remark; }
+            set { _Remark = value; }
+        }
+
+        private bool _HaveData = false;
+        /// <summary>
+        /// 是否有数据
+        /// </summary>
+        public bool HaveData
+        {
+            get { return _HaveData; }
+            set { _HaveData = value; }
         }
 
     }

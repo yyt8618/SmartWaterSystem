@@ -22,17 +22,43 @@ namespace BLL
                 return null;
             }
         }
-        public bool Insert(string id, string addr, string longitude, string latitude)
+        public bool Insert(string id, string addr, string longitude, string latitude,string Remark="")
         {
             try
             {
-                dal.Insert(id, addr, longitude, latitude);
+                dal.Insert(id, addr, longitude, latitude, Remark);
                 return true;
             }
             catch (Exception ex)
             {
                 logger.ErrorException("Insert", ex);
                 return false;
+            }
+        }
+
+        public bool Update(string id, string addr, string longitude, string latitude, string Remark)
+        {
+            try
+            {
+                dal.Update(id, addr, longitude, latitude, Remark);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("Update", ex);
+                return false;
+            }
+        }
+
+        public bool HydrantExist(string id)
+        {
+            try
+            {
+                return dal.HydrantExist(id);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
             }
         }
 

@@ -42,9 +42,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CallDataTypeEntity.cs" />
+    <Compile Include="ComunicateEntity\DelHydrantReqEntity.cs" />
     <Compile Include="ComunicateEntity\GetGroupsRespEntity.cs" />
+    <Compile Include="ComunicateEntity\GetHydrantDetailRespEntity.cs" />
+    <Compile Include="ComunicateEntity\GetHydrantRespEntity.cs" />
     <Compile Include="ComunicateEntity\HTTPEntity.cs" />
     <Compile Include="ComunicateEntity\HTTPRespEntity.cs" />
+    <Compile Include="ComunicateEntity\HyrdrantDetailReqEntity.cs" />
+    <Compile Include="ComunicateEntity\ModifyHyCoordReqEntity.cs" />
+    <Compile Include="ComunicateEntity\SaveHydrantReqEntity.cs" />
     <Compile Include="ComunicateEntity\UploadGroupsReqEntity.cs" />
     <Compile Include="ComunicateEntity\UploadFlowDataReqEntity.cs" />
     <Compile Include="ConstValue.cs" />
