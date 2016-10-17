@@ -439,7 +439,7 @@ namespace Protocol
             {
                 throw new Exception("数据损坏");
             }
-            return (double)(BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0) / 1000);
+            return ((double)BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0)) / 1000;
         }
 
         public string ReadCellPhone(short Id)

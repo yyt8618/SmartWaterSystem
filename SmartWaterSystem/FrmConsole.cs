@@ -390,6 +390,9 @@ namespace SmartWaterSystem
                 btnPause.Text = "继续";
                 this.btnPause.BackColor = System.Drawing.Color.Red;
                 this.btnPause.ForeColor = System.Drawing.Color.Black;
+                if (txtControl.SelectedText.Length > 0 && txtControl.SelectedText.Length < 50)
+                    frmsearch.KeyText = txtControl.SelectedText;
+
                 frmsearch.Show();
             }
         }

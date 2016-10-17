@@ -18,6 +18,11 @@ namespace SmartWaterSystem
             InitializeComponent();
         }
 
+        public string KeyText
+        {
+            set { txtContent.Text = value; }
+        }
+
         private void FrmSearch_Load(object sender, EventArgs e)
         {
             btnSearchNext.Enabled = false;

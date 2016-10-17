@@ -279,6 +279,17 @@ namespace GCGPRSService
                     OnSendMsg(new SocketEventArgs("水厂数据保存失败:" + e.Msg));
                 }
             }
+            else if(e.SQLType == SQLType.InsertHydrantValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("消防栓数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("消防栓数据保存失败:" + e.Msg));
+                }
+            }
         }
 
         public void Close()
@@ -1729,6 +1740,42 @@ namespace GCGPRSService
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被撞倒|时间({1})",
                                                        pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
                                             data.Operate = HydrantOptType.KnockOver;
+                                        }
+                                        else if(pack.C1 == (byte)GPRS_READ.READ_HYDRANT_TIMEGPRS)       //定时远传
+                                        {
+                                            //年、月、日、时、分、秒、开启/关闭、开度、被撞、撞倒、压力高位、压力低位
+                                            string strstate = "",stropenangle ="-",strprevalue="未配置";
+                                            if (pack.Data[6] == 0x00)
+                                            {
+                                                data.Operate = HydrantOptType.Close;
+                                                strstate = "关闭";
+                                            }
+                                            if(pack.Data[6] == 0x01)
+                                            {
+                                                data.Operate = HydrantOptType.Open;
+                                                int openangle = Convert.ToInt16(pack.Data[7]);
+                                                data.OpenAngle = openangle;
+                                                strstate = "打开";
+                                                stropenangle = openangle.ToString();
+                                            }
+                                            if (pack.Data[8] == 0x01)
+                                            {
+                                                data.Operate = HydrantOptType.Impact;
+                                                strstate = "撞击";
+                                            }
+                                            if (pack.Data[9] == 0x01)
+                                            {
+                                                data.Operate = HydrantOptType.KnockOver;
+                                                strstate = "撞倒";
+                                            }
+                                            if(pack.Data[10] == 0x01)       //压力标志,0x01:表示有配置压力
+                                            {
+                                                float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[12], pack.Data[11] }, 0) / 3;
+                                                data.PreValue = prevalue;
+                                                strprevalue = prevalue.ToString();
+                                            }
+                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]定时报|时间({1})|状态:{2}|开度:{3}|压力:{4}",
+                                                    pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, strstate, stropenangle, strprevalue)));
                                         }
 
                                         framedata.lstHydrantData.Add(data);

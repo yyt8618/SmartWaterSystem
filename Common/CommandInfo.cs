@@ -1273,6 +1273,10 @@ namespace Common
         /// </summary>
         READ_HYDRANT_KNOCKOVER = 0xA4,
         /// <summary>
+        /// 消防栓定时远传
+        /// </summary>
+        READ_HYDRANT_TIMEGPRS = 0xA5,
+        /// <summary>
         /// 远传控制器向主站发送噪声采集数据
         /// </summary>
         READ_NOISEDATA = 0xA4,
