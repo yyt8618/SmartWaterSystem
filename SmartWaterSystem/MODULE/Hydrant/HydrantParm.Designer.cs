@@ -30,20 +30,27 @@ namespace SmartWaterSystem
         private void InitializeComponent()
         {
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.seComTime = new DevExpress.XtraEditors.SpinEdit();
+            this.SwitchEnable = new DevExpress.XtraEditors.ToggleSwitch();
+            this.ceEnable = new DevExpress.XtraEditors.CheckEdit();
             this.txtTime = new DevExpress.XtraEditors.TextEdit();
+            this.txtPreRealTime = new DevExpress.XtraEditors.TextEdit();
             this.txtNumofturns = new DevExpress.XtraEditors.TextEdit();
+            this.txtIP = new DevExpress.XtraEditors.TextEdit();
+            this.txtOffset = new DevExpress.XtraEditors.TextEdit();
+            this.txtPreRange = new DevExpress.XtraEditors.TextEdit();
             this.txtPort = new DevExpress.XtraEditors.TextEdit();
             this.cbPreConfig = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceTime = new DevExpress.XtraEditors.CheckEdit();
+            this.cePreRealTime = new DevExpress.XtraEditors.CheckEdit();
             this.txtID = new DevExpress.XtraEditors.TextEdit();
             this.ceNumofturns = new DevExpress.XtraEditors.CheckEdit();
+            this.ceOffset = new DevExpress.XtraEditors.CheckEdit();
+            this.ceComTime = new DevExpress.XtraEditors.CheckEdit();
+            this.cePreRange = new DevExpress.XtraEditors.CheckEdit();
             this.cePreConfig = new DevExpress.XtraEditors.CheckEdit();
-            this.txtNum4 = new DevExpress.XtraEditors.TextEdit();
             this.cePort = new DevExpress.XtraEditors.CheckEdit();
             this.ceID = new DevExpress.XtraEditors.CheckEdit();
-            this.txtNum3 = new DevExpress.XtraEditors.TextEdit();
-            this.txtNum2 = new DevExpress.XtraEditors.TextEdit();
-            this.txtNum1 = new DevExpress.XtraEditors.TextEdit();
             this.ceIP = new DevExpress.XtraEditors.CheckEdit();
             this.btnCheckingTime = new DevExpress.XtraEditors.SimpleButton();
             this.btnReadParm = new DevExpress.XtraEditors.SimpleButton();
@@ -62,24 +69,29 @@ namespace SmartWaterSystem
             this.rgOpt = new DevExpress.XtraEditors.RadioGroup();
             this.btnReadHistory = new DevExpress.XtraEditors.SimpleButton();
             this.btnReset = new DevExpress.XtraEditors.SimpleButton();
-            this.SwitchEnable = new DevExpress.XtraEditors.ToggleSwitch();
-            this.ceEnable = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.seComTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SwitchEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceEnable.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreRealTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumofturns.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreConfig.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreRealTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceNumofturns.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceOffset.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceComTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePreConfig.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -90,34 +102,76 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_sendtime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgOpt.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SwitchEnable.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceEnable.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.seComTime);
             this.groupControl1.Controls.Add(this.SwitchEnable);
             this.groupControl1.Controls.Add(this.ceEnable);
             this.groupControl1.Controls.Add(this.txtTime);
+            this.groupControl1.Controls.Add(this.txtPreRealTime);
             this.groupControl1.Controls.Add(this.txtNumofturns);
+            this.groupControl1.Controls.Add(this.txtIP);
+            this.groupControl1.Controls.Add(this.txtOffset);
+            this.groupControl1.Controls.Add(this.txtPreRange);
             this.groupControl1.Controls.Add(this.txtPort);
             this.groupControl1.Controls.Add(this.cbPreConfig);
             this.groupControl1.Controls.Add(this.ceTime);
+            this.groupControl1.Controls.Add(this.cePreRealTime);
             this.groupControl1.Controls.Add(this.txtID);
             this.groupControl1.Controls.Add(this.ceNumofturns);
+            this.groupControl1.Controls.Add(this.ceOffset);
+            this.groupControl1.Controls.Add(this.ceComTime);
+            this.groupControl1.Controls.Add(this.cePreRange);
             this.groupControl1.Controls.Add(this.cePreConfig);
-            this.groupControl1.Controls.Add(this.txtNum4);
             this.groupControl1.Controls.Add(this.cePort);
             this.groupControl1.Controls.Add(this.ceID);
-            this.groupControl1.Controls.Add(this.txtNum3);
-            this.groupControl1.Controls.Add(this.txtNum2);
-            this.groupControl1.Controls.Add(this.txtNum1);
             this.groupControl1.Controls.Add(this.ceIP);
             this.groupControl1.Location = new System.Drawing.Point(6, -1);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(791, 80);
+            this.groupControl1.Size = new System.Drawing.Size(791, 103);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
+            // 
+            // seComTime
+            // 
+            this.seComTime.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.seComTime.Location = new System.Drawing.Point(75, 50);
+            this.seComTime.Name = "seComTime";
+            this.seComTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.seComTime.Properties.IsFloatValue = false;
+            this.seComTime.Properties.Mask.EditMask = "N00";
+            this.seComTime.Properties.MaxValue = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
+            this.seComTime.Size = new System.Drawing.Size(65, 20);
+            this.seComTime.TabIndex = 9;
+            // 
+            // SwitchEnable
+            // 
+            this.SwitchEnable.EditValue = true;
+            this.SwitchEnable.Location = new System.Drawing.Point(554, 48);
+            this.SwitchEnable.Name = "SwitchEnable";
+            this.SwitchEnable.Properties.OffText = "关闭";
+            this.SwitchEnable.Properties.OnText = "打开";
+            this.SwitchEnable.Size = new System.Drawing.Size(131, 25);
+            this.SwitchEnable.TabIndex = 15;
+            // 
+            // ceEnable
+            // 
+            this.ceEnable.Location = new System.Drawing.Point(509, 51);
+            this.ceEnable.Name = "ceEnable";
+            this.ceEnable.Properties.Caption = "开关";
+            this.ceEnable.Size = new System.Drawing.Size(48, 19);
+            this.ceEnable.TabIndex = 14;
             // 
             // txtTime
             // 
@@ -126,30 +180,77 @@ namespace SmartWaterSystem
             this.txtTime.Size = new System.Drawing.Size(120, 20);
             this.txtTime.TabIndex = 3;
             // 
+            // txtPreRealTime
+            // 
+            this.txtPreRealTime.EditValue = "";
+            this.txtPreRealTime.Location = new System.Drawing.Point(578, 24);
+            this.txtPreRealTime.Name = "txtPreRealTime";
+            this.txtPreRealTime.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
+            this.txtPreRealTime.Properties.Appearance.Options.UseForeColor = true;
+            this.txtPreRealTime.Properties.MaxLength = 4;
+            this.txtPreRealTime.Properties.ReadOnly = true;
+            this.txtPreRealTime.Size = new System.Drawing.Size(65, 20);
+            this.txtPreRealTime.TabIndex = 7;
+            // 
             // txtNumofturns
             // 
             this.txtNumofturns.EditValue = "";
-            this.txtNumofturns.Location = new System.Drawing.Point(75, 52);
+            this.txtNumofturns.Location = new System.Drawing.Point(407, 24);
             this.txtNumofturns.Name = "txtNumofturns";
             this.txtNumofturns.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
             this.txtNumofturns.Properties.Appearance.Options.UseForeColor = true;
             this.txtNumofturns.Properties.MaxLength = 4;
             this.txtNumofturns.Properties.ReadOnly = true;
             this.txtNumofturns.Size = new System.Drawing.Size(65, 20);
-            this.txtNumofturns.TabIndex = 7;
+            this.txtNumofturns.TabIndex = 5;
+            // 
+            // txtIP
+            // 
+            this.txtIP.EditValue = "";
+            this.txtIP.Location = new System.Drawing.Point(215, 50);
+            this.txtIP.Name = "txtIP";
+            this.txtIP.Properties.Mask.EditMask = "(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[" +
+    "1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]" +
+    "|1[0-9][0-9]|[1-9]?[0-9])";
+            this.txtIP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIP.Properties.MaxLength = 12;
+            this.txtIP.Size = new System.Drawing.Size(120, 20);
+            this.txtIP.TabIndex = 11;
+            // 
+            // txtOffset
+            // 
+            this.txtOffset.EditValue = "";
+            this.txtOffset.Location = new System.Drawing.Point(215, 76);
+            this.txtOffset.Name = "txtOffset";
+            this.txtOffset.Properties.Mask.EditMask = "-?[0-9]{1,2}(\\.[0-9]{1,3})?";
+            this.txtOffset.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtOffset.Properties.MaxLength = 8;
+            this.txtOffset.Size = new System.Drawing.Size(64, 20);
+            this.txtOffset.TabIndex = 19;
+            // 
+            // txtPreRange
+            // 
+            this.txtPreRange.EditValue = "";
+            this.txtPreRange.Location = new System.Drawing.Point(75, 76);
+            this.txtPreRange.Name = "txtPreRange";
+            this.txtPreRange.Properties.Mask.EditMask = "[0-9]{1,2}(\\.[0-9]{1,3})?";
+            this.txtPreRange.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtPreRange.Properties.MaxLength = 7;
+            this.txtPreRange.Size = new System.Drawing.Size(64, 20);
+            this.txtPreRange.TabIndex = 17;
             // 
             // txtPort
             // 
             this.txtPort.EditValue = "";
-            this.txtPort.Location = new System.Drawing.Point(407, 53);
+            this.txtPort.Location = new System.Drawing.Point(407, 50);
             this.txtPort.Name = "txtPort";
             this.txtPort.Properties.MaxLength = 4;
             this.txtPort.Size = new System.Drawing.Size(92, 20);
-            this.txtPort.TabIndex = 14;
+            this.txtPort.TabIndex = 13;
             // 
             // cbPreConfig
             // 
-            this.cbPreConfig.Location = new System.Drawing.Point(407, 25);
+            this.cbPreConfig.Location = new System.Drawing.Point(407, 76);
             this.cbPreConfig.Name = "cbPreConfig";
             this.cbPreConfig.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -158,7 +259,7 @@ namespace SmartWaterSystem
             "配置压力"});
             this.cbPreConfig.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPreConfig.Size = new System.Drawing.Size(92, 20);
-            this.cbPreConfig.TabIndex = 5;
+            this.cbPreConfig.TabIndex = 21;
             // 
             // ceTime
             // 
@@ -167,6 +268,14 @@ namespace SmartWaterSystem
             this.ceTime.Properties.Caption = "设备时间";
             this.ceTime.Size = new System.Drawing.Size(75, 19);
             this.ceTime.TabIndex = 2;
+            // 
+            // cePreRealTime
+            // 
+            this.cePreRealTime.Location = new System.Drawing.Point(509, 25);
+            this.cePreRealTime.Name = "cePreRealTime";
+            this.cePreRealTime.Properties.Caption = "实时压力";
+            this.cePreRealTime.Size = new System.Drawing.Size(74, 19);
+            this.cePreRealTime.TabIndex = 6;
             // 
             // txtID
             // 
@@ -177,38 +286,51 @@ namespace SmartWaterSystem
             // 
             // ceNumofturns
             // 
-            this.ceNumofturns.Location = new System.Drawing.Point(6, 53);
+            this.ceNumofturns.Location = new System.Drawing.Point(338, 25);
             this.ceNumofturns.Name = "ceNumofturns";
             this.ceNumofturns.Properties.Caption = "开度";
             this.ceNumofturns.Size = new System.Drawing.Size(74, 19);
-            this.ceNumofturns.TabIndex = 6;
+            this.ceNumofturns.TabIndex = 4;
+            // 
+            // ceOffset
+            // 
+            this.ceOffset.Location = new System.Drawing.Point(145, 77);
+            this.ceOffset.Name = "ceOffset";
+            this.ceOffset.Properties.Caption = "偏移量";
+            this.ceOffset.Size = new System.Drawing.Size(74, 19);
+            this.ceOffset.TabIndex = 18;
+            // 
+            // ceComTime
+            // 
+            this.ceComTime.Location = new System.Drawing.Point(6, 51);
+            this.ceComTime.Name = "ceComTime";
+            this.ceComTime.Properties.Caption = "远传时间";
+            this.ceComTime.Size = new System.Drawing.Size(75, 19);
+            this.ceComTime.TabIndex = 8;
+            // 
+            // cePreRange
+            // 
+            this.cePreRange.Location = new System.Drawing.Point(7, 77);
+            this.cePreRange.Name = "cePreRange";
+            this.cePreRange.Properties.Caption = "量程";
+            this.cePreRange.Size = new System.Drawing.Size(74, 19);
+            this.cePreRange.TabIndex = 16;
             // 
             // cePreConfig
             // 
-            this.cePreConfig.Location = new System.Drawing.Point(338, 24);
+            this.cePreConfig.Location = new System.Drawing.Point(338, 77);
             this.cePreConfig.Name = "cePreConfig";
             this.cePreConfig.Properties.Caption = "压力配置";
             this.cePreConfig.Size = new System.Drawing.Size(74, 19);
-            this.cePreConfig.TabIndex = 4;
-            // 
-            // txtNum4
-            // 
-            this.txtNum4.EditValue = "";
-            this.txtNum4.Location = new System.Drawing.Point(305, 52);
-            this.txtNum4.Name = "txtNum4";
-            this.txtNum4.Properties.MaxLength = 3;
-            this.txtNum4.Size = new System.Drawing.Size(30, 20);
-            this.txtNum4.TabIndex = 12;
-            this.txtNum4.Tag = "4";
-            this.txtNum4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
+            this.cePreConfig.TabIndex = 20;
             // 
             // cePort
             // 
-            this.cePort.Location = new System.Drawing.Point(338, 53);
+            this.cePort.Location = new System.Drawing.Point(338, 51);
             this.cePort.Name = "cePort";
             this.cePort.Properties.Caption = "端口号";
             this.cePort.Size = new System.Drawing.Size(63, 19);
-            this.cePort.TabIndex = 13;
+            this.cePort.TabIndex = 12;
             this.cePort.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceID
@@ -219,46 +341,13 @@ namespace SmartWaterSystem
             this.ceID.Size = new System.Drawing.Size(75, 19);
             this.ceID.TabIndex = 0;
             // 
-            // txtNum3
-            // 
-            this.txtNum3.EditValue = "";
-            this.txtNum3.Location = new System.Drawing.Point(275, 52);
-            this.txtNum3.Name = "txtNum3";
-            this.txtNum3.Properties.MaxLength = 3;
-            this.txtNum3.Size = new System.Drawing.Size(30, 20);
-            this.txtNum3.TabIndex = 11;
-            this.txtNum3.Tag = "3";
-            this.txtNum3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
-            // 
-            // txtNum2
-            // 
-            this.txtNum2.EditValue = "";
-            this.txtNum2.Location = new System.Drawing.Point(245, 52);
-            this.txtNum2.Name = "txtNum2";
-            this.txtNum2.Properties.MaxLength = 3;
-            this.txtNum2.Size = new System.Drawing.Size(30, 20);
-            this.txtNum2.TabIndex = 10;
-            this.txtNum2.Tag = "2";
-            this.txtNum2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
-            // 
-            // txtNum1
-            // 
-            this.txtNum1.EditValue = "";
-            this.txtNum1.Location = new System.Drawing.Point(215, 52);
-            this.txtNum1.Name = "txtNum1";
-            this.txtNum1.Properties.MaxLength = 3;
-            this.txtNum1.Size = new System.Drawing.Size(30, 20);
-            this.txtNum1.TabIndex = 9;
-            this.txtNum1.Tag = "1";
-            this.txtNum1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
-            // 
             // ceIP
             // 
-            this.ceIP.Location = new System.Drawing.Point(145, 53);
+            this.ceIP.Location = new System.Drawing.Point(145, 51);
             this.ceIP.Name = "ceIP";
             this.ceIP.Properties.Caption = "IP";
             this.ceIP.Size = new System.Drawing.Size(35, 19);
-            this.ceIP.TabIndex = 8;
+            this.ceIP.TabIndex = 10;
             this.ceIP.CheckedChanged += new System.EventHandler(this.ceIP_CheckedChanged);
             // 
             // btnCheckingTime
@@ -294,9 +383,9 @@ namespace SmartWaterSystem
             // groupControl2
             // 
             this.groupControl2.Controls.Add(this.gridControl_History);
-            this.groupControl2.Location = new System.Drawing.Point(6, 86);
+            this.groupControl2.Location = new System.Drawing.Point(6, 108);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(788, 370);
+            this.groupControl2.Size = new System.Drawing.Size(788, 348);
             this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "历史数据";
             // 
@@ -304,7 +393,7 @@ namespace SmartWaterSystem
             // 
             this.gridControl_History.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_History.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_History.Location = new System.Drawing.Point(2, 27);
+            this.gridControl_History.Location = new System.Drawing.Point(2, 21);
             this.gridControl_History.MainView = this.gridView_History;
             this.gridControl_History.Name = "gridControl_History";
             this.gridControl_History.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -312,7 +401,7 @@ namespace SmartWaterSystem
             this.cb_sim_coltime1,
             this.cb_sim_sendtime,
             this.cb_sim_coltime2});
-            this.gridControl_History.Size = new System.Drawing.Size(784, 341);
+            this.gridControl_History.Size = new System.Drawing.Size(784, 325);
             this.gridControl_History.TabIndex = 0;
             this.gridControl_History.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_History});
@@ -450,24 +539,6 @@ namespace SmartWaterSystem
             this.btnReset.Text = "设备复位";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // SwitchEnable
-            // 
-            this.SwitchEnable.EditValue = true;
-            this.SwitchEnable.Location = new System.Drawing.Point(554, 51);
-            this.SwitchEnable.Name = "SwitchEnable";
-            this.SwitchEnable.Properties.OffText = "关闭";
-            this.SwitchEnable.Properties.OnText = "打开";
-            this.SwitchEnable.Size = new System.Drawing.Size(131, 25);
-            this.SwitchEnable.TabIndex = 15;
-            // 
-            // ceEnable
-            // 
-            this.ceEnable.Location = new System.Drawing.Point(509, 54);
-            this.ceEnable.Name = "ceEnable";
-            this.ceEnable.Properties.Caption = "开关";
-            this.ceEnable.Size = new System.Drawing.Size(48, 19);
-            this.ceEnable.TabIndex = 16;
-            // 
             // HydrantParm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -486,20 +557,27 @@ namespace SmartWaterSystem
             this.Load += new System.EventHandler(this.HydrantParm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.seComTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SwitchEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceEnable.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreRealTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumofturns.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreConfig.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreRealTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceNumofturns.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceOffset.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceComTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePreConfig.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
@@ -510,8 +588,6 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_sendtime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgOpt.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SwitchEnable.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceEnable.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -524,10 +600,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit ceID;
         private DevExpress.XtraEditors.TextEdit txtPort;
         private DevExpress.XtraEditors.CheckEdit ceIP;
-        private DevExpress.XtraEditors.TextEdit txtNum1;
-        private DevExpress.XtraEditors.TextEdit txtNum2;
-        private DevExpress.XtraEditors.TextEdit txtNum4;
-        private DevExpress.XtraEditors.TextEdit txtNum3;
         private DevExpress.XtraEditors.SimpleButton btnCheckingTime;
         private DevExpress.XtraEditors.SimpleButton btnReadParm;
         private DevExpress.XtraEditors.SimpleButton btnSetParm;
@@ -553,6 +625,14 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit cePreConfig;
         private DevExpress.XtraEditors.ToggleSwitch SwitchEnable;
         private DevExpress.XtraEditors.CheckEdit ceEnable;
-
+        private DevExpress.XtraEditors.SpinEdit seComTime;
+        private DevExpress.XtraEditors.TextEdit txtPreRange;
+        private DevExpress.XtraEditors.CheckEdit ceOffset;
+        private DevExpress.XtraEditors.CheckEdit ceComTime;
+        private DevExpress.XtraEditors.CheckEdit cePreRange;
+        private DevExpress.XtraEditors.TextEdit txtOffset;
+        private DevExpress.XtraEditors.TextEdit txtIP;
+        private DevExpress.XtraEditors.TextEdit txtPreRealTime;
+        private DevExpress.XtraEditors.CheckEdit cePreRealTime;
     }
 }

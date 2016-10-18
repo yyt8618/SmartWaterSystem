@@ -650,5 +650,50 @@ namespace Entity
             get { return _HydrantEnable; }
             set { _HydrantEnable = value; }
         }
+
+        public bool IsOpt_ComTime = false;
+        private int _ComTime = 0;
+        /// <summary>
+        /// 远传通讯时间(每天)
+        /// </summary>
+        public int ComTime
+        {
+            get { return _ComTime; }
+            set { _ComTime = value; }
+        }
+
+        public bool IsOpt_PreRange = false;
+        private double _PreRange = 0;
+        /// <summary>
+        /// 压力值量程
+        /// </summary>
+        public double PreRange
+        {
+            get { return _PreRange; }
+            set { _PreRange = value; }
+        }
+
+        public bool IsOpt_PreOffset = false;
+        private double _PreOffset = 0;
+        /// <summary>
+        /// 压力值量程
+        /// </summary>
+        public double PreOffset
+        {
+            get { return _PreOffset; }
+            set { _PreOffset = value; }
+        }
+
+        public bool IsOpt_RealTimeData = false;
+        private double _RealTimeData = 0;
+        /// <summary>
+        /// 实时数据
+        /// </summary>
+        public double RealTimeData
+        {
+            get { return _RealTimeData; }
+            set { _RealTimeData = value; }
+        }
+
     }
 }

@@ -115,6 +115,62 @@ namespace Protocol
             return Write(package);
         }
 
+        public bool SetComTime(short Id, int ComTime)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.SET_COMTIME;
+            byte[] data = new byte[1];
+            data[0] = Convert.ToByte(ComTime);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetPreRange(short Id, double PreRange)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.SET_PRERANGE;
+            byte[] data = BitConverter.GetBytes((short)(PreRange*1000));
+            Array.Reverse(data);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetPreOffset(short Id, double PreOffset)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.SET_PREOFFSET;
+            byte[] data = new byte[3];
+            if (PreOffset < 0)
+            {
+                PreOffset *= -1;
+                data[0] = 0x01;     //负数时,第一位是1
+            }
+            byte[] offset = BitConverter.GetBytes((short)(PreOffset * 1000));
+            Array.Reverse(offset);
+            data[1] = offset[0];
+            data[2] = offset[1];
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
         public bool SetPreConfig(short Id,bool preconfig)
         {
             Package package = new Package();
@@ -187,6 +243,34 @@ namespace Protocol
             }
             return new DateTime(Convert.ToInt32(result.Data[0])+2000, Convert.ToInt32(result.Data[1]), Convert.ToInt32(result.Data[2]),
                 Convert.ToInt32(result.Data[3]), Convert.ToInt32(result.Data[4]), Convert.ToInt32(result.Data[5]));
+        }
+
+        public int ReadComTime(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.READ_COMTIME;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToInt32(result.Data[0]);
         }
 
         public int[] ReadIP(short Id)
@@ -269,6 +353,93 @@ namespace Protocol
                 tmp = "0";
             }
             return Convert.ToInt32(tmp);
+        }
+
+        public double ReadPreRange(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.READ_PRERANGE;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return ((double)(BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0))) / 1000;
+        }
+
+        public double ReadPreOffset(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.READ_PREOFFSET;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 3)
+            {
+                throw new Exception("数据损坏");
+            }
+            if (result.Data[0] == 0x01)
+                return -1 * ((double)(BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0))) / 1000;
+            else
+                return ((double)(BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0))) / 1000;
+        }
+
+        public double ReadPreRealTimeData(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.HYDRANT_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)HYDRANT_COMMAND.READ_REALTIMEDATA;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package, 15, 1);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return (double)(BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0) / 1000);
         }
 
         public string ReadCellPhone(short Id)

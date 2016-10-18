@@ -56,88 +56,7 @@ namespace SmartWaterSystem
             HistoryData.Columns.Add("OpenAngle");   //开度
             gridControl_History.DataSource = HistoryData;
         }
-
-        #region IP
-        private void txtNum_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            TextEdit txtbox = (TextEdit)sender;
-            int index = Convert.ToInt32(txtbox.Tag);
-            if (e.KeyChar == '\b') //backspace
-            {
-                if (txtbox.Text.Length == 0)
-                {
-                    if (2 == index)
-                    {
-                        txtNum1.Focus();
-                        txtNum1.SelectionStart = txtNum1.Text.Length;
-                    }
-                    else if (3 == index)
-                    {
-                        txtNum2.Focus();
-                        txtNum2.SelectionStart = txtNum2.Text.Length;
-                    }
-                    else if (4 == index)
-                    {
-                        txtNum3.Focus();
-                        txtNum3.SelectionStart = txtNum3.Text.Length;
-                    }
-                }
-            }
-            else if (e.KeyChar == ' ' || e.KeyChar == '\r' || e.KeyChar == '.')
-            {
-                if (1 == index)
-                {
-                    txtNum2.SelectAll();
-                    txtNum2.Focus();
-                }
-                else if (2 == index)
-                {
-                    txtNum3.SelectAll();
-                    txtNum3.Focus();
-                }
-                else if (3 == index)
-                {
-                    txtNum4.SelectAll();
-                    txtNum4.Focus();
-                }
-                e.Handled = true;
-            }
-            else if (e.KeyChar >= 48 && e.KeyChar <= 57)
-            {
-                if (txtbox.Text.Length == 3)
-                {
-                    if (1 == index)
-                    {
-                        txtNum2.Text = e.KeyChar.ToString();
-                        txtNum2.Focus();
-                        txtNum2.SelectionStart = txtNum2.Text.Length;
-                    }
-                    else if (2 == index)
-                    {
-                        txtNum3.Text = e.KeyChar.ToString();
-                        txtNum3.Focus();
-                        txtNum3.SelectionStart = txtNum3.Text.Length;
-                    }
-                    else if (3 == index)
-                    {
-                        txtNum4.Text = e.KeyChar.ToString();
-                        txtNum4.Focus();
-                        txtNum4.SelectionStart = txtNum4.Text.Length;
-                    }
-                }
-                else
-                {
-                    if (!Regex.IsMatch(txtbox.Text + e.KeyChar.ToString(), @"^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"))
-                    {
-                        e.Handled = true;
-                    }
-                }
-            }
-            else
-                e.Handled = true;
-        }
-        #endregion
-
+        
         #region txt Event
         /// <summary>
         /// 限制最大1byte (<=255)
@@ -298,14 +217,19 @@ namespace SmartWaterSystem
                     GlobalValue.UniSerialPortOptData.IsOptDT = ceTime.Checked;
                     haveread = true;
                 }
-                if (cePreConfig.Checked)
-                {
-                    GlobalValue.UniSerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
-                    haveread = true;
-                }
                 if (ceNumofturns.Checked)
                 {
                     GlobalValue.UniSerialPortOptData.IsOpt_Numofturns = ceNumofturns.Checked;
+                    haveread = true;
+                }
+                if(cePreRealTime.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_RealTimeData = cePreRealTime.Checked;
+                    haveread = true;
+                }
+                if(ceComTime.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_ComTime = ceComTime.Checked;
                     haveread = true;
                 }
                 if (ceIP.Checked)
@@ -321,6 +245,21 @@ namespace SmartWaterSystem
                 if (ceEnable.Checked)
                 {
                     GlobalValue.UniSerialPortOptData.IsOpt_HydrantEnable = ceEnable.Checked;
+                    haveread = true;
+                }
+                if(cePreRange.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_PreRange = cePreRange.Checked;
+                    haveread = true;
+                }
+                if(ceOffset.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
+                    haveread = true;
+                }
+                if (cePreConfig.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
                     haveread = true;
                 }
             }
@@ -371,21 +310,24 @@ namespace SmartWaterSystem
                 else
                 {
                     GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
-
-                    if (cePreConfig.Checked)
+                    if(ceComTime.Checked)
                     {
-                        GlobalValue.UniSerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
-                        GlobalValue.UniSerialPortOptData.PreConfig = cbPreConfig.SelectedIndex == 0 ? false : true;  
+                        GlobalValue.UniSerialPortOptData.IsOpt_ComTime = ceComTime.Checked;
+                        GlobalValue.UniSerialPortOptData.ComTime = (int)(seComTime.Value);
                         haveset = true;
                     }
                     if (ceIP.Checked)
                     {
                         GlobalValue.UniSerialPortOptData.IsOptIP = ceIP.Checked;
                         GlobalValue.UniSerialPortOptData.IP = new int[4];
-                        GlobalValue.UniSerialPortOptData.IP[0] = Convert.ToInt32(txtNum1.Text);
-                        GlobalValue.UniSerialPortOptData.IP[1] = Convert.ToInt32(txtNum2.Text);
-                        GlobalValue.UniSerialPortOptData.IP[2] = Convert.ToInt32(txtNum3.Text);
-                        GlobalValue.UniSerialPortOptData.IP[3] = Convert.ToInt32(txtNum4.Text);
+                        string[] ips = txtIP.Text.Split('.');
+                        if (ips != null && ips.Length == 4)
+                        {
+                            GlobalValue.UniSerialPortOptData.IP[0] = Convert.ToInt32(ips[0]);
+                            GlobalValue.UniSerialPortOptData.IP[1] = Convert.ToInt32(ips[1]);
+                            GlobalValue.UniSerialPortOptData.IP[2] = Convert.ToInt32(ips[2]);
+                            GlobalValue.UniSerialPortOptData.IP[3] = Convert.ToInt32(ips[3]);
+                        }
                         haveset = true;
                     }
                     if (cePort.Checked)
@@ -400,6 +342,25 @@ namespace SmartWaterSystem
                         GlobalValue.UniSerialPortOptData.HydrantEnable = SwitchEnable.IsOn;
                         haveset = true;
                     }
+                    if(cePreRange.Checked)
+                    {
+                        GlobalValue.UniSerialPortOptData.IsOpt_PreRange = cePreRange.Checked;
+                        GlobalValue.UniSerialPortOptData.PreRange = Convert.ToDouble(txtPreRange.Text);
+                        haveset = true;
+                    }
+                    if(ceOffset.Checked)
+                    {
+                        GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
+                        GlobalValue.UniSerialPortOptData.PreOffset = Convert.ToDouble(txtOffset.Text);
+                        haveset = true;
+                    }
+                    if (cePreConfig.Checked)
+                    {
+                        GlobalValue.UniSerialPortOptData.IsOpt_PreConfig = cePreConfig.Checked;
+                        GlobalValue.UniSerialPortOptData.PreConfig = cbPreConfig.SelectedIndex == 0 ? false : true;  
+                        haveset = true;
+                    }
+                    
                 }
 
                 if (!haveset)
@@ -579,6 +540,39 @@ namespace SmartWaterSystem
                     {
                         txtTime.Text = GlobalValue.UniSerialPortOptData.DT.ToString();
                     }
+                    if (GlobalValue.UniSerialPortOptData.IsOpt_Numofturns)
+                    {
+                        txtNumofturns.Text = GlobalValue.UniSerialPortOptData.Numofturns.ToString("f0");
+                    }
+                    if(GlobalValue.UniSerialPortOptData.IsOpt_RealTimeData)
+                    {
+                        txtPreRealTime.Text = GlobalValue.UniSerialPortOptData.RealTimeData.ToString();
+                    }
+                    if(GlobalValue.UniSerialPortOptData.IsOpt_ComTime)
+                    {
+                        seComTime.Value = GlobalValue.UniSerialPortOptData.ComTime;
+                    }
+                    if (GlobalValue.UniSerialPortOptData.IsOptIP)
+                    {
+                        txtIP.Text = GlobalValue.UniSerialPortOptData.IP[0].ToString() + "." + GlobalValue.UniSerialPortOptData.IP[1].ToString() + "." +
+                            GlobalValue.UniSerialPortOptData.IP[2].ToString() + "." + GlobalValue.UniSerialPortOptData.IP[3].ToString();
+                    }
+                    if (GlobalValue.UniSerialPortOptData.IsOptPort)
+                    {
+                        txtPort.Text = GlobalValue.UniSerialPortOptData.Port.ToString();
+                    }
+                    if (GlobalValue.UniSerialPortOptData.IsOpt_HydrantEnable)
+                    {
+                        SwitchEnable.IsOn = GlobalValue.UniSerialPortOptData.HydrantEnable;
+                    }
+                    if(GlobalValue.UniSerialPortOptData.IsOpt_PreRange)
+                    {
+                        txtPreRange.Text = GlobalValue.UniSerialPortOptData.PreRange.ToString();
+                    }
+                    if(GlobalValue.UniSerialPortOptData.IsOpt_PreOffset)
+                    {
+                        txtOffset.Text = GlobalValue.UniSerialPortOptData.PreOffset.ToString();
+                    }
                     if (GlobalValue.UniSerialPortOptData.IsOpt_PreConfig)
                     {
                         if (GlobalValue.UniSerialPortOptData.PreConfig)
@@ -586,29 +580,13 @@ namespace SmartWaterSystem
                         else
                             cbPreConfig.SelectedIndex = 0;
                     }
-                    if (GlobalValue.UniSerialPortOptData.IsOpt_Numofturns)
-                    {
-                        txtNumofturns.Text = GlobalValue.UniSerialPortOptData.Numofturns.ToString("f0");
-                    }
-                    if (GlobalValue.UniSerialPortOptData.IsOptIP)
-                    {
-                        txtNum1.Text = GlobalValue.UniSerialPortOptData.IP[0].ToString();
-                        txtNum2.Text = GlobalValue.UniSerialPortOptData.IP[1].ToString();
-                        txtNum3.Text = GlobalValue.UniSerialPortOptData.IP[2].ToString();
-                        txtNum4.Text = GlobalValue.UniSerialPortOptData.IP[3].ToString();
-                    }
-                    if (GlobalValue.UniSerialPortOptData.IsOptPort)
-                    {
-                        txtPort.Text = GlobalValue.UniSerialPortOptData.Port.ToString();
-                    }
+                    
+                    
                     if (GlobalValue.UniSerialPortOptData.IsOpt_SimualteInterval)
                     {
                         gridControl_History.DataSource=GlobalValue.UniSerialPortOptData.Simulate_Interval;
                     }
-                    if (GlobalValue.UniSerialPortOptData.IsOpt_HydrantEnable)
-                    {
-                        SwitchEnable.IsOn = GlobalValue.UniSerialPortOptData.HydrantEnable;
-                    }
+                    
 
                     XtraMessageBox.Show("读取消防栓参数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -699,11 +677,10 @@ namespace SmartWaterSystem
 
             if (ceIP.Checked)
             {
-                if (string.IsNullOrEmpty(txtNum1.Text) || string.IsNullOrEmpty(txtNum2.Text) ||
-                    string.IsNullOrEmpty(txtNum3.Text) || string.IsNullOrEmpty(txtNum4.Text))
+                if (string.IsNullOrEmpty(txtIP.Text))
                 {
                     XtraMessageBox.Show("请填写完整的IP地址!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtNum1.Focus();
+                    txtIP.Focus();
                     return false;
                 }
             }
@@ -744,14 +721,8 @@ namespace SmartWaterSystem
             cbPreConfig.Enabled = true;
             cbPreConfig.SelectedIndex = -1;
             ceIP.Enabled = true;
-            txtNum1.Enabled = true;
-            txtNum1.Text = "";
-            txtNum2.Enabled = true;
-            txtNum2.Text = "";
-            txtNum3.Enabled = true;
-            txtNum3.Text = "";
-            txtNum4.Enabled = true;
-            txtNum4.Text = "";
+            txtIP.Enabled = true;
+            txtIP.Text = "";
             cePort.Enabled = true;
             txtPort.Enabled = true;
             txtPort.Text = "";
@@ -761,10 +732,7 @@ namespace SmartWaterSystem
         {
             if (!ceIP.Checked)
             {
-                txtNum1.Text = "";
-                txtNum2.Text = "";
-                txtNum3.Text = "";
-                txtNum4.Text = "";
+                txtIP.Text = "";
             }
         }
 

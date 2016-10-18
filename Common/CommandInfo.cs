@@ -705,6 +705,18 @@ namespace Common
         /// </summary>
         RESET = 0x16,
         /// <summary>
+        /// 设置通讯时间
+        /// </summary>
+        SET_COMTIME= 0x17,
+        /// <summary>
+        /// 设置压力量程
+        /// </summary>
+        SET_PRERANGE=0x18,
+        /// <summary>
+        /// 设置压力偏移值
+        /// </summary>
+        SET_PREOFFSET= 0x19,
+        /// <summary>
         /// 设置时间
         /// </summary>
         SET_TIME = 0x10,
@@ -747,6 +759,22 @@ namespace Common
         /// 读取端口号
         /// </summary>
         READ_PORT = 0x43,
+        /// <summary>
+        /// 读取通讯时间
+        /// </summary>
+        READ_COMTIME= 0x47,
+        /// <summary>
+        /// 读取压力量程
+        /// </summary>
+        READ_PRERANGE = 0x48,
+        /// <summary>
+        /// 读取压力偏移量
+        /// </summary>
+        READ_PREOFFSET = 0x49,
+        /// <summary>
+        /// 读取压力实时数据
+        /// </summary>
+        READ_REALTIMEDATA = 0x4A,
         /// <summary>
         /// 读取电话号码
         /// </summary>
