@@ -109,7 +109,7 @@ namespace DAL
             SQLHelper.ExecuteNonQuery(SQL, null);
         }
 
-        public List<HydrantEntity> GetHydrantDetail(string HydrantID, int opt, DateTime minTime, DateTime maxTime, int interval)
+        public List<HydrantDataDetailEntity> GetHydrantDetail(string HydrantID, int opt, DateTime minTime, DateTime maxTime, int interval)
         {
             string SQL = @"SELECT Operate,PressValue,OpenAngle,CollTime FROM Hydrant_Real 
   WHERE CollTime BETWEEN @mintime AND @maxtime AND DATEDIFF(minute,@mintime,CollTime) %@interval = 0 AND TerminalID=@TerId ";
@@ -131,13 +131,13 @@ namespace DAL
 
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, parms))
             {
-                List<HydrantEntity> lstData = new List<HydrantEntity>();
+                List<HydrantDataDetailEntity> lstData = new List<HydrantDataDetailEntity>();
                 while (reader.Read())
                 {
-                    HydrantEntity entity = new HydrantEntity();
-                    entity.HydrantID = HydrantID;
+                    HydrantDataDetailEntity entity = new HydrantDataDetailEntity();
+                    entity.ID = HydrantID;
                     entity.OptType = (HydrantOptType)Convert.ToInt32(reader["Operate"]);
-                    entity.PressValue = reader["PressValue"] != DBNull.Value ? Convert.ToSingle(reader["PressValue"]) : 0f;
+                    entity.PressValue = reader["PressValue"] != DBNull.Value ? Convert.ToSingle(reader["PressValue"]) : -1f;
                     entity.OpenAngle = reader["OpenAngle"] != DBNull.Value ? Convert.ToInt32(reader["OpenAngle"]) : 0;
                     entity.CollTime = reader["CollTime"] != DBNull.Value ? Convert.ToDateTime(reader["CollTime"]).ToString("yyyy-MM-dd HH:mm") : ConstValue.MinDateTime.ToString("yyyy-MM-dd HH:mm");
 
@@ -145,7 +145,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
     }
 }

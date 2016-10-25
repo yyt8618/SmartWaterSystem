@@ -18,6 +18,6 @@ namespace Entity
         /// <summary>
         /// 消防栓数据明细
         /// </summary>
-        public List<HydrantEntity> lstData = new List<HydrantEntity>();
+        public List<HydrantDataDetailEntity> lstData = new List<HydrantDataDetailEntity>();
     }
 }

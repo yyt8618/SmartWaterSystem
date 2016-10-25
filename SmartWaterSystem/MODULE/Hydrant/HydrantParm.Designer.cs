@@ -31,6 +31,7 @@ namespace SmartWaterSystem
         {
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.seComTime = new DevExpress.XtraEditors.SpinEdit();
             this.SwitchEnable = new DevExpress.XtraEditors.ToggleSwitch();
@@ -71,7 +72,6 @@ namespace SmartWaterSystem
             this.rgOpt = new DevExpress.XtraEditors.RadioGroup();
             this.btnReadHistory = new DevExpress.XtraEditors.SimpleButton();
             this.btnReset = new DevExpress.XtraEditors.SimpleButton();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seComTime.Properties)).BeginInit();
@@ -148,6 +148,15 @@ namespace SmartWaterSystem
             this.label1.Size = new System.Drawing.Size(29, 14);
             this.label1.TabIndex = 22;
             this.label1.Text = "MPa";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(314, 79);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 14);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "MPa";
             // 
             // label5
             // 
@@ -237,7 +246,7 @@ namespace SmartWaterSystem
     "1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]" +
     "|1[0-9][0-9]|[1-9]?[0-9])";
             this.txtIP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtIP.Properties.MaxLength = 12;
+            this.txtIP.Properties.MaxLength = 15;
             this.txtIP.Size = new System.Drawing.Size(120, 20);
             this.txtIP.TabIndex = 11;
             // 
@@ -562,15 +571,6 @@ namespace SmartWaterSystem
             this.btnReset.TabIndex = 5;
             this.btnReset.Text = "设备复位";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(314, 79);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 14);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "MPa";
             // 
             // HydrantParm
             // 

@@ -203,7 +203,7 @@ namespace GCGPRSService
                         break;
                     case (uint)SQLType.InsertHydrantValue:
                         {
-                            #region 保存水质终端数据帧至数据库
+                            #region 保存消防栓数据帧至数据库
                             result = dataBll.InsertGPRSHydrantData(GlobalValue.Instance.GPRS_HydrantFrameData, out msg);
                             #endregion
                         }

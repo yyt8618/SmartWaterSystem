@@ -104,7 +104,7 @@ namespace BLL
             }
         }
 
-        public List<HydrantEntity> GetHydrantDetail(string HydrantID, int opt, DateTime minTime, DateTime maxTime, int interval)
+        public List<HydrantDataDetailEntity> GetHydrantDetail(string HydrantID, int opt, DateTime minTime, DateTime maxTime, int interval)
         {
             try
             {
