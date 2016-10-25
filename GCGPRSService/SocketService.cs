@@ -734,10 +734,10 @@ namespace GCGPRSService
                                                 alarm += "压力2斜率下限报警";
 
                                             /****************************************宿州校准压力值********************************************/
-                                            double[] RectifyValue = new double[] {  //修偏数组
-                                                -0.009, 0, -0.03, 0.013, -0.029, -0.029, 0, 0, 0, -0.011,
-                                                -0.008, -0.026, -0.009, -0.006, -0.009, -0.021, 0, -0.01, 0, -0.01,
-                                                -0.007, -0.019, -0.021, -0.04, -0.01, -0.007, -0.014, -0.013, 0, -0.023 };
+                                            //double[] RectifyValue = new double[] {  //修偏数组
+                                            //    -0.009, 0, -0.03, 0.013, -0.029, -0.029, 0, 0, 0, -0.011,
+                                            //    -0.008, -0.026, -0.009, -0.006, -0.009, -0.021, 0, -0.01, 0, -0.01,
+                                            //    -0.007, -0.019, -0.021, -0.04, -0.01, -0.007, -0.014, -0.013, 0, -0.023 };
                                             /**************************************************************************************************/
 
                                             preFlag = Convert.ToInt16(pack.Data[2]);
@@ -765,7 +765,7 @@ namespace GCGPRSService
                                                 float TmpRectifyValue = 0;
                                                 if (pack.ID > 0 && pack.ID <= 30)
                                                 {
-                                                    TmpRectifyValue = (float)RectifyValue[pack.ID - 1];
+                                                    //TmpRectifyValue = (float)RectifyValue[pack.ID - 1];
                                                     pressuevalue += TmpRectifyValue;
                                                     if (pressuevalue < 0)
                                                         pressuevalue = 0;
@@ -1708,8 +1708,8 @@ namespace GCGPRSService
                                         if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPEN)
                                         {
                                             int openangle = Convert.ToInt16(pack.Data[6]);
-                                            float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0) / 3;
-                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}",
+                                            float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0) / 1000;
+                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}MPa",
                                                     pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"))));
                                             data.Operate = HydrantOptType.Open;
                                             data.PreValue = prevalue;
@@ -1770,11 +1770,11 @@ namespace GCGPRSService
                                             }
                                             if(pack.Data[10] == 0x01)       //压力标志,0x01:表示有配置压力
                                             {
-                                                float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[12], pack.Data[11] }, 0) / 3;
+                                                float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[12], pack.Data[11] }, 0) / 1000;
                                                 data.PreValue = prevalue;
                                                 strprevalue = prevalue.ToString();
                                             }
-                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]定时报|时间({1})|状态:{2}|开度:{3}|压力:{4}",
+                                            OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]定时报|时间({1})|状态:{2}|开度:{3}|压力:{4}MPa",
                                                     pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, strstate, stropenangle, strprevalue)));
                                         }
 

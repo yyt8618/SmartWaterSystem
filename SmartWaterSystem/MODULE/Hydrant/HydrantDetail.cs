@@ -42,13 +42,15 @@ namespace SmartWaterSystem
                 string openangle = "";
                 for (int i = 0; i < lstData.Count; i++)
                 {
-                    pressvalue ="---";
+                    if (lstData[i].PressValue >= 0)
+                        pressvalue = lstData[i].PressValue.ToString();
+                    else
+                        pressvalue = "---";
                     openangle ="---";
                     switch (lstData[i].OptType)
                     {
                         case HydrantOptType.Open:
                             str_opt = "打开";
-                            pressvalue = lstData[i].PressValue.ToString();
                             openangle = lstData[i].OpenAngle.ToString();
                             break;
                         case HydrantOptType.Close:

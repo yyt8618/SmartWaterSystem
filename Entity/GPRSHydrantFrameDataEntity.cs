@@ -64,7 +64,7 @@ namespace Entity
             set { _Operate = value; }
         }
 
-        private float _preValue = 0f;
+        private float _preValue = -1f;
         /// <summary>
         /// 压力
         /// </summary>
