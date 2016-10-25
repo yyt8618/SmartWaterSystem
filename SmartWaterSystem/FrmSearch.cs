@@ -20,12 +20,16 @@ namespace SmartWaterSystem
 
         public string KeyText
         {
-            set { txtContent.Text = value; }
+            set {
+                string strvalue = value;
+                strvalue= strvalue.Trim(new char[] { '\r', '\n' });
+                txtContent.Text = strvalue;
+            }
         }
 
         private void FrmSearch_Load(object sender, EventArgs e)
         {
-            btnSearchNext.Enabled = false;
+            btnSearchNext.Enabled = !string.IsNullOrEmpty(txtContent.Text);
         }
 
         private void btnSearchNext_Click(object sender, EventArgs e)
