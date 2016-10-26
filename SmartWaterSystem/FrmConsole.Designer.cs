@@ -39,11 +39,6 @@ namespace SmartWaterSystem
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.treeListLookUpEdit1 = new DevExpress.XtraEditors.TreeListLookUpEdit();
-            this.treeListLookUpEdit1TreeList = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.checkedComboBoxEdit1 = new DevExpress.XtraEditors.CheckedComboBoxEdit();
             this.comboToolBox = new DevExpress.XtraEditors.ComboBoxEdit();
             this.comboSocketServer = new DevExpress.XtraEditors.ComboBoxEdit();
             this.picBoxLog = new System.Windows.Forms.PictureBox();
@@ -56,14 +51,15 @@ namespace SmartWaterSystem
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+            this.treeSocketType = new DevExpress.XtraEditors.TreeListLookUpEdit();
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListLookUpEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListLookUpEdit1TreeList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClear
@@ -173,8 +169,7 @@ namespace SmartWaterSystem
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.panel1.Controls.Add(this.treeListLookUpEdit1);
-            this.panel1.Controls.Add(this.checkedComboBoxEdit1);
+            this.panel1.Controls.Add(this.treeSocketType);
             this.panel1.Controls.Add(this.comboToolBox);
             this.panel1.Controls.Add(this.comboSocketServer);
             this.panel1.Controls.Add(this.picBoxLog);
@@ -192,72 +187,6 @@ namespace SmartWaterSystem
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(878, 32);
             this.panel1.TabIndex = 0;
-            // 
-            // treeListLookUpEdit1
-            // 
-            this.treeListLookUpEdit1.Location = new System.Drawing.Point(253, 5);
-            this.treeListLookUpEdit1.Name = "treeListLookUpEdit1";
-            this.treeListLookUpEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.treeListLookUpEdit1.Properties.TreeList = this.treeListLookUpEdit1TreeList;
-            this.treeListLookUpEdit1.Size = new System.Drawing.Size(69, 20);
-            this.treeListLookUpEdit1.TabIndex = 11;
-            this.treeListLookUpEdit1.Visible = false;
-            // 
-            // treeListLookUpEdit1TreeList
-            // 
-            this.treeListLookUpEdit1TreeList.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn1,
-            this.treeListColumn2});
-            this.treeListLookUpEdit1TreeList.Location = new System.Drawing.Point(0, 0);
-            this.treeListLookUpEdit1TreeList.Name = "treeListLookUpEdit1TreeList";
-            this.treeListLookUpEdit1TreeList.OptionsBehavior.EnableFiltering = true;
-            this.treeListLookUpEdit1TreeList.OptionsView.ShowIndentAsRowStyle = true;
-            this.treeListLookUpEdit1TreeList.Size = new System.Drawing.Size(400, 200);
-            this.treeListLookUpEdit1TreeList.TabIndex = 0;
-            // 
-            // treeListColumn1
-            // 
-            this.treeListColumn1.Caption = "treeListColumn1";
-            this.treeListColumn1.FieldName = "treeListColumn1";
-            this.treeListColumn1.Name = "treeListColumn1";
-            this.treeListColumn1.Visible = true;
-            this.treeListColumn1.VisibleIndex = 0;
-            // 
-            // treeListColumn2
-            // 
-            this.treeListColumn2.Caption = "treeListColumn2";
-            this.treeListColumn2.FieldName = "treeListColumn2";
-            this.treeListColumn2.Name = "treeListColumn2";
-            this.treeListColumn2.Visible = true;
-            this.treeListColumn2.VisibleIndex = 1;
-            // 
-            // checkedComboBoxEdit1
-            // 
-            this.checkedComboBoxEdit1.EditValue = "";
-            this.checkedComboBoxEdit1.Location = new System.Drawing.Point(224, 6);
-            this.checkedComboBoxEdit1.Name = "checkedComboBoxEdit1";
-            this.checkedComboBoxEdit1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.checkedComboBoxEdit1.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.checkedComboBoxEdit1.Properties.Appearance.Options.UseBackColor = true;
-            this.checkedComboBoxEdit1.Properties.Appearance.Options.UseForeColor = true;
-            this.checkedComboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.checkedComboBoxEdit1.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "数据帧(socket)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "压力流量终端(socket)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "压力控制器(socket)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "通用终端(socket)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "水质终端(socket)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "消防栓(socket)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "噪声远传(socket)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "水厂(socket)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "手机"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "串口"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "错误")});
-            this.checkedComboBoxEdit1.Size = new System.Drawing.Size(22, 20);
-            this.checkedComboBoxEdit1.TabIndex = 10;
-            this.checkedComboBoxEdit1.Visible = false;
             // 
             // comboToolBox
             // 
@@ -417,6 +346,42 @@ namespace SmartWaterSystem
             this.barDockControlRight.Location = new System.Drawing.Point(878, 0);
             this.barDockControlRight.Size = new System.Drawing.Size(0, 492);
             // 
+            // treeSocketType
+            // 
+            this.treeSocketType.Location = new System.Drawing.Point(224, 4);
+            this.treeSocketType.Name = "treeSocketType";
+            this.treeSocketType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.treeSocketType.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.treeSocketType.Properties.Appearance.Options.UseBackColor = true;
+            this.treeSocketType.Properties.Appearance.Options.UseForeColor = true;
+            this.treeSocketType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.treeSocketType.Properties.NullText = "请选择";
+            this.treeSocketType.Properties.TreeList = this.treeList1;
+            this.treeSocketType.Size = new System.Drawing.Size(98, 20);
+            this.treeSocketType.TabIndex = 16;
+            this.treeSocketType.Visible = false;
+            // 
+            // treeList1
+            // 
+            this.treeList1.Location = new System.Drawing.Point(239, -90);
+            this.treeList1.Name = "treeList1";
+            this.treeList1.OptionsBehavior.Editable = false;
+            this.treeList1.OptionsFilter.AllowFilterEditor = false;
+            this.treeList1.OptionsFind.ShowFindButton = false;
+            this.treeList1.OptionsLayout.AddNewColumns = false;
+            this.treeList1.OptionsMenu.EnableColumnMenu = false;
+            this.treeList1.OptionsMenu.EnableFooterMenu = false;
+            this.treeList1.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.treeList1.OptionsView.ShowCheckBoxes = true;
+            this.treeList1.OptionsView.ShowColumns = false;
+            this.treeList1.OptionsView.ShowIndentAsRowStyle = true;
+            this.treeList1.OptionsView.ShowIndicator = false;
+            this.treeList1.OptionsView.ShowRoot = false;
+            this.treeList1.Size = new System.Drawing.Size(237, 200);
+            this.treeList1.TabIndex = 0;
+            this.treeList1.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Light;
+            // 
             // FrmConsole
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
@@ -444,13 +409,12 @@ namespace SmartWaterSystem
             this.Load += new System.EventHandler(this.FrmConsole_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListLookUpEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListLookUpEdit1TreeList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -476,12 +440,9 @@ namespace SmartWaterSystem
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
         private Button btnPause;
         private DevExpress.XtraEditors.ComboBoxEdit comboSocketServer;
-        private DevExpress.XtraEditors.CheckedComboBoxEdit checkedComboBoxEdit1;
         private DevExpress.XtraEditors.ComboBoxEdit comboToolBox;
         private PictureBox picBoxLog;
-        private DevExpress.XtraEditors.TreeListLookUpEdit treeListLookUpEdit1;
-        private DevExpress.XtraTreeList.TreeList treeListLookUpEdit1TreeList;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
+        private DevExpress.XtraEditors.TreeListLookUpEdit treeSocketType;
+        private DevExpress.XtraTreeList.TreeList treeList1;
     }
 }
