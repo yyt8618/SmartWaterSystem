@@ -169,7 +169,7 @@ namespace GCGPRSService
 
             #region 正向流量
             //前向流量整数部分
-            forwardflow = BitConverter.ToSingle(new byte[] { data[startindex + 9], data[startindex + 8], data[startindex + 7], data[startindex + 6] }, 0);
+            forwardflow = BitConverter.ToInt32(new byte[] { data[startindex + 9], data[startindex + 8], data[startindex + 7], data[startindex + 6] }, 0);
             //前向流量小数部分
             forwardflow += BitConverter.ToSingle(new byte[] { data[startindex + 13], data[startindex + 12], data[startindex + 11], data[startindex + 10] }, 0);
             //正向流量单位
@@ -215,7 +215,7 @@ namespace GCGPRSService
 
             #region 反向流量
             //反向流量整数部分
-            reverseflow = BitConverter.ToSingle(new byte[] { data[startindex + 19], data[startindex + 18], data[startindex + 17], data[startindex + 16] }, 0);
+            reverseflow = BitConverter.ToInt32(new byte[] { data[startindex + 19], data[startindex + 18], data[startindex + 17], data[startindex + 16] }, 0);
             //反向流量小数部分
             reverseflow += BitConverter.ToSingle(new byte[] { data[startindex + 23], data[startindex + 22], data[startindex + 21], data[startindex + 20] }, 0);
             //反向流量单位

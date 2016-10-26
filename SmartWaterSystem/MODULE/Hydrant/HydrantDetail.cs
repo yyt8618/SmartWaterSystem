@@ -10,7 +10,7 @@ namespace SmartWaterSystem
     public partial class HydrantDetail : DevExpress.XtraEditors.XtraForm
     {
         HydrantBLL dataBll = new HydrantBLL();
-        List<HydrantEntity> lstData = null;
+        List<HydrantDataDetailEntity> lstData = null;
         public static string HydrantID = "";
 
         public HydrantDetail()

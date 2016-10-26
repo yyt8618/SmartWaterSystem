@@ -1772,7 +1772,7 @@ namespace GCGPRSService
                                             {
                                                 float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[12], pack.Data[11] }, 0) / 1000;
                                                 data.PreValue = prevalue;
-                                                strprevalue = prevalue.ToString();
+                                                strprevalue = prevalue.ToString()+"MPa";
                                             }
                                             OnSendMsg(new SocketEventArgs(string.Format("消防栓[{0}]定时报|时间({1})|状态:{2}|开度:{3}|压力:{4}MPa",
                                                     pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, strstate, stropenangle, strprevalue)));

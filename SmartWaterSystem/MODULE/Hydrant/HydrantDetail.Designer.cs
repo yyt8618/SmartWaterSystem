@@ -206,7 +206,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(43, 14);
             this.label5.TabIndex = 7;
-            this.label5.Text = "动作：";
+            this.label5.Text = "状态：";
             // 
             // HydrantDetail
             // 

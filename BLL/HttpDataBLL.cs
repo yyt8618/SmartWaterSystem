@@ -270,10 +270,10 @@ namespace BLL
                 {
                     maxTime=Convert.ToDateTime(data.maxtime);
                 }
-                if(((maxTime - minTime)).TotalDays >5)
+                if(((maxTime - minTime)).TotalDays >30)
                 {
                     resp.code = -1;
-                    resp.msg = "查询区间不能超过5天";
+                    resp.msg = "查询区间不能超过30天";
                 }
                 resp.lstData= Hybll.GetHydrantDetail(data.id, data.opt, minTime, maxTime, data.interval);
             }
