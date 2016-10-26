@@ -6,6 +6,8 @@ using System.IO;
 using Common;
 using System.Text;
 using System.Diagnostics;
+using System.Data;
+using DevExpress.XtraTreeList.Nodes;
 
 namespace SmartWaterSystem
 {
@@ -40,6 +42,8 @@ namespace SmartWaterSystem
             txtControl.SelectedText = "";
 
             UpdateSocketList();
+
+            Inittree();
         }
 
         private void SocketMgr_SocketConnEvent(object sender, SocketStatusEventArgs e)
@@ -528,11 +532,195 @@ namespace SmartWaterSystem
             }
             finally
             {
-                sw.Close();
+                sw.Close(); 
             }
         }
 
         #endregion
 
+        #region treeSocketType
+        private void Inittree()
+        {
+            DataTable dttree = new DataTable();
+            dttree.Columns.Add("ID",typeof(int));
+            dttree.Columns.Add("Name");
+            dttree.Columns.Add("ParentID", typeof(int));
+
+            int i = 1,tmpparent=-1;
+            DataRow dr = dttree.NewRow();
+            dr["ID"] = -99;
+            dr["Name"] = "全部";
+            dr["ParentID"] = -999;
+            dttree.Rows.Add(dr);
+
+            dr = dttree.NewRow();
+            dr["ID"] = -1;
+            dr["Name"] = "远传";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = -2;
+            dr["Name"] = "手机";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = -3;
+            dr["Name"] = "串口";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = -4;
+            dr["Name"] = "错误";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+
+            dr = dttree.NewRow();
+            dr["ID"] = i;
+            dr["Name"] = "公共";
+            dr["ParentID"] = -1;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "错误";
+            dr["ParentID"] = -1;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "解析失败";
+            dr["ParentID"] = -1;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "数据帧";
+            dr["ParentID"] = -1;
+            dttree.Rows.Add(dr);
+            
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            tmpparent = i;
+            dr["Name"] = "终端";
+            dr["ParentID"] = -1;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "噪声终端";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "压力流量终端";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "通用终端";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "阀门开度控制器";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "在线水质终端";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "消防栓";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "水厂数据";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            
+            treeSocketType.Properties.DataSource = dttree;
+            treeSocketType.Properties.ValueMember = "ID";
+            treeSocketType.Properties.DisplayMember = "Name";
+
+            treeSocketType.Properties.TreeList.ParentFieldName = "ParentID";
+            treeSocketType.Properties.TreeList.KeyFieldName = "ID";
+
+            if(treeSocketType.Properties.TreeList.Nodes!= null)
+            {
+                foreach (TreeListNode node in treeSocketType.Properties.TreeList.GetNodeList())
+                {
+                    node.Checked = true;
+                }
+            }
+
+            treeSocketType.Properties.TreeList.AfterCheckNode += (s, a) =>
+            {
+                a.Node.Selected = true;
+                //DataRowView drv = tlOffice.Properties.TreeList.GetDataRecordByNode(node) as DataRowView;//关键代码，就是不知道是这样获取数据而纠结了很久(可以转换为DataRowView啊)
+                UpdateParentNodesCheckstate(a.Node, a.Node.Checked);
+                UpdateChildsNodesCheckstate(a.Node, a.Node.Checked);
+            };
+        }
+
+        /// <summary>
+        /// 更新父节点的选中状态
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="Checked"></param>
+        private void UpdateParentNodesCheckstate(TreeListNode node,bool Checked)
+        {
+            if(node.ParentNode!=null)
+            {
+                
+                bool childcheck=false, childuncheck = false;    //除去自身是否有选择或未选中的孩子节点
+                foreach (TreeListNode child in node.ParentNode.Nodes)
+                {
+                    if (child.CheckState != CheckState.Unchecked)
+                        childcheck = true;
+                    else
+                        childuncheck = true;
+                }
+                if (Checked)   //如果当前节点选中,则父节点需要改变为中间态或者选中状态
+                {
+                    if (childuncheck)
+                        node.ParentNode.CheckState = CheckState.Indeterminate;
+                    else
+                        node.ParentNode.CheckState = CheckState.Checked;
+                }
+                else
+                {
+                    if (childcheck)
+                        node.ParentNode.CheckState = CheckState.Indeterminate;
+                    else
+                        node.ParentNode.CheckState = CheckState.Unchecked;
+                }
+                UpdateParentNodesCheckstate(node.ParentNode, Checked);
+            }
+        }
+
+        /// <summary>
+        /// 更新孩子节点的选中状态
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="Checked"></param>
+        private void UpdateChildsNodesCheckstate(TreeListNode node, bool Checked)
+        {
+            if (node.Nodes != null && node.Nodes.Count > 0)
+            {
+                foreach (TreeListNode child in node.Nodes)
+                {
+                    if (Checked)
+                        child.CheckState = CheckState.Checked;
+                    else
+                        child.CheckState = CheckState.Unchecked;
+
+                    UpdateChildsNodesCheckstate(child, Checked);
+                }
+                if (Checked)
+                    node.CheckState = CheckState.Checked;
+                else
+                    node.CheckState = CheckState.Unchecked;
+            }
+        }
+        #endregion
     }
 }
