@@ -56,9 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProc\Protol68.cs" />
     <Compile Include="GlobalValue.cs" />
     <Compile Include="HTTPService.cs" />
-    <Compile Include="KERTFlow.cs" />
+    <Compile Include="DataProc\KERTFlow.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
