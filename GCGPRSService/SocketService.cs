@@ -94,9 +94,9 @@ namespace GCGPRSService
         {
             lock (obj_smartsocket)
             {
+                string msg = JSONSerialize.JsonSerialize_Newtonsoft(e.JsonMsg);
                 foreach (SmartSocketEntity smartsock in lstSmartClient)
                 {
-                    string msg = JSONSerialize.JsonSerialize_Newtonsoft(e.JsonMsg);
                     if (!SocketSend(smartsock.ClientSocket, msg, false))
                     {
                         smartsock.MsgBuff.Add(msg);  //缓存发送失败的消息,在下次心跳到来的时候重发
@@ -3156,10 +3156,17 @@ namespace GCGPRSService
                     return true;
                 if(!SocketHelper.IsSocketConnected_Poll(sock))
                 {
+                    sock = null;    //释放
                     return false;
                 }
-                entitymsg = SocketHelper.SocketMsgSplit + entitymsg + SocketHelper.SocketMsgSplit;
-                byte[] bs = Encoding.UTF8.GetBytes(entitymsg);
+                
+                StringBuilder newmsg = new StringBuilder(entitymsg.Length+2* SocketHelper.SocketMsgSplit.Length);
+                newmsg.Append(SocketHelper.SocketMsgSplit);
+                newmsg.Append(entitymsg);
+                newmsg.Append(SocketHelper.SocketMsgSplit);
+                //entitymsg = SocketHelper.SocketMsgSplit + entitymsg + SocketHelper.SocketMsgSplit;
+                //byte[] bs = Encoding.UTF8.GetBytes(entitymsg);
+                byte[] bs = Encoding.UTF8.GetBytes(newmsg.ToString());
 
                 SendObject sendObj = new SendObject();
                 sendObj.workSocket = sock;

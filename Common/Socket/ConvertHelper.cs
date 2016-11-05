@@ -266,27 +266,36 @@ namespace Common
 
         public static string ByteToString(byte[] lstByte, int len)
         {
-            string StringOut = "";
-            for (int i = 0; i < len; i++)
-            {
-                StringOut = StringOut + String.Format("{0:X2} ", lstByte[i]);
-            }
-            return StringOut;
+            //string StringOut = "";
+            //for (int i = 0; i < len; i++)
+            //{
+            //    StringOut = StringOut + String.Format("{0:X2} ", lstByte[i]);
+            //}
+            //return StringOut;
+
+            string hex = BitConverter.ToString(lstByte,0,len);
+            return hex.Replace("-", " ");
         }
 
         public static byte[] StringToByte(string InString)
         {
-            InString = InString.Trim();
-            List<Byte> lstBt = new List<byte>();
-            for (int i = 0; i <= InString.Length - 1; i += 2)
-            {
-                if (((i+1) <= InString.Length - 1) && InString[i] == ' ')
-                {
-                    i++;
-                }
-                lstBt.Add(Convert.ToByte(("0x" + InString[i] + InString[i + 1]), 16));
-            }
-            return lstBt.ToArray();
+            //InString = InString.Trim();
+            //List<Byte> lstBt = new List<byte>();
+            //for (int i = 0; i <= InString.Length - 1; i += 2)
+            //{
+            //    if (((i+1) <= InString.Length - 1) && InString[i] == ' ')
+            //    {
+            //        i++;
+            //    }
+            //    lstBt.Add(Convert.ToByte(("0x" + InString[i] + InString[i + 1]), 16));
+            //}
+            //return lstBt.ToArray();
+            string hex = InString.Replace(" ", "");
+            int NumberChars = hex.Length;
+            byte[] bytes = new byte[NumberChars / 2];
+            for (int i = 0; i < NumberChars; i += 2)
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            return bytes;
         }
     }
 }

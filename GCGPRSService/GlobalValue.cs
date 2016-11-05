@@ -33,21 +33,6 @@ namespace GCGPRSService
         /// </summary>
         public List<string> lstStartRecord = new List<string>();
         public string SmartWaterHeartBeatName = "heartbeat";
-        private byte[] _SmartWaterHeartBeat = null;
-        /// <summary>
-        /// SmartWaterSystem程序心跳包
-        /// </summary>
-        public byte[] SmartWaterHeartBeat
-        {
-            get
-            {
-                if (_SmartWaterHeartBeat == null)
-                {
-                    _SmartWaterHeartBeat = Encoding.UTF8.GetBytes(SmartWaterHeartBeatName);
-                }
-                return _SmartWaterHeartBeat;
-            }
-        }
 
         /// <summary>
         /// HTTP 服务

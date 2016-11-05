@@ -32,6 +32,8 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                SqlCommand command_frame = new SqlCommand();
+                SqlCommand command_predata = new SqlCommand();
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -42,7 +44,7 @@ namespace DAL
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
+                    //SqlCommand command_frame = new SqlCommand();
                     command_frame.CommandText = SQL_Frame;
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
@@ -57,7 +59,7 @@ namespace DAL
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
                     new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
-                    SqlCommand command_predata = new SqlCommand();
+                    //SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_PreData;
                     command_predata.Parameters.AddRange(parms_predata);
                     command_predata.CommandType = CommandType.Text;
@@ -103,7 +105,6 @@ namespace DAL
                         }
                     }
                     //trans.Commit();
-
                     return 1;
                 }
                 catch (Exception ex)
@@ -111,6 +112,15 @@ namespace DAL
                     //if (trans != null)
                     //    trans.Rollback();
                     throw ex;
+                }
+                finally
+                {
+                    command_frame.Parameters.Clear();
+                    command_predata.Parameters.Clear();
+                    command_frame.Dispose();
+                    command_frame = null;
+                    command_predata.Dispose();
+                    command_predata = null;
                 }
             }
         }
@@ -120,6 +130,8 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                SqlCommand command_frame = new SqlCommand();
+                SqlCommand command_predata = new SqlCommand();
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -130,7 +142,7 @@ namespace DAL
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
+                    //SqlCommand command_frame = new SqlCommand();
                     command_frame.CommandText = SQL_Frame;
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
@@ -147,7 +159,7 @@ namespace DAL
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
                     new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
-                    SqlCommand command_predata = new SqlCommand();
+                    //SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_PreData;
                     command_predata.Parameters.AddRange(parms_predata);
                     command_predata.CommandType = CommandType.Text;
@@ -203,6 +215,15 @@ namespace DAL
                     //    trans.Rollback();
                     throw ex;
                 }
+                finally
+                {
+                    command_frame.Parameters.Clear();
+                    command_predata.Parameters.Clear();
+                    command_frame.Dispose();
+                    command_frame = null;
+                    command_predata.Dispose();
+                    command_predata = null;
+                }
             }
         }
 
@@ -211,6 +232,8 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                SqlCommand command_frame = new SqlCommand();
+                SqlCommand command_predata = new SqlCommand();
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -221,7 +244,7 @@ namespace DAL
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
+                    //SqlCommand command_frame = new SqlCommand();
                     command_frame.CommandText = SQL_Frame;
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
@@ -244,7 +267,7 @@ namespace DAL
 
                     new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
-                    SqlCommand command_predata = new SqlCommand();
+                    //SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_PrectrlData;
                     command_predata.Parameters.AddRange(parms_predata);
                     command_predata.CommandType = CommandType.Text;
@@ -306,6 +329,15 @@ namespace DAL
                     //    trans.Rollback();
                     throw ex;
                 }
+                finally
+                {
+                    command_frame.Parameters.Clear();
+                    command_predata.Parameters.Clear();
+                    command_frame.Dispose();
+                    command_frame = null;
+                    command_predata.Dispose();
+                    command_predata = null;
+                }
             }
         }
 
@@ -314,6 +346,8 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                SqlCommand command_frame = new SqlCommand();
+                SqlCommand command_predata = new SqlCommand();
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -324,7 +358,7 @@ namespace DAL
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
+                    //SqlCommand command_frame = new SqlCommand();
                     command_frame.CommandText = SQL_Frame;
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
@@ -343,7 +377,7 @@ namespace DAL
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
                     new SqlParameter("@tableid",SqlDbType.Int)
                 };
-                    SqlCommand command_predata = new SqlCommand();
+                    //SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_Data;
                     command_predata.Parameters.AddRange(parms_data);
                     command_predata.CommandType = CommandType.Text;
@@ -390,6 +424,15 @@ namespace DAL
                     //    trans.Rollback();
                     throw ex;
                 }
+                finally
+                {
+                    command_frame.Parameters.Clear();
+                    command_predata.Parameters.Clear();
+                    command_frame.Dispose();
+                    command_frame = null;
+                    command_predata.Dispose();
+                    command_predata = null;
+                }
             }
         }
 
@@ -398,6 +441,8 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                SqlCommand command_frame = new SqlCommand();
+                SqlCommand command_data = new SqlCommand();
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -408,7 +453,7 @@ namespace DAL
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
+                    //SqlCommand command_frame = new SqlCommand();
                     command_frame.CommandText = SQL_Frame;
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
@@ -429,7 +474,7 @@ namespace DAL
                     new SqlParameter("@valuename",SqlDbType.NVarChar),
                     new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
-                    SqlCommand command_data = new SqlCommand();
+                    //SqlCommand command_data = new SqlCommand();
                     command_data.CommandText = SQL_Data;
                     command_data.Parameters.AddRange(parms_predata);
                     command_data.CommandType = CommandType.Text;
@@ -482,6 +527,15 @@ namespace DAL
                     //    trans.Rollback();
                     throw ex;
                 }
+                finally
+                {
+                    command_frame.Parameters.Clear();
+                    command_data.Parameters.Clear();
+                    command_frame.Dispose();
+                    command_frame = null;
+                    command_data.Dispose();
+                    command_data = null;
+                }
             }
         }
 
@@ -490,6 +544,8 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                SqlCommand command_frame = new SqlCommand();
+                SqlCommand command_predata = new SqlCommand();
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -500,7 +556,7 @@ namespace DAL
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
+                    //SqlCommand command_frame = new SqlCommand();
                     command_frame.CommandText = SQL_Frame;
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
@@ -517,7 +573,7 @@ namespace DAL
 
                     new SqlParameter("@UploadTime",SqlDbType.DateTime)
                 };
-                    SqlCommand command_predata = new SqlCommand();
+                    //SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_Data;
                     command_predata.Parameters.AddRange(parms_data);
                     command_predata.CommandType = CommandType.Text;
@@ -565,6 +621,15 @@ namespace DAL
                     //    trans.Rollback();
                     throw ex;
                 }
+                finally
+                {
+                    command_frame.Parameters.Clear();
+                    command_predata.Parameters.Clear();
+                    command_frame.Dispose();
+                    command_frame = null;
+                    command_predata.Dispose();
+                    command_predata = null;
+                }
             }
         }
 
@@ -573,6 +638,8 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                SqlCommand command_frame = new SqlCommand();
+                SqlCommand command_predata = new SqlCommand();
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -583,7 +650,7 @@ namespace DAL
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
+                    //SqlCommand command_frame = new SqlCommand();
                     command_frame.CommandText = SQL_Frame;
                     command_frame.Parameters.AddRange(parms_frame);
                     command_frame.CommandType = CommandType.Text;
@@ -617,7 +684,7 @@ namespace DAL
                     new SqlParameter("@colltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime)
                 };
-                    SqlCommand command_predata = new SqlCommand();
+                    //SqlCommand command_predata = new SqlCommand();
                     command_predata.CommandText = SQL_Data;
                     command_predata.Parameters.AddRange(parms_data);
                     command_predata.CommandType = CommandType.Text;
@@ -682,7 +749,17 @@ namespace DAL
                 {
                     //if (trans != null)
                     //    trans.Rollback();
+
                     throw ex;
+                }
+                finally
+                {
+                    command_frame.Parameters.Clear();
+                    command_predata.Parameters.Clear();
+                    command_frame.Dispose();
+                    command_frame = null;
+                    command_predata.Dispose();
+                    command_predata = null;
                 }
             }
         }
