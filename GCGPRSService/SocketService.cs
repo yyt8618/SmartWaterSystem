@@ -8,6 +8,7 @@ using Entity;
 using System.Data;
 using System.Text;
 using SmartWaterSystem;
+using System.Diagnostics;
 
 namespace GCGPRSService
 {
@@ -520,11 +521,18 @@ namespace GCGPRSService
                                                     else
                                                     {
                                                         lstSmartClient.Add(new SmartSocketEntity(handler, strip, SmartID));
+                                                        SocketEntity mEntity = new SocketEntity();
                                                         foreach (string startrec in GlobalValue.Instance.lstStartRecord)  //将启动的信息发送给新上线的客户端
                                                         {
-                                                            SocketEntity mEntity = new SocketEntity();
                                                             mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Public;
                                                             mEntity.Msg = startrec;
+                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
+                                                        }
+                                                        using (var process = System.Diagnostics.Process.GetCurrentProcess())
+                                                        using (var p1 = new PerformanceCounter("Process", "Working Set - Private", process.ProcessName))
+                                                        {
+                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Public;
+                                                            mEntity.Msg = DateTime.Now.ToString() + " 服务当前专用工作集(" + p1.NextValue() / 1024 + "K),工作设置内存(" + (process.WorkingSet64 / 1024 + "K),提交大小(" + process.PrivateMemorySize64 / 1024) + "K)";
                                                             SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
                                                         }
                                                     }
@@ -1887,6 +1895,7 @@ namespace GCGPRSService
         /// <param name="entitymsg"></param>
         /// <param name="needreply">是否需要重试</param>
         /// <returns></returns>
+        StringBuilder newmsg = new StringBuilder(1024);
         public bool SocketSend(Socket sock, string entitymsg,bool needreply)
         {
             try {
@@ -1897,13 +1906,11 @@ namespace GCGPRSService
                     sock = null;    //释放
                     return false;
                 }
-                
-                StringBuilder newmsg = new StringBuilder(entitymsg.Length+2* SocketHelper.SocketMsgSplit.Length);
+                newmsg.Clear();
+                //StringBuilder newmsg = new StringBuilder(entitymsg.Length+2* SocketHelper.SocketMsgSplit.Length);
                 newmsg.Append(SocketHelper.SocketMsgSplit);
                 newmsg.Append(entitymsg);
                 newmsg.Append(SocketHelper.SocketMsgSplit);
-                //entitymsg = SocketHelper.SocketMsgSplit + entitymsg + SocketHelper.SocketMsgSplit;
-                //byte[] bs = Encoding.UTF8.GetBytes(entitymsg);
                 byte[] bs = Encoding.UTF8.GetBytes(newmsg.ToString());
 
                 SendObject sendObj = new SendObject();
