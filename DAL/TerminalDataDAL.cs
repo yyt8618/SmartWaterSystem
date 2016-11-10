@@ -35,75 +35,84 @@ namespace DAL
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
-
-                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
-                    SqlParameter[] parms_frame = new SqlParameter[]{
+                    using (SqlCommand command_frame = new SqlCommand())
+                    {
+                        string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                        SqlParameter[] parms_frame = new SqlParameter[]{
                 new SqlParameter("@dir",SqlDbType.Int),
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
-                    command_frame.CommandText = SQL_Frame;
-                    command_frame.Parameters.AddRange(parms_frame);
-                    command_frame.CommandType = CommandType.Text;
-                    command_frame.Connection = SQLHelper.Conn;
-                    //command_frame.Transaction = trans;
+                        //SqlCommand command_frame = new SqlCommand();
+                        command_frame.CommandText = SQL_Frame;
+                        command_frame.Parameters.AddRange(parms_frame);
+                        command_frame.CommandType = CommandType.Text;
+                        command_frame.Connection = SQLHelper.Conn;
+                        //command_frame.Transaction = trans;
 
-                    string SQL_PreData = "INSERT INTO Pressure_Real(TerminalID,PressValue,CollTime,UnloadTime,HistoryFlag,Voltage) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0,@Voltage)";
-                    SqlParameter[] parms_predata = new SqlParameter[]{
+                        using (SqlCommand command_predata = new SqlCommand())
+                        {
+                            string SQL_PreData = "INSERT INTO Pressure_Real(TerminalID,PressValue,CollTime,UnloadTime,HistoryFlag,Voltage) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0,@Voltage)";
+                            SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@prevalue",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
                     new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
-                    SqlCommand command_predata = new SqlCommand();
-                    command_predata.CommandText = SQL_PreData;
-                    command_predata.Parameters.AddRange(parms_predata);
-                    command_predata.CommandType = CommandType.Text;
-                    command_predata.Connection = SQLHelper.Conn;
-                    //command_predata.Transaction = trans;
+                            //SqlCommand command_predata = new SqlCommand();
+                            command_predata.CommandText = SQL_PreData;
+                            command_predata.Parameters.AddRange(parms_predata);
+                            command_predata.CommandType = CommandType.Text;
+                            command_predata.Connection = SQLHelper.Conn;
+                            //command_predata.Transaction = trans;
 
-                    //string en_point_id = "";
-                    while (datas.Count > 0)
-                    {
-                        GPRSPreFrameDataEntity entity = null;
-                        try
-                        {
-                            entity = datas.Dequeue();
-                            if (entity == null)
+                            //string en_point_id = "";
+                            while (datas.Count > 0)
                             {
-                                break;
-                            }
-                            parms_frame[0].Value = 1;
-                            parms_frame[1].Value = entity.Frame;
-                            parms_frame[2].Value = entity.ModifyTime;
+                                GPRSPreFrameDataEntity entity = null;
+                                try
+                                {
+                                    entity = datas.Dequeue();
+                                    if (entity == null)
+                                    {
+                                        break;
+                                    }
+                                    parms_frame[0].Value = 1;
+                                    parms_frame[1].Value = entity.Frame;
+                                    parms_frame[2].Value = entity.ModifyTime;
 
-                            command_frame.ExecuteNonQuery();
+                                    command_frame.ExecuteNonQuery();
 
-                            for (int i = 0; i < entity.lstPreData.Count; i++)
-                            {
-                                parms_predata[0].Value = entity.TerId;
-                                parms_predata[1].Value = entity.lstPreData[i].PreValue;
-                                parms_predata[2].Value = entity.lstPreData[i].ColTime;
-                                parms_predata[3].Value = entity.ModifyTime;
-                                if (entity.lstPreData[i].Voltage == -1)
-                                    parms_predata[4].Value = DBNull.Value;
-                                else
-                                    parms_predata[4].Value = entity.lstPreData[i].Voltage;
+                                    for (int i = 0; i < entity.lstPreData.Count; i++)
+                                    {
+                                        parms_predata[0].Value = entity.TerId;
+                                        parms_predata[1].Value = entity.lstPreData[i].PreValue;
+                                        parms_predata[2].Value = entity.lstPreData[i].ColTime;
+                                        parms_predata[3].Value = entity.ModifyTime;
+                                        if (entity.lstPreData[i].Voltage == -1)
+                                            parms_predata[4].Value = DBNull.Value;
+                                        else
+                                            parms_predata[4].Value = entity.lstPreData[i].Voltage;
 
-                                command_predata.ExecuteNonQuery();
+                                        command_predata.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (SqlException sqlex)
+                                {
+                                    throw sqlex;
+                                }
+                                catch (Exception iex)
+                                {
+                                    if (entity != null)
+                                        datas.Enqueue(entity);  //将移除队列的数据放回
+                                    throw iex;
+                                }
                             }
                         }
-                        catch (Exception iex)
-                        {
-                            if (entity != null)
-                                datas.Enqueue(entity);  //将移除队列的数据放回
-                            throw iex;
-                        }
+                        //trans.Commit();
+
                     }
-                    //trans.Commit();
-
                     return 1;
                 }
                 catch (Exception ex)
@@ -123,22 +132,25 @@ namespace DAL
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
-
-                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
-                    SqlParameter[] parms_frame = new SqlParameter[]{
+                    using (SqlCommand command_frame = new SqlCommand())
+                    {
+                        string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                        SqlParameter[] parms_frame = new SqlParameter[]{
                 new SqlParameter("@dir",SqlDbType.Int),
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
-                    command_frame.CommandText = SQL_Frame;
-                    command_frame.Parameters.AddRange(parms_frame);
-                    command_frame.CommandType = CommandType.Text;
-                    command_frame.Connection = SQLHelper.Conn;
-                    //command_frame.Transaction = trans;
+                        //SqlCommand command_frame = new SqlCommand();
+                        command_frame.CommandText = SQL_Frame;
+                        command_frame.Parameters.AddRange(parms_frame);
+                        command_frame.CommandType = CommandType.Text;
+                        command_frame.Connection = SQLHelper.Conn;
+                        //command_frame.Transaction = trans;
 
-                    string SQL_PreData = "INSERT INTO Flow_Real(TerminalID,FlowValue,FlowInverted,FlowInstant,CollTime,UnloadTime,HistoryFlag,Voltage) VALUES(@TerId,@flowvalue,@flowreverse,@flowinstant,@coltime,@UploadTime,0,@Voltage)";
-                    SqlParameter[] parms_predata = new SqlParameter[]{
+                        using (SqlCommand command_predata = new SqlCommand())
+                        {
+                            string SQL_PreData = "INSERT INTO Flow_Real(TerminalID,FlowValue,FlowInverted,FlowInstant,CollTime,UnloadTime,HistoryFlag,Voltage) VALUES(@TerId,@flowvalue,@flowreverse,@flowinstant,@coltime,@UploadTime,0,@Voltage)";
+                            SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@flowvalue",SqlDbType.Decimal),
                     new SqlParameter("@flowreverse",SqlDbType.Decimal),
@@ -147,55 +159,56 @@ namespace DAL
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
                     new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
-                    SqlCommand command_predata = new SqlCommand();
-                    command_predata.CommandText = SQL_PreData;
-                    command_predata.Parameters.AddRange(parms_predata);
-                    command_predata.CommandType = CommandType.Text;
-                    command_predata.Connection = SQLHelper.Conn;
-                    //command_predata.Transaction = trans;
+                            //SqlCommand command_predata = new SqlCommand();
+                            command_predata.CommandText = SQL_PreData;
+                            command_predata.Parameters.AddRange(parms_predata);
+                            command_predata.CommandType = CommandType.Text;
+                            command_predata.Connection = SQLHelper.Conn;
+                            //command_predata.Transaction = trans;
 
-                    //string en_point_id = "";
-                    while (datas.Count > 0)
-                    {
-                        GPRSFlowFrameDataEntity entity = null;
-                        try
-                        {
-                            entity = datas.Dequeue();
-                            if (!string.IsNullOrEmpty(entity.Frame))
+                            //string en_point_id = "";
+                            while (datas.Count > 0)
                             {
-                                parms_frame[0].Value = 1;
-                                parms_frame[1].Value = entity.Frame;
-                                parms_frame[2].Value = entity.ModifyTime;
+                                GPRSFlowFrameDataEntity entity = null;
+                                try
+                                {
+                                    entity = datas.Dequeue();
+                                    if (!string.IsNullOrEmpty(entity.Frame))
+                                    {
+                                        parms_frame[0].Value = 1;
+                                        parms_frame[1].Value = entity.Frame;
+                                        parms_frame[2].Value = entity.ModifyTime;
 
-                                command_frame.ExecuteNonQuery();
-                            }
+                                        command_frame.ExecuteNonQuery();
+                                    }
 
-                            for (int i = 0; i < entity.lstFlowData.Count; i++)
-                            {
-                                parms_predata[0].Value = entity.TerId;
-                                parms_predata[1].Value = entity.lstFlowData[i].Forward_FlowValue;
-                                parms_predata[2].Value = entity.lstFlowData[i].Reverse_FlowValue;
-                                parms_predata[3].Value = entity.lstFlowData[i].Instant_FlowValue;
-                                parms_predata[4].Value = entity.lstFlowData[i].ColTime;
-                                parms_predata[5].Value = entity.ModifyTime;
-                                if (entity.lstFlowData[i].Voltage == -1)
-                                    parms_predata[6].Value = DBNull.Value;
-                                else
-                                    parms_predata[6].Value = entity.lstFlowData[i].Voltage;
+                                    for (int i = 0; i < entity.lstFlowData.Count; i++)
+                                    {
+                                        parms_predata[0].Value = entity.TerId;
+                                        parms_predata[1].Value = entity.lstFlowData[i].Forward_FlowValue;
+                                        parms_predata[2].Value = entity.lstFlowData[i].Reverse_FlowValue;
+                                        parms_predata[3].Value = entity.lstFlowData[i].Instant_FlowValue;
+                                        parms_predata[4].Value = entity.lstFlowData[i].ColTime;
+                                        parms_predata[5].Value = entity.ModifyTime;
+                                        if (entity.lstFlowData[i].Voltage == -1)
+                                            parms_predata[6].Value = DBNull.Value;
+                                        else
+                                            parms_predata[6].Value = entity.lstFlowData[i].Voltage;
 
-                                command_predata.ExecuteNonQuery();
+                                        command_predata.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (Exception iex)
+                                {
+                                    if (entity != null)
+                                        datas.Enqueue(entity);
+                                    throw iex;
+                                }
                             }
                         }
-                        catch (Exception iex)
-                        {
-                            if (entity != null)
-                                datas.Enqueue(entity);
-                            throw iex;
-                        }
+                        //trans.Commit();
                     }
-                    //trans.Commit();
-
-                    return 1;
+                        return 1;
                 }
                 catch (Exception ex)
                 {
@@ -214,22 +227,25 @@ namespace DAL
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
-
-                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
-                    SqlParameter[] parms_frame = new SqlParameter[]{
+                    using (SqlCommand command_frame = new SqlCommand())
+                    {
+                        string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                        SqlParameter[] parms_frame = new SqlParameter[]{
                 new SqlParameter("@dir",SqlDbType.Int),
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
-                    command_frame.CommandText = SQL_Frame;
-                    command_frame.Parameters.AddRange(parms_frame);
-                    command_frame.CommandType = CommandType.Text;
-                    command_frame.Connection = SQLHelper.Conn;
-                    //command_frame.Transaction = trans;
+                        //SqlCommand command_frame = new SqlCommand();
+                        command_frame.CommandText = SQL_Frame;
+                        command_frame.Parameters.AddRange(parms_frame);
+                        command_frame.CommandType = CommandType.Text;
+                        command_frame.Connection = SQLHelper.Conn;
+                        //command_frame.Transaction = trans;
 
-                    string SQL_PrectrlData = "INSERT INTO PreCtrl_Real(TerminalID,Entrance_pre,Outlet_pre,FlowValue,FlowInverted,FlowInstant,AlarmCode,AlarmDesc,CollTime,UnloadTime,Voltage) VALUES(@TerId,@enprevalue,@outletprevalue,@flowvalue,@flowreverse,@flowinstant,@alarmcode,@alarmdesc,@coltime,@UploadTime,@Voltage)";
-                    SqlParameter[] parms_predata = new SqlParameter[]{
+                        using (SqlCommand command_predata = new SqlCommand())
+                        {
+                            string SQL_PrectrlData = "INSERT INTO PreCtrl_Real(TerminalID,Entrance_pre,Outlet_pre,FlowValue,FlowInverted,FlowInstant,AlarmCode,AlarmDesc,CollTime,UnloadTime,Voltage) VALUES(@TerId,@enprevalue,@outletprevalue,@flowvalue,@flowreverse,@flowinstant,@alarmcode,@alarmdesc,@coltime,@UploadTime,@Voltage)";
+                            SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@enprevalue",SqlDbType.Decimal),
                     new SqlParameter("@outletprevalue",SqlDbType.Decimal),
@@ -244,60 +260,61 @@ namespace DAL
 
                     new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
-                    SqlCommand command_predata = new SqlCommand();
-                    command_predata.CommandText = SQL_PrectrlData;
-                    command_predata.Parameters.AddRange(parms_predata);
-                    command_predata.CommandType = CommandType.Text;
-                    command_predata.Connection = SQLHelper.Conn;
-                    //command_predata.Transaction = trans;
+                            //SqlCommand command_predata = new SqlCommand();
+                            command_predata.CommandText = SQL_PrectrlData;
+                            command_predata.Parameters.AddRange(parms_predata);
+                            command_predata.CommandType = CommandType.Text;
+                            command_predata.Connection = SQLHelper.Conn;
+                            //command_predata.Transaction = trans;
 
-                    //string en_point_id = "";
-                    while (datas.Count > 0)
-                    {
-                        GPRSPrectrlFrameDataEntity entity = null;
-                        try
-                        {
-                            entity = datas.Dequeue();
-                            if (!string.IsNullOrEmpty(entity.Frame))
+                            //string en_point_id = "";
+                            while (datas.Count > 0)
                             {
-                                parms_frame[0].Value = 1;
-                                parms_frame[1].Value = entity.Frame;
-                                parms_frame[2].Value = entity.ModifyTime;
+                                GPRSPrectrlFrameDataEntity entity = null;
+                                try
+                                {
+                                    entity = datas.Dequeue();
+                                    if (!string.IsNullOrEmpty(entity.Frame))
+                                    {
+                                        parms_frame[0].Value = 1;
+                                        parms_frame[1].Value = entity.Frame;
+                                        parms_frame[2].Value = entity.ModifyTime;
 
-                                command_frame.ExecuteNonQuery();
-                            }
+                                        command_frame.ExecuteNonQuery();
+                                    }
 
-                            for (int i = 0; i < entity.lstPrectrlData.Count; i++)
-                            {
-                                parms_predata[0].Value = entity.TerId;
-                                parms_predata[1].Value = entity.lstPrectrlData[i].Entrance_preValue;
-                                parms_predata[2].Value = entity.lstPrectrlData[i].Outlet_preValue;
-                                parms_predata[3].Value = entity.lstPrectrlData[i].Forward_FlowValue;
-                                parms_predata[4].Value = entity.lstPrectrlData[i].Reverse_FlowValue;
+                                    for (int i = 0; i < entity.lstPrectrlData.Count; i++)
+                                    {
+                                        parms_predata[0].Value = entity.TerId;
+                                        parms_predata[1].Value = entity.lstPrectrlData[i].Entrance_preValue;
+                                        parms_predata[2].Value = entity.lstPrectrlData[i].Outlet_preValue;
+                                        parms_predata[3].Value = entity.lstPrectrlData[i].Forward_FlowValue;
+                                        parms_predata[4].Value = entity.lstPrectrlData[i].Reverse_FlowValue;
 
-                                parms_predata[5].Value = entity.lstPrectrlData[i].Instant_FlowValue;
-                                parms_predata[6].Value = entity.lstPrectrlData[i].AlarmCode;
-                                parms_predata[7].Value = entity.lstPrectrlData[i].AlarmDesc;
-                                parms_predata[8].Value = entity.lstPrectrlData[i].ColTime;
-                                parms_predata[9].Value = DateTime.Now;
+                                        parms_predata[5].Value = entity.lstPrectrlData[i].Instant_FlowValue;
+                                        parms_predata[6].Value = entity.lstPrectrlData[i].AlarmCode;
+                                        parms_predata[7].Value = entity.lstPrectrlData[i].AlarmDesc;
+                                        parms_predata[8].Value = entity.lstPrectrlData[i].ColTime;
+                                        parms_predata[9].Value = DateTime.Now;
 
-                                if (entity.lstPrectrlData[i].Voltage == -1)
-                                    parms_predata[10].Value = DBNull.Value;
-                                else
-                                    parms_predata[10].Value = entity.lstPrectrlData[i].Voltage;
+                                        if (entity.lstPrectrlData[i].Voltage == -1)
+                                            parms_predata[10].Value = DBNull.Value;
+                                        else
+                                            parms_predata[10].Value = entity.lstPrectrlData[i].Voltage;
 
-                                command_predata.ExecuteNonQuery();
+                                        command_predata.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (Exception iex)
+                                {
+                                    if (entity != null)
+                                        datas.Enqueue(entity);
+                                    throw iex;
+                                }
                             }
                         }
-                        catch (Exception iex)
-                        {
-                            if (entity != null)
-                                datas.Enqueue(entity);
-                            throw iex;
-                        }
+                        //trans.Commit();
                     }
-                    //trans.Commit();
-
                     return 1;
                 }
                 catch (Exception ex)
@@ -314,26 +331,30 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
-
-                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
-                    SqlParameter[] parms_frame = new SqlParameter[]{
+                    using (SqlCommand command_frame = new SqlCommand())
+                    {
+                        string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                        SqlParameter[] parms_frame = new SqlParameter[]{
                 new SqlParameter("@dir",SqlDbType.Int),
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
-                    command_frame.CommandText = SQL_Frame;
-                    command_frame.Parameters.AddRange(parms_frame);
-                    command_frame.CommandType = CommandType.Text;
-                    command_frame.Connection = SQLHelper.Conn;
-                    //command_frame.Transaction = trans;
+                        //SqlCommand command_frame = new SqlCommand();
+                        command_frame.CommandText = SQL_Frame;
+                        command_frame.Parameters.AddRange(parms_frame);
+                        command_frame.CommandType = CommandType.Text;
+                        command_frame.Connection = SQLHelper.Conn;
+                        //command_frame.Transaction = trans;
 
-                    string SQL_Data = @"INSERT INTO UniversalTerData([TerminalID],[DataValue],[Simulate1Zero],[Simulate2Zero],[CollTime],[UnloadTime],TypeTableID) 
+                        using (SqlCommand command_predata = new SqlCommand())
+                        {
+                            string SQL_Data = @"INSERT INTO UniversalTerData([TerminalID],[DataValue],[Simulate1Zero],[Simulate2Zero],[CollTime],[UnloadTime],TypeTableID) 
                                             VALUES(@terId,@datavalue,@sim1zero,@sim2zero,@coltime,@UploadTime,@tableid)";
-                    SqlParameter[] parms_data = new SqlParameter[]{
+                            SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@terId",SqlDbType.Int),
                     new SqlParameter("@datavalue",SqlDbType.Decimal),
                     new SqlParameter("@sim1zero",SqlDbType.Decimal),
@@ -343,45 +364,49 @@ namespace DAL
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
                     new SqlParameter("@tableid",SqlDbType.Int)
                 };
-                    SqlCommand command_predata = new SqlCommand();
-                    command_predata.CommandText = SQL_Data;
-                    command_predata.Parameters.AddRange(parms_data);
-                    command_predata.CommandType = CommandType.Text;
-                    command_predata.Connection = SQLHelper.Conn;
-                    //command_predata.Transaction = trans;
+                            //SqlCommand command_predata = new SqlCommand();
+                            command_predata.CommandText = SQL_Data;
+                            command_predata.Parameters.AddRange(parms_data);
+                            command_predata.CommandType = CommandType.Text;
+                            command_predata.Connection = SQLHelper.Conn;
+                            //command_predata.Transaction = trans;
 
-                    while (datas.Count > 0)
-                    {
-                        GPRSUniversalFrameDataEntity entity = null;
-                        try {
-                            entity = datas.Dequeue();
-                            parms_frame[0].Value = 1;
-                            parms_frame[1].Value = entity.Frame;
-                            parms_frame[2].Value = entity.ModifyTime;
-
-                            command_frame.ExecuteNonQuery();
-
-                            for (int i = 0; i < entity.lstData.Count; i++)
+                            while (datas.Count > 0)
                             {
-                                parms_data[0].Value = entity.TerId;
-                                parms_data[1].Value = entity.lstData[i].DataValue;
-                                parms_data[2].Value = entity.lstData[i].Sim1Zero;
-                                parms_data[3].Value = entity.lstData[i].Sim2Zero;
-                                parms_data[4].Value = entity.lstData[i].ColTime;
+                                GPRSUniversalFrameDataEntity entity = null;
+                                try
+                                {
+                                    entity = datas.Dequeue();
+                                    parms_frame[0].Value = 1;
+                                    parms_frame[1].Value = entity.Frame;
+                                    parms_frame[2].Value = entity.ModifyTime;
 
-                                parms_data[5].Value = entity.ModifyTime;
-                                parms_data[6].Value = entity.lstData[i].TypeTableID;
+                                    command_frame.ExecuteNonQuery();
 
-                                command_predata.ExecuteNonQuery();
+                                    for (int i = 0; i < entity.lstData.Count; i++)
+                                    {
+                                        parms_data[0].Value = entity.TerId;
+                                        parms_data[1].Value = entity.lstData[i].DataValue;
+                                        parms_data[2].Value = entity.lstData[i].Sim1Zero;
+                                        parms_data[3].Value = entity.lstData[i].Sim2Zero;
+                                        parms_data[4].Value = entity.lstData[i].ColTime;
+
+                                        parms_data[5].Value = entity.ModifyTime;
+                                        parms_data[6].Value = entity.lstData[i].TypeTableID;
+
+                                        command_predata.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (Exception iex)
+                                {
+                                    if (entity != null)
+                                        datas.Enqueue(entity);
+                                    throw iex;
+                                }
                             }
-                        }catch(Exception iex)
-                        {
-                            if (entity != null)
-                                datas.Enqueue(entity);
-                            throw iex;
                         }
+                        //trans.Commit();
                     }
-                    //trans.Commit();
                     return 1;
                 }
                 catch (Exception ex)
@@ -398,25 +423,29 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
-
-                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
-                    SqlParameter[] parms_frame = new SqlParameter[]{
+                    using (SqlCommand command_frame = new SqlCommand())
+                    {
+                        string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                        SqlParameter[] parms_frame = new SqlParameter[]{
                 new SqlParameter("@dir",SqlDbType.Int),
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
-                    command_frame.CommandText = SQL_Frame;
-                    command_frame.Parameters.AddRange(parms_frame);
-                    command_frame.CommandType = CommandType.Text;
-                    command_frame.Connection = SQLHelper.Conn;
-                    //command_frame.Transaction = trans;
+                        //SqlCommand command_frame = new SqlCommand();
+                        command_frame.CommandText = SQL_Frame;
+                        command_frame.Parameters.AddRange(parms_frame);
+                        command_frame.CommandType = CommandType.Text;
+                        command_frame.Connection = SQLHelper.Conn;
+                        //command_frame.Transaction = trans;
 
-                    string SQL_Data = "INSERT INTO OLWQ_Real(TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime,UnloadTime,ValueColumnName,Voltage) VALUES(@TerId,@Turbidity,@ResidualCl,@PH,@Cond,@Temp,@coltime,@UploadTime,@valuename,@Voltage)";
-                    SqlParameter[] parms_predata = new SqlParameter[]{
+                        using (SqlCommand command_data = new SqlCommand())
+                        {
+                            string SQL_Data = "INSERT INTO OLWQ_Real(TerminalID,Turbidity,ResidualCl,PH,Conductivity,Temperature,CollTime,UnloadTime,ValueColumnName,Voltage) VALUES(@TerId,@Turbidity,@ResidualCl,@PH,@Cond,@Temp,@coltime,@UploadTime,@valuename,@Voltage)";
+                            SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@Turbidity",SqlDbType.Decimal),
                     new SqlParameter("@ResidualCl",SqlDbType.Decimal),
@@ -429,51 +458,52 @@ namespace DAL
                     new SqlParameter("@valuename",SqlDbType.NVarChar),
                     new SqlParameter("@Voltage",SqlDbType.Decimal)
                 };
-                    SqlCommand command_data = new SqlCommand();
-                    command_data.CommandText = SQL_Data;
-                    command_data.Parameters.AddRange(parms_predata);
-                    command_data.CommandType = CommandType.Text;
-                    command_data.Connection = SQLHelper.Conn;
-                    //command_data.Transaction = trans;
+                            //SqlCommand command_data = new SqlCommand();
+                            command_data.CommandText = SQL_Data;
+                            command_data.Parameters.AddRange(parms_predata);
+                            command_data.CommandType = CommandType.Text;
+                            command_data.Connection = SQLHelper.Conn;
+                            //command_data.Transaction = trans;
 
-                    while (datas.Count > 0)
-                    {
-                        GPRSOLWQFrameDataEntity entity = null;
-                        try
-                        {
-                            entity = datas.Dequeue();
-                            parms_frame[0].Value = 1;
-                            parms_frame[1].Value = entity.Frame;
-                            parms_frame[2].Value = entity.ModifyTime;
-
-                            command_frame.ExecuteNonQuery();
-
-                            for (int i = 0; i < entity.lstOLWQData.Count; i++)
+                            while (datas.Count > 0)
                             {
-                                parms_predata[0].Value = entity.TerId;
-                                parms_predata[1].Value = entity.lstOLWQData[i].Turbidity;
-                                parms_predata[2].Value = entity.lstOLWQData[i].ResidualCl;
-                                parms_predata[3].Value = entity.lstOLWQData[i].PH;
-                                parms_predata[4].Value = entity.lstOLWQData[i].Conductivity;
+                                GPRSOLWQFrameDataEntity entity = null;
+                                try
+                                {
+                                    entity = datas.Dequeue();
+                                    parms_frame[0].Value = 1;
+                                    parms_frame[1].Value = entity.Frame;
+                                    parms_frame[2].Value = entity.ModifyTime;
 
-                                parms_predata[5].Value = entity.lstOLWQData[i].Temperature;
-                                parms_predata[6].Value = entity.lstOLWQData[i].ColTime;
-                                parms_predata[7].Value = entity.ModifyTime;
-                                parms_predata[8].Value = entity.lstOLWQData[i].ValueColumnName;
-                                parms_predata[9].Value = entity.lstOLWQData[i].Voltage;
+                                    command_frame.ExecuteNonQuery();
 
-                                command_data.ExecuteNonQuery();
+                                    for (int i = 0; i < entity.lstOLWQData.Count; i++)
+                                    {
+                                        parms_predata[0].Value = entity.TerId;
+                                        parms_predata[1].Value = entity.lstOLWQData[i].Turbidity;
+                                        parms_predata[2].Value = entity.lstOLWQData[i].ResidualCl;
+                                        parms_predata[3].Value = entity.lstOLWQData[i].PH;
+                                        parms_predata[4].Value = entity.lstOLWQData[i].Conductivity;
+
+                                        parms_predata[5].Value = entity.lstOLWQData[i].Temperature;
+                                        parms_predata[6].Value = entity.lstOLWQData[i].ColTime;
+                                        parms_predata[7].Value = entity.ModifyTime;
+                                        parms_predata[8].Value = entity.lstOLWQData[i].ValueColumnName;
+                                        parms_predata[9].Value = entity.lstOLWQData[i].Voltage;
+
+                                        command_data.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (Exception iex)
+                                {
+                                    if (entity != null)
+                                        datas.Enqueue(entity);
+                                    throw iex;
+                                }
                             }
                         }
-                        catch (Exception iex)
-                        {
-                            if (entity != null)
-                                datas.Enqueue(entity);
-                            throw iex;
-                        }
+                        //trans.Commit();
                     }
-                    //trans.Commit();
-
                     return 1;
                 }
                 catch (Exception ex)
@@ -490,25 +520,30 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                
+                
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
-
-                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
-                    SqlParameter[] parms_frame = new SqlParameter[]{
+                    using (SqlCommand command_frame = new SqlCommand())
+                    {
+                        string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                        SqlParameter[] parms_frame = new SqlParameter[]{
                 new SqlParameter("@dir",SqlDbType.Int),
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
-                    command_frame.CommandText = SQL_Frame;
-                    command_frame.Parameters.AddRange(parms_frame);
-                    command_frame.CommandType = CommandType.Text;
-                    command_frame.Connection = SQLHelper.Conn;
-                    //command_frame.Transaction = trans;
+                        //SqlCommand command_frame = new SqlCommand();
+                        command_frame.CommandText = SQL_Frame;
+                        command_frame.Parameters.AddRange(parms_frame);
+                        command_frame.CommandType = CommandType.Text;
+                        command_frame.Connection = SQLHelper.Conn;
+                        //command_frame.Transaction = trans;
 
-                    string SQL_Data = "INSERT INTO Hydrant_Real(TerminalID,Operate,PressValue,OpenAngle,CollTime,UnloadTime) VALUES(@TerId,@opt,@prevalue,@openangle,@coltime,@UploadTime)";
-                    SqlParameter[] parms_data = new SqlParameter[]{
+                        using (SqlCommand command_predata = new SqlCommand())
+                        {
+                            string SQL_Data = "INSERT INTO Hydrant_Real(TerminalID,Operate,PressValue,OpenAngle,CollTime,UnloadTime) VALUES(@TerId,@opt,@prevalue,@openangle,@coltime,@UploadTime)";
+                            SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@opt",SqlDbType.Int),
                     new SqlParameter("@prevalue",SqlDbType.Decimal),
@@ -517,46 +552,47 @@ namespace DAL
 
                     new SqlParameter("@UploadTime",SqlDbType.DateTime)
                 };
-                    SqlCommand command_predata = new SqlCommand();
-                    command_predata.CommandText = SQL_Data;
-                    command_predata.Parameters.AddRange(parms_data);
-                    command_predata.CommandType = CommandType.Text;
-                    command_predata.Connection = SQLHelper.Conn;
-                    //command_predata.Transaction = trans;
+                            //SqlCommand command_predata = new SqlCommand();
+                            command_predata.CommandText = SQL_Data;
+                            command_predata.Parameters.AddRange(parms_data);
+                            command_predata.CommandType = CommandType.Text;
+                            command_predata.Connection = SQLHelper.Conn;
+                            //command_predata.Transaction = trans;
 
-                    while (datas.Count > 0)
-                    {
-                        GPRSHydrantFrameDataEntity entity = null;
-                        try
-                        {
-                            entity = datas.Dequeue();
-                            parms_frame[0].Value = 1;
-                            parms_frame[1].Value = entity.Frame;
-                            parms_frame[2].Value = entity.ModifyTime;
-
-                            command_frame.ExecuteNonQuery();
-
-                            for (int i = 0; i < entity.lstHydrantData.Count; i++)
+                            while (datas.Count > 0)
                             {
-                                parms_data[0].Value = entity.TerId;
-                                parms_data[1].Value = entity.lstHydrantData[i].Operate;
-                                parms_data[2].Value = entity.lstHydrantData[i].PreValue;
-                                parms_data[3].Value = entity.lstHydrantData[i].OpenAngle;
-                                parms_data[4].Value = entity.lstHydrantData[i].ColTime;
-                                parms_data[5].Value = entity.ModifyTime;
+                                GPRSHydrantFrameDataEntity entity = null;
+                                try
+                                {
+                                    entity = datas.Dequeue();
+                                    parms_frame[0].Value = 1;
+                                    parms_frame[1].Value = entity.Frame;
+                                    parms_frame[2].Value = entity.ModifyTime;
 
-                                command_predata.ExecuteNonQuery();
+                                    command_frame.ExecuteNonQuery();
+
+                                    for (int i = 0; i < entity.lstHydrantData.Count; i++)
+                                    {
+                                        parms_data[0].Value = entity.TerId;
+                                        parms_data[1].Value = entity.lstHydrantData[i].Operate;
+                                        parms_data[2].Value = entity.lstHydrantData[i].PreValue;
+                                        parms_data[3].Value = entity.lstHydrantData[i].OpenAngle;
+                                        parms_data[4].Value = entity.lstHydrantData[i].ColTime;
+                                        parms_data[5].Value = entity.ModifyTime;
+
+                                        command_predata.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (Exception iex)
+                                {
+                                    if (entity != null)
+                                        datas.Enqueue(entity);
+                                    throw iex;
+                                }
                             }
                         }
-                        catch (Exception iex)
-                        {
-                            if (entity != null)
-                                datas.Enqueue(entity);
-                            throw iex;
-                        }
+                        //trans.Commit();
                     }
-                    //trans.Commit();
-
                     return 1;
                 }
                 catch (Exception ex)
@@ -573,26 +609,29 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
+                
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
-
-                    string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
-                    SqlParameter[] parms_frame = new SqlParameter[]{
+                    using (SqlCommand command_frame = new SqlCommand())
+                    {
+                        string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                        SqlParameter[] parms_frame = new SqlParameter[]{
                 new SqlParameter("@dir",SqlDbType.Int),
                 new SqlParameter("@frame",SqlDbType.VarChar,2000),
                 new SqlParameter("@logtime",SqlDbType.DateTime)
             };
-                    SqlCommand command_frame = new SqlCommand();
-                    command_frame.CommandText = SQL_Frame;
-                    command_frame.Parameters.AddRange(parms_frame);
-                    command_frame.CommandType = CommandType.Text;
-                    command_frame.Connection = SQLHelper.Conn;
-                    //command_frame.Transaction = trans;
-
-                    string SQL_Data = @"INSERT INTO Waterworker_Real([TrmlID],[TrmlName],[ActivePower_No1],[ReActivePower_No1],[ActivePower_No2],[ReActivePower_No2],[ActivePower_No3],[ReActivePower_No3],[ActivePower_No4],[ReActivePower_No4],[OutPressure],[LevelMeter],[FlowMeter_No1],[FlowMeter_No2],[SwitchStatu_No1],[SwitchStatu_No2],[SwitchStatu_No3],[SwitchStatu_No4],[CollTime],[UnloadTime]) 
+                        //SqlCommand command_frame = new SqlCommand();
+                        command_frame.CommandText = SQL_Frame;
+                        command_frame.Parameters.AddRange(parms_frame);
+                        command_frame.CommandType = CommandType.Text;
+                        command_frame.Connection = SQLHelper.Conn;
+                        //command_frame.Transaction = trans;
+                        using (SqlCommand command_predata = new SqlCommand())
+                        {
+                            string SQL_Data = @"INSERT INTO Waterworker_Real([TrmlID],[TrmlName],[ActivePower_No1],[ReActivePower_No1],[ActivePower_No2],[ReActivePower_No2],[ActivePower_No3],[ReActivePower_No3],[ActivePower_No4],[ReActivePower_No4],[OutPressure],[LevelMeter],[FlowMeter_No1],[FlowMeter_No2],[SwitchStatu_No1],[SwitchStatu_No2],[SwitchStatu_No3],[SwitchStatu_No4],[CollTime],[UnloadTime]) 
                                 VALUES(@TerId,@TerName,@activepower1,@reactivepower1,@activepower2,@reactivepower2,@activepower3,@reactivepower3,@activepower4,@reactivepower4,@prevalue,@liquidlevel,@flowvalue1,@flowvalue2,@switch1,@switch2,@switch3,@switch4,@colltime,@UploadTime)";
-                    SqlParameter[] parms_data = new SqlParameter[]{
+                            SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.VarChar,50),
                     new SqlParameter("@TerName",SqlDbType.VarChar,50),
                     new SqlParameter("@activepower1",SqlDbType.Decimal),
@@ -617,71 +656,73 @@ namespace DAL
                     new SqlParameter("@colltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime)
                 };
-                    SqlCommand command_predata = new SqlCommand();
-                    command_predata.CommandText = SQL_Data;
-                    command_predata.Parameters.AddRange(parms_data);
-                    command_predata.CommandType = CommandType.Text;
-                    command_predata.Connection = SQLHelper.Conn;
-                    //command_predata.Transaction = trans;
+                            //SqlCommand command_predata = new SqlCommand();
+                            command_predata.CommandText = SQL_Data;
+                            command_predata.Parameters.AddRange(parms_data);
+                            command_predata.CommandType = CommandType.Text;
+                            command_predata.Connection = SQLHelper.Conn;
+                            //command_predata.Transaction = trans;
 
-                    while (datas.Count > 0)
-                    {
-                        GPRSWaterWorkerFrameDataEntity entity = null;
-                        try
-                        {
-                            entity = datas.Dequeue();
-                            parms_frame[0].Value = 1;
-                            parms_frame[1].Value = entity.Frame;
-                            parms_frame[2].Value = entity.ModifyTime;
+                            while (datas.Count > 0)
+                            {
+                                GPRSWaterWorkerFrameDataEntity entity = null;
+                                try
+                                {
+                                    entity = datas.Dequeue();
+                                    parms_frame[0].Value = 1;
+                                    parms_frame[1].Value = entity.Frame;
+                                    parms_frame[2].Value = entity.ModifyTime;
 
-                            command_frame.ExecuteNonQuery();
+                                    command_frame.ExecuteNonQuery();
 
-                            parms_data[0].Value = entity.TerId;
-                            parms_data[1].Value = "";
-                            if (entity.TerId == "1")  //名称写死 16-8-31
-                                parms_data[1].Value = "一水厂一泵房";       
-                            else if (entity.TerId == "2")
-                                parms_data[1].Value = "一水厂二泵房";
-                            else if (entity.TerId == "3")
-                                parms_data[1].Value = "二水厂一泵房";
-                            else if (entity.TerId == "4")
-                                parms_data[1].Value = "二水厂二泵房";
-                            parms_data[2].Value = entity.Activenerge1;
-                            parms_data[3].Value = entity.Rectivenerge1;
-                            parms_data[4].Value = entity.Activenerge2;
-                            parms_data[5].Value = entity.Rectivenerge2;
-                            parms_data[6].Value = entity.Activenerge3;
-                            parms_data[7].Value = entity.Rectivenerge3;
-                            parms_data[8].Value = entity.Activenerge4;
-                            parms_data[9].Value = entity.Rectivenerge4;
-                            parms_data[10].Value = entity.Pressure;
-                            parms_data[11].Value = entity.LiquidLevel;
-                            parms_data[12].Value = entity.Flow1;
-                            parms_data[13].Value = entity.Flow2;
-                            parms_data[14].Value = entity.Switch1 ? 1 : 0;
-                            parms_data[15].Value = entity.Switch2 ? 1 : 0;
-                            parms_data[16].Value = entity.Switch3 ? 1 : 0;
-                            parms_data[17].Value = entity.Switch4 ? 1 : 0;
-                            parms_data[18].Value = entity.ModifyTime;
-                            parms_data[19].Value = entity.ModifyTime;
+                                    parms_data[0].Value = entity.TerId;
+                                    parms_data[1].Value = "";
+                                    if (entity.TerId == "1")  //名称写死 16-8-31
+                                        parms_data[1].Value = "一水厂一泵房";
+                                    else if (entity.TerId == "2")
+                                        parms_data[1].Value = "一水厂二泵房";
+                                    else if (entity.TerId == "3")
+                                        parms_data[1].Value = "二水厂一泵房";
+                                    else if (entity.TerId == "4")
+                                        parms_data[1].Value = "二水厂二泵房";
+                                    parms_data[2].Value = entity.Activenerge1;
+                                    parms_data[3].Value = entity.Rectivenerge1;
+                                    parms_data[4].Value = entity.Activenerge2;
+                                    parms_data[5].Value = entity.Rectivenerge2;
+                                    parms_data[6].Value = entity.Activenerge3;
+                                    parms_data[7].Value = entity.Rectivenerge3;
+                                    parms_data[8].Value = entity.Activenerge4;
+                                    parms_data[9].Value = entity.Rectivenerge4;
+                                    parms_data[10].Value = entity.Pressure;
+                                    parms_data[11].Value = entity.LiquidLevel;
+                                    parms_data[12].Value = entity.Flow1;
+                                    parms_data[13].Value = entity.Flow2;
+                                    parms_data[14].Value = entity.Switch1 ? 1 : 0;
+                                    parms_data[15].Value = entity.Switch2 ? 1 : 0;
+                                    parms_data[16].Value = entity.Switch3 ? 1 : 0;
+                                    parms_data[17].Value = entity.Switch4 ? 1 : 0;
+                                    parms_data[18].Value = entity.ModifyTime;
+                                    parms_data[19].Value = entity.ModifyTime;
 
-                            command_predata.ExecuteNonQuery();
+                                    command_predata.ExecuteNonQuery();
+                                }
+                                catch (Exception iex)
+                                {
+                                    if (entity != null)
+                                        datas.Enqueue(entity);
+                                    throw iex;
+                                }
+                            }
                         }
-                        catch (Exception iex)
-                        {
-                            if (entity != null)
-                                datas.Enqueue(entity);
-                            throw iex;
-                        }
+                        //trans.Commit();
                     }
-                    //trans.Commit();
-
                     return 1;
                 }
                 catch (Exception ex)
                 {
                     //if (trans != null)
                     //    trans.Rollback();
+
                     throw ex;
                 }
             }

@@ -646,7 +646,7 @@ namespace SmartWaterSystem
 
             if(treeSocketType.Properties.TreeList.Nodes!= null)
             {
-                foreach(TreeListNode node in treeSocketType.Properties.TreeList.Nodes)
+                foreach (TreeListNode node in treeSocketType.Properties.TreeList.GetNodeList())
                 {
                     node.Checked = true;
                 }
@@ -655,7 +655,7 @@ namespace SmartWaterSystem
             treeSocketType.Properties.TreeList.AfterCheckNode += (s, a) =>
             {
                 a.Node.Selected = true;
-                //DataRowView drv = tlOffice.Properties.TreeList.GetDataRecordByNode(node) as DataRowView;//关键代码，就是不知道是这样获取数据而纠结了很久(鬼知道可以转换为DataRowView啊)
+                //DataRowView drv = tlOffice.Properties.TreeList.GetDataRecordByNode(node) as DataRowView;//关键代码，就是不知道是这样获取数据而纠结了很久(可以转换为DataRowView啊)
                 UpdateParentNodesCheckstate(a.Node, a.Node.Checked);
                 UpdateChildsNodesCheckstate(a.Node, a.Node.Checked);
             };

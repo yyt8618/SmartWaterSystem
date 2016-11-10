@@ -22,6 +22,7 @@ namespace GCGPRSService
             this.CanStop = true;
         }
 
+        //public void OnStart(string[] args)
         protected override void OnStart(string[] args)
         {
             GlobalValue.Instance.lstStartRecord.Clear();
