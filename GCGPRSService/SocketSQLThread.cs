@@ -13,16 +13,17 @@ namespace GCGPRSService
     {
         None,
         GetSendParm,
+        GetAlarmType,
         GetUniversalConfig,
         UpdateSendParmFlag,
-        InsertPreValue,
 
+        InsertPreValue,
         InsertFlowValue,
         InsertUniversalValue,
         InsertOLWQValue,
         InsertHydrantValue,
-        InsertPrectrlValue,
 
+        InsertPrectrlValue,
         InsertNoiseValue,
         InsertWaterworkerValue,
     }
@@ -73,7 +74,7 @@ namespace GCGPRSService
         private NLog.Logger logger = NLog.LogManager.GetLogger("SocketSQLThread");
         TerminalDataBLL dataBll = new TerminalDataBLL();
 
-        private const int eventcount = 12;
+        private const int eventcount = 13;
         private IntPtr[] hEvent = new IntPtr[eventcount];
         public event SQLHandle SQLEvent;
 
@@ -139,6 +140,13 @@ namespace GCGPRSService
                             #endregion
                         }
                         break;
+                    case (uint)SQLType.GetAlarmType:
+                        {
+                            #region 获取报警类型
+                            GlobalValue.Instance.lstAlarmType = dataBll.GetAlarmType();
+                            #endregion
+                        }
+                        break;
                     case (uint)SQLType.UpdateSendParmFlag:
                         {
                             #region 更新GPRS下送帧标志
@@ -177,14 +185,24 @@ namespace GCGPRSService
                             #endregion
                                 break;
                     case (uint)SQLType.InsertFlowValue:
-                        result = dataBll.InsertGPRSFlowData(GlobalValue.Instance.GPRS_FlowFrameData, out msg);
+                        {
+                            #region 保存流量数据
+                            result = dataBll.InsertGPRSFlowData(GlobalValue.Instance.GPRS_FlowFrameData, out msg);
+                            #endregion
+                        }
                         break;
                     case (uint)SQLType.InsertPrectrlValue:
-                        result = dataBll.InsertGPRSPrectrlData(GlobalValue.Instance.GPRS_PrectrlFrameData, out msg);
+                        {
+                            #region 保存压力控制器数据
+                            result = dataBll.InsertGPRSPrectrlData(GlobalValue.Instance.GPRS_PrectrlFrameData, out msg);
+                            #endregion
+                        }
                         break;
                     case (uint)SQLType.InsertUniversalValue:
                         {
+                            #region 保存通用终端数据
                             result = dataBll.InsertGPRSUniversalData(GlobalValue.Instance.GPRS_UniversalFrameData, out msg);
+                            #endregion
                         }
                         break;
                     case (uint)SQLType.GetUniversalConfig:

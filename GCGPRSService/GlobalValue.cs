@@ -153,6 +153,15 @@ namespace GCGPRSService
             set { _lstSendedCmdId = value; }
         }
 
+        private List<AlarmTypeEntity> _lstAlarmType = new List<AlarmTypeEntity>();
+        /// <summary>
+        /// 报警类型表,对应数据库中AlarmType表
+        /// </summary>
+        public List<AlarmTypeEntity> lstAlarmType
+        {
+            get { return _lstAlarmType; }
+            set { _lstAlarmType = value; }
+        }
         
     }
 }

@@ -10,7 +10,7 @@ namespace GCGPRSService
 {
     public class Protol68
     {
-        public static void ProcData(StateObject state,Package pack, string str_frame,out bool bNeedCheckTime)
+        public void ProcData(StateObject state,Package pack, string str_frame,out bool bNeedCheckTime)
         {
             bNeedCheckTime = false;
             if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL)
@@ -288,7 +288,7 @@ namespace GCGPRSService
                         }
                         dataindex = (pack.DataLength - 2 - 2 - 1) / (6 + 36);
 
-                        GPRSFlowFrameDataEntity framedata = KERTFlow.ProcessData(dataindex, "压力流量终端", pack.ID.ToString(), str_frame, pack.Data, pack.DataLength, out bNeedCheckTime);
+                        GPRSFlowFrameDataEntity framedata = new KERTFlow().ProcessData(dataindex, "压力流量终端", pack.ID.ToString(), str_frame, pack.Data, pack.DataLength, out bNeedCheckTime);
 
                         GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
@@ -951,7 +951,7 @@ namespace GCGPRSService
                         }
                         dataindex = (pack.DataLength - 2 - 2 - 1) / (6 + 36);
 
-                        GPRSFlowFrameDataEntity framedata = KERTFlow.ProcessData(dataindex, "水质终端", pack.ID.ToString(), str_frame, pack.Data, pack.DataLength, out bNeedCheckTime);
+                        GPRSFlowFrameDataEntity framedata = new KERTFlow().ProcessData(dataindex, "水质终端", pack.ID.ToString(), str_frame, pack.Data, pack.DataLength, out bNeedCheckTime);
 
                         GlobalValue.Instance.GPRS_FlowFrameData.Enqueue(framedata);  //通知存储线程处理
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);

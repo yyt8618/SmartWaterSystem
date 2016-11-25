@@ -9,6 +9,8 @@ using System.Data;
 using System.Text;
 using SmartWaterSystem;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 
 namespace GCGPRSService
 {
@@ -121,6 +123,7 @@ namespace GCGPRSService
             SocketEntity msmqEntity = new SocketEntity();
             msmqEntity.lstOnLine = new List<OnLineTerEntity>();
             OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
+
         }
 
         private void Interval_Thread()
@@ -133,7 +136,7 @@ namespace GCGPRSService
                     TimeSpan ts = DateTime.Now - SQLSync_Time;
                     if (Math.Abs(ts.TotalSeconds) > 15)
                     {
-                        SQL_Interval = 3 * 63;
+                        SQL_Interval = 5 * 63;
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
                     }
@@ -686,7 +689,7 @@ namespace GCGPRSService
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据"));
 #endif
                                     #region 解析数据
-                                    Protol68.ProcData(state, pack, str_frame, out bNeedCheckTime);
+                                    new Protol68().ProcData(state, pack, str_frame, out bNeedCheckTime);
                                     #endregion
 
                                     response.DevID = pack.DevID;
@@ -1883,7 +1886,34 @@ namespace GCGPRSService
                     GlobalValue.Instance.SocketMag.DelSL651WaitSendCmd(Msg.A1, Msg.A2, Msg.A3, Msg.A4, Msg.A5, Msg.SL651Funcode);
                     GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();
                 }
-
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.GC)
+                {
+                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 强制执行GC!"));
+                    GC.Collect();
+                }
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.MiniDump)
+                {
+                    try {
+                        string dumpPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Dump";
+                        if(!Directory.Exists(dumpPath))
+                        {
+                            Directory.CreateDirectory(dumpPath);
+                        }
+                        string dumpFile = dumpPath + "\\MiniDmp.dmp";
+                        if (File.Exists(dumpFile))
+                            File.Delete(dumpFile);
+                        using (FileStream fs = new FileStream(dumpFile, FileMode.Create, FileAccess.ReadWrite, FileShare.Write))
+                        {
+                            MiniDump.Write(fs.SafeFileHandle, MiniDump.Option.WithFullMemory);
+                        }
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 生成dmp文件成功,位置:"+ dumpFile));
+                    }
+                    catch(Exception ex)
+                    {
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 生成dmp文件失败,ex:"+ex.Message));
+                    }
+                    
+                }
                 //Other
             }
         }

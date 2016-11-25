@@ -86,6 +86,7 @@
     <Compile Include="JSONSerialize.cs" />
     <Compile Include="MD5Encrypt.cs" />
     <Compile Include="MetarnetRegex.cs" />
+    <Compile Include="MiniDump.cs" />
     <Compile Include="Socket\SocketEntity.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

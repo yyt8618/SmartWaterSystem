@@ -241,6 +241,15 @@ namespace SmartWaterSystem
                     return;
                 }
 
+                foreach(NoiseRecorderGroup group in GlobalValue.groupList)
+                {
+                    if(group.Name == txtGroupName.Text)
+                    {
+                        XtraMessageBox.Show("分组名称已存在！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
                 NoiseRecorderGroup newGrp = new NoiseRecorderGroup();
                 newGrp.ID = NoiseDataBaseHelper.GetGroupID();
                 newGrp.Name = txtGroupName.Text;
@@ -275,7 +284,7 @@ namespace SmartWaterSystem
                     if (nodes[i].Level == 0)
                     {
                         DataRowView drv = treeList1.GetDataRecordByNode(nodes[i]) as DataRowView;
-                        int query = NoiseDataBaseHelper.DeleteGroup(Convert.ToInt32(drv["ID"]));
+                        int query = NoiseDataBaseHelper.DeleteGroup(Convert.ToInt32(drv["Name"]));
                         if (query == -1)
                             throw new Exception("数据入库发生错误。");
                     }

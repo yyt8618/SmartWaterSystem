@@ -765,6 +765,34 @@ namespace DAL
             }
         }
 
+        /// <summary>
+        /// 获取所有的报警类型
+        /// </summary>
+        public List<AlarmTypeEntity> GetAlarmType()
+        {
+            lock(ConstValue.obj)
+            {
+                string SQL = "SELECT * FROM AlarmType";
+                List<AlarmTypeEntity> lstAlarm = null;
+                using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
+                {
+                    lstAlarm = new List<AlarmTypeEntity>();
+                    while(reader.Read())
+                    {
+                        AlarmTypeEntity alarm = new AlarmTypeEntity();
+                        alarm.TerminalType = Convert.ToByte(reader["TerminalType"]);
+                        alarm.FunCode = Convert.ToByte(reader["FunCode"]);
+                        alarm.AlarmFlag = BitConverter.GetBytes((Int16)(reader["AlarmFlag"]));
+                        alarm.AlarmId = Convert.ToInt32(reader["AlarmId"]);
+                        alarm.AlarmName = reader["AlarmName"].ToString();
+
+                        lstAlarm.Add(alarm);
+                    }
+                }
+                return lstAlarm;
+            }
+        }
+
         public int UpdateGPRSParmFlag(List<GPRSCmdFlag> ids)
         {
             lock (ConstValue.obj)

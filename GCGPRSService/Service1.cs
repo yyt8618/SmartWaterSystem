@@ -22,8 +22,8 @@ namespace GCGPRSService
             this.CanStop = true;
         }
 
-        //public void OnStart(string[] args)
-        protected override void OnStart(string[] args)
+        public void OnStart(string[] args)
+        //protected override void OnStart(string[] args)
         {
             GlobalValue.Instance.lstStartRecord.Clear();
 
@@ -41,6 +41,7 @@ namespace GCGPRSService
 
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
+            GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetAlarmType);  //获取报警类型列表
             
             GlobalValue.Instance.SocketMag.T_Listening();
 

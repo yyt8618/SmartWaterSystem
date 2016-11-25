@@ -11,7 +11,7 @@ namespace GCGPRSService
     /// </summary>
     public class KERTFlow
     {
-        public static GPRSFlowFrameDataEntity ProcessData(int dataindex,string tername,string id,string frame,byte[] data,int datalen,out bool bNeedCheckTime)
+        public GPRSFlowFrameDataEntity ProcessData(int dataindex,string tername,string id,string frame,byte[] data,int datalen,out bool bNeedCheckTime)
         {
             int alarmflag = 0;
             //报警标志
@@ -41,7 +41,7 @@ namespace GCGPRSService
 
                 byte balarm = 0x00;  //水表报警
                 string errmsg = "";
-                if (KERTFlow.ProcessDataUnit(data, i * 42 + 3 + 6, 36, out forward_flowvalue, out reverse_flowvalue, out instant_flowvalue, out balarm, out errmsg))
+                if (ProcessDataUnit(data, i * 42 + 3 + 6, 36, out forward_flowvalue, out reverse_flowvalue, out instant_flowvalue, out balarm, out errmsg))
                 {
                     string str_alarm = "空";
                     if ((balarm & 0x10) == 0x10)
@@ -90,7 +90,7 @@ namespace GCGPRSService
         /// <param name="reverseflow">反向流量</param>
         /// <param name="instantflow">瞬时流量</param>
         /// <returns></returns>
-        public static bool ProcessDataUnit(byte[] data,int startindex,int datalen,out double forwardflow,out double reverseflow,out double instantflow,out byte alarm,out string errmsg)
+        public bool ProcessDataUnit(byte[] data,int startindex,int datalen,out double forwardflow,out double reverseflow,out double instantflow,out byte alarm,out string errmsg)
         {
             alarm = 0x00;
             errmsg = "";

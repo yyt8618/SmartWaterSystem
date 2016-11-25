@@ -248,7 +248,7 @@ namespace SmartWaterSystem
                                 string[] strcols = strrow.Split('\t');
                                 if (strcols != null && strcols.Length == 3)
                                 {
-                                    comboSocketServer.Properties.Items.Add(strcols[0]);
+                                    //comboSocketServer.Properties.Items.Add(strcols[0]);
                                     bool bcontain = false;  //标记是否列表中已包含
                                     for (int i = 0; i < comboSocketServer.Properties.Items.Count; i++)
                                     {
@@ -722,5 +722,19 @@ namespace SmartWaterSystem
             }
         }
         #endregion
+
+        private void btnGPRServiceGC_Click(object sender, EventArgs e)
+        {
+            SocketEntity socketmsg = new SocketEntity();
+            socketmsg.MsgType = Entity.ConstValue.MSMQTYPE.GC;
+            GlobalValue.SocketMgr.SendMessage(socketmsg);
+        }
+
+        private void btnDmp_Click(object sender, EventArgs e)
+        {
+            SocketEntity socketmsg = new SocketEntity();
+            socketmsg.MsgType = Entity.ConstValue.MSMQTYPE.MiniDump;
+            GlobalValue.SocketMgr.SendMessage(socketmsg);
+        }
     }
 }

@@ -1779,9 +1779,9 @@ namespace SmartWaterSystem
             this.group_waitcmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.group_waitcmd.Controls.Add(this.gridControl_WaitCmd);
             this.group_waitcmd.Controls.Add(this.btnDel);
-            this.group_waitcmd.Location = new System.Drawing.Point(7, 280);
+            this.group_waitcmd.Location = new System.Drawing.Point(3, 279);
             this.group_waitcmd.Name = "group_waitcmd";
-            this.group_waitcmd.Size = new System.Drawing.Size(313, 211);
+            this.group_waitcmd.Size = new System.Drawing.Size(315, 206);
             this.group_waitcmd.TabIndex = 7;
             this.group_waitcmd.TabStop = false;
             this.group_waitcmd.Text = "待发送指令";

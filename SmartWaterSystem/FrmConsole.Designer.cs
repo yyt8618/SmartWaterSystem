@@ -39,6 +39,8 @@ namespace SmartWaterSystem
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.treeSocketType = new DevExpress.XtraEditors.TreeListLookUpEdit();
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.comboToolBox = new DevExpress.XtraEditors.ComboBoxEdit();
             this.comboSocketServer = new DevExpress.XtraEditors.ComboBoxEdit();
             this.picBoxLog = new System.Windows.Forms.PictureBox();
@@ -46,20 +48,20 @@ namespace SmartWaterSystem
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
+            this.btnGPRServiceGC = new System.Windows.Forms.Button();
             this.btnSocketConnect = new System.Windows.Forms.Button();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.treeSocketType = new DevExpress.XtraEditors.TreeListLookUpEdit();
-            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.btnDmp = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClear
@@ -177,6 +179,8 @@ namespace SmartWaterSystem
             this.panel1.Controls.Add(this.btnDisconnect);
             this.panel1.Controls.Add(this.btnCopy);
             this.panel1.Controls.Add(this.btnPause);
+            this.panel1.Controls.Add(this.btnDmp);
+            this.panel1.Controls.Add(this.btnGPRServiceGC);
             this.panel1.Controls.Add(this.btnSocketConnect);
             this.panel1.Controls.Add(this.cbErrs);
             this.panel1.Controls.Add(this.btnClear);
@@ -187,6 +191,42 @@ namespace SmartWaterSystem
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(878, 32);
             this.panel1.TabIndex = 0;
+            // 
+            // treeSocketType
+            // 
+            this.treeSocketType.Location = new System.Drawing.Point(224, 4);
+            this.treeSocketType.Name = "treeSocketType";
+            this.treeSocketType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.treeSocketType.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.treeSocketType.Properties.Appearance.Options.UseBackColor = true;
+            this.treeSocketType.Properties.Appearance.Options.UseForeColor = true;
+            this.treeSocketType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.treeSocketType.Properties.NullText = "请选择";
+            this.treeSocketType.Properties.TreeList = this.treeList1;
+            this.treeSocketType.Size = new System.Drawing.Size(33, 20);
+            this.treeSocketType.TabIndex = 16;
+            this.treeSocketType.Visible = false;
+            // 
+            // treeList1
+            // 
+            this.treeList1.Location = new System.Drawing.Point(239, -90);
+            this.treeList1.Name = "treeList1";
+            this.treeList1.OptionsBehavior.Editable = false;
+            this.treeList1.OptionsFilter.AllowFilterEditor = false;
+            this.treeList1.OptionsFind.ShowFindButton = false;
+            this.treeList1.OptionsLayout.AddNewColumns = false;
+            this.treeList1.OptionsMenu.EnableColumnMenu = false;
+            this.treeList1.OptionsMenu.EnableFooterMenu = false;
+            this.treeList1.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.treeList1.OptionsView.ShowCheckBoxes = true;
+            this.treeList1.OptionsView.ShowColumns = false;
+            this.treeList1.OptionsView.ShowIndentAsRowStyle = true;
+            this.treeList1.OptionsView.ShowIndicator = false;
+            this.treeList1.OptionsView.ShowRoot = false;
+            this.treeList1.Size = new System.Drawing.Size(237, 200);
+            this.treeList1.TabIndex = 0;
+            this.treeList1.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Light;
             // 
             // comboToolBox
             // 
@@ -301,6 +341,23 @@ namespace SmartWaterSystem
             this.btnPause.UseVisualStyleBackColor = false;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
+            // btnGPRServiceGC
+            // 
+            this.btnGPRServiceGC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGPRServiceGC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnGPRServiceGC.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnGPRServiceGC.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnGPRServiceGC.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnGPRServiceGC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnGPRServiceGC.Location = new System.Drawing.Point(263, 3);
+            this.btnGPRServiceGC.Name = "btnGPRServiceGC";
+            this.btnGPRServiceGC.Size = new System.Drawing.Size(31, 23);
+            this.btnGPRServiceGC.TabIndex = 5;
+            this.btnGPRServiceGC.TabStop = false;
+            this.btnGPRServiceGC.Text = "GC";
+            this.btnGPRServiceGC.UseVisualStyleBackColor = false;
+            this.btnGPRServiceGC.Click += new System.EventHandler(this.btnGPRServiceGC_Click);
+            // 
             // btnSocketConnect
             // 
             this.btnSocketConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -346,41 +403,22 @@ namespace SmartWaterSystem
             this.barDockControlRight.Location = new System.Drawing.Point(878, 0);
             this.barDockControlRight.Size = new System.Drawing.Size(0, 492);
             // 
-            // treeSocketType
+            // btnDmp
             // 
-            this.treeSocketType.Location = new System.Drawing.Point(224, 4);
-            this.treeSocketType.Name = "treeSocketType";
-            this.treeSocketType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.treeSocketType.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.treeSocketType.Properties.Appearance.Options.UseBackColor = true;
-            this.treeSocketType.Properties.Appearance.Options.UseForeColor = true;
-            this.treeSocketType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.treeSocketType.Properties.NullText = "请选择";
-            this.treeSocketType.Properties.TreeList = this.treeList1;
-            this.treeSocketType.Size = new System.Drawing.Size(98, 20);
-            this.treeSocketType.TabIndex = 16;
-            this.treeSocketType.Visible = false;
-            // 
-            // treeList1
-            // 
-            this.treeList1.Location = new System.Drawing.Point(239, -90);
-            this.treeList1.Name = "treeList1";
-            this.treeList1.OptionsBehavior.Editable = false;
-            this.treeList1.OptionsFilter.AllowFilterEditor = false;
-            this.treeList1.OptionsFind.ShowFindButton = false;
-            this.treeList1.OptionsLayout.AddNewColumns = false;
-            this.treeList1.OptionsMenu.EnableColumnMenu = false;
-            this.treeList1.OptionsMenu.EnableFooterMenu = false;
-            this.treeList1.OptionsMenu.ShowAutoFilterRowItem = false;
-            this.treeList1.OptionsView.ShowCheckBoxes = true;
-            this.treeList1.OptionsView.ShowColumns = false;
-            this.treeList1.OptionsView.ShowIndentAsRowStyle = true;
-            this.treeList1.OptionsView.ShowIndicator = false;
-            this.treeList1.OptionsView.ShowRoot = false;
-            this.treeList1.Size = new System.Drawing.Size(237, 200);
-            this.treeList1.TabIndex = 0;
-            this.treeList1.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Light;
+            this.btnDmp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDmp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDmp.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnDmp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDmp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDmp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnDmp.Location = new System.Drawing.Point(295, 3);
+            this.btnDmp.Name = "btnDmp";
+            this.btnDmp.Size = new System.Drawing.Size(31, 23);
+            this.btnDmp.TabIndex = 5;
+            this.btnDmp.TabStop = false;
+            this.btnDmp.Text = "Dmp";
+            this.btnDmp.UseVisualStyleBackColor = false;
+            this.btnDmp.Click += new System.EventHandler(this.btnDmp_Click);
             // 
             // FrmConsole
             // 
@@ -409,12 +447,12 @@ namespace SmartWaterSystem
             this.Load += new System.EventHandler(this.FrmConsole_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSockConnect)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -444,5 +482,7 @@ namespace SmartWaterSystem
         private PictureBox picBoxLog;
         private DevExpress.XtraEditors.TreeListLookUpEdit treeSocketType;
         private DevExpress.XtraTreeList.TreeList treeList1;
+        private Button btnGPRServiceGC;
+        private Button btnDmp;
     }
 }

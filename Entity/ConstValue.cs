@@ -54,7 +54,9 @@ namespace Entity
             Get_SL651_AllowOnlineFlag,  //获取SL651是否允许在线标志
             Set_SL651_AllowOnlineFlag,  //设置SL651是否允许在线标志
             Get_SL651_WaitSendCmd,      //获取SL651待发送命令列表
-            Del_SL651_WaitSendCmd       //删除SL651待发送命令
+            Del_SL651_WaitSendCmd,      //删除SL651待发送命令
+            GC,                         //强制GC
+            MiniDump,                   //获取Dump文件
         }
 
         /// <summary>

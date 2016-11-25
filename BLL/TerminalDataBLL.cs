@@ -226,6 +226,22 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// 获取所有的报警类型
+        /// </summary>
+        public List<AlarmTypeEntity> GetAlarmType()
+        {
+            try
+            {
+                return dal.GetAlarmType();
+            }
+            catch(Exception ex)
+            {
+                logger.ErrorException("GetAlarmType()", ex);
+                return null;
+            }
+        }
+
         public int UpdateGPRSParmFlag(List<GPRSCmdFlag> ids)
         {
             try

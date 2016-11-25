@@ -9,6 +9,7 @@ using System.Collections;
 using BLL;
 using Common;
 using System.Collections.Generic;
+using DevExpress.XtraTreeList.Nodes;
 
 namespace SmartWaterSystem
 {
@@ -19,8 +20,8 @@ namespace SmartWaterSystem
             InitializeComponent();
 
             #region Init cbBaudRate
-            //cbBaudRate.Properties.Items.AddRange(new int[] { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600, 115200, 128000, 256000 });
-            //cbBaudRate.Properties.Items.Add("customiz.");
+            cbBaudRate.Properties.Items.AddRange(new int[] { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600, 115200, 128000, 256000 });
+            cbBaudRate.Properties.Items.Add("customiz.");
             #endregion
 
             #region Init Simulate GridView
@@ -114,6 +115,8 @@ namespace SmartWaterSystem
             txt_485protocol_regbeginaddr.KeyPress += new KeyPressEventHandler(txt_485protocol_twobyte_KeyPress);
             txt_485protocol_regcount.KeyPress += new KeyPressEventHandler(txt_485protocol_twobyte_KeyPress);
             #endregion
+
+            Inittree();
         }
 
         private void UniversalTerParm_Load(object sender, EventArgs e)
@@ -173,7 +176,177 @@ namespace SmartWaterSystem
 
             ceModbusExeFlag.Checked = false;
             gridControl_485protocol.Enabled = false;
+            
         }
+
+        #region treeSocketType
+        private void Inittree()
+        {
+            DataTable dttree = new DataTable();
+            dttree.Columns.Add("ID", typeof(int));
+            dttree.Columns.Add("Name");
+            dttree.Columns.Add("ParentID", typeof(int));
+
+            int i = 1, tmpparent = -1;
+            DataRow dr = dttree.NewRow();
+            dr["ID"] = -99;
+            dr["Name"] = "全部";
+            dr["ParentID"] = -999;
+            dttree.Rows.Add(dr);
+
+            dr = dttree.NewRow();
+            dr["ID"] = -1;
+            dr["Name"] = "压力历史数据";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = -2;
+            dr["Name"] = "流量历史数据";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = -3;
+            dr["Name"] = "脉冲量";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = -4;
+            dr["Name"] = "压力";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            tmpparent = i;
+            dr["Name"] = "模拟量";
+            dr["ParentID"] = -99;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "第1路模拟量";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "第2路模拟量";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "第3路模拟量";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "第4路模拟量";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "第5路模拟量";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "第6路模拟量";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "第7路模拟量";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+            dr = dttree.NewRow();
+            dr["ID"] = ++i;
+            dr["Name"] = "第8路模拟量";
+            dr["ParentID"] = tmpparent;
+            dttree.Rows.Add(dr);
+
+            treeSocketType.Properties.DataSource = dttree;
+            treeSocketType.Properties.ValueMember = "ID";
+            treeSocketType.Properties.DisplayMember = "Name";
+
+            treeSocketType.Properties.TreeList.ParentFieldName = "ParentID";
+            treeSocketType.Properties.TreeList.KeyFieldName = "ID";
+
+            if (treeSocketType.Properties.TreeList.Nodes != null)
+            {
+                foreach (TreeListNode node in treeSocketType.Properties.TreeList.GetNodeList())
+                {
+                    node.Checked = true;
+                }
+            }
+
+            treeSocketType.Properties.TreeList.AfterCheckNode += (s, a) =>
+            {
+                a.Node.Selected = true;
+                //DataRowView drv = tlOffice.Properties.TreeList.GetDataRecordByNode(node) as DataRowView;//关键代码，就是不知道是这样获取数据而纠结了很久(可以转换为DataRowView啊)
+                UpdateParentNodesCheckstate(a.Node, a.Node.Checked);
+                UpdateChildsNodesCheckstate(a.Node, a.Node.Checked);
+            };
+        }
+
+        /// <summary>
+        /// 更新父节点的选中状态
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="Checked"></param>
+        private void UpdateParentNodesCheckstate(TreeListNode node, bool Checked)
+        {
+            if (node.ParentNode != null)
+            {
+
+                bool childcheck = false, childuncheck = false;    //除去自身是否有选择或未选中的孩子节点
+                foreach (TreeListNode child in node.ParentNode.Nodes)
+                {
+                    if (child.CheckState != CheckState.Unchecked)
+                        childcheck = true;
+                    else
+                        childuncheck = true;
+                }
+                if (Checked)   //如果当前节点选中,则父节点需要改变为中间态或者选中状态
+                {
+                    if (childuncheck)
+                        node.ParentNode.CheckState = CheckState.Indeterminate;
+                    else
+                        node.ParentNode.CheckState = CheckState.Checked;
+                }
+                else
+                {
+                    if (childcheck)
+                        node.ParentNode.CheckState = CheckState.Indeterminate;
+                    else
+                        node.ParentNode.CheckState = CheckState.Unchecked;
+                }
+                UpdateParentNodesCheckstate(node.ParentNode, Checked);
+            }
+        }
+
+        /// <summary>
+        /// 更新孩子节点的选中状态
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="Checked"></param>
+        private void UpdateChildsNodesCheckstate(TreeListNode node, bool Checked)
+        {
+            if (node.Nodes != null && node.Nodes.Count > 0)
+            {
+                foreach (TreeListNode child in node.Nodes)
+                {
+                    if (Checked)
+                        child.CheckState = CheckState.Checked;
+                    else
+                        child.CheckState = CheckState.Unchecked;
+
+                    UpdateChildsNodesCheckstate(child, Checked);
+                }
+                if (Checked)
+                    node.CheckState = CheckState.Checked;
+                else
+                    node.CheckState = CheckState.Unchecked;
+            }
+        }
+        #endregion
 
         #region IP
         private void txtNum_KeyPress(object sender, KeyPressEventArgs e)
@@ -1055,7 +1228,7 @@ namespace SmartWaterSystem
         }
 
 
-        private void btnCalibrationSimualte1_Click(object sender, EventArgs e)
+        private void barbtnCalibrationSimualte1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (DialogResult.No == XtraMessageBox.Show("终端出厂已校准，是否继续校准?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
             {
@@ -1086,7 +1259,7 @@ namespace SmartWaterSystem
             }
         }
 
-        private void btnCalibrationSimualte2_Click(object sender, EventArgs e)
+        private void barbtnCalibrationSimualte2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (DialogResult.No == XtraMessageBox.Show("终端出厂已校准，是否继续校准?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
             {
@@ -1459,8 +1632,7 @@ namespace SmartWaterSystem
             btnEnableCollect.Enabled = enable;
             btnReadParm.Enabled = enable;
             btnSetParm.Enabled = enable;
-            btnCalibrationSimualte1.Enabled = enable;
-            btnCalibrationSimualte2.Enabled = enable;
+            dropbtnCalibrationSimualte.Enabled = enable;
             SwitchComunication.Enabled = enable;
         }
 
@@ -1570,8 +1742,7 @@ namespace SmartWaterSystem
                 btnEnableCollect.Enabled = Enabled;
                 btnReadParm.Enabled = Enabled;
                 btnSetParm.Enabled = Enabled;
-                btnCalibrationSimualte1.Enabled = Enabled;
-                btnCalibrationSimualte2.Enabled = Enabled;
+                dropbtnCalibrationSimualte.Enabled = Enabled;
             }
         }
 
@@ -1595,8 +1766,7 @@ namespace SmartWaterSystem
             btnEnableCollect.Enabled = GlobalValue.portUtil.IsOpen;
             btnReadParm.Enabled = GlobalValue.portUtil.IsOpen;
             btnSetParm.Enabled = GlobalValue.portUtil.IsOpen;
-            btnCalibrationSimualte1.Enabled = GlobalValue.portUtil.IsOpen;
-            btnCalibrationSimualte2.Enabled = GlobalValue.portUtil.IsOpen;
+            dropbtnCalibrationSimualte.Enabled = GlobalValue.portUtil.IsOpen;
 
             ceTime.Enabled = true;
             txtTime.Enabled = true;
@@ -1647,8 +1817,7 @@ namespace SmartWaterSystem
             btnEnableCollect.Enabled = false;
             btnReadParm.Enabled = false;
             btnSetParm.Enabled = true;
-            btnCalibrationSimualte1.Enabled = false;
-            btnCalibrationSimualte2.Enabled = false;
+            dropbtnCalibrationSimualte.Enabled = false;
 
             ceTime.Enabled = false;
             ceTime.Checked = false;
@@ -1717,11 +1886,6 @@ namespace SmartWaterSystem
                 txtPort.Text = "";
             }
         }
-
         
-
-
-        
-
     }
 }
