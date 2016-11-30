@@ -6,6 +6,7 @@ using Common;
 using Entity;
 using System.Data;
 using SmartWaterSystem;
+using System.IO;
 
 namespace GCGPRSService
 {
@@ -128,6 +129,16 @@ namespace GCGPRSService
             set { _GPRS_WaterworkerFrameData = value; }
         }
 
+        private Queue<GPRSAlarmFrameDataEntity> _GPRS_AlarmFrameData = new Queue<GPRSAlarmFrameDataEntity>();
+        /// <summary>
+        /// GPRS报警帧队列
+        /// </summary>
+        public Queue<GPRSAlarmFrameDataEntity> GPRS_AlarmFrameData
+        {
+            get { return _GPRS_AlarmFrameData; }
+            set { _GPRS_AlarmFrameData = value; }
+        }
+
         private List<GPRSCmdEntity> _lstGprsCmd = new List<GPRSCmdEntity>();
         /// <summary>
         /// GPRS下送命令
@@ -153,11 +164,11 @@ namespace GCGPRSService
             set { _lstSendedCmdId = value; }
         }
 
-        private List<AlarmTypeEntity> _lstAlarmType = new List<AlarmTypeEntity>();
+        private Dictionary<int, string> _lstAlarmType = new Dictionary<int, string>();
         /// <summary>
         /// 报警类型表,对应数据库中AlarmType表
         /// </summary>
-        public List<AlarmTypeEntity> lstAlarmType
+        public Dictionary<int, string> lstAlarmType
         {
             get { return _lstAlarmType; }
             set { _lstAlarmType = value; }

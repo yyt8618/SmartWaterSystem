@@ -1,6 +1,7 @@
 ﻿using Common;
 using Entity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace GCGPRSService
                     else
                         dataindex = (pack.DataLength - 2 - 1) / 8;
 
-                    string alarm = "";
+                    StringBuilder str_alarm = new StringBuilder();
                     int preFlag = 0;
 
                     //报警
@@ -50,23 +51,23 @@ namespace GCGPRSService
                      * A7—压力2斜率下限报警。
                      * A8～A15—备用
                      */
-
-                    if ((pack.Data[1] & 0x01) == 1)  //压力1上限报警
-                        alarm += "压力1上限报警";
-                    else if (((pack.Data[1] & 0x02) >> 1) == 1)   //压力1下限报警
-                        alarm += "压力1下限报警";
-                    else if (((pack.Data[1] & 0x04) >> 2) == 1)   //压力2上限报警
-                        alarm += "压力2上限报警";
-                    else if (((pack.Data[1] & 0x08) >> 3) == 1)  //压力2下限报警
-                        alarm += "压力2下限报警";
-                    else if (((pack.Data[1] & 0x10) >> 4) == 1)   //压力1斜率上限报警
-                        alarm += "压力1斜率上限报警";
-                    else if (((pack.Data[1] & 0x20) >> 5) == 1)  //压力1斜率下限报警
-                        alarm += "压力1斜率下限报警";
-                    else if (((pack.Data[1] & 0x40) >> 6) == 1)  //压力2斜率上限报警
-                        alarm += "压力2斜率上限报警";
-                    else if (((pack.Data[1] & 0x80) >> 7) == 1)  //压力2斜率下限报警
-                        alarm += "压力2斜率下限报警";
+                    
+                    //if ((pack.Data[1] & 0x01) == 1)  //压力1上限报警
+                    //    alarm += "压力1上限报警";
+                    //else if (((pack.Data[1] & 0x02) >> 1) == 1)   //压力1下限报警
+                    //    alarm += "压力1下限报警";
+                    //else if (((pack.Data[1] & 0x04) >> 2) == 1)   //压力2上限报警
+                    //    alarm += "压力2上限报警";
+                    //else if (((pack.Data[1] & 0x08) >> 3) == 1)  //压力2下限报警
+                    //    alarm += "压力2下限报警";
+                    //else if (((pack.Data[1] & 0x10) >> 4) == 1)   //压力1斜率上限报警
+                    //    alarm += "压力1斜率上限报警";
+                    //else if (((pack.Data[1] & 0x20) >> 5) == 1)  //压力1斜率下限报警
+                    //    alarm += "压力1斜率下限报警";
+                    //else if (((pack.Data[1] & 0x40) >> 6) == 1)  //压力2斜率上限报警
+                    //    alarm += "压力2斜率上限报警";
+                    //else if (((pack.Data[1] & 0x80) >> 7) == 1)  //压力2斜率下限报警
+                    //    alarm += "压力2斜率下限报警";
 
                     /****************************************宿州校准压力值********************************************/
                     //double[] RectifyValue = new double[] {  //修偏数组
@@ -81,7 +82,7 @@ namespace GCGPRSService
                     framedata.TerId = pack.ID.ToString();
                     framedata.ModifyTime = DateTime.Now;
                     framedata.Frame = str_frame;
-
+                    
                     int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
                     float pressuevalue = 0;
                     float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
@@ -105,8 +106,8 @@ namespace GCGPRSService
                             if (pressuevalue < 0)
                                 pressuevalue = 0;
                         }
-                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力终端[{1}]|报警({2})|压力标志({3})|采集时间({4})|压力值:{5}MPa(纠偏值{6})|电压值:{7}V",
-                            i, pack.ID, alarm, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, TmpRectifyValue, volvalue)));
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("index({0})|压力终端[{1}]|压力标志({2})|采集时间({3})|压力值:{4}MPa(纠偏值{5})|电压值:{6}V",
+                            i, pack.ID, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, TmpRectifyValue, volvalue)));
 
                         GPRSPreDataEntity data = new GPRSPreDataEntity();
                         data.PreValue = pressuevalue;
@@ -118,6 +119,33 @@ namespace GCGPRSService
                         catch { data.ColTime = ConstValue.MinDateTime; }
                         bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                         framedata.lstPreData.Add(data);
+                    }
+
+                    Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(pack.ID3, pack.C1,  pack.Data[1]);
+                    if (dictalarms != null && dictalarms.Count > 0)
+                    {
+                        GPRSAlarmFrameDataEntity alarmframedata = new GPRSAlarmFrameDataEntity();
+                        alarmframedata.Frame = str_frame;
+                        alarmframedata.TerId = pack.DevID.ToString();
+                        alarmframedata.TerminalType = TerType.PreTer;
+                        try
+                        {
+                            alarmframedata.ModifyTime = new DateTime(year, month, day, hour, minute, sec);
+                        }
+                        catch { alarmframedata.ModifyTime = ConstValue.MinDateTime; }
+
+                        alarmframedata.AlarmId = new List<int>();
+                        foreach (var de in dictalarms)
+                        {
+                            alarmframedata.AlarmId.Add(de.Key);
+                            str_alarm.Append(de.Value + " ");
+                            
+                        }
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}] {1}",
+                            pack.ID, str_alarm)));
+
+                        GlobalValue.Instance.GPRS_AlarmFrameData.Enqueue(alarmframedata);
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertAlarm);
                     }
 
                     GlobalValue.Instance.GPRS_PreFrameData.Enqueue(framedata);  //通知存储线程处理
@@ -236,7 +264,7 @@ namespace GCGPRSService
                         throw new ArgumentException(DateTime.Now.ToString() + " " + "帧数据长度[" + pack.DataLength + "]不符合(2+1+18*n)或(2+1+18*n+2)规则");
                     }
 
-                    string alarm = "";
+                    StringBuilder str_alarm = new StringBuilder();
                     //报警
                     /*
                      * A0—电池低压报警。
@@ -245,15 +273,15 @@ namespace GCGPRSService
                      * A3—485流量传感器损坏报警。
                      * A4～A7—备用
                      */
-
-                    if ((pack.Data[0] & 0x01) == 1)  //电池低压报警
-                        alarm += "电池低压报警";
-                    else if (((pack.Data[0] & 0x02) >> 1) == 1)   //压力传感器1损坏报警
-                        alarm += "压力传感器1损坏报警";
-                    else if (((pack.Data[0] & 0x04) >> 2) == 1)   //压力传感器2损坏报警
-                        alarm += "压力传感器2损坏报警";
-                    else if (((pack.Data[0] & 0x08) >> 3) == 1)  //485流量传感器损坏报警
-                        alarm += "485流量传感器损坏报警";
+                    
+                    //if ((pack.Data[0] & 0x01) == 1)  //电池低压报警
+                    //    alarm += "电池低压报警";
+                    //else if (((pack.Data[0] & 0x02) >> 1) == 1)   //压力传感器1损坏报警
+                    //    alarm += "压力传感器1损坏报警";
+                    //else if (((pack.Data[0] & 0x04) >> 2) == 1)   //压力传感器2损坏报警
+                    //    alarm += "压力传感器2损坏报警";
+                    //else if (((pack.Data[0] & 0x08) >> 3) == 1)  //485流量传感器损坏报警
+                    //    alarm += "485流量传感器损坏报警";
 
                     int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
                     year = 2000 + Convert.ToInt16(pack.Data[1]);
@@ -272,9 +300,29 @@ namespace GCGPRSService
                         month = 1;
                     if (day == 0)
                         day = 1;
+
+                    Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(pack.ID3, pack.C1, pack.Data[0]);
+                    if (dictalarms != null && dictalarms.Count > 0)
+                    {
+                        GPRSAlarmFrameDataEntity alarmframedata = new GPRSAlarmFrameDataEntity();
+                        alarmframedata.Frame = str_frame;
+                        alarmframedata.TerId = pack.DevID.ToString();
+                        alarmframedata.TerminalType = TerType.PreTer;
+                        alarmframedata.ModifyTime = new DateTime(year, month, day, hour, minute, sec);
+                        alarmframedata.AlarmId = new List<int>();
+                        foreach (var de in dictalarms)
+                        {
+                            alarmframedata.AlarmId.Add(de.Key);
+                            str_alarm.Append(de.Value + " ");
+                        }
+
+                        GlobalValue.Instance.GPRS_AlarmFrameData.Enqueue(alarmframedata);
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertAlarm);
+                    }
+
                     bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("压力终端[{0}]{1}|时间({2})|电压值:{3}V",
-                         pack.ID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
+                         pack.ID, str_alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
                 }
                 else if (pack.C1 == (byte)GPRS_READ.READ_PREFLOWDATA) //从站向主站发送流量采集数据(水质终端)
                 {

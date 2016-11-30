@@ -22,11 +22,11 @@ namespace Entity
     public enum TerType
     {
         /// <summary>
-        /// 压力终端
+        /// 压力流量终端
         /// </summary>
         PreTer = 1,
         /// <summary>
-        /// 流量终端
+        /// 流量终端(作废)
         /// </summary>
         FlowTer = 2,
         /// <summary>

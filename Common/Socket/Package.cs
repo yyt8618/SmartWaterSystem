@@ -592,10 +592,11 @@ namespace Common
                 throw new ArgumentException("数据帧不完整或已损坏");
             }
 
-            if (Package.CreateCS(package) != package.CS)
-            {
-                throw new ArgumentException("数据帧校验失败");
-            }
+            //娄底终端问题，报警帧校验和错误，去掉检验,2016/11/29
+            //if (Package.CreateCS(package) != package.CS)
+            //{
+            //    throw new ArgumentException("数据帧校验失败");
+            //}
 
             return package;
         }

@@ -146,6 +146,23 @@ namespace BLL
             }
         }
 
+        public int InsertAlarmData(Queue<GPRSAlarmFrameDataEntity> datas, out string msg)
+        {
+            msg = "";
+            try
+            {
+                if (datas.Count == 0)
+                    return 0;
+                return dal.InsertAlarmData(datas);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("InsertAlarmData", ex);
+                msg = "保存至数据库发生异常";
+                return -1;
+            }
+        }
+
         public int InsertGPRSNoiseData(Queue<GPRSNoiseFrameDataEntity> datas, out string msg)
         {
             msg = "";
@@ -229,7 +246,7 @@ namespace BLL
         /// <summary>
         /// 获取所有的报警类型
         /// </summary>
-        public List<AlarmTypeEntity> GetAlarmType()
+        public Dictionary<int, string> GetAlarmType()
         {
             try
             {

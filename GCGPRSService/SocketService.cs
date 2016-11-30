@@ -212,9 +212,9 @@ namespace GCGPRSService
                 {
                     OnSendMsg(new SocketEventArgs("压力数据保存成功"));
                 }
-                else if(-1 == e.Result)
+                else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("压力数据保存失败:"+e.Msg));
+                    OnSendMsg(new SocketEventArgs("压力数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertFlowValue)
@@ -283,7 +283,7 @@ namespace GCGPRSService
                     OnSendMsg(new SocketEventArgs("水厂数据保存失败:" + e.Msg));
                 }
             }
-            else if(e.SQLType == SQLType.InsertHydrantValue)
+            else if (e.SQLType == SQLType.InsertHydrantValue)
             {
                 if (1 == e.Result)
                 {
@@ -292,6 +292,17 @@ namespace GCGPRSService
                 else if (-1 == e.Result)
                 {
                     OnSendMsg(new SocketEventArgs("消防栓数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertAlarm)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("报警数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("报警数据保存失败:" + e.Msg));
                 }
             }
         }

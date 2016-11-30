@@ -520,8 +520,6 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
-                
-                
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -728,6 +726,89 @@ namespace DAL
             }
         }
 
+        public int InsertAlarmData(Queue<GPRSAlarmFrameDataEntity> datas)
+        {
+            lock (ConstValue.obj)
+            {
+                //SqlTransaction trans = null;
+                try
+                {
+                    //trans = SQLHelper.GetTransaction();
+                    using (SqlCommand command_frame = new SqlCommand())
+                    {
+                        string SQL_Frame = "INSERT INTO Frame(Dir,Frame,LogTime) VALUES(@dir,@frame,@logtime)";
+                        SqlParameter[] parms_frame = new SqlParameter[]{
+                new SqlParameter("@dir",SqlDbType.Int),
+                new SqlParameter("@frame",SqlDbType.VarChar,2000),
+                new SqlParameter("@logtime",SqlDbType.DateTime)
+            };
+                        //SqlCommand command_frame = new SqlCommand();
+                        command_frame.CommandText = SQL_Frame;
+                        command_frame.Parameters.AddRange(parms_frame);
+                        command_frame.CommandType = CommandType.Text;
+                        command_frame.Connection = SQLHelper.Conn;
+                        //command_frame.Transaction = trans;
+                        using (SqlCommand command_predata = new SqlCommand())
+                        {
+                            string SQL_Data = @"INSERT INTO AlarmTable([TerminalId],[TerminalType],[AlarmId],[ModifyTime]) 
+                                VALUES(@TerId,@TerType,@AlarmId,@ModifyTime)";
+                            SqlParameter[] parms_data = new SqlParameter[]{
+                    new SqlParameter("@TerId",SqlDbType.Int),
+                    new SqlParameter("@TerType",SqlDbType.Int),
+                    new SqlParameter("@AlarmId",SqlDbType.Int),
+                    new SqlParameter("@ModifyTime",SqlDbType.DateTime)
+                            };
+                            //SqlCommand command_predata = new SqlCommand();
+                            command_predata.CommandText = SQL_Data;
+                            command_predata.Parameters.AddRange(parms_data);
+                            command_predata.CommandType = CommandType.Text;
+                            command_predata.Connection = SQLHelper.Conn;
+                            //command_predata.Transaction = trans;
+
+                            while (datas.Count > 0)
+                            {
+                                GPRSAlarmFrameDataEntity entity = null;
+                                try
+                                {
+                                    entity = datas.Dequeue();
+                                    parms_frame[0].Value = 1;
+                                    parms_frame[1].Value = entity.Frame;
+                                    parms_frame[2].Value = entity.ModifyTime;
+
+                                    command_frame.ExecuteNonQuery();
+
+                                    for (int i = 0; i < entity.AlarmId.Count; i++)
+                                    {
+                                        parms_data[0].Value = entity.TerId;
+                                        parms_data[1].Value = (int)(entity.TerminalType);
+                                        parms_data[2].Value = entity.AlarmId[i];
+                                        parms_data[3].Value = entity.ModifyTime;
+
+                                        command_predata.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (Exception iex)
+                                {
+                                    if (entity != null)
+                                        datas.Enqueue(entity);
+                                    throw iex;
+                                }
+                            }
+                        }
+                        //trans.Commit();
+                    }
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    //if (trans != null)
+                    //    trans.Rollback();
+
+                    throw ex;
+                }
+            }
+        }
+
         /// <summary>
         /// 获取需要下发的参数
         /// </summary>
@@ -768,25 +849,27 @@ namespace DAL
         /// <summary>
         /// 获取所有的报警类型
         /// </summary>
-        public List<AlarmTypeEntity> GetAlarmType()
+        public Dictionary<int, string> GetAlarmType()
         {
             lock(ConstValue.obj)
             {
                 string SQL = "SELECT * FROM AlarmType";
-                List<AlarmTypeEntity> lstAlarm = null;
+                Dictionary<int, string> lstAlarm = null;
                 using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
                 {
-                    lstAlarm = new List<AlarmTypeEntity>();
+                    lstAlarm = new Dictionary<int, string>();
                     while(reader.Read())
                     {
-                        AlarmTypeEntity alarm = new AlarmTypeEntity();
-                        alarm.TerminalType = Convert.ToByte(reader["TerminalType"]);
-                        alarm.FunCode = Convert.ToByte(reader["FunCode"]);
-                        alarm.AlarmFlag = BitConverter.GetBytes((Int16)(reader["AlarmFlag"]));
-                        alarm.AlarmId = Convert.ToInt32(reader["AlarmId"]);
-                        alarm.AlarmName = reader["AlarmName"].ToString();
+                        lstAlarm.Add(Convert.ToInt32(reader["AlarmId"]), reader["AlarmName"].ToString());
+                        
+                        //AlarmTypeEntity alarm = new AlarmTypeEntity();
+                        //alarm.TerminalType = Convert.ToByte(reader["TerminalType"]);
+                        //alarm.FunCode = Convert.ToByte(reader["FunCode"]);
+                        //alarm.AlarmFlag = BitConverter.GetBytes((Int16)(reader["AlarmFlag"]));
+                        //alarm.AlarmId = Convert.ToInt32(reader["AlarmId"]);
+                        //alarm.AlarmName = reader["AlarmName"].ToString();
 
-                        lstAlarm.Add(alarm);
+                        //lstAlarm.Add(alarm);
                     }
                 }
                 return lstAlarm;
