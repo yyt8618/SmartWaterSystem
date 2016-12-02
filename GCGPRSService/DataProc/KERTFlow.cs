@@ -18,8 +18,14 @@ namespace GCGPRSService
             alarmflag = BitConverter.ToInt16(new byte[] { data[0], data[1] }, 0);
 
             float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
+            Int16 field_stength = -1;
             if (datalen - (6 + 36) * dataindex - 3 == 2)  //最后余两个字节则认为是电压值
                 volvalue = ((float)BitConverter.ToInt16(new byte[] { data[datalen - 1], data[datalen - 2] }, 0)) / 1000;
+            else if(datalen -(6+36)*dataindex -3 ==3)
+            {
+                volvalue = ((float)BitConverter.ToInt16(new byte[] { data[datalen - 2], data[datalen - 3] }, 0)) / 1000;
+                field_stength = (Int16)data[datalen - 1];
+            }
 
             GPRSFlowFrameDataEntity framedata = new GPRSFlowFrameDataEntity();
             framedata.TerId = id;
@@ -54,14 +60,15 @@ namespace GCGPRSService
                     { str_alarm = "流量上限报警"; }
                     else if ((balarm & 0x10) == 0x10)
                     { str_alarm = "流量下限报警"; }
-                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("index({0})|[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V",
-                       i, tername+id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue)));
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("index({0})|[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V|信号强度:{9}",
+                       i, tername+id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue, field_stength)));
 
                     GPRSFlowDataEntity flowdata = new GPRSFlowDataEntity();
                     flowdata.Forward_FlowValue = forward_flowvalue;
                     flowdata.Reverse_FlowValue = reverse_flowvalue;
                     flowdata.Instant_FlowValue = instant_flowvalue;
                     flowdata.Voltage = volvalue;
+                    flowdata.FieldStrength = field_stength;
                     try
                     {
                         flowdata.ColTime = new DateTime(year, month, day, hour, minute, sec);

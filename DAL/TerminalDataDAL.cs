@@ -52,13 +52,14 @@ namespace DAL
 
                         using (SqlCommand command_predata = new SqlCommand())
                         {
-                            string SQL_PreData = "INSERT INTO Pressure_Real(TerminalID,PressValue,CollTime,UnloadTime,HistoryFlag,Voltage) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0,@Voltage)";
+                            string SQL_PreData = "INSERT INTO Pressure_Real(TerminalID,PressValue,CollTime,UnloadTime,HistoryFlag,Voltage,FieldStrength) VALUES(@TerId,@prevalue,@coltime,@UploadTime,0,@Voltage,@fieldstrength)";
                             SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@prevalue",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
-                    new SqlParameter("@Voltage",SqlDbType.Decimal)
+                    new SqlParameter("@Voltage",SqlDbType.Decimal),
+                    new SqlParameter("@fieldstrength",SqlDbType.SmallInt)
                 };
                             //SqlCommand command_predata = new SqlCommand();
                             command_predata.CommandText = SQL_PreData;
@@ -90,10 +91,8 @@ namespace DAL
                                         parms_predata[1].Value = entity.lstPreData[i].PreValue;
                                         parms_predata[2].Value = entity.lstPreData[i].ColTime;
                                         parms_predata[3].Value = entity.ModifyTime;
-                                        if (entity.lstPreData[i].Voltage == -1)
-                                            parms_predata[4].Value = DBNull.Value;
-                                        else
-                                            parms_predata[4].Value = entity.lstPreData[i].Voltage;
+                                        parms_predata[4].Value = entity.lstPreData[i].Voltage;
+                                        parms_predata[5].Value = entity.lstPreData[i].FieldStrength;
 
                                         command_predata.ExecuteNonQuery();
                                     }
@@ -149,7 +148,7 @@ namespace DAL
 
                         using (SqlCommand command_predata = new SqlCommand())
                         {
-                            string SQL_PreData = "INSERT INTO Flow_Real(TerminalID,FlowValue,FlowInverted,FlowInstant,CollTime,UnloadTime,HistoryFlag,Voltage) VALUES(@TerId,@flowvalue,@flowreverse,@flowinstant,@coltime,@UploadTime,0,@Voltage)";
+                            string SQL_PreData = "INSERT INTO Flow_Real(TerminalID,FlowValue,FlowInverted,FlowInstant,CollTime,UnloadTime,HistoryFlag,Voltage,FieldStrength) VALUES(@TerId,@flowvalue,@flowreverse,@flowinstant,@coltime,@UploadTime,0,@Voltage,@fieldstrength)";
                             SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@flowvalue",SqlDbType.Decimal),
@@ -157,7 +156,8 @@ namespace DAL
                     new SqlParameter("@flowinstant",SqlDbType.Decimal),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
-                    new SqlParameter("@Voltage",SqlDbType.Decimal)
+                    new SqlParameter("@Voltage",SqlDbType.Decimal),
+                    new SqlParameter("@fieldstrength",SqlDbType.SmallInt)
                 };
                             //SqlCommand command_predata = new SqlCommand();
                             command_predata.CommandText = SQL_PreData;
@@ -190,10 +190,8 @@ namespace DAL
                                         parms_predata[3].Value = entity.lstFlowData[i].Instant_FlowValue;
                                         parms_predata[4].Value = entity.lstFlowData[i].ColTime;
                                         parms_predata[5].Value = entity.ModifyTime;
-                                        if (entity.lstFlowData[i].Voltage == -1)
-                                            parms_predata[6].Value = DBNull.Value;
-                                        else
-                                            parms_predata[6].Value = entity.lstFlowData[i].Voltage;
+                                        parms_predata[6].Value = entity.lstFlowData[i].Voltage;
+                                        parms_predata[7].Value = entity.lstFlowData[i].FieldStrength;
 
                                         command_predata.ExecuteNonQuery();
                                     }
@@ -750,13 +748,15 @@ namespace DAL
                         //command_frame.Transaction = trans;
                         using (SqlCommand command_predata = new SqlCommand())
                         {
-                            string SQL_Data = @"INSERT INTO AlarmTable([TerminalId],[TerminalType],[AlarmId],[ModifyTime]) 
-                                VALUES(@TerId,@TerType,@AlarmId,@ModifyTime)";
+                            string SQL_Data = @"INSERT INTO AlarmTable([TerminalId],[TerminalType],[AlarmId],[ModifyTime],Voltage,FieldStrength) 
+                                VALUES(@TerId,@TerType,@AlarmId,@ModifyTime,@vol,@fieldstrength)";
                             SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@TerType",SqlDbType.Int),
                     new SqlParameter("@AlarmId",SqlDbType.Int),
-                    new SqlParameter("@ModifyTime",SqlDbType.DateTime)
+                    new SqlParameter("@ModifyTime",SqlDbType.DateTime),
+                    new SqlParameter("@vol",SqlDbType.Decimal),
+                    new SqlParameter("@fieldstrength",SqlDbType.SmallInt)
                             };
                             //SqlCommand command_predata = new SqlCommand();
                             command_predata.CommandText = SQL_Data;
@@ -783,6 +783,8 @@ namespace DAL
                                         parms_data[1].Value = (int)(entity.TerminalType);
                                         parms_data[2].Value = entity.AlarmId[i];
                                         parms_data[3].Value = entity.ModifyTime;
+                                        parms_data[4].Value = entity.Voltage;
+                                        parms_data[5].Value = entity.FieldStrength;
 
                                         command_predata.ExecuteNonQuery();
                                     }

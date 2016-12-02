@@ -46,6 +46,26 @@ namespace Entity
         /// 报警表ID(int) (TerminalType+FunCode+AlarmFlag(2byte)组成)
         /// </summary>
         public List<int> AlarmId { get; set; }
+
+        private float _Voltage = -1f;
+        /// <summary>
+        /// 电压值
+        /// </summary>
+        public float Voltage
+        {
+            get { return _Voltage; }
+            set { _Voltage = value; }
+        }
+
+        private Int16 _FieldStrength = -1;
+        /// <summary>
+        /// 信号强度
+        /// </summary>
+        public Int16 FieldStrength
+        {
+            get { return _FieldStrength; }
+            set { _FieldStrength = value; }
+        }
     }
 
 }
