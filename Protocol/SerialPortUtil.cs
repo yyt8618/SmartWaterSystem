@@ -307,7 +307,7 @@ namespace Protocol
                 bytesRead = serialPort.Read(buf, 0, len);
                 if (bytesRead > 0)
                 {
-                    AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " DataReceived收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));
+                    AppendBufLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ffff") + " 串口收到原始数据:{0}", ConvertHelper.ByteArrayToHexString(buf));
                     for (int i = 0; i < bytesRead; i++)
                     {
                         ReceiveBytes.Add(buf[i]);

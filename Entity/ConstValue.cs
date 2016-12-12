@@ -19,7 +19,7 @@ namespace Entity
         public static string MaxStandardAMP = "MaxStandardAMP";
         public static string MinStandardAMP = "MinStandardAMP";
         public static string LeakValue_Template = "LeakValue_Template";
-
+        public static double UniversalSimRatio = 4095;  //模拟量1、2报警值计算系数
 
         public static DateTime MinDateTime = new DateTime(2015, 1, 1, 0, 0, 0);
 
@@ -55,8 +55,10 @@ namespace Entity
             Set_SL651_AllowOnlineFlag,  //设置SL651是否允许在线标志
             Get_SL651_WaitSendCmd,      //获取SL651待发送命令列表
             Del_SL651_WaitSendCmd,      //删除SL651待发送命令
-            GC,                         //强制GC
             MiniDump,                   //获取Dump文件
+            P68_Cmd,           //68协议命令
+            Get_P68_WaitSendCmd,        //获取68协议待发送命令列表
+            Del_P68_WaitSendCmd,        //删除68协议待发送命令
         }
 
         /// <summary>

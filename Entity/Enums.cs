@@ -83,4 +83,51 @@ namespace Entity
         /// </summary>
         KnockOver = 5
     }
+
+    /// <summary>
+    /// 通用终端报警标志类型
+    /// </summary>
+    public enum UniversalFlagType
+    {
+        /// <summary>
+        /// 压力1
+        /// </summary>
+        Pressure1=0,
+        /// <summary>
+        /// 压力2
+        /// </summary>
+        Pressure2 = 1,
+        /// <summary>
+        /// 模拟量1
+        /// </summary>
+        Simulate1=2,
+        /// <summary>
+        /// 模拟量2
+        /// </summary>
+        Simulate2 = 3,
+        /// <summary>
+        /// 流量
+        /// </summary>
+        Flow=4,
+    }
+
+    public enum UniversalAlarmType
+    {
+        /// <summary>
+        /// 上限报警
+        /// </summary>
+        UpAlarm,
+        /// <summary>
+        /// 下限报警
+        /// </summary>
+        LowAlarm,
+        /// <summary>
+        /// 斜率上限报警
+        /// </summary>
+        SlopUpAlarm,
+        /// <summary>
+        /// 斜率下限报警
+        /// </summary>
+        SlopLowAlarm,
+    }
 }

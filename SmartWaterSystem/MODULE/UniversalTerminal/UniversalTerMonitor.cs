@@ -461,8 +461,6 @@ namespace SmartWaterSystem
                         msmqEntity.CallDataType.GetSim1 = true;
                     else if (config_Seq == 2)
                         msmqEntity.CallDataType.GetSim2 = true;
-                    else if (config_Seq == 3)
-                        msmqEntity.CallDataType.GetSim3 = true;
                     else if (config_Seq >= 4 && config_Seq <= 8)
                         msmqEntity.CallDataType.GetPluse = true;
                     else if (config_Seq == 9)
@@ -473,14 +471,6 @@ namespace SmartWaterSystem
                         msmqEntity.CallDataType.GetRS4853 = true;
                     else if (config_Seq == 12)
                         msmqEntity.CallDataType.GetRS4854 = true;
-                    else if (config_Seq == 13)
-                        msmqEntity.CallDataType.GetRS4855 = true;
-                    else if (config_Seq == 14)
-                        msmqEntity.CallDataType.GetRS4856 = true;
-                    else if (config_Seq == 15)
-                        msmqEntity.CallDataType.GetRS4857 = true;
-                    else if (config_Seq == 16)
-                        msmqEntity.CallDataType.GetRS4858 = true;
                     
                     GlobalValue.SocketMgr.SendMessage(msmqEntity);
                 }

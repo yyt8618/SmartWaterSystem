@@ -118,6 +118,62 @@ namespace Protocol
                 Convert.ToInt32(result.Data[3]), Convert.ToInt32(result.Data[4]), Convert.ToInt32(result.Data[5]));
         }
 
+        public string ReadVer(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_VER;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length <5)
+            {
+                throw new Exception("数据损坏");
+            }
+            return System.Text.Encoding.Default.GetString(result.Data);
+        }
+
+        public string ReadFieldStrength(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_FIELDSTRENGTH;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package, 35, 1);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 3)
+            {
+                throw new Exception("数据损坏");
+            } 
+            return "场强:"+result.Data[0]+",电压:"+ ((float)BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0)) / 1000; 
+        }
+
         public string ReadCellPhone(short Id)
         {
             Package package = new Package();
@@ -179,13 +235,13 @@ namespace Protocol
             return (Convert.ToInt32(result.Data[0]) == 1) ? true : false;
         }
 
-        public int ReadBaud(short Id)
+        public int Read485Baud(short Id)
         {
             Package package = new Package();
             package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.READ_BAUD;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_485BAUD;
             package.DataLength = 0;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
@@ -200,11 +256,303 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if (result.Data.Length != 4)
+            if (result.Data.Length != 1)
             {
                 throw new Exception("数据损坏");
             }
-            return Convert.ToInt32(result.Data);
+            return Convert.ToInt32(result.Data[0]);
+        }
+
+        public int ReadNetworkType(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_NETWORKTYPE;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToInt32(result.Data[0]);
+        }
+
+        public double ReadLimit(short Id, UniversalFlagType flagtype, UniversalAlarmType alarmtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            byte flag = 0x00;
+            switch(flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_PREUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_PRELOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_PRESLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_PRESLOPLOWLIMIT;
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_PREUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_PRELOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_PRESLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_PRESLOPLOWLIMIT;
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    if(alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMSLOPLOWLIMIT;
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMSLOPLOWLIMIT;
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Flow:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_FLOWUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_FLOWLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_FLOWSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_FLOWSLOPLOWLIMIT;
+                    flag = 0x01;
+                    break;
+            }
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = flag;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                case UniversalFlagType.Pressure2:
+                    if (result.Data.Length != 3)
+                    {
+                        throw new Exception("数据损坏");
+                    }
+                    return ((double)BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0))/1000;
+                case UniversalFlagType.Simulate1:
+                case UniversalFlagType.Simulate2:
+                    if (result.Data.Length != 7)
+                    {
+                        throw new Exception("数据损坏");
+                    }
+                    double range = 0;
+                    range += BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0);    //整数部分
+                    range += ((double)BitConverter.ToInt16(new byte[] { result.Data[4], result.Data[3] }, 0)) / 1000;    //小数部分
+                    return ((double)(BitConverter.ToInt16(new byte[] { result.Data[6], result.Data[5] }, 0))) * range / (ConstValue.UniversalSimRatio);
+                case UniversalFlagType.Flow:
+                    if (result.Data.Length != 5)
+                    {
+                        throw new Exception("数据损坏");
+                    }
+                    return ((double)BitConverter.ToInt32(new byte[] { result.Data[4], result.Data[3], result.Data[2], result.Data[1] }, 0))/1000;
+                default:
+                    return 0;
+            }
+        }
+        
+        public bool ReadAlarmEnable(short Id, UniversalFlagType flagtype, UniversalAlarmType alarmtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            if (alarmtype == UniversalAlarmType.UpAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.READ_UPENABLE;
+            else if (alarmtype == UniversalAlarmType.LowAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.READ_LOWENABLE;
+            else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.READ_SLOPUPENABLE;
+            else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.READ_SLOPLOWENABLE;
+            byte flag = 0x00;
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Flow:
+                    flag = 0x01;
+                    break;
+            }
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = flag;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return (result.Data[1] == 0x01) ? true : false;
+        }
+
+        public double ReadRange(short Id, UniversalFlagType flagtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            byte flag = 0x00;
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.READ_PRERANGE;
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.READ_PRERANGE;
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMRANGE;
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMRANGE;
+                    flag = 0x02;
+                    break;
+                //case UniversalFlagType.Flow:  //无流量
+                //    flag = 0x01;
+                //    break;
+            }
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = flag;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (flagtype == UniversalFlagType.Pressure1 || flagtype == UniversalFlagType.Pressure2)   //压力
+            {
+                if (result.Data.Length != 3)
+                {
+                    throw new Exception("数据损坏");
+                }
+                return ((double)(BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0))) /1000;
+            }
+            else     //模拟量
+            {
+                if (result.Data.Length != 5)
+                {
+                    throw new Exception("数据损坏");
+                }
+                double range = 0;
+                range += BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0);    //整数部分
+                range += ((double)BitConverter.ToInt16(new byte[] { result.Data[4], result.Data[3] }, 0))/1000;    //小数部分
+                return range;
+            }
+        }
+
+        public double ReadPreOffset(short Id, UniversalFlagType flagtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_PREOFFSET;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            byte flag = 0x00;
+            if (flagtype == UniversalFlagType.Pressure1)
+                flag = 0x01;
+            else if (flagtype == UniversalFlagType.Pressure2)
+                flag = 0x02;
+            data[0] = flag;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 3)
+            {
+                throw new Exception("数据损坏");
+            }
+            return ((double)BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0))/1000;
         }
 
         public int ReadComType(short Id)
@@ -300,12 +648,12 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if (result.Data.Length != 4)
+            if (result.Data.Length != 4 && result.Data.Length != 5)
             {
                 throw new Exception("数据损坏");
             }
             string tmp = "";
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < result.Data.Length; i++)
             {
                 if ((char)result.Data[i] != '\0')
                     tmp += (char)result.Data[i];
@@ -343,6 +691,145 @@ namespace Protocol
                 throw new Exception("数据损坏");
             }
             return result.Data[0];
+        }
+
+        public int ReadHeartInterval(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_HEARTINTERVAL;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+
+        public int ReadVolInterval(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_VOLINTERVAL;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+
+        public short ReadVolLower(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_VOLLOWER;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToInt16(result.Data[0]);
+        }
+
+        public short ReadSMSInterval(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_SMSINTERVAL;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+        public short ReadPluseUnit(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_PLUSEUNIT;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 1)
+            {
+                throw new Exception("数据损坏");
+            }
+            return Convert.ToInt16(result.Data[0]);
         }
 
         public DataTable ReadSimualteInterval(short Id)
@@ -408,20 +895,22 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if ((result.Data.Length % 5) != 0)
+            if ((result.Data.Length % 7) != 0)
             {
                 throw new Exception("数据损坏");
             }
             DataTable dt_pluse = new DataTable();
             dt_pluse.Columns.Add("starttime");
-            dt_pluse.Columns.Add("collecttime");
+            dt_pluse.Columns.Add("precollecttime");
+            dt_pluse.Columns.Add("plusecollecttime");
             dt_pluse.Columns.Add("sendtime");
-            for (int i = 0; i < result.DataLength; i += 5)
+            for (int i = 0; i < result.DataLength; i += 7)
             {
                 DataRow dr = dt_pluse.NewRow();
                 dr["starttime"] = Convert.ToInt32(result.Data[i]);
                 dr["sendtime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 2], result.Data[i + 1] }, 0);
-                dr["collecttime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
+                dr["precollecttime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 4], result.Data[i + 3] }, 0);
+                dr["plusecollecttime"] = BitConverter.ToInt16(new byte[] { result.Data[i + 6], result.Data[i + 5] }, 0);
                 dt_pluse.Rows.Add(dr);
             }
 
@@ -530,6 +1019,20 @@ namespace Protocol
             dt.Columns.Add("Unit");
             Package package = new Package();
             
+            if(calldataType.GetPre)
+            {
+                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_Pre1);
+                Package result = Read(package);
+                if (!result.IsSuccess || result.Data == null)
+                {
+                    throw new Exception("获取压力失败");
+                }
+                if (result.Data.Length == 0)
+                {
+                    throw new Exception("压力无数据");
+                }
+                AnalysisSim(Id, result, dt_config, ref dt);
+            }
             if (calldataType.GetSim1)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_Sim1);
@@ -625,62 +1128,6 @@ namespace Protocol
                 if (result.Data.Length == 0)
                 {
                     throw new Exception("招测RS485 4路无数据");
-                }
-                AnalysisRS485(Id, result, dt_config, ref dt);
-            }
-            if (calldataType.GetRS4855)
-            {
-                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4855);
-                Package result = Read(package, 15, 1);
-                if (!result.IsSuccess || result.Data == null)
-                {
-                    throw new Exception("获取RS485 5路失败");
-                }
-                if (result.Data.Length == 0)
-                {
-                    throw new Exception("招测RS485 5路无数据");
-                }
-                AnalysisRS485(Id, result, dt_config, ref dt);
-            }
-            if (calldataType.GetRS4856)
-            {
-                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4856);
-                Package result = Read(package, 15, 1);
-                if (!result.IsSuccess || result.Data == null)
-                {
-                    throw new Exception("获取RS485 6路失败");
-                }
-                if (result.Data.Length == 0)
-                {
-                    throw new Exception("招测RS485 6路无数据");
-                }
-                AnalysisRS485(Id, result, dt_config, ref dt);
-            }
-            if (calldataType.GetRS4857)
-            {
-                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4857);
-                Package result = Read(package, 15, 1);
-                if (!result.IsSuccess || result.Data == null)
-                {
-                    throw new Exception("获取RS485 7路失败");
-                }
-                if (result.Data.Length == 0)
-                {
-                    throw new Exception("招测RS485 7路无数据");
-                }
-                AnalysisRS485(Id, result, dt_config, ref dt);
-            }
-            if (calldataType.GetRS4858)
-            {
-                package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_RS4858);
-                Package result = Read(package, 15, 1);
-                if (!result.IsSuccess || result.Data == null)
-                {
-                    throw new Exception("获取RS485 8路失败");
-                }
-                if (result.Data.Length == 0)
-                {
-                    throw new Exception("招测RS485 8路无数据");
                 }
                 AnalysisRS485(Id, result, dt_config, ref dt);
             }
@@ -857,22 +1304,6 @@ namespace Protocol
             {
                 sequence = "12"; name = "RS485 4路";
             }
-            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4855)
-            {
-                sequence = "13"; name = "RS485 5路";
-            }
-            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4856)
-            {
-                sequence = "14"; name = "RS485 6路";
-            }
-            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4857)
-            {
-                sequence = "15"; name = "RS485 7路";
-            }
-            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4858)
-            {
-                sequence = "16"; name = "RS485 8路";
-            }
             int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
 
             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
@@ -1019,13 +1450,10 @@ namespace Protocol
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
             byte[] data = BitConverter.GetBytes((int)Id);
-            List<byte> lstbyte = new List<byte>();
-            for(int i = data.Length-1; i>= 0;i--)
-            {
-                lstbyte.Add(data[i]);
-            }
+            Array.Reverse(data);
+            data[0] = (byte)(ConstValue.DEV_TYPE.UNIVERSAL_CTRL);
             package.DataLength = data.Length;
-            package.Data = lstbyte.ToArray();
+            package.Data = data;
             package.CS = package.CreateCS();
 
             return Write(package);
@@ -1037,8 +1465,8 @@ namespace Protocol
             package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
-            byte[] data = BitConverter.GetBytes((int)Id);
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_CELLPHONE;
+            byte[] data = System.Text.Encoding.Default.GetBytes(phonenum);
             package.DataLength = data.Length;
             package.Data = data;
             package.CS = package.CreateCS();
@@ -1069,6 +1497,22 @@ namespace Protocol
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_COMTYPE;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = (byte)flag;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetNetworkType(short Id, int flag)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_NETWORKTYPE;
             package.DataLength = 1;
             byte[] data = new byte[package.DataLength];
             data[0] = (byte)flag;
@@ -1128,6 +1572,102 @@ namespace Protocol
             return Write(package);
         }
 
+        public bool SetHeart(short Id, int interval)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_HEART;
+            byte[] data = BitConverter.GetBytes((short)interval);
+            Array.Reverse(data);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool Set485Baud(short Id, int baud)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_485BAUD;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = (byte)baud;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetVolInterval(short Id, int interval)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_VOLINTERVAL;
+            byte[] data = BitConverter.GetBytes((short)interval);
+            Array.Reverse(data);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetVolLower(short Id, int lowper)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_VOLLOWER;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = (byte)lowper;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetSMSInterval(short Id, int interval)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_SMSINTERVAL;
+            byte[] data = BitConverter.GetBytes((short)interval);
+            Array.Reverse(data);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+        public bool SetPluseUnit(short Id, int unit)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEUNIT;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];
+            data[0] = (byte)unit;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+
         public bool SetCollectConfig(short Id, byte config)
         {
             Package package = new Package();
@@ -1143,6 +1683,258 @@ namespace Protocol
 
             return Write(package);
         }
+
+        public bool SetPreUpLimit(short Id, int limit,byte flag, double range)
+        {
+            if (range > -1)  //大于-1表示是模拟1、2获取了量程,需要调整值
+                limit =(int)(ConstValue.UniversalSimRatio * limit / range/1000);
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREUPLIMIT;
+            byte[] data = new byte[3];
+            Array.Copy(BitConverter.GetBytes((short)limit), data, 2);
+            Array.Reverse(data);
+            data[0] = flag;
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        /// <summary>
+        /// 设置限值
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="limit"></param>
+        /// <param name="range">量程</param>
+        /// <param name="flagtype"></param>
+        /// <param name="alarmtype"></param>
+        public bool SetLimit(short Id,double limit,double range, UniversalFlagType flagtype, UniversalAlarmType alarmtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            byte[] data=new byte[3];
+            byte flag = 0x00;
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRELOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPLOWLIMIT;
+                    flag = 0x01;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)(limit*1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRELOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPLOWLIMIT;
+                    flag = 0x02;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)(limit * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPLOWLIMIT;
+                    flag = 0x01;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)Math.Round(ConstValue.UniversalSimRatio * limit / range)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPLOWLIMIT;
+                    flag = 0x02;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)Math.Round(ConstValue.UniversalSimRatio * limit / range)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Flow:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPLOWLIMIT;
+                    flag = 0x01;
+                    data = new byte[5];
+                    Array.Copy(BitConverter.GetBytes((int)(limit * 1000)), data, 4);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+            }
+            package.DataLength = data.Length;
+            
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+        public bool SetAlarmEnable(short Id, bool enable,UniversalFlagType flagtype, UniversalAlarmType alarmtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            if (alarmtype == UniversalAlarmType.UpAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_UPENABLE;
+            else if (alarmtype == UniversalAlarmType.LowAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_LOWENABLE;
+            else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_SLOPUPENABLE;
+            else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_SLOPLOWENABLE;
+            byte flag = 0x00;
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Flow:
+                    flag = 0x01;
+                    break;
+            }
+            byte[] data = new byte[2];
+            data[0] = flag;
+            data[1] = (byte)(enable ? 0x01 : 0x00);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+        
+        public bool SetRange(short Id, double range, UniversalFlagType flagtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            byte flag = 0x00;
+            byte[] data = new byte[3];
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRERANGE;
+                    flag = 0x01;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes(range), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRERANGE;
+                    flag = 0x02;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes(range), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMRANGE;
+                    flag = 0x01;
+                    data = new byte[5];
+                    short round = (short)range; //整数部分
+                    short deci = (short)Math.Round((range - round) * 1000);   //小数部分*1000
+                    Array.Copy(BitConverter.GetBytes(deci), data,2);
+                    Array.Copy(BitConverter.GetBytes(round), 0, data, 2, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMRANGE;
+                    flag = 0x02;
+                    data = new byte[5];
+                    round = (short)range; //整数部分
+                    deci = (short)Math.Round((range - round) * 1000);   //小数部分*1000
+                    Array.Copy(BitConverter.GetBytes(deci), data, 2);
+                    Array.Copy(BitConverter.GetBytes(round), 0, data, 2, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                    //case UniversalFlagType.Flow:  //无流量
+                    //    flag = 0x01;
+                    //    break;
+            }
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetPreOffset(short Id, double offset, UniversalFlagType flagtype)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREOFFSET;
+            byte flag = 0x00;
+            switch (flagtype)       //偏移值只有压力有，模拟量和流量没有
+            {
+                case UniversalFlagType.Pressure1:
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    flag = 0x02;
+                    break;
+            }
+            byte[] data = new byte[3];
+            Array.Copy(BitConverter.GetBytes((short)(offset*1000)), data, 2);
+            Array.Reverse(data);
+            data[0] = flag;
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
 
         public bool SetSimulateInterval(short Id, DataTable dt)
         {
@@ -1203,13 +1995,16 @@ namespace Protocol
             byte[] data;
             foreach (DataRow dr in dt.Rows)
             {
-                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["collecttime"] != DBNull.Value)
+                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["precollecttime"] != DBNull.Value && dr["plusecollecttime"]!=DBNull.Value)
                 {
                     lstdata.Add(Convert.ToByte(dr["starttime"]));
                     data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
                     lstdata.Add(data[1]);
                     lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime"]));
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["precollecttime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["plusecollecttime"]));
                     lstdata.Add(data[1]);
                     lstdata.Add(data[0]);
                 }
@@ -1270,8 +2065,8 @@ namespace Protocol
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_MODBUSPROTOCOL;
             List<byte> lstdata = new List<byte>();
             byte[] data;
-            int i=0;
-            for(;i<dt.Rows.Count;i++)
+            int validrow = 0;
+            for(int i = 0; i<dt.Rows.Count;i++)
             {
                 DataRow dr = dt.Rows[i];
                 if (dr["baud"] != DBNull.Value && dr["ID"] != DBNull.Value && dr["funcode"] != DBNull.Value&&
@@ -1326,11 +2121,12 @@ namespace Protocol
                         lstdata.Add(data[1]);
                         lstdata.Add(data[0]);
                     }
+                    validrow++;
                 }
             }
-            for (; i < 8; i++)
+            for (; validrow < 4; validrow++)
             {
-                lstdata.AddRange(new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });  //补齐8行
+                lstdata.AddRange(new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });  //补齐行
             }
 
             data = lstdata.ToArray();

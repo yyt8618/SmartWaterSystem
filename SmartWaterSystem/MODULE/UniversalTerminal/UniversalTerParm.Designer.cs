@@ -35,37 +35,45 @@ namespace SmartWaterSystem
             this.cb_sim_coltime2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.cb_sim_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.cbBaudRate = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.textEdit2 = new DevExpress.XtraEditors.TextEdit();
-            this.comboBoxEdit2 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.checkEdit6 = new DevExpress.XtraEditors.CheckEdit();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.txtVolLower = new DevExpress.XtraEditors.TextEdit();
+            this.txtIP = new DevExpress.XtraEditors.TextEdit();
+            this.cb485BaudRate = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.txtVolInterval = new DevExpress.XtraEditors.TextEdit();
+            this.txtSMSInterval = new DevExpress.XtraEditors.TextEdit();
+            this.txtHeart = new DevExpress.XtraEditors.TextEdit();
+            this.cbPluseUnit = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbModbusExeFlag = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbNetworkType = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.ceModbusExeFlag = new DevExpress.XtraEditors.CheckEdit();
+            this.ceNetWorkType = new DevExpress.XtraEditors.CheckEdit();
             this.txtCellPhone = new DevExpress.XtraEditors.TextEdit();
-            this.checkEdit5 = new DevExpress.XtraEditors.CheckEdit();
+            this.ceVolInterval = new DevExpress.XtraEditors.CheckEdit();
             this.txtTime = new DevExpress.XtraEditors.TextEdit();
-            this.checkEdit4 = new DevExpress.XtraEditors.CheckEdit();
-            this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit3 = new DevExpress.XtraEditors.CheckEdit();
-            this.checkEdit2 = new DevExpress.XtraEditors.CheckEdit();
+            this.ce485Baud = new DevExpress.XtraEditors.CheckEdit();
+            this.ceHeart = new DevExpress.XtraEditors.CheckEdit();
+            this.cePluseUnit = new DevExpress.XtraEditors.CheckEdit();
+            this.ceSMSInterval = new DevExpress.XtraEditors.CheckEdit();
+            this.ceVolLower = new DevExpress.XtraEditors.CheckEdit();
             this.txtPort = new DevExpress.XtraEditors.TextEdit();
-            this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
-            this.cePluseState = new DevExpress.XtraEditors.CheckEdit();
-            this.cemodbusprotocolstatus = new DevExpress.XtraEditors.CheckEdit();
-            this.ceRS485State = new DevExpress.XtraEditors.CheckEdit();
-            this.ceSimulate2State = new DevExpress.XtraEditors.CheckEdit();
-            this.ceSimulate1State = new DevExpress.XtraEditors.CheckEdit();
             this.cbComType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceComType = new DevExpress.XtraEditors.CheckEdit();
-            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
             this.ceTime = new DevExpress.XtraEditors.CheckEdit();
             this.txtID = new DevExpress.XtraEditors.TextEdit();
             this.ceCellPhone = new DevExpress.XtraEditors.CheckEdit();
-            this.txtNum4 = new DevExpress.XtraEditors.TextEdit();
             this.cePort = new DevExpress.XtraEditors.CheckEdit();
             this.ceID = new DevExpress.XtraEditors.CheckEdit();
-            this.txtNum3 = new DevExpress.XtraEditors.TextEdit();
-            this.txtNum2 = new DevExpress.XtraEditors.TextEdit();
-            this.txtNum1 = new DevExpress.XtraEditors.TextEdit();
             this.ceIP = new DevExpress.XtraEditors.CheckEdit();
+            this.groupControl7 = new DevExpress.XtraEditors.GroupControl();
+            this.cePluseState = new DevExpress.XtraEditors.CheckEdit();
+            this.ceDigitPreStatus = new DevExpress.XtraEditors.CheckEdit();
+            this.ceRS485State = new DevExpress.XtraEditors.CheckEdit();
+            this.ceSimulate2State = new DevExpress.XtraEditors.CheckEdit();
+            this.ceSimulate1State = new DevExpress.XtraEditors.CheckEdit();
+            this.ceColConfig = new DevExpress.XtraEditors.CheckEdit();
             this.ceCollectRS485 = new DevExpress.XtraEditors.CheckEdit();
             this.btnEnableCollect = new DevExpress.XtraEditors.SimpleButton();
             this.btnCheckingTime = new DevExpress.XtraEditors.SimpleButton();
@@ -95,7 +103,7 @@ namespace SmartWaterSystem
             this.ceCollectSimulate = new DevExpress.XtraEditors.CheckEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
-            this.ceModbusExeFlag = new DevExpress.XtraEditors.CheckEdit();
+            this.ceCollectModbus = new DevExpress.XtraEditors.CheckEdit();
             this.gridControl_485protocol = new DevExpress.XtraGrid.GridControl();
             this.gridView_485protocol = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -116,30 +124,33 @@ namespace SmartWaterSystem
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.cb_pluse_starttime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn16 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.cb_pre_coltime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.cb_pluse_coltime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn17 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.cb_pluse_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupControl8 = new DevExpress.XtraEditors.GroupControl();
-            this.comboEnableSlopLowLimit = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboEnableSlopUpLimit = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboEnablePreLowLimit = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboEnablePreUpLimit = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.textOffset = new DevExpress.XtraEditors.TextEdit();
-            this.textPreRange = new DevExpress.XtraEditors.TextEdit();
-            this.textSlopLowLimit = new DevExpress.XtraEditors.TextEdit();
-            this.textSlopUpLimit = new DevExpress.XtraEditors.TextEdit();
-            this.cbOffset = new DevExpress.XtraEditors.CheckEdit();
-            this.cbEnableSlopLowLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.textPreLowLimit = new DevExpress.XtraEditors.TextEdit();
-            this.cbEnableSlopUpLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.textPreUpLimit = new DevExpress.XtraEditors.TextEdit();
-            this.cbPreRange = new DevExpress.XtraEditors.CheckEdit();
-            this.cbSlopLowLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.cbEnablePreLowLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.cbSlopUpLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.cbPreLowLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.cbEnablePreUpLimit = new DevExpress.XtraEditors.CheckEdit();
-            this.cbPreUpLimit = new DevExpress.XtraEditors.CheckEdit();
+            this.cbSlopLowLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbSlopUpLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbPreLowLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cbPreUpLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.txtOffset = new DevExpress.XtraEditors.TextEdit();
+            this.txtPreRange = new DevExpress.XtraEditors.TextEdit();
+            this.txtSlopLowLimit = new DevExpress.XtraEditors.TextEdit();
+            this.cbPreFlag = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.txtSlopUpLimit = new DevExpress.XtraEditors.TextEdit();
+            this.ceOffset = new DevExpress.XtraEditors.CheckEdit();
+            this.ceSlopLowLimitEnable = new DevExpress.XtraEditors.CheckEdit();
+            this.txtPreLowLimit = new DevExpress.XtraEditors.TextEdit();
+            this.ceSlopUpLimitEnable = new DevExpress.XtraEditors.CheckEdit();
+            this.txtPreUpLimit = new DevExpress.XtraEditors.TextEdit();
+            this.cePreRange = new DevExpress.XtraEditors.CheckEdit();
+            this.ceSlopLowLimit = new DevExpress.XtraEditors.CheckEdit();
+            this.cePreLowLimitEnable = new DevExpress.XtraEditors.CheckEdit();
+            this.ceSlopUpLimit = new DevExpress.XtraEditors.CheckEdit();
+            this.cePreLowLimit = new DevExpress.XtraEditors.CheckEdit();
+            this.cePreUpLimitEnable = new DevExpress.XtraEditors.CheckEdit();
+            this.cePreUpLimit = new DevExpress.XtraEditors.CheckEdit();
             this.groupControl12 = new DevExpress.XtraEditors.GroupControl();
             this.groupControl11 = new DevExpress.XtraEditors.GroupControl();
             this.groupControl10 = new DevExpress.XtraEditors.GroupControl();
@@ -157,55 +168,58 @@ namespace SmartWaterSystem
             this.treeSocketType = new DevExpress.XtraEditors.TreeListLookUpEdit();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
-            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-            this.group_waitcmd = new System.Windows.Forms.GroupBox();
+            this.btnCallData = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl_WaitCmd = new DevExpress.XtraGrid.GridControl();
             this.gridView_WaitCmd = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn18 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn19 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn20 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn21 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.groupControl13 = new DevExpress.XtraEditors.GroupControl();
+            this.groupControl14 = new DevExpress.XtraEditors.GroupControl();
             this.btnDel = new DevExpress.XtraEditors.SimpleButton();
+            this.btnVer = new DevExpress.XtraEditors.SimpleButton();
+            this.btnFieldStrength = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_starttime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_sendtime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit6.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtVolLower.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb485BaudRate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtVolInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSMSInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtHeart.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPluseUnit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbModbusExeFlag.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbNetworkType.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceNetWorkType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit5.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceVolInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit3.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ce485Baud.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceHeart.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePluseUnit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSMSInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceVolLower.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
-            this.groupControl7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cemodbusprotocolstatus.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2State.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1State.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).BeginInit();
+            this.groupControl7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceDigitPreStatus.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2State.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1State.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_Simulate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_Simulate)).BeginInit();
@@ -226,7 +240,7 @@ namespace SmartWaterSystem
             this.xtraTabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectModbus.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_485protocol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_485protocol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_485protocol_baud)).BeginInit();
@@ -241,30 +255,32 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_Pluse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_Pluse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_starttime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_pre_coltime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).BeginInit();
             this.groupControl8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboEnableSlopLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboEnableSlopUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboEnablePreLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboEnablePreUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textOffset.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textPreRange.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textSlopLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textSlopUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbOffset.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbEnableSlopLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textPreLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbEnableSlopUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textPreUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreRange.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbSlopLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbEnablePreLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbSlopUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbEnablePreUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreUpLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbSlopLowLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbSlopUpLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPreLowLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPreUpLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSlopLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPreFlag.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSlopUpLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceOffset.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSlopUpLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreUpLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreLowLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSlopUpLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreUpLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl10)).BeginInit();
@@ -276,9 +292,12 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
-            this.group_waitcmd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl13)).BeginInit();
+            this.groupControl13.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl14)).BeginInit();
+            this.groupControl14.SuspendLayout();
             this.SuspendLayout();
             // 
             // cb_sim_starttime
@@ -311,31 +330,37 @@ namespace SmartWaterSystem
             // 
             // groupControl1
             // 
-            this.groupControl1.Controls.Add(this.cbBaudRate);
-            this.groupControl1.Controls.Add(this.textEdit2);
-            this.groupControl1.Controls.Add(this.comboBoxEdit2);
-            this.groupControl1.Controls.Add(this.checkEdit6);
+            this.groupControl1.Controls.Add(this.labelControl3);
+            this.groupControl1.Controls.Add(this.labelControl2);
+            this.groupControl1.Controls.Add(this.labelControl4);
+            this.groupControl1.Controls.Add(this.labelControl1);
+            this.groupControl1.Controls.Add(this.txtVolLower);
+            this.groupControl1.Controls.Add(this.txtIP);
+            this.groupControl1.Controls.Add(this.cb485BaudRate);
+            this.groupControl1.Controls.Add(this.txtVolInterval);
+            this.groupControl1.Controls.Add(this.txtSMSInterval);
+            this.groupControl1.Controls.Add(this.txtHeart);
+            this.groupControl1.Controls.Add(this.cbPluseUnit);
+            this.groupControl1.Controls.Add(this.cbModbusExeFlag);
+            this.groupControl1.Controls.Add(this.cbNetworkType);
+            this.groupControl1.Controls.Add(this.ceModbusExeFlag);
+            this.groupControl1.Controls.Add(this.ceNetWorkType);
             this.groupControl1.Controls.Add(this.txtCellPhone);
-            this.groupControl1.Controls.Add(this.checkEdit5);
+            this.groupControl1.Controls.Add(this.ceVolInterval);
             this.groupControl1.Controls.Add(this.txtTime);
-            this.groupControl1.Controls.Add(this.checkEdit4);
-            this.groupControl1.Controls.Add(this.ceColConfig);
-            this.groupControl1.Controls.Add(this.checkEdit3);
-            this.groupControl1.Controls.Add(this.checkEdit2);
+            this.groupControl1.Controls.Add(this.ce485Baud);
+            this.groupControl1.Controls.Add(this.ceHeart);
+            this.groupControl1.Controls.Add(this.cePluseUnit);
+            this.groupControl1.Controls.Add(this.ceSMSInterval);
+            this.groupControl1.Controls.Add(this.ceVolLower);
             this.groupControl1.Controls.Add(this.txtPort);
-            this.groupControl1.Controls.Add(this.groupControl7);
             this.groupControl1.Controls.Add(this.cbComType);
             this.groupControl1.Controls.Add(this.ceComType);
-            this.groupControl1.Controls.Add(this.textEdit1);
             this.groupControl1.Controls.Add(this.ceTime);
             this.groupControl1.Controls.Add(this.txtID);
             this.groupControl1.Controls.Add(this.ceCellPhone);
-            this.groupControl1.Controls.Add(this.txtNum4);
             this.groupControl1.Controls.Add(this.cePort);
             this.groupControl1.Controls.Add(this.ceID);
-            this.groupControl1.Controls.Add(this.txtNum3);
-            this.groupControl1.Controls.Add(this.txtNum2);
-            this.groupControl1.Controls.Add(this.txtNum1);
             this.groupControl1.Controls.Add(this.ceIP);
             this.groupControl1.Location = new System.Drawing.Point(6, -1);
             this.groupControl1.Name = "groupControl1";
@@ -343,44 +368,158 @@ namespace SmartWaterSystem
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
             // 
-            // cbBaudRate
+            // labelControl3
             // 
-            this.cbBaudRate.Location = new System.Drawing.Point(556, 79);
-            this.cbBaudRate.Name = "cbBaudRate";
-            this.cbBaudRate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.labelControl3.Location = new System.Drawing.Point(485, 79);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(19, 14);
+            this.labelControl3.TabIndex = 19;
+            this.labelControl3.Text = "min";
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(150, 78);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(19, 14);
+            this.labelControl2.TabIndex = 19;
+            this.labelControl2.Text = "min";
+            // 
+            // labelControl4
+            // 
+            this.labelControl4.Location = new System.Drawing.Point(443, 51);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(5, 14);
+            this.labelControl4.TabIndex = 22;
+            this.labelControl4.Text = "s";
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Location = new System.Drawing.Point(295, 78);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(12, 14);
+            this.labelControl1.TabIndex = 22;
+            this.labelControl1.Text = "%";
+            // 
+            // txtVolLower
+            // 
+            this.txtVolLower.EditValue = "";
+            this.txtVolLower.Location = new System.Drawing.Point(263, 75);
+            this.txtVolLower.Name = "txtVolLower";
+            this.txtVolLower.Size = new System.Drawing.Size(31, 20);
+            this.txtVolLower.TabIndex = 21;
+            // 
+            // txtIP
+            // 
+            this.txtIP.EditValue = "";
+            this.txtIP.Location = new System.Drawing.Point(43, 48);
+            this.txtIP.Name = "txtIP";
+            this.txtIP.Properties.Mask.EditMask = "(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[" +
+    "1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]" +
+    "|1[0-9][0-9]|[1-9]?[0-9])";
+            this.txtIP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIP.Properties.MaxLength = 15;
+            this.txtIP.Size = new System.Drawing.Size(104, 20);
+            this.txtIP.TabIndex = 10;
+            // 
+            // cb485BaudRate
+            // 
+            this.cb485BaudRate.Location = new System.Drawing.Point(531, 48);
+            this.cb485BaudRate.Name = "cb485BaudRate";
+            this.cb485BaudRate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbBaudRate.Size = new System.Drawing.Size(95, 20);
-            this.cbBaudRate.TabIndex = 19;
+            this.cb485BaudRate.Properties.Items.AddRange(new object[] {
+            "1200",
+            "2400",
+            "4800",
+            "9600"});
+            this.cb485BaudRate.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cb485BaudRate.Size = new System.Drawing.Size(73, 20);
+            this.cb485BaudRate.TabIndex = 24;
             // 
-            // textEdit2
+            // txtVolInterval
             // 
-            this.textEdit2.Location = new System.Drawing.Point(74, 79);
-            this.textEdit2.Name = "textEdit2";
-            this.textEdit2.Size = new System.Drawing.Size(65, 20);
-            this.textEdit2.TabIndex = 1;
+            this.txtVolInterval.EditValue = "";
+            this.txtVolInterval.Location = new System.Drawing.Point(104, 75);
+            this.txtVolInterval.Name = "txtVolInterval";
+            this.txtVolInterval.Size = new System.Drawing.Size(43, 20);
+            this.txtVolInterval.TabIndex = 18;
             // 
-            // comboBoxEdit2
+            // txtSMSInterval
             // 
-            this.comboBoxEdit2.Location = new System.Drawing.Point(724, 80);
-            this.comboBoxEdit2.Name = "comboBoxEdit2";
-            this.comboBoxEdit2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.txtSMSInterval.Location = new System.Drawing.Point(409, 75);
+            this.txtSMSInterval.Name = "txtSMSInterval";
+            this.txtSMSInterval.Size = new System.Drawing.Size(73, 20);
+            this.txtSMSInterval.TabIndex = 24;
+            // 
+            // txtHeart
+            // 
+            this.txtHeart.Location = new System.Drawing.Point(375, 48);
+            this.txtHeart.Name = "txtHeart";
+            this.txtHeart.Size = new System.Drawing.Size(65, 20);
+            this.txtHeart.TabIndex = 16;
+            // 
+            // cbPluseUnit
+            // 
+            this.cbPluseUnit.Location = new System.Drawing.Point(603, 75);
+            this.cbPluseUnit.Name = "cbPluseUnit";
+            this.cbPluseUnit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEdit2.Properties.Items.AddRange(new object[] {
+            this.cbPluseUnit.Properties.Items.AddRange(new object[] {
+            "0.01",
+            "0.1",
+            "0.2",
+            "0.5",
+            "1",
+            "10",
+            "100"});
+            this.cbPluseUnit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbPluseUnit.Size = new System.Drawing.Size(68, 20);
+            this.cbPluseUnit.TabIndex = 26;
+            // 
+            // cbModbusExeFlag
+            // 
+            this.cbModbusExeFlag.Location = new System.Drawing.Point(717, 48);
+            this.cbModbusExeFlag.Name = "cbModbusExeFlag";
+            this.cbModbusExeFlag.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbModbusExeFlag.Properties.Items.AddRange(new object[] {
+            "不执行",
+            "执行"});
+            this.cbModbusExeFlag.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbModbusExeFlag.Size = new System.Drawing.Size(68, 20);
+            this.cbModbusExeFlag.TabIndex = 26;
+            // 
+            // cbNetworkType
+            // 
+            this.cbNetworkType.Location = new System.Drawing.Point(717, 23);
+            this.cbNetworkType.Name = "cbNetworkType";
+            this.cbNetworkType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbNetworkType.Properties.Items.AddRange(new object[] {
             "不连网",
             "低功耗模式",
             "实时在线"});
-            this.comboBoxEdit2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxEdit2.Size = new System.Drawing.Size(65, 20);
-            this.comboBoxEdit2.TabIndex = 7;
+            this.cbNetworkType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbNetworkType.Size = new System.Drawing.Size(68, 20);
+            this.cbNetworkType.TabIndex = 26;
             // 
-            // checkEdit6
+            // ceModbusExeFlag
             // 
-            this.checkEdit6.Location = new System.Drawing.Point(657, 80);
-            this.checkEdit6.Name = "checkEdit6";
-            this.checkEdit6.Properties.Caption = "联网模式";
-            this.checkEdit6.Size = new System.Drawing.Size(71, 19);
-            this.checkEdit6.TabIndex = 13;
-            this.checkEdit6.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            this.ceModbusExeFlag.Location = new System.Drawing.Point(606, 49);
+            this.ceModbusExeFlag.Name = "ceModbusExeFlag";
+            this.ceModbusExeFlag.Properties.Caption = "modbus执行标识";
+            this.ceModbusExeFlag.Size = new System.Drawing.Size(113, 19);
+            this.ceModbusExeFlag.TabIndex = 25;
+            this.ceModbusExeFlag.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            // 
+            // ceNetWorkType
+            // 
+            this.ceNetWorkType.Location = new System.Drawing.Point(648, 24);
+            this.ceNetWorkType.Name = "ceNetWorkType";
+            this.ceNetWorkType.Properties.Caption = "联网模式";
+            this.ceNetWorkType.Size = new System.Drawing.Size(71, 19);
+            this.ceNetWorkType.TabIndex = 25;
+            this.ceNetWorkType.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // txtCellPhone
             // 
@@ -390,158 +529,96 @@ namespace SmartWaterSystem
             this.txtCellPhone.Size = new System.Drawing.Size(92, 20);
             this.txtCellPhone.TabIndex = 5;
             // 
-            // checkEdit5
+            // ceVolInterval
             // 
-            this.checkEdit5.Location = new System.Drawing.Point(145, 78);
-            this.checkEdit5.Name = "checkEdit5";
-            this.checkEdit5.Properties.Caption = "电压采集时间间隔";
-            this.checkEdit5.Size = new System.Drawing.Size(117, 19);
-            this.checkEdit5.TabIndex = 13;
-            this.checkEdit5.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            this.ceVolInterval.Location = new System.Drawing.Point(6, 76);
+            this.ceVolInterval.Name = "ceVolInterval";
+            this.ceVolInterval.Properties.Caption = "电压时间间隔";
+            this.ceVolInterval.Size = new System.Drawing.Size(97, 19);
+            this.ceVolInterval.TabIndex = 17;
+            this.ceVolInterval.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // txtTime
             // 
-            this.txtTime.Location = new System.Drawing.Point(215, 24);
+            this.txtTime.Location = new System.Drawing.Point(215, 25);
             this.txtTime.Name = "txtTime";
             this.txtTime.Size = new System.Drawing.Size(120, 20);
             this.txtTime.TabIndex = 3;
             // 
-            // checkEdit4
+            // ce485Baud
             // 
-            this.checkEdit4.Location = new System.Drawing.Point(473, 80);
-            this.checkEdit4.Name = "checkEdit4";
-            this.checkEdit4.Properties.Caption = "485波特率";
-            this.checkEdit4.Size = new System.Drawing.Size(83, 19);
-            this.checkEdit4.TabIndex = 13;
-            this.checkEdit4.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            this.ce485Baud.Location = new System.Drawing.Point(455, 49);
+            this.ce485Baud.Name = "ce485Baud";
+            this.ce485Baud.Properties.Caption = "485波特率";
+            this.ce485Baud.Size = new System.Drawing.Size(83, 19);
+            this.ce485Baud.TabIndex = 23;
+            this.ce485Baud.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
-            // ceColConfig
+            // ceHeart
             // 
-            this.ceColConfig.Location = new System.Drawing.Point(460, 53);
-            this.ceColConfig.Name = "ceColConfig";
-            this.ceColConfig.Properties.Caption = "采集功能配置";
-            this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceColConfig.Size = new System.Drawing.Size(90, 19);
-            this.ceColConfig.TabIndex = 15;
-            this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
+            this.ceHeart.Location = new System.Drawing.Point(306, 49);
+            this.ceHeart.Name = "ceHeart";
+            this.ceHeart.Properties.Caption = "心跳间隔";
+            this.ceHeart.Size = new System.Drawing.Size(71, 19);
+            this.ceHeart.TabIndex = 15;
+            this.ceHeart.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
-            // checkEdit3
+            // cePluseUnit
             // 
-            this.checkEdit3.Location = new System.Drawing.Point(6, 78);
-            this.checkEdit3.Name = "checkEdit3";
-            this.checkEdit3.Properties.Caption = "心跳间隔";
-            this.checkEdit3.Size = new System.Drawing.Size(71, 19);
-            this.checkEdit3.TabIndex = 13;
-            this.checkEdit3.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            this.cePluseUnit.Location = new System.Drawing.Point(509, 76);
+            this.cePluseUnit.Name = "cePluseUnit";
+            this.cePluseUnit.Properties.Caption = "脉冲计数单位";
+            this.cePluseUnit.Size = new System.Drawing.Size(99, 19);
+            this.cePluseUnit.TabIndex = 25;
+            this.cePluseUnit.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
-            // checkEdit2
+            // ceSMSInterval
             // 
-            this.checkEdit2.Location = new System.Drawing.Point(293, 79);
-            this.checkEdit2.Name = "checkEdit2";
-            this.checkEdit2.Properties.Caption = "电压报警下限";
-            this.checkEdit2.Size = new System.Drawing.Size(99, 19);
-            this.checkEdit2.TabIndex = 13;
-            this.checkEdit2.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            this.ceSMSInterval.Location = new System.Drawing.Point(313, 76);
+            this.ceSMSInterval.Name = "ceSMSInterval";
+            this.ceSMSInterval.Properties.Caption = "短信发送间隔";
+            this.ceSMSInterval.Size = new System.Drawing.Size(99, 19);
+            this.ceSMSInterval.TabIndex = 23;
+            this.ceSMSInterval.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            // 
+            // ceVolLower
+            // 
+            this.ceVolLower.Location = new System.Drawing.Point(171, 76);
+            this.ceVolLower.Name = "ceVolLower";
+            this.ceVolLower.Properties.Caption = "电压报警下限";
+            this.ceVolLower.Size = new System.Drawing.Size(99, 19);
+            this.ceVolLower.TabIndex = 20;
+            this.ceVolLower.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // txtPort
             // 
             this.txtPort.EditValue = "";
-            this.txtPort.Location = new System.Drawing.Point(396, 53);
+            this.txtPort.Location = new System.Drawing.Point(229, 48);
             this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(58, 20);
-            this.txtPort.TabIndex = 14;
-            // 
-            // groupControl7
-            // 
-            this.groupControl7.Controls.Add(this.cePluseState);
-            this.groupControl7.Controls.Add(this.cemodbusprotocolstatus);
-            this.groupControl7.Controls.Add(this.ceRS485State);
-            this.groupControl7.Controls.Add(this.ceSimulate2State);
-            this.groupControl7.Controls.Add(this.ceSimulate1State);
-            this.groupControl7.Location = new System.Drawing.Point(556, 24);
-            this.groupControl7.Name = "groupControl7";
-            this.groupControl7.ShowCaption = false;
-            this.groupControl7.Size = new System.Drawing.Size(230, 53);
-            this.groupControl7.TabIndex = 18;
-            // 
-            // cePluseState
-            // 
-            this.cePluseState.Enabled = false;
-            this.cePluseState.Location = new System.Drawing.Point(101, 5);
-            this.cePluseState.Name = "cePluseState";
-            this.cePluseState.Properties.Caption = "脉冲量";
-            this.cePluseState.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cePluseState.Size = new System.Drawing.Size(60, 19);
-            this.cePluseState.TabIndex = 1;
-            // 
-            // cemodbusprotocolstatus
-            // 
-            this.cemodbusprotocolstatus.Enabled = false;
-            this.cemodbusprotocolstatus.Location = new System.Drawing.Point(5, 5);
-            this.cemodbusprotocolstatus.Name = "cemodbusprotocolstatus";
-            this.cemodbusprotocolstatus.Properties.Caption = "modbus协议";
-            this.cemodbusprotocolstatus.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.cemodbusprotocolstatus.Size = new System.Drawing.Size(90, 19);
-            this.cemodbusprotocolstatus.TabIndex = 0;
-            // 
-            // ceRS485State
-            // 
-            this.ceRS485State.Enabled = false;
-            this.ceRS485State.Location = new System.Drawing.Point(162, 5);
-            this.ceRS485State.Name = "ceRS485State";
-            this.ceRS485State.Properties.Caption = "RS485";
-            this.ceRS485State.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceRS485State.Size = new System.Drawing.Size(72, 19);
-            this.ceRS485State.TabIndex = 2;
-            // 
-            // ceSimulate2State
-            // 
-            this.ceSimulate2State.Enabled = false;
-            this.ceSimulate2State.Location = new System.Drawing.Point(101, 30);
-            this.ceSimulate2State.Name = "ceSimulate2State";
-            this.ceSimulate2State.Properties.Caption = "第2路模拟量";
-            this.ceSimulate2State.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceSimulate2State.Size = new System.Drawing.Size(90, 19);
-            this.ceSimulate2State.TabIndex = 4;
-            // 
-            // ceSimulate1State
-            // 
-            this.ceSimulate1State.Enabled = false;
-            this.ceSimulate1State.Location = new System.Drawing.Point(5, 30);
-            this.ceSimulate1State.Name = "ceSimulate1State";
-            this.ceSimulate1State.Properties.Caption = "第1路模拟量";
-            this.ceSimulate1State.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceSimulate1State.Size = new System.Drawing.Size(90, 19);
-            this.ceSimulate1State.TabIndex = 3;
+            this.txtPort.Size = new System.Drawing.Size(65, 20);
+            this.txtPort.TabIndex = 12;
             // 
             // cbComType
             // 
-            this.cbComType.Location = new System.Drawing.Point(75, 52);
+            this.cbComType.Location = new System.Drawing.Point(563, 23);
             this.cbComType.Name = "cbComType";
             this.cbComType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cbComType.Properties.Items.AddRange(new object[] {
             "GSM",
-            "GPRS"});
+            "GPRS",
+            "CDMA"});
             this.cbComType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbComType.Size = new System.Drawing.Size(65, 20);
-            this.cbComType.TabIndex = 7;
+            this.cbComType.TabIndex = 8;
             // 
             // ceComType
             // 
-            this.ceComType.Enabled = false;
-            this.ceComType.Location = new System.Drawing.Point(6, 53);
+            this.ceComType.Location = new System.Drawing.Point(494, 24);
             this.ceComType.Name = "ceComType";
             this.ceComType.Properties.Caption = "通讯方式";
             this.ceComType.Size = new System.Drawing.Size(74, 19);
-            this.ceComType.TabIndex = 6;
-            // 
-            // textEdit1
-            // 
-            this.textEdit1.Location = new System.Drawing.Point(396, 77);
-            this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Size = new System.Drawing.Size(65, 20);
-            this.textEdit1.TabIndex = 1;
+            this.ceComType.TabIndex = 7;
             // 
             // ceTime
             // 
@@ -560,31 +637,19 @@ namespace SmartWaterSystem
             // 
             // ceCellPhone
             // 
-            this.ceCellPhone.Enabled = false;
             this.ceCellPhone.Location = new System.Drawing.Point(338, 26);
             this.ceCellPhone.Name = "ceCellPhone";
             this.ceCellPhone.Properties.Caption = "手机号";
             this.ceCellPhone.Size = new System.Drawing.Size(74, 19);
             this.ceCellPhone.TabIndex = 4;
             // 
-            // txtNum4
-            // 
-            this.txtNum4.EditValue = "";
-            this.txtNum4.Location = new System.Drawing.Point(305, 52);
-            this.txtNum4.Name = "txtNum4";
-            this.txtNum4.Properties.MaxLength = 3;
-            this.txtNum4.Size = new System.Drawing.Size(30, 20);
-            this.txtNum4.TabIndex = 12;
-            this.txtNum4.Tag = "4";
-            this.txtNum4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
-            // 
             // cePort
             // 
-            this.cePort.Location = new System.Drawing.Point(338, 53);
+            this.cePort.Location = new System.Drawing.Point(171, 49);
             this.cePort.Name = "cePort";
             this.cePort.Properties.Caption = "端口号";
             this.cePort.Size = new System.Drawing.Size(63, 19);
-            this.cePort.TabIndex = 13;
+            this.cePort.TabIndex = 11;
             this.cePort.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceID
@@ -595,53 +660,107 @@ namespace SmartWaterSystem
             this.ceID.Size = new System.Drawing.Size(75, 19);
             this.ceID.TabIndex = 0;
             // 
-            // txtNum3
-            // 
-            this.txtNum3.EditValue = "";
-            this.txtNum3.Location = new System.Drawing.Point(275, 52);
-            this.txtNum3.Name = "txtNum3";
-            this.txtNum3.Properties.MaxLength = 3;
-            this.txtNum3.Size = new System.Drawing.Size(30, 20);
-            this.txtNum3.TabIndex = 11;
-            this.txtNum3.Tag = "3";
-            this.txtNum3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
-            // 
-            // txtNum2
-            // 
-            this.txtNum2.EditValue = "";
-            this.txtNum2.Location = new System.Drawing.Point(245, 52);
-            this.txtNum2.Name = "txtNum2";
-            this.txtNum2.Properties.MaxLength = 3;
-            this.txtNum2.Size = new System.Drawing.Size(30, 20);
-            this.txtNum2.TabIndex = 10;
-            this.txtNum2.Tag = "2";
-            this.txtNum2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
-            // 
-            // txtNum1
-            // 
-            this.txtNum1.EditValue = "";
-            this.txtNum1.Location = new System.Drawing.Point(215, 52);
-            this.txtNum1.Name = "txtNum1";
-            this.txtNum1.Properties.MaxLength = 3;
-            this.txtNum1.Size = new System.Drawing.Size(30, 20);
-            this.txtNum1.TabIndex = 9;
-            this.txtNum1.Tag = "1";
-            this.txtNum1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
-            // 
             // ceIP
             // 
-            this.ceIP.Location = new System.Drawing.Point(145, 53);
+            this.ceIP.Location = new System.Drawing.Point(6, 49);
             this.ceIP.Name = "ceIP";
             this.ceIP.Properties.Caption = "IP";
             this.ceIP.Size = new System.Drawing.Size(35, 19);
-            this.ceIP.TabIndex = 8;
-            this.ceIP.CheckedChanged += new System.EventHandler(this.ceIP_CheckedChanged);
+            this.ceIP.TabIndex = 9;
+            // 
+            // groupControl7
+            // 
+            this.groupControl7.Controls.Add(this.cePluseState);
+            this.groupControl7.Controls.Add(this.ceDigitPreStatus);
+            this.groupControl7.Controls.Add(this.ceRS485State);
+            this.groupControl7.Controls.Add(this.ceSimulate2State);
+            this.groupControl7.Controls.Add(this.ceSimulate1State);
+            this.groupControl7.Controls.Add(this.ceColConfig);
+            this.groupControl7.Location = new System.Drawing.Point(6, 183);
+            this.groupControl7.Name = "groupControl7";
+            this.groupControl7.ShowCaption = false;
+            this.groupControl7.Size = new System.Drawing.Size(788, 31);
+            this.groupControl7.TabIndex = 2;
+            // 
+            // cePluseState
+            // 
+            this.cePluseState.Enabled = false;
+            this.cePluseState.Location = new System.Drawing.Point(275, 5);
+            this.cePluseState.Name = "cePluseState";
+            this.cePluseState.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.cePluseState.Properties.Appearance.Options.UseForeColor = true;
+            this.cePluseState.Properties.Caption = "脉冲量";
+            this.cePluseState.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.cePluseState.Size = new System.Drawing.Size(60, 19);
+            this.cePluseState.TabIndex = 2;
+            // 
+            // ceDigitPreStatus
+            // 
+            this.ceDigitPreStatus.Enabled = false;
+            this.ceDigitPreStatus.Location = new System.Drawing.Point(168, 5);
+            this.ceDigitPreStatus.Name = "ceDigitPreStatus";
+            this.ceDigitPreStatus.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.ceDigitPreStatus.Properties.Appearance.Options.UseForeColor = true;
+            this.ceDigitPreStatus.Properties.Caption = "数字量压力";
+            this.ceDigitPreStatus.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceDigitPreStatus.Size = new System.Drawing.Size(90, 19);
+            this.ceDigitPreStatus.TabIndex = 1;
+            // 
+            // ceRS485State
+            // 
+            this.ceRS485State.Enabled = false;
+            this.ceRS485State.Location = new System.Drawing.Point(352, 5);
+            this.ceRS485State.Name = "ceRS485State";
+            this.ceRS485State.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.ceRS485State.Properties.Appearance.Options.UseForeColor = true;
+            this.ceRS485State.Properties.Caption = "RS485";
+            this.ceRS485State.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceRS485State.Size = new System.Drawing.Size(60, 19);
+            this.ceRS485State.TabIndex = 3;
+            // 
+            // ceSimulate2State
+            // 
+            this.ceSimulate2State.Enabled = false;
+            this.ceSimulate2State.Location = new System.Drawing.Point(536, 5);
+            this.ceSimulate2State.Name = "ceSimulate2State";
+            this.ceSimulate2State.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.ceSimulate2State.Properties.Appearance.Options.UseForeColor = true;
+            this.ceSimulate2State.Properties.Caption = "第2路模拟量";
+            this.ceSimulate2State.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceSimulate2State.Size = new System.Drawing.Size(90, 19);
+            this.ceSimulate2State.TabIndex = 5;
+            // 
+            // ceSimulate1State
+            // 
+            this.ceSimulate1State.Enabled = false;
+            this.ceSimulate1State.Location = new System.Drawing.Point(429, 5);
+            this.ceSimulate1State.Name = "ceSimulate1State";
+            this.ceSimulate1State.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.ceSimulate1State.Properties.Appearance.Options.UseForeColor = true;
+            this.ceSimulate1State.Properties.Caption = "第1路模拟量";
+            this.ceSimulate1State.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceSimulate1State.Size = new System.Drawing.Size(90, 19);
+            this.ceSimulate1State.TabIndex = 4;
+            // 
+            // ceColConfig
+            // 
+            this.ceColConfig.Location = new System.Drawing.Point(13, 5);
+            this.ceColConfig.Name = "ceColConfig";
+            this.ceColConfig.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ceColConfig.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.ceColConfig.Properties.Appearance.Options.UseFont = true;
+            this.ceColConfig.Properties.Appearance.Options.UseForeColor = true;
+            this.ceColConfig.Properties.Caption = "采集功能配置";
+            this.ceColConfig.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceColConfig.Size = new System.Drawing.Size(104, 19);
+            this.ceColConfig.TabIndex = 0;
+            this.ceColConfig.CheckedChanged += new System.EventHandler(this.ceColConfig_CheckedChanged);
             // 
             // ceCollectRS485
             // 
             this.ceCollectRS485.Location = new System.Drawing.Point(4, 2);
             this.ceCollectRS485.Name = "ceCollectRS485";
-            this.ceCollectRS485.Properties.Caption = "采集RS485";
+            this.ceCollectRS485.Properties.Caption = "采集流量/RS485";
             this.ceCollectRS485.Properties.LookAndFeel.SkinName = "Seven Classic";
             this.ceCollectRS485.Size = new System.Drawing.Size(117, 19);
             this.ceCollectRS485.TabIndex = 3;
@@ -649,41 +768,37 @@ namespace SmartWaterSystem
             // 
             // btnEnableCollect
             // 
-            this.btnEnableCollect.Enabled = false;
-            this.btnEnableCollect.Location = new System.Drawing.Point(248, 455);
+            this.btnEnableCollect.Location = new System.Drawing.Point(312, 433);
             this.btnEnableCollect.Name = "btnEnableCollect";
-            this.btnEnableCollect.Size = new System.Drawing.Size(99, 26);
-            this.btnEnableCollect.TabIndex = 8;
+            this.btnEnableCollect.Size = new System.Drawing.Size(82, 26);
+            this.btnEnableCollect.TabIndex = 7;
             this.btnEnableCollect.Text = "启动采集";
             this.btnEnableCollect.Click += new System.EventHandler(this.btnEnableCollect_Click);
             // 
             // btnCheckingTime
             // 
-            this.btnCheckingTime.Enabled = false;
-            this.btnCheckingTime.Location = new System.Drawing.Point(138, 455);
+            this.btnCheckingTime.Location = new System.Drawing.Point(312, 464);
             this.btnCheckingTime.Name = "btnCheckingTime";
-            this.btnCheckingTime.Size = new System.Drawing.Size(99, 26);
-            this.btnCheckingTime.TabIndex = 7;
+            this.btnCheckingTime.Size = new System.Drawing.Size(82, 26);
+            this.btnCheckingTime.TabIndex = 12;
             this.btnCheckingTime.Text = "校时";
             this.btnCheckingTime.Click += new System.EventHandler(this.btnCheckingTime_Click);
             // 
             // btnReadParm
             // 
-            this.btnReadParm.Enabled = false;
-            this.btnReadParm.Location = new System.Drawing.Point(358, 424);
+            this.btnReadParm.Location = new System.Drawing.Point(409, 433);
             this.btnReadParm.Name = "btnReadParm";
-            this.btnReadParm.Size = new System.Drawing.Size(99, 26);
-            this.btnReadParm.TabIndex = 9;
+            this.btnReadParm.Size = new System.Drawing.Size(82, 26);
+            this.btnReadParm.TabIndex = 8;
             this.btnReadParm.Text = "读取设备参数";
             this.btnReadParm.Click += new System.EventHandler(this.btnReadParm_Click);
             // 
             // btnSetParm
             // 
-            this.btnSetParm.Enabled = false;
-            this.btnSetParm.Location = new System.Drawing.Point(358, 455);
+            this.btnSetParm.Location = new System.Drawing.Point(409, 464);
             this.btnSetParm.Name = "btnSetParm";
-            this.btnSetParm.Size = new System.Drawing.Size(99, 26);
-            this.btnSetParm.TabIndex = 10;
+            this.btnSetParm.Size = new System.Drawing.Size(82, 26);
+            this.btnSetParm.TabIndex = 13;
             this.btnSetParm.Text = "设置设备参数";
             this.btnSetParm.Click += new System.EventHandler(this.btnSetParm_Click);
             // 
@@ -694,7 +809,7 @@ namespace SmartWaterSystem
             this.gridControl_Simulate.Location = new System.Drawing.Point(2, 21);
             this.gridControl_Simulate.MainView = this.gridView_Simulate;
             this.gridControl_Simulate.Name = "gridControl_Simulate";
-            this.gridControl_Simulate.Size = new System.Drawing.Size(386, 163);
+            this.gridControl_Simulate.Size = new System.Drawing.Size(543, 138);
             this.gridControl_Simulate.TabIndex = 1;
             this.gridControl_Simulate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Simulate});
@@ -778,9 +893,9 @@ namespace SmartWaterSystem
             // 
             this.groupControl3.Controls.Add(this.ceCollectRS485);
             this.groupControl3.Controls.Add(this.gridControl_RS485);
-            this.groupControl3.Location = new System.Drawing.Point(268, 7);
+            this.groupControl3.Location = new System.Drawing.Point(339, 7);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(262, 186);
+            this.groupControl3.Size = new System.Drawing.Size(208, 154);
             this.groupControl3.TabIndex = 3;
             // 
             // gridControl_RS485
@@ -794,7 +909,7 @@ namespace SmartWaterSystem
             this.cb_RS485_starttime,
             this.cb_RS485_coltime,
             this.cb_RS485_sendtime});
-            this.gridControl_RS485.Size = new System.Drawing.Size(258, 163);
+            this.gridControl_RS485.Size = new System.Drawing.Size(204, 131);
             this.gridControl_RS485.TabIndex = 3;
             this.gridControl_RS485.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_RS485});
@@ -835,7 +950,7 @@ namespace SmartWaterSystem
             this.gridColumn6.OptionsFilter.AllowFilter = false;
             this.gridColumn6.Visible = true;
             this.gridColumn6.VisibleIndex = 0;
-            this.gridColumn6.Width = 56;
+            this.gridColumn6.Width = 53;
             // 
             // cb_RS485_starttime
             // 
@@ -846,7 +961,7 @@ namespace SmartWaterSystem
             // 
             // gridColumn7
             // 
-            this.gridColumn7.Caption = "采集时间间隔";
+            this.gridColumn7.Caption = "采集间隔";
             this.gridColumn7.ColumnEdit = this.cb_RS485_coltime;
             this.gridColumn7.FieldName = "collecttime";
             this.gridColumn7.Name = "gridColumn7";
@@ -854,7 +969,7 @@ namespace SmartWaterSystem
             this.gridColumn7.OptionsFilter.AllowFilter = false;
             this.gridColumn7.Visible = true;
             this.gridColumn7.VisibleIndex = 1;
-            this.gridColumn7.Width = 85;
+            this.gridColumn7.Width = 53;
             // 
             // cb_RS485_coltime
             // 
@@ -865,7 +980,7 @@ namespace SmartWaterSystem
             // 
             // gridColumn15
             // 
-            this.gridColumn15.Caption = "发送时间间隔";
+            this.gridColumn15.Caption = "发送间隔";
             this.gridColumn15.ColumnEdit = this.cb_RS485_sendtime;
             this.gridColumn15.FieldName = "sendtime";
             this.gridColumn15.Name = "gridColumn15";
@@ -873,7 +988,7 @@ namespace SmartWaterSystem
             this.gridColumn15.OptionsFilter.AllowFilter = false;
             this.gridColumn15.Visible = true;
             this.gridColumn15.VisibleIndex = 2;
-            this.gridColumn15.Width = 85;
+            this.gridColumn15.Width = 56;
             // 
             // cb_RS485_sendtime
             // 
@@ -884,42 +999,41 @@ namespace SmartWaterSystem
             // 
             // btnReset
             // 
-            this.btnReset.Enabled = false;
-            this.btnReset.Location = new System.Drawing.Point(10, 456);
+            this.btnReset.Location = new System.Drawing.Point(24, 464);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(117, 25);
-            this.btnReset.TabIndex = 6;
+            this.btnReset.Size = new System.Drawing.Size(82, 26);
+            this.btnReset.TabIndex = 9;
             this.btnReset.Text = "设备复位";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // SwitchComunication
             // 
             this.SwitchComunication.EditValue = true;
-            this.SwitchComunication.Location = new System.Drawing.Point(10, 425);
+            this.SwitchComunication.Location = new System.Drawing.Point(10, 434);
             this.SwitchComunication.Name = "SwitchComunication";
             this.SwitchComunication.Properties.OffText = "GPRS";
             this.SwitchComunication.Properties.OnText = "串口";
-            this.SwitchComunication.Size = new System.Drawing.Size(117, 25);
-            this.SwitchComunication.TabIndex = 11;
+            this.SwitchComunication.Size = new System.Drawing.Size(102, 25);
+            this.SwitchComunication.TabIndex = 15;
             this.SwitchComunication.Click += new System.EventHandler(this.SwitchComunication_Click);
             // 
             // btnSetPluseBasic
             // 
-            this.btnSetPluseBasic.Enabled = false;
-            this.btnSetPluseBasic.Location = new System.Drawing.Point(248, 424);
+            this.btnSetPluseBasic.Location = new System.Drawing.Point(215, 464);
             this.btnSetPluseBasic.Name = "btnSetPluseBasic";
-            this.btnSetPluseBasic.Size = new System.Drawing.Size(99, 26);
-            this.btnSetPluseBasic.TabIndex = 5;
+            this.btnSetPluseBasic.Size = new System.Drawing.Size(82, 26);
+            this.btnSetPluseBasic.TabIndex = 11;
             this.btnSetPluseBasic.Text = "设置脉冲基准";
             this.btnSetPluseBasic.Click += new System.EventHandler(this.btnSetPluseBasic_Click);
             // 
             // xtraTabControl1
             // 
-            this.xtraTabControl1.Location = new System.Drawing.Point(3, 192);
+            this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xtraTabControl1.Location = new System.Drawing.Point(2, 21);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(534, 227);
-            this.xtraTabControl1.TabIndex = 12;
+            this.xtraTabControl1.Size = new System.Drawing.Size(553, 190);
+            this.xtraTabControl1.TabIndex = 0;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
             this.xtraTabPage2,
@@ -929,16 +1043,17 @@ namespace SmartWaterSystem
             // 
             this.xtraTabPage1.Controls.Add(this.groupControl2);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(528, 198);
-            this.xtraTabPage1.Text = "模拟量/modbus协议间隔";
+            this.xtraTabPage1.Size = new System.Drawing.Size(547, 161);
+            this.xtraTabPage1.Text = "模拟量";
             // 
             // groupControl2
             // 
             this.groupControl2.Controls.Add(this.ceCollectSimulate);
             this.groupControl2.Controls.Add(this.gridControl_Simulate);
-            this.groupControl2.Location = new System.Drawing.Point(2, 7);
+            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl2.Location = new System.Drawing.Point(0, 0);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(390, 186);
+            this.groupControl2.Size = new System.Drawing.Size(547, 161);
             this.groupControl2.TabIndex = 1;
             // 
             // ceCollectSimulate
@@ -955,26 +1070,28 @@ namespace SmartWaterSystem
             // 
             this.xtraTabPage2.Controls.Add(this.groupControl4);
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(528, 198);
-            this.xtraTabPage2.Text = "xtraTabPage2";
+            this.xtraTabPage2.Size = new System.Drawing.Size(547, 161);
+            this.xtraTabPage2.Text = "modbus协议";
             // 
             // groupControl4
             // 
-            this.groupControl4.Controls.Add(this.ceModbusExeFlag);
+            this.groupControl4.Controls.Add(this.ceCollectModbus);
             this.groupControl4.Controls.Add(this.gridControl_485protocol);
-            this.groupControl4.Location = new System.Drawing.Point(2, 9);
+            this.groupControl4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl4.Location = new System.Drawing.Point(0, 0);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(390, 186);
+            this.groupControl4.Size = new System.Drawing.Size(547, 161);
             this.groupControl4.TabIndex = 6;
             // 
-            // ceModbusExeFlag
+            // ceCollectModbus
             // 
-            this.ceModbusExeFlag.Location = new System.Drawing.Point(3, 0);
-            this.ceModbusExeFlag.Name = "ceModbusExeFlag";
-            this.ceModbusExeFlag.Properties.Caption = "RS485采集modbus协议配置";
-            this.ceModbusExeFlag.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceModbusExeFlag.Size = new System.Drawing.Size(177, 19);
-            this.ceModbusExeFlag.TabIndex = 6;
+            this.ceCollectModbus.Location = new System.Drawing.Point(3, 0);
+            this.ceCollectModbus.Name = "ceCollectModbus";
+            this.ceCollectModbus.Properties.Caption = "RS485采集modbus协议配置";
+            this.ceCollectModbus.Properties.LookAndFeel.SkinName = "Seven Classic";
+            this.ceCollectModbus.Size = new System.Drawing.Size(177, 19);
+            this.ceCollectModbus.TabIndex = 6;
+            this.ceCollectModbus.CheckedChanged += new System.EventHandler(this.ceCollectModbus_CheckedChanged);
             // 
             // gridControl_485protocol
             // 
@@ -989,7 +1106,7 @@ namespace SmartWaterSystem
             this.txt_485protocol_regbeginaddr,
             this.txt_485protocol_regcount,
             this.cb_485protocol_baud});
-            this.gridControl_485protocol.Size = new System.Drawing.Size(386, 163);
+            this.gridControl_485protocol.Size = new System.Drawing.Size(543, 138);
             this.gridControl_485protocol.TabIndex = 4;
             this.gridControl_485protocol.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_485protocol});
@@ -1014,6 +1131,7 @@ namespace SmartWaterSystem
             this.gridView_485protocol.OptionsFilter.AllowFilterEditor = false;
             this.gridView_485protocol.OptionsView.ShowGroupPanel = false;
             this.gridView_485protocol.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_485protocol.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_485protocol_CellValueChanged);
             // 
             // gridColumn4
             // 
@@ -1111,7 +1229,7 @@ namespace SmartWaterSystem
             this.xtraTabPage4.Controls.Add(this.groupControl5);
             this.xtraTabPage4.Controls.Add(this.groupControl3);
             this.xtraTabPage4.Name = "xtraTabPage4";
-            this.xtraTabPage4.Size = new System.Drawing.Size(528, 198);
+            this.xtraTabPage4.Size = new System.Drawing.Size(547, 161);
             this.xtraTabPage4.Text = "脉冲量/RS485间隔";
             // 
             // groupControl5
@@ -1120,17 +1238,18 @@ namespace SmartWaterSystem
             this.groupControl5.Controls.Add(this.gridControl_Pluse);
             this.groupControl5.Location = new System.Drawing.Point(2, 7);
             this.groupControl5.Name = "groupControl5";
-            this.groupControl5.Size = new System.Drawing.Size(262, 186);
+            this.groupControl5.Size = new System.Drawing.Size(333, 154);
             this.groupControl5.TabIndex = 4;
             // 
             // ceCollectPluse
             // 
             this.ceCollectPluse.Location = new System.Drawing.Point(2, 2);
             this.ceCollectPluse.Name = "ceCollectPluse";
-            this.ceCollectPluse.Properties.Caption = "采集脉冲量";
+            this.ceCollectPluse.Properties.Caption = "采集压力/脉冲量";
             this.ceCollectPluse.Properties.LookAndFeel.SkinName = "Seven Classic";
-            this.ceCollectPluse.Size = new System.Drawing.Size(87, 19);
+            this.ceCollectPluse.Size = new System.Drawing.Size(110, 19);
             this.ceCollectPluse.TabIndex = 2;
+            this.ceCollectPluse.CheckedChanged += new System.EventHandler(this.ceCollectPluse_CheckedChanged);
             // 
             // gridControl_Pluse
             // 
@@ -1142,8 +1261,9 @@ namespace SmartWaterSystem
             this.gridControl_Pluse.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.cb_pluse_starttime,
             this.cb_pluse_coltime,
-            this.cb_pluse_sendtime});
-            this.gridControl_Pluse.Size = new System.Drawing.Size(258, 163);
+            this.cb_pluse_sendtime,
+            this.cb_pre_coltime});
+            this.gridControl_Pluse.Size = new System.Drawing.Size(329, 131);
             this.gridControl_Pluse.TabIndex = 3;
             this.gridControl_Pluse.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Pluse});
@@ -1154,6 +1274,7 @@ namespace SmartWaterSystem
             this.gridView_Pluse.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn5,
             this.gridColumn16,
+            this.gridColumn9,
             this.gridColumn17});
             this.gridView_Pluse.GridControl = this.gridControl_Pluse;
             this.gridView_Pluse.IndicatorWidth = 30;
@@ -1166,6 +1287,8 @@ namespace SmartWaterSystem
             this.gridView_Pluse.OptionsFilter.AllowFilterEditor = false;
             this.gridView_Pluse.OptionsView.ShowGroupPanel = false;
             this.gridView_Pluse.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView_Pluse.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_Pluse_CustomRowCellEdit);
+            this.gridView_Pluse.CustomRowCellEditForEditing += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_Pluse_CustomRowCellEditForEditing);
             // 
             // gridColumn5
             // 
@@ -1181,7 +1304,7 @@ namespace SmartWaterSystem
             this.gridColumn5.OptionsFilter.AllowFilter = false;
             this.gridColumn5.Visible = true;
             this.gridColumn5.VisibleIndex = 0;
-            this.gridColumn5.Width = 56;
+            this.gridColumn5.Width = 58;
             // 
             // cb_pluse_starttime
             // 
@@ -1192,15 +1315,34 @@ namespace SmartWaterSystem
             // 
             // gridColumn16
             // 
-            this.gridColumn16.Caption = "采集时间间隔";
-            this.gridColumn16.ColumnEdit = this.cb_pluse_coltime;
-            this.gridColumn16.FieldName = "collecttime";
+            this.gridColumn16.Caption = "压力采集间隔";
+            this.gridColumn16.ColumnEdit = this.cb_pre_coltime;
+            this.gridColumn16.FieldName = "precollecttime";
             this.gridColumn16.Name = "gridColumn16";
             this.gridColumn16.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn16.OptionsFilter.AllowFilter = false;
             this.gridColumn16.Visible = true;
             this.gridColumn16.VisibleIndex = 1;
-            this.gridColumn16.Width = 85;
+            this.gridColumn16.Width = 91;
+            // 
+            // cb_pre_coltime
+            // 
+            this.cb_pre_coltime.AutoHeight = false;
+            this.cb_pre_coltime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cb_pre_coltime.Name = "cb_pre_coltime";
+            // 
+            // gridColumn9
+            // 
+            this.gridColumn9.Caption = "脉冲采集间隔";
+            this.gridColumn9.ColumnEdit = this.cb_pluse_coltime;
+            this.gridColumn9.FieldName = "plusecollecttime";
+            this.gridColumn9.Name = "gridColumn9";
+            this.gridColumn9.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn9.OptionsFilter.AllowFilter = false;
+            this.gridColumn9.Visible = true;
+            this.gridColumn9.VisibleIndex = 2;
+            this.gridColumn9.Width = 88;
             // 
             // cb_pluse_coltime
             // 
@@ -1211,15 +1353,15 @@ namespace SmartWaterSystem
             // 
             // gridColumn17
             // 
-            this.gridColumn17.Caption = "发送时间间隔";
+            this.gridColumn17.Caption = "发送间隔";
             this.gridColumn17.ColumnEdit = this.cb_pluse_sendtime;
             this.gridColumn17.FieldName = "sendtime";
             this.gridColumn17.Name = "gridColumn17";
             this.gridColumn17.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn17.OptionsFilter.AllowFilter = false;
             this.gridColumn17.Visible = true;
-            this.gridColumn17.VisibleIndex = 2;
-            this.gridColumn17.Width = 85;
+            this.gridColumn17.VisibleIndex = 3;
+            this.gridColumn17.Width = 60;
             // 
             // cb_pluse_sendtime
             // 
@@ -1230,214 +1372,232 @@ namespace SmartWaterSystem
             // 
             // groupControl8
             // 
-            this.groupControl8.Controls.Add(this.comboEnableSlopLowLimit);
-            this.groupControl8.Controls.Add(this.comboEnableSlopUpLimit);
-            this.groupControl8.Controls.Add(this.comboEnablePreLowLimit);
-            this.groupControl8.Controls.Add(this.comboEnablePreUpLimit);
-            this.groupControl8.Controls.Add(this.textOffset);
-            this.groupControl8.Controls.Add(this.textPreRange);
-            this.groupControl8.Controls.Add(this.textSlopLowLimit);
-            this.groupControl8.Controls.Add(this.textSlopUpLimit);
-            this.groupControl8.Controls.Add(this.cbOffset);
-            this.groupControl8.Controls.Add(this.cbEnableSlopLowLimit);
-            this.groupControl8.Controls.Add(this.textPreLowLimit);
-            this.groupControl8.Controls.Add(this.cbEnableSlopUpLimit);
-            this.groupControl8.Controls.Add(this.textPreUpLimit);
-            this.groupControl8.Controls.Add(this.cbPreRange);
-            this.groupControl8.Controls.Add(this.cbSlopLowLimit);
-            this.groupControl8.Controls.Add(this.cbEnablePreLowLimit);
-            this.groupControl8.Controls.Add(this.cbSlopUpLimit);
-            this.groupControl8.Controls.Add(this.cbPreLowLimit);
-            this.groupControl8.Controls.Add(this.cbEnablePreUpLimit);
-            this.groupControl8.Controls.Add(this.cbPreUpLimit);
+            this.groupControl8.Controls.Add(this.cbSlopLowLimitEnable);
+            this.groupControl8.Controls.Add(this.cbSlopUpLimitEnable);
+            this.groupControl8.Controls.Add(this.cbPreLowLimitEnable);
+            this.groupControl8.Controls.Add(this.cbPreUpLimitEnable);
+            this.groupControl8.Controls.Add(this.txtOffset);
+            this.groupControl8.Controls.Add(this.txtPreRange);
+            this.groupControl8.Controls.Add(this.txtSlopLowLimit);
+            this.groupControl8.Controls.Add(this.cbPreFlag);
+            this.groupControl8.Controls.Add(this.txtSlopUpLimit);
+            this.groupControl8.Controls.Add(this.ceOffset);
+            this.groupControl8.Controls.Add(this.ceSlopLowLimitEnable);
+            this.groupControl8.Controls.Add(this.txtPreLowLimit);
+            this.groupControl8.Controls.Add(this.ceSlopUpLimitEnable);
+            this.groupControl8.Controls.Add(this.txtPreUpLimit);
+            this.groupControl8.Controls.Add(this.cePreRange);
+            this.groupControl8.Controls.Add(this.ceSlopLowLimit);
+            this.groupControl8.Controls.Add(this.cePreLowLimitEnable);
+            this.groupControl8.Controls.Add(this.ceSlopUpLimit);
+            this.groupControl8.Controls.Add(this.cePreLowLimit);
+            this.groupControl8.Controls.Add(this.cePreUpLimitEnable);
+            this.groupControl8.Controls.Add(this.cePreUpLimit);
             this.groupControl8.Controls.Add(this.groupControl12);
             this.groupControl8.Controls.Add(this.groupControl11);
             this.groupControl8.Controls.Add(this.groupControl10);
             this.groupControl8.Controls.Add(this.groupControl9);
-            this.groupControl8.Location = new System.Drawing.Point(6, 110);
+            this.groupControl8.Location = new System.Drawing.Point(6, 106);
             this.groupControl8.Name = "groupControl8";
-            this.groupControl8.Size = new System.Drawing.Size(782, 76);
-            this.groupControl8.TabIndex = 14;
+            this.groupControl8.Size = new System.Drawing.Size(788, 76);
+            this.groupControl8.TabIndex = 1;
             this.groupControl8.Text = "采集/阀值参数";
             // 
-            // comboEnableSlopLowLimit
+            // cbSlopLowLimitEnable
             // 
-            this.comboEnableSlopLowLimit.Location = new System.Drawing.Point(543, 48);
-            this.comboEnableSlopLowLimit.Name = "comboEnableSlopLowLimit";
-            this.comboEnableSlopLowLimit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cbSlopLowLimitEnable.Location = new System.Drawing.Point(578, 48);
+            this.cbSlopLowLimitEnable.Name = "cbSlopLowLimitEnable";
+            this.cbSlopLowLimitEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboEnableSlopLowLimit.Properties.Items.AddRange(new object[] {
+            this.cbSlopLowLimitEnable.Properties.Items.AddRange(new object[] {
             "关闭",
             "开启"});
-            this.comboEnableSlopLowLimit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboEnableSlopLowLimit.Size = new System.Drawing.Size(56, 20);
-            this.comboEnableSlopLowLimit.TabIndex = 17;
+            this.cbSlopLowLimitEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbSlopLowLimitEnable.Size = new System.Drawing.Size(56, 20);
+            this.cbSlopLowLimitEnable.TabIndex = 15;
             // 
-            // comboEnableSlopUpLimit
+            // cbSlopUpLimitEnable
             // 
-            this.comboEnableSlopUpLimit.Location = new System.Drawing.Point(391, 48);
-            this.comboEnableSlopUpLimit.Name = "comboEnableSlopUpLimit";
-            this.comboEnableSlopUpLimit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cbSlopUpLimitEnable.Location = new System.Drawing.Point(415, 48);
+            this.cbSlopUpLimitEnable.Name = "cbSlopUpLimitEnable";
+            this.cbSlopUpLimitEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboEnableSlopUpLimit.Properties.Items.AddRange(new object[] {
+            this.cbSlopUpLimitEnable.Properties.Items.AddRange(new object[] {
             "关闭",
             "开启"});
-            this.comboEnableSlopUpLimit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboEnableSlopUpLimit.Size = new System.Drawing.Size(56, 20);
-            this.comboEnableSlopUpLimit.TabIndex = 13;
+            this.cbSlopUpLimitEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbSlopUpLimitEnable.Size = new System.Drawing.Size(56, 20);
+            this.cbSlopUpLimitEnable.TabIndex = 11;
             // 
-            // comboEnablePreLowLimit
+            // cbPreLowLimitEnable
             // 
-            this.comboEnablePreLowLimit.Location = new System.Drawing.Point(241, 48);
-            this.comboEnablePreLowLimit.Name = "comboEnablePreLowLimit";
-            this.comboEnablePreLowLimit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cbPreLowLimitEnable.Location = new System.Drawing.Point(252, 48);
+            this.cbPreLowLimitEnable.Name = "cbPreLowLimitEnable";
+            this.cbPreLowLimitEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboEnablePreLowLimit.Properties.Items.AddRange(new object[] {
+            this.cbPreLowLimitEnable.Properties.Items.AddRange(new object[] {
             "关闭",
             "开启"});
-            this.comboEnablePreLowLimit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboEnablePreLowLimit.Size = new System.Drawing.Size(56, 20);
-            this.comboEnablePreLowLimit.TabIndex = 9;
+            this.cbPreLowLimitEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbPreLowLimitEnable.Size = new System.Drawing.Size(56, 20);
+            this.cbPreLowLimitEnable.TabIndex = 7;
             // 
-            // comboEnablePreUpLimit
+            // cbPreUpLimitEnable
             // 
-            this.comboEnablePreUpLimit.Location = new System.Drawing.Point(92, 49);
-            this.comboEnablePreUpLimit.Name = "comboEnablePreUpLimit";
-            this.comboEnablePreUpLimit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cbPreUpLimitEnable.Location = new System.Drawing.Point(94, 49);
+            this.cbPreUpLimitEnable.Name = "cbPreUpLimitEnable";
+            this.cbPreUpLimitEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboEnablePreUpLimit.Properties.Items.AddRange(new object[] {
+            this.cbPreUpLimitEnable.Properties.Items.AddRange(new object[] {
             "关闭",
             "开启"});
-            this.comboEnablePreUpLimit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboEnablePreUpLimit.Size = new System.Drawing.Size(56, 20);
-            this.comboEnablePreUpLimit.TabIndex = 5;
+            this.cbPreUpLimitEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbPreUpLimitEnable.Size = new System.Drawing.Size(56, 20);
+            this.cbPreUpLimitEnable.TabIndex = 3;
             // 
-            // textOffset
+            // txtOffset
             // 
-            this.textOffset.Location = new System.Drawing.Point(696, 48);
-            this.textOffset.Name = "textOffset";
-            this.textOffset.Size = new System.Drawing.Size(56, 20);
-            this.textOffset.TabIndex = 21;
+            this.txtOffset.Location = new System.Drawing.Point(720, 48);
+            this.txtOffset.Name = "txtOffset";
+            this.txtOffset.Size = new System.Drawing.Size(56, 20);
+            this.txtOffset.TabIndex = 19;
             // 
-            // textPreRange
+            // txtPreRange
             // 
-            this.textPreRange.Location = new System.Drawing.Point(696, 24);
-            this.textPreRange.Name = "textPreRange";
-            this.textPreRange.Size = new System.Drawing.Size(56, 20);
-            this.textPreRange.TabIndex = 19;
+            this.txtPreRange.Location = new System.Drawing.Point(720, 24);
+            this.txtPreRange.Name = "txtPreRange";
+            this.txtPreRange.Size = new System.Drawing.Size(56, 20);
+            this.txtPreRange.TabIndex = 17;
             // 
-            // textSlopLowLimit
+            // txtSlopLowLimit
             // 
-            this.textSlopLowLimit.EditValue = "";
-            this.textSlopLowLimit.Location = new System.Drawing.Point(543, 24);
-            this.textSlopLowLimit.Name = "textSlopLowLimit";
-            this.textSlopLowLimit.Size = new System.Drawing.Size(56, 20);
-            this.textSlopLowLimit.TabIndex = 15;
+            this.txtSlopLowLimit.EditValue = "";
+            this.txtSlopLowLimit.Location = new System.Drawing.Point(578, 24);
+            this.txtSlopLowLimit.Name = "txtSlopLowLimit";
+            this.txtSlopLowLimit.Size = new System.Drawing.Size(56, 20);
+            this.txtSlopLowLimit.TabIndex = 13;
             // 
-            // textSlopUpLimit
+            // cbPreFlag
             // 
-            this.textSlopUpLimit.Location = new System.Drawing.Point(391, 24);
-            this.textSlopUpLimit.Name = "textSlopUpLimit";
-            this.textSlopUpLimit.Size = new System.Drawing.Size(56, 20);
-            this.textSlopUpLimit.TabIndex = 11;
+            this.cbPreFlag.Location = new System.Drawing.Point(92, 2);
+            this.cbPreFlag.Name = "cbPreFlag";
+            this.cbPreFlag.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbPreFlag.Properties.Items.AddRange(new object[] {
+            "压力1-01",
+            "压力2-02",
+            "模拟量1-03",
+            "模拟量2-04",
+            "流量-05"});
+            this.cbPreFlag.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbPreFlag.Size = new System.Drawing.Size(94, 20);
+            this.cbPreFlag.TabIndex = 26;
+            this.cbPreFlag.SelectedIndexChanged += new System.EventHandler(this.cbPreFlag_SelectedIndexChanged);
             // 
-            // cbOffset
+            // txtSlopUpLimit
             // 
-            this.cbOffset.Location = new System.Drawing.Point(610, 49);
-            this.cbOffset.Name = "cbOffset";
-            this.cbOffset.Properties.Caption = "压力偏移量:";
-            this.cbOffset.Size = new System.Drawing.Size(87, 19);
-            this.cbOffset.TabIndex = 20;
+            this.txtSlopUpLimit.Location = new System.Drawing.Point(415, 24);
+            this.txtSlopUpLimit.Name = "txtSlopUpLimit";
+            this.txtSlopUpLimit.Size = new System.Drawing.Size(56, 20);
+            this.txtSlopUpLimit.TabIndex = 9;
             // 
-            // cbEnableSlopLowLimit
+            // ceOffset
             // 
-            this.cbEnableSlopLowLimit.Location = new System.Drawing.Point(457, 49);
-            this.cbEnableSlopLowLimit.Name = "cbEnableSlopLowLimit";
-            this.cbEnableSlopLowLimit.Properties.Caption = "投退状态:";
-            this.cbEnableSlopLowLimit.Size = new System.Drawing.Size(74, 19);
-            this.cbEnableSlopLowLimit.TabIndex = 16;
+            this.ceOffset.Location = new System.Drawing.Point(653, 49);
+            this.ceOffset.Name = "ceOffset";
+            this.ceOffset.Properties.Caption = "偏移量:";
+            this.ceOffset.Size = new System.Drawing.Size(70, 19);
+            this.ceOffset.TabIndex = 18;
             // 
-            // textPreLowLimit
+            // ceSlopLowLimitEnable
             // 
-            this.textPreLowLimit.Location = new System.Drawing.Point(241, 25);
-            this.textPreLowLimit.Name = "textPreLowLimit";
-            this.textPreLowLimit.Size = new System.Drawing.Size(56, 20);
-            this.textPreLowLimit.TabIndex = 7;
+            this.ceSlopLowLimitEnable.Location = new System.Drawing.Point(492, 49);
+            this.ceSlopLowLimitEnable.Name = "ceSlopLowLimitEnable";
+            this.ceSlopLowLimitEnable.Properties.Caption = "投退状态:";
+            this.ceSlopLowLimitEnable.Size = new System.Drawing.Size(74, 19);
+            this.ceSlopLowLimitEnable.TabIndex = 14;
             // 
-            // cbEnableSlopUpLimit
+            // txtPreLowLimit
             // 
-            this.cbEnableSlopUpLimit.Location = new System.Drawing.Point(305, 49);
-            this.cbEnableSlopUpLimit.Name = "cbEnableSlopUpLimit";
-            this.cbEnableSlopUpLimit.Properties.Caption = "投退状态:";
-            this.cbEnableSlopUpLimit.Size = new System.Drawing.Size(74, 19);
-            this.cbEnableSlopUpLimit.TabIndex = 12;
+            this.txtPreLowLimit.Location = new System.Drawing.Point(252, 25);
+            this.txtPreLowLimit.Name = "txtPreLowLimit";
+            this.txtPreLowLimit.Size = new System.Drawing.Size(56, 20);
+            this.txtPreLowLimit.TabIndex = 5;
             // 
-            // textPreUpLimit
+            // ceSlopUpLimitEnable
             // 
-            this.textPreUpLimit.Location = new System.Drawing.Point(92, 25);
-            this.textPreUpLimit.Name = "textPreUpLimit";
-            this.textPreUpLimit.Size = new System.Drawing.Size(56, 20);
-            this.textPreUpLimit.TabIndex = 3;
+            this.ceSlopUpLimitEnable.Location = new System.Drawing.Point(329, 49);
+            this.ceSlopUpLimitEnable.Name = "ceSlopUpLimitEnable";
+            this.ceSlopUpLimitEnable.Properties.Caption = "投退状态:";
+            this.ceSlopUpLimitEnable.Size = new System.Drawing.Size(74, 19);
+            this.ceSlopUpLimitEnable.TabIndex = 10;
             // 
-            // cbPreRange
+            // txtPreUpLimit
             // 
-            this.cbPreRange.Location = new System.Drawing.Point(610, 25);
-            this.cbPreRange.Name = "cbPreRange";
-            this.cbPreRange.Properties.Caption = "压力量程:";
-            this.cbPreRange.Size = new System.Drawing.Size(87, 19);
-            this.cbPreRange.TabIndex = 18;
+            this.txtPreUpLimit.Location = new System.Drawing.Point(94, 25);
+            this.txtPreUpLimit.Name = "txtPreUpLimit";
+            this.txtPreUpLimit.Size = new System.Drawing.Size(56, 20);
+            this.txtPreUpLimit.TabIndex = 1;
             // 
-            // cbSlopLowLimit
+            // cePreRange
             // 
-            this.cbSlopLowLimit.Location = new System.Drawing.Point(457, 25);
-            this.cbSlopLowLimit.Name = "cbSlopLowLimit";
-            this.cbSlopLowLimit.Properties.Caption = "斜率下限值:";
-            this.cbSlopLowLimit.Size = new System.Drawing.Size(87, 19);
-            this.cbSlopLowLimit.TabIndex = 14;
+            this.cePreRange.Location = new System.Drawing.Point(653, 25);
+            this.cePreRange.Name = "cePreRange";
+            this.cePreRange.Properties.Caption = "量程:";
+            this.cePreRange.Size = new System.Drawing.Size(62, 19);
+            this.cePreRange.TabIndex = 16;
             // 
-            // cbEnablePreLowLimit
+            // ceSlopLowLimit
             // 
-            this.cbEnablePreLowLimit.Location = new System.Drawing.Point(155, 50);
-            this.cbEnablePreLowLimit.Name = "cbEnablePreLowLimit";
-            this.cbEnablePreLowLimit.Properties.Caption = "投退状态:";
-            this.cbEnablePreLowLimit.Size = new System.Drawing.Size(74, 19);
-            this.cbEnablePreLowLimit.TabIndex = 8;
+            this.ceSlopLowLimit.Location = new System.Drawing.Point(492, 25);
+            this.ceSlopLowLimit.Name = "ceSlopLowLimit";
+            this.ceSlopLowLimit.Properties.Caption = "斜率下限值:";
+            this.ceSlopLowLimit.Size = new System.Drawing.Size(87, 19);
+            this.ceSlopLowLimit.TabIndex = 12;
             // 
-            // cbSlopUpLimit
+            // cePreLowLimitEnable
             // 
-            this.cbSlopUpLimit.Location = new System.Drawing.Point(305, 25);
-            this.cbSlopUpLimit.Name = "cbSlopUpLimit";
-            this.cbSlopUpLimit.Properties.Caption = "斜率上限值:";
-            this.cbSlopUpLimit.Size = new System.Drawing.Size(87, 19);
-            this.cbSlopUpLimit.TabIndex = 10;
+            this.cePreLowLimitEnable.Location = new System.Drawing.Point(170, 50);
+            this.cePreLowLimitEnable.Name = "cePreLowLimitEnable";
+            this.cePreLowLimitEnable.Properties.Caption = "投退状态:";
+            this.cePreLowLimitEnable.Size = new System.Drawing.Size(74, 19);
+            this.cePreLowLimitEnable.TabIndex = 6;
             // 
-            // cbPreLowLimit
+            // ceSlopUpLimit
             // 
-            this.cbPreLowLimit.Location = new System.Drawing.Point(155, 26);
-            this.cbPreLowLimit.Name = "cbPreLowLimit";
-            this.cbPreLowLimit.Properties.Caption = "压力下限值:";
-            this.cbPreLowLimit.Size = new System.Drawing.Size(87, 19);
-            this.cbPreLowLimit.TabIndex = 6;
+            this.ceSlopUpLimit.Location = new System.Drawing.Point(329, 25);
+            this.ceSlopUpLimit.Name = "ceSlopUpLimit";
+            this.ceSlopUpLimit.Properties.Caption = "斜率上限值:";
+            this.ceSlopUpLimit.Size = new System.Drawing.Size(87, 19);
+            this.ceSlopUpLimit.TabIndex = 8;
             // 
-            // cbEnablePreUpLimit
+            // cePreLowLimit
             // 
-            this.cbEnablePreUpLimit.Location = new System.Drawing.Point(6, 48);
-            this.cbEnablePreUpLimit.Name = "cbEnablePreUpLimit";
-            this.cbEnablePreUpLimit.Properties.Caption = "投退状态:";
-            this.cbEnablePreUpLimit.Size = new System.Drawing.Size(74, 19);
-            this.cbEnablePreUpLimit.TabIndex = 4;
+            this.cePreLowLimit.Location = new System.Drawing.Point(170, 26);
+            this.cePreLowLimit.Name = "cePreLowLimit";
+            this.cePreLowLimit.Properties.Caption = "下限值:";
+            this.cePreLowLimit.Size = new System.Drawing.Size(74, 19);
+            this.cePreLowLimit.TabIndex = 4;
             // 
-            // cbPreUpLimit
+            // cePreUpLimitEnable
             // 
-            this.cbPreUpLimit.Location = new System.Drawing.Point(6, 26);
-            this.cbPreUpLimit.Name = "cbPreUpLimit";
-            this.cbPreUpLimit.Properties.Caption = "压力上限值:";
-            this.cbPreUpLimit.Size = new System.Drawing.Size(87, 19);
-            this.cbPreUpLimit.TabIndex = 2;
+            this.cePreUpLimitEnable.Location = new System.Drawing.Point(13, 48);
+            this.cePreUpLimitEnable.Name = "cePreUpLimitEnable";
+            this.cePreUpLimitEnable.Properties.Caption = "投退状态:";
+            this.cePreUpLimitEnable.Size = new System.Drawing.Size(74, 19);
+            this.cePreUpLimitEnable.TabIndex = 2;
+            // 
+            // cePreUpLimit
+            // 
+            this.cePreUpLimit.Location = new System.Drawing.Point(13, 26);
+            this.cePreUpLimit.Name = "cePreUpLimit";
+            this.cePreUpLimit.Properties.Caption = "上限值:";
+            this.cePreUpLimit.Size = new System.Drawing.Size(74, 19);
+            this.cePreUpLimit.TabIndex = 0;
             // 
             // groupControl12
             // 
-            this.groupControl12.Location = new System.Drawing.Point(605, 0);
+            this.groupControl12.Location = new System.Drawing.Point(644, 0);
             this.groupControl12.Name = "groupControl12";
             this.groupControl12.Size = new System.Drawing.Size(2, 80);
             this.groupControl12.TabIndex = 27;
@@ -1445,7 +1605,7 @@ namespace SmartWaterSystem
             // 
             // groupControl11
             // 
-            this.groupControl11.Location = new System.Drawing.Point(451, 0);
+            this.groupControl11.Location = new System.Drawing.Point(481, 0);
             this.groupControl11.Name = "groupControl11";
             this.groupControl11.Size = new System.Drawing.Size(2, 80);
             this.groupControl11.TabIndex = 27;
@@ -1453,7 +1613,7 @@ namespace SmartWaterSystem
             // 
             // groupControl10
             // 
-            this.groupControl10.Location = new System.Drawing.Point(300, 0);
+            this.groupControl10.Location = new System.Drawing.Point(319, 0);
             this.groupControl10.Name = "groupControl10";
             this.groupControl10.Size = new System.Drawing.Size(2, 80);
             this.groupControl10.TabIndex = 27;
@@ -1461,7 +1621,7 @@ namespace SmartWaterSystem
             // 
             // groupControl9
             // 
-            this.groupControl9.Location = new System.Drawing.Point(151, 0);
+            this.groupControl9.Location = new System.Drawing.Point(161, 0);
             this.groupControl9.Name = "groupControl9";
             this.groupControl9.Size = new System.Drawing.Size(2, 80);
             this.groupControl9.TabIndex = 27;
@@ -1470,10 +1630,10 @@ namespace SmartWaterSystem
             // dropbtnCalibrationSimualte
             // 
             this.dropbtnCalibrationSimualte.DropDownControl = this.popupMenuCalibration;
-            this.dropbtnCalibrationSimualte.Location = new System.Drawing.Point(138, 424);
+            this.dropbtnCalibrationSimualte.Location = new System.Drawing.Point(215, 434);
             this.dropbtnCalibrationSimualte.Name = "dropbtnCalibrationSimualte";
-            this.dropbtnCalibrationSimualte.Size = new System.Drawing.Size(99, 26);
-            this.dropbtnCalibrationSimualte.TabIndex = 15;
+            this.dropbtnCalibrationSimualte.Size = new System.Drawing.Size(82, 26);
+            this.dropbtnCalibrationSimualte.TabIndex = 6;
             this.dropbtnCalibrationSimualte.Text = "模拟量校准";
             // 
             // popupMenuCalibration
@@ -1542,11 +1702,11 @@ namespace SmartWaterSystem
             // 
             this.groupControl6.Controls.Add(this.treeSocketType);
             this.groupControl6.Controls.Add(this.toggleSwitch1);
-            this.groupControl6.Controls.Add(this.simpleButton2);
-            this.groupControl6.Location = new System.Drawing.Point(480, 420);
+            this.groupControl6.Controls.Add(this.btnCallData);
+            this.groupControl6.Location = new System.Drawing.Point(506, 429);
             this.groupControl6.Name = "groupControl6";
-            this.groupControl6.Size = new System.Drawing.Size(315, 67);
-            this.groupControl6.TabIndex = 20;
+            this.groupControl6.Size = new System.Drawing.Size(286, 61);
+            this.groupControl6.TabIndex = 14;
             this.groupControl6.Text = "招测";
             // 
             // treeSocketType
@@ -1558,7 +1718,7 @@ namespace SmartWaterSystem
             this.treeSocketType.Properties.NullText = "请选择";
             this.treeSocketType.Properties.TreeList = this.treeList1;
             this.treeSocketType.Size = new System.Drawing.Size(98, 20);
-            this.treeSocketType.TabIndex = 17;
+            this.treeSocketType.TabIndex = 1;
             // 
             // treeList1
             // 
@@ -1588,36 +1748,27 @@ namespace SmartWaterSystem
             this.toggleSwitch1.Properties.OffText = "招测开";
             this.toggleSwitch1.Properties.OnText = "招测关";
             this.toggleSwitch1.Size = new System.Drawing.Size(124, 25);
-            this.toggleSwitch1.TabIndex = 7;
+            this.toggleSwitch1.TabIndex = 0;
             // 
-            // simpleButton2
+            // btnCallData
             // 
-            this.simpleButton2.Enabled = false;
-            this.simpleButton2.Location = new System.Drawing.Point(223, 24);
-            this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(81, 26);
-            this.simpleButton2.TabIndex = 6;
-            this.simpleButton2.Text = "招测";
-            // 
-            // group_waitcmd
-            // 
-            this.group_waitcmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.group_waitcmd.Controls.Add(this.gridControl_WaitCmd);
-            this.group_waitcmd.Controls.Add(this.btnDel);
-            this.group_waitcmd.Location = new System.Drawing.Point(538, 192);
-            this.group_waitcmd.Name = "group_waitcmd";
-            this.group_waitcmd.Size = new System.Drawing.Size(254, 222);
-            this.group_waitcmd.TabIndex = 8;
-            this.group_waitcmd.TabStop = false;
-            this.group_waitcmd.Text = "待发送指令";
+            this.btnCallData.Enabled = false;
+            this.btnCallData.Location = new System.Drawing.Point(222, 24);
+            this.btnCallData.Name = "btnCallData";
+            this.btnCallData.Size = new System.Drawing.Size(58, 26);
+            this.btnCallData.TabIndex = 2;
+            this.btnCallData.Text = "招测";
+            this.btnCallData.Click += new System.EventHandler(this.btnCallData_Click);
             // 
             // gridControl_WaitCmd
             // 
             this.gridControl_WaitCmd.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl_WaitCmd.Location = new System.Drawing.Point(3, 20);
+            this.gridControl_WaitCmd.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gridControl_WaitCmd.Enabled = false;
+            this.gridControl_WaitCmd.Location = new System.Drawing.Point(2, 21);
             this.gridControl_WaitCmd.MainView = this.gridView_WaitCmd;
             this.gridControl_WaitCmd.Name = "gridControl_WaitCmd";
-            this.gridControl_WaitCmd.Size = new System.Drawing.Size(245, 150);
+            this.gridControl_WaitCmd.Size = new System.Drawing.Size(221, 149);
             this.gridControl_WaitCmd.TabIndex = 0;
             this.gridControl_WaitCmd.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_WaitCmd});
@@ -1626,10 +1777,6 @@ namespace SmartWaterSystem
             // 
             this.gridView_WaitCmd.ActiveFilterEnabled = false;
             this.gridView_WaitCmd.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn9,
-            this.gridColumn10,
-            this.gridColumn18,
-            this.gridColumn19,
             this.gridColumn20,
             this.gridColumn21});
             this.gridView_WaitCmd.GridControl = this.gridControl_WaitCmd;
@@ -1645,50 +1792,14 @@ namespace SmartWaterSystem
             this.gridView_WaitCmd.OptionsSelection.MultiSelect = true;
             this.gridView_WaitCmd.OptionsView.ShowGroupPanel = false;
             // 
-            // gridColumn9
-            // 
-            this.gridColumn9.Caption = "A5";
-            this.gridColumn9.FieldName = "A5";
-            this.gridColumn9.Name = "gridColumn9";
-            this.gridColumn9.Visible = true;
-            this.gridColumn9.VisibleIndex = 0;
-            this.gridColumn9.Width = 30;
-            // 
-            // gridColumn10
-            // 
-            this.gridColumn10.Caption = "A4";
-            this.gridColumn10.FieldName = "A4";
-            this.gridColumn10.Name = "gridColumn10";
-            this.gridColumn10.Visible = true;
-            this.gridColumn10.VisibleIndex = 1;
-            this.gridColumn10.Width = 30;
-            // 
-            // gridColumn18
-            // 
-            this.gridColumn18.Caption = "A3";
-            this.gridColumn18.FieldName = "A3";
-            this.gridColumn18.Name = "gridColumn18";
-            this.gridColumn18.Visible = true;
-            this.gridColumn18.VisibleIndex = 2;
-            this.gridColumn18.Width = 30;
-            // 
-            // gridColumn19
-            // 
-            this.gridColumn19.Caption = "A2";
-            this.gridColumn19.FieldName = "A2";
-            this.gridColumn19.Name = "gridColumn19";
-            this.gridColumn19.Visible = true;
-            this.gridColumn19.VisibleIndex = 3;
-            this.gridColumn19.Width = 30;
-            // 
             // gridColumn20
             // 
-            this.gridColumn20.Caption = "A1";
-            this.gridColumn20.FieldName = "A1";
+            this.gridColumn20.Caption = "终端号";
+            this.gridColumn20.FieldName = "ID";
             this.gridColumn20.Name = "gridColumn20";
             this.gridColumn20.Visible = true;
-            this.gridColumn20.VisibleIndex = 4;
-            this.gridColumn20.Width = 30;
+            this.gridColumn20.VisibleIndex = 0;
+            this.gridColumn20.Width = 50;
             // 
             // gridColumn21
             // 
@@ -1696,31 +1807,72 @@ namespace SmartWaterSystem
             this.gridColumn21.FieldName = "funcode";
             this.gridColumn21.Name = "gridColumn21";
             this.gridColumn21.Visible = true;
-            this.gridColumn21.VisibleIndex = 5;
-            this.gridColumn21.Width = 136;
+            this.gridColumn21.VisibleIndex = 1;
+            this.gridColumn21.Width = 177;
+            // 
+            // groupControl13
+            // 
+            this.groupControl13.Controls.Add(this.xtraTabControl1);
+            this.groupControl13.Location = new System.Drawing.Point(6, 215);
+            this.groupControl13.Name = "groupControl13";
+            this.groupControl13.Size = new System.Drawing.Size(557, 213);
+            this.groupControl13.TabIndex = 3;
+            this.groupControl13.Text = "时间间隔";
+            // 
+            // groupControl14
+            // 
+            this.groupControl14.Controls.Add(this.btnDel);
+            this.groupControl14.Controls.Add(this.gridControl_WaitCmd);
+            this.groupControl14.Location = new System.Drawing.Point(569, 215);
+            this.groupControl14.Name = "groupControl14";
+            this.groupControl14.Size = new System.Drawing.Size(225, 213);
+            this.groupControl14.TabIndex = 4;
+            this.groupControl14.Text = "待发送指令";
             // 
             // btnDel
             // 
-            this.btnDel.Location = new System.Drawing.Point(104, 189);
+            this.btnDel.Enabled = false;
+            this.btnDel.Location = new System.Drawing.Point(81, 176);
             this.btnDel.Name = "btnDel";
-            this.btnDel.Size = new System.Drawing.Size(54, 26);
+            this.btnDel.Size = new System.Drawing.Size(67, 26);
             this.btnDel.TabIndex = 1;
             this.btnDel.Text = "删除";
+            // 
+            // btnVer
+            // 
+            this.btnVer.Location = new System.Drawing.Point(118, 464);
+            this.btnVer.Name = "btnVer";
+            this.btnVer.Size = new System.Drawing.Size(82, 26);
+            this.btnVer.TabIndex = 10;
+            this.btnVer.Text = "版本号";
+            this.btnVer.Click += new System.EventHandler(this.btnVer_Click);
+            // 
+            // btnFieldStrength
+            // 
+            this.btnFieldStrength.Location = new System.Drawing.Point(118, 434);
+            this.btnFieldStrength.Name = "btnFieldStrength";
+            this.btnFieldStrength.Size = new System.Drawing.Size(82, 26);
+            this.btnFieldStrength.TabIndex = 5;
+            this.btnFieldStrength.Text = "场强\\电压";
+            this.btnFieldStrength.Click += new System.EventHandler(this.btnFieldStrength_Click);
             // 
             // UniversalTerParm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.group_waitcmd);
+            this.Controls.Add(this.groupControl14);
+            this.Controls.Add(this.groupControl13);
             this.Controls.Add(this.groupControl6);
             this.Controls.Add(this.dropbtnCalibrationSimualte);
             this.Controls.Add(this.groupControl8);
-            this.Controls.Add(this.xtraTabControl1);
             this.Controls.Add(this.SwitchComunication);
             this.Controls.Add(this.btnEnableCollect);
             this.Controls.Add(this.btnSetPluseBasic);
+            this.Controls.Add(this.btnFieldStrength);
+            this.Controls.Add(this.btnVer);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnCheckingTime);
+            this.Controls.Add(this.groupControl7);
             this.Controls.Add(this.btnSetParm);
             this.Controls.Add(this.btnReadParm);
             this.Controls.Add(this.groupControl1);
@@ -1737,38 +1889,43 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_sendtime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cbBaudRate.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit6.Properties)).EndInit();
+            this.groupControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtVolLower.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb485BaudRate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtVolInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSMSInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtHeart.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPluseUnit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbModbusExeFlag.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbNetworkType.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceNetWorkType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCellPhone.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit5.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceVolInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit3.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEdit2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ce485Baud.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceHeart.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePluseUnit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSMSInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceVolLower.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
-            this.groupControl7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cemodbusprotocolstatus.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2State.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1State.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCellPhone.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum4.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePort.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceID.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum3.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNum1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl7)).EndInit();
+            this.groupControl7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cePluseState.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceDigitPreStatus.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceRS485State.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate2State.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1State.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceColConfig.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceCollectRS485.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_Simulate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_Simulate)).EndInit();
@@ -1789,7 +1946,7 @@ namespace SmartWaterSystem
             this.xtraTabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ceModbusExeFlag.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceCollectModbus.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_485protocol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_485protocol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_485protocol_baud)).EndInit();
@@ -1804,30 +1961,32 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_Pluse)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_Pluse)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_starttime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cb_pre_coltime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_coltime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_pluse_sendtime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).EndInit();
             this.groupControl8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.comboEnableSlopLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboEnableSlopUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboEnablePreLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboEnablePreUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textOffset.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textPreRange.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textSlopLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textSlopUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbOffset.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbEnableSlopLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textPreLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbEnableSlopUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textPreUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreRange.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbSlopLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbEnablePreLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbSlopUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbEnablePreUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbPreUpLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbSlopLowLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbSlopUpLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPreLowLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPreUpLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSlopLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbPreFlag.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSlopUpLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceOffset.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSlopUpLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreUpLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreLowLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceSlopUpLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreUpLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl10)).EndInit();
@@ -1839,9 +1998,12 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
-            this.group_waitcmd.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl13)).EndInit();
+            this.groupControl13.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl14)).EndInit();
+            this.groupControl14.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1859,10 +2021,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit ceCellPhone;
         private DevExpress.XtraEditors.CheckEdit ceIP;
         private DevExpress.XtraEditors.CheckEdit ceComType;
-        private DevExpress.XtraEditors.TextEdit txtNum1;
-        private DevExpress.XtraEditors.TextEdit txtNum2;
-        private DevExpress.XtraEditors.TextEdit txtNum4;
-        private DevExpress.XtraEditors.TextEdit txtNum3;
         private DevExpress.XtraEditors.SimpleButton btnEnableCollect;
         private DevExpress.XtraEditors.SimpleButton btnCheckingTime;
         private DevExpress.XtraEditors.SimpleButton btnReadParm;
@@ -1892,7 +2050,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit cePluseState;
         private DevExpress.XtraEditors.CheckEdit ceRS485State;
         private DevExpress.XtraEditors.CheckEdit ceSimulate1State;
-        private DevExpress.XtraEditors.CheckEdit cemodbusprotocolstatus;
+        private DevExpress.XtraEditors.CheckEdit ceDigitPreStatus;
         private DevExpress.XtraEditors.CheckEdit ceSimulate2State;
         private DevExpress.XtraEditors.SimpleButton btnSetPluseBasic;
         private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
@@ -1900,35 +2058,35 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.GroupControl groupControl2;
         private DevExpress.XtraEditors.CheckEdit ceCollectSimulate;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage4;
-        private DevExpress.XtraEditors.CheckEdit checkEdit6;
-        private DevExpress.XtraEditors.CheckEdit checkEdit5;
-        private DevExpress.XtraEditors.CheckEdit checkEdit4;
-        private DevExpress.XtraEditors.CheckEdit checkEdit3;
-        private DevExpress.XtraEditors.CheckEdit checkEdit2;
+        private DevExpress.XtraEditors.CheckEdit ceNetWorkType;
+        private DevExpress.XtraEditors.CheckEdit ceVolInterval;
+        private DevExpress.XtraEditors.CheckEdit ce485Baud;
+        private DevExpress.XtraEditors.CheckEdit ceHeart;
+        private DevExpress.XtraEditors.CheckEdit ceVolLower;
         private DevExpress.XtraEditors.GroupControl groupControl8;
-        private DevExpress.XtraEditors.ComboBoxEdit comboEnableSlopLowLimit;
-        private DevExpress.XtraEditors.ComboBoxEdit comboEnableSlopUpLimit;
-        private DevExpress.XtraEditors.ComboBoxEdit comboEnablePreLowLimit;
-        private DevExpress.XtraEditors.ComboBoxEdit comboEnablePreUpLimit;
-        private DevExpress.XtraEditors.TextEdit textOffset;
-        private DevExpress.XtraEditors.TextEdit textPreRange;
-        private DevExpress.XtraEditors.TextEdit textSlopLowLimit;
-        private DevExpress.XtraEditors.TextEdit textSlopUpLimit;
-        private DevExpress.XtraEditors.CheckEdit cbOffset;
-        private DevExpress.XtraEditors.CheckEdit cbEnableSlopLowLimit;
-        private DevExpress.XtraEditors.TextEdit textPreLowLimit;
-        private DevExpress.XtraEditors.CheckEdit cbEnableSlopUpLimit;
-        private DevExpress.XtraEditors.TextEdit textPreUpLimit;
-        private DevExpress.XtraEditors.CheckEdit cbPreRange;
-        private DevExpress.XtraEditors.CheckEdit cbSlopLowLimit;
-        private DevExpress.XtraEditors.CheckEdit cbEnablePreLowLimit;
-        private DevExpress.XtraEditors.CheckEdit cbSlopUpLimit;
-        private DevExpress.XtraEditors.CheckEdit cbPreLowLimit;
-        private DevExpress.XtraEditors.CheckEdit cbEnablePreUpLimit;
-        private DevExpress.XtraEditors.CheckEdit cbPreUpLimit;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit2;
-        private DevExpress.XtraEditors.TextEdit textEdit1;
-        private DevExpress.XtraEditors.TextEdit textEdit2;
+        private DevExpress.XtraEditors.ComboBoxEdit cbSlopLowLimitEnable;
+        private DevExpress.XtraEditors.ComboBoxEdit cbSlopUpLimitEnable;
+        private DevExpress.XtraEditors.ComboBoxEdit cbPreLowLimitEnable;
+        private DevExpress.XtraEditors.ComboBoxEdit cbPreUpLimitEnable;
+        private DevExpress.XtraEditors.TextEdit txtOffset;
+        private DevExpress.XtraEditors.TextEdit txtPreRange;
+        private DevExpress.XtraEditors.TextEdit txtSlopLowLimit;
+        private DevExpress.XtraEditors.TextEdit txtSlopUpLimit;
+        private DevExpress.XtraEditors.CheckEdit ceOffset;
+        private DevExpress.XtraEditors.CheckEdit ceSlopLowLimitEnable;
+        private DevExpress.XtraEditors.TextEdit txtPreLowLimit;
+        private DevExpress.XtraEditors.CheckEdit ceSlopUpLimitEnable;
+        private DevExpress.XtraEditors.TextEdit txtPreUpLimit;
+        private DevExpress.XtraEditors.CheckEdit cePreRange;
+        private DevExpress.XtraEditors.CheckEdit ceSlopLowLimit;
+        private DevExpress.XtraEditors.CheckEdit cePreLowLimitEnable;
+        private DevExpress.XtraEditors.CheckEdit ceSlopUpLimit;
+        private DevExpress.XtraEditors.CheckEdit cePreLowLimit;
+        private DevExpress.XtraEditors.CheckEdit cePreUpLimitEnable;
+        private DevExpress.XtraEditors.CheckEdit cePreUpLimit;
+        private DevExpress.XtraEditors.ComboBoxEdit cbNetworkType;
+        private DevExpress.XtraEditors.TextEdit txtVolLower;
+        private DevExpress.XtraEditors.TextEdit txtHeart;
         private DevExpress.XtraEditors.DropDownButton dropbtnCalibrationSimualte;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_starttime;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_sim_coltime1;
@@ -1943,7 +2101,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraBars.BarDockControl barDockControlLeft;
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
         private DevExpress.XtraEditors.GroupControl groupControl6;
-        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton btnCallData;
         private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
         private DevExpress.XtraEditors.TreeListLookUpEdit treeSocketType;
         private DevExpress.XtraTreeList.TreeList treeList1;
@@ -1963,7 +2121,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pluse_sendtime;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
         private DevExpress.XtraEditors.GroupControl groupControl4;
-        private DevExpress.XtraEditors.CheckEdit ceModbusExeFlag;
+        private DevExpress.XtraEditors.CheckEdit ceCollectModbus;
         private DevExpress.XtraGrid.GridControl gridControl_485protocol;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView_485protocol;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
@@ -1976,16 +2134,30 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_485protocol_regbeginaddr;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn14;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_485protocol_regcount;
-        private System.Windows.Forms.GroupBox group_waitcmd;
         private DevExpress.XtraGrid.GridControl gridControl_WaitCmd;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView_WaitCmd;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn18;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn19;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn20;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn21;
+        private DevExpress.XtraEditors.ComboBoxEdit cb485BaudRate;
+        private DevExpress.XtraEditors.TextEdit txtIP;
+        private DevExpress.XtraEditors.TextEdit txtVolInterval;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraEditors.ComboBoxEdit cbModbusExeFlag;
+        private DevExpress.XtraEditors.CheckEdit ceModbusExeFlag;
+        private DevExpress.XtraEditors.ComboBoxEdit cbPreFlag;
+        private DevExpress.XtraEditors.GroupControl groupControl13;
+        private DevExpress.XtraEditors.GroupControl groupControl14;
         private DevExpress.XtraEditors.SimpleButton btnDel;
-        private DevExpress.XtraEditors.ComboBoxEdit cbBaudRate;
+        private DevExpress.XtraEditors.SimpleButton btnVer;
+        private DevExpress.XtraEditors.TextEdit txtSMSInterval;
+        private DevExpress.XtraEditors.ComboBoxEdit cbPluseUnit;
+        private DevExpress.XtraEditors.CheckEdit cePluseUnit;
+        private DevExpress.XtraEditors.CheckEdit ceSMSInterval;
+        private DevExpress.XtraEditors.SimpleButton btnFieldStrength;
+        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pre_coltime;
     }
 }

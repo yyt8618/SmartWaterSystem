@@ -48,13 +48,12 @@ namespace SmartWaterSystem
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
-            this.btnGPRServiceGC = new System.Windows.Forms.Button();
+            this.btnDmp = new System.Windows.Forms.Button();
             this.btnSocketConnect = new System.Windows.Forms.Button();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.btnDmp = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
@@ -180,7 +179,6 @@ namespace SmartWaterSystem
             this.panel1.Controls.Add(this.btnCopy);
             this.panel1.Controls.Add(this.btnPause);
             this.panel1.Controls.Add(this.btnDmp);
-            this.panel1.Controls.Add(this.btnGPRServiceGC);
             this.panel1.Controls.Add(this.btnSocketConnect);
             this.panel1.Controls.Add(this.cbErrs);
             this.panel1.Controls.Add(this.btnClear);
@@ -341,22 +339,22 @@ namespace SmartWaterSystem
             this.btnPause.UseVisualStyleBackColor = false;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
-            // btnGPRServiceGC
+            // btnDmp
             // 
-            this.btnGPRServiceGC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGPRServiceGC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnGPRServiceGC.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnGPRServiceGC.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnGPRServiceGC.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnGPRServiceGC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnGPRServiceGC.Location = new System.Drawing.Point(263, 3);
-            this.btnGPRServiceGC.Name = "btnGPRServiceGC";
-            this.btnGPRServiceGC.Size = new System.Drawing.Size(31, 23);
-            this.btnGPRServiceGC.TabIndex = 5;
-            this.btnGPRServiceGC.TabStop = false;
-            this.btnGPRServiceGC.Text = "GC";
-            this.btnGPRServiceGC.UseVisualStyleBackColor = false;
-            this.btnGPRServiceGC.Click += new System.EventHandler(this.btnGPRServiceGC_Click);
+            this.btnDmp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDmp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDmp.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnDmp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDmp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnDmp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnDmp.Location = new System.Drawing.Point(295, 3);
+            this.btnDmp.Name = "btnDmp";
+            this.btnDmp.Size = new System.Drawing.Size(31, 23);
+            this.btnDmp.TabIndex = 5;
+            this.btnDmp.TabStop = false;
+            this.btnDmp.Text = "Dmp";
+            this.btnDmp.UseVisualStyleBackColor = false;
+            this.btnDmp.Click += new System.EventHandler(this.btnDmp_Click);
             // 
             // btnSocketConnect
             // 
@@ -402,23 +400,6 @@ namespace SmartWaterSystem
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.barDockControlRight.Location = new System.Drawing.Point(878, 0);
             this.barDockControlRight.Size = new System.Drawing.Size(0, 492);
-            // 
-            // btnDmp
-            // 
-            this.btnDmp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDmp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnDmp.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnDmp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnDmp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
-            this.btnDmp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnDmp.Location = new System.Drawing.Point(295, 3);
-            this.btnDmp.Name = "btnDmp";
-            this.btnDmp.Size = new System.Drawing.Size(31, 23);
-            this.btnDmp.TabIndex = 5;
-            this.btnDmp.TabStop = false;
-            this.btnDmp.Text = "Dmp";
-            this.btnDmp.UseVisualStyleBackColor = false;
-            this.btnDmp.Click += new System.EventHandler(this.btnDmp_Click);
             // 
             // FrmConsole
             // 
@@ -482,7 +463,6 @@ namespace SmartWaterSystem
         private PictureBox picBoxLog;
         private DevExpress.XtraEditors.TreeListLookUpEdit treeSocketType;
         private DevExpress.XtraTreeList.TreeList treeList1;
-        private Button btnGPRServiceGC;
         private Button btnDmp;
     }
 }

@@ -1152,11 +1152,6 @@ namespace SmartWaterSystem
                                 ceSimulate2.Checked = true;
                                 FindWayTypeConfig(cbSimulate2, entity.PointID);
                                 break;
-                            case 3:
-                                callDataType.GetSim3 = true;
-                                ceSimulate3.Checked = true;
-                                FindWayTypeConfig(cbSimulate3, entity.PointID);
-                                break;
                             case 4:
                                 callDataType.GetPluse = true;
                                 cePluse1.Checked = true;
@@ -1205,30 +1200,6 @@ namespace SmartWaterSystem
                                 ceRS485_4.Checked = true;
                                 ceRS485_4.Visible = true;
                                 FindWayTypeConfig(cbRS485_4, entity.PointID);
-                                break;
-                            case 13:
-                                callDataType.GetRS4855 = true;
-                                ceRS485_5.Checked = true;
-                                ceRS485_5.Visible = true;
-                                FindWayTypeConfig(cbRS485_5, entity.PointID);
-                                break;
-                            case 14:
-                                callDataType.GetRS4856 = true;
-                                ceRS485_6.Checked = true;
-                                ceRS485_6.Visible = true;
-                                FindWayTypeConfig(cbRS485_6, entity.PointID);
-                                break;
-                            case 15:
-                                callDataType.GetRS4857 = true;
-                                ceRS485_7.Checked = true;
-                                ceRS485_7.Visible = true;
-                                FindWayTypeConfig(cbRS485_7, entity.PointID);
-                                break;
-                            case 16:
-                                callDataType.GetRS4858 = true;
-                                ceRS485_8.Checked = true;
-                                ceRS485_8.Visible = true;
-                                FindWayTypeConfig(cbRS485_8, entity.PointID);
                                 break;
                         }
                     }

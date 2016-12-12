@@ -723,13 +723,6 @@ namespace SmartWaterSystem
         }
         #endregion
 
-        private void btnGPRServiceGC_Click(object sender, EventArgs e)
-        {
-            SocketEntity socketmsg = new SocketEntity();
-            socketmsg.MsgType = Entity.ConstValue.MSMQTYPE.GC;
-            GlobalValue.SocketMgr.SendMessage(socketmsg);
-        }
-
         private void btnDmp_Click(object sender, EventArgs e)
         {
             SocketEntity socketmsg = new SocketEntity();

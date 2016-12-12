@@ -93,6 +93,8 @@ namespace GCGPRSService
 
         bool SL651AllowOnLine = false;  //SL651协议终端是否在线,默认不在线
 
+        private bool IsCreateDumpFile = false;  //是否正在创建Dump文件
+
         public void OnSendMsg(SocketEventArgs e)
         {
             lock (obj_smartsocket)
@@ -204,108 +206,6 @@ namespace GCGPRSService
             }
         }
 
-        void sqlmanager_SQLEvent(object sender, SQLNotifyEventArgs e)
-        {
-            if (e.SQLType == SQLType.InsertPreValue)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("压力数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("压力数据保存失败:" + e.Msg));
-                }
-            }
-            else if (e.SQLType == SQLType.InsertFlowValue)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("流量数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("流量数据保存失败:" + e.Msg));
-                }
-            }
-            else if (e.SQLType == SQLType.InsertPrectrlValue)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("压力控制器数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("压力控制器数据保存失败:" + e.Msg));
-                }
-            }
-            else if (e.SQLType == SQLType.InsertUniversalValue)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("通用终端数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("通用终端数据保存失败:" + e.Msg));
-                }
-            }
-            else if (e.SQLType == SQLType.InsertOLWQValue)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("水质终端数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("水质终端数据保存失败:" + e.Msg));
-                }
-            }
-            else if (e.SQLType == SQLType.InsertNoiseValue)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("噪声数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("噪声数据保存失败:" + e.Msg));
-                }
-            }
-            else if (e.SQLType == SQLType.InsertWaterworkerValue)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("水厂数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("水厂数据保存失败:" + e.Msg));
-                }
-            }
-            else if (e.SQLType == SQLType.InsertHydrantValue)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("消防栓数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("消防栓数据保存失败:" + e.Msg));
-                }
-            }
-            else if (e.SQLType == SQLType.InsertAlarm)
-            {
-                if (1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("报警数据保存成功"));
-                }
-                else if (-1 == e.Result)
-                {
-                    OnSendMsg(new SocketEventArgs("报警数据保存失败:" + e.Msg));
-                }
-            }
-        }
 
         public void Close()
         {
@@ -1586,58 +1486,6 @@ namespace GCGPRSService
                         package.CS = package.CreateCS();
                         lstpack.Add(package);
                     }
-                    if (calldataType.GetRS4855)
-                    {
-                        Package package = new Package();
-                        package.DevType = DevType;
-                        package.DevID = DevId;
-                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4855;
-                        package.DataLength = 0;
-                        byte[] data = new byte[package.DataLength];
-                        package.Data = data;
-                        package.CS = package.CreateCS();
-                        lstpack.Add(package);
-                    }
-                    if (calldataType.GetRS4856)
-                    {
-                        Package package = new Package();
-                        package.DevType = DevType;
-                        package.DevID = DevId;
-                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4856;
-                        package.DataLength = 0;
-                        byte[] data = new byte[package.DataLength];
-                        package.Data = data;
-                        package.CS = package.CreateCS();
-                        lstpack.Add(package);
-                    }
-                    if (calldataType.GetRS4857)
-                    {
-                        Package package = new Package();
-                        package.DevType = DevType;
-                        package.DevID = DevId;
-                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4857;
-                        package.DataLength = 0;
-                        byte[] data = new byte[package.DataLength];
-                        package.Data = data;
-                        package.CS = package.CreateCS();
-                        lstpack.Add(package);
-                    }
-                    if (calldataType.GetRS4858)
-                    {
-                        Package package = new Package();
-                        package.DevType = DevType;
-                        package.DevID = DevId;
-                        package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                        package.C1 = (byte)UNIVERSAL_COMMAND.CallData_RS4858;
-                        package.DataLength = 0;
-                        byte[] data = new byte[package.DataLength];
-                        package.Data = data;
-                        package.CS = package.CreateCS();
-                        lstpack.Add(package);
-                    }
                     #endregion
 
                     foreach (Package package in lstpack)
@@ -1897,16 +1745,18 @@ namespace GCGPRSService
                     GlobalValue.Instance.SocketMag.DelSL651WaitSendCmd(Msg.A1, Msg.A2, Msg.A3, Msg.A4, Msg.A5, Msg.SL651Funcode);
                     GlobalValue.Instance.SocketMag.GetSL651WaitSendCmd();
                 }
-                else if (Msg.MsgType == ConstValue.MSMQTYPE.GC)
-                {
-                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 强制执行GC!"));
-                    GC.Collect();
-                }
                 else if (Msg.MsgType == ConstValue.MSMQTYPE.MiniDump)
                 {
-                    try {
+                    if (IsCreateDumpFile)
+                    {
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 正在创建Dump文件,请稍候..."));
+                        return;
+                    }
+                    try
+                    {
+                        IsCreateDumpFile = true;
                         string dumpPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Dump";
-                        if(!Directory.Exists(dumpPath))
+                        if (!Directory.Exists(dumpPath))
                         {
                             Directory.CreateDirectory(dumpPath);
                         }
@@ -1917,13 +1767,28 @@ namespace GCGPRSService
                         {
                             MiniDump.Write(fs.SafeFileHandle, MiniDump.Option.WithFullMemory);
                         }
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 生成dmp文件成功,位置:"+ dumpFile));
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 生成dmp文件成功,位置:" + dumpFile));
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 生成dmp文件失败,ex:"+ex.Message));
+                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 生成dmp文件失败,ex:" + ex.Message));
                     }
-                    
+                    finally
+                    {
+                        IsCreateDumpFile = false;
+                    }
+                }
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.P68_Cmd)
+                {
+
+                }
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.Get_P68_WaitSendCmd)
+                {
+
+                }
+                else if (Msg.MsgType == ConstValue.MSMQTYPE.Del_P68_WaitSendCmd)
+                {
+
                 }
                 //Other
             }
@@ -1976,6 +1841,108 @@ namespace GCGPRSService
             }
         }
 
+        void sqlmanager_SQLEvent(object sender, SQLNotifyEventArgs e)
+        {
+            if (e.SQLType == SQLType.InsertPreValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("压力数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("压力数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertFlowValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("流量数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("流量数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertPrectrlValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("压力控制器数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("压力控制器数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertUniversalValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("通用终端数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("通用终端数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertOLWQValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("水质终端数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("水质终端数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertNoiseValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("噪声数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("噪声数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertWaterworkerValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("水厂数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("水厂数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertHydrantValue)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("消防栓数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("消防栓数据保存失败:" + e.Msg));
+                }
+            }
+            else if (e.SQLType == SQLType.InsertAlarm)
+            {
+                if (1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("报警数据保存成功"));
+                }
+                else if (-1 == e.Result)
+                {
+                    OnSendMsg(new SocketEventArgs("报警数据保存失败:" + e.Msg));
+                }
+            }
+        }
     }
 
 }

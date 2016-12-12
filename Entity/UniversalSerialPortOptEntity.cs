@@ -49,19 +49,29 @@ namespace Entity
             get { return _cellphone; }
             set { _cellphone = value; }
         }
+        
+        private bool _Collect_DigitPre;
+        /// <summary>
+        /// 数字量压力
+        /// </summary>
+        public bool Collect_DigitPre
+        {
+            get { return _Collect_DigitPre; }
+            set { _Collect_DigitPre = value; }
+        }
 
         /// <summary>
-        /// 是否读取/设置modbus协议标识
+        /// 是否读取/设置modbus执行标识
         /// </summary>
-        //public bool IsOptmodbusExeFlag = false;
-        private bool _modbusExeFlag;
+        public bool IsOptModbusExeFlag = false;
+        private bool _ModbusExeFlag;
         /// <summary>
-        /// 485采集执行modbus协议标识
+        /// modbus执行标识
         /// </summary>
         public bool ModbusExeFlag
         {
-            get { return _modbusExeFlag; }
-            set { _modbusExeFlag = value; }
+            get { return _ModbusExeFlag; }
+            set { _ModbusExeFlag = value; }
         }
 
         /// <summary>
@@ -662,15 +672,15 @@ namespace Entity
             set { _ComTime = value; }
         }
 
-        public bool IsOpt_PreRange = false;
-        private double _PreRange = 0;
+        public bool IsOpt_Range = false;
+        private double _Range = 0;
         /// <summary>
-        /// 压力值量程
+        /// 压力、模拟量量程
         /// </summary>
-        public double PreRange
+        public double Range
         {
-            get { return _PreRange; }
-            set { _PreRange = value; }
+            get { return _Range; }
+            set { _Range = value; }
         }
 
         public bool IsOpt_PreOffset = false;
@@ -695,5 +705,246 @@ namespace Entity
             set { _RealTimeData = value; }
         }
 
+        /// <summary>
+        /// 是否读取/设置心跳间隔
+        /// </summary>
+        public bool IsOpt_HeartInterval = false;
+
+        private int _HeartInterval = 0;
+        /// <summary>
+        /// 心跳间隔
+        /// </summary>
+        public int HeartInterval
+        {
+            get { return _HeartInterval; }
+            set { _HeartInterval = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置电压时间间隔
+        /// </summary>
+        public bool IsOpt_VolInterval = false;
+        private int _VolInterval = 0;
+        /// <summary>
+        /// 电压时间间隔
+        /// </summary>
+        public int VolInterval
+        {
+            get { return _VolInterval; }
+            set { _VolInterval = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置电压报警下限
+        /// </summary>
+        public bool IsOpt_VolLower = false;
+        private short _VolLower = 0;
+        /// <summary>
+        /// 电压报警下限
+        /// </summary>
+        public short VolLower
+        {
+            get { return _VolLower; }
+            set { _VolLower = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置短信发送间隔
+        /// </summary>
+        public bool IsOpt_SMSInterval = false;
+        private short _SMSInterval;
+        /// <summary>
+        /// 短信发送间隔
+        /// </summary>
+        public short SMSInterval
+        {
+            get { return _SMSInterval; }
+            set { _SMSInterval = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置脉冲计数单位
+        /// </summary>
+        public bool IsOpt_PluseUnit = false;
+        /// <summary>
+        /// 脉冲计数单位
+        /// </summary>
+        private int _PluseUnit;
+        public int PluseUnit
+        {
+            get { return _PluseUnit; }
+            set { _PluseUnit = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置485波特率
+        /// </summary>
+        public bool IsOpt_Baud485 = false;
+        private int _Baud485 = 0;
+        /// <summary>
+        /// 485波特率 0～3分别表示波特率1200、2400、4800、9600
+        /// </summary>
+        public int Baud485
+        {
+            get { return _Baud485; }
+            set { _Baud485 = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置联网模式
+        /// </summary>
+        public bool IsOpt_NetWorkType = false;
+        private int _NetWorkType = 0;
+        /// <summary>
+        /// 联网模式 0-不连网，1-低功耗模式 2-实时在线模式
+        /// </summary>
+        public int NetWorkType
+        {
+            get { return _NetWorkType; }
+            set { _NetWorkType = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置上限值
+        /// </summary>
+        public bool IsOpt_UpLimit = false;
+        private double _UpLimit = 0;
+        /// <summary>
+        /// 上限值
+        /// </summary>
+        public double UpLimit
+        {
+            get { return _UpLimit; }
+            set { _UpLimit = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置上限投退
+        /// </summary>
+        public bool IsOpt_UpLimitEnable = false;
+        private bool _UpLimitEnable = false;
+        /// <summary>
+        /// 报警上限投退
+        /// </summary>
+        public bool UpLimitEnable
+        {
+            get { return _UpLimitEnable; }
+            set { _UpLimitEnable = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置下限值
+        /// </summary>
+        public bool IsOpt_LowLimit = false;
+        private double _LowLimit = 0;
+        /// <summary>
+        /// 下限值
+        /// </summary>
+        public double LowLimit
+        {
+            get { return _LowLimit; }
+            set { _LowLimit = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置下限投退
+        /// </summary>
+        public bool IsOpt_LowLimitEnable = false;
+        private bool _LowLimitEnable = false;
+        /// <summary>
+        /// 报警下限投退
+        /// </summary>
+        public bool LowLimitEnable
+        {
+            get { return _LowLimitEnable; }
+            set { _LowLimitEnable = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置斜率上限值
+        /// </summary>
+        public bool IsOpt_SlopUpLimit = false;
+        private double _SlopUpLimit = 0;
+        /// <summary>
+        /// 斜率上限值
+        /// </summary>
+        public double SlopUpLimit
+        {
+            get { return _SlopUpLimit; }
+            set { _SlopUpLimit = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置斜率上限投退
+        /// </summary>
+        public bool IsOpt_SlopUpLimitEnable = false;
+        private bool _SlopUpLimitEnable = false;
+        /// <summary>
+        /// 斜率报警上限投退
+        /// </summary>
+        public bool SlopUpLimitEnable
+        {
+            get { return _SlopUpLimitEnable; }
+            set { _SlopUpLimitEnable = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置斜率下限值
+        /// </summary>
+        public bool IsOpt_SlopLowLimit = false;
+        private double _SlopLowLimit = 0;
+        /// <summary>
+        /// 斜率下限值
+        /// </summary>
+        public double SlopLowLimit
+        {
+            get { return _SlopLowLimit; }
+            set { _SlopLowLimit = value; }
+        }
+
+        /// <summary>
+        /// 是否读取/设置斜率下限投退
+        /// </summary>
+        public bool IsOpt_SlopLowLimitEnable = false;
+        private bool _SlopLowLimitEnable = false;
+        /// <summary>
+        /// 斜率报警下限投退
+        /// </summary>
+        public bool SlopLowLimitEnable
+        {
+            get { return _SlopLowLimitEnable; }
+            set { _SlopLowLimitEnable = value; }
+        }
+
+        private string _Ver = "";
+        /// <summary>
+        /// 版本号
+        /// </summary>
+        public string Ver
+        {
+            get { return _Ver; }
+            set { _Ver = value; }
+        }
+
+        private string _FieldStrength = "";
+        /// <summary>
+        /// 场强\电压
+        /// </summary>
+        public string FieldStrength
+        {
+            get { return _FieldStrength; }
+            set { _FieldStrength = value; }
+        }
+
+        private UniversalFlagType _FlagType;
+        /// <summary>
+        /// 报警标识
+        /// </summary>
+        public UniversalFlagType FlagType
+        {
+            get { return _FlagType; }
+            set { _FlagType = value; }
+        }
+        
     }
 }
