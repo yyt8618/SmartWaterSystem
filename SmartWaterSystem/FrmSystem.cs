@@ -543,7 +543,8 @@ namespace SmartWaterSystem
         // 压力终端参数
         private void navBarPreTerParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            LoadView(typeof(PreTerParm));
+            UniversalTerParm terparmview = (UniversalTerParm)LoadView(typeof(UniversalTerParm));
+            terparmview.DevType = ConstValue.DEV_TYPE.Data_CTRL;
         }
 
         //压力终端管理
@@ -586,7 +587,8 @@ namespace SmartWaterSystem
 
         private void navBarUniversalParm_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
-            LoadView(typeof(UniversalTerParm));
+            UniversalTerParm terparmview = (UniversalTerParm)LoadView(typeof(UniversalTerParm));
+            terparmview.DevType = ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
         }
 
         private void navBarUniversalParm651_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)

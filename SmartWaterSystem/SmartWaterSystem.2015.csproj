@@ -267,12 +267,6 @@
     <Compile Include="MODULE\PreTerminal\PreParmConfigForm.Designer.cs">
       <DependentUpon>PreParmConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MODULE\PreTerminal\PreTerParm.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MODULE\PreTerminal\PreTerParm.Designer.cs">
-      <DependentUpon>PreTerParm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MODULE\PreTerminal\PreTerMgr.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -482,9 +476,6 @@
     <EmbeddedResource Include="MODULE\PreTerminal\PreParmConfigForm.resx">
       <DependentUpon>PreParmConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MODULE\PreTerminal\PreTerParm.resx">
-      <DependentUpon>PreTerParm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerMgr.resx">
       <DependentUpon>PreTerMgr.cs</DependentUpon>
     </EmbeddedResource>
@@ -672,7 +663,7 @@
       <Name>PreTerMonitor.2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\PreTerParm\PreTerParm.2015.csproj">
-      <Project>{0150D7FD-CC7E-40C0-97D5-80457FD1BB1B}</Project>
+      <Project>{0150d7fd-cc7e-40c0-97d5-80457fd1bb1b}</Project>
       <Name>PreTerParm.2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\PreTerReportHistory\PreTerReportHistory.2015.csproj">

@@ -15,6 +15,7 @@ namespace SmartWaterSystem
 {
     public partial class UniversalTerParm : BaseView,IUniversalTerParm
     {
+        public ConstValue.DEV_TYPE DevType = ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
         public UniversalTerParm()
         {
             InitializeComponent();
@@ -139,29 +140,8 @@ namespace SmartWaterSystem
         private void InitGridView()
         {
             gridControl_Simulate.DataSource = null;
-            //DataTable dt_simulate = new DataTable();
-            //dt_simulate.Columns.Add("starttime");
-            //dt_simulate.Columns.Add("collecttime1");
-            //dt_simulate.Columns.Add("collecttime2");
-            //dt_simulate.Columns.Add("sendtime");
-            //gridControl_Simulate.DataSource = dt_simulate;
-            //gridView_Simulate.AddNewRow();
-
             gridControl_Pluse.DataSource = null;
-            //DataTable dt_pluse = new DataTable();
-            //dt_pluse.Columns.Add("starttime");
-            //dt_pluse.Columns.Add("collecttime");
-            //dt_pluse.Columns.Add("sendtime");
-            //gridControl_Pluse.DataSource = dt_pluse;
-            //gridView_Pluse.AddNewRow();
-
             gridControl_RS485.DataSource = null;
-            //DataTable dt_485 = new DataTable();
-            //dt_485.Columns.Add("starttime");
-            //dt_485.Columns.Add("collecttime");
-            //dt_485.Columns.Add("sendtime");
-            //gridControl_RS485.DataSource = dt_485;
-            //gridView_RS485.AddNewRow();
         }
 
         private void InitControls()
@@ -719,7 +699,7 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                 GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
@@ -747,7 +727,7 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                 GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
@@ -774,7 +754,7 @@ namespace SmartWaterSystem
             } 
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                 GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
@@ -795,7 +775,8 @@ namespace SmartWaterSystem
         {
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+
                 bool haveread = false;
                 if (ceID.Checked)
                 {
@@ -1000,7 +981,7 @@ namespace SmartWaterSystem
             {
                 if (Validate())
                 {
-                    GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                    GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                     bool haveset = false;
                     if (ceID.Checked)
                     {
@@ -1281,19 +1262,19 @@ namespace SmartWaterSystem
                 if (ceCollectSimulate.Checked)
                 {
                     DataTable dt = gridControl_Simulate.DataSource as DataTable;
-                    Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(Convert.ToInt16(txtID.Text), dt);
+                    Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
                     lstPack.Add(pack);
                 }
                 if (ceCollectPluse.Checked)
                 {
                     DataTable dt = gridControl_Pluse.DataSource as DataTable;
-                    Package pack = GlobalValue.Universallog.GetPluseIntervalPackage(Convert.ToInt16(txtID.Text), dt);
+                    Package pack = GlobalValue.Universallog.GetPluseIntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
                     lstPack.Add(pack);
                 }
                 if (ceCollectRS485.Checked)
                 {
                     DataTable dt = gridControl_RS485.DataSource as DataTable;
-                    Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(Convert.ToInt16(txtID.Text), dt);
+                    Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
                     lstPack.Add(pack);
                 }
 
@@ -1325,7 +1306,7 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                 GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
@@ -1356,7 +1337,7 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                 GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
@@ -1386,7 +1367,7 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
-            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
             PluseBasicInputForm PluseBasicForm = new PluseBasicInputForm();
             if (DialogResult.OK != PluseBasicForm.ShowDialog())
             {
@@ -1419,22 +1400,22 @@ namespace SmartWaterSystem
                 List<Package> lstPack = new List<Package>();
                 if (GlobalValue.UniSerialPortOptData.SetPluseBasic1)
                 {
-                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic1,1);
+                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic1,1);
                     lstPack.Add(pack);
                 }
                 if (GlobalValue.UniSerialPortOptData.SetPluseBasic2)
                 {
-                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic2, 2);
+                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic2, 2);
                     lstPack.Add(pack);
                 }
                 if (GlobalValue.UniSerialPortOptData.SetPluseBasic3)
                 {
-                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic3, 3);
+                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic3, 3);
                     lstPack.Add(pack);
                 }
                 if (GlobalValue.UniSerialPortOptData.SetPluseBasic4)
                 {
-                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic4, 4);
+                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic4, 4);
                     lstPack.Add(pack);
                 }
 
@@ -1994,7 +1975,7 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                 GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
@@ -2021,7 +2002,7 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                 GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);
@@ -2270,7 +2251,7 @@ namespace SmartWaterSystem
             }
             if (SwitchComunication.IsOn)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
+                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
                 GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
                 EnableControls(false);

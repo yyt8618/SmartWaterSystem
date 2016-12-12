@@ -129,7 +129,6 @@
             // 
             // ribbonControl1
             // 
-            this.ribbonControl1.ExpandCollapseItem.AllowDrawArrow = true;
             this.ribbonControl1.ExpandCollapseItem.Id = 0;
             this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl1.ExpandCollapseItem,
@@ -685,7 +684,6 @@
             // defaultLookAndFeel1
             // 
             this.defaultLookAndFeel1.LookAndFeel.SkinName = "Seven Classic";
-            //this.defaultLookAndFeel1.LookAndFeel.TouchUIMode = DevExpress.LookAndFeel.TouchUIMode.False;
             // 
             // ribbonPageGroup1
             // 

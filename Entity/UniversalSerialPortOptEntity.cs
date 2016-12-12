@@ -8,6 +8,25 @@ namespace Entity
 {
     public class UniversalSerialPortOptEntity
     {
+        public UniversalSerialPortOptEntity()
+        {
+
+        }
+        public UniversalSerialPortOptEntity(ConstValue.DEV_TYPE devtype)
+        {
+            _DevType = devtype;
+        }
+
+        private ConstValue.DEV_TYPE _DevType = ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+        /// <summary>
+        /// 设备类型(通用终端/压力流量终端)
+        /// </summary>
+        public ConstValue.DEV_TYPE DevType
+        {
+            get { return _DevType; }
+            set { _DevType = value; }
+        }
+
         /// <summary>
         /// 是否读取/设置设备ID
         /// </summary>

@@ -635,34 +635,6 @@ namespace GCGPRSService
                                 if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
                                     || bNeedCheckTime || lstCommandPack.Count > 0) && pack.IsFinal)
                                 {
-                                    byte[] bsenddata;
-                                    SendObject sendObj = new SendObject();
-                                    if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧则需要应答响应帧
-                                    {
-                                        #region 回复响应帧
-                                        response.DevType = pack.DevType;
-                                        response.C0 = 0x48;  //主站发出的应答帧，有后续命令
-                                        response.C1 = (byte)pack.C1;
-                                        response.DataLength = 0;
-                                        response.Data = null;
-                                        response.CS = response.CreateCS();
-
-                                        bsenddata = response.ToArray();
-
-#if debug
-                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
-#else
-                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
-#endif
-                                        sendObj.workSocket = handler;
-                                        sendObj.IsFinal = false;
-                                        sendObj.DevType = pack.DevType;
-                                        sendObj.DevID = pack.DevID;
-
-                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
-                                        #endregion
-                                    }
-
                                     if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
                                     {
                                         bool isupdate = false;
@@ -754,8 +726,38 @@ namespace GCGPRSService
                                         lstCommandPack.Add(pack_time);  //校时命令添加进来,下边只发送第一条命令,加入校时命令，用于后面判断是不是最后一个帧
                                     }
                                     #endregion
+                                    byte[] bsenddata;
+                                    SendObject sendObj = new SendObject();
+                                    if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE)//接收到的数据帧则需要应答响应帧
+                                    {
+                                        #region 回复响应帧
+                                        response.DevType = pack.DevType;
+                                        response.C0 = 0x40;
+                                        if (lstCommandPack.Count > 0)
+                                            response.C0 = ((byte)(response.C0 | 0x08));  //不是最后一个帧,主站发出的应答帧，有后续命令
+                                        response.C1 = (byte)pack.C1;
+                                        response.DataLength = 0;
+                                        response.Data = null;
+                                        response.CS = response.CreateCS();
 
-                                    if(lstCommandPack.Count>0)//for (int i = 0; i < lstCommandPack.Count; i++)
+                                        bsenddata = response.ToArray();
+
+#if debug
+                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+#else
+                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
+#endif
+                                        sendObj.workSocket = handler;
+                                        sendObj.IsFinal = false;
+                                        sendObj.DevType = pack.DevType;
+                                        sendObj.DevID = pack.DevID;
+
+                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                        #endregion
+                                    }
+
+
+                                    if (lstCommandPack.Count>0)//for (int i = 0; i < lstCommandPack.Count; i++)
                                     {
                                         Package commandpack = lstCommandPack[0];  //i
                                         if (0 != (lstCommandPack.Count - 1))  //i
