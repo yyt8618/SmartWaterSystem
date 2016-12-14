@@ -730,6 +730,9 @@ namespace SmartWaterSystem
                             try
                             {
                                 result = GlobalValue.Universallog.Reset(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
                             }
                             catch (Exception ex)
                             {
@@ -745,6 +748,9 @@ namespace SmartWaterSystem
                             try
                             {
                                 result = GlobalValue.Universallog.SetTime(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, DateTime.Now);
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
                             }
                             catch (Exception ex)
                             {
@@ -760,7 +766,11 @@ namespace SmartWaterSystem
                             try
                             {
                                 GlobalValue.UniSerialPortOptData.Ver = GlobalValue.Universallog.ReadVer(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
-                                result = true;
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
+                                else
+                                    result = true;
                             }
                             catch (Exception ex)
                             {
@@ -792,6 +802,9 @@ namespace SmartWaterSystem
                             try
                             {
                                 result = GlobalValue.Universallog.EnableCollect(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
                             }
                             catch (Exception ex)
                             {
@@ -963,7 +976,11 @@ namespace SmartWaterSystem
                                         GlobalValue.UniSerialPortOptData.RS485Protocol = GlobalValue.Universallog.ReadModbusProtocol(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
                                     }
                                 }
-                                result = true;
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
+                                else
+                                    result = true;
                             }
                             catch (Exception ex)
                             {
@@ -987,19 +1004,16 @@ namespace SmartWaterSystem
                                     if (GlobalValue.UniSerialPortOptData.IsOptCellPhone)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置报警手机号码..."));
-                                        //result = GlobalValue.Universallog.SetCellPhone(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.CellPhone);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType,GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_CELLPHONE, System.Text.Encoding.Default.GetBytes(GlobalValue.UniSerialPortOptData.CellPhone));
                                     }
                                     if (GlobalValue.UniSerialPortOptData.IsOptComType)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置终端通信方式..."));
-                                        //result = GlobalValue.Universallog.SetComType(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ComType);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID,  (byte)UNIVERSAL_COMMAND.SET_COMTYPE, (byte)GlobalValue.UniSerialPortOptData.ComType);
                                     }
                                     if (GlobalValue.UniSerialPortOptData.IsOpt_NetWorkType)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置终端联网模式..."));
-                                        //result = GlobalValue.Universallog.SetNetworkType(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.NetWorkType);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_NETWORKTYPE,(byte)GlobalValue.UniSerialPortOptData.NetWorkType);
                                     }
                                     if (GlobalValue.UniSerialPortOptData.IsOptIP)
@@ -1010,7 +1024,6 @@ namespace SmartWaterSystem
                                     if (GlobalValue.UniSerialPortOptData.IsOptPort)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置终端通信端口号..."));
-                                        //result = GlobalValue.Universallog.SetPort(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.Port);
                                         string str_port = GlobalValue.UniSerialPortOptData.Port.ToString();
                                         byte[] data = new byte[str_port.Length];
                                         for (int i = 0; i < str_port.Length; i++)
@@ -1022,7 +1035,6 @@ namespace SmartWaterSystem
                                     if (GlobalValue.UniSerialPortOptData.IsOpt_HeartInterval)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置终端心跳时间间隔..."));
-                                        //result = GlobalValue.Universallog.SetHeart(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.HeartInterval);
                                         byte[] data = BitConverter.GetBytes((short)GlobalValue.UniSerialPortOptData.HeartInterval);
                                         Array.Reverse(data);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_HEART, data);
@@ -1030,19 +1042,16 @@ namespace SmartWaterSystem
                                     if (GlobalValue.UniSerialPortOptData.IsOpt_Baud485)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置终端485波特率..."));
-                                        //result = GlobalValue.Universallog.Set485Baud(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.Baud485);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_485BAUD, (byte)GlobalValue.UniSerialPortOptData.Baud485);
                                     }
                                     if (GlobalValue.UniSerialPortOptData.IsOptModbusExeFlag)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置Modbus执行标识..."));
-                                        //result = GlobalValue.Universallog.SetModbusExeFlag(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ModbusExeFlag);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_MODBUSEXEFLAG, GlobalValue.UniSerialPortOptData.ModbusExeFlag ? (byte)0x01 : (byte)0x00);
                                     }
                                     if (GlobalValue.UniSerialPortOptData.IsOpt_VolInterval)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置电压时间间隔..."));
-                                        //result = GlobalValue.Universallog.SetVolInterval(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.VolInterval);
                                         byte[] data = BitConverter.GetBytes((short)GlobalValue.UniSerialPortOptData.VolInterval);
                                         Array.Reverse(data);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_VOLINTERVAL, data);
@@ -1050,13 +1059,11 @@ namespace SmartWaterSystem
                                     if (GlobalValue.UniSerialPortOptData.IsOpt_VolLower)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置电压报警下限..."));
-                                        //result = GlobalValue.Universallog.SetVolLower(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.VolLower);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_VOLLOWER, (byte)GlobalValue.UniSerialPortOptData.VolLower);
                                     }
                                     if(GlobalValue.UniSerialPortOptData.IsOpt_SMSInterval)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置短信发送间隔..."));
-                                        //result = GlobalValue.Universallog.SetSMSInterval(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.SMSInterval);
                                         byte[] data = BitConverter.GetBytes((short)GlobalValue.UniSerialPortOptData.SMSInterval);
                                         Array.Reverse(data);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_SMSINTERVAL, data);
@@ -1064,7 +1071,6 @@ namespace SmartWaterSystem
                                     if(GlobalValue.UniSerialPortOptData.IsOpt_PluseUnit)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置脉冲计数单位..."));
-                                        //result = GlobalValue.Universallog.SetPluseUnit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseUnit);
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_PLUSEUNIT, (byte)GlobalValue.UniSerialPortOptData.PluseUnit);
                                     }
 
@@ -1171,6 +1177,9 @@ namespace SmartWaterSystem
                                         result = GlobalValue.Universallog.SetModbusProtocol(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.RS485Protocol);
                                     }
                                 }
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
                             }
                             catch (Exception ex)
                             {
@@ -1186,6 +1195,9 @@ namespace SmartWaterSystem
                             try
                             {
                                 result = GlobalValue.Universallog.CalibartionSimulate1(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
                             }
                             catch (Exception ex)
                             {
@@ -1201,6 +1213,9 @@ namespace SmartWaterSystem
                             try
                             {
                                 result = GlobalValue.Universallog.CalibartionSimulate2(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
                             }
                             catch (Exception ex)
                             {
@@ -1235,6 +1250,9 @@ namespace SmartWaterSystem
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置脉冲四路基准..."));
                                     result = GlobalValue.Universallog.SetPluseBasic(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic4, 4);
                                 }
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
                             }
                             catch (Exception ex)
                             {
@@ -1268,7 +1286,11 @@ namespace SmartWaterSystem
                                         msg = "终端没有配置采集参数";
                                     }
                                 }
-
+                                //msg = SocketSend();
+                                //if (!string.IsNullOrEmpty(msg))
+                                //    result = false;
+                                //else
+                                //    result = true;
                             }
                             catch (Exception ex)
                             {
@@ -2185,7 +2207,7 @@ namespace SmartWaterSystem
                 bool readnextpack = false; //是否读取下一个包(多包时,第一包readnextpack = false,后面readnextpack = true)
                 GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived -= GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;
                 GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived += GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;
-                List<Package651> packsresp = GlobalValue.Universallog.Read(GlobalValue.SerialPort651OptData, 4, 1, true, readnextpack);
+                List<Package651> packsresp = GlobalValue.SerialPortMgr.Read(GlobalValue.SerialPort651OptData, 4, 1, true, readnextpack);
                 if (packsresp != null && packsresp.Count > 0)
                 {
                     List<byte> lstData = new List<byte>();
@@ -2235,7 +2257,7 @@ namespace SmartWaterSystem
                         byte[] bsenddata = tmp.ToResponseArray();
                         tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
                         Thread.Sleep(20);
-                        GlobalValue.Universallog.Read(tmp, 3, 1, false);
+                        GlobalValue.SerialPortMgr.Read(tmp, 3, 1, false);
                     }
                     result = true;
                     msg = "";
@@ -2339,7 +2361,7 @@ namespace SmartWaterSystem
                                                 byte[] bsenddata = tmp.ToResponseArray();
                                                 tmp.CS = Package651.crc16(bsenddata, bsenddata.Length);
                                                 Thread.Sleep(20);
-                                                GlobalValue.Universallog.Read(tmp, 3, 2, false);
+                                                GlobalValue.SerialPortMgr.Read(tmp, 3, 2, false);
                                             }
                                         }
                                         proccount++;
@@ -2417,6 +2439,40 @@ namespace SmartWaterSystem
                     return SerialPortType.Universal651SetTimeintervalReportTime;    //通用终端SL651设置均匀时段报上传时间
                 default:
                     return SerialPortType.None;
+            }
+        }
+
+        private string SocketSend()
+        {
+            try
+            {
+                if (GlobalValue.Universallog.RWType== RWFunType.GPRS && GlobalValue.Universallog.lstCmdPack != null && GlobalValue.Universallog.lstCmdPack.Count > 0)
+                {
+                    GPRSCmdEntity[] CmdPacks = new GPRSCmdEntity[GlobalValue.Universallog.lstCmdPack.Count];
+                    for (int i = 0; i < GlobalValue.Universallog.lstCmdPack.Count; i++)
+                    {
+                        CmdPacks[i] = new GPRSCmdEntity();
+                        CmdPacks[i].TableId = -2;
+                        CmdPacks[i].DevTypeId = (int)GlobalValue.Universallog.lstCmdPack[i].DevType;
+                        CmdPacks[i].DeviceId = GlobalValue.Universallog.lstCmdPack[i].DevID;
+                        CmdPacks[i].CtrlCode = GlobalValue.Universallog.lstCmdPack[i].C0;
+                        CmdPacks[i].FunCode = GlobalValue.Universallog.lstCmdPack[i].C1;
+                        CmdPacks[i].Data = ConvertHelper.ByteToString(GlobalValue.Universallog.lstCmdPack[i].Data, GlobalValue.Universallog.lstCmdPack[i].DataLength);
+                        CmdPacks[i].DataLen = GlobalValue.Universallog.lstCmdPack[i].DataLength;
+                    }
+
+                    SocketEntity msmqentity = new SocketEntity();
+                    msmqentity.MsgType = ConstValue.MSMQTYPE.P68_Cmd;
+                    msmqentity.Packs = CmdPacks;
+                    return GlobalValue.SocketMgr.SendMessage2(msmqentity);
+                }
+                else
+                    return "";
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("SocketSend", ex);
+                return "发送发送异常,ex:"+ex.Message;
             }
         }
     }

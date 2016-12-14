@@ -136,7 +136,15 @@ namespace GCGPRSService
                             #region 获取GPRS下送帧
                             lock (GlobalValue.Instance.lstGprsCmdLock)
                             {
-                                GlobalValue.Instance.lstGprsCmd = dataBll.GetGPRSParm();
+                                List<GPRSCmdEntity> lstDbCmd = dataBll.GetGPRSParm();
+                                for(int i =0; i < GlobalValue.Instance.lstGprsCmd.Count;i++)//先移除已有的从数据库添加的数据，再重新添加
+                                {
+                                    if (GlobalValue.Instance.lstGprsCmd[i].TableId > 0)
+                                    {
+                                        GlobalValue.Instance.lstGprsCmd.RemoveAt(i);
+                                    }
+                                }
+                                GlobalValue.Instance.lstGprsCmd.AddRange(lstDbCmd);
                             }
                             #endregion
                         }

@@ -130,4 +130,19 @@ namespace Entity
         /// </summary>
         SlopLowAlarm,
     }
+
+    /// <summary>
+    /// 读写操作类型
+    /// </summary>
+    public enum RWFunType
+    {
+        /// <summary>
+        /// 串口读写
+        /// </summary>
+        SerialPort,
+        /// <summary>
+        /// GPRS读写
+        /// </summary>
+        GPRS,
+    }
 }

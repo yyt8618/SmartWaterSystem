@@ -6,7 +6,7 @@ using Entity;
 
 namespace Protocol
 {
-    public class UniversalLog : SerialPortRW
+    public class UniversalLog : RWData
     {
         public bool Reset(ConstValue.DEV_TYPE devtype,short Id)
         {
@@ -102,6 +102,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return DateTime.Now;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -131,6 +134,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return "";
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -187,6 +193,8 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return "";
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -220,6 +228,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return true;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -248,6 +259,8 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -276,6 +289,8 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -363,6 +378,8 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -441,6 +458,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return true;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -492,6 +512,8 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -540,6 +562,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -568,6 +593,8 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -596,6 +623,8 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return null;
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -640,6 +669,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -678,6 +710,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -706,6 +741,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -734,6 +772,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -762,6 +803,8 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -790,6 +833,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -817,6 +863,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -845,6 +894,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return null;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -887,6 +939,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return null;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -930,6 +985,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return null;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");
@@ -971,6 +1029,9 @@ namespace Protocol
             package.CS = package.CreateCS();
 
             Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return null;
+
             if (!result.IsSuccess || result.Data == null)
             {
                 throw new Exception("获取失败");

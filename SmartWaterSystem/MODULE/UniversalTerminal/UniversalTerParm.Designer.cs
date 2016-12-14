@@ -605,11 +605,12 @@ namespace SmartWaterSystem
             this.cbComType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cbComType.Properties.Items.AddRange(new object[] {
-            "GSM",
-            "GPRS",
-            "CDMA"});
+            "移动GSM",
+            "GPRS方式",
+            "CDMA方式",
+            "电信GSM"});
             this.cbComType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbComType.Size = new System.Drawing.Size(65, 20);
+            this.cbComType.Size = new System.Drawing.Size(83, 20);
             this.cbComType.TabIndex = 8;
             // 
             // ceComType
@@ -806,10 +807,10 @@ namespace SmartWaterSystem
             // 
             this.gridControl_Simulate.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControl_Simulate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_Simulate.Location = new System.Drawing.Point(2, 26);
+            this.gridControl_Simulate.Location = new System.Drawing.Point(2, 21);
             this.gridControl_Simulate.MainView = this.gridView_Simulate;
             this.gridControl_Simulate.Name = "gridControl_Simulate";
-            this.gridControl_Simulate.Size = new System.Drawing.Size(546, 136);
+            this.gridControl_Simulate.Size = new System.Drawing.Size(543, 138);
             this.gridControl_Simulate.TabIndex = 1;
             this.gridControl_Simulate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_Simulate});
@@ -1013,7 +1014,7 @@ namespace SmartWaterSystem
             this.SwitchComunication.Name = "SwitchComunication";
             this.SwitchComunication.Properties.OffText = "GPRS";
             this.SwitchComunication.Properties.OnText = "串口";
-            this.SwitchComunication.Size = new System.Drawing.Size(102, 25);
+            this.SwitchComunication.Size = new System.Drawing.Size(106, 25);
             this.SwitchComunication.TabIndex = 15;
             this.SwitchComunication.Click += new System.EventHandler(this.SwitchComunication_Click);
             // 
@@ -1043,7 +1044,7 @@ namespace SmartWaterSystem
             // 
             this.xtraTabPage1.Controls.Add(this.groupControl2);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(550, 164);
+            this.xtraTabPage1.Size = new System.Drawing.Size(547, 161);
             this.xtraTabPage1.Text = "模拟量";
             // 
             // groupControl2
@@ -1053,7 +1054,7 @@ namespace SmartWaterSystem
             this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupControl2.Location = new System.Drawing.Point(0, 0);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(550, 164);
+            this.groupControl2.Size = new System.Drawing.Size(547, 161);
             this.groupControl2.TabIndex = 1;
             // 
             // ceCollectSimulate

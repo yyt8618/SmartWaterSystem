@@ -9,7 +9,7 @@ namespace Entity
     {
         private int _tableId;
         /// <summary>
-        /// 表ID
+        /// 表ID(-1:校时数据,-2:下送命令帧,>-1:数据库中获取的命令帧ID
         /// </summary>
         public int TableId
         {

@@ -15,7 +15,16 @@ namespace SmartWaterSystem
 {
     public partial class UniversalTerParm : BaseView,IUniversalTerParm
     {
-        public ConstValue.DEV_TYPE DevType = ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+        private ConstValue.DEV_TYPE _DevType = ConstValue.DEV_TYPE.UNIVERSAL_CTRL;
+        public ConstValue.DEV_TYPE DevType
+        {
+            set
+            {
+                _DevType = value;
+                SetDevTypeEnable();
+            }
+            get { return _DevType; }
+        }
         public UniversalTerParm()
         {
             InitializeComponent();
@@ -156,7 +165,7 @@ namespace SmartWaterSystem
 
             ceCollectModbus.Checked = false;
             gridControl_485protocol.Enabled = false;
-            
+
         }
 
         #region treeSocketType
@@ -697,24 +706,17 @@ namespace SmartWaterSystem
             {
                 return;
             }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在复位终端...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在复位终端...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReset);
-            }
-            else
-            {
-
-            }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在复位终端...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在复位终端...");
+            Send(SerialPortType.UniversalReset);
         }
 
         private void btnCheckingTime_Click(object sender, EventArgs e)
@@ -725,23 +727,17 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在设置时间...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在设置时间...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetTime);
-            }
-            else
-            {
-            }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在设置时间...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在设置时间...");
+            Send(SerialPortType.UniversalSetTime);
         }
 
         private void btnEnableCollect_Click(object sender, EventArgs e)
@@ -751,218 +747,206 @@ namespace SmartWaterSystem
                 XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtID.Focus();
                 return;
-            } 
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            }
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在启动采集...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在启动采集...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetEnableCollect);
-            }
-            else
-            {
-            }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在启动采集...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在启动采集...");
+            Send(SerialPortType.UniversalSetEnableCollect);
         }
 
         private void btnReadParm_Click(object sender, EventArgs e)
         {
-            if (SwitchComunication.IsOn)
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+
+            bool haveread = false;
+            if (ceID.Checked)
             {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-
-                bool haveread = false;
-                if (ceID.Checked)
-                {
-                    GlobalValue.UniSerialPortOptData.IsOptID = ceID.Checked;
-                    haveread = true;
-                }
-                else
-                {
-                    GlobalValue.UniSerialPortOptData.FlagType = (UniversalFlagType)cbPreFlag.SelectedIndex;
-                    if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
-                    {
-                        XtraMessageBox.Show("请输入设备ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        txtID.Focus();
-                        return;
-                    }
-                    GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
-                    
-                    if (ceTime.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOptDT = ceTime.Checked;
-                        haveread = true;
-                    }
-                    if (ceCellPhone.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOptCellPhone = ceCellPhone.Checked;
-                        haveread = true;
-                    }
-                    
-                    if (ceComType.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOptComType = ceComType.Checked;
-                        haveread = true;
-                    }
-                    if (ceNetWorkType.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_NetWorkType = ceNetWorkType.Checked;
-                        haveread = true;
-                    }
-                    if (ceIP.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOptIP = ceIP.Checked;
-                        haveread = true;
-                    }
-                    if (cePort.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOptPort = cePort.Checked;
-                        haveread = true;
-                    }
-                    if (ceHeart.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_HeartInterval = ceHeart.Checked;
-                        haveread = true;
-                    }
-                    if(ce485Baud.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_Baud485 = ce485Baud.Checked;
-                        haveread = true;
-                    }
-                    if (ceModbusExeFlag.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOptModbusExeFlag = ceModbusExeFlag.Checked;
-                        haveread = true;
-                    }
-                    if (ceVolInterval.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_VolInterval = ceVolInterval.Checked;
-                        haveread = true;
-                    }
-                    if (ceVolLower.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_VolLower = ceVolLower.Checked;
-                        haveread = true;
-                    }
-                    if(ceSMSInterval.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_SMSInterval = ceSMSInterval.Checked;
-                        haveread = true;
-                    }
-                    if(cePluseUnit.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_PluseUnit = cePluseUnit.Checked;
-                        haveread = true;
-                    }
-                    if (cePreUpLimit.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_UpLimit = cePreUpLimit.Checked;
-                        haveread = true;
-                    }
-                    if(cePreUpLimitEnable.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_UpLimitEnable = cePreUpLimitEnable.Checked;
-                        haveread = true;
-                    }
-                    if(cePreLowLimit.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_LowLimit = cePreLowLimit.Checked;
-                        haveread = true;
-                    }
-                    if(cePreLowLimitEnable.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_LowLimitEnable = cePreLowLimitEnable.Checked;
-                        haveread = true;
-                    }
-                    if(ceSlopUpLimit.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_SlopUpLimit = ceSlopUpLimit.Checked;
-                        haveread = true;
-                    }
-                    if(ceSlopUpLimitEnable.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_SlopUpLimitEnable = ceSlopUpLimitEnable.Checked;
-                        haveread = true;
-                    }
-                    if(ceSlopLowLimit.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_SlopLowLimit = ceSlopLowLimit.Checked;
-                        haveread = true;
-                    }
-                    if(ceSlopLowLimitEnable.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_SlopLowLimitEnable = ceSlopLowLimitEnable.Checked;
-                        haveread = true;
-                    }
-                    if(cePreRange.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_Range = cePreRange.Checked;
-                        haveread = true;
-                    }
-                    if(ceOffset.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
-                        haveread = true;
-                    }
-                    if (ceColConfig.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_CollectConfig = ceColConfig.Checked;
-
-                        ceSimulate1State.Checked = false;
-                        ceSimulate2State.Checked = false;
-                        cePluseState.Checked = false;
-                        ceRS485State.Checked = false;
-                        ceDigitPreStatus.Checked = false;
-                        haveread = true;
-                    }
-                    if (ceCollectSimulate.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_SimualteInterval = ceCollectSimulate.Checked;
-                        haveread = true;
-                    }
-                    if (ceCollectPluse.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_PluseInterval = ceCollectPluse.Checked;
-                        haveread = true;
-                    }
-                    if (ceCollectRS485.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_RS485Interval = ceCollectRS485.Checked;
-                        haveread = true;
-                    }
-                    if (ceCollectModbus.Checked)
-                    {
-                        GlobalValue.UniSerialPortOptData.IsOpt_RS485Protocol = ceCollectModbus.Checked;
-                        haveread = true;
-                    }
-                }
-
-                if (!haveread)
-                {
-                    XtraMessageBox.Show("请选择需要读取的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在读取...");
-                BeginSerialPortDelegate();
-                GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
-                GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
-                Application.DoEvents();
-                SetStaticItem("正在读取...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReadBasicInfo);
+                GlobalValue.UniSerialPortOptData.IsOptID = ceID.Checked;
+                haveread = true;
             }
             else
             {
+                GlobalValue.UniSerialPortOptData.FlagType = (UniversalFlagType)cbPreFlag.SelectedIndex;
+                if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
+                {
+                    XtraMessageBox.Show("请输入设备ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtID.Focus();
+                    return;
+                }
+                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+
+                if (ceTime.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOptDT = ceTime.Checked;
+                    haveread = true;
+                }
+                if (ceCellPhone.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOptCellPhone = ceCellPhone.Checked;
+                    haveread = true;
+                }
+
+                if (ceComType.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOptComType = ceComType.Checked;
+                    haveread = true;
+                }
+                if (ceNetWorkType.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_NetWorkType = ceNetWorkType.Checked;
+                    haveread = true;
+                }
+                if (ceIP.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOptIP = ceIP.Checked;
+                    haveread = true;
+                }
+                if (cePort.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOptPort = cePort.Checked;
+                    haveread = true;
+                }
+                if (ceHeart.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_HeartInterval = ceHeart.Checked;
+                    haveread = true;
+                }
+                if (ce485Baud.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_Baud485 = ce485Baud.Checked;
+                    haveread = true;
+                }
+                if (ceModbusExeFlag.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOptModbusExeFlag = ceModbusExeFlag.Checked;
+                    haveread = true;
+                }
+                if (ceVolInterval.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_VolInterval = ceVolInterval.Checked;
+                    haveread = true;
+                }
+                if (ceVolLower.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_VolLower = ceVolLower.Checked;
+                    haveread = true;
+                }
+                if (ceSMSInterval.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_SMSInterval = ceSMSInterval.Checked;
+                    haveread = true;
+                }
+                if (cePluseUnit.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_PluseUnit = cePluseUnit.Checked;
+                    haveread = true;
+                }
+                if (cePreUpLimit.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_UpLimit = cePreUpLimit.Checked;
+                    haveread = true;
+                }
+                if (cePreUpLimitEnable.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_UpLimitEnable = cePreUpLimitEnable.Checked;
+                    haveread = true;
+                }
+                if (cePreLowLimit.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_LowLimit = cePreLowLimit.Checked;
+                    haveread = true;
+                }
+                if (cePreLowLimitEnable.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_LowLimitEnable = cePreLowLimitEnable.Checked;
+                    haveread = true;
+                }
+                if (ceSlopUpLimit.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_SlopUpLimit = ceSlopUpLimit.Checked;
+                    haveread = true;
+                }
+                if (ceSlopUpLimitEnable.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_SlopUpLimitEnable = ceSlopUpLimitEnable.Checked;
+                    haveread = true;
+                }
+                if (ceSlopLowLimit.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_SlopLowLimit = ceSlopLowLimit.Checked;
+                    haveread = true;
+                }
+                if (ceSlopLowLimitEnable.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_SlopLowLimitEnable = ceSlopLowLimitEnable.Checked;
+                    haveread = true;
+                }
+                if (cePreRange.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_Range = cePreRange.Checked;
+                    haveread = true;
+                }
+                if (ceOffset.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
+                    haveread = true;
+                }
+                if (ceColConfig.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_CollectConfig = ceColConfig.Checked;
+
+                    ceSimulate1State.Checked = false;
+                    ceSimulate2State.Checked = false;
+                    cePluseState.Checked = false;
+                    ceRS485State.Checked = false;
+                    ceDigitPreStatus.Checked = false;
+                    haveread = true;
+                }
+                if (ceCollectSimulate.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_SimualteInterval = ceCollectSimulate.Checked;
+                    haveread = true;
+                }
+                if (ceCollectPluse.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_PluseInterval = ceCollectPluse.Checked;
+                    haveread = true;
+                }
+                if (ceCollectRS485.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_RS485Interval = ceCollectRS485.Checked;
+                    haveread = true;
+                }
+                if (ceCollectModbus.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_RS485Protocol = ceCollectModbus.Checked;
+                    haveread = true;
+                }
             }
+
+            if (!haveread)
+            {
+                XtraMessageBox.Show("请选择需要读取的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在读取...");
+            BeginSerialPortDelegate();
+            GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+            GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+            Application.DoEvents();
+            SetStaticItem("正在读取...");
+            Send(SerialPortType.UniversalReadBasicInfo);
         }
 
         void SerialPortParm_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
@@ -977,8 +961,8 @@ namespace SmartWaterSystem
 
         private void btnSetParm_Click(object sender, EventArgs e)
         {
-            if (SwitchComunication.IsOn)
-            {
+            //if (SwitchComunication.IsOn)
+            //{
                 if (Validate())
                 {
                     GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
@@ -1202,93 +1186,93 @@ namespace SmartWaterSystem
                     GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
                     Application.DoEvents();
                     SetStaticItem("正在设置...");
-                    GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalSetBasicInfo);
+                    Send(SerialPortType.UniversalSetBasicInfo);
                 }
-            }
-            else
-            {
-                #region GPRS校验
-                if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
-                {
-                    XtraMessageBox.Show("请输入设备ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtID.Focus();
-                    return ;
-                }
-                bool haveset = false;
-                if (ceCollectSimulate.Checked)
-                {
-                    DataTable dt = gridControl_Simulate.DataSource as DataTable;
-                    if (dt == null || dt.Rows.Count == 0)
-                    {
-                        XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        gridView_Simulate.Focus();
-                        return ;
-                    }
-                    haveset = true;
-                }
+            //}
+            //else
+            //{
+            //    #region GPRS校验
+            //    if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
+            //    {
+            //        XtraMessageBox.Show("请输入设备ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        txtID.Focus();
+            //        return ;
+            //    }
+            //    bool haveset = false;
+            //    if (ceCollectSimulate.Checked)
+            //    {
+            //        DataTable dt = gridControl_Simulate.DataSource as DataTable;
+            //        if (dt == null || dt.Rows.Count == 0)
+            //        {
+            //            XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            gridView_Simulate.Focus();
+            //            return ;
+            //        }
+            //        haveset = true;
+            //    }
 
-                if (ceCollectPluse.Checked)
-                {
-                    DataTable dt = gridControl_Pluse.DataSource as DataTable;
-                    if (dt == null || dt.Rows.Count == 0)
-                    {
-                        XtraMessageBox.Show("请填写脉冲量时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        gridView_Pluse.Focus();
-                        return ;
-                    }
-                    haveset = true;
-                }
+            //    if (ceCollectPluse.Checked)
+            //    {
+            //        DataTable dt = gridControl_Pluse.DataSource as DataTable;
+            //        if (dt == null || dt.Rows.Count == 0)
+            //        {
+            //            XtraMessageBox.Show("请填写脉冲量时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            gridView_Pluse.Focus();
+            //            return ;
+            //        }
+            //        haveset = true;
+            //    }
 
-                if (ceCollectRS485.Checked)
-                {
-                    DataTable dt = gridControl_RS485.DataSource as DataTable;
-                    if (dt == null || dt.Rows.Count == 0)
-                    {
-                        XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        gridView_RS485.Focus();
-                        return ;
-                    }
-                    haveset = true;
-                }
-                if (!haveset)
-                {
-                    XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                #endregion
+            //    if (ceCollectRS485.Checked)
+            //    {
+            //        DataTable dt = gridControl_RS485.DataSource as DataTable;
+            //        if (dt == null || dt.Rows.Count == 0)
+            //        {
+            //            XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            gridView_RS485.Focus();
+            //            return ;
+            //        }
+            //        haveset = true;
+            //    }
+            //    if (!haveset)
+            //    {
+            //        XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        return;
+            //    }
+            //    #endregion
 
-                TerminalDataBLL terBll = new TerminalDataBLL();
-                List<Package> lstPack = new List<Package>();
-                if (ceCollectSimulate.Checked)
-                {
-                    DataTable dt = gridControl_Simulate.DataSource as DataTable;
-                    Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
-                    lstPack.Add(pack);
-                }
-                if (ceCollectPluse.Checked)
-                {
-                    DataTable dt = gridControl_Pluse.DataSource as DataTable;
-                    Package pack = GlobalValue.Universallog.GetPluseIntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
-                    lstPack.Add(pack);
-                }
-                if (ceCollectRS485.Checked)
-                {
-                    DataTable dt = gridControl_RS485.DataSource as DataTable;
-                    Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
-                    lstPack.Add(pack);
-                }
+            //    TerminalDataBLL terBll = new TerminalDataBLL();
+            //    List<Package> lstPack = new List<Package>();
+            //    if (ceCollectSimulate.Checked)
+            //    {
+            //        DataTable dt = gridControl_Simulate.DataSource as DataTable;
+            //        Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
+            //        lstPack.Add(pack);
+            //    }
+            //    if (ceCollectPluse.Checked)
+            //    {
+            //        DataTable dt = gridControl_Pluse.DataSource as DataTable;
+            //        Package pack = GlobalValue.Universallog.GetPluseIntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
+            //        lstPack.Add(pack);
+            //    }
+            //    if (ceCollectRS485.Checked)
+            //    {
+            //        DataTable dt = gridControl_RS485.DataSource as DataTable;
+            //        Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
+            //        lstPack.Add(pack);
+            //    }
 
-                foreach (Package pack in lstPack)
-                {
-                    if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
-                    {
-                        XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                }
-                ceCollectSimulate.Checked = false; ceCollectPluse.Checked = false; ceCollectRS485.Checked = false;
-                XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            //    foreach (Package pack in lstPack)
+            //    {
+            //        if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
+            //        {
+            //            XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            return;
+            //        }
+            //    }
+            //    ceCollectSimulate.Checked = false; ceCollectPluse.Checked = false; ceCollectRS485.Checked = false;
+            //    XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
         }
 
 
@@ -1304,23 +1288,17 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在校准第一路模拟量...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在校准第一路模拟量...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalCalibrationSimualte1);
-            }
-            else
-            {
-            }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在校准第一路模拟量...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在校准第一路模拟量...");
+            Send(SerialPortType.UniversalCalibrationSimualte1);
         }
 
         private void barbtnCalibrationSimualte2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -1335,23 +1313,17 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在校准第二路模拟量...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在校准第二路模拟量...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalCalibrationSimualte2);
-            }
-            else
-            {
-            }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在校准第二路模拟量...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在校准第二路模拟量...");
+            Send(SerialPortType.UniversalCalibrationSimualte2);
         }
 
         /// <summary>
@@ -1383,8 +1355,8 @@ namespace SmartWaterSystem
             GlobalValue.UniSerialPortOptData.PluseBasic3 = PluseBasicForm.PluseBasic3;
             GlobalValue.UniSerialPortOptData.PluseBasic4 = PluseBasicForm.PluseBasic4;
 
-            if (SwitchComunication.IsOn)
-            {
+            //if (SwitchComunication.IsOn)
+            //{
                 EnableControls(false);
                 DisableRibbonBar();
                 DisableNavigateBar();
@@ -1392,48 +1364,75 @@ namespace SmartWaterSystem
                 BeginSerialPortDelegate();
                 Application.DoEvents();
                 SetStaticItem("正在设置脉冲基准...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalPluseBasic);
-            }
-            else
-            {
-                TerminalDataBLL terBll = new TerminalDataBLL();
-                List<Package> lstPack = new List<Package>();
-                if (GlobalValue.UniSerialPortOptData.SetPluseBasic1)
-                {
-                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic1,1);
-                    lstPack.Add(pack);
-                }
-                if (GlobalValue.UniSerialPortOptData.SetPluseBasic2)
-                {
-                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic2, 2);
-                    lstPack.Add(pack);
-                }
-                if (GlobalValue.UniSerialPortOptData.SetPluseBasic3)
-                {
-                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic3, 3);
-                    lstPack.Add(pack);
-                }
-                if (GlobalValue.UniSerialPortOptData.SetPluseBasic4)
-                {
-                    Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic4, 4);
-                    lstPack.Add(pack);
-                }
+                Send(SerialPortType.UniversalPluseBasic);
+            //}
+            //else
+            //{
+            //    TerminalDataBLL terBll = new TerminalDataBLL();
+            //    List<Package> lstPack = new List<Package>();
+            //    if (GlobalValue.UniSerialPortOptData.SetPluseBasic1)
+            //    {
+            //        Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic1,1);
+            //        lstPack.Add(pack);
+            //    }
+            //    if (GlobalValue.UniSerialPortOptData.SetPluseBasic2)
+            //    {
+            //        Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic2, 2);
+            //        lstPack.Add(pack);
+            //    }
+            //    if (GlobalValue.UniSerialPortOptData.SetPluseBasic3)
+            //    {
+            //        Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic3, 3);
+            //        lstPack.Add(pack);
+            //    }
+            //    if (GlobalValue.UniSerialPortOptData.SetPluseBasic4)
+            //    {
+            //        Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic4, 4);
+            //        lstPack.Add(pack);
+            //    }
 
-                foreach (Package pack in lstPack)
-                {
-                    if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
-                    {
-                        XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                }
-                ceCollectSimulate.Checked = false; ceCollectPluse.Checked = false; ceCollectRS485.Checked = false;
-                XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            //    foreach (Package pack in lstPack)
+            //    {
+            //        if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
+            //        {
+            //            XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            return;
+            //        }
+            //    }
+            //    ceCollectSimulate.Checked = false; ceCollectPluse.Checked = false; ceCollectRS485.Checked = false;
+            //    XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
         }
 
         public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
         {
+            //当选择的是GPRS时，后边串口的判断不需要执行
+            if(e.TransactStatus != TransStatus.Start && GlobalValue.Universallog.RWType == RWFunType.GPRS)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    //获取未发送列表
+                    XtraMessageBox.Show("成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                return;
+            }
             if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalReset)
             {
                 this.Enabled = true;
@@ -1973,23 +1972,17 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在读取版本号...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在读取版本号...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReadVer);
-            }
-            else
-            {
-            }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在读取版本号...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在读取版本号...");
+            Send(SerialPortType.UniversalReadVer);
         }
 
         private void btnFieldStrength_Click(object sender, EventArgs e)
@@ -2000,23 +1993,17 @@ namespace SmartWaterSystem
                 txtID.Focus();
                 return;
             }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在读取场强\\电压...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在读取场强\\电压...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalReadFiledStrength);
-            }
-            else
-            {
-            }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在读取场强\\电压...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在读取场强\\电压...");
+            Send(SerialPortType.UniversalReadFiledStrength);
         }
         private void btnDel_Click(object sender, EventArgs e)
         {
@@ -2065,6 +2052,10 @@ namespace SmartWaterSystem
             btnFieldStrength.Enabled = GlobalValue.portUtil.IsOpen;
             btnVer.Enabled = GlobalValue.portUtil.IsOpen;
 
+            ceID.Enabled = true;
+            ceID.Checked = false;
+            ceComType.Enabled = true;
+            ceComType.Checked = false;
             ceIP.Enabled = GlobalValue.portUtil.IsOpen;
             txtIP.Enabled = GlobalValue.portUtil.IsOpen;
             txtIP.Text = "";
@@ -2075,20 +2066,26 @@ namespace SmartWaterSystem
             btnDel.Enabled = false;
 
             btnCallData.Enabled = GlobalValue.portUtil.IsOpen;
+
+            SetDevTypeEnable();
         }
 
         private void SetGprsCtrlStatus()
         {
             btnSetPluseBasic.Enabled = true;
-            btnReset.Enabled = false;
-            btnCheckingTime.Enabled = false;
-            btnEnableCollect.Enabled = false;
-            btnReadParm.Enabled = false;
+            btnReset.Enabled = true;
+            btnCheckingTime.Enabled = true;
+            btnEnableCollect.Enabled = true;
+            btnReadParm.Enabled = true;
             btnSetParm.Enabled = true;
-            dropbtnCalibrationSimualte.Enabled = false;
+            dropbtnCalibrationSimualte.Enabled = true;
             btnFieldStrength.Enabled = false;
-            btnVer.Enabled = false;
+            btnVer.Enabled = true;
 
+            ceID.Enabled = false;
+            ceID.Checked = false;
+            ceComType.Enabled = false;
+            ceComType.Checked = false;
             ceIP.Enabled = false;
             txtIP.Enabled = false;
             txtIP.Text = "";
@@ -2099,6 +2096,34 @@ namespace SmartWaterSystem
             btnDel.Enabled = true;
 
             btnCallData.Enabled = true;
+
+            SetDevTypeEnable();
+        }
+
+        private void SetDevTypeEnable()
+        {
+            if (this.DevType == ConstValue.DEV_TYPE.Data_CTRL)
+            {
+                ceModbusExeFlag.Enabled = false;
+                ceModbusExeFlag.Checked = false;
+                ceSMSInterval.Enabled = false;
+                ceSMSInterval.Checked = false;
+                cePluseUnit.Enabled = false;
+                cePluseUnit.Checked = false;
+                ceCollectSimulate.Enabled = false;
+                ceCollectSimulate.Checked = false;
+                ceCollectModbus.Enabled = false;
+                ceCollectModbus.Checked = false;
+                btnFieldStrength.Enabled = false;
+            }
+            else if (this.DevType == ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
+            {
+                ceModbusExeFlag.Enabled = true;
+                ceSMSInterval.Enabled = true;
+                cePluseUnit.Enabled = true;
+                ceCollectSimulate.Enabled = true;
+                ceCollectModbus.Enabled = true;
+            }
         }
 
         private void cePort_CheckedChanged(object sender, EventArgs e)
@@ -2191,18 +2216,18 @@ namespace SmartWaterSystem
             }
 
             bool haveset = false;
-            object objselected=treeSocketType.GetSelectedDataRow();
+            object objselected = treeSocketType.GetSelectedDataRow();
             if (treeSocketType.Properties.TreeList.Nodes != null)
             {
                 GlobalValue.SerialPortCallDataType = new CallDataTypeEntity();
                 foreach (TreeListNode node in treeSocketType.Properties.TreeList.GetAllCheckedNodes())
                 {
-                    if(!node.HasChildren)
+                    if (!node.HasChildren)
                     {
-                        DataRowView drdata =treeSocketType.Properties.TreeList.GetDataRecordByNode(node) as DataRowView;
-                        if(drdata!= null)
+                        DataRowView drdata = treeSocketType.Properties.TreeList.GetDataRecordByNode(node) as DataRowView;
+                        if (drdata != null)
                         {
-                            string name= drdata.Row["Name"].ToString();
+                            string name = drdata.Row["Name"].ToString();
                             switch (name)
                             {
                                 case "压力":
@@ -2243,30 +2268,30 @@ namespace SmartWaterSystem
                     }
                 }
             }
-            if(!haveset)
+            if (!haveset)
             {
                 XtraMessageBox.Show("请先选择招测数据类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 treeSocketType.ShowPopup();
                 return;
             }
-            if (SwitchComunication.IsOn)
-            {
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
-                GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在招测数据...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在招测数据...");
-                GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalCallData);
-            }
-            else
-            {
-            }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在招测数据...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在招测数据...");
+            Send(SerialPortType.UniversalCallData);
+        }
 
+        public void Send(SerialPortType type)
+        {
+            GlobalValue.Universallog.RWType = SwitchComunication.IsOn ? RWFunType.SerialPort : RWFunType.GPRS;
+            GlobalValue.Universallog.ClearCmdPack();
+            GlobalValue.SerialPortMgr.Send(type);
         }
     }
 }

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RWData.cs" />
     <Compile Include="SerialPortRW.cs" />
     <Compile Include="NoiseCtrl.cs" />
     <Compile Include="NoiseLog.cs" />

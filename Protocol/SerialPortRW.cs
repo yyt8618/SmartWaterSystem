@@ -64,7 +64,7 @@ namespace Protocol
         }
 
         /// <summary>
-        /// 发送 噪音记录仪 设置命令帧
+        /// 发送 设置命令帧
         /// </summary>
         /// <param name="pParam"></param>
         public bool Write(Package package)

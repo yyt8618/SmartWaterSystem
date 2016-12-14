@@ -14,12 +14,12 @@ namespace SmartWaterSystem
     {
         internal static int Time = Settings.Instance.GetInt(SettingKeys.Time);                    // 采集时长
         internal static SerialPortUtil portUtil = SerialPortUtil.GetInstance();                   // 串口操作对象
-        internal static NoiseLog Noiselog = new NoiseLog();                                            // 记录仪串口操作对象
+        internal static NoiseLog Noiselog = new NoiseLog();                                       // 记录仪串口操作对象
         internal static List<NoiseRecorderGroup> groupList = new List<NoiseRecorderGroup>();      // 分组对象集合
         internal static List<NoiseRecorder> recorderList = new List<NoiseRecorder>();             // 记录仪对象集合
         internal static List<DistanceController> controllerList = new List<DistanceController>(); // 远传控制器对象集合
         internal static string TestPath = Application.StartupPath + @"\Data\";
-        internal static List<int> reReadIdList = new List<int>();                                // 需要重新读取的记录仪ID集合
+        internal static List<int> reReadIdList = new List<int>();                                  // 需要重新读取的记录仪ID集合
         internal static string Text = "IGC DataLog系列产品应用软件";
         internal static string SocketConfigFilePath= Application.StartupPath + @"\SocketAddr.txt";  //SOCKET配置文件地址
 

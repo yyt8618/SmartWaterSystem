@@ -336,21 +336,46 @@ namespace SmartWaterSystem
             {
                 if (msmqEntity == null)
                     return;
-                if(SocketHelper.IsSocketConnected_Poll(socket))
-                {
-                    string strmsg=JSONSerialize.JsonSerialize_Newtonsoft(msmqEntity);
-                    byte[] data = Encoding.UTF8.GetBytes(SocketHelper.SocketMsgSplit + strmsg+ SocketHelper.SocketMsgSplit);
-                    socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(SendCallback), socket);
-                    OnSockConnEvent(new SocketStatusEventArgs(true));
-                }
-                else
+                if(!SocketHelper.IsSocketConnected_Poll(socket))
                 {
                     Connect();
                 }
+                string strmsg = JSONSerialize.JsonSerialize_Newtonsoft(msmqEntity);
+                byte[] data = Encoding.UTF8.GetBytes(SocketHelper.SocketMsgSplit + strmsg + SocketHelper.SocketMsgSplit);
+                socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(SendCallback), socket);
+                OnSockConnEvent(new SocketStatusEventArgs(true));
             }
             catch (Exception ex)
             {
                 logger.ErrorException("SendMessage", ex);
+            }
+        }
+
+        /// <summary>
+        /// 发送到服务
+        /// </summary>
+        /// <param name="msg"></param>
+        public string SendMessage2(SocketEntity msmqEntity)
+        {
+            try
+            {
+                if (msmqEntity == null)
+                    return "";
+                if (!SocketHelper.IsSocketConnected_Poll(socket))
+                {
+                    return "服务器未连接,请先连接！";
+                    //Connect();
+                }
+                string strmsg = JSONSerialize.JsonSerialize_Newtonsoft(msmqEntity);
+                byte[] data = Encoding.UTF8.GetBytes(SocketHelper.SocketMsgSplit + strmsg + SocketHelper.SocketMsgSplit);
+                socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(SendCallback), socket);
+                OnSockConnEvent(new SocketStatusEventArgs(true));
+                return "";
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("SendMessage", ex);
+                return "发送发生异常,ex:"+ex.Message;
             }
         }
 
