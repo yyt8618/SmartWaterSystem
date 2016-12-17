@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel;
+
 namespace Entity
 {
     /// <summary>
@@ -132,7 +134,7 @@ namespace Entity
     }
 
     /// <summary>
-    /// 读写操作类型
+    /// 读写操作类型(用于界面操作)
     /// </summary>
     public enum RWFunType
     {
@@ -144,5 +146,100 @@ namespace Entity
         /// GPRS读写
         /// </summary>
         GPRS,
+    }
+
+    /// <summary>
+    /// 颜色类型,用于FrmConsole显示,(>=40是远传终端)
+    /// </summary>
+    public enum ColorType
+    {
+        /// <summary>
+        /// 报警
+        /// </summary>
+        [Description("报警")]
+        Alarm =1,
+        /// <summary>
+        /// 公共信息
+        /// </summary>
+        [Description("公共信息")]
+        Public =2,
+        /// <summary>
+        /// 错误
+        /// </summary>
+        [Description("错误")]
+        Error =3,
+        /// <summary>
+        /// 未解析数据
+        /// </summary>
+        [Description("未解析数据")]
+        UnResolve =4,
+        /// <summary>
+        /// 原始帧
+        /// </summary>
+        [Description("原始帧")]
+        OriginalFrame = 5,
+        /// <summary>
+        /// 数据帧
+        /// </summary>
+        [Description("数据帧")]
+        DataFrame =6,
+        /// <summary>
+        /// 手机
+        /// </summary>
+        [Description("手机")]
+        CellPhone = 7,
+        /// <summary>
+        /// 串口
+        /// </summary>
+        [Description("串口")]
+        SerialPort = 8,
+        /// <summary>
+        /// 数据库信息
+        /// </summary>
+        [Description("数据库")]
+        DataBase = 9,
+        /// <summary>
+        /// 其他
+        /// </summary>
+        [Description("其他")]
+        Other = 10,
+
+
+        /// <summary>
+        /// 噪声终端
+        /// </summary>
+        [Description("噪声终端")]
+        NoiseTer =40,
+        /// <summary>
+        /// 压力流量终端
+        /// </summary>
+        [Description("压力流量终端")]
+        PreTer =41,
+        /// <summary>
+        /// 通用终端
+        /// </summary>
+        [Description("通用终端")]
+        UniversalTer =42,
+        /// <summary>
+        /// 压力控制器(阀门开度控制)
+        /// </summary>
+        [Description("阀门开度控制")]
+        PreCTL =43,
+        /// <summary>
+        /// 水质终端
+        /// </summary>
+        [Description("水质终端")]
+        OLWQ =44,
+        /// <summary>
+        /// 消防栓
+        /// </summary>
+        [Description("消防栓")]
+        Hydrant =45,
+        /// <summary>
+        /// 水厂数据
+        /// </summary>
+        [Description("水厂数据")]
+        WaterWork =46,
+        
     }
 }

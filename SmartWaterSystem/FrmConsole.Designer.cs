@@ -39,8 +39,7 @@ namespace SmartWaterSystem
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.treeSocketType = new DevExpress.XtraEditors.TreeListLookUpEdit();
-            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.pbColor = new System.Windows.Forms.PictureBox();
             this.comboToolBox = new DevExpress.XtraEditors.ComboBoxEdit();
             this.comboSocketServer = new DevExpress.XtraEditors.ComboBoxEdit();
             this.picBoxLog = new System.Windows.Forms.PictureBox();
@@ -55,8 +54,7 @@ namespace SmartWaterSystem
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).BeginInit();
@@ -170,7 +168,7 @@ namespace SmartWaterSystem
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.panel1.Controls.Add(this.treeSocketType);
+            this.panel1.Controls.Add(this.pbColor);
             this.panel1.Controls.Add(this.comboToolBox);
             this.panel1.Controls.Add(this.comboSocketServer);
             this.panel1.Controls.Add(this.picBoxLog);
@@ -190,47 +188,23 @@ namespace SmartWaterSystem
             this.panel1.Size = new System.Drawing.Size(878, 32);
             this.panel1.TabIndex = 0;
             // 
-            // treeSocketType
+            // pbColor
             // 
-            this.treeSocketType.Location = new System.Drawing.Point(224, 4);
-            this.treeSocketType.Name = "treeSocketType";
-            this.treeSocketType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.treeSocketType.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.treeSocketType.Properties.Appearance.Options.UseBackColor = true;
-            this.treeSocketType.Properties.Appearance.Options.UseForeColor = true;
-            this.treeSocketType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.treeSocketType.Properties.NullText = "请选择";
-            this.treeSocketType.Properties.TreeList = this.treeList1;
-            this.treeSocketType.Size = new System.Drawing.Size(33, 20);
-            this.treeSocketType.TabIndex = 16;
-            this.treeSocketType.Visible = false;
-            // 
-            // treeList1
-            // 
-            this.treeList1.Location = new System.Drawing.Point(239, -90);
-            this.treeList1.Name = "treeList1";
-            this.treeList1.OptionsBehavior.Editable = false;
-            this.treeList1.OptionsFilter.AllowFilterEditor = false;
-            this.treeList1.OptionsFind.ShowFindButton = false;
-            this.treeList1.OptionsLayout.AddNewColumns = false;
-            this.treeList1.OptionsMenu.EnableColumnMenu = false;
-            this.treeList1.OptionsMenu.EnableFooterMenu = false;
-            this.treeList1.OptionsMenu.ShowAutoFilterRowItem = false;
-            this.treeList1.OptionsView.ShowCheckBoxes = true;
-            this.treeList1.OptionsView.ShowColumns = false;
-            this.treeList1.OptionsView.ShowIndentAsRowStyle = true;
-            this.treeList1.OptionsView.ShowIndicator = false;
-            this.treeList1.OptionsView.ShowRoot = false;
-            this.treeList1.Size = new System.Drawing.Size(237, 200);
-            this.treeList1.TabIndex = 0;
-            this.treeList1.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Light;
+            this.pbColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbColor.Image = global::SmartWaterSystem.Properties.Resources.palette;
+            this.pbColor.Location = new System.Drawing.Point(519, 2);
+            this.pbColor.Name = "pbColor";
+            this.pbColor.Size = new System.Drawing.Size(30, 23);
+            this.pbColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbColor.TabIndex = 17;
+            this.pbColor.TabStop = false;
+            this.pbColor.Click += new System.EventHandler(this.pbColor_Click);
             // 
             // comboToolBox
             // 
             this.comboToolBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboToolBox.EditValue = "工具箱";
-            this.comboToolBox.Location = new System.Drawing.Point(328, 4);
+            this.comboToolBox.Location = new System.Drawing.Point(301, 4);
             this.comboToolBox.Name = "comboToolBox";
             this.comboToolBox.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.comboToolBox.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
@@ -251,7 +225,7 @@ namespace SmartWaterSystem
             // comboSocketServer
             // 
             this.comboSocketServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboSocketServer.Location = new System.Drawing.Point(423, 4);
+            this.comboSocketServer.Location = new System.Drawing.Point(396, 4);
             this.comboSocketServer.Name = "comboSocketServer";
             this.comboSocketServer.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.comboSocketServer.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
@@ -347,7 +321,7 @@ namespace SmartWaterSystem
             this.btnDmp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnDmp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnDmp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnDmp.Location = new System.Drawing.Point(295, 3);
+            this.btnDmp.Location = new System.Drawing.Point(268, 3);
             this.btnDmp.Name = "btnDmp";
             this.btnDmp.Size = new System.Drawing.Size(31, 23);
             this.btnDmp.TabIndex = 5;
@@ -428,8 +402,7 @@ namespace SmartWaterSystem
             this.Load += new System.EventHandler(this.FrmConsole_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).EndInit();
@@ -461,8 +434,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.ComboBoxEdit comboSocketServer;
         private DevExpress.XtraEditors.ComboBoxEdit comboToolBox;
         private PictureBox picBoxLog;
-        private DevExpress.XtraEditors.TreeListLookUpEdit treeSocketType;
-        private DevExpress.XtraTreeList.TreeList treeList1;
         private Button btnDmp;
+        private PictureBox pbColor;
     }
 }

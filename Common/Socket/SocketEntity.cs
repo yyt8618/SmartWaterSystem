@@ -39,6 +39,17 @@ namespace Common
             set { _type = value; }
         }
 
+        private ColorType _ShowType;
+        /// <summary>
+        /// 显示类型,只用于MSMQTYPE是Msg开头的远传消息或者本地显示的串口之类的消息
+        /// </summary>
+        [DataMember(Order =3)]
+        public ColorType ShowType
+        {
+            get { return _ShowType; }
+            set { _ShowType = value; }
+        }
+
         private ConstValue.DEV_TYPE _DevType;
         /// <summary>
         /// 设备类型
@@ -156,6 +167,13 @@ namespace Common
         {
             this._type = type;
             this._msg = msg;
+        }
+
+        public SocketEntity(Entity.ConstValue.MSMQTYPE type,ColorType showType, string msg)
+        {
+            this._type = type;
+            this._msg = msg;
+            this._ShowType = showType;
         }
     }
 

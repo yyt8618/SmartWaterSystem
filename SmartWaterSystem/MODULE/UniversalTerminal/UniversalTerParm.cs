@@ -1604,11 +1604,11 @@ namespace SmartWaterSystem
                         if (GlobalValue.UniSerialPortOptData.IsOpt_UpLimit)
                             txtPreUpLimit.Text = GlobalValue.UniSerialPortOptData.UpLimit.ToString("f3");
                         if (GlobalValue.UniSerialPortOptData.IsOpt_UpLimitEnable)
-                            cbPreUpLimitEnable.SelectedIndex = GlobalValue.UniSerialPortOptData.IsOpt_UpLimitEnable ? 1 : 0;
+                            cbPreUpLimitEnable.SelectedIndex = GlobalValue.UniSerialPortOptData.UpLimitEnable ? 1 : 0;
                         if (GlobalValue.UniSerialPortOptData.IsOpt_LowLimit)
                             txtPreLowLimit.Text = GlobalValue.UniSerialPortOptData.LowLimit.ToString("f3");
                         if (GlobalValue.UniSerialPortOptData.IsOpt_LowLimitEnable)
-                            cbPreLowLimitEnable.SelectedIndex = GlobalValue.UniSerialPortOptData.IsOpt_LowLimitEnable ? 1 : 0;
+                            cbPreLowLimitEnable.SelectedIndex = GlobalValue.UniSerialPortOptData.LowLimitEnable ? 1 : 0;
                         if (GlobalValue.UniSerialPortOptData.IsOpt_SlopUpLimit)
                             txtSlopUpLimit.Text = GlobalValue.UniSerialPortOptData.SlopUpLimit.ToString("f3");
                         if (GlobalValue.UniSerialPortOptData.IsOpt_SlopUpLimitEnable)

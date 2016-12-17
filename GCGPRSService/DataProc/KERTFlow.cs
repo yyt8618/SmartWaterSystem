@@ -11,7 +11,7 @@ namespace GCGPRSService
     /// </summary>
     public class KERTFlow
     {
-        public GPRSFlowFrameDataEntity ProcessData(int dataindex,string tername,string id,string frame,byte[] data,int datalen,out bool bNeedCheckTime)
+        public GPRSFlowFrameDataEntity ProcessData(int dataindex,TerType tertype,string tername,string id,string frame,byte[] data,int datalen,out bool bNeedCheckTime)
         {
             int alarmflag = 0;
             //报警标志
@@ -60,8 +60,13 @@ namespace GCGPRSService
                     { str_alarm = "流量上限报警"; }
                     else if ((balarm & 0x10) == 0x10)
                     { str_alarm = "流量下限报警"; }
-                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("index({0})|[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V|信号强度:{9}",
-                       i, tername+id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue, field_stength)));
+
+                    if (tertype == TerType.PreTer)
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("index({0})|[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V|信号强度:{9}",
+                           i, tername + id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue, field_stength)));
+                    else
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.OLWQ, string.Format("index({0})|[{1}]|报警标志({2})|采集时间({3})|正向流量值:{4}|反向流量值:{5}|瞬时流量值:{6}|报警:{7}|电压值:{8}V|信号强度:{9}",
+                       i, tername + id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue.ToString("f4"), reverse_flowvalue.ToString("f4"), instant_flowvalue.ToString("f4"), str_alarm, volvalue, field_stength)));
 
                     GPRSFlowDataEntity flowdata = new GPRSFlowDataEntity();
                     flowdata.Forward_FlowValue = forward_flowvalue;
@@ -80,8 +85,12 @@ namespace GCGPRSService
                 }
                 else
                 {
-                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(string.Format("[{0}]|报警标志({1})|采集时间({2})|错误:{3}",
-                        tername+id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
+                    if (tertype == TerType.PreTer)
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("[{0}]|报警标志({1})|采集时间({2})|错误:{3}",
+                        tername + id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
+                    else
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.OLWQ, string.Format("[{0}]|报警标志({1})|采集时间({2})|错误:{3}",
+                        tername + id, alarmflag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, errmsg)));
                 }
             }
             return framedata;

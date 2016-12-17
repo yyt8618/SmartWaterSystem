@@ -16,7 +16,7 @@ namespace GCGPRSService
 {
     public class SocketEventArgs : EventArgs
     {
-        private SocketEntity _jsonmsg;// = "";
+        private SocketEntity _jsonmsg;
         public SocketEntity JsonMsg
         {
             get { return _jsonmsg; }
@@ -28,7 +28,7 @@ namespace GCGPRSService
             SocketEntity msmqEntity = new SocketEntity();
             msmqEntity.MsgType = MsgType;
             msmqEntity.Msg = msg;
-            _jsonmsg = msmqEntity; // JsonConvert.SerializeObject(msmqEntity);
+            _jsonmsg = msmqEntity;
         }
 
         public SocketEventArgs(Entity.ConstValue.MSMQTYPE MsgType, SocketEntity msg)
@@ -37,25 +37,21 @@ namespace GCGPRSService
             _jsonmsg = msg;
         }
 
-        public SocketEventArgs(string msg)
+        //public SocketEventArgs(string msg)
+        //{
+        //    SocketEntity msmqEntity = new SocketEntity();
+        //    msmqEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
+        //    msmqEntity.Msg = msg;
+        //    _jsonmsg = msmqEntity;
+        //}
+
+        public SocketEventArgs(ColorType Showtype,string msg)
         {
             SocketEntity msmqEntity = new SocketEntity();
-            msmqEntity.MsgType = Entity.ConstValue.MSMQTYPE.Msg_Socket;
+            msmqEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
+            msmqEntity.ShowType = Showtype;
             msmqEntity.Msg = msg;
-            _jsonmsg = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
-        }
-
-        public SocketEventArgs(string msg,Entity.ConstValue.MSMQTYPE type)
-        {
-            SocketEntity msmqEntity = new SocketEntity();
-            msmqEntity.MsgType = type;
-            msmqEntity.Msg = msg;
-            _jsonmsg = msmqEntity;// JsonConvert.SerializeObject(msmqEntity);
-        }
-
-        public SocketEventArgs(SocketEntity msg)
-        {
-            _jsonmsg = msg;
+            _jsonmsg = msmqEntity;
         }
     }
 
@@ -298,13 +294,13 @@ namespace GCGPRSService
                 Socket listener = (Socket)ar.AsyncState;
                 handler = listener.EndAccept(ar);
 
-                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "上线"));
+                OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "上线"));
 
                 state.workSocket = handler;
             }
             catch (Exception ex)
             {
-                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收错误:" + ex.Message));
+                OnSendMsg(new SocketEventArgs(ColorType.Error,DateTime.Now.ToString() + " 接收错误:" + ex.Message));
                 logger.ErrorException("AcceptCallback", ex);
             }
             finally
@@ -427,7 +423,8 @@ namespace GCGPRSService
                                                         {
                                                             //达到最大连接数提示
                                                             SocketEntity mEntity = new SocketEntity();
-                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Public;
+                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
+                                                            mEntity.ShowType = ColorType.Error;
                                                             mEntity.Msg = "已达到最大连接数,拒接连接";
                                                             SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
                                                         }
@@ -438,14 +435,16 @@ namespace GCGPRSService
                                                         SocketEntity mEntity = new SocketEntity();
                                                         foreach (string startrec in GlobalValue.Instance.lstStartRecord)  //将启动的信息发送给新上线的客户端
                                                         {
-                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Public;
+                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
+                                                            mEntity.ShowType = ColorType.Public;
                                                             mEntity.Msg = startrec;
                                                             SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
                                                         }
                                                         using (var process = System.Diagnostics.Process.GetCurrentProcess())
                                                         using (var p1 = new PerformanceCounter("Process", "Working Set - Private", process.ProcessName))
                                                         {
-                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Public;
+                                                            mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
+                                                            mEntity.ShowType = ColorType.Public;
                                                             mEntity.Msg = DateTime.Now.ToString() + " 服务当前专用工作集(" + p1.NextValue() / 1024 + "K),工作设置内存(" + (process.WorkingSet64 / 1024 + "K),提交大小(" + process.PrivateMemorySize64 / 1024) + "K)";
                                                             SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
                                                         }
@@ -494,7 +493,7 @@ namespace GCGPRSService
                     }
 
                     string str_source = ConvertHelper.ByteToString(state.buffer, bytesRead);
-                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 接收客户端" + handler.RemoteEndPoint.ToString() + ", 收到(原始)数据:" + str_source));
+                    OnSendMsg(new SocketEventArgs(ColorType.OriginalFrame,DateTime.Now.ToString() + " 接收客户端" + handler.RemoteEndPoint.ToString() + ", 收到(原始)数据:" + str_source));
 
                     int index = 0;
                     while (index < bytesRead)
@@ -523,7 +522,7 @@ namespace GCGPRSService
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
                                 {
                                     #region 处理响应帧
-                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到响应帧:" + str_source));
+                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + " 收到响应帧:" + str_source));
                                     foreach (CallSocketEntity callentity in lstClient)
                                     {
                                         if (callentity.DevType == pack.DevType && callentity.TerId != -1 && callentity.TerId == pack.DevID && callentity.lstWaitSendCmd != null)
@@ -599,7 +598,7 @@ namespace GCGPRSService
                                 {
                                     string str_frame = ConvertHelper.ByteToString(arr, arr.Length);
 #if debug
-                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据:" + str_frame));
+                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + " 收到帧数据:" + str_frame));
 #else
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据"));
 #endif
@@ -765,7 +764,7 @@ namespace GCGPRSService
                                         bsenddata = response.ToArray();
 
 #if debug
-                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                                        OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -789,7 +788,7 @@ namespace GCGPRSService
 
                                         Thread.Sleep(200);  //帧之间间隔
 #if debug
-                                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                                        OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -812,7 +811,7 @@ namespace GCGPRSService
 
                                     byte[] bsenddata = response.ToArray();
 #if debug
-                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -864,7 +863,7 @@ namespace GCGPRSService
                                 if ((PackageDefine.MinLenth651 <= arr.Length) & Package651.TryParse(arr, out pack, out havesubsequent, out subsequentmsg))//找到结束字符并且是完整一帧
                                 {
 #if debug
-                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 收到帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
+                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 收到帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
 #else
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  收到帧数据"));
 #endif
@@ -926,7 +925,7 @@ namespace GCGPRSService
                                                 , String.Format("{0:X2}", pack.dt[2]), String.Format("{0:X2}", pack.dt[3]), String.Format("{0:X2}", pack.dt[4]), String.Format("{0:X2}", pack.dt[5]));
                                         }
 
-                                        OnSendMsg(new SocketEventArgs(string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
+                                        OnSendMsg(new SocketEventArgs(ColorType.UniversalTer,string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
                                                 Convert.ToInt16(pack.CenterAddr), String.Format("{0:X2}", pack.A1), String.Format("{0:X2}", pack.A2), String.Format("{0:X2}", pack.A3), String.Format("{0:X2}", pack.A4), String.Format("{0:X2}", pack.A5),
                                                 "0x" + String.Format("{0:X2}", pack.PWD[0]) + string.Format("{0:X2}", pack.PWD[1]), "0x" + String.Format("{0:X2}", pack.FUNCODE), SmartWaterSystem.SL651AnalyseElement.GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
                                                 string.Format("报文长度:{0},报文起始符:{1},{2},发报时间:{3},{4}校验码:{5}",
@@ -937,7 +936,7 @@ namespace GCGPRSService
                                     }
                                     else if (havesubsequent) // && (pack.CurPackCount > 1 && pack.SumPackCount == pack.CurPackCount))  //有后续帧且是最后一帧
                                     {
-                                        OnSendMsg(new SocketEventArgs(string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
+                                        OnSendMsg(new SocketEventArgs(ColorType.UniversalTer,string.Format("中心站地址:{0},遥测站地址:A1-A5[{1},{2},{3},{4},{5}],密码:{6},功能码:{7}({8}),上/下行:{9},",
                                             Convert.ToInt16(pack.CenterAddr), Convert.ToInt16(pack.A1), Convert.ToInt16(pack.A2), Convert.ToInt16(pack.A3), Convert.ToInt16(pack.A4), Convert.ToInt16(pack.A5),
                                             "0x" + String.Format("{0:X2}", pack.PWD[0]) + string.Format("{0:X2}", pack.PWD[1]), "0x" + String.Format("{0:X2}", pack.FUNCODE), SmartWaterSystem.SL651AnalyseElement.GetFuncodeName(pack.FUNCODE), pack.IsUpload ? "上行" : "下行") +
                                             string.Format("报文长度:{0},报文起始符:{1},{2},{3}校验码:{4}",
@@ -1013,7 +1012,7 @@ namespace GCGPRSService
 
                                                 bsenddata = response.ToResponseArray();
 #if debug
-                                                OnSendMsg(new SocketEventArgs((DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length))));
+                                                OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -1044,7 +1043,7 @@ namespace GCGPRSService
                                                 pack651Cmd.CS = Package651.crc16(bsenddata, bsenddata.Length);
 
                                                 bsenddata = pack651Cmd.ToResponseArray();
-                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                                                OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 
                                                 Thread.Sleep(1500);  //2
                                                 if (Send651(handler, bsenddata))  //发送成功则清除
@@ -1116,7 +1115,7 @@ namespace GCGPRSService
 
                                                 bsenddata = response.ToResponseArray();
 #if debug
-                                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                                                OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -1142,8 +1141,7 @@ namespace GCGPRSService
                                 if (index == bytesRead)
                                 {
                                     byte[] arr = packageBytes.ToArray();
-                                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 收到错误帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
-
+                                    OnSendMsg(new SocketEventArgs(ColorType.Error, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 收到错误帧数据:" + ConvertHelper.ByteToString(arr, arr.Length)));
                                 }
                             }
                             #endregion
@@ -1155,7 +1153,7 @@ namespace GCGPRSService
                 }
                 else
                 {
-                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "下线"));
+                    OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 客户端" + handler.RemoteEndPoint.ToString() + "下线"));
                     try
                     {
                         handler.Disconnect(false);
@@ -1169,7 +1167,7 @@ namespace GCGPRSService
                 {
                     string str_buffer = ConvertHelper.ByteToString(state.buffer, bytesRead);
 #if debug
-                    OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " " + argex.Message + ",错误数据:" + str_buffer));
+                    OnSendMsg(new SocketEventArgs(ColorType.Error,DateTime.Now.ToString() + " " + argex.Message + ",错误数据:" + str_buffer));
 #else
                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() +" "+ argex.Message));
 #endif
@@ -1190,7 +1188,7 @@ namespace GCGPRSService
                     {
                         if (callsocket.ClientSocket != null && callsocket.ClientSocket.Equals(handler) && callsocket.TerId != -1)
                         {
-                            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString()));
+                            OnSendMsg(new SocketEventArgs(ColorType.Error,DateTime.Now.ToString()));
                             callsocket.ClientSocket = null;
 
                             OnLineState_Interval = 1;  //发送下线消息
@@ -1554,7 +1552,7 @@ namespace GCGPRSService
             catch (Exception e)
             {
                 logger.ErrorException(DateTime.Now.ToString() + " SendCallback651", e);
-                OnSendMsg(new SocketEventArgs(e.ToString()));
+                OnSendMsg(new SocketEventArgs(ColorType.Error,e.ToString()));
             }
         }
 
@@ -1602,7 +1600,7 @@ namespace GCGPRSService
                                 SendObject sendObj = new SendObject();
                                 sendObj.workSocket = sock.ClientSocket;
                                 sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback651), sendObj);
-                                OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length), ConstValue.MSMQTYPE.Msg_Socket));
+                                OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
                                 issend = true;
                             }
                             catch
@@ -1743,7 +1741,7 @@ namespace GCGPRSService
         {
             byte[] bsenddata = pack.ToArray();
 #if debug
-            OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送" + prompt + "帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+            OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送" + prompt + "帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送" + prompt + "帧"));
 #endif
@@ -1808,7 +1806,7 @@ namespace GCGPRSService
                 {
                     if (IsCreateDumpFile)
                     {
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 正在创建Dump文件,请稍候..."));
+                        OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 正在创建Dump文件,请稍候..."));
                         return;
                     }
                     try
@@ -1826,11 +1824,11 @@ namespace GCGPRSService
                         {
                             MiniDump.Write(fs.SafeFileHandle, MiniDump.Option.WithFullMemory);
                         }
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 生成dmp文件成功,位置:" + dumpFile));
+                        OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 生成dmp文件成功,位置:" + dumpFile));
                     }
                     catch (Exception ex)
                     {
-                        OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 生成dmp文件失败,ex:" + ex.Message));
+                        OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 生成dmp文件失败,ex:" + ex.Message));
                     }
                     finally
                     {
@@ -1909,99 +1907,99 @@ namespace GCGPRSService
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("压力数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase,"压力数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("压力数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "压力数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertFlowValue)
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("流量数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "流量数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("流量数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "流量数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertPrectrlValue)
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("压力控制器数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "压力控制器数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("压力控制器数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "压力控制器数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertUniversalValue)
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("通用终端数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "通用终端数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("通用终端数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "通用终端数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertOLWQValue)
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("水质终端数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "水质终端数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("水质终端数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "水质终端数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertNoiseValue)
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("噪声数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "噪声数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("噪声数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "噪声数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertWaterworkerValue)
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("水厂数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "水厂数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("水厂数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "水厂数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertHydrantValue)
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("消防栓数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "消防栓数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("消防栓数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "消防栓数据保存失败:" + e.Msg));
                 }
             }
             else if (e.SQLType == SQLType.InsertAlarm)
             {
                 if (1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("报警数据保存成功"));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "报警数据保存成功"));
                 }
                 else if (-1 == e.Result)
                 {
-                    OnSendMsg(new SocketEventArgs("报警数据保存失败:" + e.Msg));
+                    OnSendMsg(new SocketEventArgs(ColorType.DataBase, "报警数据保存失败:" + e.Msg));
                 }
             }
         }

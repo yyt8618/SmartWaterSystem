@@ -701,12 +701,12 @@ namespace SmartWaterSystem
             }
         }
 
-        public FrmConsole gprsconsole = new FrmConsole();
+        public FrmConsole Gprsconsole = new FrmConsole();
         private void barBtnGPRSConsole_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (gprsconsole.WindowState == FormWindowState.Minimized)
-                gprsconsole.WindowState = FormWindowState.Normal;
-            gprsconsole.Show();
+            if (Gprsconsole.WindowState == FormWindowState.Minimized)
+                Gprsconsole.WindowState = FormWindowState.Normal;
+            Gprsconsole.Show();
         }
 
         private void barBtnMSMQSetting_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

@@ -8,16 +8,38 @@ using System.Text;
 using System.Diagnostics;
 using System.Data;
 using DevExpress.XtraTreeList.Nodes;
+using System.Drawing;
+using Entity;
+using System.Collections;
 
 namespace SmartWaterSystem
 {
     public partial class FrmConsole : DevExpress.XtraEditors.XtraForm
     {
+        class ColorMsgInfo
+        {
+            public string Msg = "";
+            public Color color = Color.Lime;   //默认为Lime色
+
+            public ColorMsgInfo(string msg)
+            {
+                this.Msg = msg;
+            }
+            public ColorMsgInfo(string msg,Color color)
+            {
+                this.Msg = msg;
+                this.color = color;
+            }
+        }
+
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmGPRSConsole");
-        private const int MaxLine = 3500;
+        private const int MaxLine = 2000;
+        private const int BufLine = 200;    //行缓冲数量
         private bool showHttpMsg = true;  //是否显示HTTP消息
         private bool showSocketMsg = true;   //是否显示Socket消息
         private bool showErrMsg = true;     //是否显示错误信息
+
+        Hashtable ht_color = null;          //保存配置的颜色信息
 
         public FrmConsole()
         {
@@ -42,8 +64,7 @@ namespace SmartWaterSystem
             txtControl.SelectedText = "";
 
             UpdateSocketList();
-
-            Inittree();
+            UpdateColorConfig();
         }
 
         private void SocketMgr_SocketConnEvent(object sender, SocketStatusEventArgs e)
@@ -80,34 +101,19 @@ namespace SmartWaterSystem
 
         void serialPortUtil_ShowMsgEvent(string msg)
         {
-            if(!string.IsNullOrEmpty(msg))
-                SetCtrlMsg(msg);
+            if (!string.IsNullOrEmpty(msg))
+                SetCtrlMsg(msg, ColorType.SerialPort);
         }
 
         void MSMQMgr_MSMQEvent(object sender, SocketEventArgs e)
         {
-            if (e.msmqEntity != null)
+            if (e.msmqEntity != null  && e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Msg_Socket)
             {
-                if (e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Msg_Public)
-                {
-                    SetCtrlMsg(e.msmqEntity.Msg);
-                }
-                else if (e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Msg_Socket && showSocketMsg)
-                {
-                    SetCtrlMsg(e.msmqEntity.Msg);
-                }
-                else if (e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Msg_HTTP && showHttpMsg)
-                {
-                    SetCtrlMsg(e.msmqEntity.Msg);
-                }
-                else if (e.msmqEntity.MsgType == Entity.ConstValue.MSMQTYPE.Msg_Err && showErrMsg)
-                {
-                    SetCtrlMsg(e.msmqEntity.Msg);
-                }
+                SetCtrlMsg(e.msmqEntity.Msg, e.msmqEntity.ShowType);
             }
         }
 
-        private void SetCtrlMsg(string msg)
+        private void SetCtrlMsg(string msg, ColorType showType)
         {
             if (!string.IsNullOrEmpty(msg))
             {
@@ -115,15 +121,26 @@ namespace SmartWaterSystem
                 {
                     if (!msg.EndsWith("\r\n"))
                         msg += "\r\n";
-                    lstCtrlMsg.Add(msg);
+
+                    ColorMsgInfo msginfo = null;
+                    if (ht_color != null && ht_color[(int)showType] != null)
+                        msginfo = new ColorMsgInfo(msg, Color.FromArgb(Convert.ToInt32(ht_color[(int)showType])));
+                    else
+                        msginfo = new ColorMsgInfo(msg);
+                    
+                    lstCtrlMsg.Add(msginfo);
                     ctrlMsgChange = true;
+                    if(lstCtrlMsg.Count  > MaxLine+BufLine)
+                    {
+                        lstCtrlMsg.RemoveRange(0, lstCtrlMsg.Count - MaxLine);
+                    }
                 }
             }
         }
 
         void timerCtrl_Tick(object sender, EventArgs e)
         {
-            if (ctrlMsgChange && txtControl.Visible)
+            if (ctrlMsgChange && this.WindowState != FormWindowState.Minimized)  //txtControl.Visible
             {
                 lock (lockMsgChange)
                 {
@@ -138,10 +155,10 @@ namespace SmartWaterSystem
         }
 
         private delegate void AddMsgHandle(string msg);
-        List<string> lstCtrlMsg = new List<string>();
+        List<ColorMsgInfo> lstCtrlMsg = new List<ColorMsgInfo>();
         bool ctrlMsgChange = false;  //是否有更新消息
         object lockMsgChange = new object();
-        string lastline = "";
+        //string lastline = "";
         public void ShowCtrlMsg()
         {
             try
@@ -150,17 +167,41 @@ namespace SmartWaterSystem
                 {
                     for (int i = 0; i < lstCtrlMsg.Count; i++)
                     {
-                        txtControl.AppendText(lstCtrlMsg[i]);
+                        //txtControl.SelectionColor = lstCtrlMsg[i].color;
+                        //txtControl.AppendText(lstCtrlMsg[i].Msg);
+
+
+                        txtControl.SelectionStart = txtControl.TextLength;
+                        txtControl.SelectionLength = 0;
+                        txtControl.SelectionColor = lstCtrlMsg[i].color;
+                        txtControl.AppendText(lstCtrlMsg[i].Msg);
                     }
-                    if (txtControl.Lines.Length > MaxLine+200)  //200行作为缓存,这样的话就不需要每次都执行下面的耗时操作
+                    if (txtControl.Lines.Length > MaxLine+ BufLine)  //BufLine行作为缓存,这样的话就不需要每次都执行下面的耗时操作
                     {
                         int moreLines = txtControl.Lines.Length - MaxLine;
-                        string[] lines = txtControl.Lines;
-                        Array.Copy(lines, moreLines, lines, 0, MaxLine);
-                        lastline = lines[MaxLine - 1]+ "\r\n";
-                        Array.Resize(ref lines, MaxLine-1);
-                        txtControl.Lines = lines;
-                        txtControl.AppendText(lastline);  //前一行的直接复制导致ScrollToCaret不能滚动到最后一行显示，需要将最后一行用AppendText方法再调用ScrollToCaret才能滚动到最后一行
+                        string str_rtf=txtControl.Rtf;
+                        int index = 0;
+                        int headindex = 0;
+                        for(int i=0;i<moreLines;i++)
+                        {
+                            index = str_rtf.IndexOf('\r', index);
+                            index+=2;
+                            if (i == 1) //保存前2行
+                                headindex = index;
+                        }
+                        //str_rtf = str_rtf.Substring(headindex, index - headindex);
+                        string head_rtf = str_rtf.Substring(0, headindex);
+                        str_rtf = str_rtf.Substring(index);
+                        txtControl.Rtf = head_rtf + str_rtf;
+
+                        head_rtf = null;
+                        str_rtf = null;
+                        //string[] lines = txtControl.Lines;
+                        //Array.Copy(lines, moreLines, lines, 0, MaxLine);
+                        //lastline = lines[MaxLine - 1] + "\r\n";
+                        //Array.Resize(ref lines, MaxLine - 1);
+                        //txtControl.Lines = lines;
+                        //txtControl.AppendText(lastline);  //前一行的直接复制导致ScrollToCaret不能滚动到最后一行显示，需要将最后一行用AppendText方法再调用ScrollToCaret才能滚动到最后一行
                     }
 
                     txtControl.ScrollToCaret();
@@ -293,6 +334,14 @@ namespace SmartWaterSystem
             {
                 this.comboSocketServer.SelectedIndexChanged += new System.EventHandler(this.comboSocketServer_SelectedIndexChanged);
             }
+        }
+
+        /// <summary>
+        /// 获取颜色配置信息更新ht_color变量
+        /// </summary>
+        public void UpdateColorConfig()
+        {
+            ht_color=new MsgColorHelper().GetColorConfig(GlobalValue.ColorConfigFilePath);
         }
 
         private void comboSocketServer_SelectedIndexChanged(object sender, EventArgs e)
@@ -528,7 +577,7 @@ namespace SmartWaterSystem
             catch (Exception ex)
             {
                 logger.ErrorException("WriteLog", ex);
-                SetCtrlMsg(DateTime.Now.ToString() + " 记录日志发生错误,ex:" + ex.Message);
+                SetCtrlMsg(DateTime.Now.ToString() + " 记录日志发生错误,ex:" + ex.Message, ColorType.Error);
             }
             finally
             {
@@ -538,196 +587,17 @@ namespace SmartWaterSystem
 
         #endregion
 
-        #region treeSocketType
-        private void Inittree()
-        {
-            DataTable dttree = new DataTable();
-            dttree.Columns.Add("ID",typeof(int));
-            dttree.Columns.Add("Name");
-            dttree.Columns.Add("ParentID", typeof(int));
-
-            int i = 1,tmpparent=-1;
-            DataRow dr = dttree.NewRow();
-            dr["ID"] = -99;
-            dr["Name"] = "全部";
-            dr["ParentID"] = -999;
-            dttree.Rows.Add(dr);
-
-            dr = dttree.NewRow();
-            dr["ID"] = -1;
-            dr["Name"] = "远传";
-            dr["ParentID"] = -99;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = -2;
-            dr["Name"] = "手机";
-            dr["ParentID"] = -99;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = -3;
-            dr["Name"] = "串口";
-            dr["ParentID"] = -99;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = -4;
-            dr["Name"] = "错误";
-            dr["ParentID"] = -99;
-            dttree.Rows.Add(dr);
-
-            dr = dttree.NewRow();
-            dr["ID"] = i;
-            dr["Name"] = "公共";
-            dr["ParentID"] = -1;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "错误";
-            dr["ParentID"] = -1;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "解析失败";
-            dr["ParentID"] = -1;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "数据帧";
-            dr["ParentID"] = -1;
-            dttree.Rows.Add(dr);
-            
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            tmpparent = i;
-            dr["Name"] = "终端";
-            dr["ParentID"] = -1;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "噪声终端";
-            dr["ParentID"] = tmpparent;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "压力流量终端";
-            dr["ParentID"] = tmpparent;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "通用终端";
-            dr["ParentID"] = tmpparent;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "阀门开度控制器";
-            dr["ParentID"] = tmpparent;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "在线水质终端";
-            dr["ParentID"] = tmpparent;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "消防栓";
-            dr["ParentID"] = tmpparent;
-            dttree.Rows.Add(dr);
-            dr = dttree.NewRow();
-            dr["ID"] = ++i;
-            dr["Name"] = "水厂数据";
-            dr["ParentID"] = tmpparent;
-            dttree.Rows.Add(dr);
-            
-            treeSocketType.Properties.DataSource = dttree;
-            treeSocketType.Properties.ValueMember = "ID";
-            treeSocketType.Properties.DisplayMember = "Name";
-
-            treeSocketType.Properties.TreeList.ParentFieldName = "ParentID";
-            treeSocketType.Properties.TreeList.KeyFieldName = "ID";
-
-            if(treeSocketType.Properties.TreeList.Nodes!= null)
-            {
-                foreach (TreeListNode node in treeSocketType.Properties.TreeList.GetNodeList())
-                {
-                    node.Checked = true;
-                }
-            }
-
-            treeSocketType.Properties.TreeList.AfterCheckNode += (s, a) =>
-            {
-                a.Node.Selected = true;
-                //DataRowView drv = tlOffice.Properties.TreeList.GetDataRecordByNode(node) as DataRowView;//关键代码，就是不知道是这样获取数据而纠结了很久(可以转换为DataRowView啊)
-                UpdateParentNodesCheckstate(a.Node, a.Node.Checked);
-                UpdateChildsNodesCheckstate(a.Node, a.Node.Checked);
-            };
-        }
-
-        /// <summary>
-        /// 更新父节点的选中状态
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="Checked"></param>
-        private void UpdateParentNodesCheckstate(TreeListNode node,bool Checked)
-        {
-            if(node.ParentNode!=null)
-            {
-                
-                bool childcheck=false, childuncheck = false;    //除去自身是否有选择或未选中的孩子节点
-                foreach (TreeListNode child in node.ParentNode.Nodes)
-                {
-                    if (child.CheckState != CheckState.Unchecked)
-                        childcheck = true;
-                    else
-                        childuncheck = true;
-                }
-                if (Checked)   //如果当前节点选中,则父节点需要改变为中间态或者选中状态
-                {
-                    if (childuncheck)
-                        node.ParentNode.CheckState = CheckState.Indeterminate;
-                    else
-                        node.ParentNode.CheckState = CheckState.Checked;
-                }
-                else
-                {
-                    if (childcheck)
-                        node.ParentNode.CheckState = CheckState.Indeterminate;
-                    else
-                        node.ParentNode.CheckState = CheckState.Unchecked;
-                }
-                UpdateParentNodesCheckstate(node.ParentNode, Checked);
-            }
-        }
-
-        /// <summary>
-        /// 更新孩子节点的选中状态
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="Checked"></param>
-        private void UpdateChildsNodesCheckstate(TreeListNode node, bool Checked)
-        {
-            if (node.Nodes != null && node.Nodes.Count > 0)
-            {
-                foreach (TreeListNode child in node.Nodes)
-                {
-                    if (Checked)
-                        child.CheckState = CheckState.Checked;
-                    else
-                        child.CheckState = CheckState.Unchecked;
-
-                    UpdateChildsNodesCheckstate(child, Checked);
-                }
-                if (Checked)
-                    node.CheckState = CheckState.Checked;
-                else
-                    node.CheckState = CheckState.Unchecked;
-            }
-        }
-        #endregion
-
         private void btnDmp_Click(object sender, EventArgs e)
         {
             SocketEntity socketmsg = new SocketEntity();
             socketmsg.MsgType = Entity.ConstValue.MSMQTYPE.MiniDump;
             GlobalValue.SocketMgr.SendMessage(socketmsg);
+        }
+
+        private void pbColor_Click(object sender, EventArgs e)
+        {
+            FrmColorSet colorFrm = new FrmColorSet();
+            colorFrm.ShowDialog();
         }
     }
 }

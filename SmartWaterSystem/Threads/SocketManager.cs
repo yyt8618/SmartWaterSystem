@@ -134,7 +134,7 @@ namespace SmartWaterSystem
                 if (sendcount > 3 )  //发送三次后重新连接
                 {
                     Connect();
-                    OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Err, DateTime.Now.ToString()+" 连接失败,正在重新连接！")));
+                    OnSockMsgEvent(new SocketEventArgs(new SocketEntity( ConstValue.MSMQTYPE.Msg_Socket, ColorType.Error, DateTime.Now.ToString()+" 连接失败,正在重新连接！")));
                     return;
                 }
                 sendcount++;
@@ -154,7 +154,7 @@ namespace SmartWaterSystem
                 lock(obj_conncet)
                 {
                     if (showconnAddr)
-                        OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, "开始Socket连接," + Settings.Instance.GetString(SettingKeys.GPRS_IP) + ":" + Settings.Instance.GetInt(SettingKeys.GPRS_PORT))));
+                        OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Socket,ColorType.Public, "开始Socket连接," + Settings.Instance.GetString(SettingKeys.GPRS_IP) + ":" + Settings.Instance.GetInt(SettingKeys.GPRS_PORT))));
                     socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     socket.ReceiveTimeout = 10 * 1000;
                     socket.SendTimeout = 10 * 1000;
@@ -169,7 +169,7 @@ namespace SmartWaterSystem
             }
             catch(Exception ex) {
                 OnSockConnEvent(new SocketStatusEventArgs(false));
-                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Err, "连接Socket失败！")));
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Socket, ColorType.Error, "连接Socket失败！")));
                 return false;
             }
         }
@@ -204,7 +204,7 @@ namespace SmartWaterSystem
                 //socket.Close();
                 socket = null;
                 OnSockConnEvent(new SocketStatusEventArgs(false));
-                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, DateTime.Now.ToString() + " Socket连接已断开!")));
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Socket, ColorType.Public, DateTime.Now.ToString() + " Socket连接已断开!")));
             }
             catch(Exception ex)
             {
@@ -221,7 +221,7 @@ namespace SmartWaterSystem
                 disconnecting = true;
                 sock.Close();
                 sock = null;
-                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Public, DateTime.Now.ToString() + "正在断开Socket重新连接,请稍候...")));
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Socket, ColorType.Public, DateTime.Now.ToString() + "正在断开Socket重新连接,请稍候...")));
                 Connect(true);
             }
             catch (Exception ex)
@@ -250,7 +250,7 @@ namespace SmartWaterSystem
             catch (Exception e)
             {
                 OnSockConnEvent(new SocketStatusEventArgs(false));
-                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Err, "连接Socket失败！")));
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Socket, ColorType.Error, "连接Socket失败！")));
             }
         }
 
@@ -303,7 +303,7 @@ namespace SmartWaterSystem
             }
             catch(ArgumentException argex)
             {
-                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Err, DateTime.Now.ToString() + " Socket连接发生错误,断开连接!")));
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Socket, ColorType.Error, DateTime.Now.ToString() + " Socket连接发生错误,断开连接!")));
                 DisConnect();
             }
             catch (SocketException sockex)
@@ -313,7 +313,7 @@ namespace SmartWaterSystem
             catch (Exception ex)
             {
                 msgpart = "";
-                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Err, "解析Socket消息发生异常,ex:" + ex.Message)));
+                OnSockMsgEvent(new SocketEventArgs(new SocketEntity(Entity.ConstValue.MSMQTYPE.Msg_Socket, ColorType.Error, "解析Socket消息发生异常,ex:" + ex.Message)));
             }
             finally
             {

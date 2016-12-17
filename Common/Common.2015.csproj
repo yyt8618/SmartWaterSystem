@@ -82,11 +82,13 @@
     <Compile Include="DataBase\SQLHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EnumHelper.cs" />
     <Compile Include="FormatHelper.cs" />
     <Compile Include="JSONSerialize.cs" />
     <Compile Include="MD5Encrypt.cs" />
     <Compile Include="MetarnetRegex.cs" />
     <Compile Include="MiniDump.cs" />
+    <Compile Include="MsgColorHelper.cs" />
     <Compile Include="Socket\SocketEntity.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

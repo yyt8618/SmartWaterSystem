@@ -109,8 +109,8 @@ namespace SmartWaterSystem
                 Settings.Instance.SetValue(SettingKeys.GPRS_IP, checkedip);
                 Settings.Instance.SetValue(SettingKeys.GPRS_PORT, checkedport);
 
-                if (GlobalValue.MainForm.gprsconsole != null)
-                    GlobalValue.MainForm.gprsconsole.UpdateSocketList();  //更新FrmConsole界面上的Socket服务列表
+                if (GlobalValue.MainForm.Gprsconsole != null)
+                    GlobalValue.MainForm.Gprsconsole.UpdateSocketList();  //更新FrmConsole界面上的Socket服务列表
 
                 XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

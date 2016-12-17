@@ -156,6 +156,12 @@
     <Compile Include="FrmSearch.Designer.cs">
       <DependentUpon>FrmSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmColorSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmColorSet.Designer.cs">
+      <DependentUpon>FrmColorSet.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\Map\MapForScripting.cs" />
     <Compile Include="MODULE\Map\HydrantMap.cs">
       <SubType>UserControl</SubType>
@@ -425,6 +431,9 @@
     <EmbeddedResource Include="FrmSearch.resx">
       <DependentUpon>FrmSearch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmColorSet.resx">
+      <DependentUpon>FrmColorSet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\Map\MapFullScreen.resx">
       <DependentUpon>MapFullScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -693,6 +702,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gc.ico" />
+    <None Include="Resources\palette.ico" />
     <Content Include="Resources\SockConnect.ico" />
     <Content Include="Resources\SockNotConnect.ico" />
     <None Include="Resources\WriteLog.ico" />
