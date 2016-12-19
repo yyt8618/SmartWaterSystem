@@ -41,10 +41,10 @@
             // 
             // btnConfirm
             // 
-            this.btnConfirm.Location = new System.Drawing.Point(164, 377);
+            this.btnConfirm.Location = new System.Drawing.Point(257, 377);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(72, 33);
-            this.btnConfirm.TabIndex = 2;
+            this.btnConfirm.TabIndex = 3;
             this.btnConfirm.Text = "设置";
             this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
@@ -62,7 +62,7 @@
             this.treeColor.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemColorPickEdit1});
             this.treeColor.Size = new System.Drawing.Size(419, 369);
-            this.treeColor.TabIndex = 3;
+            this.treeColor.TabIndex = 0;
             this.treeColor.CustomUnboundColumnData += new DevExpress.XtraTreeList.CustomColumnDataEventHandler(this.treeColor_CustomUnboundColumnData);
             // 
             // treeListColumn1

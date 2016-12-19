@@ -39,7 +39,7 @@ namespace SmartWaterSystem
             this.cbSerialPort = new System.Windows.Forms.CheckBox();
             this.cbErrs = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pbColor = new System.Windows.Forms.PictureBox();
+            this.picColor = new System.Windows.Forms.PictureBox();
             this.comboToolBox = new DevExpress.XtraEditors.ComboBoxEdit();
             this.comboSocketServer = new DevExpress.XtraEditors.ComboBoxEdit();
             this.picBoxLog = new System.Windows.Forms.PictureBox();
@@ -54,7 +54,7 @@ namespace SmartWaterSystem
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).BeginInit();
@@ -168,7 +168,7 @@ namespace SmartWaterSystem
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.panel1.Controls.Add(this.pbColor);
+            this.panel1.Controls.Add(this.picColor);
             this.panel1.Controls.Add(this.comboToolBox);
             this.panel1.Controls.Add(this.comboSocketServer);
             this.panel1.Controls.Add(this.picBoxLog);
@@ -188,17 +188,17 @@ namespace SmartWaterSystem
             this.panel1.Size = new System.Drawing.Size(878, 32);
             this.panel1.TabIndex = 0;
             // 
-            // pbColor
+            // picColor
             // 
-            this.pbColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbColor.Image = global::SmartWaterSystem.Properties.Resources.palette;
-            this.pbColor.Location = new System.Drawing.Point(519, 2);
-            this.pbColor.Name = "pbColor";
-            this.pbColor.Size = new System.Drawing.Size(30, 23);
-            this.pbColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbColor.TabIndex = 17;
-            this.pbColor.TabStop = false;
-            this.pbColor.Click += new System.EventHandler(this.pbColor_Click);
+            this.picColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picColor.Image = global::SmartWaterSystem.Properties.Resources.palette;
+            this.picColor.Location = new System.Drawing.Point(519, 2);
+            this.picColor.Name = "picColor";
+            this.picColor.Size = new System.Drawing.Size(30, 23);
+            this.picColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picColor.TabIndex = 17;
+            this.picColor.TabStop = false;
+            this.picColor.Click += new System.EventHandler(this.pbColor_Click);
             // 
             // comboToolBox
             // 
@@ -328,6 +328,7 @@ namespace SmartWaterSystem
             this.btnDmp.TabStop = false;
             this.btnDmp.Text = "Dmp";
             this.btnDmp.UseVisualStyleBackColor = false;
+            this.btnDmp.Visible = false;
             this.btnDmp.Click += new System.EventHandler(this.btnDmp_Click);
             // 
             // btnSocketConnect
@@ -402,7 +403,7 @@ namespace SmartWaterSystem
             this.Load += new System.EventHandler(this.FrmConsole_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboToolBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboSocketServer.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLog)).EndInit();
@@ -435,6 +436,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.ComboBoxEdit comboToolBox;
         private PictureBox picBoxLog;
         private Button btnDmp;
-        private PictureBox pbColor;
+        private PictureBox picColor;
     }
 }

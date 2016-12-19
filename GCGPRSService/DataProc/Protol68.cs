@@ -46,7 +46,7 @@ namespace GCGPRSService
 
                     StringBuilder str_alarm = new StringBuilder();
                     int preFlag = 0;
-                    
+
                     /****************************************宿州校准压力值********************************************/
                     //double[] RectifyValue = new double[] {  //修偏数组
                     //    -0.009, 0, -0.03, 0.013, -0.029, -0.029, 0, 0, 0, -0.011,

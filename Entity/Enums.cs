@@ -203,6 +203,11 @@ namespace Entity
         /// </summary>
         [Description("其他")]
         Other = 10,
+        /// <summary>
+        /// 背景色
+        /// </summary>
+        [Description("背景色")]
+        BackColor =11,
 
 
         /// <summary>

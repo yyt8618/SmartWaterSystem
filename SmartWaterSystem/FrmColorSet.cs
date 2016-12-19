@@ -33,6 +33,7 @@ namespace SmartWaterSystem
         {
             try
             {
+                //32, 31, 53
                 //获取颜色配置
                 Hashtable ht = new MsgColorHelper().GetColorConfig(GlobalValue.ColorConfigFilePath);
                 //KeyField小于0都是带有孩子的
@@ -60,6 +61,7 @@ namespace SmartWaterSystem
                 {
                     int ival = Convert.ToInt32(value);
                     int argbcolor = 0;
+                    int backargbcolor = Color.FromArgb(32, 31, 53).ToArgb();
                     //ht[ival];
                     if (ht[ival] != null)
                     {
@@ -73,7 +75,10 @@ namespace SmartWaterSystem
                         dr["KeyField"] = ival;
                         dr["ParentField"] = -99;
                         dr["Type"] = enumhelper.GetEnumDescription((ColorType)value);
-                        dr["Color"] = argbcolor;
+                        if ((ColorType)value == ColorType.BackColor)
+                            dr["Color"] = backargbcolor;
+                        else
+                            dr["Color"] = argbcolor;
                         dt.Rows.Add(dr);
                     }
                     else if (ival >= 40)

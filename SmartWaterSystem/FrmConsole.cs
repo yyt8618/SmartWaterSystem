@@ -65,6 +65,7 @@ namespace SmartWaterSystem
 
             UpdateSocketList();
             UpdateColorConfig();
+
         }
 
         private void SocketMgr_SocketConnEvent(object sender, SocketStatusEventArgs e)
@@ -342,6 +343,32 @@ namespace SmartWaterSystem
         public void UpdateColorConfig()
         {
             ht_color=new MsgColorHelper().GetColorConfig(GlobalValue.ColorConfigFilePath);
+            SetBackColor();
+        }
+
+        private void SetBackColor()
+        {
+            if (ht_color != null && ht_color[(int)ColorType.BackColor] != null)
+            {
+                Color backcolor = Color.FromArgb(Convert.ToInt32(ht_color[(int)ColorType.BackColor]));
+                //panel1.BackColor = backcolor;
+                //cbShowSocket.BackColor = backcolor;
+                //cbHTTP.BackColor = backcolor;
+                //cbSerialPort.BackColor = backcolor;
+                //cbErrs.BackColor = backcolor;
+                //btnDmp.BackColor = backcolor;
+                //comboToolBox.BackColor = backcolor;
+                //comboSocketServer.BackColor = backcolor;
+                //picColor.BackColor = backcolor;
+                //picBoxLog.BackColor = backcolor;
+                //btnSocketConnect.BackColor = backcolor;
+                //btnDisconnect.BackColor = backcolor;
+                //btnPause.BackColor = backcolor;
+                //btnCopy.BackColor = backcolor;
+                //btnClear.BackColor = backcolor;
+
+                txtControl.BackColor = backcolor;
+            }
         }
 
         private void comboSocketServer_SelectedIndexChanged(object sender, EventArgs e)
