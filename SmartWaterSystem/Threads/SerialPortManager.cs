@@ -21,95 +21,80 @@ namespace SmartWaterSystem
     public enum SerialPortType : uint
     {
         None = 0,
-        //NoiseWriteTime,  //设置时间
-        //NoiseWriteRemoteSendTime,//设置远传通信时间
-        //NoiseWriteStartEndTime,  //设置记录时间段
-        //NoiseWriteInterval,    //设置采集间隔
-
-        //NoiseCtrlStartOrStop,  //设置开关
-        //NoiseWriteRemoteSwitch, //设置远传功能
         NoiseStart,             //设置启动
         NoiseStop,              //设置停止
         NoiseGetStandValue,     //噪声获取启动值(标准值)
         NoiseSetStandValue,     //噪声设置启动值(标准值)
-        NoiseClearData,         //设置清除数据
 
+        NoiseClearData,         //设置清除数据
         NoiseReadParm,          //读取参数数据
         NoiseSetParm,           //设置参数数据
         NoiseCtrlReadParm,      //噪声远传控制器读取参数数据
         NoiseCtrlSetParm,       //噪声远传控制器设置参数数据
+
         NoiseReadData,          //读取数据
         NoiseBatchWrite,        //批量设置
         UniversalReset, //通用终端复位
         UniversalSetTime,   //设置通用终端时间
-
         UniversalSetEnableCollect, //设置通用终端启用采集
+
         UniversalSetCollectConfig,  //设置通用终端采集配置功能
         UniversalSetSim_Interval,  //设置通用终端模拟量时间间隔
         UniversalSetPluse_Interval, //设置通用终端脉冲量时间间隔
         UniversalSet485_Interval,  //设置通用终端RS485时间间隔
-
         UniversalSetModbusProtocol,   //设置通用终端Modbus协议
+
         UniversalSetModbusExeFlag,     //设置通用终端Modbus执行标志
         UniversalSetBasicInfo,      //通用终端设置基本信息,包括手机号、通信方式、波特率、ip、端口号
         UniversalReadBasicInfo,       //通用终端读取基本信息，包括手机号、通信方式、波特率、ip、端口号
         UniversalCalibrationSimualte1, //通用终端校准第一路模拟量
-
         UniversalReadVer,           //通用终端读取版本号
-        UniversalReadFiledStrength, //通用终端读取场强
 
+        UniversalReadFiledStrength, //通用终端读取场强
         UniversalCalibrationSimualte2,  //通用终端校准第二路模拟量
         UniversalPluseBasic,    //通用终端设置脉冲基准数
         Universal651ChPwd,      //通用终端SL651修改密码
         Universal651ReadBasicInfo, //通用终端SL651读取基本信息
-        Universal651SetBasicInfo,   //通用终端SL651设置基本信息
 
+        Universal651SetBasicInfo,   //通用终端SL651设置基本信息
         Universal651ReadRunInfo,    //通用终端SL651读取运行信息
         Universal651SetRunInfo,     //通用终端SL651设置运行信息
         Universal651QueryElements,  //通用终端SL651查询要素实时数据
         Universal651QueryPrecipitation, //通用终端SL651查询时段降水量
-        Universal651SetPreConstCtrl,    //通用终端SL651设置水量定值控制
 
+        Universal651SetPreConstCtrl,    //通用终端SL651设置水量定值控制
         Universal651QueryManualSetParm, //通用终端SL651查询人工置数
         Universal651SetManualSetParm,   //通用终端SL651设置人工置数
         Universal651SetCalibration,     //通用终端SL651设置水位校准值
         Universal651ReadTimeintervalReportTime, //通用终端SL651读取均匀时段报上传时间
-        Universal651SetTimeintervalReportTime, //通用终端SL651设置均匀时段报上传时间
 
+        Universal651SetTimeintervalReportTime, //通用终端SL651设置均匀时段报上传时间
         Universal651QueryTime,      //通用终端SL651查询时间
         Universal651QueryVer,       //通用终端SL651查询版本
         Universal651QueryCurData,   //通用终端SL651查询实时数据
         Universal651QueryEvent,     //通用终端SL651查询事件
-        Universal651QueryAlarm,     //通用终端SL651查询状态和报警
 
+        Universal651QueryAlarm,     //通用终端SL651查询状态和报警
         Universal651SetTime,        //通用终端SL651设置时间
         Universal651InitFlash,      //通用终端SL651初始化FLASH
         Universal651Init,           //通用终端SL651恢复出厂
-
         UniversalCallData,      //通用终端招测数据(串口)
+
+        UniversalCallEnable,    //通用终端招测使能
         OLWQReset, //水质终端复位
         OLWQSetTime,   //设置水质终端时间
         OLWQSetEnableCollect, //设置水质终端启用采集
-
-        //OLWQSetCollectConfig,  //设置水质终端采集配置功能
-        //OLWQSetResidualCl_Interval, //设置水质终端余氯时间间隔
-        //OLWQSetTurbidity_Interval,  //设置水质终端浊度时间间隔
-        //OLWQSetPH_Interval,         //设置水质终端PH时间间隔
-        //OLWQSetConductivity_Interval,//设置水质终端电导率时间间隔
-
         OLWQSetBasicInfo,      //水质终端设置基本信息,包括通信方式、波特率、ip、端口号
+
         OLWQReadBaicInfo,       //水质终端读取基本信息，包括通信方式、波特率、ip、端口号
         OLWQCallData,           //水质终端招测数据(串口)
-
         HydrantReset,           //消防栓复位
         HydrantSetTime,         //设置消防栓时间
         HydrantSetBasicInfo,    //消防栓设置基本信息，包括通讯方式、ip、端口号
+
         HydrantReadBasicInfo,   //消防栓读取基本信息，包括通讯方式、ip、端口号
         HydrantReadHistory,     //读取消防栓历史数据
         HydrantSetEnableCollect,//消防栓启动采集开关
-
-        PreReadInfo,            //压力终端读取
-        PreSetInfo,             //压力终端设置
     }
 
     public class SerialPortEventArgs : EventArgs
@@ -182,7 +167,7 @@ namespace SmartWaterSystem
     public class SerialPortManager : SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 64;// Enum.GetNames(typeof(SerialPortType)).GetLength(0);
+        private const int eventcount = 63;
         public event SerialPortHandle SerialPortEvent;
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
@@ -1300,6 +1285,24 @@ namespace SmartWaterSystem
                         }
                         #endregion
                         break;
+                    case (uint)SerialPortType.UniversalCallEnable:
+                        #region 设置通用终端招测使能
+                        {
+                            try
+                            {
+                                result = GlobalValue.Universallog.SetCallEnable(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID,GlobalValue.UniSerialPortOptData.CallEnable);
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        break;
+                    #endregion
                     #region 通用终端SL651操作
                     case (uint)SerialPortType.Universal651ChPwd:        //设置通用终端SL651密码
                     case (uint)SerialPortType.Universal651ReadBasicInfo://读取通用终端SL651基本信息
@@ -1955,214 +1958,6 @@ namespace SmartWaterSystem
                             try
                             {
                                 result = GlobalValue.Hydrantlog.SetEnableCollect(GlobalValue.UniSerialPortOptData.ID, true);
-                            }
-                            catch (Exception ex)
-                            {
-                                result = false;
-                                msg = ex.Message;
-                            }
-                        }
-                        #endregion
-                        break;
-                    case (uint)SerialPortType.PreReadInfo:
-                        #region 压力终端读取参数
-                        {
-                            try
-                            {
-                                if (GlobalValue.PreSerialPortOptData.IsOptID)  //没有ID时，只读写ID
-                                {
-                                    GlobalValue.PreSerialPortOptData.ID = GlobalValue.OLWQlog.ReadId();
-                                }
-                                else
-                                {
-                                    if (GlobalValue.PreSerialPortOptData.IsOptDT)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取设备时间..."));
-                                        GlobalValue.PreSerialPortOptData.DT = GlobalValue.OLWQlog.ReadTime(GlobalValue.UniSerialPortOptData.ID);
-                                    }
-                                    if (GlobalValue.PreSerialPortOptData.IsOptIP)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端通信IP地址..."));
-                                        GlobalValue.PreSerialPortOptData.IP = GlobalValue.OLWQlog.ReadIP(GlobalValue.UniSerialPortOptData.ID);
-                                    }
-                                    if (GlobalValue.PreSerialPortOptData.IsOptPort)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在读取终端通信端口号..."));
-                                        GlobalValue.PreSerialPortOptData.Port = GlobalValue.OLWQlog.ReadPort(GlobalValue.UniSerialPortOptData.ID);
-                                    }
-                                }
-                                result = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                result = false;
-                                msg = ex.Message;
-                            }
-                        }
-                        #endregion
-                        break;
-                    case (uint)SerialPortType.PreSetInfo:
-                        #region 设置压力终端参数
-                        {
-                            try
-                            {
-                                if (GlobalValue.UniSerialPortOptData.IsOptID)  //没有ID时，只读写ID
-                                {
-                                    result = GlobalValue.OLWQlog.SetID(GlobalValue.UniSerialPortOptData.ID);
-                                }
-                                else
-                                {
-                                    if (GlobalValue.UniSerialPortOptData.IsOptIP)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端通信IP地址..."));
-                                        result = GlobalValue.OLWQlog.SetIP(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.IP);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptPort)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端通信端口号..."));
-                                        result = GlobalValue.OLWQlog.SetPort(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.Port);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptPowerSupplyType)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端供电方式..."));
-                                        result = GlobalValue.OLWQlog.SetPowerSupplyType(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PowerSupplyType);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOpt_CollectConfig)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端采集配置..."));
-                                        Int16 data = 0;
-                                        if (GlobalValue.UniSerialPortOptData.Collect_Turbidity)
-                                            data |= 0x01;
-                                        if (GlobalValue.UniSerialPortOptData.Collect_ResidualC1)
-                                            data |= 0x02;
-                                        if (GlobalValue.UniSerialPortOptData.Collect_PH)
-                                            data |= 0x04;
-                                        if (GlobalValue.UniSerialPortOptData.Collect_Conductivity)
-                                            data |= 0x08;
-                                        result = GlobalValue.OLWQlog.SetCollectConfig(GlobalValue.UniSerialPortOptData.ID, (byte)data);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptTerAddr)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端地址..."));
-                                        result = GlobalValue.OLWQlog.SetTerAddr(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.TerAddr[4], GlobalValue.UniSerialPortOptData.TerAddr[3],
-                                            GlobalValue.UniSerialPortOptData.TerAddr[2], GlobalValue.UniSerialPortOptData.TerAddr[1], GlobalValue.UniSerialPortOptData.TerAddr[0]);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptCenterAddr)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置中心站地址..."));
-                                        result = GlobalValue.OLWQlog.SetCenterAddr(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.CenterAddr);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptPwd)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置密码..."));
-                                        result = GlobalValue.OLWQlog.SetPwd(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.Pwd[1], GlobalValue.UniSerialPortOptData.Pwd[0]);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptWorkType)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置工作方式..."));
-                                        result = GlobalValue.OLWQlog.SetWorkType(GlobalValue.UniSerialPortOptData.ID, (ushort)GlobalValue.UniSerialPortOptData.WorkType);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptGprsSwitch)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置GPRS开关..."));
-                                        result = GlobalValue.OLWQlog.SetGPRSSwitch(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.GprsSwitch);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptClearInterval)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端清洗间隔..."));
-                                        result = GlobalValue.OLWQlog.SetClearInterval(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ClearInterval);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptDataInterval)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端加报时间间隔..."));
-                                        result = GlobalValue.OLWQlog.SetDataInterval(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.DataInterval);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptTempUpLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置温度上限..."));
-                                        result = GlobalValue.OLWQlog.SetTempUpLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.TempUpLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptTempLowLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置温度下限..."));
-                                        result = GlobalValue.OLWQlog.SetTempLowLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.TempLowLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptTempAddtion)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置温度加报阀值..."));
-                                        result = GlobalValue.OLWQlog.SetTempAddtion(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.TempAddtion);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptPHUpLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置PH上限..."));
-                                        result = GlobalValue.OLWQlog.SetPHUpLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PHUpLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptPHLowLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置PH下限..."));
-                                        result = GlobalValue.OLWQlog.SetPHLowLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PHLowLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptConductivityUpLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置电导率上限..."));
-                                        result = GlobalValue.OLWQlog.SetConductivityUpLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ConductivityUpLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptConductivityLowLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置电导率下限..."));
-                                        result = GlobalValue.OLWQlog.SetConductivityLowLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ConductivityLowLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptTurbidityUpLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度上限..."));
-                                        result = GlobalValue.OLWQlog.SetTurbidityUpLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.TurbidityUpLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptTurbidityLowLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度下限..."));
-                                        result = GlobalValue.OLWQlog.SetTurbidityLowLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.TurbidityLowLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptResidualClLowLimit)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置余氯下限值..."));
-                                        result = GlobalValue.OLWQlog.SetResidualClLowLimit(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ResidualClLowLimit);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptResidualClZero)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端零点值..."));
-                                        result = GlobalValue.OLWQlog.SetResidualClZero(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ResidualClZero);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptResidualClStandValue)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端校准值..."));
-                                        result = GlobalValue.OLWQlog.SetResidualClStandValue(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ResidualClStandValue);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOptResidualClSensitivity)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端灵敏度..."));
-                                        result = GlobalValue.OLWQlog.SetResidualClSensitivity(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ResidualClSensitivity);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOpt_ResidualClInterval)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端余氯采集时间间隔..."));
-                                        result = GlobalValue.OLWQlog.SetResidualClInterval(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ResidualCl_Interval);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOpt_TurbidityInterval)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端浊度采集时间间隔..."));
-                                        result = GlobalValue.OLWQlog.SetTurbidityInterval(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.Turbidity_Interval);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOpt_PHInterval)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端PH采集时间间隔..."));
-                                        result = GlobalValue.OLWQlog.SetPHInterval(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PH_Interval);
-                                    }
-                                    if (GlobalValue.UniSerialPortOptData.IsOpt_ConductivityInterval)
-                                    {
-                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.OLWQReadBaicInfo, "正在设置终端电导率采集时间间隔..."));
-                                        result = GlobalValue.OLWQlog.SetConductivityInterval(GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.Conductivity_Interval);
-                                    }
-                                }
                             }
                             catch (Exception ex)
                             {

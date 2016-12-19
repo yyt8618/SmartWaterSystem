@@ -1760,6 +1760,30 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("设置脉冲基准失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalCallEnable)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("设置失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void EnableControls(bool enable)
@@ -2065,6 +2089,8 @@ namespace SmartWaterSystem
             gridControl_WaitCmd.Enabled = false;
             btnDel.Enabled = false;
 
+            btnCallOpen.Enabled = GlobalValue.portUtil.IsOpen;
+            btnCallClose.Enabled = GlobalValue.portUtil.IsOpen;
             btnCallData.Enabled = GlobalValue.portUtil.IsOpen;
 
             SetDevTypeEnable();
@@ -2095,6 +2121,8 @@ namespace SmartWaterSystem
             gridControl_WaitCmd.Enabled = true;
             btnDel.Enabled = true;
 
+            btnCallOpen.Enabled = true;
+            btnCallClose.Enabled = true;
             btnCallData.Enabled = true;
 
             SetDevTypeEnable();
@@ -2293,5 +2321,38 @@ namespace SmartWaterSystem
             GlobalValue.Universallog.ClearCmdPack();
             GlobalValue.SerialPortMgr.Send(type);
         }
+
+        private void btnCallOpen_Click(object sender, EventArgs e)
+        {
+            CallEnable(true);
+        }
+
+        private void btnCallClose_Click(object sender, EventArgs e)
+        {
+            CallEnable(false);
+        }
+
+        private void CallEnable(bool Enable)
+        {
+            if (string.IsNullOrEmpty(txtID.Text))
+            {
+                XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            }
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+            GlobalValue.UniSerialPortOptData.CallEnable = Enable;
+
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在设置招测开关...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在设置招测开关...");
+            Send(SerialPortType.UniversalCallEnable);
+        }
+
     }
 }

@@ -1823,6 +1823,21 @@ namespace Protocol
             return Write(package);
         }
 
+        public bool SetCallEnable(ConstValue.DEV_TYPE devtype, short Id, bool Enable)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_CALLENABLE;
+            byte[] data = new byte[1];
+            data[0] = Enable ? (byte)0x01 : (byte)0x00; //1-使能招测 0 - 关闭招测
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
 
         public bool SetSimulateInterval(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
         {

@@ -167,7 +167,6 @@ namespace SmartWaterSystem
             this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
             this.treeSocketType = new DevExpress.XtraEditors.TreeListLookUpEdit();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
-            this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             this.btnCallData = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl_WaitCmd = new DevExpress.XtraGrid.GridControl();
             this.gridView_WaitCmd = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -178,6 +177,8 @@ namespace SmartWaterSystem
             this.btnDel = new DevExpress.XtraEditors.SimpleButton();
             this.btnVer = new DevExpress.XtraEditors.SimpleButton();
             this.btnFieldStrength = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCallOpen = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCallClose = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_starttime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime2)).BeginInit();
@@ -291,7 +292,6 @@ namespace SmartWaterSystem
             this.groupControl6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl13)).BeginInit();
@@ -1702,7 +1702,8 @@ namespace SmartWaterSystem
             // groupControl6
             // 
             this.groupControl6.Controls.Add(this.treeSocketType);
-            this.groupControl6.Controls.Add(this.toggleSwitch1);
+            this.groupControl6.Controls.Add(this.btnCallClose);
+            this.groupControl6.Controls.Add(this.btnCallOpen);
             this.groupControl6.Controls.Add(this.btnCallData);
             this.groupControl6.Location = new System.Drawing.Point(506, 429);
             this.groupControl6.Name = "groupControl6";
@@ -1740,16 +1741,6 @@ namespace SmartWaterSystem
             this.treeList1.Size = new System.Drawing.Size(237, 200);
             this.treeList1.TabIndex = 0;
             this.treeList1.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Light;
-            // 
-            // toggleSwitch1
-            // 
-            this.toggleSwitch1.EditValue = true;
-            this.toggleSwitch1.Location = new System.Drawing.Point(3, 25);
-            this.toggleSwitch1.Name = "toggleSwitch1";
-            this.toggleSwitch1.Properties.OffText = "招测开";
-            this.toggleSwitch1.Properties.OnText = "招测关";
-            this.toggleSwitch1.Size = new System.Drawing.Size(124, 25);
-            this.toggleSwitch1.TabIndex = 0;
             // 
             // btnCallData
             // 
@@ -1856,6 +1847,24 @@ namespace SmartWaterSystem
             this.btnFieldStrength.TabIndex = 5;
             this.btnFieldStrength.Text = "场强\\电压";
             this.btnFieldStrength.Click += new System.EventHandler(this.btnFieldStrength_Click);
+            // 
+            // btnCallOpen
+            // 
+            this.btnCallOpen.Location = new System.Drawing.Point(5, 21);
+            this.btnCallOpen.Name = "btnCallOpen";
+            this.btnCallOpen.Size = new System.Drawing.Size(50, 26);
+            this.btnCallOpen.TabIndex = 2;
+            this.btnCallOpen.Text = "招测开";
+            this.btnCallOpen.Click += new System.EventHandler(this.btnCallOpen_Click);
+            // 
+            // btnCallClose
+            // 
+            this.btnCallClose.Location = new System.Drawing.Point(58, 21);
+            this.btnCallClose.Name = "btnCallClose";
+            this.btnCallClose.Size = new System.Drawing.Size(50, 26);
+            this.btnCallClose.TabIndex = 2;
+            this.btnCallClose.Text = "招测关";
+            this.btnCallClose.Click += new System.EventHandler(this.btnCallClose_Click);
             // 
             // UniversalTerParm
             // 
@@ -1998,7 +2007,6 @@ namespace SmartWaterSystem
             this.groupControl6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeSocketType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_WaitCmd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_WaitCmd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl13)).EndInit();
@@ -2103,7 +2111,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
         private DevExpress.XtraEditors.GroupControl groupControl6;
         private DevExpress.XtraEditors.SimpleButton btnCallData;
-        private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
         private DevExpress.XtraEditors.TreeListLookUpEdit treeSocketType;
         private DevExpress.XtraTreeList.TreeList treeList1;
         private DevExpress.XtraEditors.GroupControl groupControl9;
@@ -2160,5 +2167,7 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pre_coltime;
+        private DevExpress.XtraEditors.SimpleButton btnCallClose;
+        private DevExpress.XtraEditors.SimpleButton btnCallOpen;
     }
 }

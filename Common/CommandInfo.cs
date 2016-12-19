@@ -395,6 +395,10 @@ namespace Common
         /// 设置脉冲计数单位
         /// </summary>
         SET_PLUSEUNIT = 0x2A,
+        /// <summary>
+        /// 设置招测使能
+        /// </summary>
+        SET_CALLENABLE = 0x70,
         #endregion
 
         #region 读取

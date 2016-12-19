@@ -964,6 +964,16 @@ namespace Entity
             get { return _FlagType; }
             set { _FlagType = value; }
         }
-        
+
+        private bool _CallEnable = false;
+        /// <summary>
+        /// 招测使能
+        /// </summary>
+        public bool CallEnable
+        {
+            get { return _CallEnable; }
+            set { _CallEnable = value; }
+        }
+
     }
 }
