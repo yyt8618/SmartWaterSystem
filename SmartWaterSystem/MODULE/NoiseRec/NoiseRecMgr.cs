@@ -211,8 +211,9 @@ namespace SmartWaterSystem
                     if (GlobalValue.NoiseSerialPortOptData == null)
                         GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
                     GlobalValue.NoiseSerialPortOptData.ID = id;
+                    GlobalValue.NoiseSerialPortOptData.Enable = true;
                     BeginSerialPortDelegate();
-                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseStart);
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseEnable);
                     //if (Originaldata == null || (Originaldata != null && (NoiseDataHandler.GetAverage(Originaldata) < 450)))  //没有读到标准值，重试2次
                     //{
                     //    string startvalue = "";
@@ -347,8 +348,9 @@ namespace SmartWaterSystem
                     if (GlobalValue.NoiseSerialPortOptData == null)
                         GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
                     GlobalValue.NoiseSerialPortOptData.ID = id;
+                    GlobalValue.NoiseSerialPortOptData.Enable =false;
                     BeginSerialPortDelegate();
-                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseStop);
+                    GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseEnable);
 
                     //NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
                     //                     where item.ID == id
@@ -1286,7 +1288,7 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("设置远传控制器参数失败!" + message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseStart)
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseEnable)
             {
                 string message = string.Empty;
                 if (e.Tag != null)
@@ -1305,69 +1307,44 @@ namespace SmartWaterSystem
                 {
                     if (GlobalValue.NoiseSerialPortOptData != null)
                     {
-                        if (e.Tag != null)
+                        if (GlobalValue.NoiseSerialPortOptData.Enable)
                         {
-                            short[] Originaldata = (short[])e.Tag;
-                            string path = string.Format(Application.StartupPath + @"\Data\记录仪{0}\", GlobalValue.NoiseSerialPortOptData.ID);
-                            if (!Directory.Exists(path))
+                            if (e.Tag != null)
                             {
-                                Directory.CreateDirectory(path);
-                            }
-                            StreamWriter sw = new StreamWriter(string.Format("{0}启动值.txt", path));
-                            for (int i = 0; i < Originaldata.Length; i++)
-                            {
-                                sw.WriteLine(Originaldata[i]);
-                            }
-                            sw.Flush();
-                            sw.Close();
+                                short[] Originaldata = (short[])e.Tag;
+                                string path = string.Format(Application.StartupPath + @"\Data\记录仪{0}\", GlobalValue.NoiseSerialPortOptData.ID);
+                                if (!Directory.Exists(path))
+                                {
+                                    Directory.CreateDirectory(path);
+                                }
+                                StreamWriter sw = new StreamWriter(string.Format("{0}启动值.txt", path));
+                                for (int i = 0; i < Originaldata.Length; i++)
+                                {
+                                    sw.WriteLine(Originaldata[i]);
+                                }
+                                sw.Flush();
+                                sw.Close();
 
+                            }
+                            NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
+                                                 where item.ID == GlobalValue.NoiseSerialPortOptData.ID
+                                                 select item).ToList()[0];
+                            rec.Power = 1;
+
+                            lblRecState.Text = "运行状态  已启动";
+                            btnStart.Enabled = false;
+                            btnStop.Enabled = true;
                         }
-                        NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
-                                             where item.ID == GlobalValue.NoiseSerialPortOptData.ID
-                                             select item).ToList()[0];
-                        rec.Power = 1;
-
-                        lblRecState.Text = "运行状态  已启动";
-                        btnStart.Enabled = false;
-                        btnStop.Enabled = true;
-                    }
-                }
-                else
-                {
-                    ShowDialog(e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    lblRecState.Text = "运行状态  未知";
-                    btnStart.Enabled = true;
-                    btnStop.Enabled = false;
-                }
-            }
-            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseStop)
-            {
-                string message = string.Empty;
-                if (e.Tag != null)
-                    message = e.Tag.ToString();
-
-                this.Enabled = true;
-                HideWaitForm();
-
-                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
-
-                EnableControls(true);
-                EnableRibbonBar();
-                EnableNavigateBar();
-                HideWaitForm();
-                if (e.TransactStatus == TransStatus.Success)
-                {
-                    if (GlobalValue.NoiseSerialPortOptData != null)
-                    {
-                        NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
-                                             where item.ID == GlobalValue.NoiseSerialPortOptData.ID
-                                             select item).ToList()[0];
-                        rec.Power = 0;
-                        //NoiseDataBaseHelper.UpdateRecorder(rec);
-
-                        lblRecState.Text = "运行状态  已停止";
-                        btnStart.Enabled = true;
-                        btnStop.Enabled = false;
+                        else
+                        {
+                            NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
+                                                 where item.ID == GlobalValue.NoiseSerialPortOptData.ID
+                                                 select item).ToList()[0];
+                            rec.Power = 0;
+                            lblRecState.Text = "运行状态  已停止";
+                            btnStart.Enabled = true;
+                            btnStop.Enabled = false;
+                        }
                     }
                 }
                 else

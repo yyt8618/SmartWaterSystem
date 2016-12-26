@@ -50,17 +50,9 @@
             this.cbRS485_2 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.cbRS485_3 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.cbRS485_4 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.cbRS485_7 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.cbRS485_8 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.cbRS485_5 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.cbRS485_6 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.ceRS485_2 = new DevExpress.XtraEditors.CheckEdit();
             this.ceRS485_3 = new DevExpress.XtraEditors.CheckEdit();
             this.ceRS485_4 = new DevExpress.XtraEditors.CheckEdit();
-            this.ceRS485_7 = new DevExpress.XtraEditors.CheckEdit();
-            this.ceRS485_5 = new DevExpress.XtraEditors.CheckEdit();
-            this.ceRS485_8 = new DevExpress.XtraEditors.CheckEdit();
-            this.ceRS485_6 = new DevExpress.XtraEditors.CheckEdit();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbSimulate1 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.cbSimulate3 = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -105,14 +97,6 @@
             this.menuTree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.新建ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.gridControl_CallData = new DevExpress.XtraGrid.GridControl();
-            this.gridView_CallData = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.btnCallData = new DevExpress.XtraEditors.SimpleButton();
-            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
             this.groupControl5.SuspendLayout();
             this.groupBox_WayConfig.SuspendLayout();
@@ -133,17 +117,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.cbRS485_2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbRS485_3.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbRS485_4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbRS485_7.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbRS485_8.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbRS485_5.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbRS485_6.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485_2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485_3.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485_4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485_7.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485_5.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485_8.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485_6.Properties)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cbSimulate1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbSimulate3.Properties)).BeginInit();
@@ -170,10 +146,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControls)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridTer)).BeginInit();
             this.menuTree.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
-            this.groupControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl_CallData)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView_CallData)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl5
@@ -345,17 +317,9 @@
             this.groupBox2.Controls.Add(this.cbRS485_2);
             this.groupBox2.Controls.Add(this.cbRS485_3);
             this.groupBox2.Controls.Add(this.cbRS485_4);
-            this.groupBox2.Controls.Add(this.cbRS485_7);
-            this.groupBox2.Controls.Add(this.cbRS485_8);
-            this.groupBox2.Controls.Add(this.cbRS485_5);
-            this.groupBox2.Controls.Add(this.cbRS485_6);
             this.groupBox2.Controls.Add(this.ceRS485_2);
             this.groupBox2.Controls.Add(this.ceRS485_3);
             this.groupBox2.Controls.Add(this.ceRS485_4);
-            this.groupBox2.Controls.Add(this.ceRS485_7);
-            this.groupBox2.Controls.Add(this.ceRS485_5);
-            this.groupBox2.Controls.Add(this.ceRS485_8);
-            this.groupBox2.Controls.Add(this.ceRS485_6);
             this.groupBox2.Location = new System.Drawing.Point(158, 27);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(146, 247);
@@ -419,54 +383,6 @@
             this.cbRS485_4.TabIndex = 3;
             this.cbRS485_4.Visible = false;
             // 
-            // cbRS485_7
-            // 
-            this.cbRS485_7.Location = new System.Drawing.Point(63, 188);
-            this.cbRS485_7.Name = "cbRS485_7";
-            this.cbRS485_7.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbRS485_7.Properties.NullText = "请选择...";
-            this.cbRS485_7.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbRS485_7.Size = new System.Drawing.Size(73, 20);
-            this.cbRS485_7.TabIndex = 6;
-            this.cbRS485_7.Visible = false;
-            // 
-            // cbRS485_8
-            // 
-            this.cbRS485_8.Location = new System.Drawing.Point(63, 216);
-            this.cbRS485_8.Name = "cbRS485_8";
-            this.cbRS485_8.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbRS485_8.Properties.NullText = "请选择...";
-            this.cbRS485_8.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbRS485_8.Size = new System.Drawing.Size(73, 20);
-            this.cbRS485_8.TabIndex = 7;
-            this.cbRS485_8.Visible = false;
-            // 
-            // cbRS485_5
-            // 
-            this.cbRS485_5.Location = new System.Drawing.Point(63, 132);
-            this.cbRS485_5.Name = "cbRS485_5";
-            this.cbRS485_5.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbRS485_5.Properties.NullText = "请选择...";
-            this.cbRS485_5.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbRS485_5.Size = new System.Drawing.Size(73, 20);
-            this.cbRS485_5.TabIndex = 4;
-            this.cbRS485_5.Visible = false;
-            // 
-            // cbRS485_6
-            // 
-            this.cbRS485_6.Location = new System.Drawing.Point(63, 160);
-            this.cbRS485_6.Name = "cbRS485_6";
-            this.cbRS485_6.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbRS485_6.Properties.NullText = "请选择...";
-            this.cbRS485_6.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbRS485_6.Size = new System.Drawing.Size(73, 20);
-            this.cbRS485_6.TabIndex = 5;
-            this.cbRS485_6.Visible = false;
-            // 
             // ceRS485_2
             // 
             this.ceRS485_2.Location = new System.Drawing.Point(6, 49);
@@ -496,46 +412,6 @@
             this.ceRS485_4.TabIndex = 1;
             this.ceRS485_4.Visible = false;
             this.ceRS485_4.CheckedChanged += new System.EventHandler(this.ceRS485_4_CheckedChanged);
-            // 
-            // ceRS485_7
-            // 
-            this.ceRS485_7.Location = new System.Drawing.Point(6, 189);
-            this.ceRS485_7.Name = "ceRS485_7";
-            this.ceRS485_7.Properties.Caption = "第7路:";
-            this.ceRS485_7.Size = new System.Drawing.Size(64, 19);
-            this.ceRS485_7.TabIndex = 1;
-            this.ceRS485_7.Visible = false;
-            this.ceRS485_7.CheckedChanged += new System.EventHandler(this.ceRS485_7_CheckedChanged);
-            // 
-            // ceRS485_5
-            // 
-            this.ceRS485_5.Location = new System.Drawing.Point(6, 133);
-            this.ceRS485_5.Name = "ceRS485_5";
-            this.ceRS485_5.Properties.Caption = "第5路:";
-            this.ceRS485_5.Size = new System.Drawing.Size(64, 19);
-            this.ceRS485_5.TabIndex = 1;
-            this.ceRS485_5.Visible = false;
-            this.ceRS485_5.CheckedChanged += new System.EventHandler(this.ceRS485_5_CheckedChanged);
-            // 
-            // ceRS485_8
-            // 
-            this.ceRS485_8.Location = new System.Drawing.Point(6, 217);
-            this.ceRS485_8.Name = "ceRS485_8";
-            this.ceRS485_8.Properties.Caption = "第8路:";
-            this.ceRS485_8.Size = new System.Drawing.Size(64, 19);
-            this.ceRS485_8.TabIndex = 1;
-            this.ceRS485_8.Visible = false;
-            this.ceRS485_8.CheckedChanged += new System.EventHandler(this.ceRS485_8_CheckedChanged);
-            // 
-            // ceRS485_6
-            // 
-            this.ceRS485_6.Location = new System.Drawing.Point(6, 161);
-            this.ceRS485_6.Name = "ceRS485_6";
-            this.ceRS485_6.Properties.Caption = "第6路:";
-            this.ceRS485_6.Size = new System.Drawing.Size(64, 19);
-            this.ceRS485_6.TabIndex = 1;
-            this.ceRS485_6.Visible = false;
-            this.ceRS485_6.CheckedChanged += new System.EventHandler(this.ceRS485_6_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -863,7 +739,7 @@
             this.groupControl_TerList.Controls.Add(this.gridControls);
             this.groupControl_TerList.Location = new System.Drawing.Point(4, 5);
             this.groupControl_TerList.Name = "groupControl_TerList";
-            this.groupControl_TerList.Size = new System.Drawing.Size(181, 261);
+            this.groupControl_TerList.Size = new System.Drawing.Size(181, 481);
             this.groupControl_TerList.TabIndex = 0;
             this.groupControl_TerList.Text = "终端列表";
             // 
@@ -871,10 +747,10 @@
             // 
             this.gridControls.Cursor = System.Windows.Forms.Cursors.Default;
             this.gridControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControls.Location = new System.Drawing.Point(2, 22);
+            this.gridControls.Location = new System.Drawing.Point(2, 21);
             this.gridControls.MainView = this.gridTer;
             this.gridControls.Name = "gridControls";
-            this.gridControls.Size = new System.Drawing.Size(177, 237);
+            this.gridControls.Size = new System.Drawing.Size(177, 458);
             this.gridControls.TabIndex = 110;
             this.gridControls.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridTer});
@@ -949,126 +825,26 @@
             this.删除ToolStripMenuItem});
             this.menuTree.Name = "menuTree";
             this.menuTree.ShowImageMargin = false;
-            this.menuTree.Size = new System.Drawing.Size(74, 48);
+            this.menuTree.Size = new System.Drawing.Size(70, 48);
             // 
             // 新建ToolStripMenuItem
             // 
             this.新建ToolStripMenuItem.Name = "新建ToolStripMenuItem";
-            this.新建ToolStripMenuItem.Size = new System.Drawing.Size(73, 22);
+            this.新建ToolStripMenuItem.Size = new System.Drawing.Size(69, 22);
             this.新建ToolStripMenuItem.Text = "新建";
             this.新建ToolStripMenuItem.Click += new System.EventHandler(this.新建ToolStripMenuItem_Click);
             // 
             // 删除ToolStripMenuItem
             // 
             this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(73, 22);
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(69, 22);
             this.删除ToolStripMenuItem.Text = "删除";
             this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
-            // 
-            // groupControl1
-            // 
-            this.groupControl1.Controls.Add(this.gridControl_CallData);
-            this.groupControl1.Controls.Add(this.btnCallData);
-            this.groupControl1.Controls.Add(this.labelControl7);
-            this.groupControl1.Location = new System.Drawing.Point(4, 270);
-            this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(181, 216);
-            this.groupControl1.TabIndex = 112;
-            // 
-            // gridControl_CallData
-            // 
-            this.gridControl_CallData.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridControl_CallData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl_CallData.Location = new System.Drawing.Point(2, 22);
-            this.gridControl_CallData.MainView = this.gridView_CallData;
-            this.gridControl_CallData.Name = "gridControl_CallData";
-            this.gridControl_CallData.Size = new System.Drawing.Size(177, 192);
-            this.gridControl_CallData.TabIndex = 2;
-            this.gridControl_CallData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView_CallData});
-            // 
-            // gridView_CallData
-            // 
-            this.gridView_CallData.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn3,
-            this.gridColumn4,
-            this.gridColumn8});
-            this.gridView_CallData.GridControl = this.gridControl_CallData;
-            this.gridView_CallData.Name = "gridView_CallData";
-            this.gridView_CallData.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView_CallData.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView_CallData.OptionsBehavior.ReadOnly = true;
-            this.gridView_CallData.OptionsCustomization.AllowColumnMoving = false;
-            this.gridView_CallData.OptionsCustomization.AllowFilter = false;
-            this.gridView_CallData.OptionsCustomization.AllowSort = false;
-            this.gridView_CallData.OptionsFilter.AllowFilterEditor = false;
-            this.gridView_CallData.OptionsView.ShowGroupPanel = false;
-            this.gridView_CallData.OptionsView.ShowIndicator = false;
-            // 
-            // gridColumn3
-            // 
-            this.gridColumn3.Caption = "招测类型";
-            this.gridColumn3.FieldName = "CallDataType";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.OptionsColumn.AllowEdit = false;
-            this.gridColumn3.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn3.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn3.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn3.OptionsColumn.ReadOnly = true;
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 0;
-            this.gridColumn3.Width = 73;
-            // 
-            // gridColumn4
-            // 
-            this.gridColumn4.Caption = "值";
-            this.gridColumn4.FieldName = "CallData";
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.OptionsColumn.AllowEdit = false;
-            this.gridColumn4.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn4.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn4.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn4.OptionsColumn.ReadOnly = true;
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 1;
-            this.gridColumn4.Width = 56;
-            // 
-            // gridColumn8
-            // 
-            this.gridColumn8.Caption = "单位";
-            this.gridColumn8.FieldName = "Unit";
-            this.gridColumn8.Name = "gridColumn8";
-            this.gridColumn8.OptionsColumn.AllowEdit = false;
-            this.gridColumn8.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn8.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn8.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn8.OptionsColumn.ReadOnly = true;
-            this.gridColumn8.Visible = true;
-            this.gridColumn8.VisibleIndex = 2;
-            this.gridColumn8.Width = 46;
-            // 
-            // btnCallData
-            // 
-            this.btnCallData.Location = new System.Drawing.Point(4, 0);
-            this.btnCallData.Name = "btnCallData";
-            this.btnCallData.Size = new System.Drawing.Size(58, 22);
-            this.btnCallData.TabIndex = 3;
-            this.btnCallData.Text = "招测数据";
-            this.btnCallData.Click += new System.EventHandler(this.btnCallData_Click);
-            // 
-            // labelControl7
-            // 
-            this.labelControl7.Location = new System.Drawing.Point(145, 220);
-            this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(84, 14);
-            this.labelControl7.TabIndex = 1;
-            this.labelControl7.Text = "报表显示内容？";
             // 
             // UniversalTerMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.groupControl5);
             this.Controls.Add(this.groupControl_TerList);
             this.Name = "UniversalTerMgr";
@@ -1094,17 +870,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.cbRS485_2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbRS485_3.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbRS485_4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbRS485_7.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbRS485_8.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbRS485_5.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbRS485_6.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485_2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485_3.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceRS485_4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485_7.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485_5.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485_8.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceRS485_6.Properties)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cbSimulate1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbSimulate3.Properties)).EndInit();
@@ -1133,11 +901,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControls)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridTer)).EndInit();
             this.menuTree.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
-            this.groupControl1.ResumeLayout(false);
-            this.groupControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl_CallData)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView_CallData)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1160,15 +923,11 @@
         private DevExpress.XtraEditors.TextEdit txtAddr;
         private DevExpress.XtraEditors.TextEdit txtName;
         private DevExpress.XtraEditors.TextEdit txtID;
-        private DevExpress.XtraEditors.ComboBoxEdit cbRS485_6;
-        private DevExpress.XtraEditors.ComboBoxEdit cbRS485_5;
         private DevExpress.XtraEditors.ComboBoxEdit cbRS485_4;
         private DevExpress.XtraEditors.ComboBoxEdit cbRS485_3;
         private DevExpress.XtraEditors.ComboBoxEdit cbRS485_2;
         private DevExpress.XtraEditors.ComboBoxEdit cbSimulate2;
         private DevExpress.XtraEditors.CheckEdit ceSimulate1;
-        private DevExpress.XtraEditors.CheckEdit ceRS485_6;
-        private DevExpress.XtraEditors.CheckEdit ceRS485_5;
         private DevExpress.XtraEditors.CheckEdit ceRS485_4;
         private DevExpress.XtraEditors.CheckEdit ceRS485_3;
         private DevExpress.XtraEditors.CheckEdit ceRS485_2;
@@ -1179,10 +938,6 @@
         private DevExpress.XtraEditors.CheckEdit cePluse1;
         private DevExpress.XtraEditors.CheckEdit cePluse2;
         private System.Windows.Forms.GroupBox groupBox2;
-        private DevExpress.XtraEditors.ComboBoxEdit cbRS485_7;
-        private DevExpress.XtraEditors.ComboBoxEdit cbRS485_8;
-        private DevExpress.XtraEditors.CheckEdit ceRS485_7;
-        private DevExpress.XtraEditors.CheckEdit ceRS485_8;
         private System.Windows.Forms.GroupBox groupBox1;
         private DevExpress.XtraEditors.ComboBoxEdit cbPluse4;
         private DevExpress.XtraEditors.ComboBoxEdit cbPluse3;
@@ -1220,14 +975,6 @@
         private DevExpress.XtraEditors.LabelControl labelControl11;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraEditors.GroupControl groupControl1;
-        private DevExpress.XtraEditors.LabelControl labelControl7;
-        private DevExpress.XtraGrid.GridControl gridControl_CallData;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView_CallData;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
-        private DevExpress.XtraEditors.SimpleButton btnCallData;
 
     }
 }

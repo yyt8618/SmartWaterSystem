@@ -81,6 +81,11 @@ namespace Common
         /// 多包数据
         /// </summary>
         public List<byte> multiData { get; set; }
+
+        /// <summary>
+        /// 对象修改时间，用于超过时间销毁
+        /// </summary>
+        public DateTime ModifyTime = DateTime.Now;
     }
 
     public class SendPackageEntity

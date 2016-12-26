@@ -21,8 +21,8 @@ namespace SmartWaterSystem
     public enum SerialPortType : uint
     {
         None = 0,
-        NoiseStart,             //设置启动
-        NoiseStop,              //设置停止
+        NoiseEnable,             //设置启动
+        //NoiseStop,              //设置停止
         NoiseGetStandValue,     //噪声获取启动值(标准值)
         NoiseSetStandValue,     //噪声设置启动值(标准值)
 
@@ -396,13 +396,13 @@ namespace SmartWaterSystem
                         }
                         #endregion
                         break;
-                    case (uint)SerialPortType.NoiseStart:
+                    case (uint)SerialPortType.NoiseEnable:
                         #region 噪声记录仪开启
                         {
                             try
                             {
                                 short[] Originaldata = null;
-                                result = GlobalValue.Noiselog.CtrlStartOrStop(GlobalValue.NoiseSerialPortOptData.ID, true, out Originaldata);
+                                result = GlobalValue.Noiselog.CtrlStartOrStop(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.Enable, out Originaldata);
                                 //if (Originaldata == null || (Originaldata != null && (BLL.NoiseDataHandler.GetAverage(Originaldata) < 450)))  //没有读到标准值，重试2次
                                 //{
                                 //    string startvalue = "";
@@ -416,22 +416,6 @@ namespace SmartWaterSystem
                                 //}
                                 //obj = Originaldata;
                                 obj = null;
-                            }
-                            catch (Exception ex)
-                            {
-                                result = false;
-                                msg = ex.Message;
-                            }
-                        }
-                        #endregion
-                        break;
-                    case (uint)SerialPortType.NoiseStop:
-                        #region 噪声记录仪停止
-                        {
-                            try
-                            {
-                                short[] Originaldata = null;
-                                result = GlobalValue.Noiselog.CtrlStartOrStop(GlobalValue.NoiseSerialPortOptData.ID, false, out Originaldata);
                             }
                             catch (Exception ex)
                             {
@@ -1262,7 +1246,8 @@ namespace SmartWaterSystem
                                     DataTable dt_config = (new BLL.TerminalDataBLL()).GetUniversalDataConfig(Entity.TerType.UniversalTer);
                                     if (dt_config != null && dt_config.Rows.Count > 0)
                                     {
-                                        obj = GlobalValue.Universallog.ReadCallData(GlobalValue.UniSerialPortOptData.ID, dt_config, GlobalValue.SerialPortCallDataType);
+                                        Dictionary<int, string> lstAlarmType = new BLL.TerminalDataBLL().GetAlarmType();
+                                        obj = GlobalValue.Universallog.ReadCallData(GlobalValue.UniSerialPortOptData.ID, dt_config, GlobalValue.SerialPortCallDataType, lstAlarmType);
                                         result = true;
                                     }
                                     else

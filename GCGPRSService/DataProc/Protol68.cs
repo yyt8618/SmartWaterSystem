@@ -105,7 +105,7 @@ namespace GCGPRSService
                         framedata.lstPreData.Add(data);
                     }
 
-                    Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
+                    Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(GlobalValue.Instance.lstAlarmType,pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
                     if (dictalarms != null && dictalarms.Count > 0)
                     {
                         GPRSAlarmFrameDataEntity alarmframedata = new GPRSAlarmFrameDataEntity();
@@ -290,7 +290,7 @@ namespace GCGPRSService
                     Dictionary<int, string> dictalarms = null;
                     if (pack.DataLength == 11)      //pack.DataLength == 11 报警标志为2个字节(旧的为1个字节)
                     {
-                        dictalarms = AlarmProc.GetAlarmName(pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
+                        dictalarms = AlarmProc.GetAlarmName(GlobalValue.Instance.lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
 
                         year = 2000 + Convert.ToInt16(pack.Data[2]);
                         month = Convert.ToInt16(pack.Data[3]);
@@ -301,7 +301,7 @@ namespace GCGPRSService
                     }
                     else
                     {
-                        dictalarms = AlarmProc.GetAlarmName(pack.ID3, pack.C1, pack.Data[0]);
+                        dictalarms = AlarmProc.GetAlarmName(GlobalValue.Instance.lstAlarmType,pack.ID3, pack.C1, pack.Data[0]);
 
                         year = 2000 + Convert.ToInt16(pack.Data[1]);
                         month = Convert.ToInt16(pack.Data[2]);

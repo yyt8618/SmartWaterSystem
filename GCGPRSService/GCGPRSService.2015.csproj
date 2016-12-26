@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataProc\AlarmProc.cs" />
     <Compile Include="DataProc\Protol68.cs" />
     <Compile Include="GlobalValue.cs" />
     <Compile Include="HTTPService.cs" />

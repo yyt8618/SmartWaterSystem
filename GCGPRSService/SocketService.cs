@@ -5,7 +5,6 @@ using System.Threading;
 using System.Net;
 using Common;
 using Entity;
-using System.Data;
 using System.Text;
 using SmartWaterSystem;
 using System.Diagnostics;
@@ -36,15 +35,7 @@ namespace GCGPRSService
             msg.MsgType = MsgType;
             _jsonmsg = msg;
         }
-
-        //public SocketEventArgs(string msg)
-        //{
-        //    SocketEntity msmqEntity = new SocketEntity();
-        //    msmqEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
-        //    msmqEntity.Msg = msg;
-        //    _jsonmsg = msmqEntity;
-        //}
-
+        
         public SocketEventArgs(ColorType Showtype,string msg)
         {
             SocketEntity msmqEntity = new SocketEntity();

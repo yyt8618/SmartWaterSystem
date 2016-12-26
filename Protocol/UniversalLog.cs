@@ -1072,15 +1072,15 @@ namespace Protocol
             return dt_485protocol;
         }
 
-        public DataTable ReadCallData(short Id,DataTable dt_config, CallDataTypeEntity calldataType)
+        public DataTable ReadCallData(short Id,DataTable dt_config, CallDataTypeEntity calldataType, Dictionary<int, string> lstAlarmType)
         {
             DataTable dt = new DataTable("CallDataTable");
             dt.Columns.Add("CallDataType");
             dt.Columns.Add("CallData");
             dt.Columns.Add("Unit");
             Package package = new Package();
-            
-            if(calldataType.GetPre)
+            List<string> lstmsg = new List<string>();
+            if (calldataType.GetPre)
             {
                 package = GetCallDataPackage(Id, UNIVERSAL_COMMAND.CallData_Pre1);
                 Package result = Read(package);
@@ -1092,7 +1092,8 @@ namespace Protocol
                 {
                     throw new Exception("压力无数据");
                 }
-                AnalysisSim(Id, result, dt_config, ref dt);
+
+                AnalysisPre(Id, result, dt_config, ref lstmsg, lstAlarmType);
             }
             if (calldataType.GetSim1)
             {
@@ -1106,7 +1107,7 @@ namespace Protocol
                 {
                     throw new Exception("模拟量1路无数据");
                 }
-                AnalysisSim(Id,result,dt_config,ref dt);
+                AnalysisSim(Id,result,dt_config, ref lstmsg, lstAlarmType);
             }
             if (calldataType.GetSim2)
             {
@@ -1120,7 +1121,7 @@ namespace Protocol
                 {
                     throw new Exception("模拟量2路无数据");
                 }
-                AnalysisSim(Id, result, dt_config, ref dt);
+                AnalysisSim(Id, result, dt_config, ref lstmsg, lstAlarmType);
             } 
             if (calldataType.GetPluse)
             {
@@ -1134,7 +1135,7 @@ namespace Protocol
                 {
                     throw new Exception("招测脉冲无数据");
                 }
-                AnalysisPluse(Id, result, dt_config, ref dt);
+                AnalysisPluse(Id, result, dt_config, ref lstmsg, lstAlarmType);
             }
             if(calldataType.GetRS4851)
             {
@@ -1148,7 +1149,7 @@ namespace Protocol
                 {
                     throw new Exception("招测RS485 1路无数据");
                 }
-                AnalysisRS485(Id, result, dt_config, ref dt);
+                AnalysisRS4851(Id, result, dt_config, ref lstmsg, lstAlarmType);
             }
             if (calldataType.GetRS4852)
             {
@@ -1162,7 +1163,7 @@ namespace Protocol
                 {
                     throw new Exception("招测RS485 2路无数据");
                 }
-                AnalysisRS485(Id, result, dt_config, ref dt);
+                AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
             }
             if (calldataType.GetRS4853)
             {
@@ -1176,7 +1177,7 @@ namespace Protocol
                 {
                     throw new Exception("招测RS485 3路无数据");
                 }
-                AnalysisRS485(Id, result, dt_config, ref dt);
+                AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
             }
             if (calldataType.GetRS4854)
             {
@@ -1190,13 +1191,39 @@ namespace Protocol
                 {
                     throw new Exception("招测RS485 4路无数据");
                 }
-                AnalysisRS485(Id, result, dt_config, ref dt);
+                AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
             }
 
             return dt;
         }
 
-        private void AnalysisSim(short Id, Package pack,DataTable dt_config, ref DataTable dt)
+        private void AnalysisPre(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
+        {
+            //招测数据由报警标志(2byte)+招测时间(6byte)+压力1(2byte)=10byte组成
+            if (pack.DataLength != 6 + 1 + 16)
+                throw new Exception("压力帧数据长度[" + pack.DataLength + "]不符合[2+6+2]规则");
+            Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
+            if (dictalarms != null && dictalarms.Count > 0)
+            {
+                foreach (var de in dictalarms)
+                {
+                    lstMsg.Add(de.Value + " ");
+                }
+            }
+
+            int year, month, day, hour, minute, sec;
+            year = 2000 + Convert.ToInt16(pack.Data[2]);
+            month = Convert.ToInt16(pack.Data[3]);
+            day = Convert.ToInt16(pack.Data[4]);
+            hour = Convert.ToInt16(pack.Data[5]);
+            minute = Convert.ToInt16(pack.Data[6]);
+            sec = Convert.ToInt16(pack.Data[7]);
+            
+            double value = BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8] }, 0);
+            lstMsg.Add("招测到压力1值:" + value.ToString("F2"));
+        }
+
+        private void AnalysisSim(short Id, Package pack,DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
         {
             string name = "";
             string sequence = "";
@@ -1208,56 +1235,76 @@ namespace Protocol
             {
                 sequence = "2";
             }
-            int calibration = BitConverter.ToInt16(new byte[] { pack.Data[7], pack.Data[6] }, 0);
+            //int calibration = BitConverter.ToInt16(new byte[] { pack.Data[7], pack.Data[6] }, 0);
 
-            float datavalue = 0;
+            //float datavalue = 0;
 
             DataRow[] dr_TerminalDataConfig = null;
             dr_TerminalDataConfig = dt_config.Select("TerminalID='" + Id + "' AND Sequence='" + sequence + "'"); //WayType
             if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
             {
-                float MaxMeasureRange = dr_TerminalDataConfig[0]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRange"]) : 0;
-                float MaxMeasureRangeFlag = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
-                int datawidth = dr_TerminalDataConfig[0]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[0]["FrameWidth"]) : 0;
-                int precision = dr_TerminalDataConfig[0]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[0]["precision"]) : 0;
+                //float MaxMeasureRange = dr_TerminalDataConfig[0]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRange"]) : 0;
+                //float MaxMeasureRangeFlag = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
+                //int datawidth = dr_TerminalDataConfig[0]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[0]["FrameWidth"]) : 0;
+                //int precision = dr_TerminalDataConfig[0]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[0]["precision"]) : 0;
                 name = dr_TerminalDataConfig[0]["Name"] != DBNull.Value ? dr_TerminalDataConfig[0]["Name"].ToString().Trim() : "";
-                if (MaxMeasureRangeFlag > 0 && datawidth > 0)
+                //if (MaxMeasureRangeFlag > 0 && datawidth > 0)
+                //{
+                //int loopdatalen = 2 + 6 + 4 + 2 + 2;  //循环部分数据宽度 = 时间(6)+配置长度
+                //if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim1 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim2)
+                //loopdatalen = 2 + 6 + 4 + 2 + 2;
+                //int dataindex = (pack.DataLength) % loopdatalen;
+                //if (dataindex != 0)
+                //    throw new Exception("招测模拟数据帧长度[" + pack.DataLength + "]不符合长度["+loopdatalen+"]规则");
+                //报警标志(2byte)+时间（6byte）+量程（4byte）+校准值（2byte）+模拟数据（2byte）
+                Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
+                if (dictalarms != null && dictalarms.Count > 0)
                 {
-                    int loopdatalen = 6+2 + datawidth;  //循环部分数据宽度 = 时间(6)+配置长度
-                    int dataindex = (pack.DataLength) % loopdatalen;
-                    if (dataindex != 0)
-                        throw new Exception("招测模拟数据帧长度[" + pack.DataLength + "]不符合[6+2+" + loopdatalen + "*n]规则");
-                    dataindex = (pack.DataLength) / loopdatalen;
-                    for (int i = 0; i < dataindex; i++)
+                    foreach (var de in dictalarms)
                     {
-                        //year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
-                        //month = Convert.ToInt16(pack.Data[i * 8 + 4]);
-                        //day = Convert.ToInt16(pack.Data[i * 8 + 5]);
-                        //hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
-                        //minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
-                        //sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
-
-                        if (datawidth == 2)
-                            datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0);
-                        else if (datawidth == 4)
-                            datavalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 8 + 11], pack.Data[i * 8 + 10], pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0);
-
-                        datavalue = (MaxMeasureRange / MaxMeasureRangeFlag) * (datavalue - calibration);  //根据设置和校准值计算
-                        datavalue = Convert.ToSingle(datavalue.ToString("F" + precision));  //精度调整
-                        if (datavalue < 0)
-                            datavalue = 0;
-
-                        DataRow dr = dt.NewRow();
-                        dr["CallDataType"] = name.Trim();
-                        dr["CallData"] = datavalue;
-                        dr["Unit"] = dr_TerminalDataConfig[0]["Unit"].ToString().Trim();
-                        dt.Rows.Add(dr);
+                        lstMsg.Add(de.Value + " ");
                     }
                 }
-                else
-                {
-                    throw new Exception("通用终端[" + Id + "]数据帧解析规则配置错误,数据未能解析！");
-                }
+
+                //dataindex = (pack.DataLength) / loopdatalen;
+                //for (int i = 0; i < dataindex; i++)
+                //{
+                int year, month, day, hour, minute, sec;
+                year = 2000 + Convert.ToInt16(pack.Data[2]);
+                month = Convert.ToInt16(pack.Data[3]);
+                day = Convert.ToInt16(pack.Data[4]);
+                hour = Convert.ToInt16(pack.Data[5]);
+                minute = Convert.ToInt16(pack.Data[6]);
+                sec = Convert.ToInt16(pack.Data[7]);
+
+                double range = 0;   //量程
+                range += BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8] }, 0);    //整数部分
+                range += ((double)BitConverter.ToInt16(new byte[] { pack.Data[11], pack.Data[10] }, 0)) / 1000;    //小数部分
+                //(模拟数据-校准值)*量程/系数
+                double value= ((double)(BitConverter.ToInt16(new byte[] { pack.Data[15], pack.Data[14] }, 0)- BitConverter.ToInt16(new byte[] { pack.Data[13], pack.Data[12] }, 0))) * range / (ConstValue.UniversalSimRatio);
+                lstMsg.Add("招测到模拟量"+sequence+"值:"+value.ToString("F2"));
+
+                //if (datawidth == 2)
+                //datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0);
+                //else if (datawidth == 4)
+                //    datavalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 8 + 11], pack.Data[i * 8 + 10], pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0);
+
+                //datavalue = (MaxMeasureRange / MaxMeasureRangeFlag) * (datavalue - calibration);  //根据设置和校准值计算
+                //datavalue = Convert.ToSingle(datavalue.ToString("F" + precision));  //精度调整
+                //if (datavalue < 0)
+                //datavalue = 0;
+
+                //DataRow dr = dt.NewRow();
+                //dr["CallDataType"] = name.Trim();
+                //dr["CallData"] = datavalue;
+                //dr["Unit"] = dr_TerminalDataConfig[0]["Unit"].ToString().Trim();
+                //dt.Rows.Add(dr);
+                //}
+                //}
+                //else
+                //{
+                //    throw new Exception("通用终端[" + Id + "]数据帧解析规则配置错误,数据未能解析！");
+                //}
             }
             else
             {
@@ -1265,79 +1312,75 @@ namespace Protocol
             }
         }
 
-        private void AnalysisPluse(short Id, Package pack, DataTable dt_config, ref DataTable dt)
+        private void AnalysisPluse(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
         {
-            float datavalue = 0;
-
+            //float datavalue = 0;
+            if (pack.DataLength != 6 + 1 + 16)
+                throw new Exception("脉冲帧数据长度[" + pack.DataLength + "]不符合[6+1+4*4]规则");
             DataRow[] dr_TerminalDataConfig = null;
-            dr_TerminalDataConfig = dt_config.Select("TerminalID='" + Id + "' AND Sequence IN ('4','5','6','7','8')", "Sequence"); //WayType
+            dr_TerminalDataConfig = dt_config.Select("TerminalID='" + Id + "' AND Sequence IN ('4','5','6','7')", "Sequence"); //WayType
             if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
             {
                 int waycount = dr_TerminalDataConfig.Length;
-                float[] PluseUnits = new float[waycount];
-                int[] DataWidths = new int[waycount];
-                int[] Precisions = new int[waycount];
+                float PluseUnits = 0;
                 string[] Names = new string[waycount];
                 string[] Units = new string[waycount];
                 int[] config_ids = new int[waycount];
 
-                int topdatawidth = 0;
+                switch (pack.Data[6])       //脉冲单位0代表0.01、1代表0.1、2代表0.2    3代表0.5、4代表1、5代表10、6代表100
+                {
+                    case 0:
+                        PluseUnits = 0.01f;
+                        break;
+                    case 1:
+                        PluseUnits = 0.1f;
+                        break;
+                    case 2:
+                        PluseUnits = 0.2f;
+                        break;
+                    case 3:
+                        PluseUnits = 0.5f;
+                        break;
+                    case 4:
+                        PluseUnits = 1f;
+                        break;
+                    case 5:
+                        PluseUnits = 10f;
+                        break;
+                    case 6:
+                        PluseUnits = 100f;
+                        break;
+                }
+
                 for (int i = 0; i < waycount; i++)
                 {
-                    PluseUnits[i] = dr_TerminalDataConfig[i]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[i]["MaxMeasureRange"]) : 0;  //每个脉冲对应的单位采集量
-                    DataWidths[i] = dr_TerminalDataConfig[i]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[i]["FrameWidth"]) : 0;
-                    Precisions[i] = dr_TerminalDataConfig[i]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["precision"]) : 0;
                     Names[i] = dr_TerminalDataConfig[i]["Name"] != DBNull.Value ? dr_TerminalDataConfig[i]["Name"].ToString().Trim() : "";
                     Units[i] = dr_TerminalDataConfig[i]["Unit"] != DBNull.Value ? dr_TerminalDataConfig[i]["Unit"].ToString().Trim() : "";
-                    config_ids[i] = dr_TerminalDataConfig[i]["ID"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["ID"]) : 0;
-                    topdatawidth += DataWidths[i];
+                    //config_ids[i] = dr_TerminalDataConfig[i]["ID"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["ID"]) : 0;
                 }
+                //时间（6byte）+脉冲单位（1byte）+4路脉冲个数（16byte）脉冲数据＝脉冲个数* 脉冲单位代表的数值 脉冲单位0代表0.01、1代表0.1、2代表0.2    3代表0.5、4代表1、5代表10、6代表100
 
-                if (topdatawidth > 0)
-                {
-                    int loopdatalen = 6 + topdatawidth + (4 - waycount) * 4;  //循环部分数据宽度 = 时间(6)+固定4路*(每路长度)
-                    int dataindex = (pack.DataLength) % loopdatalen;
-                    if (dataindex != 0)
-                        throw new Exception("脉冲帧数据长度[" + pack.DataLength + "]不符合" + loopdatalen + "*n规则");
-                    dataindex = (pack.DataLength) / loopdatalen;
-                    for (int i = 0; i < dataindex; i++)
-                    {
-                        //year = 2000 + Convert.ToInt16(pack.Data[i * loopdatalen + 3]);
-                        //month = Convert.ToInt16(pack.Data[i * loopdatalen + 4]);
-                        //day = Convert.ToInt16(pack.Data[i * loopdatalen + 5]);
-                        //hour = Convert.ToInt16(pack.Data[i * loopdatalen + 6]);
-                        //minute = Convert.ToInt16(pack.Data[i * loopdatalen + 7]);
-                        //sec = Convert.ToInt16(pack.Data[i * loopdatalen + 8]);
+                string strmsg = string.Format("招测到脉冲数据,脉冲单位:{0},{1}:{2}{3},{4:{5}{6},{7}:{8}{9},{10}:{11}{12}",
+                PluseUnits,
+                waycount > 0 ? Names[0] : "第一路脉冲数据",
+                BitConverter.ToInt32(new byte[] { pack.Data[10], pack.Data[9], pack.Data[8], pack.Data[7] }, 0) * PluseUnits,
+                waycount > 0 ? Units[0] : "",
 
-                        int freindex = 0;
-                        for (int j = 0; j < waycount; j++)
-                        {
-                            if (DataWidths[j] == 2)
-                            {
-                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
-                                freindex += 2;
-                            }
-                            else if (DataWidths[j] == 4)
-                            {
-                                datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 9 + freindex], pack.Data[i * loopdatalen + 8 + freindex], pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
-                                freindex += 4;
-                            }
+                waycount > 1 ? Names[1] : "第二路脉冲数据",
+                BitConverter.ToInt32(new byte[] { pack.Data[14], pack.Data[13], pack.Data[12], pack.Data[11] }, 0) * PluseUnits,
+                waycount > 1 ? Units[1] : "",
 
-                            datavalue = PluseUnits[j] * datavalue;  //脉冲计数*单位脉冲值
-                            datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
+                waycount > 2 ? Names[2] : "第三路脉冲数据",
+                BitConverter.ToInt32(new byte[] { pack.Data[18], pack.Data[17], pack.Data[16], pack.Data[15] }, 0) * PluseUnits,
+                waycount > 2 ? Units[2] : "",
 
-                            DataRow dr = dt.NewRow();
-                            dr["CallDataType"] = Names[j].Trim();
-                            dr["CallData"] = datavalue;
-                            dr["Unit"] = Units[j].ToString().Trim();
-                            dt.Rows.Add(dr);
-                        }
-                    }
-                }
-                else
-                {
-                    throw new Exception("通用终端[" + Id + "]数据帧解析规则配置错误,数据未能解析！");
-                }
+                waycount > 3 ? Names[3] : "第四路脉冲数据",
+                BitConverter.ToInt32(new byte[] { pack.Data[22], pack.Data[21], pack.Data[20], pack.Data[19] }, 0) * PluseUnits,
+                waycount > 3 ? Units[3] : ""
+
+                );
+                lstMsg.Add(strmsg);
+
             }
             else
             {
@@ -1345,7 +1388,33 @@ namespace Protocol
             }
         }
 
-        private void AnalysisRS485(short Id, Package pack, DataTable dt_config, ref DataTable dt)
+        private void AnalysisRS4851(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
+        {
+            //报警标志(2byte)+时间（6byte）+瞬时流量(4byte)+正向累积流量(4byte)+反向累积流量(4byte)
+            Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
+            if (dictalarms != null && dictalarms.Count > 0)
+            {
+                foreach (var de in dictalarms)
+                {
+                    lstMsg.Add(de.Value + " ");
+                }
+            }
+
+            int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+            year = 2000 + Convert.ToInt16(pack.Data[2]);
+            month = Convert.ToInt16(pack.Data[3]);
+            day = Convert.ToInt16(pack.Data[4]);
+            hour = Convert.ToInt16(pack.Data[5]);
+            minute = Convert.ToInt16(pack.Data[6]);
+            sec = Convert.ToInt16(pack.Data[7]);
+
+            float instantflow = BitConverter.ToSingle(new byte[] { pack.Data[11], pack.Data[10], pack.Data[9], pack.Data[8] }, 0);  //瞬时流量
+            float forwardflow = BitConverter.ToSingle(new byte[] { pack.Data[15], pack.Data[14], pack.Data[13], pack.Data[12] }, 0);    //正向流量
+            float reverseflow = BitConverter.ToSingle(new byte[] { pack.Data[19], pack.Data[18], pack.Data[17], pack.Data[16] }, 0);    //反向流量
+            lstMsg.Add("招测到RS485 1路瞬时流量:" + instantflow + ",正向流量:" + forwardflow + ",反向流量:" + reverseflow);
+        }
+
+        private void AnalysisRS485(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
         {
             string sequence = "";
             string name = "";
@@ -1365,7 +1434,17 @@ namespace Protocol
             {
                 sequence = "12"; name = "RS485 4路";
             }
+            //报警标志(2byte) + 时间（6byte）+485采集数据数据
             int calibration = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0);
+
+            Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
+            if (dictalarms != null && dictalarms.Count > 0)
+            {
+                foreach (var de in dictalarms)
+                {
+                    lstMsg.Add(de.Value + " ");
+                }
+            }
 
             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
             float datavalue = 0;
@@ -1387,10 +1466,10 @@ namespace Protocol
             if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
             {
                 int waycount = dr_TerminalDataConfig.Length;
-                float[] MaxMeasureRanges = new float[waycount];
-                float[] MaxMeasureRangeFlags = new float[waycount];
-                int[] DataWidths = new int[waycount];
-                int[] Precisions = new int[waycount];
+                //float[] MaxMeasureRanges = new float[waycount];
+                //float[] MaxMeasureRangeFlags = new float[waycount];
+                //int[] DataWidths = new int[waycount];
+                //int[] Precisions = new int[waycount];
                 string[] Names = new string[waycount];
                 string[] Units = new string[waycount];
                 int[] config_ids = new int[waycount];
@@ -1398,14 +1477,14 @@ namespace Protocol
                 int topdatawidth = 0;
                 for (int i = 0; i < waycount; i++)
                 {
-                    MaxMeasureRanges[i] = dr_TerminalDataConfig[i]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[i]["MaxMeasureRange"]) : 0;
-                    MaxMeasureRangeFlags[i] = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
-                    DataWidths[i] = dr_TerminalDataConfig[i]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[i]["FrameWidth"]) : 0;
-                    Precisions[i] = dr_TerminalDataConfig[i]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["precision"]) : 0;
+                    //MaxMeasureRanges[i] = dr_TerminalDataConfig[i]["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[i]["MaxMeasureRange"]) : 0;
+                    //MaxMeasureRangeFlags[i] = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
+                    //DataWidths[i] = dr_TerminalDataConfig[i]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[i]["FrameWidth"]) : 0;
+                    //Precisions[i] = dr_TerminalDataConfig[i]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["precision"]) : 0;
                     Names[i] = dr_TerminalDataConfig[i]["Name"] != DBNull.Value ? dr_TerminalDataConfig[i]["Name"].ToString().Trim() : "";
                     Units[i] = dr_TerminalDataConfig[i]["Unit"] != DBNull.Value ? dr_TerminalDataConfig[i]["Unit"].ToString().Trim() : "";
                     config_ids[i] = dr_TerminalDataConfig[i]["ID"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[i]["ID"]) : 0;
-                    topdatawidth += DataWidths[i];
+                    //topdatawidth += DataWidths[i];
                 }
 
                 if (topdatawidth > 0)
@@ -1427,24 +1506,20 @@ namespace Protocol
                         int freindex = 0;
                         for (int j = 0; j < waycount; j++)
                         {
-                            if (DataWidths[j] == 2)
-                            {
-                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
-                                freindex += 2;
-                            }
-                            else if (DataWidths[j] == 4)
-                            {
-                                datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 9 + freindex], pack.Data[i * loopdatalen + 8 + freindex], pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
-                                freindex += 4;
-                            }
+                            //if (DataWidths[j] == 2)
+                            //{
+                            //    datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
+                            //    freindex += 2;
+                            //}
+                            //else if (DataWidths[j] == 4)
+                            //{
+                            //    datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 9 + freindex], pack.Data[i * loopdatalen + 8 + freindex], pack.Data[i * loopdatalen + 7 + freindex], pack.Data[i * loopdatalen + 6 + freindex] }, 0);
+                            //    freindex += 4;
+                            //}
 
-                            datavalue = MaxMeasureRanges[j] * datavalue;  //系数
-                            datavalue = Convert.ToSingle(datavalue.ToString("F" + Precisions[j]));  //精度调整
-                            DataRow dr = dt.NewRow();
-                            dr["CallDataType"] = Names[j].Trim();
-                            dr["CallData"] = datavalue;
-                            dr["Unit"] = Units[j].ToString().Trim();
-                            dt.Rows.Add(dr);
+                            //datavalue = MaxMeasureRanges[j] * datavalue;  //系数
+                            datavalue = Convert.ToSingle(datavalue.ToString("F2"));
+
                         }
                     }
                 }

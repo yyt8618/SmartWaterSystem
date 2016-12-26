@@ -167,6 +167,8 @@ namespace SmartWaterSystem
             this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
             this.treeSocketType = new DevExpress.XtraEditors.TreeListLookUpEdit();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.btnCallClose = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCallOpen = new DevExpress.XtraEditors.SimpleButton();
             this.btnCallData = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl_WaitCmd = new DevExpress.XtraGrid.GridControl();
             this.gridView_WaitCmd = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -177,8 +179,7 @@ namespace SmartWaterSystem
             this.btnDel = new DevExpress.XtraEditors.SimpleButton();
             this.btnVer = new DevExpress.XtraEditors.SimpleButton();
             this.btnFieldStrength = new DevExpress.XtraEditors.SimpleButton();
-            this.btnCallOpen = new DevExpress.XtraEditors.SimpleButton();
-            this.btnCallClose = new DevExpress.XtraEditors.SimpleButton();
+            this.timer_GetWaitCmd = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_starttime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime2)).BeginInit();
@@ -1132,7 +1133,7 @@ namespace SmartWaterSystem
             this.gridView_485protocol.OptionsFilter.AllowFilterEditor = false;
             this.gridView_485protocol.OptionsView.ShowGroupPanel = false;
             this.gridView_485protocol.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView_485protocol.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_485protocol_CellValueChanged);
+            this.gridView_485protocol.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_485protocol_CustomRowCellEdit);
             // 
             // gridColumn4
             // 
@@ -1742,6 +1743,24 @@ namespace SmartWaterSystem
             this.treeList1.TabIndex = 0;
             this.treeList1.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Light;
             // 
+            // btnCallClose
+            // 
+            this.btnCallClose.Location = new System.Drawing.Point(58, 21);
+            this.btnCallClose.Name = "btnCallClose";
+            this.btnCallClose.Size = new System.Drawing.Size(50, 26);
+            this.btnCallClose.TabIndex = 2;
+            this.btnCallClose.Text = "招测关";
+            this.btnCallClose.Click += new System.EventHandler(this.btnCallClose_Click);
+            // 
+            // btnCallOpen
+            // 
+            this.btnCallOpen.Location = new System.Drawing.Point(5, 21);
+            this.btnCallOpen.Name = "btnCallOpen";
+            this.btnCallOpen.Size = new System.Drawing.Size(50, 26);
+            this.btnCallOpen.TabIndex = 2;
+            this.btnCallOpen.Text = "招测开";
+            this.btnCallOpen.Click += new System.EventHandler(this.btnCallOpen_Click);
+            // 
             // btnCallData
             // 
             this.btnCallData.Enabled = false;
@@ -1848,23 +1867,9 @@ namespace SmartWaterSystem
             this.btnFieldStrength.Text = "场强\\电压";
             this.btnFieldStrength.Click += new System.EventHandler(this.btnFieldStrength_Click);
             // 
-            // btnCallOpen
+            // timer_GetWaitCmd
             // 
-            this.btnCallOpen.Location = new System.Drawing.Point(5, 21);
-            this.btnCallOpen.Name = "btnCallOpen";
-            this.btnCallOpen.Size = new System.Drawing.Size(50, 26);
-            this.btnCallOpen.TabIndex = 2;
-            this.btnCallOpen.Text = "招测开";
-            this.btnCallOpen.Click += new System.EventHandler(this.btnCallOpen_Click);
-            // 
-            // btnCallClose
-            // 
-            this.btnCallClose.Location = new System.Drawing.Point(58, 21);
-            this.btnCallClose.Name = "btnCallClose";
-            this.btnCallClose.Size = new System.Drawing.Size(50, 26);
-            this.btnCallClose.TabIndex = 2;
-            this.btnCallClose.Text = "招测关";
-            this.btnCallClose.Click += new System.EventHandler(this.btnCallClose_Click);
+            this.timer_GetWaitCmd.Interval = 5000;
             // 
             // UniversalTerParm
             // 
@@ -2169,5 +2174,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_pre_coltime;
         private DevExpress.XtraEditors.SimpleButton btnCallClose;
         private DevExpress.XtraEditors.SimpleButton btnCallOpen;
+        private System.Windows.Forms.Timer timer_GetWaitCmd;
     }
 }

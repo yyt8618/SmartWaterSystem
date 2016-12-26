@@ -236,7 +236,7 @@ namespace Common
         /// <summary>
         /// 设置从站模拟量时间间隔
         /// </summary>
-        SET_SIMINTERVAL = 0x14,
+        SET_SIMINTERVAL = 0x2C,
         /// <summary>
         /// 设置从站485采集时间间隔
         /// </summary>

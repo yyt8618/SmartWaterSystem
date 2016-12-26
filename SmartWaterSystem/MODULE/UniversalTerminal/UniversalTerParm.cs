@@ -5,11 +5,9 @@ using DevExpress.XtraEditors;
 using System.Text.RegularExpressions;
 using DevExpress.XtraGrid.Views.Grid;
 using Entity;
-using System.Collections;
-using BLL;
 using Common;
-using System.Collections.Generic;
 using DevExpress.XtraTreeList.Nodes;
+using System.Collections.Generic;
 
 namespace SmartWaterSystem
 {
@@ -28,6 +26,7 @@ namespace SmartWaterSystem
         public UniversalTerParm()
         {
             InitializeComponent();
+            timer_GetWaitCmd.Tick += new EventHandler(timer_GetWaitCmd_Tick);
 
             #region Init Simulate GridView
             cb_sim_starttime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
@@ -139,6 +138,11 @@ namespace SmartWaterSystem
 
             cbComType.SelectedIndex = 1;
             cbPreFlag.SelectedIndex = 0;
+        }
+
+        void timer_GetWaitCmd_Tick(object sender, EventArgs e)
+        {
+            GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Get_P68_WaitSendCmd, ""));      //获取待发送命令
         }
 
         private void cbBaudRate_SelectedIndexChanged(object sender, EventArgs e)
@@ -587,7 +591,7 @@ namespace SmartWaterSystem
         #endregion
 
         #region RS485 Protocol
-        private void gridView_485protocol_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        private void gridView_485protocol_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
         {
             if (e.RowHandle > -1)
             {
@@ -1275,7 +1279,6 @@ namespace SmartWaterSystem
             //}
         }
 
-
         private void barbtnCalibrationSimualte1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (DialogResult.No == XtraMessageBox.Show("终端出厂已校准，是否继续校准?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
@@ -1764,24 +1767,36 @@ namespace SmartWaterSystem
             {
                 this.Enabled = true;
                 HideWaitForm();
-
+                EnableControls(true);
+                EnableRibbonBar();
+                EnableNavigateBar();
+                HideWaitForm();
                 GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    EnableControls(true);
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-
                     XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    EnableControls(true);
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
                     XtraMessageBox.Show("设置失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalCallData)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+                EnableControls(true);
+                EnableRibbonBar();
+                EnableNavigateBar();
+                HideWaitForm();
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("招测成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("招测失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -1987,7 +2002,6 @@ namespace SmartWaterSystem
             return true;
         }
 
-
         private void btnVer_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtID.Text))
@@ -2076,14 +2090,19 @@ namespace SmartWaterSystem
             btnFieldStrength.Enabled = GlobalValue.portUtil.IsOpen;
             btnVer.Enabled = GlobalValue.portUtil.IsOpen;
 
+            timer_GetWaitCmd.Enabled = false;  //停用查询GPRS待发送命令定时器 10s
+            GlobalValue.SocketMgr.SockMsgEvent -= new SocketHandler(MSMQMgr_MSMQEvent);
+
             ceID.Enabled = true;
             ceID.Checked = false;
             ceComType.Enabled = true;
             ceComType.Checked = false;
             ceIP.Enabled = GlobalValue.portUtil.IsOpen;
+            ceIP.Checked = false;
             txtIP.Enabled = GlobalValue.portUtil.IsOpen;
             txtIP.Text = "";
             cePort.Enabled = GlobalValue.portUtil.IsOpen;
+            cePort.Checked = false;
             txtPort.Enabled = GlobalValue.portUtil.IsOpen;
             txtPort.Text = "";
             gridControl_WaitCmd.Enabled = false;
@@ -2108,14 +2127,21 @@ namespace SmartWaterSystem
             btnFieldStrength.Enabled = false;
             btnVer.Enabled = true;
 
+            timer_GetWaitCmd.Enabled = true;  //启用查询GPRS待发送命令定时器 10s
+            GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Get_P68_WaitSendCmd, ""));
+            GlobalValue.SocketMgr.SockMsgEvent -= new SocketHandler(MSMQMgr_MSMQEvent);
+            GlobalValue.SocketMgr.SockMsgEvent += new SocketHandler(MSMQMgr_MSMQEvent);
+
             ceID.Enabled = false;
             ceID.Checked = false;
             ceComType.Enabled = false;
             ceComType.Checked = false;
             ceIP.Enabled = false;
+            ceIP.Checked = false;
             txtIP.Enabled = false;
             txtIP.Text = "";
             cePort.Enabled = false;
+            cePort.Checked = false;
             txtPort.Enabled = false;
             txtPort.Text = "";
             gridControl_WaitCmd.Enabled = true;
@@ -2354,5 +2380,102 @@ namespace SmartWaterSystem
             Send(SerialPortType.UniversalCallEnable);
         }
 
+        void MSMQMgr_MSMQEvent(object sender, SocketEventArgs e)
+        {
+            if (e.msmqEntity != null && e.msmqEntity.MsgType == ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd)
+            {
+                if (e.msmqEntity.MsgType == ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd && !string.IsNullOrEmpty(e.msmqEntity.Msg))
+                {
+                    try
+                    {
+                        List<Package651> lstPack = JSONSerialize.JsonDeserialize<List<Package651>>(e.msmqEntity.Msg);
+                        DataTable dt = (DataTable)gridControl_WaitCmd.DataSource;
+                        if (dt == null)
+                        {
+                            dt = new DataTable("waitsendTable");
+                            dt.Columns.Add("A5");
+                            dt.Columns.Add("A4");
+                            dt.Columns.Add("A3");
+                            dt.Columns.Add("A2");
+                            dt.Columns.Add("A1");
+                            dt.Columns.Add("funcode");
+                        }
+
+                        if (lstPack != null)
+                        {
+                            bool exist = false;
+                            for (int i = 0; i < dt.Rows.Count; i++)  //如果绑定的表中的数据在lstPack中不存在,则删除
+                            {
+                                exist = false;
+                                foreach (Package651 pack in lstPack)
+                                {
+                                    if (("0x" + string.Format("{0:X2}", pack.A5)) == dt.Rows[i]["A5"].ToString() && ("0x" + string.Format("{0:X2}", pack.A4)) == dt.Rows[i]["A4"].ToString() &&
+                                        ("0x" + string.Format("{0:X2}", pack.A3)) == dt.Rows[i]["A3"].ToString() && ("0x" + string.Format("{0:X2}", pack.A2)) == dt.Rows[i]["A2"].ToString() &&
+                                            ("0x" + string.Format("{0:X2}", pack.A1)) == dt.Rows[i]["A1"].ToString() && ("0x" + string.Format("{0:X2}", pack.FUNCODE)) == dt.Rows[i]["funcode"].ToString())
+                                    {
+                                        exist = true;
+                                        break;
+                                    }
+                                }
+                                if (!exist)
+                                {
+                                    dt.Rows.RemoveAt(i);
+                                }
+                            }
+                            foreach (Package651 pack in lstPack)   //如果在lstPack中存在,而在绑定的表中不存在,则添加
+                            {
+                                exist = false;
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    if (("0x" + string.Format("{0:X2}", pack.A5)) == dr["A5"].ToString() && ("0x" + string.Format("{0:X2}", pack.A4)) == dr["A4"].ToString() &&
+                                        ("0x" + string.Format("{0:X2}", pack.A3)) == dr["A3"].ToString() && ("0x" + string.Format("{0:X2}", pack.A2)) == dr["A2"].ToString() &&
+                                            ("0x" + string.Format("{0:X2}", pack.A1)) == dr["A1"].ToString() && ("0x" + string.Format("{0:X2}", pack.FUNCODE)) == dr["funcode"].ToString())
+                                    {
+                                        exist = true;
+                                        break;
+                                    }
+                                }
+                                if (!exist)
+                                {
+                                    DataRow dr = dt.NewRow();
+                                    dr["A5"] = "0x" + string.Format("{0:X2}", pack.A5);
+                                    dr["A4"] = "0x" + string.Format("{0:X2}", pack.A4);
+                                    dr["A3"] = "0x" + string.Format("{0:X2}", pack.A3);
+                                    dr["A2"] = "0x" + string.Format("{0:X2}", pack.A2);
+                                    dr["A1"] = "0x" + string.Format("{0:X2}", pack.A1);
+                                    dr["funcode"] = "0x" + string.Format("{0:X2}", pack.FUNCODE);
+                                    dt.Rows.Add(dr);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            dt.Rows.Clear();
+                        }
+                        SetWaitListView_Cmd(dt);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+        }
+
+        private delegate void SetWaitListViewHandle(DataTable lstPack);
+        private void SetWaitListView_Cmd(DataTable lstPack)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((SetWaitListViewHandle)delegate (DataTable lstparm)
+                {
+                    gridControl_WaitCmd.DataSource = lstparm;
+                }, lstPack);
+            }
+            else
+            {
+                gridControl_WaitCmd.DataSource = lstPack;
+            }
+        }
     }
 }

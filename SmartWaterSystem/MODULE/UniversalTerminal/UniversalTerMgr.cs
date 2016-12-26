@@ -55,10 +55,6 @@ namespace SmartWaterSystem
             cbRS485_2.Properties.Items.Clear();
             cbRS485_3.Properties.Items.Clear();
             cbRS485_4.Properties.Items.Clear();
-            cbRS485_5.Properties.Items.Clear();
-            cbRS485_6.Properties.Items.Clear();
-            cbRS485_7.Properties.Items.Clear();
-            cbRS485_8.Properties.Items.Clear();
         }
 
         private void LoadTerminalData()
@@ -104,10 +100,6 @@ namespace SmartWaterSystem
                         cbRS485_2.Properties.Items.Add(entity.Name); cbRS485_2.Tag = (cbRS485_2.Tag != null ? cbRS485_2.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
                         cbRS485_3.Properties.Items.Add(entity.Name); cbRS485_3.Tag = (cbRS485_3.Tag != null ? cbRS485_3.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
                         cbRS485_4.Properties.Items.Add(entity.Name); cbRS485_4.Tag = (cbRS485_4.Tag != null ? cbRS485_4.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                        cbRS485_5.Properties.Items.Add(entity.Name); cbRS485_5.Tag = (cbRS485_5.Tag != null ? cbRS485_5.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                        cbRS485_6.Properties.Items.Add(entity.Name); cbRS485_6.Tag = (cbRS485_6.Tag != null ? cbRS485_6.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                        cbRS485_7.Properties.Items.Add(entity.Name); cbRS485_7.Tag = (cbRS485_7.Tag != null ? cbRS485_7.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
-                        cbRS485_8.Properties.Items.Add(entity.Name); cbRS485_8.Tag = (cbRS485_8.Tag != null ? cbRS485_8.Tag.ToString() + "," + entity.ID : entity.ID.ToString());
                     }
                 }
             }
@@ -432,18 +424,6 @@ namespace SmartWaterSystem
 
                 ceRS485_4.Visible = false;
                 cbRS485_4.Visible = false;
-
-                ceRS485_5.Visible = false;
-                cbRS485_5.Visible = false;
-
-                ceRS485_6.Visible = false;
-                cbRS485_6.Visible = false;
-
-                ceRS485_7.Visible = false;
-                cbRS485_7.Visible = false;
-
-                ceRS485_8.Visible = false;
-                cbRS485_8.Visible = false;
             }
         }
 
@@ -465,18 +445,6 @@ namespace SmartWaterSystem
 
                 ceRS485_4.Visible = false;
                 cbRS485_4.Visible = false;
-
-                ceRS485_5.Visible = false;
-                cbRS485_5.Visible = false;
-
-                ceRS485_6.Visible = false;
-                cbRS485_6.Visible = false;
-
-                ceRS485_7.Visible = false;
-                cbRS485_7.Visible = false;
-
-                ceRS485_8.Visible = false;
-                cbRS485_8.Visible = false;
             }
         }
 
@@ -495,117 +463,17 @@ namespace SmartWaterSystem
 
                 ceRS485_4.Visible = false;
                 cbRS485_4.Visible = false;
-
-                ceRS485_5.Visible = false;
-                cbRS485_5.Visible = false;
-
-                ceRS485_6.Visible = false;
-                cbRS485_6.Visible = false;
-
-                ceRS485_7.Visible = false;
-                cbRS485_7.Visible = false;
-
-                ceRS485_8.Visible = false;
-                cbRS485_8.Visible = false;
             }
         }
 
         private void ceRS485_4_CheckedChanged(object sender, EventArgs e)
         {
-            if (ceRS485_4.Checked)
-            {
-                ceRS485_5.Visible = true;
-                cbRS485_5.Visible = true;
-                ceRS485_5.Checked = false;
-                cbRS485_5.SelectedIndex = -1;
-            }
-            else
+            if (!ceRS485_4.Checked)
             {
                 cbRS485_4.SelectedIndex = -1;
-
-                ceRS485_5.Visible = false;
-                cbRS485_5.Visible = false;
-
-                ceRS485_6.Visible = false;
-                cbRS485_6.Visible = false;
-
-                ceRS485_7.Visible = false;
-                cbRS485_7.Visible = false;
-
-                ceRS485_8.Visible = false;
-                cbRS485_8.Visible = false;
             }
         }
-
-        private void ceRS485_5_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ceRS485_5.Checked)
-            {
-                ceRS485_6.Visible = true;
-                cbRS485_6.Visible = true;
-                ceRS485_6.Checked = false;
-                cbRS485_6.SelectedIndex = -1;
-            }
-            else
-            {
-                cbRS485_5.SelectedIndex = -1;
-
-                ceRS485_6.Visible = false;
-                cbRS485_6.Visible = false;
-
-                ceRS485_7.Visible = false;
-                cbRS485_7.Visible = false;
-
-                ceRS485_8.Visible = false;
-                cbRS485_8.Visible = false;
-            }
-        }
-
-        private void ceRS485_6_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ceRS485_6.Checked)
-            {
-                ceRS485_7.Visible = true;
-                cbRS485_7.Visible = true;
-                ceRS485_7.Checked = false;
-                cbRS485_7.SelectedIndex = -1;
-            }
-            else
-            {
-                cbRS485_6.SelectedIndex = -1;
-
-                ceRS485_7.Visible = false;
-                cbRS485_7.Visible = false;
-
-                ceRS485_8.Visible = false;
-                cbRS485_8.Visible = false;
-            }
-        }
-
-        private void ceRS485_7_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ceRS485_7.Checked)
-            {
-                ceRS485_8.Visible = true;
-                cbRS485_8.Visible = true;
-                ceRS485_8.Checked = false;
-                cbRS485_8.SelectedIndex = -1;
-            }
-            else
-            {
-                cbRS485_7.SelectedIndex = -1;
-                ceRS485_8.Visible = false;
-                cbRS485_8.Visible = false;
-            }
-        }
-
-        private void ceRS485_8_CheckedChanged(object sender, EventArgs e)
-        {
-            if(!ceRS485_8.Checked)
-            {
-                cbRS485_8.SelectedIndex = -1;
-            }
-        }
+        
         #endregion
 
         private void btnDel_Click(object sender, EventArgs e)
@@ -953,102 +821,7 @@ namespace SmartWaterSystem
                     }
                 }
             }
-
-            if (ceRS485_5.Checked && ceRS485_5.Visible)
-            {
-                if (cbRS485_5.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请输入RS485 5路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbRS485_5.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbRS485_5.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(13, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择RS485 5路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbRS485_5.Focus();
-                        return;
-                    }
-                }
-            }
-
-            if (ceRS485_6.Checked && ceRS485_6.Visible)
-            {
-                if (cbRS485_6.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请输入RS485 6路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbRS485_6.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbRS485_6.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(14, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择RS485 6路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbRS485_6.Focus();
-                        return;
-                    }
-                }
-            }
-
-            if (ceRS485_7.Checked && ceRS485_7.Visible)
-            {
-                if (cbRS485_7.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请输入RS485 7路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbRS485_7.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbRS485_7.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(15, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择RS485 7路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbRS485_7.Focus();
-                        return;
-                    }
-                }
-            }
-
-            if (ceRS485_8.Checked && ceRS485_8.Visible)
-            {
-                if (cbRS485_8.SelectedIndex < 0)
-                {
-                    XtraMessageBox.Show("请输入RS485 8路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbRS485_8.Focus();
-                    return;
-                }
-                else
-                {
-                    int pointid = GetWayTypeId(cbRS485_8.Text);
-                    if (null == lstPointID.Find(a => a.PointID == (pointid)))
-                    {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(16, pointid));
-                    }
-                    else
-                    {
-                        XtraMessageBox.Show("请选择RS485 8路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cbRS485_8.Focus();
-                        return;
-                    }
-                }
-            }
+            
             if (lstPointID != null && lstPointID.Count == 0)
             {
                 XtraMessageBox.Show("请至少选择一路采集类型!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1097,10 +870,6 @@ namespace SmartWaterSystem
             ceRS485_2.Checked = false;
             ceRS485_3.Checked = false;
             ceRS485_4.Checked = false;
-            ceRS485_5.Checked = false;
-            ceRS485_6.Checked = false;
-            ceRS485_7.Checked = false;
-            ceRS485_8.Checked = false;
 
             cbSimulate1.SelectedIndex = -1;
             cbSimulate2.SelectedIndex = -1;
@@ -1114,10 +883,6 @@ namespace SmartWaterSystem
             cbRS485_2.SelectedIndex = -1;
             cbRS485_3.SelectedIndex = -1;
             cbRS485_4.SelectedIndex = -1;
-            cbRS485_5.SelectedIndex = -1;
-            cbRS485_6.SelectedIndex = -1;
-            cbRS485_7.SelectedIndex = -1;
-            cbRS485_8.SelectedIndex = -1;
 
         }
 
@@ -1251,83 +1016,13 @@ namespace SmartWaterSystem
             if (monitorView != null)
                 monitorView.UpdateView();
         }
-
-        private void btnCallData_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtID.Text))
-            {
-                XtraMessageBox.Show("请输入终端编号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtID.Focus();
-                return;
-            }
-            if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
-            {
-                XtraMessageBox.Show("请输入合法终端编号!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtID.Focus();
-                return;
-            }
-
-            //if (!(new TerminalConfigBLL()).ExistUniversalConfig(txtID.Text.Trim()))
-            //{
-            //    XtraMessageBox.Show("终端["+txtID.Text.Trim()+"]没有配置采集类型,请先配置!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    txtID.Focus();
-            //    return;
-            //}
-            if (GlobalValue.UniSerialPortOptData == null)
-                GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity();
-            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
-            GlobalValue.SerialPortCallDataType = callDataType;
-
-            gridControl_CallData.DataSource = null;
-            EnableControls(false);
-            DisableRibbonBar();
-            DisableNavigateBar();
-            ShowWaitForm("", "正在招测...");
-            BeginSerialPortDelegate();
-            GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
-            GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortMgr_SerialPortScheduleEvent);
-            Application.DoEvents();
-            SetStaticItem("正在招测...");
-            GlobalValue.SerialPortMgr.Send(SerialPortType.UniversalCallData);
-        }
-
+        
         private void EnableControls(bool enabled)
         {
             groupControl_TerList.Enabled = enabled;
             groupBox_BasicInfo.Enabled = enabled;
             groupBox_WayConfig.Enabled = enabled;
             groupBox_tree.Enabled = enabled;
-        }
-
-        public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
-        {
-            if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.UniversalCallData)
-            {
-                this.Enabled = true;
-                HideWaitForm();
-
-                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
-                if (e.TransactStatus == TransStatus.Success)
-                {
-                    EnableControls(true);
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-
-                    if (e.Tag != null)
-                        gridControl_CallData.DataSource = e.Tag as DataTable;
-
-                    XtraMessageBox.Show("招测成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    EnableControls(true);
-                    EnableRibbonBar();
-                    EnableNavigateBar();
-                    HideWaitForm();
-                    XtraMessageBox.Show("招测失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
         }
 
         void SerialPortMgr_SerialPortScheduleEvent(object sender, SerialPortScheduleEventArgs e)
@@ -1338,11 +1033,6 @@ namespace SmartWaterSystem
                 SetStaticItem(e.Msg);
             }
 
-        }
-
-        public override void SerialPortEvent(bool Enabled)
-        {
-            btnCallData.Enabled = Enabled;
         }
         
     }

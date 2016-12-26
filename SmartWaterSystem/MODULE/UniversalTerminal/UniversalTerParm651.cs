@@ -2613,8 +2613,6 @@ namespace SmartWaterSystem
 
         private void SetSerialPortCtrlStatus()
         {
-            timer_GetWaitCmd.Enabled = false;  //停用查询GPRS待发送命令定时器 10s
-
             ButtonEnabled(GlobalValue.portUtil.IsOpen);
             group_waitcmd.Visible = false;
             group_manualSetParm.Visible = true;
@@ -2622,6 +2620,7 @@ namespace SmartWaterSystem
             cbIsOnLine.Enabled = true;
             this.cbIsOnLine.CheckedChanged += new System.EventHandler(this.cbIsOnLine_CheckedChanged);
 
+            timer_GetWaitCmd.Enabled = false;  //停用查询GPRS待发送命令定时器 10s
             GlobalValue.SocketMgr.SockMsgEvent -= new SocketHandler(MSMQMgr_MSMQEvent);
         }
 

@@ -1122,7 +1122,7 @@ namespace DAL
 
         public DataTable GetUniversalDataConfig(TerType terType)
         {
-            string SQL = @"SELECT DISTINCT Type.ID,Config.TerminalID,Config.Sequence,Type.[Level],Type.[ParentID],Type.[WayType],Type.[Name],Type.[MaxMeasureRange],Type.[MaxMeasureRangeFlag],Type.[FrameWidth],Type.[Precision],Type.[Unit]
+            string SQL = @"SELECT DISTINCT Type.ID,Config.TerminalID,Config.Sequence,Type.[Level],Type.[ParentID],Type.[WayType],Type.[Name],Type.[Unit]
                         FROM [UniversalTerWayConfig] Config,[UniversalTerWayType] Type WHERE (Config.PointID=Type.ID OR Config.PointID=Type.ParentID) AND Config.TerminalType=Type.TerminalType AND Config.TerminalType='"+((int)terType).ToString()+"'";
 
             DataTable dt = SQLHelper.ExecuteDataTable(SQL, null);
