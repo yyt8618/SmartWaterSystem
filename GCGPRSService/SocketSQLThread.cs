@@ -134,18 +134,25 @@ namespace GCGPRSService
                     case (uint)SQLType.GetSendParm:
                         {
                             #region 获取GPRS下送帧
-                            lock (GlobalValue.Instance.lstGprsCmdLock)
+                            List<SendPackageEntity> lstDbCmd = dataBll.GetGPRSParm();
+                            lock (GlobalValue.Instance.lstClientLock)
                             {
-                                List<GPRSCmdEntity> lstDbCmd = dataBll.GetGPRSParm();
-                                for(int i =0; i < GlobalValue.Instance.lstGprsCmd.Count;i++)//先移除已有的从数据库添加的数据，再重新添加
+                                for(int i =0; i < GlobalValue.Instance.lstClient.Count;i++)//先移除已有的从数据库添加的数据，再重新添加
                                 {
-                                    if (GlobalValue.Instance.lstGprsCmd[i].TableId > 0)
+                                    for (int j = 0; j < GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count; j++)
                                     {
-                                        GlobalValue.Instance.lstGprsCmd.RemoveAt(i);
+                                        if (GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].TableId > 0)
+                                        {
+                                             GlobalValue.Instance.lstClient[i].lstWaitSendCmd.RemoveAt(i);
+                                        }
                                     }
                                 }
-                                GlobalValue.Instance.lstGprsCmd.AddRange(lstDbCmd);
                             }
+                            foreach(SendPackageEntity sendPack in lstDbCmd)
+                            {
+                                GlobalValue.Instance.lstClientAdd(sendPack);
+                            }
+                            
                             #endregion
                         }
                         break;
@@ -169,28 +176,24 @@ namespace GCGPRSService
                             result = dataBll.UpdateGPRSParmFlag(GlobalValue.Instance.lstSendedCmdId);
                             if (result == 1)
                             {
-                                List<GPRSCmdEntity> lstTmp = new List<GPRSCmdEntity>();
-                                for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
+                                lock(GlobalValue.Instance.lstClientLock)
                                 {
-                                    bool exist = false;
-                                    foreach(GPRSCmdFlag flag in GlobalValue.Instance.lstSendedCmdId)
+                                    foreach (GPRSCmdFlag flag in GlobalValue.Instance.lstSendedCmdId)
                                     {
-                                        if(flag.TableId == GlobalValue.Instance.lstGprsCmd[i].TableId) 
+                                        for (int i = 0; i < GlobalValue.Instance.lstClient.Count; i++)
                                         {
-                                            exist = true;
-                                            break;
+                                            for (int j = 0; j < GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count; i++)
+                                            {
+                                                if (flag.TableId == GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].TableId)
+                                                {
+                                                    GlobalValue.Instance.lstClient[i].lstWaitSendCmd.RemoveAt(j);
+                                                    break;
+                                                }
+                                            }
                                         }
-                                    }
-                                    if (!exist)
-                                    {
-                                        lstTmp.Add(GlobalValue.Instance.lstGprsCmd[i]);
                                     }
                                 }
                                 GlobalValue.Instance.lstSendedCmdId.Clear();
-                                lock (GlobalValue.Instance.lstGprsCmdLock)
-                                {
-                                    GlobalValue.Instance.lstGprsCmd = lstTmp;
-                                }
                             }
                             #endregion
                         }

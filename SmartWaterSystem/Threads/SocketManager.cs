@@ -1,13 +1,10 @@
 ﻿using System;
 using Common;
 using System.Threading;
-using System.ServiceProcess;
-using System.Messaging;
 using Entity;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
-using System.Collections.Generic;
 
 namespace SmartWaterSystem
 {

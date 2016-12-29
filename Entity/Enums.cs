@@ -247,4 +247,14 @@ namespace Entity
         WaterWork =46,
         
     }
+
+    /// <summary>
+    /// 包来源类型  用于CallSocketEntity.Table -99:SL651； P68:-1:校时数据,-2:下送命令帧,>-1:不定义(数据库中获取的命令帧ID)
+    /// </summary>
+    public enum PackFromType
+    {
+        P68CheckTime = -1,
+        P68SendCmd = -2,
+        SL651 = -99,
+    }
 }

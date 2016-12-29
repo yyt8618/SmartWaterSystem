@@ -815,31 +815,31 @@ namespace DAL
         /// 获取需要下发的参数
         /// </summary>
         /// <returns></returns>
-        public List<GPRSCmdEntity> GetGPRSParm()
+        public List<SendPackageEntity> GetGPRSParm()
         {
             lock (ConstValue.obj)
             {
-                //SELECT * FROM ParamToDev WHERE ID IN (SELECT MAX(ID) FROM ParamToDev WHERE SendedFlag=0 GROUP BY DeviceId)
-                string SQL = "SELECT ID,DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate FROM ParamToDev WHERE SendedFlag = 0";
-                List<GPRSCmdEntity> lstCmd = null;
+                string SQL = "SELECT ID,DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate FROM ParamToDev WHERE SendedFlag = 0 AND SetDate> DATEADD(hour,-48,getdate())";  //48小时前的数据不再发送
+                List<SendPackageEntity> lstCmd = null;
                 using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
                 {
-                    lstCmd = new List<GPRSCmdEntity>();
+                    lstCmd = new List<SendPackageEntity>();
                     while (reader.Read())
                     {
-                        GPRSCmdEntity cmd = new GPRSCmdEntity();
-
+                        SendPackageEntity cmd = new SendPackageEntity();
+                        cmd.SendPackage = new Package();
+                        
                         cmd.TableId = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : -1;
-                        cmd.DeviceId = reader["DeviceId"] != DBNull.Value ? Convert.ToInt32(reader["DeviceId"]) : -1;
-                        cmd.DevTypeId = reader["DevTypeId"] != DBNull.Value ? Convert.ToInt32(reader["DevTypeId"]) : -1;
-                        cmd.CtrlCode = reader["CtrlCode"] != DBNull.Value ? Convert.ToInt32(reader["CtrlCode"]) : -1;
-                        cmd.FunCode = reader["FunCode"] != DBNull.Value ? Convert.ToInt32(reader["FunCode"]) : -1;
-                        cmd.Data = reader["DataValue"] != DBNull.Value ? reader["DataValue"].ToString() : "";
-
-                        cmd.DataLen = reader["DataLenth"] != DBNull.Value ? Convert.ToInt32(reader["DataLenth"]) : -1;
-                        cmd.ModifyTime = reader["SetDate"] != DBNull.Value ? Convert.ToDateTime(reader["SetDate"]) : DateTime.Now;
-                        cmd.SendedFlag = 0;
-
+                        cmd.SendPackage.DevID = reader["DeviceId"] != DBNull.Value ? Convert.ToInt16(reader["DeviceId"]) : (short)-1;
+                        cmd.SendPackage.DevType = (ConstValue.DEV_TYPE)(reader["DevTypeId"] != DBNull.Value ? Convert.ToInt32(reader["DevTypeId"]) : 0);
+                        cmd.SendPackage.C0 = reader["CtrlCode"] != DBNull.Value ? Convert.ToByte(reader["CtrlCode"]) : (byte)0x00;
+                        cmd.SendPackage.C1 = reader["FunCode"] != DBNull.Value ? Convert.ToByte(reader["FunCode"]) : (byte)0x00;
+                        cmd.SendPackage.Data = reader["DataValue"] != DBNull.Value ? ConvertHelper.StringToByte(reader["DataValue"].ToString()) : null;
+                        
+                        //cmd.SendPackage.DataLength = cmd.SendPackage.Data == null ? 0 : cmd.SendPackage.Data.Length;
+                        //cmd.ModifyTime = reader["SetDate"] != DBNull.Value ? Convert.ToDateTime(reader["SetDate"]) : DateTime.Now;
+                        //cmd.SendedFlag = 0;
+                        
                         lstCmd.Add(cmd);
                     }
                 }

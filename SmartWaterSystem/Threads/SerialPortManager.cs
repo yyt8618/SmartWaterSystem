@@ -2228,22 +2228,22 @@ namespace SmartWaterSystem
             {
                 if (GlobalValue.Universallog.RWType== RWFunType.GPRS && GlobalValue.Universallog.lstCmdPack != null && GlobalValue.Universallog.lstCmdPack.Count > 0)
                 {
-                    GPRSCmdEntity[] CmdPacks = new GPRSCmdEntity[GlobalValue.Universallog.lstCmdPack.Count];
-                    for (int i = 0; i < GlobalValue.Universallog.lstCmdPack.Count; i++)
-                    {
-                        CmdPacks[i] = new GPRSCmdEntity();
-                        CmdPacks[i].TableId = -2;
-                        CmdPacks[i].DevTypeId = (int)GlobalValue.Universallog.lstCmdPack[i].DevType;
-                        CmdPacks[i].DeviceId = GlobalValue.Universallog.lstCmdPack[i].DevID;
-                        CmdPacks[i].CtrlCode = GlobalValue.Universallog.lstCmdPack[i].C0;
-                        CmdPacks[i].FunCode = GlobalValue.Universallog.lstCmdPack[i].C1;
-                        CmdPacks[i].Data = ConvertHelper.ByteToString(GlobalValue.Universallog.lstCmdPack[i].Data, GlobalValue.Universallog.lstCmdPack[i].DataLength);
-                        CmdPacks[i].DataLen = GlobalValue.Universallog.lstCmdPack[i].DataLength;
-                    }
+                    //GPRSCmdEntity[] CmdPacks = new GPRSCmdEntity[GlobalValue.Universallog.lstCmdPack.Count];
+                    //for (int i = 0; i < GlobalValue.Universallog.lstCmdPack.Count; i++)
+                    //{
+                    //    CmdPacks[i] = new GPRSCmdEntity();
+                    //    CmdPacks[i].TableId = -2;
+                    //    CmdPacks[i].DevTypeId = (int)GlobalValue.Universallog.lstCmdPack[i].DevType;
+                    //    CmdPacks[i].DeviceId = GlobalValue.Universallog.lstCmdPack[i].DevID;
+                    //    CmdPacks[i].CtrlCode = GlobalValue.Universallog.lstCmdPack[i].C0;
+                    //    CmdPacks[i].FunCode = GlobalValue.Universallog.lstCmdPack[i].C1;
+                    //    CmdPacks[i].Data = ConvertHelper.ByteToString(GlobalValue.Universallog.lstCmdPack[i].Data, GlobalValue.Universallog.lstCmdPack[i].DataLength);
+                    //    CmdPacks[i].DataLen = GlobalValue.Universallog.lstCmdPack[i].DataLength;
+                    //}
 
                     SocketEntity msmqentity = new SocketEntity();
                     msmqentity.MsgType = ConstValue.MSMQTYPE.P68_Cmd;
-                    msmqentity.Packs = CmdPacks;
+                    msmqentity.Packs = GlobalValue.Universallog.lstCmdPack.ToArray();
                     return GlobalValue.SocketMgr.SendMessage2(msmqentity);
                 }
                 else

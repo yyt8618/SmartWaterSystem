@@ -9,6 +9,11 @@ namespace SmartWaterSystem
 {
     public class EnumHelper
     {
+        /// <summary>
+        /// 获取枚举的描述
+        /// </summary>
+        /// <param name="enumValue"></param>
+        /// <returns></returns>
         public string GetEnumDescription(Enum enumValue)
         {
             string str = enumValue.ToString();

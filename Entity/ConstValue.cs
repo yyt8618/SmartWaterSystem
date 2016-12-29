@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -63,45 +64,55 @@ namespace Entity
         public enum DEV_TYPE
         {
             /// <summary>
-            /// 数据采集终端
+            /// 压力流量终端
             /// </summary>
+            [Description("压力流量终端")]
             Data_CTRL = 0x00,
             /// <summary>
             /// 压力控制器
             /// </summary>
+            [Description("压力控制器")]
             PRESS_CTRL = 0x01,
             /// <summary>
             /// 通用终端
             /// </summary>
+            [Description("通用终端")]
             UNIVERSAL_CTRL = 0x02,
             /// <summary>
             /// 便携式压力控制终端
             /// </summary>
+            [Description("便携式压力终端")]
             MOBELE_PRESSURE = 0x03,
             /// <summary>
             /// 噪音记录仪
             /// </summary>
+            [Description("噪音记录仪")]
             NOISE_LOG = 0x04,
             /// <summary>
             /// 数据远传控制器
             /// </summary>
+            [Description("远传控制器")]
             NOISE_CTRL = 0x05,
             /// <summary>
             /// 巡视仪
             /// </summary>
+            [Description("巡视仪")]
             NOISE_TOUR = 0x06,
             /// <summary>
             /// 水质终端
             /// </summary>
-            OLWQ_CTRL= 0x07,
+            [Description("水质终端")]
+            OLWQ_CTRL = 0x07,
             /// <summary>
             /// 消防栓
             /// </summary>
+            [Description("消防栓")]
             HYDRANT_CTRL = 0x08,
             /// <summary>
             /// 水厂
             /// </summary>
-            WATER_WORKS=0x10,
+            [Description("水厂")]
+            WATER_WORKS =0x10,
         }
 
     }

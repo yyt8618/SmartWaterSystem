@@ -1,6 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Collections.Generic;
 using System;
+using Entity;
 
 namespace Common
 {
@@ -13,10 +14,10 @@ namespace Common
         public Socket ClientSocket
         {
             get { return _clientSocket; }
-            set { _clientSocket = value; }
+            set { _clientSocket = value; ActiveTime(); }
         }
 
-        private Entity.ConstValue.DEV_TYPE _devType;
+        private ConstValue.DEV_TYPE _devType;
         /// <summary>
         /// 设备类型
         /// </summary>
@@ -76,21 +77,43 @@ namespace Common
             get { return _lstWaitSendCmd; }
             set { _lstWaitSendCmd = value; }
         }
-
+        
         /// <summary>
         /// 多包数据
         /// </summary>
         public List<byte> multiData { get; set; }
 
+        private DateTime _ModifyTime = DateTime.Now;
         /// <summary>
         /// 对象修改时间，用于超过时间销毁
         /// </summary>
-        public DateTime ModifyTime = DateTime.Now;
+        public DateTime ModifyTime
+        {
+            get { return _ModifyTime; }
+        }
+
+        /// <summary>
+        /// 激活时间,延长当前对象生命周期
+        /// </summary>
+        public void ActiveTime()
+        {
+            _ModifyTime = DateTime.Now;
+        }
     }
 
     public class SendPackageEntity
     {
-        private int _sendCount = 3;
+        private int _tableId =-99;
+        /// <summary>
+        /// 表ID -99:SL651； P68:-1:校时数据,-2:下送命令帧,>-1:数据库中获取的命令帧ID
+        /// </summary>
+        public int TableId
+        {
+            get { return _tableId; }
+            set { _tableId = value; }
+        }
+
+        private int _sendCount = 0;
         /// <summary>
         /// 发送计数
         /// </summary>
@@ -98,6 +121,16 @@ namespace Common
         {
             get { return _sendCount; }
             set { _sendCount = value; }
+        }
+
+        private int _SendedFlag = 0;
+        /// <summary>
+        /// 发送标志 0:未发送,1:已发送
+        /// </summary>
+        public int SendedFlag
+        {
+            get { return _SendedFlag; }
+            set { _SendedFlag = value; }
         }
 
         private DateTime _sendTime = DateTime.Now;
@@ -110,15 +143,11 @@ namespace Common
             set { _sendTime = value; }
         }
 
-        private Package _sendPackage;
+        //private Package _sendPackage;
         /// <summary>
         /// 待发送的包
         /// </summary>
-        public Package SendPackage
-        {
-            get { return _sendPackage; }
-            set { _sendPackage = value; }
-        }
+        public Package SendPackage;
 
         private Package651 _sendPackage651;
         /// <summary>
@@ -134,13 +163,20 @@ namespace Common
         {
         }
 
-        public SendPackageEntity(Package package)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TableId">表ID -99:SL651； P68:-1:校时数据,-2:下送命令帧,>-1:数据库中获取的命令帧ID</param>
+        /// <param name="package"></param>
+        public SendPackageEntity(PackFromType FromType,Package package)
         {
-            this._sendPackage = package;
+            TableId = (int)FromType;
+            this.SendPackage = package;
         }
 
         public SendPackageEntity(Package651 package)
         {
+            TableId = -99;
             this._sendPackage651 = package;
         }
     }

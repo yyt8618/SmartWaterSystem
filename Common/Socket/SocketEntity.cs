@@ -10,7 +10,7 @@ namespace Common
     public class SocketEntity
     {
         private string _msg = "";
-        [DataMember(Order =0)]
+        [DataMember(Order =1)]
         public string Msg
         {
             get { return _msg; }
@@ -21,7 +21,7 @@ namespace Common
         /// <summary>
         /// 用于显示消息颜色(0:不修改颜色)
         /// </summary>
-        [DataMember(Order=1)]
+        [DataMember(Order=2)]
         public int MsgArgb
         {
             get { return _MsgArgb; }
@@ -32,7 +32,7 @@ namespace Common
         /// <summary>
         /// 消息类型
         /// </summary>
-        [DataMember(Order = 2)]
+        [DataMember(Order = 3)]
         public Entity.ConstValue.MSMQTYPE MsgType
         {
             get { return _type;}
@@ -43,72 +43,78 @@ namespace Common
         /// <summary>
         /// 显示类型,只用于MSMQTYPE是Msg开头的远传消息或者本地显示的串口之类的消息
         /// </summary>
-        [DataMember(Order =3)]
+        [DataMember(Order =4)]
         public ColorType ShowType
         {
             get { return _ShowType; }
             set { _ShowType = value; }
         }
 
-        private ConstValue.DEV_TYPE _DevType;
-        /// <summary>
-        /// 设备类型
-        /// </summary>
-        [DataMember(Order = 3)]
-        public ConstValue.DEV_TYPE DevType
-        {
-            get { return _DevType; }
-            set { _DevType = value; }
-        }
-
         private short _DevId;
         /// <summary>
         /// 设备ID
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 5)]
         public short DevId
         {
             get { return _DevId; }
             set { _DevId = value; }
         }
 
+        private ConstValue.DEV_TYPE _DevType;
+        /// <summary>
+        /// 设备类型
+        /// </summary>
+        [DataMember(Order = 6)]
+        public ConstValue.DEV_TYPE DevType
+        {
+            get { return _DevType; }
+            set { _DevType = value; }
+        }
+
+        /// <summary>
+        /// P68功能码
+        /// </summary>
+        [DataMember(Order = 7)]
+        public byte P68Funcode { get; set; }
+
         /// <summary>
         /// 终端地址A5
         /// </summary>
-        [DataMember(Order = 5)]
+        [DataMember(Order = 8)]
         public byte A5 { get; set; }
         /// <summary>
         /// 终端地址A4
         /// </summary>
-        [DataMember(Order = 6)]
+        [DataMember(Order = 9)]
         public byte A4 { get; set; }
         /// <summary>
         /// 终端地址A3
         /// </summary>
-        [DataMember(Order = 7)]
+        [DataMember(Order = 10)]
         public byte A3 { get; set; }
         /// <summary>
         /// 终端地址A2
         /// </summary>
-        [DataMember(Order = 8)]
+        [DataMember(Order = 11)]
         public byte A2 { get; set; }
         /// <summary>
         /// 终端地址A1
         /// </summary>
-        [DataMember(Order = 9)]
+        [DataMember(Order = 12)]
         public byte A1 { get; set; }
 
         /// <summary>
         /// SL651功能码
         /// </summary>
-        [DataMember(Order = 10)]
+        [DataMember(Order = 13)]
         public byte SL651Funcode { get; set; }
 
         private bool _AllowOnLine = true;
         /// <summary>
         /// 是否允许在线
         /// </summary>
-        [DataMember(Order = 11)]
+        [DataMember(Order = 14)]
         public bool AllowOnline
         {
             get { return _AllowOnLine; }
@@ -119,7 +125,7 @@ namespace Common
         /// <summary>
         /// 在线终端列表(用于返回给UI显示)
         /// </summary>
-        [DataMember(Order = 12)]
+        [DataMember(Order = 15)]
         public List<OnLineTerEntity> lstOnLine
         {
             get { return _lstOnLine; }
@@ -130,19 +136,19 @@ namespace Common
         /// <summary>
         /// 招测数据类型
         /// </summary>
-        [DataMember(Order = 13)]
+        [DataMember(Order = 16)]
         public CallDataTypeEntity CallDataType
         {
             get { return _callDataType; }
             set { _callDataType = value; }
         }
 
-        private GPRSCmdEntity[] _Packs;
+        private Package[] _Packs;
         /// <summary>
         /// 68协议命令帧
         /// </summary>
-        [DataMember(Order =14)]
-        public GPRSCmdEntity[] Packs
+        [DataMember(Order =17)]
+        public Package[] Packs
         {
             get { return _Packs; }
             set { _Packs = value; }
@@ -152,7 +158,7 @@ namespace Common
         /// <summary>
         /// SL651下送命令帧
         /// </summary>
-        [DataMember(Order = 15)]
+        [DataMember(Order = 18)]
         public Package651 Pack651
         {
             get { return _pack651; }

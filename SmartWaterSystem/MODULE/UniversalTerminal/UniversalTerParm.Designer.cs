@@ -172,8 +172,11 @@ namespace SmartWaterSystem
             this.btnCallData = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl_WaitCmd = new DevExpress.XtraGrid.GridControl();
             this.gridView_WaitCmd = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn18 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn20 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn21 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.类型 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl13 = new DevExpress.XtraEditors.GroupControl();
             this.groupControl14 = new DevExpress.XtraEditors.GroupControl();
             this.btnDel = new DevExpress.XtraEditors.SimpleButton();
@@ -313,6 +316,8 @@ namespace SmartWaterSystem
             this.cb_sim_coltime1.AutoHeight = false;
             this.cb_sim_coltime1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cb_sim_coltime1.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.cb_sim_coltime1.MaxLength = 3;
             this.cb_sim_coltime1.Name = "cb_sim_coltime1";
             // 
             // cb_sim_coltime2
@@ -320,6 +325,8 @@ namespace SmartWaterSystem
             this.cb_sim_coltime2.AutoHeight = false;
             this.cb_sim_coltime2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cb_sim_coltime2.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.cb_sim_coltime2.MaxLength = 3;
             this.cb_sim_coltime2.Name = "cb_sim_coltime2";
             // 
             // cb_sim_sendtime
@@ -978,6 +985,8 @@ namespace SmartWaterSystem
             this.cb_RS485_coltime.AutoHeight = false;
             this.cb_RS485_coltime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cb_RS485_coltime.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.cb_RS485_coltime.MaxLength = 3;
             this.cb_RS485_coltime.Name = "cb_RS485_coltime";
             // 
             // gridColumn15
@@ -1332,6 +1341,8 @@ namespace SmartWaterSystem
             this.cb_pre_coltime.AutoHeight = false;
             this.cb_pre_coltime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cb_pre_coltime.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.cb_pre_coltime.MaxLength = 3;
             this.cb_pre_coltime.Name = "cb_pre_coltime";
             // 
             // gridColumn9
@@ -1351,6 +1362,8 @@ namespace SmartWaterSystem
             this.cb_pluse_coltime.AutoHeight = false;
             this.cb_pluse_coltime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cb_pluse_coltime.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.cb_pluse_coltime.MaxLength = 3;
             this.cb_pluse_coltime.Name = "cb_pluse_coltime";
             // 
             // gridColumn17
@@ -1788,8 +1801,11 @@ namespace SmartWaterSystem
             // 
             this.gridView_WaitCmd.ActiveFilterEnabled = false;
             this.gridView_WaitCmd.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn18,
             this.gridColumn20,
-            this.gridColumn21});
+            this.gridColumn21,
+            this.gridColumn10,
+            this.类型});
             this.gridView_WaitCmd.GridControl = this.gridControl_WaitCmd;
             this.gridView_WaitCmd.Name = "gridView_WaitCmd";
             this.gridView_WaitCmd.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -1803,6 +1819,20 @@ namespace SmartWaterSystem
             this.gridView_WaitCmd.OptionsSelection.MultiSelect = true;
             this.gridView_WaitCmd.OptionsView.ShowGroupPanel = false;
             // 
+            // gridColumn18
+            // 
+            this.gridColumn18.Caption = "类型";
+            this.gridColumn18.FieldName = "StrDevType";
+            this.gridColumn18.Name = "gridColumn18";
+            this.gridColumn18.OptionsColumn.AllowEdit = false;
+            this.gridColumn18.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn18.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn18.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn18.OptionsFilter.AllowFilter = false;
+            this.gridColumn18.Visible = true;
+            this.gridColumn18.VisibleIndex = 3;
+            this.gridColumn18.Width = 56;
+            // 
             // gridColumn20
             // 
             this.gridColumn20.Caption = "终端号";
@@ -1810,16 +1840,43 @@ namespace SmartWaterSystem
             this.gridColumn20.Name = "gridColumn20";
             this.gridColumn20.Visible = true;
             this.gridColumn20.VisibleIndex = 0;
-            this.gridColumn20.Width = 50;
+            this.gridColumn20.Width = 48;
             // 
             // gridColumn21
             // 
             this.gridColumn21.Caption = "功能码";
-            this.gridColumn21.FieldName = "funcode";
+            this.gridColumn21.FieldName = "Funcode";
             this.gridColumn21.Name = "gridColumn21";
             this.gridColumn21.Visible = true;
             this.gridColumn21.VisibleIndex = 1;
-            this.gridColumn21.Width = 177;
+            this.gridColumn21.Width = 46;
+            // 
+            // gridColumn10
+            // 
+            this.gridColumn10.Caption = "数据";
+            this.gridColumn10.FieldName = "Data";
+            this.gridColumn10.Name = "gridColumn10";
+            this.gridColumn10.OptionsColumn.AllowEdit = false;
+            this.gridColumn10.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn10.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn10.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn10.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn10.OptionsFilter.AllowFilter = false;
+            this.gridColumn10.Visible = true;
+            this.gridColumn10.VisibleIndex = 2;
+            this.gridColumn10.Width = 53;
+            // 
+            // 类型
+            // 
+            this.类型.Caption = "gridColumn19";
+            this.类型.FieldName = "DevType";
+            this.类型.Name = "类型";
+            this.类型.OptionsColumn.AllowEdit = false;
+            this.类型.OptionsColumn.AllowFocus = false;
+            this.类型.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.True;
+            this.类型.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.类型.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.类型.Width = 20;
             // 
             // groupControl13
             // 
@@ -1848,6 +1905,7 @@ namespace SmartWaterSystem
             this.btnDel.Size = new System.Drawing.Size(67, 26);
             this.btnDel.TabIndex = 1;
             this.btnDel.Text = "删除";
+            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
             // btnVer
             // 
@@ -1869,7 +1927,7 @@ namespace SmartWaterSystem
             // 
             // timer_GetWaitCmd
             // 
-            this.timer_GetWaitCmd.Interval = 5000;
+            this.timer_GetWaitCmd.Interval = 10000;
             // 
             // UniversalTerParm
             // 
@@ -2175,5 +2233,8 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.SimpleButton btnCallClose;
         private DevExpress.XtraEditors.SimpleButton btnCallOpen;
         private System.Windows.Forms.Timer timer_GetWaitCmd;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn18;
+        private DevExpress.XtraGrid.Columns.GridColumn 类型;
     }
 }

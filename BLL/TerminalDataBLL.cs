@@ -230,7 +230,7 @@ namespace BLL
             }
         }
 
-        public List<GPRSCmdEntity> GetGPRSParm()
+        public List<SendPackageEntity> GetGPRSParm()
         {
             try
             {

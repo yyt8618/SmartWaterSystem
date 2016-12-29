@@ -63,7 +63,6 @@
     <Compile Include="HydrantDataDetailEntity.cs" />
     <Compile Include="PrectrlDataEntity.cs" />
     <Compile Include="FlowDataEntity.cs" />
-    <Compile Include="GPRSCmdEntity.cs" />
     <Compile Include="GPRSCmdFlag.cs" />
     <Compile Include="GPRSFlowFrameDataEntity.cs" />
     <Compile Include="GPRSPrectrlFrameDataEntity.cs" />

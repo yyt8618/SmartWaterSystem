@@ -2058,7 +2058,7 @@ namespace SmartWaterSystem
             // 
             // timer_GetWaitCmd
             // 
-            this.timer_GetWaitCmd.Interval = 5000;
+            this.timer_GetWaitCmd.Interval = 10000;
             // 
             // UniversalTerParm651
             // 

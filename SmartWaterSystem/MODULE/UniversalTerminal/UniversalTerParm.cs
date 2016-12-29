@@ -26,6 +26,8 @@ namespace SmartWaterSystem
         public UniversalTerParm()
         {
             InitializeComponent();
+            DevExpress.Data.CurrencyDataController.DisableThreadingProblemsDetection = true;
+
             timer_GetWaitCmd.Tick += new EventHandler(timer_GetWaitCmd_Tick);
 
             #region Init Simulate GridView
@@ -33,23 +35,26 @@ namespace SmartWaterSystem
             for (int i = 0; i < 24; i++)
                 cb_sim_starttime.Items.Add(i);
 
-            cb_sim_coltime1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_sim_coltime1.Items.Add(1);
-            cb_sim_coltime1.Items.Add(5);
-            cb_sim_coltime1.Items.Add(15);
+            //cb_sim_coltime1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_sim_coltime1.Items.Add(20);
             cb_sim_coltime1.Items.Add(30);
             cb_sim_coltime1.Items.Add(60);
             cb_sim_coltime1.Items.Add(120);
+            cb_sim_coltime1.Items.Add(240);
+            cb_sim_coltime1.Items.Add(300);
+            cb_sim_coltime1.Items.Add(900);
 
-            cb_sim_coltime2.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_sim_coltime2.Items.Add(1);
-            cb_sim_coltime2.Items.Add(5);
-            cb_sim_coltime2.Items.Add(15);
+            //cb_sim_coltime2.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_sim_coltime2.Items.Add(20);
             cb_sim_coltime2.Items.Add(30);
             cb_sim_coltime2.Items.Add(60);
             cb_sim_coltime2.Items.Add(120);
+            cb_sim_coltime2.Items.Add(240);
+            cb_sim_coltime2.Items.Add(300);
+            cb_sim_coltime2.Items.Add(900);
 
             cb_sim_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_sim_sendtime.Items.Add(2);
             cb_sim_sendtime.Items.Add(5);
             cb_sim_sendtime.Items.Add(15);
             cb_sim_sendtime.Items.Add(30);
@@ -66,23 +71,26 @@ namespace SmartWaterSystem
             for (int i = 0; i < 24; i++)
                 cb_pluse_starttime.Items.Add(i);
             
-            cb_pluse_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_pluse_coltime.Items.Add(1);
-            cb_pluse_coltime.Items.Add(5);
-            cb_pluse_coltime.Items.Add(15);
+            //cb_pluse_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_pluse_coltime.Items.Add(20);
             cb_pluse_coltime.Items.Add(30);
             cb_pluse_coltime.Items.Add(60);
             cb_pluse_coltime.Items.Add(120);
+            cb_pluse_coltime.Items.Add(240);
+            cb_pluse_coltime.Items.Add(300);
+            cb_pluse_coltime.Items.Add(900);
 
-            cb_pre_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_pre_coltime.Items.Add(1);
-            cb_pre_coltime.Items.Add(5);
-            cb_pre_coltime.Items.Add(15);
+            //cb_pre_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_pre_coltime.Items.Add(20);
             cb_pre_coltime.Items.Add(30);
             cb_pre_coltime.Items.Add(60);
             cb_pre_coltime.Items.Add(120);
+            cb_pre_coltime.Items.Add(240);
+            cb_pre_coltime.Items.Add(300);
+            cb_pre_coltime.Items.Add(900);
 
             cb_pluse_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_pluse_sendtime.Items.Add(2);
             cb_pluse_sendtime.Items.Add(5);
             cb_pluse_sendtime.Items.Add(15);
             cb_pluse_sendtime.Items.Add(30);
@@ -99,15 +107,17 @@ namespace SmartWaterSystem
             for (int i = 0; i < 24; i++)
                 cb_RS485_starttime.Items.Add(i);
 
-            cb_RS485_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            cb_RS485_coltime.Items.Add(1);
-            cb_RS485_coltime.Items.Add(5);
-            cb_RS485_coltime.Items.Add(15);
+            //cb_RS485_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_RS485_coltime.Items.Add(20);
             cb_RS485_coltime.Items.Add(30);
             cb_RS485_coltime.Items.Add(60);
             cb_RS485_coltime.Items.Add(120);
+            cb_RS485_coltime.Items.Add(240);
+            cb_RS485_coltime.Items.Add(300);
+            cb_RS485_coltime.Items.Add(900);
 
             cb_RS485_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            cb_RS485_sendtime.Items.Add(2);
             cb_RS485_sendtime.Items.Add(5);
             cb_RS485_sendtime.Items.Add(15);
             cb_RS485_sendtime.Items.Add(30);
@@ -2045,7 +2055,20 @@ namespace SmartWaterSystem
         }
         private void btnDel_Click(object sender, EventArgs e)
         {
+            int[] selectrows = gridView_WaitCmd.GetSelectedRows();
+            if (selectrows != null && selectrows.Length > 0)
+            {
+                string DevType = gridView_WaitCmd.GetRowCellValue(selectrows[0], "DevType").ToString();
+                string TerId = gridView_WaitCmd.GetRowCellValue(selectrows[0], "ID").ToString();
+                string Funcode = gridView_WaitCmd.GetRowCellValue(selectrows[0], "Funcode").ToString();
 
+                SocketEntity msmqentity = new SocketEntity();
+                msmqentity.DevType = (ConstValue.DEV_TYPE)Convert.ToInt32(DevType);
+                msmqentity.DevId = Convert.ToInt16(TerId);
+                msmqentity.P68Funcode = Convert.ToByte(Funcode.Replace("0x", ""), 16);
+                msmqentity.MsgType = ConstValue.MSMQTYPE.Del_P68_WaitSendCmd;
+                GlobalValue.SocketMgr.SendMessage(msmqentity);
+            }
         }
         #endregion
 
@@ -2382,70 +2405,31 @@ namespace SmartWaterSystem
 
         void MSMQMgr_MSMQEvent(object sender, SocketEventArgs e)
         {
-            if (e.msmqEntity != null && e.msmqEntity.MsgType == ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd)
+            if (e.msmqEntity != null && e.msmqEntity.MsgType == ConstValue.MSMQTYPE.Get_P68_WaitSendCmd)
             {
-                if (e.msmqEntity.MsgType == ConstValue.MSMQTYPE.Get_SL651_WaitSendCmd && !string.IsNullOrEmpty(e.msmqEntity.Msg))
+                if (!string.IsNullOrEmpty(e.msmqEntity.Msg))
                 {
                     try
                     {
-                        List<Package651> lstPack = JSONSerialize.JsonDeserialize<List<Package651>>(e.msmqEntity.Msg);
-                        DataTable dt = (DataTable)gridControl_WaitCmd.DataSource;
-                        if (dt == null)
-                        {
-                            dt = new DataTable("waitsendTable");
-                            dt.Columns.Add("A5");
-                            dt.Columns.Add("A4");
-                            dt.Columns.Add("A3");
-                            dt.Columns.Add("A2");
-                            dt.Columns.Add("A1");
-                            dt.Columns.Add("funcode");
-                        }
+                        List<Package> lstPack = JSONSerialize.JsonDeserialize<List<Package>>(e.msmqEntity.Msg);
+                        DataTable dt = dt = new DataTable("waitsendTable");
+                        dt.Columns.Add("StrDevType");
+                        dt.Columns.Add("ID");
+                        dt.Columns.Add("Funcode");
+                        dt.Columns.Add("Data");
+                        dt.Columns.Add("DevType");
 
                         if (lstPack != null)
                         {
-                            bool exist = false;
-                            for (int i = 0; i < dt.Rows.Count; i++)  //如果绑定的表中的数据在lstPack中不存在,则删除
+                            foreach (Package pack in lstPack)   //如果在lstPack中存在,而在绑定的表中不存在,则添加
                             {
-                                exist = false;
-                                foreach (Package651 pack in lstPack)
-                                {
-                                    if (("0x" + string.Format("{0:X2}", pack.A5)) == dt.Rows[i]["A5"].ToString() && ("0x" + string.Format("{0:X2}", pack.A4)) == dt.Rows[i]["A4"].ToString() &&
-                                        ("0x" + string.Format("{0:X2}", pack.A3)) == dt.Rows[i]["A3"].ToString() && ("0x" + string.Format("{0:X2}", pack.A2)) == dt.Rows[i]["A2"].ToString() &&
-                                            ("0x" + string.Format("{0:X2}", pack.A1)) == dt.Rows[i]["A1"].ToString() && ("0x" + string.Format("{0:X2}", pack.FUNCODE)) == dt.Rows[i]["funcode"].ToString())
-                                    {
-                                        exist = true;
-                                        break;
-                                    }
-                                }
-                                if (!exist)
-                                {
-                                    dt.Rows.RemoveAt(i);
-                                }
-                            }
-                            foreach (Package651 pack in lstPack)   //如果在lstPack中存在,而在绑定的表中不存在,则添加
-                            {
-                                exist = false;
-                                foreach (DataRow dr in dt.Rows)
-                                {
-                                    if (("0x" + string.Format("{0:X2}", pack.A5)) == dr["A5"].ToString() && ("0x" + string.Format("{0:X2}", pack.A4)) == dr["A4"].ToString() &&
-                                        ("0x" + string.Format("{0:X2}", pack.A3)) == dr["A3"].ToString() && ("0x" + string.Format("{0:X2}", pack.A2)) == dr["A2"].ToString() &&
-                                            ("0x" + string.Format("{0:X2}", pack.A1)) == dr["A1"].ToString() && ("0x" + string.Format("{0:X2}", pack.FUNCODE)) == dr["funcode"].ToString())
-                                    {
-                                        exist = true;
-                                        break;
-                                    }
-                                }
-                                if (!exist)
-                                {
-                                    DataRow dr = dt.NewRow();
-                                    dr["A5"] = "0x" + string.Format("{0:X2}", pack.A5);
-                                    dr["A4"] = "0x" + string.Format("{0:X2}", pack.A4);
-                                    dr["A3"] = "0x" + string.Format("{0:X2}", pack.A3);
-                                    dr["A2"] = "0x" + string.Format("{0:X2}", pack.A2);
-                                    dr["A1"] = "0x" + string.Format("{0:X2}", pack.A1);
-                                    dr["funcode"] = "0x" + string.Format("{0:X2}", pack.FUNCODE);
-                                    dt.Rows.Add(dr);
-                                }
+                                DataRow dr = dt.NewRow();
+                                dr["StrDevType"] = new EnumHelper().GetEnumDescription(pack.DevType);
+                                dr["ID"] = pack.DevID;
+                                dr["Funcode"] = "0x" + string.Format("{0:X2}", pack.C1);
+                                dr["Data"] = ConvertHelper.ByteToString(pack.Data, pack.DataLength);
+                                dr["DevType"] = (int)pack.DevType;
+                                dt.Rows.Add(dr);
                             }
                         }
                         else
@@ -2456,10 +2440,10 @@ namespace SmartWaterSystem
                     }
                     catch
                     {
+                        ;
                     }
                 }
             }
-
         }
 
         private delegate void SetWaitListViewHandle(DataTable lstPack);
@@ -2477,5 +2461,6 @@ namespace SmartWaterSystem
                 gridControl_WaitCmd.DataSource = lstPack;
             }
         }
+        
     }
 }

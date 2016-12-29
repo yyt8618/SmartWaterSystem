@@ -67,7 +67,6 @@ namespace GCGPRSService
         Thread t_Interval;
         Socket listener;
         bool isRunning = false;
-        List<CallSocketEntity> lstClient = new List<CallSocketEntity>();  //在线客户端列表
         int maxSmartClient = 8;   //SmartWaterSystem.exe 的最大socket连接数
         object obj_smartsocket = new object();      //SmartWaterSystem.exe的socket连接列表锁
         List<SmartSocketEntity> lstSmartClient = new List<SmartSocketEntity>(); //SmartWaterSystem.exe 的socket连接列表
@@ -139,27 +138,42 @@ namespace GCGPRSService
                     OnLineState_Interval = 5 * 60;
                     SocketEntity msmqEntity = new SocketEntity();
                     msmqEntity.lstOnLine = new List<OnLineTerEntity>();
-                    foreach (CallSocketEntity client in lstClient)
+                    for (int i = 0; i < GlobalValue.Instance.lstClient.Count; i++)
                     {
-                        //如果重试次数大于0并且发送时间与当前时间相差不超过一天，保留
-                        if (client.lstWaitSendCmd != null && client.lstWaitSendCmd.Count > 0)
+                        if ((DateTime.Now - GlobalValue.Instance.lstClient[i].ModifyTime).TotalHours > 36)  //根据超过36小时未使用对象自动销毁
                         {
-                            List<SendPackageEntity> lst_save_Pack = new List<SendPackageEntity>();
-                            for (int i = 0; i < client.lstWaitSendCmd.Count; i++)
+                            lock (GlobalValue.Instance.lstClientLock)
                             {
-                                TimeSpan ts = DateTime.Now - client.lstWaitSendCmd[i].SendTime;
-                                if ((client.lstWaitSendCmd[i].SendCount > -1) && (Math.Abs(ts.TotalHours) < 24))
-                                    lst_save_Pack.Add(client.lstWaitSendCmd[i]);
+                                GlobalValue.Instance.lstClient.RemoveAt(i);
                             }
-                            client.lstWaitSendCmd = lst_save_Pack;
                         }
-                        //在线检查
-                        bool add = false;
-                        add = SocketHelper.IsSocketConnected_Poll(client.ClientSocket);
-
-                        if (add && client.TerId != -1)
+                        else
                         {
-                            msmqEntity.lstOnLine.Add(new OnLineTerEntity(client.DevType, client.TerId));
+                            //如果重试次数大于0并且发送时间与当前时间相差不超过一天，保留
+                            if (GlobalValue.Instance.lstClient[i].lstWaitSendCmd != null && GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count > 0)
+                            {
+                                //List<SendPackageEntity> lst_save_Pack = new List<SendPackageEntity>();
+                                for (int j = 0; j < GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count; j++)
+                                {
+                                    TimeSpan ts = DateTime.Now - GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].SendTime;
+                                    if ((Math.Abs(ts.TotalHours) > 24))
+                                    {
+                                        lock (GlobalValue.Instance.lstClientLock)
+                                        {
+                                            GlobalValue.Instance.lstClient[i].lstWaitSendCmd.RemoveAt(j);
+                                        }
+                                    }
+                                }
+                                //client.lstWaitSendCmd = lst_save_Pack;
+                            }
+                            //在线检查
+                            bool add = false;
+                            add = SocketHelper.IsSocketConnected_Poll(GlobalValue.Instance.lstClient[i].ClientSocket);
+
+                            if (add && GlobalValue.Instance.lstClient[i].TerId != -1)
+                            {
+                                msmqEntity.lstOnLine.Add(new OnLineTerEntity(GlobalValue.Instance.lstClient[i].DevType, GlobalValue.Instance.lstClient[i].TerId));
+                            }
                         }
                     }
                     OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
@@ -510,78 +524,80 @@ namespace GCGPRSService
                                 List<Package> lstCommandPack = new List<Package>();
                                 Package response = new Package();
 
+                                int lstClientIndex = GlobalValue.Instance.lstClientAdd(pack.DevID, pack.DevType);    //找到终端所在位置,不存在就新建
+                                GlobalValue.Instance.lstClient[lstClientIndex].ClientSocket = handler;                //保存socket连接对象
                                 if (pack.CommandType == CTRL_COMMAND_TYPE.RESPONSE_BY_SLAVE)  //接受到应答,判断是否D11是否为1,如果为0,表示没有数据需要读
                                 {
                                     #region 处理响应帧
-                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + " 收到响应帧:" + str_source));
-                                    foreach (CallSocketEntity callentity in lstClient)
+                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + " 收到响应帧:" + str_source));
+
+                                    if (GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd != null)
                                     {
-                                        if (callentity.DevType == pack.DevType && callentity.TerId != -1 && callentity.TerId == pack.DevID && callentity.lstWaitSendCmd != null)
+                                        List<SendPackageEntity> lst_save_pack = new List<SendPackageEntity>();
+                                        for (int j = 0; j < GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.Count; j++)  //收到响应帧
                                         {
-                                            List<SendPackageEntity> lst_save_pack = new List<SendPackageEntity>();
-                                            for (int i = 0; i < callentity.lstWaitSendCmd.Count; i++)  //收到响应帧
+                                            if (//GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.C0 == pack.C0 &&
+                                                GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.C1 == pack.C1 &&
+                                                GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.Data == pack.Data)
                                             {
-                                                if (callentity.lstWaitSendCmd[i].SendPackage.C0 == pack.C0 &&
-                                                    callentity.lstWaitSendCmd[i].SendPackage.C1 == pack.C1 &&
-                                                    callentity.lstWaitSendCmd[i].SendPackage.Data == pack.Data)
+                                                lock (GlobalValue.Instance.lstClientLock)
                                                 {
-                                                    ;
+                                                    GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.RemoveAt(j);      //移除收到的帧
                                                 }
-                                                else
-                                                    lst_save_pack.Add(callentity.lstWaitSendCmd[i]);
                                             }
-                                            callentity.lstWaitSendCmd = lst_save_pack;
                                         }
                                     }
 
-                                    if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                    for (int z = 0; z < GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.Count; z++)
                                     {
-                                        for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
+                                        if (GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[z].SendPackage.C1 == pack.C1)
                                         {
-                                            if (GlobalValue.Instance.lstGprsCmd[j].DeviceId == pack.DevID && (byte)GlobalValue.Instance.lstGprsCmd[j].DevTypeId == (byte)pack.DevType &&
-                                                (byte)GlobalValue.Instance.lstGprsCmd[j].FunCode == pack.C1)  //SendedCount>0判断左右 只有发送过的才能更新,如噪声远传的话，记录仪1和2一起发送相同功能码，收到响应帧区分不出
+                                            if (GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[z].TableId == -1 || GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[z].TableId == -2)  //-1用在生成的自动校时,-2用在下送的命令帧
                                             {
-                                                if (GlobalValue.Instance.lstGprsCmd[j].TableId == -1 || GlobalValue.Instance.lstGprsCmd[j].TableId == -2)  //-1用在生成的自动校时,-2用在下送的命令帧
-                                                {
-                                                    lock (GlobalValue.Instance.lstGprsCmdLock)
-                                                    { GlobalValue.Instance.lstGprsCmd.RemoveAt(j); }  //生成的自动校时直接删除
-                                                    break;      //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，收到响应帧区分不出
-                                                }
-                                                else
-                                                {
-                                                    GPRSCmdFlag flag = new GPRSCmdFlag();
-                                                    flag.TableId = GlobalValue.Instance.lstGprsCmd[j].TableId;
-                                                    GlobalValue.Instance.lstGprsCmd[j].SendedFlag = 1;  //标记为已发送，防止后边重发
-                                                    flag.SendCount = 0;  //0:成功发送,收到响应帧
-                                                    GlobalValue.Instance.lstSendedCmdId.Add(flag);
-                                                    break;      //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，收到响应帧区分不出
-                                                }
+                                                lock (GlobalValue.Instance.lstClientLock)
+                                                { GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.RemoveAt(z); }  //生成的自动校时直接删除
+                                                break;      //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，收到响应帧区分不出
+                                            }
+                                            else
+                                            {
+                                                GPRSCmdFlag flag = new GPRSCmdFlag();
+                                                flag.TableId = GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[z].TableId;
+                                                GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[z].SendedFlag = 1;  //标记为已发送，防止后边重发
+                                                flag.SendCount = 0;  //0:成功发送,收到响应帧
+                                                GlobalValue.Instance.lstSendedCmdId.Add(flag);
+                                                break;      //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，收到响应帧区分不出
                                             }
                                         }
-                                        for (int j = 0; j < GlobalValue.Instance.lstGprsCmd.Count; j++)
+                                    }
+
+                                    for (int j = 0; j < GlobalValue.Instance.lstClient.Count; j++)
+                                    {
+                                        for (int z = 0; z < GlobalValue.Instance.lstClient[j].lstWaitSendCmd.Count; z++)
                                         {
                                             //失败次数多于3次,则删除
-                                            if (GlobalValue.Instance.lstGprsCmd[j].SendedCount > 3)
+                                            if (GlobalValue.Instance.lstClient[j].lstWaitSendCmd[z].SendCount > 3)
                                             {
-                                                if (GlobalValue.Instance.lstGprsCmd[j].TableId == -1)  //-1用在生成的自动校时
+                                                if (GlobalValue.Instance.lstClient[j].lstWaitSendCmd[z].TableId == -1)  //-1用在生成的自动校时
                                                 {
-                                                    lock (GlobalValue.Instance.lstGprsCmdLock)
-                                                    { GlobalValue.Instance.lstGprsCmd.RemoveAt(j); }  //生成的自动校时直接删除
+                                                    lock (GlobalValue.Instance.lstClientLock)
+                                                    { GlobalValue.Instance.lstClient[j].lstWaitSendCmd.RemoveAt(z); }  //生成的自动校时直接删除
                                                 }
-                                                else if (GlobalValue.Instance.lstGprsCmd[j].TableId == -2)   //-2用在下送的命令帧
+                                                else if (GlobalValue.Instance.lstClient[j].lstWaitSendCmd[z].TableId == -2)   //-2用在下送的命令帧
                                                 {
-
+                                                    lock (GlobalValue.Instance.lstClientLock)
+                                                    { GlobalValue.Instance.lstClient[j].lstWaitSendCmd.RemoveAt(z); }  //下送的命令帧直接删除
                                                 }
                                                 else
                                                 {
                                                     GPRSCmdFlag flag = new GPRSCmdFlag();
-                                                    flag.TableId = GlobalValue.Instance.lstGprsCmd[j].TableId;
-                                                    flag.SendCount = GlobalValue.Instance.lstGprsCmd[j].SendedCount;  //未收到响应帧,发送次数超过限制
+                                                    flag.TableId = GlobalValue.Instance.lstClient[j].lstWaitSendCmd[z].TableId;
+                                                    flag.SendCount = GlobalValue.Instance.lstClient[j].lstWaitSendCmd[z].SendCount;  //未收到响应帧,发送次数超过限制
                                                     GlobalValue.Instance.lstSendedCmdId.Add(flag);
                                                 }
                                             }
                                         }
                                     }
+
                                     GlobalValue.Instance.SocketSQLMag.Send(SQLType.UpdateSendParmFlag);
                                     #endregion
                                 }
@@ -589,7 +605,7 @@ namespace GCGPRSService
                                 {
                                     string str_frame = ConvertHelper.ByteToString(arr, arr.Length);
 #if debug
-                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + " 收到帧数据:" + str_frame));
+                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + " 收到帧数据:" + str_frame));
 #else
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据"));
 #endif
@@ -598,58 +614,47 @@ namespace GCGPRSService
                                     #endregion
 
                                     response.DevID = pack.DevID;
-                                    CallSocketEntity currentSocketEntity = null;
-                                    foreach (CallSocketEntity callentity in lstClient)
-                                    {
-                                        if (callentity.DevType == pack.DevType && callentity.TerId != -1 && callentity.TerId == pack.DevID)
-                                        {
-                                            currentSocketEntity = callentity;
-                                            callentity.ClientSocket = handler;
-                                            if (callentity.lstWaitSendCmd != null && callentity.lstWaitSendCmd.Count > 0)
-                                            {
-                                                for (int i = 0; i < callentity.lstWaitSendCmd.Count; i++)
-                                                {
-                                                    lstCommandPack.Add(callentity.lstWaitSendCmd[i].SendPackage);
-                                                    callentity.lstWaitSendCmd[i].SendCount--;
-                                                    callentity.lstWaitSendCmd[i].SendTime = DateTime.Now;
-                                                }
-                                            }
-                                            //将在线信息发送给UI更新
-                                            SocketEntity msmqEntity = new SocketEntity();
-                                            msmqEntity.lstOnLine = new List<OnLineTerEntity>();
-                                            msmqEntity.lstOnLine.Add(new OnLineTerEntity(callentity.DevType, callentity.TerId));
-                                            OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
-                                        }
-                                    }
+                                    //GlobalValue.Instance.lstClient[lstClientIndex].ClientSocket = handler;
+                                    //if (GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.Count > 0)
+                                    //{
+                                    //    for (int i = 0; i < GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.Count; i++)
+                                    //    {
+                                    //        lstCommandPack.Add(GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[i].SendPackage);
+                                    //        GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[i].SendCount--;
+                                    //        GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[i].SendTime = DateTime.Now;
+                                    //    }
+                                    //}
+                                    //将在线信息发送给UI更新
+                                    SocketEntity msmqEntity = new SocketEntity();
+                                    msmqEntity.lstOnLine = new List<OnLineTerEntity>();
+                                    msmqEntity.lstOnLine.Add(new OnLineTerEntity(GlobalValue.Instance.lstClient[lstClientIndex].DevType, GlobalValue.Instance.lstClient[lstClientIndex].TerId));
+                                    OnSendMsg(new SocketEventArgs(ConstValue.MSMQTYPE.Data_OnLineState, msmqEntity));
 
                                     //Thread.Sleep(500);
                                 }
 
                                 #region 发送后续命令帧
-                                if (((GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                if (((GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.Count > 0)
                                     || bNeedCheckTime || lstCommandPack.Count > 0) && pack.IsFinal)
                                 {
-                                    if (GlobalValue.Instance.lstGprsCmd != null && GlobalValue.Instance.lstGprsCmd.Count > 0)
+                                    bool isupdate = false;
+                                    for (int j = 0; j < GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.Count; j++)
                                     {
-                                        bool isupdate = false;
-                                        for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
+                                        if (GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendedFlag == 0)
                                         {
-                                            if (GlobalValue.Instance.lstGprsCmd[i].SendedFlag == 0 && GlobalValue.Instance.lstGprsCmd[i].DeviceId == (int)pack.DevID && GlobalValue.Instance.lstGprsCmd[i].DevTypeId == (int)pack.DevType)
+                                            Package CommandPack = new Package();
+                                            CommandPack.DevID = pack.DevID;
+                                            CommandPack.DevType = pack.DevType;
+                                            CommandPack.C0 = GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.C0;
+                                            CommandPack.C1 = GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.C1;
+                                            CommandPack.Data = GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.Data;
+                                            CommandPack.DataLength = GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.DataLength;
+                                            //CommandPack.CS = CommandPack.CreateCS();
+                                            lstCommandPack.Add(CommandPack);
+                                            if (!isupdate)  //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，区分不出
                                             {
-                                                Package CommandPack = new Package();
-                                                CommandPack.DevID = pack.DevID;
-                                                CommandPack.DevType = pack.DevType;
-                                                CommandPack.C0 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].CtrlCode);
-                                                CommandPack.C1 = Convert.ToByte(GlobalValue.Instance.lstGprsCmd[i].FunCode);
-                                                CommandPack.Data = ConvertHelper.StringToByte(GlobalValue.Instance.lstGprsCmd[i].Data);
-                                                CommandPack.DataLength = CommandPack.Data.Length;
-                                                //CommandPack.CS = CommandPack.CreateCS();
-                                                lstCommandPack.Add(CommandPack);
-                                                if (!isupdate)  //处理完后直接退出循环,防止如噪声远传的话，记录仪1和2一起发送相同功能码，区分不出
-                                                {
-                                                    GlobalValue.Instance.lstGprsCmd[i].SendedCount++;  //记录发送次数
-                                                    isupdate = true;
-                                                }
+                                                GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendCount++;  //记录发送次数
+                                                isupdate = true;
                                             }
                                         }
                                     }
@@ -705,34 +710,7 @@ namespace GCGPRSService
                                         //pack_time.CS = pack_time.CreateCS();
                                         if (lstCommandPack.Count > 0)  //已经有需要下送的命令,由于一次只下送一条命令，校时命令需要放在所有命令之后,将校时命令放入命令缓存
                                         {
-                                            
-                                            
-                                            GPRSCmdEntity timeCmd = new GPRSCmdEntity();
-                                            timeCmd.DeviceId = pack_time.DevID;
-                                            timeCmd.CtrlCode = pack_time.C0;
-                                            timeCmd.FunCode = pack_time.C1;
-                                            timeCmd.DevTypeId = Convert.ToInt32(pack_time.DevType);
-                                            timeCmd.Data = ConvertHelper.ByteToString(pack_time.Data, pack_time.DataLength);
-                                            timeCmd.DataLen = timeCmd.Data.Length;
-                                            timeCmd.TableId = -1;
-
-                                            //删除之前的校时命令再添加
-                                            if (GlobalValue.Instance.lstGprsCmd.Count > 0)
-                                            {
-                                                lock (GlobalValue.Instance.lstGprsCmdLock)
-                                                {
-                                                    for (int i = 0; i < lstCommandPack.Count; i++)
-                                                    {
-                                                        if (GlobalValue.Instance.lstGprsCmd[i].DevTypeId == timeCmd.DevTypeId && GlobalValue.Instance.lstGprsCmd[i].DeviceId == timeCmd.DeviceId && GlobalValue.Instance.lstGprsCmd[i].FunCode == timeCmd.FunCode)
-                                                        {
-                                                            GlobalValue.Instance.lstGprsCmd.RemoveAt(i);
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                            lock (GlobalValue.Instance.lstGprsCmdLock)
-                                            { GlobalValue.Instance.lstGprsCmd.Add(timeCmd); }
+                                            GlobalValue.Instance.lstClientAdd(pack_time.DevID, pack_time.DevType, (int)PackFromType.P68CheckTime, pack_time, true);
                                         }
 
                                         lstCommandPack.Add(pack_time);  //校时命令添加进来,下边只发送第一条命令,加入校时命令，用于后面判断是不是最后一个帧
@@ -755,7 +733,7 @@ namespace GCGPRSService
                                         bsenddata = response.ToArray();
 
 #if debug
-                                        OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                                        OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                                 OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -769,7 +747,7 @@ namespace GCGPRSService
                                     }
 
 
-                                    if (lstCommandPack.Count > 0)//for (int i = 0; i < lstCommandPack.Count; i++)
+                                    if (lstCommandPack.Count > 0)
                                     {
                                         Package commandpack = lstCommandPack[0];  //i
                                         if (0 != (lstCommandPack.Count - 1))  //i
@@ -779,7 +757,7 @@ namespace GCGPRSService
 
                                         Thread.Sleep(200);  //帧之间间隔
 #if debug
-                                        OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                                        OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -802,7 +780,7 @@ namespace GCGPRSService
 
                                     byte[] bsenddata = response.ToArray();
 #if debug
-                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                                    OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  发送响应帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
 #else
                                         OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  发送响应帧"));
 #endif
@@ -859,12 +837,12 @@ namespace GCGPRSService
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + "  收到帧数据"));
 #endif
                                     int clientindex = -1;  //查找或添加
-                                    for (int i = 0; i < lstClient.Count; i++)
+                                    for (int i = 0; i < GlobalValue.Instance.lstClient.Count; i++)
                                     {
-                                        if (lstClient[i].A1 == pack.A1 && lstClient[i].A2 == pack.A2 && lstClient[i].A3 == pack.A3 && lstClient[i].A4 == pack.A4 && lstClient[i].A5 == pack.A5)
+                                        if (GlobalValue.Instance.lstClient[i].A1 == pack.A1 && GlobalValue.Instance.lstClient[i].A2 == pack.A2 && GlobalValue.Instance.lstClient[i].A3 == pack.A3 && GlobalValue.Instance.lstClient[i].A4 == pack.A4 && GlobalValue.Instance.lstClient[i].A5 == pack.A5)
                                         {
                                             clientindex = i;
-                                            lstClient[i].ClientSocket = handler;
+                                            GlobalValue.Instance.lstClient[i].ClientSocket = handler;
                                             break;
                                         }
                                     }
@@ -877,16 +855,16 @@ namespace GCGPRSService
                                         sockpack.A3 = pack.A3;
                                         sockpack.A4 = pack.A4;
                                         sockpack.A5 = pack.A5;
-                                        lstClient.Add(sockpack);
-                                        clientindex = lstClient.Count - 1;
+                                        GlobalValue.Instance.lstClient.Add(sockpack);
+                                        clientindex = GlobalValue.Instance.lstClient.Count - 1;
                                     }
 
                                     #region 解析数据
                                     if (havesubsequent)  //多包时保存帧正文数据以便下边解帧时组合
                                     {
                                         if (pack.CurPackCount == 1)  //第一帧时,初始化组帧变量
-                                            lstClient[clientindex].multiData = new List<byte>();
-                                        lstClient[clientindex].multiData.AddRange(pack.Data);
+                                            GlobalValue.Instance.lstClient[clientindex].multiData = new List<byte>();
+                                        GlobalValue.Instance.lstClient[clientindex].multiData.AddRange(pack.Data);
                                     }
                                     Universal651SerialPortEntity spEntity = null;  //不使用
                                     string analyseStr = "";
@@ -895,8 +873,8 @@ namespace GCGPRSService
                                     {
                                         if (pack.CurPackCount > 1 && pack.SumPackCount == pack.CurPackCount)
                                         {
-                                            if (lstClient[clientindex].multiData != null && lstClient[clientindex].multiData.Count > 0)
-                                                analyseData = lstClient[clientindex].multiData.ToArray();
+                                            if (GlobalValue.Instance.lstClient[clientindex].multiData != null && GlobalValue.Instance.lstClient[clientindex].multiData.Count > 0)
+                                                analyseData = GlobalValue.Instance.lstClient[clientindex].multiData.ToArray();
                                             analyseStr = SmartWaterSystem.SL651AnalyseElement.AnalyseElement(pack.FUNCODE, analyseData, pack.dt, ref spEntity);
 
                                         }
@@ -943,9 +921,9 @@ namespace GCGPRSService
                                         #region 发送帧
                                         Package651 response = new Package651();  //响应帧
                                         List<Package651> pack_cmd = new List<Package651>(); //命令帧(列表)
-                                        if (lstClient != null && lstClient.Count > 0)
+                                        if (GlobalValue.Instance.lstClient != null && GlobalValue.Instance.lstClient.Count > 0)
                                         {
-                                            foreach (CallSocketEntity callentity in lstClient)
+                                            foreach (CallSocketEntity callentity in GlobalValue.Instance.lstClient)
                                             {
                                                 if ((callentity.A5 == pack.A5) && (callentity.A4 == pack.A4) && (callentity.A3 == pack.A3) && (callentity.A2 == pack.A2) && (callentity.A1 == pack.A1))
                                                 {
@@ -1039,9 +1017,9 @@ namespace GCGPRSService
                                                 Thread.Sleep(1500);  //2
                                                 if (Send651(handler, bsenddata))  //发送成功则清除
                                                 {
-                                                    if (lstClient != null && lstClient.Count > 0)
+                                                    if (GlobalValue.Instance.lstClient != null && GlobalValue.Instance.lstClient.Count > 0)
                                                     {
-                                                        foreach (CallSocketEntity callentity in lstClient)
+                                                        foreach (CallSocketEntity callentity in GlobalValue.Instance.lstClient)
                                                         {
                                                             if ((callentity.A5 == pack.A5) && (callentity.A4 == pack.A4) && (callentity.A3 == pack.A3) && (callentity.A2 == pack.A2) && (callentity.A1 == pack.A1))
                                                             {
@@ -1175,7 +1153,7 @@ namespace GCGPRSService
             catch (SocketException sockex)
             {
                 try {
-                    foreach (CallSocketEntity callsocket in lstClient)
+                    foreach (CallSocketEntity callsocket in GlobalValue.Instance.lstClient)
                     {
                         if (callsocket.ClientSocket != null && callsocket.ClientSocket.Equals(handler) && callsocket.TerId != -1)
                         {
@@ -1224,7 +1202,7 @@ namespace GCGPRSService
                     int bytesSent = handler.EndSend(ar);
 
                     bool AllowOnLine = false;
-                    foreach (CallSocketEntity callentity in lstClient)
+                    foreach (CallSocketEntity callentity in GlobalValue.Instance.lstClient)
                     {
                         if (callentity.DevType == ((SendObject)ar.AsyncState).DevType && callentity.TerId == ((SendObject)ar.AsyncState).DevID)
                         {
@@ -1279,15 +1257,15 @@ namespace GCGPRSService
         /// <param name="AllowOnline"></param>
         public void SetOnLineClient(ConstValue.DEV_TYPE DevType, short DevId, bool AllowOnline)
         {
-            if (lstClient == null)
+            if (GlobalValue.Instance.lstClient == null)
             {
-                lstClient = new List<CallSocketEntity>();
+                GlobalValue.Instance.lstClient = new List<CallSocketEntity>();
             }
 
             int index = -1;
-            for (int i = 0; i < lstClient.Count; i++)
+            for (int i = 0; i < GlobalValue.Instance.lstClient.Count; i++)
             {
-                if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId != -1) && (lstClient[i].TerId == DevId))
+                if ((GlobalValue.Instance.lstClient[i].DevType == DevType) && (GlobalValue.Instance.lstClient[i].TerId != -1) && (GlobalValue.Instance.lstClient[i].TerId == DevId))
                 {
                     index = i;
                     break;
@@ -1297,13 +1275,13 @@ namespace GCGPRSService
             {
                 CallSocketEntity client = null;
                 if (index != -1)  //已存在不添加
-                    client = lstClient[index];
+                    client = GlobalValue.Instance.lstClient[index];
                 else
                 {
                     client = new CallSocketEntity();
                     client.DevType = DevType;
                     client.TerId = DevId;
-                    lstClient.Add(client);
+                    GlobalValue.Instance.lstClient.Add(client);
                 }
                 Package package = new Package();
                 package.DevType = DevType;
@@ -1325,14 +1303,14 @@ namespace GCGPRSService
                 {
                     if (client.lstWaitSendCmd == null)
                         client.lstWaitSendCmd = new List<SendPackageEntity>();
-                    client.lstWaitSendCmd.Add(new SendPackageEntity(package));
+                    client.lstWaitSendCmd.Add(new SendPackageEntity(PackFromType.P68SendCmd,package));
                 }
             }
             else
             {
                 if (index > -1)  //已存在移除
                 {
-                    if (lstClient[index].ClientSocket != null)
+                    if (GlobalValue.Instance.lstClient[index].ClientSocket != null)
                     {
                         try
                         {
@@ -1347,37 +1325,37 @@ namespace GCGPRSService
                             package.Data = data;
                             package.CS = package.CreateCS();
 
-                            lstClient[index].AllowOnLine = false;
+                            GlobalValue.Instance.lstClient[index].AllowOnLine = false;
 
-                            if (lstClient[index].ClientSocket != null)  //已连接，马上发送下线命令
+                            if (GlobalValue.Instance.lstClient[index].ClientSocket != null)  //已连接，马上发送下线命令
                             {
                                 try
                                 {
-                                    SendPackage(lstClient[index].ClientSocket, package, "离线命令");
+                                    SendPackage(GlobalValue.Instance.lstClient[index].ClientSocket, package, "离线命令");
                                     Thread.Sleep(10);
-                                    lstClient[index].ClientSocket.Shutdown(SocketShutdown.Both);
-                                    lstClient[index].ClientSocket.Close();
-                                    lstClient[index].ClientSocket = null;
+                                    GlobalValue.Instance.lstClient[index].ClientSocket.Shutdown(SocketShutdown.Both);
+                                    GlobalValue.Instance.lstClient[index].ClientSocket.Close();
+                                    GlobalValue.Instance.lstClient[index].ClientSocket = null;
                                 }
                                 catch
                                 {
-                                    if (lstClient[index].lstWaitSendCmd == null)
-                                        lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
-                                    lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(package));
+                                    if (GlobalValue.Instance.lstClient[index].lstWaitSendCmd == null)
+                                        GlobalValue.Instance.lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
+                                    GlobalValue.Instance.lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(PackFromType.P68SendCmd,package));
                                 }
                             }
                             else
                             {
-                                if (lstClient[index].lstWaitSendCmd == null)
-                                    lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
-                                lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(package));
+                                if (GlobalValue.Instance.lstClient[index].lstWaitSendCmd == null)
+                                    GlobalValue.Instance.lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
+                                GlobalValue.Instance.lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(PackFromType.P68SendCmd,package));
                             }
 
                         }
                         catch { }
                         finally
                         {
-                            lstClient[index].ClientSocket = null;
+                            GlobalValue.Instance.lstClient[index].ClientSocket = null;
                         }
                     }
                 }
@@ -1392,12 +1370,12 @@ namespace GCGPRSService
         /// <param name="?"></param>
         public void ClientCallData(ConstValue.DEV_TYPE DevType, short DevId, CallDataTypeEntity calldataType)
         {
-            if (lstClient != null)
+            if (GlobalValue.Instance.lstClient != null)
             {
                 int index = -1;
-                for (int i = 0; i < lstClient.Count; i++)
+                for (int i = 0; i < GlobalValue.Instance.lstClient.Count; i++)
                 {
-                    if ((lstClient[i].DevType == DevType) && (lstClient[i].TerId != -1) && (lstClient[i].TerId == DevId))
+                    if ((GlobalValue.Instance.lstClient[i].DevType == DevType) && (GlobalValue.Instance.lstClient[i].TerId != -1) && (GlobalValue.Instance.lstClient[i].TerId == DevId))
                     {
                         index = i;
                         break;
@@ -1503,24 +1481,24 @@ namespace GCGPRSService
 
                     foreach (Package package in lstpack)
                     {
-                        if (lstClient[index].ClientSocket != null)
+                        if (GlobalValue.Instance.lstClient[index].ClientSocket != null)
                         {
                             try
                             {
-                                SendPackage(lstClient[index].ClientSocket, package, "招测数据命令");
+                                SendPackage(GlobalValue.Instance.lstClient[index].ClientSocket, package, "招测数据命令");
                             }
                             catch
                             {
-                                if (lstClient[index].lstWaitSendCmd == null)
-                                    lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
-                                lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(package));
+                                if (GlobalValue.Instance.lstClient[index].lstWaitSendCmd == null)
+                                    GlobalValue.Instance.lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
+                                GlobalValue.Instance.lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(PackFromType.P68SendCmd,package));
                             }
                         }
                         else
                         {
-                            if (lstClient[index].lstWaitSendCmd == null)
-                                lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
-                            lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(package));
+                            if (GlobalValue.Instance.lstClient[index].lstWaitSendCmd == null)
+                                GlobalValue.Instance.lstClient[index].lstWaitSendCmd = new List<SendPackageEntity>();
+                            GlobalValue.Instance.lstClient[index].lstWaitSendCmd.Add(new SendPackageEntity(PackFromType.P68SendCmd, package));
                         }
                     }
                 }
@@ -1549,65 +1527,63 @@ namespace GCGPRSService
 
         public void Send651Cmd(Package651 pack)
         {
-            if (lstClient == null)
-                lstClient = new List<CallSocketEntity>();
+            if (GlobalValue.Instance.lstClient == null)
+                GlobalValue.Instance.lstClient = new List<CallSocketEntity>();
 
             bool isExist = false;  //是否存在
-            if (lstClient.Count > 0)
+            foreach (CallSocketEntity sock in GlobalValue.Instance.lstClient)
             {
-                foreach (CallSocketEntity sock in lstClient)
+                if (pack.A1 == sock.A1 && pack.A2 == sock.A2 && pack.A3 == sock.A3 && pack.A4 == sock.A4 && pack.A5 == sock.A5)
                 {
-                    if (pack.A1 == sock.A1 && pack.A2 == sock.A2 && pack.A3 == sock.A3 && pack.A4 == sock.A4 && pack.A5 == sock.A5)
+                    sock.ActiveTime();
+                    isExist = true;
+                    if (sock.lstWaitSendCmd != null && sock.lstWaitSendCmd.Count > 0)
                     {
-                        isExist = true;
-                        if (sock.lstWaitSendCmd != null && sock.lstWaitSendCmd.Count > 0)
+                        for (int i = 0; i < sock.lstWaitSendCmd.Count; i++)
                         {
-                            for (int i = 0; i < sock.lstWaitSendCmd.Count; i++)
+                            //命令已经存在,直接返回
+                            if (sock.lstWaitSendCmd[i].SendPackage651 != null && sock.lstWaitSendCmd[i].SendPackage651.Equals(pack))
                             {
-                                //命令已经存在,直接返回
-                                if (sock.lstWaitSendCmd[i].SendPackage651 != null && sock.lstWaitSendCmd[i].SendPackage651.Equals(pack))
-                                {
-                                    return;
-                                }
+                                return;
                             }
                         }
-                        bool isOnline = false;
-                        isOnline = SocketHelper.IsSocketConnected_Poll(sock.ClientSocket);
-                        bool issend = false;  //是否已发送
-                        if (isOnline)
-                        {
-                            try
-                            {
-                                if (pack.End != PackageDefine.ENQ)  //如果本来就是询问命令，则还是ENQ(05)发送下去，不管在不在线，因为总是要回应
-                                {
-                                    if (SL651AllowOnLine)
-                                        pack.End = PackageDefine.ESC;
-                                    else
-                                        pack.End = PackageDefine.EOT;
-                                }
-                                byte[] bsenddata = pack.ToResponseArray(true);
-                                pack.CS = Package651.crc16(bsenddata, bsenddata.Length);
-                                bsenddata = pack.ToResponseArray();
-                                SendObject sendObj = new SendObject();
-                                sendObj.workSocket = sock.ClientSocket;
-                                sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback651), sendObj);
-                                OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
-                                issend = true;
-                            }
-                            catch
-                            {
-                                ;
-                            }
-                        }
-                        if (!issend)  //发送失败,添加到待发送列表中
-                        {
-                            SendPackageEntity sendpack = new SendPackageEntity();
-                            sendpack.SendPackage651 = pack;
-                            sock.lstWaitSendCmd.Add(sendpack);
-                        }
-
-                        break;
                     }
+                    bool isOnline = false;
+                    isOnline = SocketHelper.IsSocketConnected_Poll(sock.ClientSocket);
+                    bool issend = false;  //是否已发送
+                    if (isOnline)
+                    {
+                        try
+                        {
+                            if (pack.End != PackageDefine.ENQ)  //如果本来就是询问命令，则还是ENQ(05)发送下去，不管在不在线，因为总是要回应
+                            {
+                                if (SL651AllowOnLine)
+                                    pack.End = PackageDefine.ESC;
+                                else
+                                    pack.End = PackageDefine.EOT;
+                            }
+                            byte[] bsenddata = pack.ToResponseArray(true);
+                            pack.CS = Package651.crc16(bsenddata, bsenddata.Length);
+                            bsenddata = pack.ToResponseArray();
+                            SendObject sendObj = new SendObject();
+                            sendObj.workSocket = sock.ClientSocket;
+                            sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback651), sendObj);
+                            OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                            issend = true;
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                    }
+                    if (!issend)  //发送失败,添加到待发送列表中
+                    {
+                        SendPackageEntity sendpack = new SendPackageEntity();
+                        sendpack.SendPackage651 = pack;
+                        sock.lstWaitSendCmd.Add(sendpack);
+                    }
+
+                    break;
                 }
             }
 
@@ -1622,16 +1598,16 @@ namespace GCGPRSService
                 SendPackageEntity sendpack = new SendPackageEntity();
                 sendpack.SendPackage651 = pack;
                 newSocket.lstWaitSendCmd.Add(sendpack);
-                lstClient.Add(newSocket);
+                GlobalValue.Instance.lstClient.Add(newSocket);
             }
         }
 
         public void GetSL651WaitSendCmd()
         {
             List<Package651> lstWaitSendCmd = new List<Package651>();
-            if (lstClient != null)
+            if (GlobalValue.Instance.lstClient != null)
             {
-                foreach (CallSocketEntity sockeentity in lstClient)
+                foreach (CallSocketEntity sockeentity in GlobalValue.Instance.lstClient)
                 {
                     if (sockeentity.lstWaitSendCmd != null)
                         foreach (SendPackageEntity packentity in sockeentity.lstWaitSendCmd)
@@ -1650,18 +1626,18 @@ namespace GCGPRSService
 
         public void DelSL651WaitSendCmd(byte A1, byte A2, byte A3, byte A4, byte A5, byte funcode)
         {
-            if (lstClient != null)
+            if (GlobalValue.Instance.lstClient != null)
             {
-                for (int i = 0; i < lstClient.Count; i++)
+                for (int i = 0; i < GlobalValue.Instance.lstClient.Count; i++)
                 {
-                    if (lstClient[i].lstWaitSendCmd != null)
-                        for (int j = 0; j < lstClient[i].lstWaitSendCmd.Count; j++)
+                    if (GlobalValue.Instance.lstClient[i].lstWaitSendCmd != null)
+                        for (int j = 0; j < GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count; j++)
                         {
-                            if (lstClient[i].lstWaitSendCmd[j].SendPackage651 != null)
-                                if (lstClient[i].lstWaitSendCmd[j].SendPackage651.A1 == A1 && lstClient[i].lstWaitSendCmd[j].SendPackage651.A2 == A2 && lstClient[i].lstWaitSendCmd[j].SendPackage651.A3 == A3 &&
-                                    lstClient[i].lstWaitSendCmd[j].SendPackage651.A4 == A4 && lstClient[i].lstWaitSendCmd[j].SendPackage651.A5 == A5 && lstClient[i].lstWaitSendCmd[j].SendPackage651.FUNCODE == funcode)
+                            if (GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].SendPackage651 != null)
+                                if (GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].SendPackage651.A1 == A1 && GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].SendPackage651.A2 == A2 && GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].SendPackage651.A3 == A3 &&
+                                    GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].SendPackage651.A4 == A4 && GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].SendPackage651.A5 == A5 && GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].SendPackage651.FUNCODE == funcode)
                                 {
-                                    lstClient[i].lstWaitSendCmd.RemoveAt(j);
+                                    GlobalValue.Instance.lstClient[i].lstWaitSendCmd.RemoveAt(j);
                                 }
                         }
                 }
@@ -1686,37 +1662,66 @@ namespace GCGPRSService
         #endregion
 
         #region 68协议方法
-        public void SendCmd(GPRSCmdEntity[] packs)
+        public void SendCmd(Package[] packs)
         {
-            if (packs == null || packs.Length == 0)
-                return;
-
-            foreach (GPRSCmdEntity pack in packs)
+            for (int i = 0; i < packs.Length; i++)
             {
-                pack.TableId = -2;  //标志为从网络下送的命令帧
-                DelWaitSendCmd(pack.DevTypeId, pack.DeviceId, pack.FunCode);     //如果已经存在则先删除
-            }
-            lock (GlobalValue.Instance.lstGprsCmdLock)
-            {
-                //添加数据至列表
-                GlobalValue.Instance.lstGprsCmd.AddRange(packs);
-            }
-        }
-        public void GetWaitSendCmd()
-        {
-
-        }
-        public void DelWaitSendCmd(int devtype, int devid, int funcode)
-        {
-            lock (GlobalValue.Instance.lstGprsCmdLock)
-            {
-                for (int i = 0; i < GlobalValue.Instance.lstGprsCmd.Count; i++)
+                int lstClientIndex = GlobalValue.Instance.lstClientAdd(packs[i].DevID, packs[i].DevType, (int)PackFromType.P68SendCmd, packs[i], true);
+                CallSocketEntity sock = GlobalValue.Instance.lstClient[lstClientIndex];
+                sock.ActiveTime();
+                for (int j = 0; j < sock.lstWaitSendCmd.Count; j++)
                 {
-                    //如果已经存在则先删除
-                    if (GlobalValue.Instance.lstGprsCmd[i].DevTypeId == devtype && GlobalValue.Instance.lstGprsCmd[i].DeviceId == devid && GlobalValue.Instance.lstGprsCmd[i].FunCode == funcode)
-                        GlobalValue.Instance.lstGprsCmd.RemoveAt(i);
+                    bool isOnline = false;
+                    isOnline = SocketHelper.IsSocketConnected_Poll(sock.ClientSocket);
+                    //bool issend = false;  //是否已发送
+                    if (isOnline)
+                    {
+                        try
+                        {
+                            packs[i].CS = packs[i].CreateCS();
+                            byte[] bsenddata = packs[i].ToArray();
+                            SendObject sendObj = new SendObject();
+                            sendObj.workSocket = sock.ClientSocket;
+                            sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                            OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length)));
+                            //issend = true;
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                    }
+                    //if (!issend)  //发送失败,添加到待发送列表中
+                    //{
+                    //    SendPackageEntity sendpack = new SendPackageEntity();
+                    //    sendpack.SendPackage = packs[i];
+                    //    sock.lstWaitSendCmd.Add(sendpack);
+                    //}
                 }
             }
+        }
+
+        public void GetWaitSendCmd()
+        {
+            List<Package> lstWaitSendCmd = new List<Package>();
+            foreach(CallSocketEntity sock in GlobalValue.Instance.lstClient)
+            {
+                foreach(SendPackageEntity sendpack in sock.lstWaitSendCmd)
+                {
+                    if (sendpack.SendPackage != null)
+                        lstWaitSendCmd.Add(sendpack.SendPackage);
+                }
+            }
+            
+            SocketEntity msmqEnt = new SocketEntity();
+            msmqEnt.MsgType = ConstValue.MSMQTYPE.Get_P68_WaitSendCmd;
+            msmqEnt.Msg = JSONSerialize.JsonSerialize<List<Package>>(lstWaitSendCmd);
+            SocketEventArgs socketargs = new SocketEventArgs(ConstValue.MSMQTYPE.Get_P68_WaitSendCmd, msmqEnt);
+            OnSendMsg(socketargs);
+        }
+        public void DelWaitSendCmd(short devid, ConstValue.DEV_TYPE devtype, byte funcode)
+        {
+            GlobalValue.Instance.lstClientRemove(devid, devtype, funcode);
         }
         #endregion
 
@@ -1834,11 +1839,11 @@ namespace GCGPRSService
                 }
                 else if (Msg.MsgType == ConstValue.MSMQTYPE.Get_P68_WaitSendCmd)
                 {
-                    //GlobalValue.Instance.SocketMag.DelWaitSendCmd(Msg.A1, Msg.A2, Msg.A3, Msg.A4, Msg.A5, Msg.SL651Funcode);
                     GlobalValue.Instance.SocketMag.GetWaitSendCmd();
                 }
                 else if (Msg.MsgType == ConstValue.MSMQTYPE.Del_P68_WaitSendCmd)
                 {
+                    GlobalValue.Instance.SocketMag.DelWaitSendCmd(Msg.DevId, Msg.DevType, Msg.P68Funcode);
                     GlobalValue.Instance.SocketMag.GetWaitSendCmd();
                 }
                 //Other
