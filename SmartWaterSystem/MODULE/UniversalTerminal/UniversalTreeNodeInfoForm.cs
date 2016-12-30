@@ -24,7 +24,7 @@ namespace SmartWaterSystem
                 cbType.Focus();
             else
                 txtName.Focus();
-            cbPrecision.SelectedIndex = 2;
+            //cbPrecision.SelectedIndex = 2;
 
             entity = new UniversalWayTypeEntity();
         }
@@ -58,32 +58,32 @@ namespace SmartWaterSystem
                 return;
             }
 
-            if (!Regex.IsMatch(cbFrameWidth.Text, @"^\d{1,2}$"))
-            {
-                XtraMessageBox.Show("请选择合法的帧宽度!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cbFrameWidth.Focus();
-                return;
-            }
+            //if (!Regex.IsMatch(cbFrameWidth.Text, @"^\d{1,2}$"))
+            //{
+            //    XtraMessageBox.Show("请选择合法的帧宽度!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    cbFrameWidth.Focus();
+            //    return;
+            //}
 
-            if (!string.IsNullOrEmpty(txtMaxMeasureR.Text))
-            {
-                if (!Regex.IsMatch(txtMaxMeasureR.Text, @"^\d+(\.\d+)?$"))
-                {
-                    XtraMessageBox.Show("请输入合法的最大测量范围!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtMaxMeasureR.Focus();
-                    return;
-                }
-            }
+            //if (!string.IsNullOrEmpty(txtMaxMeasureR.Text))
+            //{
+            //    if (!Regex.IsMatch(txtMaxMeasureR.Text, @"^\d+(\.\d+)?$"))
+            //    {
+            //        XtraMessageBox.Show("请输入合法的最大测量范围!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        txtMaxMeasureR.Focus();
+            //        return;
+            //    }
+            //}
 
-            if (!string.IsNullOrEmpty(txtMaxMeasureRFlag.Text))
-            {
-                if (!Regex.IsMatch(txtMaxMeasureRFlag.Text, @"^\d+(\.\d+)?$"))
-                {
-                    XtraMessageBox.Show("请输入合法的仪表最大测量范围!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtMaxMeasureRFlag.Focus();
-                    return;
-                }
-            }
+            //if (!string.IsNullOrEmpty(txtMaxMeasureRFlag.Text))
+            //{
+            //    if (!Regex.IsMatch(txtMaxMeasureRFlag.Text, @"^\d+(\.\d+)?$"))
+            //    {
+            //        XtraMessageBox.Show("请输入合法的仪表最大测量范围!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        txtMaxMeasureRFlag.Focus();
+            //        return;
+            //    }
+            //}
 
             int maxid = bll.GetMaxId();
             if (-1 != maxid)
@@ -97,15 +97,15 @@ namespace SmartWaterSystem
                 return;
             }
 
-            entity.FrameWidth = Convert.ToInt32(cbFrameWidth.Text);
-            if (!string.IsNullOrEmpty(txtMaxMeasureR.Text))
-                entity.MaxMeasureRange = Convert.ToSingle(txtMaxMeasureR.Text);
-            if (!string.IsNullOrEmpty(txtMaxMeasureRFlag.Text))
-                entity.ManMeasureRangeFlag = Convert.ToSingle(txtMaxMeasureRFlag.Text);
+            //entity.FrameWidth = Convert.ToInt32(cbFrameWidth.Text);
+            //if (!string.IsNullOrEmpty(txtMaxMeasureR.Text))
+            //    entity.MaxMeasureRange = Convert.ToSingle(txtMaxMeasureR.Text);
+            //if (!string.IsNullOrEmpty(txtMaxMeasureRFlag.Text))
+            //    entity.ManMeasureRangeFlag = Convert.ToSingle(txtMaxMeasureRFlag.Text);
 
             entity.ModifyTime = DateTime.Now;
             entity.Name = txtName.Text;
-            entity.Precision = Convert.ToInt32(cbPrecision.Text);
+            //entity.Precision = Convert.ToInt32(cbPrecision.Text);
             entity.Unit = txtUnit.Text;
             entity.WayType = (UniversalCollectType)cbType.SelectedIndex;
 
@@ -113,26 +113,26 @@ namespace SmartWaterSystem
             this.Close();
         }
 
-        private void cbType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbType.SelectedIndex == 0)  //模拟
-            {
-                lblMaxMeasureR.Text = "最大测量范围:";
-                txtMaxMeasureR.Enabled = true;
-                txtMaxMeasureRFlag.Enabled = true;
-            }
-            else if (cbType.SelectedIndex == 1) //脉冲
-            {
-                lblMaxMeasureR.Text = "单位脉冲大小:";
-                txtMaxMeasureR.Enabled = true;
-                txtMaxMeasureRFlag.Enabled = false;
-            }
-            else if (cbType.SelectedIndex == 2) //RS485
-            {
-                lblMaxMeasureR.Text = "系数:";
-                txtMaxMeasureR.Enabled = true;
-                txtMaxMeasureRFlag.Enabled = false;
-            }
-        }
+        //private void cbType_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (cbType.SelectedIndex == 0)  //模拟
+        //    {
+        //        lblMaxMeasureR.Text = "最大测量范围:";
+        //        txtMaxMeasureR.Enabled = true;
+        //        txtMaxMeasureRFlag.Enabled = true;
+        //    }
+        //    else if (cbType.SelectedIndex == 1) //脉冲
+        //    {
+        //        lblMaxMeasureR.Text = "单位脉冲大小:";
+        //        txtMaxMeasureR.Enabled = true;
+        //        txtMaxMeasureRFlag.Enabled = false;
+        //    }
+        //    else if (cbType.SelectedIndex == 2) //RS485
+        //    {
+        //        lblMaxMeasureR.Text = "系数:";
+        //        txtMaxMeasureR.Enabled = true;
+        //        txtMaxMeasureRFlag.Enabled = false;
+        //    }
+        //}
     }
 }

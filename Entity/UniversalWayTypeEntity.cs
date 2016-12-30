@@ -42,15 +42,15 @@ namespace Entity
             set { _name = value; }
         }
 
-        private int _FrameWidth = 2;
-        /// <summary>
-        /// 帧中数据宽度,默认2字节
-        /// </summary>
-        public int FrameWidth
-        {
-            get { return _FrameWidth; }
-            set { _FrameWidth = value; }
-        }
+        //private int _FrameWidth = 2;
+        ///// <summary>
+        ///// 帧中数据宽度,默认2字节
+        ///// </summary>
+        //public int FrameWidth
+        //{
+        //    get { return _FrameWidth; }
+        //    set { _FrameWidth = value; }
+        //}
 
         private int _Sequence;
         /// <summary>
@@ -62,26 +62,26 @@ namespace Entity
             set { _Sequence = value; }
         }
 
-        private float _MaxMeasureRange;
-        public float MaxMeasureRange
-        {
-            get { return _MaxMeasureRange; }
-            set { _MaxMeasureRange = value; }
-        }
+        //private float _MaxMeasureRange;
+        //public float MaxMeasureRange
+        //{
+        //    get { return _MaxMeasureRange; }
+        //    set { _MaxMeasureRange = value; }
+        //}
 
-        private float _ManMeasureRangeFlag;
-        public float ManMeasureRangeFlag
-        {
-            get { return _ManMeasureRangeFlag; }
-            set { _ManMeasureRangeFlag = value; }
-        }
+        //private float _ManMeasureRangeFlag;
+        //public float ManMeasureRangeFlag
+        //{
+        //    get { return _ManMeasureRangeFlag; }
+        //    set { _ManMeasureRangeFlag = value; }
+        //}
 
-        private float _Precision;
-        public float Precision
-        {
-            get { return _Precision; }
-            set { _Precision = value; }
-        }
+        //private float _Precision;
+        //public float Precision
+        //{
+        //    get { return _Precision; }
+        //    set { _Precision = value; }
+        //}
 
         private string _Unit;
         public string Unit

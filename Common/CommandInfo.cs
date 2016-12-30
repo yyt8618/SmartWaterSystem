@@ -1387,53 +1387,25 @@ namespace Common
         /// </summary>
         READ_ALARMINFO = 0xA2,
         /// <summary>
+        /// 通用终端发送心跳
+        /// </summary>
+        READ_UNIVERSAL_HEART = 0xA3,
+        /// <summary>
         /// 压力从站向主站发送流量采集数据
         /// </summary>
         READ_PREFLOWDATA = 0xA4,
         /// <summary>
         /// 通用终端发送脉冲数据
         /// </summary>
-        READ_UNIVERSAL_PLUSE=0xA0,
+        READ_UNIVERSAL_PLUSE=0xA7,
         /// <summary>
-        /// 通用终端发送模拟量1路数据
+        /// 通用终端发送模拟量数据
         /// </summary>
-        READ_UNIVERSAL_SIM1=0xA1,
+        READ_UNIVERSAL_SIM=0xA8,
         /// <summary>
-        /// 通用终端发送模拟量2路数据
+        /// 通用终端发送RS485 数据
         /// </summary>
-        READ_UNIVERSAL_SIM2=0xA2,
-        /// <summary>
-        /// 通用终端发送RS485 1路数据
-        /// </summary>
-        READ_UNVERSAL_RS4851=0xA3,
-        /// <summary>
-        /// 通用终端发送RS485 2路数据
-        /// </summary>
-        READ_UNVERSAL_RS4852 = 0xA4,
-        /// <summary>
-        /// 通用终端发送RS485 3路数据
-        /// </summary>
-        READ_UNVERSAL_RS4853 = 0xA5,
-        /// <summary>
-        /// 通用终端发送RS485 4路数据
-        /// </summary>
-        READ_UNVERSAL_RS4854 = 0xA6,
-        /// <summary>
-        /// 通用终端发送RS485 5路数据
-        /// </summary>
-        READ_UNVERSAL_RS4855 = 0xA7,
-        /// <summary>
-        /// 通用终端发送RS485 6路数据
-        /// </summary>
-        READ_UNVERSAL_RS4856 = 0xA8,
-        /// <summary>
-        /// 通用终端发送RS485 7路数据
-        /// </summary>
-        READ_UNVERSAL_RS4857 = 0xA9,
-        /// <summary>
-        /// 通用终端发送RS485 8路数据
-        /// </summary>
-        READ_UNVERSAL_RS4858 = 0xAA,
+        READ_UNVERSAL_RS485=0xA4,
         /// <summary>
         /// 水质终端发送浊度数据
         /// </summary>

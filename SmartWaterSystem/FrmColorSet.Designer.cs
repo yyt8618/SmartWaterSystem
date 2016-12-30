@@ -35,13 +35,15 @@
             this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.repositoryItemColorPickEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemColorPickEdit();
+            this.fontEdit1 = new DevExpress.XtraEditors.FontEdit();
             ((System.ComponentModel.ISupportInitialize)(this.treeColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemColorPickEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fontEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConfirm
             // 
-            this.btnConfirm.Location = new System.Drawing.Point(257, 377);
+            this.btnConfirm.Location = new System.Drawing.Point(285, 377);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(72, 33);
             this.btnConfirm.TabIndex = 3;
@@ -99,12 +101,22 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemColorPickEdit1.Name = "repositoryItemColorPickEdit1";
             // 
+            // fontEdit1
+            // 
+            this.fontEdit1.Location = new System.Drawing.Point(29, 385);
+            this.fontEdit1.Name = "fontEdit1";
+            this.fontEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.fontEdit1.Size = new System.Drawing.Size(201, 20);
+            this.fontEdit1.TabIndex = 4;
+            // 
             // FrmColorSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(421, 417);
+            this.Controls.Add(this.fontEdit1);
             this.Controls.Add(this.treeColor);
             this.Controls.Add(this.btnConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -117,6 +129,7 @@
             this.Load += new System.EventHandler(this.FrmColorSet_Load);
             ((System.ComponentModel.ISupportInitialize)(this.treeColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemColorPickEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fontEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -129,5 +142,6 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
         private DevExpress.XtraEditors.Repository.RepositoryItemColorPickEdit repositoryItemColorPickEdit1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
+        private DevExpress.XtraEditors.FontEdit fontEdit1;
     }
 }

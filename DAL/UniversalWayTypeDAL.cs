@@ -57,20 +57,19 @@ namespace DAL
                 return 0;
 
             string SQL = @"INSERT INTO 
-                            UniversalTerWayType(ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,ModifyTime,TerminalType) VALUES(
-                            @ID,@Level,@ParentID,@WayType,@Name,@FrameWidth,@Sequence,@MaxMeasureRange,@MaxMeasureRangeFlag,@Precision,@Unit,@ModifyTime,@terType)";
+                            UniversalTerWayType(ID,Level,ParentID,WayType,Name,Sequence,Unit,ModifyTime,TerminalType) VALUES(
+                            @ID,@Level,@ParentID,@WayType,@Name,@Sequence,@Unit,@ModifyTime,@terType)";
             SqlParameter[] parms = new SqlParameter[]{
                 new SqlParameter("@ID",DbType.Int32),
                 new SqlParameter("@Level",DbType.Int32),
                 new SqlParameter("@ParentID",DbType.Int32),
                 new SqlParameter("@WayType",DbType.Int32),
                 new SqlParameter("@Name",DbType.String),
-
-                new SqlParameter("@FrameWidth",DbType.Int32),
+                
                 new SqlParameter("@Sequence",DbType.Int32),
-                new SqlParameter("@MaxMeasureRange",DbType.Single),
-                new SqlParameter("@MaxMeasureRangeFlag",DbType.Single),
-                new SqlParameter("@Precision",DbType.Int32),
+                //new SqlParameter("@MaxMeasureRange",DbType.Single),
+                //new SqlParameter("@MaxMeasureRangeFlag",DbType.Single),
+                //new SqlParameter("@Precision",DbType.Int32),
 
                 new SqlParameter("@Unit",DbType.String),
                 new SqlParameter("@ModifyTime",DbType.DateTime),
@@ -82,15 +81,15 @@ namespace DAL
             parms[3].Value = (int)entity.WayType;
             parms[4].Value = entity.Name;
 
-            parms[5].Value = entity.FrameWidth;
-            parms[6].Value = entity.Sequence;
-            parms[7].Value = entity.MaxMeasureRange;
-            parms[8].Value = entity.ManMeasureRangeFlag;
-            parms[9].Value = entity.Precision;
+            //parms[5].Value = entity.FrameWidth;
+            parms[5].Value = entity.Sequence;
+            //parms[7].Value = entity.MaxMeasureRange;
+            //parms[8].Value = entity.ManMeasureRangeFlag;
+            //parms[9].Value = entity.Precision;
 
-            parms[10].Value = entity.Unit;
-            parms[11].Value = entity.ModifyTime;
-            parms[12].Value = (int)terType;
+            parms[6].Value = entity.Unit;
+            parms[7].Value = entity.ModifyTime;
+            parms[8].Value = (int)terType;
 
             SQLHelper.ExecuteNonQuery(SQL, parms);
             return 1;
@@ -107,7 +106,7 @@ namespace DAL
             
         public List<UniversalWayTypeEntity> Select(string where)
         {
-            string SQL = "SELECT ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,ModifyTime FROM UniversalTerWayType ";
+            string SQL = "SELECT ID,Level,ParentID,WayType,Name,Sequence,Unit,ModifyTime FROM UniversalTerWayType ";
             if (!string.IsNullOrEmpty(where))
                 SQL +=  where;
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
@@ -123,11 +122,11 @@ namespace DAL
                     entity.WayType = reader["WayType"] != DBNull.Value ? (UniversalCollectType)(Convert.ToInt32(reader["WayType"])) : UniversalCollectType.Simulate;
                     entity.Name = reader["Name"] != DBNull.Value ? reader["Name"].ToString() : "";
 
-                    entity.FrameWidth = reader["FrameWidth"] != DBNull.Value ? Convert.ToInt32(reader["FrameWidth"]) : 2;
+                    //entity.FrameWidth = reader["FrameWidth"] != DBNull.Value ? Convert.ToInt32(reader["FrameWidth"]) : 2;
                     entity.Sequence = reader["Sequence"] != DBNull.Value ? Convert.ToInt32(reader["Sequence"]) : 1;
-                    entity.MaxMeasureRange = reader["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRange"]) : 0f;
-                    entity.ManMeasureRangeFlag = reader["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRangeFlag"]) : 0f;
-                    entity.Precision = reader["Precision"] != DBNull.Value ? Convert.ToInt32(reader["Precision"]) : 2;
+                    //entity.MaxMeasureRange = reader["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRange"]) : 0f;
+                    //entity.ManMeasureRangeFlag = reader["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRangeFlag"]) : 0f;
+                    //entity.Precision = reader["Precision"] != DBNull.Value ? Convert.ToInt32(reader["Precision"]) : 2;
 
                     entity.Unit = reader["Unit"] != DBNull.Value ? reader["Unit"].ToString() : "";
                     //entity.SyncState = reader["SyncState"] != DBNull.Value ? Convert.ToInt32(reader["SyncState"]) : 0;
@@ -146,7 +145,7 @@ namespace DAL
         /// <returns></returns>
         public List<UniversalWayTypeEntity> GetConfigPointID(string id,TerType terType)
         {
-            string SQL_Point = string.Format(@"SELECT ID,Level,ParentID,WayType,Name,FrameWidth,Sequence,MaxMeasureRange,MaxMeasureRangeFlag,Precision,Unit,ModifyTime 
+            string SQL_Point = string.Format(@"SELECT ID,Level,ParentID,WayType,Name,Sequence,Unit,ModifyTime 
                                 FROM UniversalTerWayType WHERE ID IN (SELECT DISTINCT PointID FROM UniversalTerWayConfig WHERE TerminalType='{0}' {1}) AND TerminalType='{2}' ORDER BY WayType,Sequence", 
                                      (int)terType,(string.IsNullOrEmpty(id) ? "" : "AND TerminalID='" + id.Trim() + "'"),(int)terType);
             List<UniversalWayTypeEntity> lst = new List<UniversalWayTypeEntity>();
@@ -162,11 +161,11 @@ namespace DAL
                     entity.WayType = reader["WayType"] != DBNull.Value ? (UniversalCollectType)(Convert.ToInt32(reader["WayType"])) : UniversalCollectType.Simulate;
                     entity.Name = reader["Name"] != DBNull.Value ? reader["Name"].ToString() : "";
 
-                    entity.FrameWidth = reader["FrameWidth"] != DBNull.Value ? Convert.ToInt32(reader["FrameWidth"]) : 2;
+                    //entity.FrameWidth = reader["FrameWidth"] != DBNull.Value ? Convert.ToInt32(reader["FrameWidth"]) : 2;
                     entity.Sequence = reader["Sequence"] != DBNull.Value ? Convert.ToInt32(reader["Sequence"]) : 1;
-                    entity.MaxMeasureRange = reader["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRange"]) : 0f;
-                    entity.ManMeasureRangeFlag = reader["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRangeFlag"]) : 0f;
-                    entity.Precision = reader["Precision"] != DBNull.Value ? Convert.ToInt32(reader["Precision"]) : 2;
+                    //entity.MaxMeasureRange = reader["MaxMeasureRange"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRange"]) : 0f;
+                    //entity.ManMeasureRangeFlag = reader["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(reader["MaxMeasureRangeFlag"]) : 0f;
+                    //entity.Precision = reader["Precision"] != DBNull.Value ? Convert.ToInt32(reader["Precision"]) : 2;
 
                     entity.Unit = reader["Unit"] != DBNull.Value ? reader["Unit"].ToString() : "";
                     //entity.SyncState = reader["SyncState"] != DBNull.Value ? Convert.ToInt32(reader["SyncState"]) : 0;

@@ -65,18 +65,10 @@
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
-            this.txtPrecision = new DevExpress.XtraEditors.TextEdit();
             this.txtUnit = new DevExpress.XtraEditors.TextEdit();
-            this.txtMaxMeasureRFlag = new DevExpress.XtraEditors.TextEdit();
-            this.txtFrameWidth = new DevExpress.XtraEditors.TextEdit();
-            this.txtMaxMeasureR = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             this.txtCollectType = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl11 = new DevExpress.XtraEditors.LabelControl();
             this.txtTypeName = new DevExpress.XtraEditors.TextEdit();
-            this.lblMaxMeasureR = new DevExpress.XtraEditors.LabelControl();
             this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
             this.groupBox_BasicInfo = new System.Windows.Forms.GroupBox();
             this.txtID = new DevExpress.XtraEditors.TextEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
@@ -129,11 +121,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ceSimulate1.Properties)).BeginInit();
             this.groupBox_tree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeCollectType)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPrecision.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureRFlag.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFrameWidth.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureR.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCollectType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTypeName.Properties)).BeginInit();
             this.groupBox_BasicInfo.SuspendLayout();
@@ -495,18 +483,10 @@
             this.groupBox_tree.Controls.Add(this.treeCollectType);
             this.groupBox_tree.Controls.Add(this.labelControl2);
             this.groupBox_tree.Controls.Add(this.labelControl6);
-            this.groupBox_tree.Controls.Add(this.txtPrecision);
             this.groupBox_tree.Controls.Add(this.txtUnit);
-            this.groupBox_tree.Controls.Add(this.txtMaxMeasureRFlag);
-            this.groupBox_tree.Controls.Add(this.txtFrameWidth);
-            this.groupBox_tree.Controls.Add(this.txtMaxMeasureR);
-            this.groupBox_tree.Controls.Add(this.labelControl9);
             this.groupBox_tree.Controls.Add(this.txtCollectType);
-            this.groupBox_tree.Controls.Add(this.labelControl11);
             this.groupBox_tree.Controls.Add(this.txtTypeName);
-            this.groupBox_tree.Controls.Add(this.lblMaxMeasureR);
             this.groupBox_tree.Controls.Add(this.labelControl10);
-            this.groupBox_tree.Controls.Add(this.labelControl8);
             this.groupBox_tree.Location = new System.Drawing.Point(320, 30);
             this.groupBox_tree.Name = "groupBox_tree";
             this.groupBox_tree.Size = new System.Drawing.Size(278, 446);
@@ -520,7 +500,7 @@
             this.treeListColumn1});
             this.treeCollectType.Location = new System.Drawing.Point(6, 21);
             this.treeCollectType.Name = "treeCollectType";
-            this.treeCollectType.Size = new System.Drawing.Size(266, 289);
+            this.treeCollectType.Size = new System.Drawing.Size(266, 367);
             this.treeCollectType.TabIndex = 0;
             this.treeCollectType.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeCollectType_MouseDown);
             // 
@@ -540,117 +520,52 @@
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(154, 319);
+            this.labelControl2.Location = new System.Drawing.Point(33, 423);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(28, 14);
-            this.labelControl2.TabIndex = 109;
+            this.labelControl2.TabIndex = 3;
             this.labelControl2.Text = "名称:";
             // 
             // labelControl6
             // 
-            this.labelControl6.Location = new System.Drawing.Point(17, 319);
+            this.labelControl6.Location = new System.Drawing.Point(9, 397);
             this.labelControl6.Name = "labelControl6";
             this.labelControl6.Size = new System.Drawing.Size(52, 14);
-            this.labelControl6.TabIndex = 109;
+            this.labelControl6.TabIndex = 1;
             this.labelControl6.Text = "采集类型:";
-            // 
-            // txtPrecision
-            // 
-            this.txtPrecision.EditValue = "";
-            this.txtPrecision.Enabled = false;
-            this.txtPrecision.Location = new System.Drawing.Point(75, 420);
-            this.txtPrecision.Name = "txtPrecision";
-            this.txtPrecision.Size = new System.Drawing.Size(73, 20);
-            this.txtPrecision.TabIndex = 5;
             // 
             // txtUnit
             // 
             this.txtUnit.EditValue = "";
             this.txtUnit.Enabled = false;
-            this.txtUnit.Location = new System.Drawing.Point(188, 420);
+            this.txtUnit.Location = new System.Drawing.Point(189, 420);
             this.txtUnit.Name = "txtUnit";
             this.txtUnit.Size = new System.Drawing.Size(73, 20);
             this.txtUnit.TabIndex = 6;
             // 
-            // txtMaxMeasureRFlag
-            // 
-            this.txtMaxMeasureRFlag.Enabled = false;
-            this.txtMaxMeasureRFlag.Location = new System.Drawing.Point(109, 394);
-            this.txtMaxMeasureRFlag.Name = "txtMaxMeasureRFlag";
-            this.txtMaxMeasureRFlag.Size = new System.Drawing.Size(152, 20);
-            this.txtMaxMeasureRFlag.TabIndex = 4;
-            // 
-            // txtFrameWidth
-            // 
-            this.txtFrameWidth.Enabled = false;
-            this.txtFrameWidth.Location = new System.Drawing.Point(109, 342);
-            this.txtFrameWidth.Name = "txtFrameWidth";
-            this.txtFrameWidth.Size = new System.Drawing.Size(152, 20);
-            this.txtFrameWidth.TabIndex = 3;
-            // 
-            // txtMaxMeasureR
-            // 
-            this.txtMaxMeasureR.Enabled = false;
-            this.txtMaxMeasureR.Location = new System.Drawing.Point(109, 368);
-            this.txtMaxMeasureR.Name = "txtMaxMeasureR";
-            this.txtMaxMeasureR.Size = new System.Drawing.Size(152, 20);
-            this.txtMaxMeasureR.TabIndex = 3;
-            // 
-            // labelControl9
-            // 
-            this.labelControl9.Location = new System.Drawing.Point(41, 397);
-            this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(52, 14);
-            this.labelControl9.TabIndex = 109;
-            this.labelControl9.Text = "最大量程:";
-            // 
             // txtCollectType
             // 
             this.txtCollectType.Enabled = false;
-            this.txtCollectType.Location = new System.Drawing.Point(75, 316);
+            this.txtCollectType.Location = new System.Drawing.Point(67, 394);
             this.txtCollectType.Name = "txtCollectType";
-            this.txtCollectType.Size = new System.Drawing.Size(73, 20);
-            this.txtCollectType.TabIndex = 1;
-            // 
-            // labelControl11
-            // 
-            this.labelControl11.Location = new System.Drawing.Point(41, 345);
-            this.labelControl11.Name = "labelControl11";
-            this.labelControl11.Size = new System.Drawing.Size(52, 14);
-            this.labelControl11.TabIndex = 109;
-            this.labelControl11.Text = "数据宽度:";
+            this.txtCollectType.Size = new System.Drawing.Size(195, 20);
+            this.txtCollectType.TabIndex = 2;
             // 
             // txtTypeName
             // 
             this.txtTypeName.Enabled = false;
-            this.txtTypeName.Location = new System.Drawing.Point(188, 316);
+            this.txtTypeName.Location = new System.Drawing.Point(67, 420);
             this.txtTypeName.Name = "txtTypeName";
             this.txtTypeName.Size = new System.Drawing.Size(73, 20);
-            this.txtTypeName.TabIndex = 2;
-            // 
-            // lblMaxMeasureR
-            // 
-            this.lblMaxMeasureR.Location = new System.Drawing.Point(17, 371);
-            this.lblMaxMeasureR.Name = "lblMaxMeasureR";
-            this.lblMaxMeasureR.Size = new System.Drawing.Size(76, 14);
-            this.lblMaxMeasureR.TabIndex = 109;
-            this.lblMaxMeasureR.Text = "最大测量范围:";
+            this.txtTypeName.TabIndex = 4;
             // 
             // labelControl10
             // 
-            this.labelControl10.Location = new System.Drawing.Point(154, 423);
+            this.labelControl10.Location = new System.Drawing.Point(155, 423);
             this.labelControl10.Name = "labelControl10";
             this.labelControl10.Size = new System.Drawing.Size(28, 14);
-            this.labelControl10.TabIndex = 109;
+            this.labelControl10.TabIndex = 5;
             this.labelControl10.Text = "单位:";
-            // 
-            // labelControl8
-            // 
-            this.labelControl8.Location = new System.Drawing.Point(41, 423);
-            this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(28, 14);
-            this.labelControl8.TabIndex = 109;
-            this.labelControl8.Text = "精度:";
             // 
             // groupBox_BasicInfo
             // 
@@ -883,11 +798,7 @@
             this.groupBox_tree.ResumeLayout(false);
             this.groupBox_tree.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeCollectType)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPrecision.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureRFlag.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFrameWidth.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMaxMeasureR.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCollectType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTypeName.Properties)).EndInit();
             this.groupBox_BasicInfo.ResumeLayout(false);
@@ -953,26 +864,18 @@
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.LabelControl labelControl6;
         private DevExpress.XtraEditors.TextEdit txtUnit;
-        private DevExpress.XtraEditors.TextEdit txtMaxMeasureR;
         private DevExpress.XtraEditors.TextEdit txtTypeName;
-        private DevExpress.XtraEditors.LabelControl lblMaxMeasureR;
-        private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraTreeList.TreeList treeCollectType;
-        private DevExpress.XtraEditors.TextEdit txtMaxMeasureRFlag;
-        private DevExpress.XtraEditors.LabelControl labelControl9;
         private DevExpress.XtraEditors.LabelControl labelControl10;
         private System.Windows.Forms.ContextMenuStrip menuTree;
         private System.Windows.Forms.ToolStripMenuItem 新建ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
         private DevExpress.XtraEditors.TextEdit txtCollectType;
-        private DevExpress.XtraEditors.TextEdit txtPrecision;
         private DevExpress.XtraEditors.ComboBoxEdit cbPluse5;
         private DevExpress.XtraEditors.CheckEdit cePluse5;
         private DevExpress.XtraEditors.ComboBoxEdit cbSimulate3;
         private DevExpress.XtraEditors.CheckEdit ceSimulate3;
-        private DevExpress.XtraEditors.TextEdit txtFrameWidth;
-        private DevExpress.XtraEditors.LabelControl labelControl11;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
 

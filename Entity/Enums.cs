@@ -19,7 +19,7 @@ namespace Entity
     }
 
     /// <summary>
-    /// 终端类型
+    /// 终端类型(用在数据库)
     /// </summary>
     public enum TerType
     {

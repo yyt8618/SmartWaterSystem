@@ -59,7 +59,7 @@ namespace Entity
         }
 
         /// <summary>
-        /// 设备类型
+        /// 设备类型(用在设备协议)
         /// </summary>
         public enum DEV_TYPE
         {

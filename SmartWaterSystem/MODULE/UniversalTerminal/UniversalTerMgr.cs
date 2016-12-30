@@ -199,33 +199,33 @@ namespace SmartWaterSystem
                         txtTypeName.Text = entity.Name;
                         if (node.HasChildren)
                         {
-                            txtFrameWidth.Text = "------";
-                            txtMaxMeasureR.Text = "------";
-                            txtMaxMeasureRFlag.Text = "------";
-                            txtPrecision.Text = "------";
+                            //txtFrameWidth.Text = "------";
+                            //txtMaxMeasureR.Text = "------";
+                            //txtMaxMeasureRFlag.Text = "------";
+                            //txtPrecision.Text = "------";
                             txtUnit.Text = "------";
                         }
                         else
                         {
-                            txtFrameWidth.Text = entity.FrameWidth.ToString();
-                            txtMaxMeasureR.Text = entity.MaxMeasureRange.ToString();
-                            txtMaxMeasureRFlag.Text = entity.ManMeasureRangeFlag.ToString();
-                            txtPrecision.Text = entity.Precision.ToString();
+                            //txtFrameWidth.Text = entity.FrameWidth.ToString();
+                            //txtMaxMeasureR.Text = entity.MaxMeasureRange.ToString();
+                            //txtMaxMeasureRFlag.Text = entity.ManMeasureRangeFlag.ToString();
+                            //txtPrecision.Text = entity.Precision.ToString();
                             txtUnit.Text = entity.Unit;
-                            if (entity.WayType == UniversalCollectType.Simulate)//模拟
-                            {
-                                lblMaxMeasureR.Text = "最大测量范围:";
-                            }
-                            else if (entity.WayType == UniversalCollectType.Pluse) //脉冲
-                            {
-                                lblMaxMeasureR.Text = "单位脉冲大小:";
-                                txtMaxMeasureRFlag.Text = "------";
-                            }
-                            else if (entity.WayType == UniversalCollectType.RS485) //RS485
-                            {
-                                lblMaxMeasureR.Text = "系数:";
-                                txtMaxMeasureRFlag.Text = "------";
-                            }
+                            //if (entity.WayType == UniversalCollectType.Simulate)//模拟
+                            //{
+                            //    lblMaxMeasureR.Text = "最大测量范围:";
+                            //}
+                            //else if (entity.WayType == UniversalCollectType.Pluse) //脉冲
+                            //{
+                            //    lblMaxMeasureR.Text = "单位脉冲大小:";
+                            //    txtMaxMeasureRFlag.Text = "------";
+                            //}
+                            //else if (entity.WayType == UniversalCollectType.RS485) //RS485
+                            //{
+                            //    lblMaxMeasureR.Text = "系数:";
+                            //    txtMaxMeasureRFlag.Text = "------";
+                            //}
                         }
                         
                     }
@@ -237,9 +237,9 @@ namespace SmartWaterSystem
         {
             txtCollectType.Text = "";
             txtTypeName.Text = "";
-            txtMaxMeasureR.Text = "";
-            txtMaxMeasureRFlag.Text = "";
-            txtPrecision.Text = "0";
+            //txtMaxMeasureR.Text = "";
+            //txtMaxMeasureRFlag.Text = "";
+            //txtPrecision.Text = "0";
             txtUnit.Text = "";
         }
 
