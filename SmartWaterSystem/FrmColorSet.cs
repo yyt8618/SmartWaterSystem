@@ -12,6 +12,7 @@ using Common;
 using DevExpress.XtraEditors;
 using Entity;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace SmartWaterSystem
 {
@@ -27,6 +28,9 @@ namespace SmartWaterSystem
         private void FrmColorSet_Load(object sender, EventArgs e)
         {
             BindTree();
+
+            fontEdit1.Text = Settings.Instance.GetString(SettingKeys.ConsoleFont);
+            txtSize.Text = Settings.Instance.GetString(SettingKeys.ConsoleFontSize);
         }
         
         private void BindTree()
@@ -109,6 +113,18 @@ namespace SmartWaterSystem
         {
             try
             {
+                if(string.IsNullOrEmpty(fontEdit1.Text))
+                {
+                    XtraMessageBox.Show("请选择字体！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    fontEdit1.Focus();
+                    return;
+                }
+                if(!Regex.IsMatch(txtSize.Text, @"^\d{1,2}(\.\d{1})?$"))
+                {
+                    XtraMessageBox.Show("请填写正确字体大小！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtSize.Focus();
+                    return;
+                }
                 DataTable dt = treeColor.DataSource as DataTable;
                 using (StreamWriter writer = new StreamWriter(GlobalValue.ColorConfigFilePath, false, Encoding.UTF8))
                 {
@@ -121,8 +137,15 @@ namespace SmartWaterSystem
                     }
                     writer.Flush();
                 }
+                
+                Settings.Instance.SetValue(SettingKeys.ConsoleFont, fontEdit1.Text);
+                Settings.Instance.SetValue(SettingKeys.ConsoleFontSize, txtSize.Text);
+
                 if (GlobalValue.MainForm.Gprsconsole != null)
-                    GlobalValue.MainForm.Gprsconsole.UpdateColorConfig();  //更新FrmConsole界面上的颜色配置
+                {
+                    GlobalValue.MainForm.Gprsconsole.UpdateColorConfig();   //更新FrmConsole界面上的颜色配置
+                    GlobalValue.MainForm.Gprsconsole.UpdateFont();          //更新FrmConsole界面上的字体设置
+                }
 
                 XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

@@ -36,9 +36,11 @@
             this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.repositoryItemColorPickEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemColorPickEdit();
             this.fontEdit1 = new DevExpress.XtraEditors.FontEdit();
+            this.txtSize = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.treeColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemColorPickEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fontEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSize.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConfirm
@@ -103,12 +105,21 @@
             // 
             // fontEdit1
             // 
-            this.fontEdit1.Location = new System.Drawing.Point(29, 385);
+            this.fontEdit1.EditValue = "宋体";
+            this.fontEdit1.Location = new System.Drawing.Point(12, 383);
             this.fontEdit1.Name = "fontEdit1";
             this.fontEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.fontEdit1.Size = new System.Drawing.Size(201, 20);
-            this.fontEdit1.TabIndex = 4;
+            this.fontEdit1.TabIndex = 1;
+            // 
+            // txtSize
+            // 
+            this.txtSize.EditValue = "10.5";
+            this.txtSize.Location = new System.Drawing.Point(219, 383);
+            this.txtSize.Name = "txtSize";
+            this.txtSize.Size = new System.Drawing.Size(47, 20);
+            this.txtSize.TabIndex = 2;
             // 
             // FrmColorSet
             // 
@@ -116,6 +127,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(421, 417);
+            this.Controls.Add(this.txtSize);
             this.Controls.Add(this.fontEdit1);
             this.Controls.Add(this.treeColor);
             this.Controls.Add(this.btnConfirm);
@@ -130,6 +142,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.treeColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemColorPickEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fontEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSize.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -143,5 +156,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemColorPickEdit repositoryItemColorPickEdit1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
         private DevExpress.XtraEditors.FontEdit fontEdit1;
+        private DevExpress.XtraEditors.TextEdit txtSize;
     }
 }

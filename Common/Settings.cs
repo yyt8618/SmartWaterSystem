@@ -65,6 +65,15 @@ namespace Common
         /// FrmConsole页面输入日志记录位置
         /// </summary>
         public const string ConsoleLogPath = "ConsoleLogPath";
+
+        /// <summary>
+        /// FrmConsole界面字体
+        /// </summary>
+        public const string ConsoleFont = "ConsoleFont";
+        /// <summary>
+        /// FrmConsole界面字体大小
+        /// </summary>
+        public const string ConsoleFontSize = "ConsoleFontSize";
     }
 
     /// <summary>
@@ -86,7 +95,9 @@ namespace Common
             {SettingKeys.CallDataEnable,"false"},
             {SettingKeys.ServiceMonitorEnable,"true"},
             {SettingKeys.HTTPServiceURL,""},
-            {SettingKeys.HTTPReqSuviceTime, "30"}
+            {SettingKeys.HTTPReqSuviceTime, "30"},
+            {SettingKeys.ConsoleFont,"宋体" },
+            {SettingKeys.ConsoleFontSize,"10.5" }
         };
     }
 
