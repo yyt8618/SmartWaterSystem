@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -228,176 +229,223 @@ namespace Common
         /// <summary>
         /// 设置时间
         /// </summary>
+        [Description("设置时间")]
         SET_TIME = 0x10,
         /// <summary>
         /// 设置从站脉冲时间间隔
         /// </summary>
+        [Description("设置从站脉冲时间间隔")]
         SET_PLUSEINTERVAL = 0x11,
         /// <summary>
         /// 设置从站模拟量时间间隔
         /// </summary>
+        [Description("设置从站模拟量时间间隔")]
         SET_SIMINTERVAL = 0x2C,
         /// <summary>
         /// 设置从站485采集时间间隔
         /// </summary>
+        [Description("设置从站485采集时间间隔")]
         SET_485INTERVAL = 0x14,
         /// <summary>
         /// 设置从站采集配置功能
         /// </summary>
+        [Description("设置从站采集配置功能")]
         SET_COLLECTCONFIG = 0x1B,
         /// <summary>
         /// 设置从站485采集MODBUS执行标识
         /// </summary>
+        [Description("设置从站485采集MODBUS执行标识")]
         SET_MODBUSEXEFLAG = 0x2D,
         /// <summary>
         /// 设置485采集modbus协议
         /// </summary>
+        [Description("设置485采集modbus协议")]
         SET_MODBUSPROTOCOL = 0x30,
         /// <summary>
         /// 设置从站ID
         /// </summary>
+        [Description("设置从站ID")]
         SET_ID = 0x1E,
         /// <summary>
         /// 设置手机号
         /// </summary>
+        [Description("设置手机号")]
         SET_CELLPHONE = 0x21,
         /// <summary>
         /// 设置从站IP
         /// </summary>
+        [Description("设置从站IP")]
         SET_IP = 0x1F,
         /// <summary>
         /// 设置从站端口号
         /// </summary>
+        [Description("设置从站端口号")]
         SET_PORT = 0x20,
         /// <summary>
         /// 设置从站心跳间隔
         /// </summary>
-        SET_HEART= 0x1A,
+        [Description("设置从站心跳间隔")]
+        SET_HEART = 0x1A,
         /// <summary>
         /// 设置从站通信方式
         /// </summary>
+        [Description("设置从站通信方式")]
         SET_COMTYPE = 0x1C,
         /// <summary>
         /// 设置从站联网模式
         /// </summary>
+        [Description("设置从站联网模式")]
         SET_NETWORKTYPE = 0x29,
         /// <summary>
         /// 设置第一路脉冲基准数
         /// </summary>
+        [Description("设置第一路脉冲基准数")]
         SET_PLUSEBASIC1 = 0x31,
         /// <summary>
         /// 设置第二路脉冲基准数
         /// </summary>
+        [Description("设置第二路脉冲基准数")]
         SET_PLUSEBASIC2 = 0x32,
         /// <summary>
         /// 设置第三路脉冲基准数
         /// </summary>
+        [Description("设置第三路脉冲基准数")]
         SET_PLUSEBASIC3 = 0x33,
         /// <summary>
         /// 设置第四路脉冲基准数
         /// </summary>
+        [Description("设置第四路脉冲基准数")]
         SET_PLUSEBASIC4 = 0x34,
         /// <summary>
         /// 设置485波特率
         /// </summary>
+        [Description("设置485波特率")]
         SET_485BAUD = 0x1D,
         /// <summary>
         /// 设置电压采集时间间隔
         /// </summary>
+        [Description("设置电压采集时间间隔")]
         SET_VOLINTERVAL = 0x26,
         /// <summary>
         /// 设置电压报警下限
         /// </summary>
+        [Description("设置电压报警下限")]
         SET_VOLLOWER = 0x17,
-
         /// <summary>
         /// 设置报警上限值
         /// </summary>
+        [Description("设置报警上限值")]
         SET_PREUPLIMIT = 0x15,
         /// <summary>
         /// 设置模拟量报警上限值
         /// </summary>
+        [Description("设置模拟量报警上限值")]
         SET_SIMUPLIMIT = 0x36,
         /// <summary>
         /// 设置流量报警上限值
         /// </summary>
+        [Description("设置流量报警上限值")]
         SET_FLOWUPLIMIT = 0x3B,
         /// <summary>
         /// 设置压力报警下限值
         /// </summary>
+        [Description("设置压力报警下限值")]
         SET_PRELOWLIMIT = 0x16,
         /// <summary>
         /// 设置模拟量报警下限值
         /// </summary>
+        [Description("设置模拟量报警下限值")]
         SET_SIMLOWLIMIT = 0x37,
         /// <summary>
         /// 设置流量报警下限值
         /// </summary>
+        [Description("设置流量报警下限值")]
         SET_FLOWLOWLIMIT = 0x3C,
         /// <summary>
         /// 设置压力斜率报警上限值
         /// </summary>
+        [Description("设置压力斜率报警上限值")]
         SET_PRESLOPUPLIMIT = 0x18,
         /// <summary>
         /// 设置模拟量斜率报警上限值
         /// </summary>
+        [Description("设置模拟量斜率报警上限值")]
         SET_SIMSLOPUPLIMIT = 0x38,
         /// <summary>
         /// 设置流量斜率报警上限值
         /// </summary>
+        [Description("设置流量斜率报警上限值")]
         SET_FLOWSLOPUPLIMIT = 0x3D,
         /// <summary>
         /// 设置压力斜率报警下限值
         /// </summary>
+        [Description("设置压力斜率报警下限值")]
         SET_PRESLOPLOWLIMIT = 0x19,
         /// <summary>
         /// 设置模拟量斜率报警下限值
         /// </summary>
+        [Description("设置模拟量斜率报警下限值")]
         SET_SIMSLOPLOWLIMIT = 0x39,
         /// <summary>
         /// 设置流量斜率报警下限值
         /// </summary>
+        [Description("设置流量斜率报警下限值")]
         SET_FLOWSLOPLOWLIMIT = 0x3E,
 
         /// <summary>
         /// 设置上限投退
         /// </summary>
+        [Description("设置上限投退")]
         SET_UPENABLE = 0x22,
         /// <summary>
         /// 设置下限报警投退
         /// </summary>
+        [Description("设置下限报警投退")]
         SET_LOWENABLE = 0x23,
         /// <summary>
         /// 设置斜率上限报警投退
         /// </summary>
+        [Description("设置斜率上限报警投退")]
         SET_SLOPUPENABLE = 0x24,
         /// <summary>
         /// 设置斜率下限报警投退
         /// </summary>
-        SET_SLOPLOWENABLE =0x25,
+        [Description("设置斜率下限报警投退")]
+        SET_SLOPLOWENABLE = 0x25,
         /// <summary>
         /// 设置压力量程
         /// </summary>
+        [Description("设置压力量程")]
         SET_PRERANGE = 0x28,
         /// <summary>
         /// 设置模拟量量程
         /// </summary>
+        [Description("设置模拟量量程")]
         SET_SIMRANGE = 0x35,
         /// <summary>
         /// 设置偏移值
         /// </summary>
+        [Description("设置偏移值")]
         SET_PREOFFSET = 0x12,
         /// <summary>
         /// 设置短信发送时间间隔
         /// </summary>
+        [Description("设置短信发送时间间隔")]
         SET_SMSINTERVAL = 0x3A,
         /// <summary>
         /// 设置脉冲计数单位
         /// </summary>
+        [Description("设置脉冲计数单位")]
         SET_PLUSEUNIT = 0x2A,
+        /// <summary>
+        /// 设置取消报警时间长度
+        /// </summary>
+        [Description("设置取消报警时间长度")]
+        SET_ALARMLEN = 0x2F,
         /// <summary>
         /// 设置招测使能
         /// </summary>
+        [Description("设置招测使能")]
         SET_CALLENABLE = 0x70,
         #endregion
 
@@ -405,205 +453,263 @@ namespace Common
         /// <summary>
         /// 读取从站时间
         /// </summary>
+        [Description("读取从站时间")]
         READ_TIME = 0x40,
         /// <summary>
         /// 读取从站波特率
         /// </summary>
+        [Description("读取从站波特率")]
         READ_485BAUD = 0x4D,
         /// <summary>
         /// 读取从站模拟量时间间隔
         /// </summary>
+        [Description("读取从站模拟量时间间隔")]
         READ_SIMINTERVAL = 0x5C,
         /// <summary>
         /// 读取从站RS485时间间隔
         /// </summary>
+        [Description("读取从站RS485时间间隔")]
         READ_485INTERVAL = 0x44,
         /// <summary>
         /// 读取从站脉冲时间间隔
         /// </summary>
+        [Description("读取从站脉冲时间间隔")]
         READ_PLUSEINTERVAL = 0x41,
         /// <summary>
         /// 读取从站心跳间隔
         /// </summary>
+        [Description("读取从站心跳间隔")]
         READ_HEARTINTERVAL = 0x4A,
         /// <summary>
         /// 读取从站采集功能配置
         /// </summary>
+        [Description("读取从站采集功能配置")]
         READ_COLLECTCONFIG = 0x4B,
         /// <summary>
         /// 读取从站MODBUS协议执行标识
         /// </summary>
+        [Description("读取从站MODBUS协议执行标识")]
         READ_MODBUSEXEFLAG = 0x5D,
         /// <summary>
         /// 读取从站485采集modbus协议
         /// </summary>
+        [Description("读取从站485采集modbus协议")]
         READ_MODBUSPROTOCOL = 0x60,
         /// <summary>
         /// 读取从站
         /// </summary>
+        [Description("读取从站")]
         READ_ID = 0x4E,
+        [Description("读取从站IP")]
         READ_IP = 0x4F,
+        [Description("读取从站端口号")]
         READ_PORT = 0x50,
+        [Description("读取从站手机号")]
         READ_CELLPHONE = 0x51,
+        [Description("读取从站通信方式")]
         READ_COMTYPE = 0x4C,
         /// <summary>
         /// 读取从站电池电压时间间隔
         /// </summary>
-        READ_VOLINTERVAL=0x56,
+        [Description("读取从站电池电压时间间隔")]
+        READ_VOLINTERVAL = 0x56,
         /// <summary>
         /// 读取电压报警下限值(%)
         /// </summary>
+        [Description("读取电压报警下限值")]
         READ_VOLLOWER = 0x47,
         /// <summary>
         /// 读取联网模式
         /// </summary>
+        [Description("读取联网模式")]
         READ_NETWORKTYPE = 0x59,
         /// <summary>
         /// 读取压力报警上限值
         /// </summary>
+        [Description("读取压力报警上限值")]
         READ_PREUPLIMIT = 0x45,
         /// <summary>
         /// 读取模拟量1、2报警上限值
         /// </summary>
-        READ_SIMUPLIMIT =0x68,
+        [Description("读取模拟量1、2报警上限值")]
+        READ_SIMUPLIMIT = 0x68,
         /// <summary>
         /// 读取流量报警上限值
         /// </summary>
+        [Description("读取流量报警上限值")]
         READ_FLOWUPLIMIT = 0x61,
         /// <summary>
         /// 读取压力报警下限值
         /// </summary>
+        [Description("读取压力报警下限值")]
         READ_PRELOWLIMIT = 0x46,
         /// <summary>
         /// 读取模拟量1、2报警下限值
         /// </summary>
+        [Description("读取模拟量1、2报警下限值")]
         READ_SIMLOWLIMIT = 0x69,
         /// <summary>
         /// 读取流量报警下限值
         /// </summary>
+        [Description("读取流量报警下限值")]
         READ_FLOWLOWLIMIT = 0x62,
         /// <summary>
         /// 读取压力斜率报警上限值
         /// </summary>
+        [Description("读取压力斜率报警上限值")]
         READ_PRESLOPUPLIMIT = 0x48,
         /// <summary>
         /// 读取模拟量1、2报警上限值
         /// </summary>
+        [Description("读取模拟量1、2报警上限值")]
         READ_SIMSLOPUPLIMIT = 0x6A,
         /// <summary>
         /// 读取流量斜率报警上限值
         /// </summary>
+        [Description("读取流量斜率报警上限值")]
         READ_FLOWSLOPUPLIMIT = 0x63,
         /// <summary>
         /// 读取压力斜率报警下限值
         /// </summary>
+        [Description("读取压力斜率报警下限值")]
         READ_PRESLOPLOWLIMIT = 0x49,
         /// <summary>
         /// 读取模拟量1、2斜率报警下限值
         /// </summary>
+        [Description("读取模拟量1、2斜率报警下限值")]
         READ_SIMSLOPLOWLIMIT = 0x6B,
         /// <summary>
         /// 读取流量斜率报警下限值
         /// </summary>
+        [Description("读取流量斜率报警下限值")]
         READ_FLOWSLOPLOWLIMIT = 0x64,
         /// <summary>
         /// 读取压力、模拟量、流量报警上限投退
         /// </summary>
+        [Description("读取压力、模拟量、流量报警上限投退")]
         READ_UPENABLE = 0x52,
         /// <summary>
         /// 读取压力、模拟量、流量报警下限投退
         /// </summary>
+        [Description("读取压力、模拟量、流量报警下限投退")]
         READ_LOWENABLE = 0x53,
         /// <summary>
         /// 读取压力、模拟量、流量斜率报警上限投退
         /// </summary>
+        [Description("读取压力、模拟量、流量斜率报警上限投退")]
         READ_SLOPUPENABLE = 0x54,
         /// <summary>
         /// 读取压力、模拟量、流量斜率报警下限投退
         /// </summary>
+        [Description("读取压力、模拟量、流量斜率报警下限投退")]
         READ_SLOPLOWENABLE = 0x55,
         /// <summary>
         /// 读取压力量程
         /// </summary>
+        [Description("读取压力量程")]
         READ_PRERANGE = 0x58,
         /// <summary>
         /// 读取模拟量量程
         /// </summary>
-        READ_SIMRANGE=0x67,
+        [Description("读取模拟量量程")]
+        READ_SIMRANGE = 0x67,
         /// <summary>
         /// 读取压力偏移量
         /// </summary>
-        READ_PREOFFSET= 0x42,
+        [Description("读取压力偏移量")]
+        READ_PREOFFSET = 0x42,
         /// <summary>
         /// 读取版本号
         /// </summary>
-        READ_VER=0x5B,
+        [Description("读取版本号")]
+        READ_VER = 0x5B,
         /// <summary>
         /// 读取短信发送间隔
         /// </summary>
+        [Description("读取短信发送间隔")]
         READ_SMSINTERVAL = 0x6C,
         /// <summary>
         /// 读取脉冲计数单位
         /// </summary>
+        [Description("读取脉冲计数单位")]
         READ_PLUSEUNIT = 0x5A,
         /// <summary>
         /// 读取场强\电压
         /// </summary>
-        READ_FIELDSTRENGTH=0x5E,
+        [Description("读取场强")]
+        READ_FIELDSTRENGTH = 0x5E,
+        /// <summary>
+        /// 读取取消报警时间长度
+        /// </summary>
+        [Description("读取取消报警时间长度")]
+        READ_ALARMLEN = 0x6F,
         #endregion
 
         #region 控制命令
         /// <summary>
         /// 复位命令
         /// </summary>
+        [Description("复位命令")]
         RESET = 0x72,
         /// <summary>
         /// 启动终端采集功能命令
         /// </summary>
+        [Description("启动终端采集功能命令")]
         EnableCollect = 0x73,
         /// <summary>
         /// 从站第1路模拟量零点值校准
         /// </summary>
+        [Description("从站第1路模拟量零点值校准")]
         CalibartionSimualte1 = 0x65,
         /// <summary>
         /// 从站第2路模拟量零点值校准
         /// </summary>
-        CalibartionSimualte2= 0x66,
+        [Description("从站第2路模拟量零点值校准")]
+        CalibartionSimualte2 = 0x66,
         /// <summary>
         /// 开启永久在线 0x01：表示开启 0x00表示关闭永久在线
         /// </summary>
+        [Description("开启永久在线")]
         OnLine = 0x70,
         /// <summary>
         /// 招测压力1路
         /// </summary>
-        CallData_Pre1=0x71,
+        [Description("招测压力1路")]
+        CallData_Pre1 = 0x71,
         /// <summary>
         /// 招测模拟一路
         /// </summary>
-        CallData_Sim1= 0x78,
+        [Description("招测模拟一路")]
+        CallData_Sim1 = 0x78,
         /// <summary>
         /// 招测招测模拟二路
         /// </summary>
+        [Description("招测招测模拟二路")]
         CallData_Sim2 = 0x79,
         /// <summary>
         /// 招测脉冲量
         /// </summary>
+        [Description("招测脉冲量")]
         CallData_Pluse = 0x82,
         /// <summary>
         /// 招测RS485 1路
         /// </summary>
+        [Description("招测RS485 1路")]
         CallData_RS4851 = 0x7a,
         /// <summary>
         /// 招测RS485 2路
         /// </summary>
+        [Description("招测RS485 2路")]
         CallData_RS4852 = 0x7b,
         /// <summary>
         /// 招测RS485 3路
         /// </summary>
+        [Description("招测RS485 3路")]
         CallData_RS4853 = 0x7c,
         /// <summary>
         /// 招测RS485 4路
         /// </summary>
+        [Description("招测RS485 4路")]
         CallData_RS4854 = 0x7d,
         #endregion
     }

@@ -60,6 +60,587 @@ namespace Protocol
             return Write(package);
         }
 
+        public bool CalibartionSimulate1(ConstValue.DEV_TYPE devtype, short Id)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.CalibartionSimualte1;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool CalibartionSimulate2(ConstValue.DEV_TYPE devtype, short Id)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.CalibartionSimualte2;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetID(ConstValue.DEV_TYPE devtype, short Id)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            //package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
+            byte[] data = BitConverter.GetBytes((int)Id);
+            Array.Reverse(data);
+            data[0] = (byte)(ConstValue.DEV_TYPE.UNIVERSAL_CTRL);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool Set(ConstValue.DEV_TYPE devtype, short Id, byte funcode, byte[] data)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = funcode;
+
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool Set(ConstValue.DEV_TYPE devtype, short Id, byte funcode, byte data)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = funcode;
+
+            package.DataLength = 1;
+            package.Data = new byte[] { data };
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetIP(ConstValue.DEV_TYPE devtype, short id, int[] ips)
+        {
+            string ip = "";
+            for (int i = 0; i < ips.Length; i++)
+            {
+                ip += ips[i].ToString().PadLeft(3, '0') + ".";
+            }
+            if (!string.IsNullOrEmpty(ip))
+                ip = ip.Substring(0, ip.Length - 1);
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_IP;
+            package.DataLength = 15;
+            byte[] data = new byte[package.DataLength];
+            for (int i = 0; i < ip.Length; i++)
+            {
+                data[i] = (byte)ip[i];
+            }
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetCollectConfig(ConstValue.DEV_TYPE devtype, short Id, byte config)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_COLLECTCONFIG;
+            byte[] data = new byte[1];
+            data[0] = config;
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        /// <summary>
+        /// 设置限值
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="limit"></param>
+        /// <param name="range">量程</param>
+        /// <param name="flagtype"></param>
+        /// <param name="alarmtype"></param>
+        public bool SetLimit(ConstValue.DEV_TYPE devtype, short Id, double limit, double range, UniversalFlagType flagtype, UniversalAlarmType alarmtype)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            byte[] data = new byte[3];
+            byte flag = 0x00;
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRELOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPLOWLIMIT;
+                    flag = 0x01;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)(limit * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRELOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPLOWLIMIT;
+                    flag = 0x02;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)(limit * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPLOWLIMIT;
+                    flag = 0x01;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)Math.Round(ConstValue.UniversalSimRatio * limit / range)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPLOWLIMIT;
+                    flag = 0x02;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)Math.Round(ConstValue.UniversalSimRatio * limit / range)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Flow:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWLOWLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPLOWLIMIT;
+                    flag = 0x01;
+                    data = new byte[5];
+                    Array.Copy(BitConverter.GetBytes((int)(limit * 1000)), data, 4);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+            }
+            package.DataLength = data.Length;
+
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+        public bool SetAlarmEnable(ConstValue.DEV_TYPE devtype, short Id, bool enable, UniversalFlagType flagtype, UniversalAlarmType alarmtype)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            if (alarmtype == UniversalAlarmType.UpAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_UPENABLE;
+            else if (alarmtype == UniversalAlarmType.LowAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_LOWENABLE;
+            else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_SLOPUPENABLE;
+            else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                package.C1 = (byte)UNIVERSAL_COMMAND.SET_SLOPLOWENABLE;
+            byte flag = 0x00;
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    flag = 0x02;
+                    break;
+                case UniversalFlagType.Flow:
+                    flag = 0x01;
+                    break;
+            }
+            byte[] data = new byte[2];
+            data[0] = flag;
+            data[1] = (byte)(enable ? 0x01 : 0x00);
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetRange(ConstValue.DEV_TYPE devtype, short Id, double range, UniversalFlagType flagtype)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            byte flag = 0x00;
+            byte[] data = new byte[3];
+            switch (flagtype)
+            {
+                case UniversalFlagType.Pressure1:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRERANGE;
+                    flag = 0x01;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)(range * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRERANGE;
+                    flag = 0x02;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)(range * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Simulate1:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMRANGE;
+                    flag = 0x01;
+                    data = new byte[5];
+                    short round = (short)range; //整数部分
+                    short deci = (short)Math.Round((range - round) * 1000);   //小数部分*1000
+                    Array.Copy(BitConverter.GetBytes(deci), data, 2);
+                    Array.Copy(BitConverter.GetBytes(round), 0, data, 2, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                case UniversalFlagType.Simulate2:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMRANGE;
+                    flag = 0x02;
+                    data = new byte[5];
+                    round = (short)range; //整数部分
+                    deci = (short)Math.Round((range - round) * 1000);   //小数部分*1000
+                    Array.Copy(BitConverter.GetBytes(deci), data, 2);
+                    Array.Copy(BitConverter.GetBytes(round), 0, data, 2, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
+                    //case UniversalFlagType.Flow:  //无流量
+                    //    flag = 0x01;
+                    //    break;
+            }
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetPreOffset(ConstValue.DEV_TYPE devtype, short Id, double offset, UniversalFlagType flagtype)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREOFFSET;
+            byte flag = 0x00;
+            switch (flagtype)       //偏移值只有压力有，模拟量和流量没有
+            {
+                case UniversalFlagType.Pressure1:
+                    flag = 0x01;
+                    break;
+                case UniversalFlagType.Pressure2:
+                    flag = 0x02;
+                    break;
+            }
+            byte[] data = new byte[3];
+            Array.Copy(BitConverter.GetBytes((short)(offset * 1000)), data, 2);
+            Array.Reverse(data);
+            data[0] = flag;
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetCallEnable(ConstValue.DEV_TYPE devtype, short Id, bool Enable)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_CALLENABLE;
+            byte[] data = new byte[1];
+            data[0] = Enable ? (byte)0x01 : (byte)0x00; //1-使能招测 0 - 关闭招测
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        public bool SetSimulateInterval(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
+        {
+            Package package = GetSimulateIntervalPackage(devtype, Id, dt);
+
+            return Write(package);
+        }
+
+        public Package GetSimulateIntervalPackage(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMINTERVAL;
+            List<byte> lstdata = new List<byte>();
+            byte[] data;
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["collecttime1"] != DBNull.Value && dr["collecttime2"] != DBNull.Value)
+                {
+                    lstdata.Add(Convert.ToByte(dr["starttime"]));
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime1"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime2"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                }
+            }
+
+            data = lstdata.ToArray();
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return package;
+        }
+
+        public bool SetPluseInterval(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
+        {
+            Package package = GetPluseIntervalPackage(devtype, Id, dt);
+
+            return Write(package);
+        }
+
+        public Package GetPluseIntervalPackage(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEINTERVAL;
+            List<byte> lstdata = new List<byte>();
+            byte[] data;
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["precollecttime"] != DBNull.Value && dr["plusecollecttime"] != DBNull.Value)
+                {
+                    lstdata.Add(Convert.ToByte(dr["starttime"]));
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["precollecttime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["plusecollecttime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                }
+            }
+
+            data = lstdata.ToArray();
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return package;
+        }
+
+        public bool SetRS485Interval(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
+        {
+            Package package = GetRS485IntervalPackage(devtype, Id, dt);
+
+            return Write(package);
+        }
+
+        public Package GetRS485IntervalPackage(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_485INTERVAL;
+            List<byte> lstdata = new List<byte>();
+            byte[] data;
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["collecttime"] != DBNull.Value)
+                {
+                    lstdata.Add(Convert.ToByte(dr["starttime"]));
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime"]));
+                    lstdata.Add(data[1]);
+                    lstdata.Add(data[0]);
+                }
+            }
+
+            data = lstdata.ToArray();
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return package;
+        }
+
+        public bool SetModbusProtocol(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.SET_MODBUSPROTOCOL;
+            List<byte> lstdata = new List<byte>();
+            byte[] data;
+            int validrow = 0;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                if (dr["baud"] != DBNull.Value && dr["ID"] != DBNull.Value && dr["funcode"] != DBNull.Value &&
+                    dr["regbeginaddr"] != DBNull.Value && dr["regcount"] != DBNull.Value)
+                {
+                    int baud = Convert.ToInt32(dr["baud"]);
+                    if (baud == 1200)
+                        lstdata.Add(0x00);
+                    else if (baud == 2400)
+                        lstdata.Add(0x01);
+                    else if (baud == 4800)
+                        lstdata.Add(0x02);
+                    else if (baud == 9600)
+                        lstdata.Add(0x03);
+
+                    string id = dr["ID"].ToString().Trim();
+                    if (id.StartsWith("0x") && id.Length > 2)
+                        lstdata.Add(Convert.ToByte(id.Substring(2), 16));
+                    else
+                        lstdata.Add(Convert.ToByte(dr["ID"]));
+
+                    string funcode = dr["funcode"].ToString().Trim();
+                    if (funcode.StartsWith("0x") && funcode.Length > 2)
+                        lstdata.Add(Convert.ToByte(funcode.Substring(2), 16));
+                    else
+                        lstdata.Add(Convert.ToByte(dr["funcode"]));
+
+                    string regbeginaddr = dr["regbeginaddr"].ToString().Trim();
+                    if (regbeginaddr.StartsWith("0x") && regbeginaddr.Length > 2)
+                    {
+                        data = BitConverter.GetBytes(Convert.ToInt16(regbeginaddr.Substring(2), 16));
+                        lstdata.Add(data[1]);
+                        lstdata.Add(data[0]);
+                    }
+                    else
+                    {
+                        data = BitConverter.GetBytes(Convert.ToInt16(dr["regbeginaddr"]));
+                        lstdata.Add(data[1]);
+                        lstdata.Add(data[0]);
+                    }
+
+                    string regcount = dr["regcount"].ToString().Trim();
+                    if (regcount.StartsWith("0x") && regcount.Length > 2)
+                    {
+                        data = BitConverter.GetBytes(Convert.ToInt16(regcount.Substring(2), 16));
+                        lstdata.Add(data[1]);
+                        lstdata.Add(data[0]);
+                    }
+                    else
+                    {
+                        data = BitConverter.GetBytes(Convert.ToInt16(dr["regcount"]));
+                        lstdata.Add(data[1]);
+                        lstdata.Add(data[0]);
+                    }
+                    validrow++;
+                }
+            }
+            for (; validrow < 4; validrow++)
+            {
+                lstdata.AddRange(new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });  //补齐行
+            }
+
+            data = lstdata.ToArray();
+            package.DataLength = data.Length;
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
+        /// <summary>
+        /// 设置第?路脉冲基准数
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="value">基准数</param>
+        /// <param name="waytype">1:第一路脉冲,2:第二路脉冲,3:第三路脉冲,4:第四路脉冲</param>
+        /// <returns></returns>
+        public bool SetPluseBasic(ConstValue.DEV_TYPE devtype, short Id, UInt32 value, int waytype)
+        {
+            Package package = GetPluseBasicPackage(devtype, Id, value, waytype);
+
+            return Write(package);
+        }
+
         public short ReadId(ConstValue.DEV_TYPE devtype)
         {
             Package package = new Package();
@@ -881,6 +1462,37 @@ namespace Protocol
             return Convert.ToInt16(result.Data[0]);
         }
 
+        public short ReadAlarmLen(ConstValue.DEV_TYPE devtype, short Id)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.READ_ALARMLEN;
+            package.DataLength = 2;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package);
+            if (RWType == RWFunType.GPRS)
+                return 0;
+
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 2)
+            {
+                throw new Exception("数据损坏");
+            }
+            return BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+        }
+
         public DataTable ReadSimualteInterval(ConstValue.DEV_TYPE devtype, short Id)
         {
             Package package = new Package();
@@ -1546,587 +2158,6 @@ namespace Protocol
             package.Data = data;
             package.CS = package.CreateCS();
             return package;
-        }
-
-        public bool CalibartionSimulate1(ConstValue.DEV_TYPE devtype, short Id)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.CalibartionSimualte1;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool CalibartionSimulate2(ConstValue.DEV_TYPE devtype, short Id)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.CalibartionSimualte2;
-            package.DataLength = 0;
-            byte[] data = new byte[package.DataLength];
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetID(ConstValue.DEV_TYPE devtype,short Id)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            //package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
-            byte[] data = BitConverter.GetBytes((int)Id);
-            Array.Reverse(data);
-            data[0] = (byte)(ConstValue.DEV_TYPE.UNIVERSAL_CTRL);
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool Set(ConstValue.DEV_TYPE devtype, short Id,byte funcode, byte[] data)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = funcode;
-            
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool Set(ConstValue.DEV_TYPE devtype, short Id, byte funcode, byte data)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = funcode;
-
-            package.DataLength = 1;
-            package.Data = new byte[] { data };
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetIP(ConstValue.DEV_TYPE devtype,short id, int[] ips)
-        {
-            string ip = "";
-            for (int i = 0; i < ips.Length; i++)
-            {
-                ip += ips[i].ToString().PadLeft(3,'0')+".";
-            }
-            if (!string.IsNullOrEmpty(ip))
-                ip = ip.Substring(0, ip.Length - 1);
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_IP;
-            package.DataLength = 15;
-            byte[] data = new byte[package.DataLength];
-            for (int i = 0; i < ip.Length; i++)
-            {
-                data[i] = (byte)ip[i];
-            }
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetCollectConfig(ConstValue.DEV_TYPE devtype, short Id, byte config)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_COLLECTCONFIG;
-            byte[] data = new byte[1];
-            data[0] = config;
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        /// <summary>
-        /// 设置限值
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="limit"></param>
-        /// <param name="range">量程</param>
-        /// <param name="flagtype"></param>
-        /// <param name="alarmtype"></param>
-        public bool SetLimit(ConstValue.DEV_TYPE devtype, short Id,double limit,double range, UniversalFlagType flagtype, UniversalAlarmType alarmtype)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            byte[] data=new byte[3];
-            byte flag = 0x00;
-            switch (flagtype)
-            {
-                case UniversalFlagType.Pressure1:
-                    if (alarmtype == UniversalAlarmType.UpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.LowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRELOWLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPLOWLIMIT;
-                    flag = 0x01;
-                    data = new byte[3];
-                    Array.Copy(BitConverter.GetBytes((short)(limit*1000)), data, 2);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-                case UniversalFlagType.Pressure2:
-                    if (alarmtype == UniversalAlarmType.UpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.LowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRELOWLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRESLOPLOWLIMIT;
-                    flag = 0x02;
-                    data = new byte[3];
-                    Array.Copy(BitConverter.GetBytes((short)(limit * 1000)), data, 2);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-                case UniversalFlagType.Simulate1:
-                    if (alarmtype == UniversalAlarmType.UpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.LowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMLOWLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPLOWLIMIT;
-                    flag = 0x01;
-                    data = new byte[3];
-                    Array.Copy(BitConverter.GetBytes((short)Math.Round(ConstValue.UniversalSimRatio * limit / range)), data, 2);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-                case UniversalFlagType.Simulate2:
-                    if (alarmtype == UniversalAlarmType.UpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.LowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMLOWLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPLOWLIMIT;
-                    flag = 0x02;
-                    data = new byte[3];
-                    Array.Copy(BitConverter.GetBytes((short)Math.Round(ConstValue.UniversalSimRatio * limit / range)), data, 2);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-                case UniversalFlagType.Flow:
-                    if (alarmtype == UniversalAlarmType.UpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.LowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWLOWLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPUPLIMIT;
-                    else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
-                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPLOWLIMIT;
-                    flag = 0x01;
-                    data = new byte[5];
-                    Array.Copy(BitConverter.GetBytes((int)(limit * 1000)), data, 4);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-            }
-            package.DataLength = data.Length;
-            
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-        public bool SetAlarmEnable(ConstValue.DEV_TYPE devtype, short Id, bool enable,UniversalFlagType flagtype, UniversalAlarmType alarmtype)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            if (alarmtype == UniversalAlarmType.UpAlarm)
-                package.C1 = (byte)UNIVERSAL_COMMAND.SET_UPENABLE;
-            else if (alarmtype == UniversalAlarmType.LowAlarm)
-                package.C1 = (byte)UNIVERSAL_COMMAND.SET_LOWENABLE;
-            else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
-                package.C1 = (byte)UNIVERSAL_COMMAND.SET_SLOPUPENABLE;
-            else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
-                package.C1 = (byte)UNIVERSAL_COMMAND.SET_SLOPLOWENABLE;
-            byte flag = 0x00;
-            switch (flagtype)
-            {
-                case UniversalFlagType.Pressure1:
-                    flag = 0x01;
-                    break;
-                case UniversalFlagType.Pressure2:
-                    flag = 0x02;
-                    break;
-                case UniversalFlagType.Simulate1:
-                    flag = 0x01;
-                    break;
-                case UniversalFlagType.Simulate2:
-                    flag = 0x02;
-                    break;
-                case UniversalFlagType.Flow:
-                    flag = 0x01;
-                    break;
-            }
-            byte[] data = new byte[2];
-            data[0] = flag;
-            data[1] = (byte)(enable ? 0x01 : 0x00);
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-        
-        public bool SetRange(ConstValue.DEV_TYPE devtype, short Id, double range, UniversalFlagType flagtype)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            byte flag = 0x00;
-            byte[] data = new byte[3];
-            switch (flagtype)
-            {
-                case UniversalFlagType.Pressure1:
-                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRERANGE;
-                    flag = 0x01;
-                    data = new byte[3];
-                    Array.Copy(BitConverter.GetBytes((short)(range*1000)), data, 2);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-                case UniversalFlagType.Pressure2:
-                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_PRERANGE;
-                    flag = 0x02;
-                    data = new byte[3];
-                    Array.Copy(BitConverter.GetBytes((short)(range * 1000)), data, 2);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-                case UniversalFlagType.Simulate1:
-                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMRANGE;
-                    flag = 0x01;
-                    data = new byte[5];
-                    short round = (short)range; //整数部分
-                    short deci = (short)Math.Round((range - round) * 1000);   //小数部分*1000
-                    Array.Copy(BitConverter.GetBytes(deci), data,2);
-                    Array.Copy(BitConverter.GetBytes(round), 0, data, 2, 2);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-                case UniversalFlagType.Simulate2:
-                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMRANGE;
-                    flag = 0x02;
-                    data = new byte[5];
-                    round = (short)range; //整数部分
-                    deci = (short)Math.Round((range - round) * 1000);   //小数部分*1000
-                    Array.Copy(BitConverter.GetBytes(deci), data, 2);
-                    Array.Copy(BitConverter.GetBytes(round), 0, data, 2, 2);
-                    Array.Reverse(data);
-                    data[0] = flag;
-                    break;
-                    //case UniversalFlagType.Flow:  //无流量
-                    //    flag = 0x01;
-                    //    break;
-            }
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetPreOffset(ConstValue.DEV_TYPE devtype, short Id, double offset, UniversalFlagType flagtype)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREOFFSET;
-            byte flag = 0x00;
-            switch (flagtype)       //偏移值只有压力有，模拟量和流量没有
-            {
-                case UniversalFlagType.Pressure1:
-                    flag = 0x01;
-                    break;
-                case UniversalFlagType.Pressure2:
-                    flag = 0x02;
-                    break;
-            }
-            byte[] data = new byte[3];
-            Array.Copy(BitConverter.GetBytes((short)(offset*1000)), data, 2);
-            Array.Reverse(data);
-            data[0] = flag;
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetCallEnable(ConstValue.DEV_TYPE devtype, short Id, bool Enable)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_CALLENABLE;
-            byte[] data = new byte[1];
-            data[0] = Enable ? (byte)0x01 : (byte)0x00; //1-使能招测 0 - 关闭招测
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        public bool SetSimulateInterval(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
-        {
-            Package package = GetSimulateIntervalPackage(devtype, Id, dt);
-
-            return Write(package);
-        }
-
-        public Package GetSimulateIntervalPackage(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMINTERVAL;
-            List<byte> lstdata = new List<byte>();
-            byte[] data;
-            foreach (DataRow dr in dt.Rows)
-            {
-                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["collecttime1"] != DBNull.Value && dr["collecttime2"] != DBNull.Value)
-                {
-                    lstdata.Add(Convert.ToByte(dr["starttime"]));
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime1"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime2"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                }
-            }
-
-            data = lstdata.ToArray();
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return package;
-        }
-
-        public bool SetPluseInterval(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
-        {
-            Package package = GetPluseIntervalPackage(devtype, Id, dt);
-
-            return Write(package);
-        }
-
-        public Package GetPluseIntervalPackage(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_PLUSEINTERVAL;
-            List<byte> lstdata = new List<byte>();
-            byte[] data;
-            foreach (DataRow dr in dt.Rows)
-            {
-                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["precollecttime"] != DBNull.Value && dr["plusecollecttime"]!=DBNull.Value)
-                {
-                    lstdata.Add(Convert.ToByte(dr["starttime"]));
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["precollecttime"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["plusecollecttime"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                }
-            }
-
-            data = lstdata.ToArray();
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return package;
-        }
-
-        public bool SetRS485Interval(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
-        {
-            Package package = GetRS485IntervalPackage(devtype, Id, dt);
-
-            return Write(package);
-        }
-
-        public Package GetRS485IntervalPackage(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_485INTERVAL;
-            List<byte> lstdata = new List<byte>();
-            byte[] data;
-            foreach (DataRow dr in dt.Rows)
-            {
-                if (dr["starttime"] != DBNull.Value && dr["sendtime"] != DBNull.Value && dr["collecttime"] != DBNull.Value)
-                {
-                    lstdata.Add(Convert.ToByte(dr["starttime"]));
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["sendtime"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                    data = BitConverter.GetBytes(Convert.ToInt16(dr["collecttime"]));
-                    lstdata.Add(data[1]);
-                    lstdata.Add(data[0]);
-                }
-            }
-
-            data = lstdata.ToArray();
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return package;
-        }
-
-        public bool SetModbusProtocol(ConstValue.DEV_TYPE devtype, short Id, DataTable dt)
-        {
-            Package package = new Package();
-            package.DevType = devtype;
-            package.DevID = Id;
-            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-            package.C1 = (byte)UNIVERSAL_COMMAND.SET_MODBUSPROTOCOL;
-            List<byte> lstdata = new List<byte>();
-            byte[] data;
-            int validrow = 0;
-            for(int i = 0; i<dt.Rows.Count;i++)
-            {
-                DataRow dr = dt.Rows[i];
-                if (dr["baud"] != DBNull.Value && dr["ID"] != DBNull.Value && dr["funcode"] != DBNull.Value&&
-                    dr["regbeginaddr"] != DBNull.Value && dr["regcount"] != DBNull.Value )
-                {
-                    int baud = Convert.ToInt32(dr["baud"]);
-                    if (baud == 1200)
-                        lstdata.Add(0x00);
-                    else if (baud == 2400)
-                        lstdata.Add(0x01);
-                    else if (baud == 4800)
-                        lstdata.Add(0x02);
-                    else if (baud == 9600)
-                        lstdata.Add(0x03);
-
-                    string id = dr["ID"].ToString().Trim();
-                    if (id.StartsWith("0x")&&id.Length>2)
-                        lstdata.Add(Convert.ToByte(id.Substring(2), 16));
-                    else
-                        lstdata.Add(Convert.ToByte(dr["ID"]));
-
-                    string funcode = dr["funcode"].ToString().Trim();
-                    if (funcode.StartsWith("0x") && funcode.Length > 2)
-                        lstdata.Add(Convert.ToByte(funcode.Substring(2), 16));
-                    else
-                        lstdata.Add(Convert.ToByte(dr["funcode"]));
-
-                    string regbeginaddr = dr["regbeginaddr"].ToString().Trim();
-                    if (regbeginaddr.StartsWith("0x") && regbeginaddr.Length > 2)
-                    {
-                        data = BitConverter.GetBytes(Convert.ToInt16(regbeginaddr.Substring(2), 16));
-                        lstdata.Add(data[1]);
-                        lstdata.Add(data[0]);
-                    }
-                    else
-                    {
-                        data = BitConverter.GetBytes(Convert.ToInt16(dr["regbeginaddr"]));
-                        lstdata.Add(data[1]);
-                        lstdata.Add(data[0]);
-                    }
-
-                    string regcount = dr["regcount"].ToString().Trim();
-                    if (regcount.StartsWith("0x") && regcount.Length > 2)
-                    {
-                        data = BitConverter.GetBytes(Convert.ToInt16(regcount.Substring(2), 16));
-                        lstdata.Add(data[1]);
-                        lstdata.Add(data[0]); 
-                    }
-                    else
-                    {
-                        data = BitConverter.GetBytes(Convert.ToInt16(dr["regcount"]));
-                        lstdata.Add(data[1]);
-                        lstdata.Add(data[0]);
-                    }
-                    validrow++;
-                }
-            }
-            for (; validrow < 4; validrow++)
-            {
-                lstdata.AddRange(new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });  //补齐行
-            }
-
-            data = lstdata.ToArray();
-            package.DataLength = data.Length;
-            package.Data = data;
-            package.CS = package.CreateCS();
-
-            return Write(package);
-        }
-
-        /// <summary>
-        /// 设置第?路脉冲基准数
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="value">基准数</param>
-        /// <param name="waytype">1:第一路脉冲,2:第二路脉冲,3:第三路脉冲,4:第四路脉冲</param>
-        /// <returns></returns>
-        public bool SetPluseBasic(ConstValue.DEV_TYPE devtype, short Id,UInt32 value,int waytype)
-        {
-            Package package = GetPluseBasicPackage(devtype, Id,value,waytype);
-
-            return Write(package);
         }
 
         /// <summary>

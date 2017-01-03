@@ -859,7 +859,12 @@ namespace SmartWaterSystem
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在读取终端脉冲计数单位..."));
                                         GlobalValue.UniSerialPortOptData.PluseUnit = GlobalValue.Universallog.ReadPluseUnit(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
                                     }
-                                    if(GlobalValue.UniSerialPortOptData.IsOpt_UpLimit)
+                                    if(GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在读取终端报警时长..."));
+                                        GlobalValue.UniSerialPortOptData.PluseUnit = GlobalValue.Universallog.ReadAlarmLen(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
+                                    }
+                                    if (GlobalValue.UniSerialPortOptData.IsOpt_UpLimit)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在读取终端压力报警上限值..."));
                                         GlobalValue.UniSerialPortOptData.UpLimit = GlobalValue.Universallog.ReadLimit(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.FlagType, UniversalAlarmType.UpAlarm);
@@ -1041,6 +1046,13 @@ namespace SmartWaterSystem
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置脉冲计数单位..."));
                                         result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_PLUSEUNIT, (byte)GlobalValue.UniSerialPortOptData.PluseUnit);
+                                    }
+                                    if(GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置取消报警时间长度..."));
+                                        byte[] data = BitConverter.GetBytes((short)GlobalValue.UniSerialPortOptData.AlarmLen);
+                                        Array.Reverse(data);
+                                        result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_ALARMLEN, data);
                                     }
 
                                     double simrange = -1;

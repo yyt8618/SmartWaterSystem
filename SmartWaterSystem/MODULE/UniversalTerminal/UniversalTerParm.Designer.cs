@@ -35,6 +35,7 @@ namespace SmartWaterSystem
             this.cb_sim_coltime2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.cb_sim_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
@@ -43,6 +44,7 @@ namespace SmartWaterSystem
             this.txtIP = new DevExpress.XtraEditors.TextEdit();
             this.cb485BaudRate = new DevExpress.XtraEditors.ComboBoxEdit();
             this.txtVolInterval = new DevExpress.XtraEditors.TextEdit();
+            this.txtAlarmLen = new DevExpress.XtraEditors.TextEdit();
             this.txtSMSInterval = new DevExpress.XtraEditors.TextEdit();
             this.txtHeart = new DevExpress.XtraEditors.TextEdit();
             this.cbPluseUnit = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -55,6 +57,7 @@ namespace SmartWaterSystem
             this.txtTime = new DevExpress.XtraEditors.TextEdit();
             this.ce485Baud = new DevExpress.XtraEditors.CheckEdit();
             this.ceHeart = new DevExpress.XtraEditors.CheckEdit();
+            this.ceAlarmLen = new DevExpress.XtraEditors.CheckEdit();
             this.cePluseUnit = new DevExpress.XtraEditors.CheckEdit();
             this.ceSMSInterval = new DevExpress.XtraEditors.CheckEdit();
             this.ceVolLower = new DevExpress.XtraEditors.CheckEdit();
@@ -193,6 +196,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb485BaudRate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtVolInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlarmLen.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSMSInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtHeart.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPluseUnit.Properties)).BeginInit();
@@ -205,6 +209,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ce485Baud.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceHeart.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceAlarmLen.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePluseUnit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSMSInterval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceVolLower.Properties)).BeginInit();
@@ -338,6 +343,7 @@ namespace SmartWaterSystem
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.labelControl5);
             this.groupControl1.Controls.Add(this.labelControl3);
             this.groupControl1.Controls.Add(this.labelControl2);
             this.groupControl1.Controls.Add(this.labelControl4);
@@ -346,6 +352,7 @@ namespace SmartWaterSystem
             this.groupControl1.Controls.Add(this.txtIP);
             this.groupControl1.Controls.Add(this.cb485BaudRate);
             this.groupControl1.Controls.Add(this.txtVolInterval);
+            this.groupControl1.Controls.Add(this.txtAlarmLen);
             this.groupControl1.Controls.Add(this.txtSMSInterval);
             this.groupControl1.Controls.Add(this.txtHeart);
             this.groupControl1.Controls.Add(this.cbPluseUnit);
@@ -358,6 +365,7 @@ namespace SmartWaterSystem
             this.groupControl1.Controls.Add(this.txtTime);
             this.groupControl1.Controls.Add(this.ce485Baud);
             this.groupControl1.Controls.Add(this.ceHeart);
+            this.groupControl1.Controls.Add(this.ceAlarmLen);
             this.groupControl1.Controls.Add(this.cePluseUnit);
             this.groupControl1.Controls.Add(this.ceSMSInterval);
             this.groupControl1.Controls.Add(this.ceVolLower);
@@ -376,12 +384,20 @@ namespace SmartWaterSystem
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
             // 
+            // labelControl5
+            // 
+            this.labelControl5.Location = new System.Drawing.Point(778, 77);
+            this.labelControl5.Name = "labelControl5";
+            this.labelControl5.Size = new System.Drawing.Size(7, 14);
+            this.labelControl5.TabIndex = 34;
+            this.labelControl5.Text = "h";
+            // 
             // labelControl3
             // 
-            this.labelControl3.Location = new System.Drawing.Point(485, 79);
+            this.labelControl3.Location = new System.Drawing.Point(477, 79);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(19, 14);
-            this.labelControl3.TabIndex = 19;
+            this.labelControl3.TabIndex = 29;
             this.labelControl3.Text = "min";
             // 
             // labelControl2
@@ -389,7 +405,7 @@ namespace SmartWaterSystem
             this.labelControl2.Location = new System.Drawing.Point(150, 78);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(19, 14);
-            this.labelControl2.TabIndex = 19;
+            this.labelControl2.TabIndex = 23;
             this.labelControl2.Text = "min";
             // 
             // labelControl4
@@ -397,7 +413,7 @@ namespace SmartWaterSystem
             this.labelControl4.Location = new System.Drawing.Point(443, 51);
             this.labelControl4.Name = "labelControl4";
             this.labelControl4.Size = new System.Drawing.Size(5, 14);
-            this.labelControl4.TabIndex = 22;
+            this.labelControl4.TabIndex = 16;
             this.labelControl4.Text = "s";
             // 
             // labelControl1
@@ -405,7 +421,7 @@ namespace SmartWaterSystem
             this.labelControl1.Location = new System.Drawing.Point(295, 78);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(12, 14);
-            this.labelControl1.TabIndex = 22;
+            this.labelControl1.TabIndex = 26;
             this.labelControl1.Text = "%";
             // 
             // txtVolLower
@@ -414,7 +430,7 @@ namespace SmartWaterSystem
             this.txtVolLower.Location = new System.Drawing.Point(263, 75);
             this.txtVolLower.Name = "txtVolLower";
             this.txtVolLower.Size = new System.Drawing.Size(31, 20);
-            this.txtVolLower.TabIndex = 21;
+            this.txtVolLower.TabIndex = 25;
             // 
             // txtIP
             // 
@@ -427,7 +443,7 @@ namespace SmartWaterSystem
             this.txtIP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtIP.Properties.MaxLength = 15;
             this.txtIP.Size = new System.Drawing.Size(104, 20);
-            this.txtIP.TabIndex = 10;
+            this.txtIP.TabIndex = 11;
             // 
             // cb485BaudRate
             // 
@@ -442,7 +458,7 @@ namespace SmartWaterSystem
             "9600"});
             this.cb485BaudRate.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cb485BaudRate.Size = new System.Drawing.Size(73, 20);
-            this.cb485BaudRate.TabIndex = 24;
+            this.cb485BaudRate.TabIndex = 18;
             // 
             // txtVolInterval
             // 
@@ -450,25 +466,32 @@ namespace SmartWaterSystem
             this.txtVolInterval.Location = new System.Drawing.Point(104, 75);
             this.txtVolInterval.Name = "txtVolInterval";
             this.txtVolInterval.Size = new System.Drawing.Size(43, 20);
-            this.txtVolInterval.TabIndex = 18;
+            this.txtVolInterval.TabIndex = 22;
+            // 
+            // txtAlarmLen
+            // 
+            this.txtAlarmLen.Location = new System.Drawing.Point(730, 74);
+            this.txtAlarmLen.Name = "txtAlarmLen";
+            this.txtAlarmLen.Size = new System.Drawing.Size(46, 20);
+            this.txtAlarmLen.TabIndex = 33;
             // 
             // txtSMSInterval
             // 
-            this.txtSMSInterval.Location = new System.Drawing.Point(409, 75);
+            this.txtSMSInterval.Location = new System.Drawing.Point(403, 75);
             this.txtSMSInterval.Name = "txtSMSInterval";
             this.txtSMSInterval.Size = new System.Drawing.Size(73, 20);
-            this.txtSMSInterval.TabIndex = 24;
+            this.txtSMSInterval.TabIndex = 28;
             // 
             // txtHeart
             // 
             this.txtHeart.Location = new System.Drawing.Point(375, 48);
             this.txtHeart.Name = "txtHeart";
             this.txtHeart.Size = new System.Drawing.Size(65, 20);
-            this.txtHeart.TabIndex = 16;
+            this.txtHeart.TabIndex = 15;
             // 
             // cbPluseUnit
             // 
-            this.cbPluseUnit.Location = new System.Drawing.Point(603, 75);
+            this.cbPluseUnit.Location = new System.Drawing.Point(591, 75);
             this.cbPluseUnit.Name = "cbPluseUnit";
             this.cbPluseUnit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -482,7 +505,7 @@ namespace SmartWaterSystem
             "100"});
             this.cbPluseUnit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPluseUnit.Size = new System.Drawing.Size(68, 20);
-            this.cbPluseUnit.TabIndex = 26;
+            this.cbPluseUnit.TabIndex = 31;
             // 
             // cbModbusExeFlag
             // 
@@ -495,7 +518,7 @@ namespace SmartWaterSystem
             "执行"});
             this.cbModbusExeFlag.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbModbusExeFlag.Size = new System.Drawing.Size(68, 20);
-            this.cbModbusExeFlag.TabIndex = 26;
+            this.cbModbusExeFlag.TabIndex = 20;
             // 
             // cbNetworkType
             // 
@@ -509,7 +532,7 @@ namespace SmartWaterSystem
             "实时在线"});
             this.cbNetworkType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbNetworkType.Size = new System.Drawing.Size(68, 20);
-            this.cbNetworkType.TabIndex = 26;
+            this.cbNetworkType.TabIndex = 9;
             // 
             // ceModbusExeFlag
             // 
@@ -517,7 +540,7 @@ namespace SmartWaterSystem
             this.ceModbusExeFlag.Name = "ceModbusExeFlag";
             this.ceModbusExeFlag.Properties.Caption = "modbus执行标识";
             this.ceModbusExeFlag.Size = new System.Drawing.Size(113, 19);
-            this.ceModbusExeFlag.TabIndex = 25;
+            this.ceModbusExeFlag.TabIndex = 19;
             this.ceModbusExeFlag.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceNetWorkType
@@ -526,7 +549,7 @@ namespace SmartWaterSystem
             this.ceNetWorkType.Name = "ceNetWorkType";
             this.ceNetWorkType.Properties.Caption = "联网模式";
             this.ceNetWorkType.Size = new System.Drawing.Size(71, 19);
-            this.ceNetWorkType.TabIndex = 25;
+            this.ceNetWorkType.TabIndex = 8;
             this.ceNetWorkType.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // txtCellPhone
@@ -543,7 +566,7 @@ namespace SmartWaterSystem
             this.ceVolInterval.Name = "ceVolInterval";
             this.ceVolInterval.Properties.Caption = "电压时间间隔";
             this.ceVolInterval.Size = new System.Drawing.Size(97, 19);
-            this.ceVolInterval.TabIndex = 17;
+            this.ceVolInterval.TabIndex = 21;
             this.ceVolInterval.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // txtTime
@@ -559,7 +582,7 @@ namespace SmartWaterSystem
             this.ce485Baud.Name = "ce485Baud";
             this.ce485Baud.Properties.Caption = "485波特率";
             this.ce485Baud.Size = new System.Drawing.Size(83, 19);
-            this.ce485Baud.TabIndex = 23;
+            this.ce485Baud.TabIndex = 17;
             this.ce485Baud.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceHeart
@@ -568,25 +591,34 @@ namespace SmartWaterSystem
             this.ceHeart.Name = "ceHeart";
             this.ceHeart.Properties.Caption = "心跳间隔";
             this.ceHeart.Size = new System.Drawing.Size(71, 19);
-            this.ceHeart.TabIndex = 15;
+            this.ceHeart.TabIndex = 14;
             this.ceHeart.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
+            // 
+            // ceAlarmLen
+            // 
+            this.ceAlarmLen.Location = new System.Drawing.Point(662, 74);
+            this.ceAlarmLen.Name = "ceAlarmLen";
+            this.ceAlarmLen.Properties.Caption = "报警时长";
+            this.ceAlarmLen.Size = new System.Drawing.Size(73, 19);
+            this.ceAlarmLen.TabIndex = 32;
+            this.ceAlarmLen.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // cePluseUnit
             // 
-            this.cePluseUnit.Location = new System.Drawing.Point(509, 76);
+            this.cePluseUnit.Location = new System.Drawing.Point(497, 76);
             this.cePluseUnit.Name = "cePluseUnit";
             this.cePluseUnit.Properties.Caption = "脉冲计数单位";
             this.cePluseUnit.Size = new System.Drawing.Size(99, 19);
-            this.cePluseUnit.TabIndex = 25;
+            this.cePluseUnit.TabIndex = 30;
             this.cePluseUnit.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceSMSInterval
             // 
-            this.ceSMSInterval.Location = new System.Drawing.Point(313, 76);
+            this.ceSMSInterval.Location = new System.Drawing.Point(307, 76);
             this.ceSMSInterval.Name = "ceSMSInterval";
             this.ceSMSInterval.Properties.Caption = "短信发送间隔";
             this.ceSMSInterval.Size = new System.Drawing.Size(99, 19);
-            this.ceSMSInterval.TabIndex = 23;
+            this.ceSMSInterval.TabIndex = 27;
             this.ceSMSInterval.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceVolLower
@@ -595,7 +627,7 @@ namespace SmartWaterSystem
             this.ceVolLower.Name = "ceVolLower";
             this.ceVolLower.Properties.Caption = "电压报警下限";
             this.ceVolLower.Size = new System.Drawing.Size(99, 19);
-            this.ceVolLower.TabIndex = 20;
+            this.ceVolLower.TabIndex = 24;
             this.ceVolLower.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // txtPort
@@ -604,7 +636,7 @@ namespace SmartWaterSystem
             this.txtPort.Location = new System.Drawing.Point(229, 48);
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(65, 20);
-            this.txtPort.TabIndex = 12;
+            this.txtPort.TabIndex = 13;
             // 
             // cbComType
             // 
@@ -619,7 +651,7 @@ namespace SmartWaterSystem
             "电信GSM"});
             this.cbComType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbComType.Size = new System.Drawing.Size(83, 20);
-            this.cbComType.TabIndex = 8;
+            this.cbComType.TabIndex = 7;
             // 
             // ceComType
             // 
@@ -627,7 +659,7 @@ namespace SmartWaterSystem
             this.ceComType.Name = "ceComType";
             this.ceComType.Properties.Caption = "通讯方式";
             this.ceComType.Size = new System.Drawing.Size(74, 19);
-            this.ceComType.TabIndex = 7;
+            this.ceComType.TabIndex = 6;
             // 
             // ceTime
             // 
@@ -658,7 +690,7 @@ namespace SmartWaterSystem
             this.cePort.Name = "cePort";
             this.cePort.Properties.Caption = "端口号";
             this.cePort.Size = new System.Drawing.Size(63, 19);
-            this.cePort.TabIndex = 11;
+            this.cePort.TabIndex = 12;
             this.cePort.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
             // 
             // ceID
@@ -675,7 +707,7 @@ namespace SmartWaterSystem
             this.ceIP.Name = "ceIP";
             this.ceIP.Properties.Caption = "IP";
             this.ceIP.Size = new System.Drawing.Size(35, 19);
-            this.ceIP.TabIndex = 9;
+            this.ceIP.TabIndex = 10;
             // 
             // groupControl7
             // 
@@ -1719,7 +1751,7 @@ namespace SmartWaterSystem
             this.groupControl6.Controls.Add(this.btnCallClose);
             this.groupControl6.Controls.Add(this.btnCallOpen);
             this.groupControl6.Controls.Add(this.btnCallData);
-            this.groupControl6.Location = new System.Drawing.Point(506, 429);
+            this.groupControl6.Location = new System.Drawing.Point(506, 428);
             this.groupControl6.Name = "groupControl6";
             this.groupControl6.Size = new System.Drawing.Size(286, 61);
             this.groupControl6.TabIndex = 14;
@@ -1967,6 +1999,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb485BaudRate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtVolInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlarmLen.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSMSInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtHeart.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPluseUnit.Properties)).EndInit();
@@ -1979,6 +2012,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.txtTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ce485Baud.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceHeart.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceAlarmLen.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePluseUnit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSMSInterval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceVolLower.Properties)).EndInit();
@@ -2236,5 +2270,8 @@ namespace SmartWaterSystem
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn18;
         private DevExpress.XtraGrid.Columns.GridColumn 类型;
+        private DevExpress.XtraEditors.CheckEdit ceAlarmLen;
+        private DevExpress.XtraEditors.TextEdit txtAlarmLen;
+        private DevExpress.XtraEditors.LabelControl labelControl5;
     }
 }

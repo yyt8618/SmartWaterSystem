@@ -796,6 +796,20 @@ namespace Entity
         }
 
         /// <summary>
+        /// 是否读取/设置报警时长
+        /// </summary>
+        public bool IsOpt_AlarmLen = false;
+        private int _AlarmLen;
+        /// <summary>
+        /// 报警时长
+        /// </summary>
+        public int AlarmLen
+        {
+            get { return _AlarmLen; }
+            set { _AlarmLen = value; }
+        }
+
+        /// <summary>
         /// 是否读取/设置485波特率
         /// </summary>
         public bool IsOpt_Baud485 = false;

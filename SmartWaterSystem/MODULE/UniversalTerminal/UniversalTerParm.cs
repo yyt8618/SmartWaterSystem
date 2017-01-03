@@ -862,6 +862,11 @@ namespace SmartWaterSystem
                     GlobalValue.UniSerialPortOptData.IsOpt_PluseUnit = cePluseUnit.Checked;
                     haveread = true;
                 }
+                if(ceAlarmLen.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen = ceAlarmLen.Checked;
+                    haveread = true;
+                }
                 if (cePreUpLimit.Checked)
                 {
                     GlobalValue.UniSerialPortOptData.IsOpt_UpLimit = cePreUpLimit.Checked;
@@ -1074,6 +1079,12 @@ namespace SmartWaterSystem
                         {
                             GlobalValue.UniSerialPortOptData.IsOpt_PluseUnit = cePluseUnit.Checked;
                             GlobalValue.UniSerialPortOptData.PluseUnit = cbPluseUnit.SelectedIndex;
+                            haveset = true;
+                        }
+                        if(ceAlarmLen.Checked)
+                        {
+                            GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen = ceAlarmLen.Checked;
+                            GlobalValue.UniSerialPortOptData.AlarmLen = Convert.ToInt16(txtAlarmLen.Text);
                             haveset = true;
                         }
                         if(cePreUpLimit.Checked)
@@ -1613,6 +1624,8 @@ namespace SmartWaterSystem
                             txtSMSInterval.Text = GlobalValue.UniSerialPortOptData.SMSInterval.ToString();
                         if (GlobalValue.UniSerialPortOptData.IsOpt_PluseUnit)
                             cbPluseUnit.SelectedIndex = GlobalValue.UniSerialPortOptData.PluseUnit;
+                        if (GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen)
+                            txtAlarmLen.Text = GlobalValue.UniSerialPortOptData.AlarmLen.ToString();
 
                         if (GlobalValue.UniSerialPortOptData.IsOpt_UpLimit)
                             txtPreUpLimit.Text = GlobalValue.UniSerialPortOptData.UpLimit.ToString("f3");
@@ -1904,8 +1917,14 @@ namespace SmartWaterSystem
                 cbPluseUnit.Focus();
                 return false;
             }
+            if (ceAlarmLen.Checked && !Regex.IsMatch(txtAlarmLen.Text, @"^\d{1,4}$"))
+            {
+                XtraMessageBox.Show("请输入取消报警时间长度!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtAlarmLen.Focus();
+                return false;
+            }
 
-            if(cePreUpLimit.Checked && !Regex.IsMatch(txtPreUpLimit.Text, @"^[0-9]{1,5}(\.[0-9]{1,3})?$"))
+            if (cePreUpLimit.Checked && !Regex.IsMatch(txtPreUpLimit.Text, @"^[0-9]{1,5}(\.[0-9]{1,3})?$"))
             {
                 XtraMessageBox.Show("请输入上限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtPreUpLimit.Focus();
