@@ -139,11 +139,11 @@ namespace GCGPRSService
                             {
                                 for(int i =0; i < GlobalValue.Instance.lstClient.Count;i++)//先移除已有的从数据库添加的数据，再重新添加
                                 {
-                                    for (int j = 0; j < GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count; j++)
+                                    for (int j = GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count-1;j>=0; j--)
                                     {
                                         if (GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].TableId > 0)
                                         {
-                                             GlobalValue.Instance.lstClient[i].lstWaitSendCmd.RemoveAt(i);
+                                             GlobalValue.Instance.lstClient[i].lstWaitSendCmd.RemoveAt(j);
                                         }
                                     }
                                 }
@@ -182,7 +182,7 @@ namespace GCGPRSService
                                     {
                                         for (int i = 0; i < GlobalValue.Instance.lstClient.Count; i++)
                                         {
-                                            for (int j = 0; j < GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count; i++)
+                                            for (int j = GlobalValue.Instance.lstClient[i].lstWaitSendCmd.Count - 1; j >= 0; j--)
                                             {
                                                 if (flag.TableId == GlobalValue.Instance.lstClient[i].lstWaitSendCmd[j].TableId)
                                                 {

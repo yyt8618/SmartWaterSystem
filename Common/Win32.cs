@@ -5,6 +5,8 @@ namespace Common
 {
     public class Win32
     {
+        public const uint MAXIMUM_WAIT_OBJECTS = 64;
+
         public const uint INFINITE = 0xffffffffu;
 
         public const uint EVENT_PULSE = 1;
@@ -31,6 +33,6 @@ namespace Common
 
         [DllImport("Kernel32.dll")]
         public static extern uint WaitForMultipleObjects(uint nCount, IntPtr[] lpHandles, [MarshalAs(UnmanagedType.Bool)]bool fWaitAll, uint dwMilliseconds);
-
+        
     }
 }

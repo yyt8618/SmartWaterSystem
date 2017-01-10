@@ -989,5 +989,15 @@ namespace Entity
             set { _CallEnable = value; }
         }
 
+        private bool _EnableAlarm = false;
+        /// <summary>
+        /// 是否启用报警
+        /// </summary>
+        public bool EnableAlarm
+        {
+            get { return _EnableAlarm; }
+            set { _EnableAlarm = value; }
+        }
+        
     }
 }

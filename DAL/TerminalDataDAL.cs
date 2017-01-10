@@ -836,7 +836,7 @@ namespace DAL
                         cmd.SendPackage.C1 = reader["FunCode"] != DBNull.Value ? Convert.ToByte(reader["FunCode"]) : (byte)0x00;
                         cmd.SendPackage.Data = reader["DataValue"] != DBNull.Value ? ConvertHelper.StringToByte(reader["DataValue"].ToString()) : null;
                         
-                        //cmd.SendPackage.DataLength = cmd.SendPackage.Data == null ? 0 : cmd.SendPackage.Data.Length;
+                        cmd.SendPackage.DataLength = cmd.SendPackage.Data == null ? 0 : cmd.SendPackage.Data.Length;
                         //cmd.ModifyTime = reader["SetDate"] != DBNull.Value ? Convert.ToDateTime(reader["SetDate"]) : DateTime.Now;
                         //cmd.SendedFlag = 0;
                         

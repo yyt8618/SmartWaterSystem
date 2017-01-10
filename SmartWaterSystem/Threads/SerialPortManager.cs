@@ -38,6 +38,8 @@ namespace SmartWaterSystem
         UniversalSetTime,   //设置通用终端时间
         UniversalSetEnableCollect, //设置通用终端启用采集
 
+        UniversalEnableAlarm,   //设置通用终端是否启用实时报警
+
         UniversalSetCollectConfig,  //设置通用终端采集配置功能
         UniversalSetSim_Interval,  //设置通用终端模拟量时间间隔
         UniversalSetPluse_Interval, //设置通用终端脉冲量时间间隔
@@ -167,8 +169,11 @@ namespace SmartWaterSystem
     public class SerialPortManager : SerialPortRW
     {
         private NLog.Logger logger = NLog.LogManager.GetLogger("SerialPortMgr");
-        private const int eventcount = 63;
+        private const int eventcount = 2;
         public event SerialPortHandle SerialPortEvent;
+
+        public SerialPortType SendType;
+
         /// <summary>
         /// 用于通知UI多个通信动作是的进度(读写)
         /// </summary>
@@ -220,22 +225,29 @@ namespace SmartWaterSystem
 
         public void Send(SerialPortType type)
         {
-            Win32.SetEvent(hEvent[(int)type]);
+            SendType = type;
+            Win32.SetEvent(hEvent[1]);
         }
 
         private void SerialPortThread()
         {
             while (true)
             {
-                uint evt = Win32.WaitForMultipleObjects(eventcount, hEvent, false, Win32.INFINITE);
+                uint evt = 0;
+                evt=Win32.WaitForMultipleObjects(eventcount, hEvent, false, Win32.INFINITE);
                 bool result = false;  //-1:执行失败;1:执行成功;0:无执行返回
                 string msg = "";
                 object obj = null;
 
                 OnSerialPortEvent(new SerialPortEventArgs((SerialPortType)evt, TransStatus.Start, "", null));
                 GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived -= GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;  //发送命令时去除委托
-                
-                switch (evt)
+
+                if (evt == 0)
+                {
+                    Thread.CurrentThread.Abort();
+                    return;
+                }
+                switch ((uint)SendType)
                 {
                     case (uint)SerialPortType.None:
                         Thread.CurrentThread.Abort();
@@ -783,6 +795,32 @@ namespace SmartWaterSystem
                         }
                         #endregion
                         break;
+                    case (uint)SerialPortType.UniversalEnableAlarm:
+                        #region 通用终端是否启用报警
+                        {
+                            try
+                            {
+                                if (GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置取消报警时间长度..."));
+                                    byte[] data = BitConverter.GetBytes((short)GlobalValue.UniSerialPortOptData.AlarmLen);
+                                    Array.Reverse(data);
+                                    result = GlobalValue.Universallog.Set(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, (byte)UNIVERSAL_COMMAND.SET_ALARMLEN, data);
+                                }
+                                OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在设置报警..."));
+                                result = GlobalValue.Universallog.EnableAlarm(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.EnableAlarm);
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
+                            }
+                            catch (Exception ex)
+                            {
+                                result = false;
+                                msg = ex.Message;
+                            }
+                        }
+                        #endregion
+                        break;
                     case (uint)SerialPortType.UniversalReadBasicInfo:
                         #region 通用终端读取基础参数
                         {
@@ -862,7 +900,7 @@ namespace SmartWaterSystem
                                     if(GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen)
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.UniversalReadBasicInfo, "正在读取终端报警时长..."));
-                                        GlobalValue.UniSerialPortOptData.PluseUnit = GlobalValue.Universallog.ReadAlarmLen(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
+                                        GlobalValue.UniSerialPortOptData.AlarmLen = GlobalValue.Universallog.ReadAlarmLen(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
                                     }
                                     if (GlobalValue.UniSerialPortOptData.IsOpt_UpLimit)
                                     {
@@ -1966,7 +2004,7 @@ namespace SmartWaterSystem
                         break;
                 }
                 GlobalValue.Universallog.serialPortUtil.serialPort.DataReceived += GlobalValue.Universallog.serialPortUtil.SerialPort_DataReceived;  //发送完成后,恢复委托
-                OnSerialPortEvent(new SerialPortEventArgs((SerialPortType)evt, result ? TransStatus.Success : TransStatus.Fail, msg, obj));
+                OnSerialPortEvent(new SerialPortEventArgs(SendType, result ? TransStatus.Success : TransStatus.Fail, msg, obj));
             }
         }
 
@@ -2240,19 +2278,6 @@ namespace SmartWaterSystem
             {
                 if (GlobalValue.Universallog.RWType== RWFunType.GPRS && GlobalValue.Universallog.lstCmdPack != null && GlobalValue.Universallog.lstCmdPack.Count > 0)
                 {
-                    //GPRSCmdEntity[] CmdPacks = new GPRSCmdEntity[GlobalValue.Universallog.lstCmdPack.Count];
-                    //for (int i = 0; i < GlobalValue.Universallog.lstCmdPack.Count; i++)
-                    //{
-                    //    CmdPacks[i] = new GPRSCmdEntity();
-                    //    CmdPacks[i].TableId = -2;
-                    //    CmdPacks[i].DevTypeId = (int)GlobalValue.Universallog.lstCmdPack[i].DevType;
-                    //    CmdPacks[i].DeviceId = GlobalValue.Universallog.lstCmdPack[i].DevID;
-                    //    CmdPacks[i].CtrlCode = GlobalValue.Universallog.lstCmdPack[i].C0;
-                    //    CmdPacks[i].FunCode = GlobalValue.Universallog.lstCmdPack[i].C1;
-                    //    CmdPacks[i].Data = ConvertHelper.ByteToString(GlobalValue.Universallog.lstCmdPack[i].Data, GlobalValue.Universallog.lstCmdPack[i].DataLength);
-                    //    CmdPacks[i].DataLen = GlobalValue.Universallog.lstCmdPack[i].DataLength;
-                    //}
-
                     SocketEntity msmqentity = new SocketEntity();
                     msmqentity.MsgType = ConstValue.MSMQTYPE.P68_Cmd;
                     msmqentity.Packs = GlobalValue.Universallog.lstCmdPack.ToArray();

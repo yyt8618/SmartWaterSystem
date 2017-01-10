@@ -120,7 +120,7 @@ namespace GCGPRSService
                 {
                     if (RemoveSame)
                     {
-                        for (int j = 0; j < lstClient[index].lstWaitSendCmd.Count; j++)   //先移除相同功能码的命令
+                        for (int j = lstClient[index].lstWaitSendCmd.Count-1;j>=0; j--)   //先移除相同功能码的命令
                         {
                             if (lstClient[index].lstWaitSendCmd[j].SendPackage != null && lstClient[index].lstWaitSendCmd[j].SendPackage.C1 == pack.C1)
                                 lstClient[index].lstWaitSendCmd.RemoveAt(j);
@@ -149,7 +149,7 @@ namespace GCGPRSService
                 {
                     if (lstClient[i].TerId == TerId && lstClient[i].DevType == DevType)
                     {
-                        for (int j = 0; j < lstClient[i].lstWaitSendCmd.Count; j++)
+                        for (int j = lstClient[i].lstWaitSendCmd.Count-1;j>=0; j--)
                         {
                             if (lstClient[i].lstWaitSendCmd[j].SendPackage != null && lstClient[i].lstWaitSendCmd[j].SendPackage.C1 == FunCode)
                             {

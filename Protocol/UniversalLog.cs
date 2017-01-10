@@ -60,6 +60,22 @@ namespace Protocol
             return Write(package);
         }
 
+        public bool EnableAlarm(ConstValue.DEV_TYPE devtype, short Id,bool Enable)
+        {
+            Package package = new Package();
+            package.DevType = devtype;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)UNIVERSAL_COMMAND.EnableAlarm;
+            package.DataLength = 1;
+            byte[] data = new byte[package.DataLength];  
+            data[0] = Enable ? (byte)0x00 : (byte)0x01;  //1--取消     0--不取消
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            return Write(package);
+        }
+
         public bool CalibartionSimulate1(ConstValue.DEV_TYPE devtype, short Id)
         {
             Package package = new Package();
@@ -1535,7 +1551,7 @@ namespace Protocol
                 dr["collecttime2"] = BitConverter.ToInt16(new byte[] { result.Data[i + 6], result.Data[i + 5] }, 0);
                 dt_simulate.Rows.Add(dr);
             }
-
+            
             return dt_simulate;
         }
         public DataTable ReadPluseInterval(ConstValue.DEV_TYPE devtype, short Id)

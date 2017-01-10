@@ -1213,91 +1213,6 @@ namespace SmartWaterSystem
                     SetStaticItem("正在设置...");
                     Send(SerialPortType.UniversalSetBasicInfo);
                 }
-            //}
-            //else
-            //{
-            //    #region GPRS校验
-            //    if (!Regex.IsMatch(txtID.Text, @"^\d{1,5}$"))
-            //    {
-            //        XtraMessageBox.Show("请输入设备ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //        txtID.Focus();
-            //        return ;
-            //    }
-            //    bool haveset = false;
-            //    if (ceCollectSimulate.Checked)
-            //    {
-            //        DataTable dt = gridControl_Simulate.DataSource as DataTable;
-            //        if (dt == null || dt.Rows.Count == 0)
-            //        {
-            //            XtraMessageBox.Show("请填写模拟量时间间隔!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //            gridView_Simulate.Focus();
-            //            return ;
-            //        }
-            //        haveset = true;
-            //    }
-
-            //    if (ceCollectPluse.Checked)
-            //    {
-            //        DataTable dt = gridControl_Pluse.DataSource as DataTable;
-            //        if (dt == null || dt.Rows.Count == 0)
-            //        {
-            //            XtraMessageBox.Show("请填写脉冲量时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //            gridView_Pluse.Focus();
-            //            return ;
-            //        }
-            //        haveset = true;
-            //    }
-
-            //    if (ceCollectRS485.Checked)
-            //    {
-            //        DataTable dt = gridControl_RS485.DataSource as DataTable;
-            //        if (dt == null || dt.Rows.Count == 0)
-            //        {
-            //            XtraMessageBox.Show("请填写RS485时间间隔表!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //            gridView_RS485.Focus();
-            //            return ;
-            //        }
-            //        haveset = true;
-            //    }
-            //    if (!haveset)
-            //    {
-            //        XtraMessageBox.Show("请选择需要设置的参数!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //        return;
-            //    }
-            //    #endregion
-
-            //    TerminalDataBLL terBll = new TerminalDataBLL();
-            //    List<Package> lstPack = new List<Package>();
-            //    if (ceCollectSimulate.Checked)
-            //    {
-            //        DataTable dt = gridControl_Simulate.DataSource as DataTable;
-            //        Package pack = GlobalValue.Universallog.GetSimulateIntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
-            //        lstPack.Add(pack);
-            //    }
-            //    if (ceCollectPluse.Checked)
-            //    {
-            //        DataTable dt = gridControl_Pluse.DataSource as DataTable;
-            //        Package pack = GlobalValue.Universallog.GetPluseIntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
-            //        lstPack.Add(pack);
-            //    }
-            //    if (ceCollectRS485.Checked)
-            //    {
-            //        DataTable dt = gridControl_RS485.DataSource as DataTable;
-            //        Package pack = GlobalValue.Universallog.GetRS485IntervalPackage(GlobalValue.UniSerialPortOptData.DevType, Convert.ToInt16(txtID.Text), dt);
-            //        lstPack.Add(pack);
-            //    }
-
-            //    foreach (Package pack in lstPack)
-            //    {
-            //        if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
-            //        {
-            //            XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //            return;
-            //        }
-            //    }
-            //    ceCollectSimulate.Checked = false; ceCollectPluse.Checked = false; ceCollectRS485.Checked = false;
-            //    XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
         }
 
         private void barbtnCalibrationSimualte1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -1379,53 +1294,50 @@ namespace SmartWaterSystem
             GlobalValue.UniSerialPortOptData.PluseBasic3 = PluseBasicForm.PluseBasic3;
             GlobalValue.UniSerialPortOptData.PluseBasic4 = PluseBasicForm.PluseBasic4;
 
-            //if (SwitchComunication.IsOn)
-            //{
-                EnableControls(false);
-                DisableRibbonBar();
-                DisableNavigateBar();
-                ShowWaitForm("", "正在设置脉冲基准...");
-                BeginSerialPortDelegate();
-                Application.DoEvents();
-                SetStaticItem("正在设置脉冲基准...");
-                Send(SerialPortType.UniversalPluseBasic);
-            //}
-            //else
-            //{
-            //    TerminalDataBLL terBll = new TerminalDataBLL();
-            //    List<Package> lstPack = new List<Package>();
-            //    if (GlobalValue.UniSerialPortOptData.SetPluseBasic1)
-            //    {
-            //        Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic1,1);
-            //        lstPack.Add(pack);
-            //    }
-            //    if (GlobalValue.UniSerialPortOptData.SetPluseBasic2)
-            //    {
-            //        Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic2, 2);
-            //        lstPack.Add(pack);
-            //    }
-            //    if (GlobalValue.UniSerialPortOptData.SetPluseBasic3)
-            //    {
-            //        Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic3, 3);
-            //        lstPack.Add(pack);
-            //    }
-            //    if (GlobalValue.UniSerialPortOptData.SetPluseBasic4)
-            //    {
-            //        Package pack = GlobalValue.Universallog.GetPluseBasicPackage(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.PluseBasic4, 4);
-            //        lstPack.Add(pack);
-            //    }
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+            ShowWaitForm("", "正在设置脉冲基准...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在设置脉冲基准...");
+            Send(SerialPortType.UniversalPluseBasic);
+        }
+        
+        private void btnEnableAlarm_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtID.Text))
+            {
+                XtraMessageBox.Show("请先填写终端ID!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtID.Focus();
+                return;
+            }
 
-            //    foreach (Package pack in lstPack)
-            //    {
-            //        if (!terBll.InsertDevGPRSParm(pack.DevID, Convert.ToInt32(pack.DevType), Convert.ToInt32(pack.C0), Convert.ToInt32(pack.C1), ConvertHelper.ByteToString(pack.Data, pack.DataLength)))
-            //        {
-            //            XtraMessageBox.Show("参数保存失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //            return;
-            //        }
-            //    }
-            //    ceCollectSimulate.Checked = false; ceCollectPluse.Checked = false; ceCollectRS485.Checked = false;
-            //    XtraMessageBox.Show("参数保存成功，等待传输!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
+            CancleAlarmForm cancleAlarmForm = new CancleAlarmForm();
+            if (DialogResult.OK != cancleAlarmForm.ShowDialog())
+            {
+                return;
+            }
+            GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
+            GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
+
+            EnableControls(false);
+            DisableRibbonBar();
+            DisableNavigateBar();
+
+            if (cancleAlarmForm.CancleHours == -1)
+                GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen = false;
+            else
+            {
+                GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen = true;
+                GlobalValue.UniSerialPortOptData.AlarmLen = cancleAlarmForm.CancleHours;
+            }
+            GlobalValue.UniSerialPortOptData.EnableAlarm = cancleAlarmForm.IsEnable;
+            ShowWaitForm("", "正在启用报警...");
+            BeginSerialPortDelegate();
+            Application.DoEvents();
+            SetStaticItem("正在启用报警...");
+            Send(SerialPortType.UniversalEnableAlarm);
         }
 
         public override void OnSerialPortNotify(object sender, SerialPortEventArgs e)
@@ -1822,6 +1734,24 @@ namespace SmartWaterSystem
                     XtraMessageBox.Show("招测失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            if (e.TransactStatus != TransStatus.Start && (e.OptType == SerialPortType.UniversalEnableAlarm))
+            {
+                this.Enabled = true;
+                HideWaitForm();
+                EnableControls(true);
+                EnableRibbonBar();
+                EnableNavigateBar();
+                HideWaitForm();
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("设置失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void EnableControls(bool enable)
@@ -1829,6 +1759,7 @@ namespace SmartWaterSystem
             btnSetPluseBasic.Enabled = enable;
             btnReset.Enabled = enable;
             btnCheckingTime.Enabled = enable;
+            btnEnableAlarm.Enabled = enable;
             btnEnableCollect.Enabled = enable;
             btnReadParm.Enabled = enable;
             btnSetParm.Enabled = enable;
@@ -2089,21 +2020,17 @@ namespace SmartWaterSystem
                 GlobalValue.SocketMgr.SendMessage(msmqentity);
             }
         }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Get_P68_WaitSendCmd, ""));
+        }
         #endregion
 
         public override void SerialPortEvent(bool Enabled)
         {
             if (SwitchComunication.IsOn)  //串口
             {
-                //btnSetPluseBasic.Enabled = Enabled;
-                //btnReset.Enabled = Enabled;
-                //btnCheckingTime.Enabled = Enabled;
-                //btnEnableCollect.Enabled = Enabled;
-                //btnReadParm.Enabled = Enabled;
-                //btnSetParm.Enabled = Enabled;
-                //dropbtnCalibrationSimualte.Enabled = Enabled;
-                //btnCallData.Enabled = GlobalValue.portUtil.IsOpen;
-
                 SetSerialPortCtrlStatus();
             }
         }
@@ -2131,6 +2058,7 @@ namespace SmartWaterSystem
             dropbtnCalibrationSimualte.Enabled = GlobalValue.portUtil.IsOpen;
             btnFieldStrength.Enabled = GlobalValue.portUtil.IsOpen;
             btnVer.Enabled = GlobalValue.portUtil.IsOpen;
+            btnEnableAlarm.Enabled = GlobalValue.portUtil.IsOpen;
 
             timer_GetWaitCmd.Enabled = false;  //停用查询GPRS待发送命令定时器 10s
             GlobalValue.SocketMgr.SockMsgEvent -= new SocketHandler(MSMQMgr_MSMQEvent);
@@ -2149,6 +2077,7 @@ namespace SmartWaterSystem
             txtPort.Text = "";
             gridControl_WaitCmd.Enabled = false;
             btnDel.Enabled = false;
+            btnRefresh.Enabled = false;
 
             btnCallOpen.Enabled = GlobalValue.portUtil.IsOpen;
             btnCallClose.Enabled = GlobalValue.portUtil.IsOpen;
@@ -2168,6 +2097,7 @@ namespace SmartWaterSystem
             dropbtnCalibrationSimualte.Enabled = true;
             btnFieldStrength.Enabled = false;
             btnVer.Enabled = true;
+            btnEnableAlarm.Enabled = true;
 
             timer_GetWaitCmd.Enabled = true;  //启用查询GPRS待发送命令定时器 10s
             GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Get_P68_WaitSendCmd, ""));
@@ -2188,6 +2118,7 @@ namespace SmartWaterSystem
             txtPort.Text = "";
             gridControl_WaitCmd.Enabled = true;
             btnDel.Enabled = true;
+            btnRefresh.Enabled = true;
 
             btnCallOpen.Enabled = true;
             btnCallClose.Enabled = true;
@@ -2227,32 +2158,6 @@ namespace SmartWaterSystem
             if (!cePort.Checked)
             {
                 txtPort.Text = "";
-            }
-        }
-
-        private void ButtonSend(string tipmsg, SerialPortType spPort, Package pack)
-        {
-            if (SwitchComunication.IsOn)  //SerialPort
-            {
-                //pack.End = End;
-                //byte[] bsenddata = pack.ToResponseArray();
-                //pack.CS = Package651.crc16(bsenddata, bsenddata.Length);
-
-                //GlobalValue.SerialPort651OptData = pack;
-                //EnableControls(false);
-                //DisableRibbonBar();
-                //DisableNavigateBar();
-                //ShowWaitForm("", tipmsg);
-                //Application.DoEvents();
-                //SetStaticItem(tipmsg);
-                //GlobalValue.SerialPortMgr.Send(spPort);
-            }
-            else   //GPRS
-            {
-                //SocketEntity msmqentity = new SocketEntity();
-                //msmqentity.MsgType = ConstValue.MSMQTYPE.SL651_Cmd;
-                //msmqentity.Pack651 = pack;
-                //GlobalValue.SocketMgr.SendMessage(msmqentity);
             }
         }
         
@@ -2480,6 +2385,6 @@ namespace SmartWaterSystem
                 gridControl_WaitCmd.DataSource = lstPack;
             }
         }
-        
+
     }
 }

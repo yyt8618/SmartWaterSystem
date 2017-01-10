@@ -711,6 +711,9 @@ namespace Common
         /// </summary>
         [Description("招测RS485 4路")]
         CallData_RS4854 = 0x7d,
+
+        [Description("设置实时报警")]
+        EnableAlarm=0x2B,
         #endregion
     }
 
