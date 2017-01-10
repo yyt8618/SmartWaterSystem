@@ -819,7 +819,7 @@ namespace DAL
         {
             lock (ConstValue.obj)
             {
-                string SQL = "SELECT ID,DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate FROM ParamToDev WHERE SendedFlag = 0 AND SetDate> DATEADD(hour,-48,getdate())";  //48小时前的数据不再发送
+                string SQL = "SELECT ID,DeviceId,DevTypeId,CtrlCode,FunCode,DataValue,DataLenth,SetDate FROM ParamToDev WHERE SendedFlag = 0 AND SetDate> DATEADD(hour,-48,getdate()) ORDER BY SetDate";  //48小时前的数据不再发送
                 List<SendPackageEntity> lstCmd = null;
                 using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
                 {
