@@ -252,7 +252,7 @@ namespace Protocol
                         package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPUPLIMIT;
                     else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
                         package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPLOWLIMIT;
-                    flag = 0x03;
+                    flag = 0x01;
                     data = new byte[3];
                     Array.Copy(BitConverter.GetBytes((short)Math.Round(ConstValue.UniversalSimRatio * limit / range)), data, 2);
                     Array.Reverse(data);
@@ -267,7 +267,7 @@ namespace Protocol
                         package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPUPLIMIT;
                     else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
                         package.C1 = (byte)UNIVERSAL_COMMAND.SET_SIMSLOPLOWLIMIT;
-                    flag = 0x04;
+                    flag = 0x02;
                     data = new byte[3];
                     Array.Copy(BitConverter.GetBytes((short)Math.Round(ConstValue.UniversalSimRatio * limit / range)), data, 2);
                     Array.Reverse(data);
@@ -320,13 +320,13 @@ namespace Protocol
                     flag = 0x02;
                     break;
                 case UniversalFlagType.Simulate1:
-                    flag = 0x01;
+                    flag = 0x03;
                     break;
                 case UniversalFlagType.Simulate2:
-                    flag = 0x02;
+                    flag = 0x04;
                     break;
                 case UniversalFlagType.Flow:
-                    flag = 0x01;
+                    flag = 0x05;
                     break;
             }
             byte[] data = new byte[2];
@@ -943,7 +943,7 @@ namespace Protocol
                         package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMSLOPUPLIMIT;
                     else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
                         package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMSLOPLOWLIMIT;
-                    flag = 0x03;
+                    flag = 0x01;
                     break;
                 case UniversalFlagType.Simulate2:
                     if (alarmtype == UniversalAlarmType.UpAlarm)
@@ -954,7 +954,7 @@ namespace Protocol
                         package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMSLOPUPLIMIT;
                     else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
                         package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMSLOPLOWLIMIT;
-                    flag = 0x04;
+                    flag = 0x02;
                     break;
                 case UniversalFlagType.Flow:
                     if (alarmtype == UniversalAlarmType.UpAlarm)
@@ -1039,13 +1039,13 @@ namespace Protocol
                     flag = 0x02;
                     break;
                 case UniversalFlagType.Simulate1:
-                    flag = 0x01;
+                    flag = 0x03;
                     break;
                 case UniversalFlagType.Simulate2:
-                    flag = 0x02;
+                    flag = 0x04;
                     break;
                 case UniversalFlagType.Flow:
-                    flag = 0x01;
+                    flag = 0x05;
                     break;
             }
             package.DataLength = 1;
