@@ -14,7 +14,8 @@ namespace GCGPRSService
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("Service1");
         Thread t_msmq_receive=null;
-       
+        public delegate void DumpThreadCallback();  //主线程Dump动作回调
+        AutoResetEvent DumpEvent = new AutoResetEvent(false);
 
         public Service1()
         {
@@ -42,7 +43,8 @@ namespace GCGPRSService
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetAlarmType);  //获取报警类型列表
-            
+
+            GlobalValue.Instance.SocketMag.Dumpcallback = DumpSet;
             GlobalValue.Instance.SocketMag.T_Listening();
 
             GlobalValue.Instance.HttpService.HTTPMessageEvent += new HTTPReceiveMessage(HttpService_HTTPMessageEvent);
@@ -68,6 +70,13 @@ namespace GCGPRSService
             {
                 GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " 配置不启用服务监控!");
             }
+
+            while(true)
+            {
+                //DumpEvent.Reset();
+                DumpEvent.WaitOne();
+                CreateDump();
+            }
         }
 
         protected override void OnStop()
@@ -81,6 +90,50 @@ namespace GCGPRSService
 
             GlobalValue.Instance.HttpService.HTTPMessageEvent -= new HTTPReceiveMessage(HttpService_HTTPMessageEvent);
             GlobalValue.Instance.HttpService.Stop();
+        }
+
+        private void DumpSet()
+        {
+            DumpEvent.Set();
+        }
+
+        private void CreateDump()
+        {
+            try
+            {
+                string dumpPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Dump\\";
+                if (!Directory.Exists(dumpPath))
+                {
+                    Directory.CreateDirectory(dumpPath);
+                }
+                string dumpexepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "procdump.exe");
+                if (!File.Exists(dumpexepath))
+                {
+
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Other, DateTime.Now.ToString() + " 不存在procdump.exe程序文件,退出生成转储文件!"));
+                }
+                else
+                {
+                    //Process current = Process.GetCurrentProcess();
+                    //Process procdump = Process.Start(dumpexepath, " -ma " + current.Id + " " + dumpPath);
+                    //Thread.Sleep(15 * 1000);
+                    //procdump.WaitForExit();
+
+                    string dumpFile = dumpPath + "\\MiniDmp" + DateTime.Now.ToString("yyMMddHHmm") + ".dmp";
+                    if (File.Exists(dumpFile))
+                        File.Delete(dumpFile);
+                    using (FileStream fs = new FileStream(dumpFile, FileMode.Create, FileAccess.ReadWrite, FileShare.Write))
+                    {
+                        SmartWaterSystem.MiniDump.Write(fs.SafeFileHandle, SmartWaterSystem.MiniDump.Option.WithFullMemory);
+                    }
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Other, DateTime.Now.ToString() + " 生成dmp文件成功,位置:" + dumpPath));
+                }
+            }
+            catch(Exception ex)
+            {
+                logger.ErrorException("CreateDump", ex);
+                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Error, DateTime.Now.ToString() + " 生成dmp文件失败,ex:" + ex.Message));
+            }
         }
 
 

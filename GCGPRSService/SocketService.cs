@@ -8,8 +8,6 @@ using Entity;
 using System.Text;
 using SmartWaterSystem;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using BLL;
 
 namespace GCGPRSService
@@ -80,7 +78,8 @@ namespace GCGPRSService
 
         bool SL651AllowOnLine = false;  //SL651协议终端是否在线,默认不在线
 
-        private bool IsCreateDumpFile = false;  //是否正在创建Dump文件
+        public Service1.DumpThreadCallback Dumpcallback;
+        //private bool IsCreateDumpFile = false;  //是否正在创建Dump文件
 
         public void OnSendMsg(SocketEventArgs e)
         {
@@ -1822,48 +1821,24 @@ namespace GCGPRSService
                 }
                 else if (Msg.MsgType == ConstValue.MSMQTYPE.MiniDump)
                 {
-                    if (IsCreateDumpFile)
-                    {
-                        OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 正在创建Dump文件,请稍候..."));
-                        return;
-                    }
-                    try
-                    {
-                        IsCreateDumpFile = true;
-                        string dumpPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Dump\\";
-
-                        if (!Directory.Exists(dumpPath))
-                        {
-                            Directory.CreateDirectory(dumpPath);
-                        }
-                        string dumpexepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "procdump.exe");
-                        if (!File.Exists(dumpexepath))
-                        {
-                            OnSendMsg(new SocketEventArgs(ColorType.Other, DateTime.Now.ToString() + " 不存在procdump.exe程序文件,退出生成转储文件!"));
-                        }
-                        else
-                        {
-                            Process current = Process.GetCurrentProcess();
-                            Process procdump = Process.Start(dumpexepath, " -ma " + current.Id + " " + dumpPath);
-                            procdump.WaitForExit();
-                            //string dumpFile = dumpPath + "\\MiniDmp.dmp";
-                            //if (File.Exists(dumpFile))
-                            //    File.Delete(dumpFile);
-                            //using (FileStream fs = new FileStream(dumpFile, FileMode.Create, FileAccess.ReadWrite, FileShare.Write))
-                            //{
-                            //    MiniDump.Write(fs.SafeFileHandle, MiniDump.Option.WithFullMemory);
-                            //}
-                            OnSendMsg(new SocketEventArgs(ColorType.Other, DateTime.Now.ToString() + " 生成dmp文件成功,位置:" + dumpPath));
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 生成dmp文件失败,ex:" + ex.Message));
-                    }
-                    finally
-                    {
-                        IsCreateDumpFile = false;
-                    }
+                    //if (IsCreateDumpFile)
+                    //{
+                    //    OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 正在创建Dump文件,请稍候..."));
+                    //    return;
+                    //}
+                    //try
+                    //{
+                        //IsCreateDumpFile = true;
+                        Dumpcallback?.Invoke();
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 生成dmp文件失败,ex:" + ex.Message));
+                    //}
+                    //finally
+                    //{
+                    //    IsCreateDumpFile = false;
+                    //}
                 }
                 else if (Msg.MsgType == ConstValue.MSMQTYPE.P68_Cmd)
                 {
