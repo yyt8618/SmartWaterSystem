@@ -867,6 +867,16 @@ namespace SmartWaterSystem
                     GlobalValue.UniSerialPortOptData.IsOpt_AlarmLen = ceAlarmLen.Checked;
                     haveread = true;
                 }
+                if (cePreRange.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_Range = cePreRange.Checked;
+                    haveread = true;
+                }
+                if (ceOffset.Checked)
+                {
+                    GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
+                    haveread = true;
+                }
                 if (cePreUpLimit.Checked)
                 {
                     GlobalValue.UniSerialPortOptData.IsOpt_UpLimit = cePreUpLimit.Checked;
@@ -907,16 +917,7 @@ namespace SmartWaterSystem
                     GlobalValue.UniSerialPortOptData.IsOpt_SlopLowLimitEnable = ceSlopLowLimitEnable.Checked;
                     haveread = true;
                 }
-                if (cePreRange.Checked)
-                {
-                    GlobalValue.UniSerialPortOptData.IsOpt_Range = cePreRange.Checked;
-                    haveread = true;
-                }
-                if (ceOffset.Checked)
-                {
-                    GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
-                    haveread = true;
-                }
+                
                 if (ceColConfig.Checked)
                 {
                     GlobalValue.UniSerialPortOptData.IsOpt_CollectConfig = ceColConfig.Checked;
@@ -1855,6 +1856,18 @@ namespace SmartWaterSystem
                 return false;
             }
 
+            if (cePreRange.Checked && !Regex.IsMatch(txtPreRange.Text, @"^[0-9]{1,5}(\.[0-9]{1,3})?$"))
+            {
+                XtraMessageBox.Show("请输入量程!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtPreRange.Focus();
+                return false;
+            }
+            if (ceOffset.Checked && !Regex.IsMatch(txtOffset.Text, @"^[0-9]{1,3}(\.[0-9]{1,3})?$"))
+            {
+                XtraMessageBox.Show("请输入偏移量!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtOffset.Focus();
+                return false;
+            }
             if (cePreUpLimit.Checked && !Regex.IsMatch(txtPreUpLimit.Text, @"^[0-9]{1,5}(\.[0-9]{1,3})?$"))
             {
                 XtraMessageBox.Show("请输入上限值!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1903,18 +1916,7 @@ namespace SmartWaterSystem
                 cbSlopLowLimitEnable.Focus();
                 return false;
             }
-            if (cePreRange.Checked && !Regex.IsMatch(txtPreRange.Text, @"^[0-9]{1,5}(\.[0-9]{1,3})?$"))
-            {
-                XtraMessageBox.Show("请输入量程!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtPreRange.Focus();
-                return false;
-            }
-            if (ceOffset.Checked && !Regex.IsMatch(txtOffset.Text, @"^[0-9]{1,3}(\.[0-9]{1,3})?$"))
-            {
-                XtraMessageBox.Show("请输入偏移量!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtOffset.Focus();
-                return false;
-            }
+            
 
             if (ceCollectModbus.Checked)
             {

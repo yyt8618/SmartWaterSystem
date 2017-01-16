@@ -1429,18 +1429,18 @@ namespace SmartWaterSystem
             this.groupControl8.Controls.Add(this.cbSlopLowLimitEnable);
             this.groupControl8.Controls.Add(this.cbSlopUpLimitEnable);
             this.groupControl8.Controls.Add(this.cbPreLowLimitEnable);
+            this.groupControl8.Controls.Add(this.cePreRange);
             this.groupControl8.Controls.Add(this.cbPreUpLimitEnable);
-            this.groupControl8.Controls.Add(this.txtOffset);
-            this.groupControl8.Controls.Add(this.txtPreRange);
             this.groupControl8.Controls.Add(this.txtSlopLowLimit);
+            this.groupControl8.Controls.Add(this.txtOffset);
             this.groupControl8.Controls.Add(this.cbPreFlag);
-            this.groupControl8.Controls.Add(this.txtSlopUpLimit);
             this.groupControl8.Controls.Add(this.ceOffset);
+            this.groupControl8.Controls.Add(this.txtSlopUpLimit);
             this.groupControl8.Controls.Add(this.ceSlopLowLimitEnable);
+            this.groupControl8.Controls.Add(this.txtPreRange);
             this.groupControl8.Controls.Add(this.txtPreLowLimit);
             this.groupControl8.Controls.Add(this.ceSlopUpLimitEnable);
             this.groupControl8.Controls.Add(this.txtPreUpLimit);
-            this.groupControl8.Controls.Add(this.cePreRange);
             this.groupControl8.Controls.Add(this.ceSlopLowLimit);
             this.groupControl8.Controls.Add(this.cePreLowLimitEnable);
             this.groupControl8.Controls.Add(this.ceSlopUpLimit);
@@ -1454,12 +1454,12 @@ namespace SmartWaterSystem
             this.groupControl8.Location = new System.Drawing.Point(6, 106);
             this.groupControl8.Name = "groupControl8";
             this.groupControl8.Size = new System.Drawing.Size(788, 76);
-            this.groupControl8.TabIndex = 1;
+            this.groupControl8.TabIndex = 0;
             this.groupControl8.Text = "采集/阀值参数";
             // 
             // cbSlopLowLimitEnable
             // 
-            this.cbSlopLowLimitEnable.Location = new System.Drawing.Point(578, 48);
+            this.cbSlopLowLimitEnable.Location = new System.Drawing.Point(722, 48);
             this.cbSlopLowLimitEnable.Name = "cbSlopLowLimitEnable";
             this.cbSlopLowLimitEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1468,11 +1468,11 @@ namespace SmartWaterSystem
             "开启"});
             this.cbSlopLowLimitEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbSlopLowLimitEnable.Size = new System.Drawing.Size(56, 20);
-            this.cbSlopLowLimitEnable.TabIndex = 15;
+            this.cbSlopLowLimitEnable.TabIndex = 19;
             // 
             // cbSlopUpLimitEnable
             // 
-            this.cbSlopUpLimitEnable.Location = new System.Drawing.Point(415, 48);
+            this.cbSlopUpLimitEnable.Location = new System.Drawing.Point(559, 48);
             this.cbSlopUpLimitEnable.Name = "cbSlopUpLimitEnable";
             this.cbSlopUpLimitEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1481,11 +1481,11 @@ namespace SmartWaterSystem
             "开启"});
             this.cbSlopUpLimitEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbSlopUpLimitEnable.Size = new System.Drawing.Size(56, 20);
-            this.cbSlopUpLimitEnable.TabIndex = 11;
+            this.cbSlopUpLimitEnable.TabIndex = 15;
             // 
             // cbPreLowLimitEnable
             // 
-            this.cbPreLowLimitEnable.Location = new System.Drawing.Point(252, 48);
+            this.cbPreLowLimitEnable.Location = new System.Drawing.Point(396, 48);
             this.cbPreLowLimitEnable.Name = "cbPreLowLimitEnable";
             this.cbPreLowLimitEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1494,11 +1494,11 @@ namespace SmartWaterSystem
             "开启"});
             this.cbPreLowLimitEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPreLowLimitEnable.Size = new System.Drawing.Size(56, 20);
-            this.cbPreLowLimitEnable.TabIndex = 7;
+            this.cbPreLowLimitEnable.TabIndex = 11;
             // 
             // cbPreUpLimitEnable
             // 
-            this.cbPreUpLimitEnable.Location = new System.Drawing.Point(94, 49);
+            this.cbPreUpLimitEnable.Location = new System.Drawing.Point(238, 49);
             this.cbPreUpLimitEnable.Name = "cbPreUpLimitEnable";
             this.cbPreUpLimitEnable.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1507,29 +1507,29 @@ namespace SmartWaterSystem
             "开启"});
             this.cbPreUpLimitEnable.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPreUpLimitEnable.Size = new System.Drawing.Size(56, 20);
-            this.cbPreUpLimitEnable.TabIndex = 3;
+            this.cbPreUpLimitEnable.TabIndex = 7;
             // 
             // txtOffset
             // 
-            this.txtOffset.Location = new System.Drawing.Point(720, 48);
+            this.txtOffset.Location = new System.Drawing.Point(84, 51);
             this.txtOffset.Name = "txtOffset";
             this.txtOffset.Size = new System.Drawing.Size(56, 20);
-            this.txtOffset.TabIndex = 19;
+            this.txtOffset.TabIndex = 3;
             // 
             // txtPreRange
             // 
-            this.txtPreRange.Location = new System.Drawing.Point(720, 24);
+            this.txtPreRange.Location = new System.Drawing.Point(84, 27);
             this.txtPreRange.Name = "txtPreRange";
             this.txtPreRange.Size = new System.Drawing.Size(56, 20);
-            this.txtPreRange.TabIndex = 17;
+            this.txtPreRange.TabIndex = 1;
             // 
             // txtSlopLowLimit
             // 
             this.txtSlopLowLimit.EditValue = "";
-            this.txtSlopLowLimit.Location = new System.Drawing.Point(578, 24);
+            this.txtSlopLowLimit.Location = new System.Drawing.Point(722, 24);
             this.txtSlopLowLimit.Name = "txtSlopLowLimit";
             this.txtSlopLowLimit.Size = new System.Drawing.Size(56, 20);
-            this.txtSlopLowLimit.TabIndex = 13;
+            this.txtSlopLowLimit.TabIndex = 17;
             // 
             // cbPreFlag
             // 
@@ -1545,113 +1545,113 @@ namespace SmartWaterSystem
             "流量-05"});
             this.cbPreFlag.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cbPreFlag.Size = new System.Drawing.Size(94, 20);
-            this.cbPreFlag.TabIndex = 26;
+            this.cbPreFlag.TabIndex = 20;
             this.cbPreFlag.SelectedIndexChanged += new System.EventHandler(this.cbPreFlag_SelectedIndexChanged);
             // 
             // txtSlopUpLimit
             // 
-            this.txtSlopUpLimit.Location = new System.Drawing.Point(415, 24);
+            this.txtSlopUpLimit.Location = new System.Drawing.Point(559, 24);
             this.txtSlopUpLimit.Name = "txtSlopUpLimit";
             this.txtSlopUpLimit.Size = new System.Drawing.Size(56, 20);
-            this.txtSlopUpLimit.TabIndex = 9;
+            this.txtSlopUpLimit.TabIndex = 13;
             // 
             // ceOffset
             // 
-            this.ceOffset.Location = new System.Drawing.Point(653, 49);
+            this.ceOffset.Location = new System.Drawing.Point(17, 52);
             this.ceOffset.Name = "ceOffset";
             this.ceOffset.Properties.Caption = "偏移量:";
             this.ceOffset.Size = new System.Drawing.Size(70, 19);
-            this.ceOffset.TabIndex = 18;
+            this.ceOffset.TabIndex = 2;
             // 
             // ceSlopLowLimitEnable
             // 
-            this.ceSlopLowLimitEnable.Location = new System.Drawing.Point(492, 49);
+            this.ceSlopLowLimitEnable.Location = new System.Drawing.Point(636, 49);
             this.ceSlopLowLimitEnable.Name = "ceSlopLowLimitEnable";
             this.ceSlopLowLimitEnable.Properties.Caption = "投退状态:";
             this.ceSlopLowLimitEnable.Size = new System.Drawing.Size(74, 19);
-            this.ceSlopLowLimitEnable.TabIndex = 14;
+            this.ceSlopLowLimitEnable.TabIndex = 18;
             // 
             // txtPreLowLimit
             // 
-            this.txtPreLowLimit.Location = new System.Drawing.Point(252, 25);
+            this.txtPreLowLimit.Location = new System.Drawing.Point(396, 25);
             this.txtPreLowLimit.Name = "txtPreLowLimit";
             this.txtPreLowLimit.Size = new System.Drawing.Size(56, 20);
-            this.txtPreLowLimit.TabIndex = 5;
+            this.txtPreLowLimit.TabIndex = 9;
             // 
             // ceSlopUpLimitEnable
             // 
-            this.ceSlopUpLimitEnable.Location = new System.Drawing.Point(329, 49);
+            this.ceSlopUpLimitEnable.Location = new System.Drawing.Point(473, 49);
             this.ceSlopUpLimitEnable.Name = "ceSlopUpLimitEnable";
             this.ceSlopUpLimitEnable.Properties.Caption = "投退状态:";
             this.ceSlopUpLimitEnable.Size = new System.Drawing.Size(74, 19);
-            this.ceSlopUpLimitEnable.TabIndex = 10;
+            this.ceSlopUpLimitEnable.TabIndex = 14;
             // 
             // txtPreUpLimit
             // 
-            this.txtPreUpLimit.Location = new System.Drawing.Point(94, 25);
+            this.txtPreUpLimit.Location = new System.Drawing.Point(238, 25);
             this.txtPreUpLimit.Name = "txtPreUpLimit";
             this.txtPreUpLimit.Size = new System.Drawing.Size(56, 20);
-            this.txtPreUpLimit.TabIndex = 1;
+            this.txtPreUpLimit.TabIndex = 5;
             // 
             // cePreRange
             // 
-            this.cePreRange.Location = new System.Drawing.Point(653, 25);
+            this.cePreRange.Location = new System.Drawing.Point(17, 28);
             this.cePreRange.Name = "cePreRange";
             this.cePreRange.Properties.Caption = "量程:";
             this.cePreRange.Size = new System.Drawing.Size(62, 19);
-            this.cePreRange.TabIndex = 16;
+            this.cePreRange.TabIndex = 0;
             // 
             // ceSlopLowLimit
             // 
-            this.ceSlopLowLimit.Location = new System.Drawing.Point(492, 25);
+            this.ceSlopLowLimit.Location = new System.Drawing.Point(636, 25);
             this.ceSlopLowLimit.Name = "ceSlopLowLimit";
             this.ceSlopLowLimit.Properties.Caption = "斜率下限值:";
             this.ceSlopLowLimit.Size = new System.Drawing.Size(87, 19);
-            this.ceSlopLowLimit.TabIndex = 12;
+            this.ceSlopLowLimit.TabIndex = 16;
             // 
             // cePreLowLimitEnable
             // 
-            this.cePreLowLimitEnable.Location = new System.Drawing.Point(170, 50);
+            this.cePreLowLimitEnable.Location = new System.Drawing.Point(314, 50);
             this.cePreLowLimitEnable.Name = "cePreLowLimitEnable";
             this.cePreLowLimitEnable.Properties.Caption = "投退状态:";
             this.cePreLowLimitEnable.Size = new System.Drawing.Size(74, 19);
-            this.cePreLowLimitEnable.TabIndex = 6;
+            this.cePreLowLimitEnable.TabIndex = 10;
             // 
             // ceSlopUpLimit
             // 
-            this.ceSlopUpLimit.Location = new System.Drawing.Point(329, 25);
+            this.ceSlopUpLimit.Location = new System.Drawing.Point(473, 25);
             this.ceSlopUpLimit.Name = "ceSlopUpLimit";
             this.ceSlopUpLimit.Properties.Caption = "斜率上限值:";
             this.ceSlopUpLimit.Size = new System.Drawing.Size(87, 19);
-            this.ceSlopUpLimit.TabIndex = 8;
+            this.ceSlopUpLimit.TabIndex = 12;
             // 
             // cePreLowLimit
             // 
-            this.cePreLowLimit.Location = new System.Drawing.Point(170, 26);
+            this.cePreLowLimit.Location = new System.Drawing.Point(314, 26);
             this.cePreLowLimit.Name = "cePreLowLimit";
             this.cePreLowLimit.Properties.Caption = "下限值:";
             this.cePreLowLimit.Size = new System.Drawing.Size(74, 19);
-            this.cePreLowLimit.TabIndex = 4;
+            this.cePreLowLimit.TabIndex = 8;
             // 
             // cePreUpLimitEnable
             // 
-            this.cePreUpLimitEnable.Location = new System.Drawing.Point(13, 48);
+            this.cePreUpLimitEnable.Location = new System.Drawing.Point(157, 48);
             this.cePreUpLimitEnable.Name = "cePreUpLimitEnable";
             this.cePreUpLimitEnable.Properties.Caption = "投退状态:";
             this.cePreUpLimitEnable.Size = new System.Drawing.Size(74, 19);
-            this.cePreUpLimitEnable.TabIndex = 2;
+            this.cePreUpLimitEnable.TabIndex = 6;
             // 
             // cePreUpLimit
             // 
-            this.cePreUpLimit.Location = new System.Drawing.Point(13, 26);
+            this.cePreUpLimit.Location = new System.Drawing.Point(157, 26);
             this.cePreUpLimit.Name = "cePreUpLimit";
             this.cePreUpLimit.Properties.Caption = "上限值:";
             this.cePreUpLimit.Size = new System.Drawing.Size(74, 19);
-            this.cePreUpLimit.TabIndex = 0;
+            this.cePreUpLimit.TabIndex = 4;
             // 
             // groupControl12
             // 
-            this.groupControl12.Location = new System.Drawing.Point(644, 0);
+            this.groupControl12.Location = new System.Drawing.Point(149, 0);
             this.groupControl12.Name = "groupControl12";
             this.groupControl12.Size = new System.Drawing.Size(2, 80);
             this.groupControl12.TabIndex = 27;
@@ -1659,7 +1659,7 @@ namespace SmartWaterSystem
             // 
             // groupControl11
             // 
-            this.groupControl11.Location = new System.Drawing.Point(481, 0);
+            this.groupControl11.Location = new System.Drawing.Point(625, 0);
             this.groupControl11.Name = "groupControl11";
             this.groupControl11.Size = new System.Drawing.Size(2, 80);
             this.groupControl11.TabIndex = 27;
@@ -1667,7 +1667,7 @@ namespace SmartWaterSystem
             // 
             // groupControl10
             // 
-            this.groupControl10.Location = new System.Drawing.Point(319, 0);
+            this.groupControl10.Location = new System.Drawing.Point(463, 0);
             this.groupControl10.Name = "groupControl10";
             this.groupControl10.Size = new System.Drawing.Size(2, 80);
             this.groupControl10.TabIndex = 27;
@@ -1675,7 +1675,7 @@ namespace SmartWaterSystem
             // 
             // groupControl9
             // 
-            this.groupControl9.Location = new System.Drawing.Point(161, 0);
+            this.groupControl9.Location = new System.Drawing.Point(305, 0);
             this.groupControl9.Name = "groupControl9";
             this.groupControl9.Size = new System.Drawing.Size(2, 80);
             this.groupControl9.TabIndex = 27;

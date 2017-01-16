@@ -72,7 +72,7 @@ namespace GCGPRSService
         object obj_smartsocket = new object();      //SmartWaterSystem.exe的socket连接列表锁
         List<SmartSocketEntity> lstSmartClient = new List<SmartSocketEntity>(); //SmartWaterSystem.exe 的socket连接列表
 
-        int SQL_Interval = 3 * 63;  //数据更新时间间隔(second)
+        int SQL_Interval = 1 * 63;  //数据更新时间间隔(second)
         DateTime SQLSync_Time = DateTime.Now.AddHours(-1);  //数据库同步时间,-1:才开启，马上同步一次数据
 
         int OnLineState_Interval = 5 * 60; //终端在线状态更新时间间隔(second)
@@ -125,7 +125,7 @@ namespace GCGPRSService
                     TimeSpan ts = DateTime.Now - SQLSync_Time;
                     if (Math.Abs(ts.TotalSeconds) > 15)
                     {
-                        SQL_Interval = 5 * 63;
+                        SQL_Interval = 1 * 63;
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
                     }
@@ -739,7 +739,7 @@ namespace GCGPRSService
                                         commandpack.CS = commandpack.CreateCS();
                                         bsenddata = commandpack.ToArray();
 
-                                        Thread.Sleep(300);  //帧之间间隔
+                                        Thread.Sleep(800);  //帧之间间隔
                                         //OnSendMsg(new SocketEventArgs(ColorType.DataFrame,DateTime.Now.ToString() + "  "+(new GPRSCmdMSg()).GetPackageDesc(commandpack)));
 #if debug
                                         OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length) + "  " + (new GPRSCmdMSg()).GetPackageDesc(commandpack)));
@@ -1224,11 +1224,11 @@ namespace GCGPRSService
         public bool NeedCheckTime(DateTime devTime)
         {
             TimeSpan ts = DateTime.Now - (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));   //0点校时
-            if (Math.Abs(ts.TotalMinutes) < 5)
+            if (Math.Abs(ts.TotalMinutes) <4)
                 return true;
 
-            ts = DateTime.Now - devTime;   //设备时间与服务器时间相差5min校时
-            if (Math.Abs(ts.TotalMinutes) > 5)
+            ts = DateTime.Now - devTime;   //设备时间与服务器时间相差3min校时
+            if (Math.Abs(ts.TotalMinutes) > 3)
                 return true;
 
             return false;
@@ -1830,19 +1830,31 @@ namespace GCGPRSService
                     try
                     {
                         IsCreateDumpFile = true;
-                        string dumpPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Dump";
+                        string dumpPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Dump\\";
+
                         if (!Directory.Exists(dumpPath))
                         {
                             Directory.CreateDirectory(dumpPath);
                         }
-                        string dumpFile = dumpPath + "\\MiniDmp.dmp";
-                        if (File.Exists(dumpFile))
-                            File.Delete(dumpFile);
-                        using (FileStream fs = new FileStream(dumpFile, FileMode.Create, FileAccess.ReadWrite, FileShare.Write))
+                        string dumpexepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "procdump.exe");
+                        if (!File.Exists(dumpexepath))
                         {
-                            MiniDump.Write(fs.SafeFileHandle, MiniDump.Option.WithFullMemory);
+                            OnSendMsg(new SocketEventArgs(ColorType.Other, DateTime.Now.ToString() + " 不存在procdump.exe程序文件,退出生成转储文件!"));
                         }
-                        OnSendMsg(new SocketEventArgs(ColorType.Other,DateTime.Now.ToString() + " 生成dmp文件成功,位置:" + dumpFile));
+                        else
+                        {
+                            Process current = Process.GetCurrentProcess();
+                            Process procdump = Process.Start(dumpexepath, " -ma " + current.Id + " " + dumpPath);
+                            procdump.WaitForExit();
+                            //string dumpFile = dumpPath + "\\MiniDmp.dmp";
+                            //if (File.Exists(dumpFile))
+                            //    File.Delete(dumpFile);
+                            //using (FileStream fs = new FileStream(dumpFile, FileMode.Create, FileAccess.ReadWrite, FileShare.Write))
+                            //{
+                            //    MiniDump.Write(fs.SafeFileHandle, MiniDump.Option.WithFullMemory);
+                            //}
+                            OnSendMsg(new SocketEventArgs(ColorType.Other, DateTime.Now.ToString() + " 生成dmp文件成功,位置:" + dumpPath));
+                        }
                     }
                     catch (Exception ex)
                     {

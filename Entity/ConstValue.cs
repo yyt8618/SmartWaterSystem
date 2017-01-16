@@ -20,7 +20,7 @@ namespace Entity
         public static string MaxStandardAMP = "MaxStandardAMP";
         public static string MinStandardAMP = "MinStandardAMP";
         public static string LeakValue_Template = "LeakValue_Template";
-        public static double UniversalSimRatio = 4095;  //模拟量1、2报警值计算系数
+        public static double UniversalSimRatio = 3275;  //模拟量1、2报警值计算系数
 
         public static DateTime MinDateTime = new DateTime(2015, 1, 1, 0, 0, 0);
 

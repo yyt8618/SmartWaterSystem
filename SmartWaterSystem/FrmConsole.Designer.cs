@@ -321,14 +321,13 @@ namespace SmartWaterSystem
             this.btnDmp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnDmp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
             this.btnDmp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
-            this.btnDmp.Location = new System.Drawing.Point(268, 3);
+            this.btnDmp.Location = new System.Drawing.Point(259, 3);
             this.btnDmp.Name = "btnDmp";
-            this.btnDmp.Size = new System.Drawing.Size(31, 23);
+            this.btnDmp.Size = new System.Drawing.Size(40, 23);
             this.btnDmp.TabIndex = 5;
             this.btnDmp.TabStop = false;
             this.btnDmp.Text = "Dmp";
             this.btnDmp.UseVisualStyleBackColor = false;
-            this.btnDmp.Visible = false;
             this.btnDmp.Click += new System.EventHandler(this.btnDmp_Click);
             // 
             // btnSocketConnect

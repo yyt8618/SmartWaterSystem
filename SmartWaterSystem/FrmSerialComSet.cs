@@ -134,7 +134,9 @@ namespace SmartWaterSystem
                     return;
                 }
 
-                Settings.Instance.SetValue(SettingKeys.SerialPort, cbSerialPort.EditValue.ToString());
+                Match mch = Regex.Match(cbSerialPort.EditValue.ToString(), "^COM\\d{1,3}");
+
+                Settings.Instance.SetValue(SettingKeys.SerialPort, mch.Value);
                 Settings.Instance.SetValue(SettingKeys.BaudRate, cbBaudRate.SelectedItem.ToString());
                 Settings.Instance.SetValue(SettingKeys.Parity, cbParity.SelectedItem.ToString());
                 Settings.Instance.SetValue(SettingKeys.DataBits, cbDataPos.SelectedItem.ToString());

@@ -113,7 +113,7 @@ namespace GCGPRSService
                         alarmframedata.TerminalType = TerType.PreTer;
                         try
                         {
-                            alarmframedata.ModifyTime = new DateTime(year, month, day, hour, minute, sec);
+                            alarmframedata.ModifyTime = framedata.ModifyTime;  //报警时间使用统一时间,以便确定最后一次是正常还是报警的判断// new DateTime(year, month, day, hour, minute, sec);
                         }
                         catch { alarmframedata.ModifyTime = ConstValue.MinDateTime; }
 

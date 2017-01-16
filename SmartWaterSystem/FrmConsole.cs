@@ -610,6 +610,10 @@ namespace SmartWaterSystem
 
         private void btnDmp_Click(object sender, EventArgs e)
         {
+            if(DialogResult.No == XtraMessageBox.Show("是否生成转储文件?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+            {
+                return;
+            }
             SocketEntity socketmsg = new SocketEntity();
             socketmsg.MsgType = Entity.ConstValue.MSMQTYPE.MiniDump;
             GlobalValue.SocketMgr.SendMessage(socketmsg);
