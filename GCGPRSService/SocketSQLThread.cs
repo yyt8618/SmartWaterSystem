@@ -148,11 +148,13 @@ namespace GCGPRSService
                                     }
                                 }
                             }
-                            foreach(SendPackageEntity sendPack in lstDbCmd)
+                            if (lstDbCmd != null)
                             {
-                                GlobalValue.Instance.lstClientAdd(sendPack);
+                                foreach (SendPackageEntity sendPack in lstDbCmd)
+                                {
+                                    GlobalValue.Instance.lstClientAdd(sendPack);
+                                }
                             }
-                            
                             #endregion
                         }
                         break;
