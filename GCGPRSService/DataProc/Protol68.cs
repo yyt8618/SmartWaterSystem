@@ -429,8 +429,8 @@ namespace GCGPRSService
                             if (datavalue < 0)
                                 datavalue = 0;
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}|电压值:{8}V|信号强度:{9}",
-                                i, pack.ID, pack.Data[2], calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec,
-                                dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString(), volvalue, field_strength)));
+                                i, pack.DevID, pack.Data[2], calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec,
+                                dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString().Trim(), volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;
@@ -623,7 +623,7 @@ namespace GCGPRSService
                                 datavalue = BitConverter.ToInt32(new byte[] { pack.Data[partindex + 9], pack.Data[partindex + 8], pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
 
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("通用终端[{0}]RS485 {1}路|采集时间({2})|{3}:{4}{5}|电压值:{6}V|信号强度:{7}",
-                                        pack.ID, (pack.Data[2] - 1), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, volvalue, field_strength)));
+                                        pack.DevID, (pack.Data[2] - 1), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;

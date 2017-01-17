@@ -8,7 +8,7 @@ namespace Protocol
 {
     public class UniversalLog : RWData
     {
-        public bool Reset(ConstValue.DEV_TYPE devtype,short Id)
+        public bool Reset(ConstValue.DEV_TYPE devtype,short Id,byte type)
         {
             Package package = new Package();
             package.DevType = devtype;
@@ -17,7 +17,7 @@ namespace Protocol
             package.C1 = (byte)UNIVERSAL_COMMAND.RESET;
             package.DataLength = 1;
             byte[] data = new byte[package.DataLength];
-            data[0] = (byte)2;
+            data[0] = type;
             package.Data = data;
             package.CS = package.CreateCS();
 

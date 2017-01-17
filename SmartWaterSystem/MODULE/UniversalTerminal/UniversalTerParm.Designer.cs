@@ -97,7 +97,6 @@ namespace SmartWaterSystem
             this.cb_RS485_coltime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn15 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.cb_RS485_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.btnReset = new DevExpress.XtraEditors.SimpleButton();
             this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
             this.btnSetPluseBasic = new DevExpress.XtraEditors.SimpleButton();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
@@ -136,18 +135,18 @@ namespace SmartWaterSystem
             this.cbSlopLowLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
             this.cbSlopUpLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
             this.cbPreLowLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.cePreRange = new DevExpress.XtraEditors.CheckEdit();
             this.cbPreUpLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.txtOffset = new DevExpress.XtraEditors.TextEdit();
-            this.txtPreRange = new DevExpress.XtraEditors.TextEdit();
             this.txtSlopLowLimit = new DevExpress.XtraEditors.TextEdit();
+            this.txtOffset = new DevExpress.XtraEditors.TextEdit();
             this.cbPreFlag = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.txtSlopUpLimit = new DevExpress.XtraEditors.TextEdit();
             this.ceOffset = new DevExpress.XtraEditors.CheckEdit();
+            this.txtSlopUpLimit = new DevExpress.XtraEditors.TextEdit();
             this.ceSlopLowLimitEnable = new DevExpress.XtraEditors.CheckEdit();
+            this.txtPreRange = new DevExpress.XtraEditors.TextEdit();
             this.txtPreLowLimit = new DevExpress.XtraEditors.TextEdit();
             this.ceSlopUpLimitEnable = new DevExpress.XtraEditors.CheckEdit();
             this.txtPreUpLimit = new DevExpress.XtraEditors.TextEdit();
-            this.cePreRange = new DevExpress.XtraEditors.CheckEdit();
             this.ceSlopLowLimit = new DevExpress.XtraEditors.CheckEdit();
             this.cePreLowLimitEnable = new DevExpress.XtraEditors.CheckEdit();
             this.ceSlopUpLimit = new DevExpress.XtraEditors.CheckEdit();
@@ -169,6 +168,9 @@ namespace SmartWaterSystem
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.btnStartAlarm = new DevExpress.XtraBars.BarButtonItem();
             this.btnStopAlarm = new DevExpress.XtraBars.BarButtonItem();
+            this.btnReset1 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnReset2 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnReset3 = new DevExpress.XtraBars.BarButtonItem();
             this.groupControl6 = new DevExpress.XtraEditors.GroupControl();
             this.treeSocketType = new DevExpress.XtraEditors.TreeListLookUpEdit();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
@@ -191,6 +193,8 @@ namespace SmartWaterSystem
             this.groupControl14 = new DevExpress.XtraEditors.GroupControl();
             this.btnRefresh = new DevExpress.XtraEditors.SimpleButton();
             this.btnEnableAlarm = new DevExpress.XtraEditors.SimpleButton();
+            this.dropDownButtonReset = new DevExpress.XtraEditors.DropDownButton();
+            this.popupMenuReset = new DevExpress.XtraBars.PopupMenu(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_starttime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_sim_coltime2)).BeginInit();
@@ -278,18 +282,18 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cbSlopLowLimitEnable.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbSlopUpLimitEnable.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreLowLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreUpLimitEnable.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSlopLowLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreFlag.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSlopUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceOffset.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSlopUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimitEnable.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPreLowLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopUpLimitEnable.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPreUpLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePreLowLimitEnable.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopUpLimit.Properties)).BeginInit();
@@ -313,6 +317,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl14)).BeginInit();
             this.groupControl14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenuReset)).BeginInit();
             this.SuspendLayout();
             // 
             // cb_sim_starttime
@@ -1046,15 +1051,6 @@ namespace SmartWaterSystem
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cb_RS485_sendtime.Name = "cb_RS485_sendtime";
             // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(3, 464);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(69, 26);
-            this.btnReset.TabIndex = 9;
-            this.btnReset.Text = "设备复位";
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
             // SwitchComunication
             // 
             this.SwitchComunication.EditValue = true;
@@ -1496,6 +1492,14 @@ namespace SmartWaterSystem
             this.cbPreLowLimitEnable.Size = new System.Drawing.Size(56, 20);
             this.cbPreLowLimitEnable.TabIndex = 11;
             // 
+            // cePreRange
+            // 
+            this.cePreRange.Location = new System.Drawing.Point(17, 28);
+            this.cePreRange.Name = "cePreRange";
+            this.cePreRange.Properties.Caption = "量程:";
+            this.cePreRange.Size = new System.Drawing.Size(62, 19);
+            this.cePreRange.TabIndex = 0;
+            // 
             // cbPreUpLimitEnable
             // 
             this.cbPreUpLimitEnable.Location = new System.Drawing.Point(238, 49);
@@ -1509,20 +1513,6 @@ namespace SmartWaterSystem
             this.cbPreUpLimitEnable.Size = new System.Drawing.Size(56, 20);
             this.cbPreUpLimitEnable.TabIndex = 7;
             // 
-            // txtOffset
-            // 
-            this.txtOffset.Location = new System.Drawing.Point(84, 51);
-            this.txtOffset.Name = "txtOffset";
-            this.txtOffset.Size = new System.Drawing.Size(56, 20);
-            this.txtOffset.TabIndex = 3;
-            // 
-            // txtPreRange
-            // 
-            this.txtPreRange.Location = new System.Drawing.Point(84, 27);
-            this.txtPreRange.Name = "txtPreRange";
-            this.txtPreRange.Size = new System.Drawing.Size(56, 20);
-            this.txtPreRange.TabIndex = 1;
-            // 
             // txtSlopLowLimit
             // 
             this.txtSlopLowLimit.EditValue = "";
@@ -1530,6 +1520,13 @@ namespace SmartWaterSystem
             this.txtSlopLowLimit.Name = "txtSlopLowLimit";
             this.txtSlopLowLimit.Size = new System.Drawing.Size(56, 20);
             this.txtSlopLowLimit.TabIndex = 17;
+            // 
+            // txtOffset
+            // 
+            this.txtOffset.Location = new System.Drawing.Point(84, 51);
+            this.txtOffset.Name = "txtOffset";
+            this.txtOffset.Size = new System.Drawing.Size(56, 20);
+            this.txtOffset.TabIndex = 3;
             // 
             // cbPreFlag
             // 
@@ -1548,13 +1545,6 @@ namespace SmartWaterSystem
             this.cbPreFlag.TabIndex = 20;
             this.cbPreFlag.SelectedIndexChanged += new System.EventHandler(this.cbPreFlag_SelectedIndexChanged);
             // 
-            // txtSlopUpLimit
-            // 
-            this.txtSlopUpLimit.Location = new System.Drawing.Point(559, 24);
-            this.txtSlopUpLimit.Name = "txtSlopUpLimit";
-            this.txtSlopUpLimit.Size = new System.Drawing.Size(56, 20);
-            this.txtSlopUpLimit.TabIndex = 13;
-            // 
             // ceOffset
             // 
             this.ceOffset.Location = new System.Drawing.Point(17, 52);
@@ -1563,6 +1553,13 @@ namespace SmartWaterSystem
             this.ceOffset.Size = new System.Drawing.Size(70, 19);
             this.ceOffset.TabIndex = 2;
             // 
+            // txtSlopUpLimit
+            // 
+            this.txtSlopUpLimit.Location = new System.Drawing.Point(559, 24);
+            this.txtSlopUpLimit.Name = "txtSlopUpLimit";
+            this.txtSlopUpLimit.Size = new System.Drawing.Size(56, 20);
+            this.txtSlopUpLimit.TabIndex = 13;
+            // 
             // ceSlopLowLimitEnable
             // 
             this.ceSlopLowLimitEnable.Location = new System.Drawing.Point(636, 49);
@@ -1570,6 +1567,13 @@ namespace SmartWaterSystem
             this.ceSlopLowLimitEnable.Properties.Caption = "投退状态:";
             this.ceSlopLowLimitEnable.Size = new System.Drawing.Size(74, 19);
             this.ceSlopLowLimitEnable.TabIndex = 18;
+            // 
+            // txtPreRange
+            // 
+            this.txtPreRange.Location = new System.Drawing.Point(84, 27);
+            this.txtPreRange.Name = "txtPreRange";
+            this.txtPreRange.Size = new System.Drawing.Size(56, 20);
+            this.txtPreRange.TabIndex = 1;
             // 
             // txtPreLowLimit
             // 
@@ -1592,14 +1596,6 @@ namespace SmartWaterSystem
             this.txtPreUpLimit.Name = "txtPreUpLimit";
             this.txtPreUpLimit.Size = new System.Drawing.Size(56, 20);
             this.txtPreUpLimit.TabIndex = 5;
-            // 
-            // cePreRange
-            // 
-            this.cePreRange.Location = new System.Drawing.Point(17, 28);
-            this.cePreRange.Name = "cePreRange";
-            this.cePreRange.Properties.Caption = "量程:";
-            this.cePreRange.Size = new System.Drawing.Size(62, 19);
-            this.cePreRange.TabIndex = 0;
             // 
             // ceSlopLowLimit
             // 
@@ -1723,8 +1719,11 @@ namespace SmartWaterSystem
             this.barbtnCalibrationSimualte1,
             this.barbtnCalibrationSimualte2,
             this.btnStartAlarm,
-            this.btnStopAlarm});
-            this.barManager1.MaxItemId = 4;
+            this.btnStopAlarm,
+            this.btnReset1,
+            this.btnReset2,
+            this.btnReset3});
+            this.barManager1.MaxItemId = 7;
             // 
             // barDockControlTop
             // 
@@ -1765,6 +1764,27 @@ namespace SmartWaterSystem
             this.btnStopAlarm.Caption = "取消报警";
             this.btnStopAlarm.Id = 3;
             this.btnStopAlarm.Name = "btnStopAlarm";
+            // 
+            // btnReset1
+            // 
+            this.btnReset1.Caption = "恢复所有出厂设置";
+            this.btnReset1.Id = 4;
+            this.btnReset1.Name = "btnReset1";
+            this.btnReset1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnReset_ItemClick);
+            // 
+            // btnReset2
+            // 
+            this.btnReset2.Caption = "恢复除IP端口外设置";
+            this.btnReset2.Id = 5;
+            this.btnReset2.Name = "btnReset2";
+            this.btnReset2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnReset_ItemClick);
+            // 
+            // btnReset3
+            // 
+            this.btnReset3.Caption = "系统复位";
+            this.btnReset3.Id = 6;
+            this.btnReset3.Name = "btnReset3";
+            this.btnReset3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnReset_ItemClick);
             // 
             // groupControl6
             // 
@@ -2004,12 +2024,30 @@ namespace SmartWaterSystem
             // 
             // btnEnableAlarm
             // 
-            this.btnEnableAlarm.Location = new System.Drawing.Point(81, 464);
+            this.btnEnableAlarm.Location = new System.Drawing.Point(86, 464);
             this.btnEnableAlarm.Name = "btnEnableAlarm";
             this.btnEnableAlarm.Size = new System.Drawing.Size(69, 26);
             this.btnEnableAlarm.TabIndex = 10;
             this.btnEnableAlarm.Text = "设置报警";
             this.btnEnableAlarm.Click += new System.EventHandler(this.btnEnableAlarm_Click);
+            // 
+            // dropDownButtonReset
+            // 
+            this.dropDownButtonReset.DropDownControl = this.popupMenuReset;
+            this.dropDownButtonReset.Location = new System.Drawing.Point(6, 464);
+            this.dropDownButtonReset.Name = "dropDownButtonReset";
+            this.dropDownButtonReset.Size = new System.Drawing.Size(77, 26);
+            this.dropDownButtonReset.TabIndex = 9;
+            this.dropDownButtonReset.Text = "设备复位";
+            // 
+            // popupMenuReset
+            // 
+            this.popupMenuReset.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.btnReset1),
+            new DevExpress.XtraBars.LinkPersistInfo(this.btnReset2),
+            new DevExpress.XtraBars.LinkPersistInfo(this.btnReset3)});
+            this.popupMenuReset.Manager = this.barManager1;
+            this.popupMenuReset.Name = "popupMenuReset";
             // 
             // UniversalTerParm
             // 
@@ -2018,6 +2056,7 @@ namespace SmartWaterSystem
             this.Controls.Add(this.groupControl14);
             this.Controls.Add(this.groupControl13);
             this.Controls.Add(this.groupControl6);
+            this.Controls.Add(this.dropDownButtonReset);
             this.Controls.Add(this.dropbtnCalibrationSimualte);
             this.Controls.Add(this.groupControl8);
             this.Controls.Add(this.SwitchComunication);
@@ -2026,7 +2065,6 @@ namespace SmartWaterSystem
             this.Controls.Add(this.btnFieldStrength);
             this.Controls.Add(this.btnVer);
             this.Controls.Add(this.btnEnableAlarm);
-            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnCheckingTime);
             this.Controls.Add(this.groupControl7);
             this.Controls.Add(this.btnSetParm);
@@ -2127,18 +2165,18 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cbSlopLowLimitEnable.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbSlopUpLimitEnable.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreLowLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreUpLimitEnable.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSlopLowLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreFlag.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSlopUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceOffset.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSlopUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimitEnable.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPreLowLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopUpLimitEnable.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPreUpLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cePreLowLimitEnable.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopUpLimit.Properties)).EndInit();
@@ -2162,6 +2200,7 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl14)).EndInit();
             this.groupControl14.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenuReset)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2188,7 +2227,6 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.CheckEdit cePort;
         private DevExpress.XtraEditors.GroupControl groupControl7;
         private DevExpress.XtraEditors.CheckEdit ceCollectRS485;
-        private DevExpress.XtraEditors.SimpleButton btnReset;
         private DevExpress.XtraEditors.TextEdit txtTime;
         private DevExpress.XtraGrid.GridControl gridControl_Simulate;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView_Simulate;
@@ -2330,5 +2368,10 @@ namespace SmartWaterSystem
         private DevExpress.XtraBars.BarButtonItem btnStopAlarm;
         private DevExpress.XtraEditors.SimpleButton btnEnableAlarm;
         private DevExpress.XtraEditors.SimpleButton btnRefresh;
+        private DevExpress.XtraEditors.DropDownButton dropDownButtonReset;
+        private DevExpress.XtraBars.BarButtonItem btnReset1;
+        private DevExpress.XtraBars.BarButtonItem btnReset2;
+        private DevExpress.XtraBars.BarButtonItem btnReset3;
+        private DevExpress.XtraBars.PopupMenu popupMenuReset;
     }
 }

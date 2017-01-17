@@ -708,7 +708,8 @@ namespace SmartWaterSystem
         }
 
         #region button Events
-        private void btnReset_Click(object sender, EventArgs e)
+
+        private void btnReset_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (string.IsNullOrEmpty(txtID.Text))
             {
@@ -723,6 +724,14 @@ namespace SmartWaterSystem
             GlobalValue.UniSerialPortOptData = new UniversalSerialPortOptEntity(this.DevType);
             GlobalValue.UniSerialPortOptData.ID = Convert.ToInt16(txtID.Text);
 
+            //GlobalValue.UniSerialPortOptData.ResetType = 
+            if (e.Item.Caption == "恢复所有出厂设置")
+                GlobalValue.UniSerialPortOptData.ResetType = 0x01;
+            else if (e.Item.Caption == "恢复除IP端口外设置")
+                GlobalValue.UniSerialPortOptData.ResetType = 0x02;
+            else  //系统复位
+                GlobalValue.UniSerialPortOptData.ResetType = 0x03;
+
             EnableControls(false);
             DisableRibbonBar();
             DisableNavigateBar();
@@ -732,6 +741,7 @@ namespace SmartWaterSystem
             SetStaticItem("正在复位终端...");
             Send(SerialPortType.UniversalReset);
         }
+
 
         private void btnCheckingTime_Click(object sender, EventArgs e)
         {
@@ -1758,7 +1768,7 @@ namespace SmartWaterSystem
         private void EnableControls(bool enable)
         {
             btnSetPluseBasic.Enabled = enable;
-            btnReset.Enabled = enable;
+            dropDownButtonReset.Enabled = enable;
             btnCheckingTime.Enabled = enable;
             btnEnableAlarm.Enabled = enable;
             btnEnableCollect.Enabled = enable;
@@ -2052,7 +2062,7 @@ namespace SmartWaterSystem
         private void SetSerialPortCtrlStatus()
         {
             btnSetPluseBasic.Enabled = GlobalValue.portUtil.IsOpen;
-            btnReset.Enabled = GlobalValue.portUtil.IsOpen;
+            dropDownButtonReset.Enabled = GlobalValue.portUtil.IsOpen;
             btnCheckingTime.Enabled = GlobalValue.portUtil.IsOpen;
             btnEnableCollect.Enabled = GlobalValue.portUtil.IsOpen;
             btnReadParm.Enabled = GlobalValue.portUtil.IsOpen;
@@ -2091,7 +2101,7 @@ namespace SmartWaterSystem
         private void SetGprsCtrlStatus()
         {
             btnSetPluseBasic.Enabled = true;
-            btnReset.Enabled = true;
+            dropDownButtonReset.Enabled = true;
             btnCheckingTime.Enabled = true;
             btnEnableCollect.Enabled = true;
             btnReadParm.Enabled = true;

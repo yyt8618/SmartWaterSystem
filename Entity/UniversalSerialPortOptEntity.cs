@@ -998,6 +998,16 @@ namespace Entity
             get { return _EnableAlarm; }
             set { _EnableAlarm = value; }
         }
+
+        private byte _ResetType = 0x03;
+        /// <summary>
+        /// 复位命令 1、恢复所有出厂设置,并清除所有历史数据，终端复位；2、恢复除IP，端口外的出厂设置，不清除历史数据，系统复位；3、系统复位
+        /// </summary>
+        public byte ResetType
+        {
+            get { return _ResetType; }
+            set { _ResetType = value; }
+        }
         
     }
 }

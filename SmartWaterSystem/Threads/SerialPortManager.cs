@@ -710,7 +710,7 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                result = GlobalValue.Universallog.Reset(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID);
+                                result = GlobalValue.Universallog.Reset(GlobalValue.UniSerialPortOptData.DevType, GlobalValue.UniSerialPortOptData.ID, GlobalValue.UniSerialPortOptData.ResetType);
                                 msg = SocketSend();
                                 if (!string.IsNullOrEmpty(msg))
                                     result = false;
