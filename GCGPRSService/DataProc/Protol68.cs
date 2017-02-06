@@ -47,10 +47,10 @@ namespace GCGPRSService
                     int preFlag = 0;
 
                     /****************************************宿州校准压力值********************************************/
-                    //double[] RectifyValue = new double[] {  //修偏数组
-                    //    -0.009, 0, -0.03, 0.013, -0.029, -0.029, 0, 0, 0, -0.011,
-                    //    -0.008, -0.026, -0.009, -0.006, -0.009, -0.021, 0, -0.01, 0, -0.01,
-                    //    -0.007, -0.019, -0.021, -0.04, -0.01, -0.007, -0.014, -0.013, 0, -0.023 };
+                    double[] RectifyValue = new double[] {  //修偏数组
+                        -0.009, 0, -0.03, 0.013, -0.029, -0.029, 0, 0, 0, -0.011,
+                        -0.008, -0.026, -0.009, -0.006, -0.009, -0.021, 0, -0.01, 0, -0.01,
+                        -0.007, -0.019, -0.021, -0.04, -0.01, -0.007, -0.014, -0.013, 0, -0.023 };
                     /**************************************************************************************************/
 
                     preFlag = Convert.ToInt16(pack.Data[2]);
@@ -83,7 +83,7 @@ namespace GCGPRSService
                         float TmpRectifyValue = 0;
                         if (pack.ID > 0 && pack.ID <= 30)
                         {
-                            //TmpRectifyValue = (float)RectifyValue[pack.ID - 1];
+                            TmpRectifyValue = (float)RectifyValue[pack.ID - 1];
                             pressuevalue += TmpRectifyValue;
                             if (pressuevalue < 0)
                                 pressuevalue = 0;
@@ -412,20 +412,20 @@ namespace GCGPRSService
                         dataindex = (pack.DataLength - 2 - 1) / loopdatalen;
                         for (int i = 0; i < dataindex; i++)
                         {
-                            year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
-                            month = Convert.ToInt16(pack.Data[i * 8 + 4]);
-                            day = Convert.ToInt16(pack.Data[i * 8 + 5]);
-                            hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
-                            minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
-                            sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
+                            year = 2000 + Convert.ToInt16(pack.Data[i * loopdatalen + 3]);
+                            month = Convert.ToInt16(pack.Data[i * loopdatalen + 4]);
+                            day = Convert.ToInt16(pack.Data[i * loopdatalen + 5]);
+                            hour = Convert.ToInt16(pack.Data[i * loopdatalen + 6]);
+                            minute = Convert.ToInt16(pack.Data[i * loopdatalen + 7]);
+                            sec = Convert.ToInt16(pack.Data[i * loopdatalen + 8]);
 
                             double range = 0;   //量程
-                            range += BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);    //整数部分
-                            range += ((double)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 12], pack.Data[i * 8 + 11] }, 0)) / 1000;    //小数部分
+                            range += BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 10], pack.Data[i * loopdatalen + 9] }, 0);    //整数部分
+                            range += ((double)BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 12], pack.Data[i * loopdatalen + 11] }, 0)) / 1000;    //小数部分
                             //(模拟数据-校准值)*量程/系数
-                            short calibration = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 14], pack.Data[i * 8 + 13] }, 0);
-                            double value = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 16], pack.Data[i * 8 + 15] }, 0) - calibration)) * range / (ConstValue.UniversalSimRatio);
-
+                            short calibration = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 14], pack.Data[i * loopdatalen + 13] }, 0);
+                            double value = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 16], pack.Data[i * loopdatalen + 15] }, 0) - calibration)) * range / (ConstValue.UniversalSimRatio);
+                            datavalue = value;
                             if (datavalue < 0)
                                 datavalue = 0;
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}|电压值:{8}V|信号强度:{9}",
