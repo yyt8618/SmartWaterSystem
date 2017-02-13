@@ -316,6 +316,8 @@ namespace GCGPRSService
             }
         }
 
+        List<byte> packageBytes = null;
+        List<byte> ReceiveBytes = null;
         private void ReadCallback(IAsyncResult ar)
         {
             StateObject state = (StateObject)ar.AsyncState;
@@ -486,8 +488,8 @@ namespace GCGPRSService
                     }
                     #endregion
 
-                    List<byte> packageBytes = new List<byte>();
-                    List<byte> ReceiveBytes = new List<byte>();
+                    packageBytes = new List<byte>();
+                    ReceiveBytes = new List<byte>();
 
                     for (int i = 0; i < bytesRead; i++)
                     {

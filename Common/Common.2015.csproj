@@ -79,6 +79,9 @@
     <Compile Include="Controls\IPControl.Designer.cs">
       <DependentUpon>IPControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LEDClock.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataBase\DbHelperSQL.cs" />
     <Compile Include="DataBase\SQLHelper.cs">
       <SubType>Code</SubType>

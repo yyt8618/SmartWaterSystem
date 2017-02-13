@@ -424,8 +424,7 @@ namespace GCGPRSService
                             range += ((double)BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 12], pack.Data[i * loopdatalen + 11] }, 0)) / 1000;    //小数部分
                             //(模拟数据-校准值)*量程/系数
                             short calibration = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 14], pack.Data[i * loopdatalen + 13] }, 0);
-                            double value = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 16], pack.Data[i * loopdatalen + 15] }, 0) - calibration)) * range / (ConstValue.UniversalSimRatio);
-                            datavalue = value;
+                            datavalue = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 16], pack.Data[i * loopdatalen + 15] }, 0) - calibration)) * range / (ConstValue.UniversalSimRatio);
                             if (datavalue < 0)
                                 datavalue = 0;
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}|电压值:{8}V|信号强度:{9}",
