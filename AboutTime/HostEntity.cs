@@ -18,5 +18,9 @@
         /// 端口号
         /// </summary>
         public string port;
+        /// <summary>
+        /// NTP协议
+        /// </summary>
+        public bool isntp;
     }
 }

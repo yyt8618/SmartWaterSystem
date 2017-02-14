@@ -5,6 +5,7 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,6 +26,7 @@ namespace AboutTime
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.Text = "AboutTime " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             InitView();
         }
 
@@ -140,9 +142,10 @@ namespace AboutTime
                 HostForm.name = "";
                 HostForm.addr = "";
                 HostForm.port = "";
+                HostForm.ntp = false;
                 if (hostForm.ShowDialog() == DialogResult.OK)
                 {
-                    InsertHost(HostForm.name, HostForm.addr, HostForm.port);
+                    InsertHost(HostForm.name, HostForm.addr, HostForm.port, HostForm.ntp);
                 }
             }
         }
@@ -168,9 +171,10 @@ namespace AboutTime
                     HostForm.name = lsthosts[selected].name;
                     HostForm.addr = lsthosts[selected].addr;
                     HostForm.port = lsthosts[selected].port;
+                    HostForm.ntp = lsthosts[selected].isntp;
                     if (hostForm.ShowDialog() == DialogResult.OK)
                     {
-                        EditHost((selected+1).ToString(), HostForm.name, HostForm.addr, HostForm.port);
+                        EditHost((selected + 1).ToString(), HostForm.name, HostForm.addr, HostForm.port, HostForm.ntp);
                     }
                 }
                 lstHosts.SelectedIndex = selected;
@@ -248,13 +252,14 @@ namespace AboutTime
                             if (!string.IsNullOrEmpty(strrow))
                             {
                                 string[] strcols = strrow.Split('\t');
-                                if (strcols != null && strcols.Length == 4)
+                                if (strcols != null && strcols.Length == 5)
                                 {
                                     HostEntity host = new HostEntity();
                                     host.hostid = strcols[0];
                                     host.name = strcols[1];
                                     host.addr = strcols[2];
                                     host.port = strcols[3];
+                                    host.isntp = strcols[4]=="NTP"? true :false;
                                     lstHosts.Add(host);
                                 }
                             }
@@ -279,7 +284,7 @@ namespace AboutTime
                 {
                     for(int i=0; i < lsthosts.Count;i++)
                     {
-                        writer.WriteLine((i+1) + "\t" + lsthosts[i].name + "\t" + lsthosts[i].addr + "\t" + lsthosts[i].port);
+                        writer.WriteLine((i + 1) + "\t" + lsthosts[i].name + "\t" + lsthosts[i].addr + "\t" + lsthosts[i].port + "\t" + (lsthosts[i].isntp ? "NTP" : "UDP"));
                     }
                 }
             }
@@ -289,7 +294,7 @@ namespace AboutTime
             }
         }
 
-        private void InsertHost(string name,string addr,string port)
+        private void InsertHost(string name,string addr,string port,bool ntp)
         {
             try
             {
@@ -298,6 +303,7 @@ namespace AboutTime
                 host.name = name;
                 host.addr = addr;
                 host.port = port;
+                host.isntp = ntp;
                 lsthosts.Insert(0, host);
                 SaveHosts(lsthosts);
             }
@@ -331,7 +337,7 @@ namespace AboutTime
             InitHosts();
         }
 
-        private void EditHost(string id, string name, string addr, string port)
+        private void EditHost(string id, string name, string addr, string port,bool ntp)
         {
             try
             {
@@ -343,6 +349,7 @@ namespace AboutTime
                         lsthosts[i].name = name;
                         lsthosts[i].addr = addr;
                         lsthosts[i].port = port;
+                        lsthosts[i].isntp = ntp;
                     }
                 }
                 SaveHosts(lsthosts);
@@ -518,9 +525,9 @@ namespace AboutTime
         }
         
 
-        private bool CorrectTime(string addr,int port)
+        private bool CorrectTime(string addr,int port,bool isntp)
         {
-            TimeTCPClient client = new TimeTCPClient();
+            TimeUDPClient client = new TimeUDPClient();
             try
             {
                 SetLog("地址:" + addr);
@@ -535,29 +542,53 @@ namespace AboutTime
                     IPHostEntry hostadd = Dns.GetHostEntry(addr);
                     ipAddr = hostadd.AddressList[0];
                 }
-                    
+
                 SetLog("IP:" + ipAddr + ",Port:" + port);
                 IPEndPoint EPhost = new IPEndPoint(ipAddr, port);
 
-                client.NetWork = new TcpClient();
-                client.NetWork.SendTimeout = 2 * 1000;
-                client.NetWork.ReceiveTimeout = 2 * 1000;
+                client.NetWork = new UdpClient();
+                client.NetWork.Client.SendTimeout = 1500;
+                client.NetWork.Client.ReceiveTimeout = 1500;
                 client.NetWork.Connect(EPhost);
-                int reclen = client.NetWork.GetStream().Read(client.buffer, 0, client.buffer.Length);
-                byte[] recdata = new byte[reclen];
-                Array.Copy(client.buffer, recdata, reclen);
+
+                Common.NTP ntp = new Common.NTP();
+                //if (isntp)
+                //{
+                    ntp.Initialize();
+                    client.NetWork.Send(ntp.NTPData, ntp.NTPData.Length);
+                //}
+                IPEndPoint ep = null;
+                byte[] recdata = client.NetWork.Receive(ref ep);
+                int reclen = recdata.Length;
                 if (reclen > 0)
                 {
-                    string str_dt = Encoding.ASCII.GetString(recdata);
-                    SetLog("收到数据:" + str_dt);
-                    int startindex = str_dt.IndexOf('-');
-                    if (startindex > 1)
+                    SetLog("收到数据,长度:" + recdata.Length);
+                    if (isntp)
                     {
-                        startindex -= 2;
-                        str_dt = "20" + str_dt.Substring(startindex, 17);
-                        DateTime dt = Convert.ToDateTime(str_dt);
-                        TimeSpan offspan = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now);
-                        dt = dt + offspan;
+                        ntp.NTPData = recdata;
+                        if (!ntp.IsResponseValid())
+                        {
+                            SetLog("无效响应");
+                            return false;
+                        }
+                        ntp.ReceptionTimestamp = DateTime.Now;
+                        if (Math.Abs((ntp.TransmitTimestamp - DateTime.Now).TotalDays) >= 3)
+                        {
+                            SetLog("系统时间与服务获取时间相差超过3天,停止校时!");
+                            return false;
+                        }
+                        else {
+                            SetLog("设置时间:" + ntp.TransmitTimestamp.ToString());
+                            SetTime(ntp.TransmitTimestamp);
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        long ticks = BitConverter.ToInt64(recdata, 0);
+                        DateTime dt = new DateTime(ticks);
+                        //TimeSpan offspan = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now);
+                        //dt = dt + offspan;
                         if (Math.Abs((dt - DateTime.Now).TotalDays) >= 3)
                         {
                             SetLog("系统时间与服务获取时间相差超过3天,停止校时!");
@@ -569,11 +600,6 @@ namespace AboutTime
                         }
                         return true;
                     }
-                    else
-                    {
-                        SetLog("获取时间失败,数据错误,"+str_dt);
-                        return false;
-                    }
                 }
                 else
                 {
@@ -584,7 +610,7 @@ namespace AboutTime
             }
             catch(Exception ex)
             {
-                SetLog("连接失败,ex:" + ex.Message);
+                SetLog("校时失败,ex:" + ex.Message);
                 client.DisConnect();
                 return false;
             }
@@ -612,16 +638,16 @@ namespace AboutTime
                 bool Iscorrect = false;
                 do
                 {
-                    SetLog(DateTime.Now.ToString() + " " + "连接到" + lsthosts[i].name);
-                    Iscorrect = CorrectTime(lsthosts[i].addr, Convert.ToInt32(lsthosts[i].port));
+                    SetLog(DateTime.Now.ToString() + " " + "连接到" + lsthosts[i].name + (lsthosts[i].isntp ? " NTP" : " UDP"));
+                    Iscorrect = CorrectTime(lsthosts[i].addr, Convert.ToInt32(lsthosts[i].port),lsthosts[i].isntp);
                     i++;
                 }
                 while (!Iscorrect && i <= lsthosts.Count - 1);
             }
             else
             {
-                SetLog(DateTime.Now.ToString() + " " + "连接到" + lsthosts[0].name);
-                CorrectTime(lsthosts[0].addr, Convert.ToInt32(lsthosts[0].port));
+                SetLog(DateTime.Now.ToString() + " " + "连接到" + lsthosts[0].name + (lsthosts[0].isntp ? " NTP" : " UDP"));
+                CorrectTime(lsthosts[0].addr, Convert.ToInt32(lsthosts[0].port), lsthosts[0].isntp);
             }
         }
 
@@ -664,18 +690,22 @@ namespace AboutTime
                 IPAddress ipAddr;
                 IPAddress.TryParse(config.AppSettings.Settings["ServiceIP"].Value, out ipAddr);
                 IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, Convert.ToInt32(config.AppSettings.Settings["ServicePort"].Value));
-                TcpListener listener = new TcpListener(ipEndPoint);
-                listener.Start();
+                UdpClient listener = new UdpClient(ipEndPoint);
 
+                IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
                 while (true)
                 {
-                    TcpClient client = listener.AcceptTcpClient();
-                    using (NetworkStream clientStream = client.GetStream())
-                    {
-                        byte[] datas = Encoding.ASCII.GetBytes(DateTime.UtcNow.ToString("yy-MM-dd HH:mm:ss")+ " UTC");
-                        clientStream.Write(datas, 0, datas.Length);
-                        clientStream.Flush();
-                    }
+                    listener.Receive(ref RemoteIpEndPoint);
+                    byte[] datas = BitConverter.GetBytes(DateTime.Now.Ticks);
+
+                    //byte[] datas = Encoding.ASCII.GetBytes(DateTime.UtcNow.ToString("yy-MM-dd HH:mm:ss") + " UTC");
+                    listener.Send(datas, datas.Length, RemoteIpEndPoint);
+                    //using (NetworkStream clientStream = client.GetStream())
+                    //{
+                    //    byte[] datas = Encoding.ASCII.GetBytes(DateTime.UtcNow.ToString("yy-MM-dd HH:mm:ss")+ " UTC");
+                    //    clientStream.Write(datas, 0, datas.Length);
+                    //    clientStream.Flush();
+                    //}
                 }
             }
             catch (Exception ex)

@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -15,6 +9,10 @@ namespace AboutTime
         public static string name = "";
         public static string addr = "";
         public static string port = "";
+        /// <summary>
+        /// 是否ntp协议
+        /// </summary>
+        public static bool ntp = false;
 
         public HostForm()
         {
@@ -26,6 +24,7 @@ namespace AboutTime
             txtName.Text = name;
             txtAddr.Text = addr;
             txtPort.Text = port;
+            cbNTP.Checked = ntp;
         }
 
         private void btnConfirm_Click(object sender, EventArgs e)
@@ -51,6 +50,7 @@ namespace AboutTime
             name = txtName.Text.Trim();
             addr = txtAddr.Text.Trim();
             port = txtPort.Text.Trim();
+            ntp = cbNTP.Checked;
             this.DialogResult = DialogResult.OK;
         }
 

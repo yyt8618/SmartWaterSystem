@@ -36,6 +36,7 @@
             this.txtPort = new System.Windows.Forms.TextBox();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnCancle = new System.Windows.Forms.Button();
+            this.cbNTP = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -94,7 +95,7 @@
             this.btnConfirm.Location = new System.Drawing.Point(15, 119);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(75, 23);
-            this.btnConfirm.TabIndex = 6;
+            this.btnConfirm.TabIndex = 7;
             this.btnConfirm.Text = "确定";
             this.btnConfirm.UseVisualStyleBackColor = true;
             this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
@@ -104,16 +105,27 @@
             this.btnCancle.Location = new System.Drawing.Point(144, 119);
             this.btnCancle.Name = "btnCancle";
             this.btnCancle.Size = new System.Drawing.Size(75, 23);
-            this.btnCancle.TabIndex = 7;
+            this.btnCancle.TabIndex = 8;
             this.btnCancle.Text = "取消";
             this.btnCancle.UseVisualStyleBackColor = true;
             this.btnCancle.Click += new System.EventHandler(this.btnCancle_Click);
+            // 
+            // cbNTP
+            // 
+            this.cbNTP.AutoSize = true;
+            this.cbNTP.Location = new System.Drawing.Point(171, 75);
+            this.cbNTP.Name = "cbNTP";
+            this.cbNTP.Size = new System.Drawing.Size(42, 16);
+            this.cbNTP.TabIndex = 6;
+            this.cbNTP.Text = "NTP";
+            this.cbNTP.UseVisualStyleBackColor = true;
             // 
             // HostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(248, 154);
+            this.Controls.Add(this.cbNTP);
             this.Controls.Add(this.btnCancle);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.txtPort);
@@ -145,5 +157,6 @@
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button btnCancle;
+        private System.Windows.Forms.CheckBox cbNTP;
     }
 }

@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 
 namespace AboutTime
 {
-    public class TimeTCPClient
+    public class TimeUDPClient
     {
         /// <summary>
-        /// TCP客户端
+        /// UDP客户端
         /// </summary>
-        private TcpClient _NetWork = null;
-        public TcpClient NetWork
+        private UdpClient _NetWork = null;
+        public UdpClient NetWork
         {
             get
             {
@@ -37,10 +34,10 @@ namespace AboutTime
         {
             try
             {
-                if (_NetWork != null && _NetWork.Connected)
+                if (_NetWork != null)// && _NetWork.Connected)
                 {
-                    NetworkStream ns = _NetWork.GetStream();
-                    ns.Close();
+                    //NetworkStream ns = _NetWork.GetStream();
+                    //ns.Close();
                     _NetWork.Close();
                 }
             }
