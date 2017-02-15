@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GCGPRSService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("微软中国")]
+[assembly: AssemblyCompany("上海敢闯科技有限公司")]
 [assembly: AssemblyProduct("GCGPRSService")]
-[assembly: AssemblyCopyright("Copyright © 微软中国 2015")]
+[assembly: AssemblyCopyright("Copyright © 上海敢闯科技有限公司 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 可以指定所有这些值，也可以使用“内部版本号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.17.02.07")]
-[assembly: AssemblyFileVersion("1.17.02.07")]
+[assembly: AssemblyVersion("1.17.02.15")]
+[assembly: AssemblyFileVersion("1.17.02.15")]

@@ -81,14 +81,21 @@ namespace GCGPRSService
         public Service1.DumpThreadCallback Dumpcallback;
         //private bool IsCreateDumpFile = false;  //是否正在创建Dump文件
 
+        StringBuilder newmsg = new StringBuilder(1024);
         public void OnSendMsg(SocketEventArgs e)
         {
             lock (obj_smartsocket)
             {
                 string msg = JSONSerialize.JsonSerialize_Newtonsoft(e.JsonMsg);
+                newmsg.Clear();
+                newmsg.Append(SocketHelper.SocketMsgSplit);
+                newmsg.Append(msg);
+                newmsg.Append(SocketHelper.SocketMsgSplit);
+                byte[] bs = Encoding.UTF8.GetBytes(newmsg.ToString());
+                
                 foreach (SmartSocketEntity smartsock in lstSmartClient)
                 {
-                    if (!SocketSend(smartsock.ClientSocket, msg, false))
+                    if (!SocketSend(smartsock.ClientSocket, bs, false))
                     {
                         smartsock.MsgBuff.Add(msg);  //缓存发送失败的消息,在下次心跳到来的时候重发
                     }
@@ -1868,30 +1875,51 @@ namespace GCGPRSService
         /// <param name="entitymsg"></param>
         /// <param name="needreply">是否需要重试</param>
         /// <returns></returns>
-        StringBuilder newmsg = new StringBuilder(1024);
-        public bool SocketSend(Socket sock, string entitymsg,bool needreply)
+        public bool SocketSend(Socket sock, string entitymsg, bool needreply)
         {
-            try {
+            try
+            {
                 if (string.IsNullOrEmpty(entitymsg))
                     return true;
-                if(!SocketHelper.IsSocketConnected_Poll(sock))
+                if (!SocketHelper.IsSocketConnected_Poll(sock))
                 {
                     sock = null;    //释放
                     return false;
                 }
-                newmsg.Clear();
-                //StringBuilder newmsg = new StringBuilder(entitymsg.Length+2* SocketHelper.SocketMsgSplit.Length);
-                newmsg.Append(SocketHelper.SocketMsgSplit);
-                newmsg.Append(entitymsg);
-                newmsg.Append(SocketHelper.SocketMsgSplit);
-                byte[] bs = Encoding.UTF8.GetBytes(newmsg.ToString());
+                StringBuilder buildmsg = new StringBuilder(entitymsg.Length+2* SocketHelper.SocketMsgSplit.Length);
+                buildmsg.Append(SocketHelper.SocketMsgSplit);
+                buildmsg.Append(entitymsg);
+                buildmsg.Append(SocketHelper.SocketMsgSplit);
+                byte[] bs = Encoding.UTF8.GetBytes(buildmsg.ToString());
 
                 SendObject sendObj = new SendObject();
                 sendObj.workSocket = sock;
                 sock.BeginSend(bs, 0, bs.Length, 0, new AsyncCallback(SmartSendCallback), sendObj);
                 return true;
             }
-            catch {
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool SocketSend(Socket sock, byte[] bs, bool needreply)
+        {
+            try
+            {
+                if (!SocketHelper.IsSocketConnected_Poll(sock))
+                {
+                    sock = null;    //释放
+                    return false;
+                }
+                
+                SendObject sendObj = new SendObject();
+                sendObj.workSocket = sock;
+                sock.BeginSend(bs, 0, bs.Length, 0, new AsyncCallback(SmartSendCallback), sendObj);
+                return true;
+            }
+            catch
+            {
                 return false;
             }
         }

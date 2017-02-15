@@ -221,7 +221,7 @@ namespace GCGPRSService
         /// </summary>
         public SocketManager SocketMag = new SocketManager();
 
-        private Queue<GPRSPreFrameDataEntity> _GPRS_PreFrameData = new Queue<GPRSPreFrameDataEntity>();
+        private Queue<GPRSPreFrameDataEntity> _GPRS_PreFrameData = new Queue<GPRSPreFrameDataEntity>(300);
         /// <summary>
         /// GPRS压力帧队列
         /// </summary>
@@ -231,7 +231,7 @@ namespace GCGPRSService
             set { _GPRS_PreFrameData = value; }
         }
 
-        private Queue<GPRSFlowFrameDataEntity> _GPRS_FlowFrameData = new Queue<GPRSFlowFrameDataEntity>();
+        private Queue<GPRSFlowFrameDataEntity> _GPRS_FlowFrameData = new Queue<GPRSFlowFrameDataEntity>(100);
         /// <summary>
         /// GPRS流量帧数据
         /// </summary>
@@ -241,7 +241,7 @@ namespace GCGPRSService
             set { _GPRS_FlowFrameData = value; }
         }
 
-        private Queue<GPRSUniversalFrameDataEntity> _GPRS_UniversalFrameData = new Queue<GPRSUniversalFrameDataEntity>();
+        private Queue<GPRSUniversalFrameDataEntity> _GPRS_UniversalFrameData = new Queue<GPRSUniversalFrameDataEntity>(300);
         /// <summary>
         /// GPRS通用终端帧数据
         /// </summary>
@@ -251,7 +251,7 @@ namespace GCGPRSService
             set { _GPRS_UniversalFrameData = value; }
         }
 
-        private Queue<GPRSOLWQFrameDataEntity> _GPRS_OLWQFrameData = new Queue<GPRSOLWQFrameDataEntity>();
+        private Queue<GPRSOLWQFrameDataEntity> _GPRS_OLWQFrameData = new Queue<GPRSOLWQFrameDataEntity>(100);
         /// <summary>
         /// GPRS水质终端帧队列
         /// </summary>
@@ -261,7 +261,7 @@ namespace GCGPRSService
             set { _GPRS_OLWQFrameData = value; }
         }
 
-        private Queue<GPRSHydrantFrameDataEntity> _GPRS_HydrantFrameData = new Queue<GPRSHydrantFrameDataEntity>();
+        private Queue<GPRSHydrantFrameDataEntity> _GPRS_HydrantFrameData = new Queue<GPRSHydrantFrameDataEntity>(100);
         /// <summary>
         /// 消防栓帧队列
         /// </summary>
@@ -271,7 +271,7 @@ namespace GCGPRSService
             set { _GPRS_HydrantFrameData = value; }
         }
 
-        private Queue<GPRSPrectrlFrameDataEntity> _GPRS_PrectrlFrameData = new Queue<GPRSPrectrlFrameDataEntity>();
+        private Queue<GPRSPrectrlFrameDataEntity> _GPRS_PrectrlFrameData = new Queue<GPRSPrectrlFrameDataEntity>(50);
         /// <summary>
         /// 压力控制器帧队列
         /// </summary>
@@ -281,7 +281,7 @@ namespace GCGPRSService
             set { _GPRS_PrectrlFrameData = value; }
         }
 
-        private Queue<GPRSNoiseFrameDataEntity> _GPRS_NoiseFrameData = new Queue<GPRSNoiseFrameDataEntity>();
+        private Queue<GPRSNoiseFrameDataEntity> _GPRS_NoiseFrameData = new Queue<GPRSNoiseFrameDataEntity>(50);
         /// <summary>
         /// 噪声远传控制器帧队列
         /// </summary>
@@ -291,7 +291,7 @@ namespace GCGPRSService
             set { _GPRS_NoiseFrameData = value; }
         }
 
-        private Queue<GPRSWaterWorkerFrameDataEntity> _GPRS_WaterworkerFrameData = new Queue<GPRSWaterWorkerFrameDataEntity>();
+        private Queue<GPRSWaterWorkerFrameDataEntity> _GPRS_WaterworkerFrameData = new Queue<GPRSWaterWorkerFrameDataEntity>(100);
         /// <summary>
         /// GPRS水厂帧队列
         /// </summary>
@@ -301,7 +301,7 @@ namespace GCGPRSService
             set { _GPRS_WaterworkerFrameData = value; }
         }
 
-        private Queue<GPRSAlarmFrameDataEntity> _GPRS_AlarmFrameData = new Queue<GPRSAlarmFrameDataEntity>();
+        private Queue<GPRSAlarmFrameDataEntity> _GPRS_AlarmFrameData = new Queue<GPRSAlarmFrameDataEntity>(100);
         /// <summary>
         /// GPRS报警帧队列
         /// </summary>
