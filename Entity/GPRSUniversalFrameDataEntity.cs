@@ -65,7 +65,13 @@ namespace Entity
         public DateTime ColTime
         {
             get { return _colTime; }
-            set { _colTime = value; }
+            set
+            {
+                if ((DateTime.Now - value).TotalHours > 1)  //如果超过当前时间1小时，使用当前时间
+                    _colTime = DateTime.Now;
+                else
+                    _colTime = value;
+            }
         }
 
         private double _DataValue = 0f;
