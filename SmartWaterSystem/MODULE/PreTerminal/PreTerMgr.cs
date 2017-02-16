@@ -261,7 +261,7 @@ namespace SmartWaterSystem
                 XtraMessageBox.Show("请选择一条数据操作", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private bool Validate()
+        private new bool Validate()
         {
             if (!Regex.IsMatch(txtTerminalID.Text, @"^\d+$"))
             {

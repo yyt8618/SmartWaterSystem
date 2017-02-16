@@ -47,7 +47,6 @@ namespace DAL
                     }
                     return lstConfig;
                 }
-                return null;
             }
         }
 

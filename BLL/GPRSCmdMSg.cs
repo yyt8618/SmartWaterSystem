@@ -266,7 +266,6 @@ namespace BLL
             {
                 return "";
             }
-            return Msg.ToString();
         }
 
     }

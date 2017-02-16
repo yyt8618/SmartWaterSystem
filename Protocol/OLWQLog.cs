@@ -973,7 +973,7 @@ namespace Protocol
             dt.Columns.Add("CallDataType");
             dt.Columns.Add("CallData");
             dt.Columns.Add("Unit");
-            Package package = new Package();
+            //Package package = new Package();
 
             //if (calldataType.GetSim1)
             //{

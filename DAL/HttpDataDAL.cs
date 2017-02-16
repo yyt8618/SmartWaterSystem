@@ -45,9 +45,7 @@ namespace DAL
 
                     //lstter.Add(ter);  //未分组终端不发送，未分组不能读取数据
 
-                    if (ter.groupid == "")
-                        ;//addungroup = true;
-                    else
+                    if (ter.groupid != "")
                         lstter.Add(ter);
                 }
             }

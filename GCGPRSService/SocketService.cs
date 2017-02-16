@@ -194,6 +194,7 @@ namespace GCGPRSService
                             }
                         }
                         lstSmartClient = lsttmp;
+                        lsttmp = null;
                     }
                 }
                 if (CheckThread_Interval-- == 0)
@@ -316,7 +317,9 @@ namespace GCGPRSService
             {
                 try {
                     if (handler != null)
+                    {
                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                    }
 
                 }
                 catch { }
@@ -1192,9 +1195,10 @@ namespace GCGPRSService
 
         private void SendCallback(IAsyncResult ar)
         {
+            Socket handler = null; 
             try
             {
-                Socket handler = ((SendObject)ar.AsyncState).workSocket;
+                handler = ((SendObject)ar.AsyncState).workSocket;
                 if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
                 {
                     int bytesSent = handler.EndSend(ar);
@@ -1222,6 +1226,9 @@ namespace GCGPRSService
             {
                 //logger.ErrorException(DateTime.Now.ToString() + " SendCallback", e);
                 //OnSendMsg(new SocketEventArgs(e.ToString()));
+            }
+            finally
+            {
             }
         }
 

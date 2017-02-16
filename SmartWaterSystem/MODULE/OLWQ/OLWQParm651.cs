@@ -1015,7 +1015,7 @@ namespace SmartWaterSystem
             btnSetParm.Enabled = enable;
         }
 
-        private bool Validate()
+        private new bool Validate()
         {
             if (!Regex.IsMatch(txtID.Text,@"^\d{1,5}$"))
             {

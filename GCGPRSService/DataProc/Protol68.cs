@@ -47,10 +47,10 @@ namespace GCGPRSService
                     int preFlag = 0;
 
                     /****************************************宿州校准压力值********************************************/
-                    double[] RectifyValue = new double[] {  //修偏数组
-                        -0.009, 0, -0.03, 0.013, -0.029, -0.029, 0, 0, 0, -0.011,
-                        -0.008, -0.026, -0.009, -0.006, -0.009, -0.021, 0, -0.01, 0, -0.01,
-                        -0.007, -0.019, -0.021, -0.04, -0.01, -0.007, -0.014, -0.013, 0, -0.023 };
+                    //double[] RectifyValue = new double[] {  //修偏数组
+                    //    -0.009, 0, -0.03, 0.013, -0.029, -0.029, 0, 0, 0, -0.011,
+                    //    -0.008, -0.026, -0.009, -0.006, -0.009, -0.021, 0, -0.01, 0, -0.01,
+                    //    -0.007, -0.019, -0.021, -0.04, -0.01, -0.007, -0.014, -0.013, 0, -0.023 };
                     /**************************************************************************************************/
 
                     preFlag = Convert.ToInt16(pack.Data[2]);
@@ -83,7 +83,7 @@ namespace GCGPRSService
                         float TmpRectifyValue = 0;
                         if (pack.ID > 0 && pack.ID <= 30)
                         {
-                            TmpRectifyValue = (float)RectifyValue[pack.ID - 1];
+                            //TmpRectifyValue = (float)RectifyValue[pack.ID - 1];
                             pressuevalue += TmpRectifyValue;
                             if (pressuevalue < 0)
                                 pressuevalue = 0;

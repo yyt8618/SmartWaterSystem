@@ -1117,7 +1117,6 @@ namespace DAL
                 }
                 return lstWayTypeConfig;
             }
-            return null;
         }
 
         public DataTable GetUniversalDataConfig(TerType terType)
@@ -1159,7 +1158,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
 
         public List<PreDetailDataEntity> GetFlowDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval, int datatype)
@@ -1197,7 +1195,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
 
         public List<PrectrlDetailDataEntity> GetPrectrlDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval)
@@ -1239,7 +1236,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
 
         public List<UniversalDetailDataEntity> GetUniversalDetail(string TerminalID, int typeId, DateTime minTime, DateTime maxTime, int interval)
@@ -1275,7 +1271,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
 
         public List<OLWQDetailDataEntity> GetOLWQDetail(string TerminalID, DateTime minTime, DateTime maxTime, int interval, int datatype)
@@ -1329,7 +1324,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
 
         public string GetTerminalName(string TerminalID, TerType tertype)
@@ -1471,7 +1465,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
 
         public List<FlowDataEntity> GetFlowDataTop2(List<int> terminalids)
@@ -1577,7 +1570,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
 
         public List<PrectrlDataEntity> GetPrectrlData(List<int> terminalids)
@@ -1641,7 +1633,6 @@ namespace DAL
                 }
                 return lstData;
             }
-            return null;
         }
 
         public DataTable GetOLWQData(List<string> terminalids)

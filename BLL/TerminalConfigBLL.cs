@@ -22,8 +22,8 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                return null;
                 logger.ErrorException("GetAllPreTerminals", ex);
+                return null;
             }
         }
 
@@ -40,8 +40,8 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                return false;
                 logger.ErrorException("IsExist", ex);
+                return false;
             }
         }
 
@@ -56,8 +56,8 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                return false;
                 logger.ErrorException("Insert", ex);
+                return false;
             }
         }
 
@@ -72,8 +72,8 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                return false;
                 logger.ErrorException("Modify", ex);
+                return false;
             }
         }
 

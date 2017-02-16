@@ -606,7 +606,6 @@ namespace AboutTime
                     SetLog("获取时间失败,未获得数据");
                     return false;
                 }
-                client.DisConnect();
             }
             catch(Exception ex)
             {

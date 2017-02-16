@@ -284,7 +284,7 @@ namespace Common
                                                  NTPData[offReferenceID + 3].ToString();
                                 try
                                 {
-                                    IPHostEntry Host = Dns.GetHostByAddress(Address);
+                                    IPHostEntry Host=Dns.GetHostEntry(Address);
                                     val = Host.HostName + " (" + Address + ")";
                                 }
                                 catch (Exception)

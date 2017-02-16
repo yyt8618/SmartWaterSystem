@@ -56,22 +56,16 @@ namespace Utility
                 {
                     case "NONE":
                         return System.IO.Ports.Parity.None;
-                        break;
                     case "ODD":
                         return System.IO.Ports.Parity.Odd;
-                        break;
                     case "EVEN":
                         return System.IO.Ports.Parity.Even;
-                        break;
                     case "MARK":
                         return System.IO.Ports.Parity.Mark;
-                        break;
                     case "SPACE":
                         return System.IO.Ports.Parity.Space;
-                        break;
                     default:
                         return System.IO.Ports.Parity.None;
-                        break;
                 }
             }
         }
@@ -92,19 +86,14 @@ namespace Utility
                 {
                     case "NONE":
                         return System.IO.Ports.StopBits.None;
-                        break;
                     case "ONE":
                         return System.IO.Ports.StopBits.One;
-                        break;
                     case "TWO":
                         return System.IO.Ports.StopBits.Two;
-                        break;
                     case "OnePointFive":
                         return System.IO.Ports.StopBits.OnePointFive;
-                        break;
                     default:
                         return System.IO.Ports.StopBits.One;
-                        break;
                 }
             }
         }

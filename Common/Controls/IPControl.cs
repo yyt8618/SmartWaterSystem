@@ -11,11 +11,6 @@ namespace Common
         {
             get { return GetIpAddress(); }
         }
-        public string Text
-        {
-            get { return GetIpAddress(); }
-        }
-
         public IPControl()
         {
             InitializeComponent();

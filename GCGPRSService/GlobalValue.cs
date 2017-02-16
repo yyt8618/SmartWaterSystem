@@ -335,6 +335,5 @@ namespace GCGPRSService
             get { return _lstAlarmType; }
             set { _lstAlarmType = value; }
         }
-        
     }
 }
