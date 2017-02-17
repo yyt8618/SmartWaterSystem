@@ -281,6 +281,8 @@ namespace SmartWaterSystem
             g.DrawLine(pen, X, c1Chart1.ChartArea.PlotArea.Location.Y, X, c1Chart1.ChartArea.PlotArea.Location.Y + c1Chart1.ChartArea.PlotArea.Size.Height);
 
             //paint leakvalue marker
+            if (c1Chart1.ChartArea.AxisY.ValueLabels == null || c1Chart1.ChartArea.AxisY.ValueLabels.Count == 0)
+                return;
             Rectangle rect_mark = c1Chart1.ChartArea.AxisY.ValueLabels[0].MarkerRectangle;
             g.DrawLine(pen_mark, c1Chart1.ChartArea.PlotArea.Location.X, rect_mark.Y + rect_mark.Height / 2, c1Chart1.ChartArea.PlotArea.Location.X + c1Chart1.ChartArea.PlotArea.Size.Width, rect_mark.Y + rect_mark.Height / 2);
         }

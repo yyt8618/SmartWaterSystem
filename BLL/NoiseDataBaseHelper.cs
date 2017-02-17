@@ -129,6 +129,7 @@ namespace BLL
             }
         }
 
+
         public static int GetGroupIdByRec(string RecorderId)
         {
             string sql = @"SELECT GroupId FROM MP_GroupRecorder WHERE RecorderId = " + RecorderId;

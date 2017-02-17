@@ -131,6 +131,32 @@ namespace SmartWaterSystem
             }
         }
 
+
+        public static List<NoiseResult> GetRecordHistoryResult(int id)
+        {
+            List<NoiseResult> lstResult = null;
+            string sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
+            {
+                lstResult = new List<NoiseResult>();
+                while (reader.Read())
+                {
+                    NoiseResult Result = new NoiseResult();
+                    Result.GroupID = Convert.ToInt32(reader["GroupId"]);
+                    Result.RecorderID = id;
+                    Result.IsLeak = Convert.ToInt32(reader["IsLeak"]);
+                    Result.ReadTime = Convert.ToDateTime(reader["CollTime"]);
+                    Result.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
+                    Result.LeakAmplitude = Convert.ToDouble(reader["MinLeakValue"]);
+                    Result.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
+                    Result.EnergyValue = Convert.ToDouble(reader["EnergyValue"]);
+                    Result.LeakProbability = Convert.ToDouble(reader["LeakProbability"]);
+                    lstResult.Add(Result);
+                }
+            }
+            return lstResult;
+        }
+
         /// <summary>
         /// 从数据库中获取记录仪分组列表
         /// </summary>

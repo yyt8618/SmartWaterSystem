@@ -157,17 +157,21 @@ namespace SmartWaterSystem
             dt.Columns.Add("读取时间");
             dt.Columns.Add("漏水状态");
             dt.Columns.Add("漏水概率");
-            if (rec.Result != null)
+
+            List<NoiseResult> lstResult= NoiseDataBaseHelper.GetRecordHistoryResult(rec.ID);
+            if (lstResult != null)
             {
-                NoiseResult re = rec.Result;
-                string str = "不漏水";
-                if (re.IsLeak == 0)
-                    str = "不漏水";
-                else if (re.IsLeak == 1)
-                    str = "漏水";
-                else if (re.IsLeak == -1)
-                    str ="漏水";
-                dt.Rows.Add(new object[] { rec.ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str, (re.LeakProbability * 100).ToString("f1") + "%" });
+                foreach(NoiseResult re in lstResult)
+                {
+                    string str = "不漏水";
+                    if (re.IsLeak == 0)
+                        str = "不漏水";
+                    else if (re.IsLeak == 1)
+                        str = "漏水";
+                    else if (re.IsLeak == -1)
+                        str = "漏水";
+                    dt.Rows.Add(new object[] { rec.ID, re.LeakAmplitude.ToString(), re.LeakFrequency.ToString(), re.ReadTime.ToString("yyyy-MM-dd HH:mm:ss"), str, (re.LeakProbability * 100).ToString("f1") + "%" });
+                }
             }
 
             // 绑定数据
@@ -958,5 +962,24 @@ namespace SmartWaterSystem
             this.BindGroup();
         }
 
+        private void dataNavigator1_ButtonClick(object sender, NavigatorButtonClickEventArgs e)
+        {
+            //下一页  
+            if ((e.Button).ButtonType == DevExpress.XtraEditors.NavigatorButtonType.NextPage)
+            {
+            }
+            //上一页  
+            if ((e.Button).ButtonType == DevExpress.XtraEditors.NavigatorButtonType.PrevPage)
+            {
+            }
+            //首页  
+            if ((e.Button).ButtonType == DevExpress.XtraEditors.NavigatorButtonType.First)
+            {
+            }
+            //尾页  
+            if ((e.Button).ButtonType == DevExpress.XtraEditors.NavigatorButtonType.Last)
+            {
+            }
+        }
     }
 }

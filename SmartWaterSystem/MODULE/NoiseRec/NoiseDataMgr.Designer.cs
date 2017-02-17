@@ -46,6 +46,7 @@
             this.simpleButtonUnSelect = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonSelectAll = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.dataNavigator1 = new DevExpress.XtraEditors.DataNavigator();
             this.btnRefreshData = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonAny = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonComapre = new DevExpress.XtraEditors.SimpleButton();
@@ -61,6 +62,7 @@
             this.popupMenu = new DevExpress.XtraBars.PopupMenu(this.components);
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barManager = new DevExpress.XtraBars.BarManager(this.components);
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
@@ -255,6 +257,7 @@
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.dataNavigator1);
             this.groupControl2.Controls.Add(this.btnRefreshData);
             this.groupControl2.Controls.Add(this.simpleButtonAny);
             this.groupControl2.Controls.Add(this.simpleButtonComapre);
@@ -264,6 +267,27 @@
             this.groupControl2.Size = new System.Drawing.Size(465, 488);
             this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "数据分析结果列表";
+            // 
+            // dataNavigator1
+            // 
+            this.dataNavigator1.Buttons.Append.Visible = false;
+            this.dataNavigator1.Buttons.CancelEdit.Visible = false;
+            this.dataNavigator1.Buttons.EndEdit.Visible = false;
+            this.dataNavigator1.Buttons.First.Hint = "第一条";
+            this.dataNavigator1.Buttons.Last.Hint = "最后条";
+            this.dataNavigator1.Buttons.Next.Hint = "下一条";
+            this.dataNavigator1.Buttons.NextPage.Hint = "下一页";
+            this.dataNavigator1.Buttons.Prev.Hint = "上一条";
+            this.dataNavigator1.Buttons.PrevPage.Hint = "上一页";
+            this.dataNavigator1.Buttons.Remove.Visible = false;
+            this.dataNavigator1.Location = new System.Drawing.Point(20, 459);
+            this.dataNavigator1.Name = "dataNavigator1";
+            this.dataNavigator1.Size = new System.Drawing.Size(92, 19);
+            this.dataNavigator1.TabIndex = 4;
+            this.dataNavigator1.Text = "dataNavigator1";
+            this.dataNavigator1.TextStringFormat = "第{0}页,共{1}页";
+            this.dataNavigator1.Visible = false;
+            this.dataNavigator1.ButtonClick += new DevExpress.XtraEditors.NavigatorButtonClickEventHandler(this.dataNavigator1_ButtonClick);
             // 
             // btnRefreshData
             // 
@@ -295,6 +319,13 @@
             // gridControlResult
             // 
             this.gridControlResult.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridControlResult.EmbeddedNavigator.Buttons.Append.Visible = false;
+            this.gridControlResult.EmbeddedNavigator.Buttons.CancelEdit.Visible = false;
+            this.gridControlResult.EmbeddedNavigator.Buttons.Edit.Visible = false;
+            this.gridControlResult.EmbeddedNavigator.Buttons.EndEdit.Visible = false;
+            this.gridControlResult.EmbeddedNavigator.Buttons.Next.Visible = false;
+            this.gridControlResult.EmbeddedNavigator.Buttons.Prev.Visible = false;
+            this.gridControlResult.EmbeddedNavigator.Buttons.Remove.Visible = false;
             this.gridControlResult.Location = new System.Drawing.Point(2, 22);
             this.gridControlResult.MainView = this.gridViewResultList;
             this.gridControlResult.Name = "gridControlResult";
@@ -302,6 +333,7 @@
             this.repositoryItemCheckEdit1});
             this.gridControlResult.Size = new System.Drawing.Size(461, 430);
             this.gridControlResult.TabIndex = 0;
+            this.gridControlResult.UseEmbeddedNavigator = true;
             this.gridControlResult.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewResultList});
             // 
@@ -405,7 +437,8 @@
             // 
             this.popupMenu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem2),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem3)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem3),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem4)});
             this.popupMenu.Manager = this.barManager;
             this.popupMenu.Name = "popupMenu";
             // 
@@ -423,6 +456,12 @@
             this.barButtonItem3.Name = "barButtonItem3";
             this.barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem3_ItemClick);
             // 
+            // barButtonItem4
+            // 
+            this.barButtonItem4.Caption = "查看历史";
+            this.barButtonItem4.Id = 4;
+            this.barButtonItem4.Name = "barButtonItem4";
+            // 
             // barManager
             // 
             this.barManager.DockControls.Add(this.barDockControlTop);
@@ -434,8 +473,9 @@
             this.barStaticItem1,
             this.barButtonItem1,
             this.barButtonItem2,
-            this.barButtonItem3});
-            this.barManager.MaxItemId = 4;
+            this.barButtonItem3,
+            this.barButtonItem4});
+            this.barManager.MaxItemId = 5;
             // 
             // barDockControlTop
             // 
@@ -548,5 +588,7 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumnProbality;
         private DevExpress.XtraEditors.SimpleButton btnRefreshData;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem4;
+        private DevExpress.XtraEditors.DataNavigator dataNavigator1;
     }
 }
