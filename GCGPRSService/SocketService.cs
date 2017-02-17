@@ -326,13 +326,13 @@ namespace GCGPRSService
             }
         }
 
-        List<byte> packageBytes = null;
-        List<byte> ReceiveBytes = null;
         private void ReadCallback(IAsyncResult ar)
         {
             StateObject state = (StateObject)ar.AsyncState;
             Socket handler = state.workSocket;
             int bytesRead = 0;
+            List<byte> packageBytes = null;
+            List<byte> ReceiveBytes = null;
             try
             {
                 // Read data from the client socket. 
@@ -1183,6 +1183,8 @@ namespace GCGPRSService
             }
             finally
             {
+                packageBytes = null;
+                ReceiveBytes = null;
                 try
                 {
                     if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))

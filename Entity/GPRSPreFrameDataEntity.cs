@@ -52,7 +52,7 @@ namespace Entity
         {
             get { return _colTime; }
             set {
-                if ((DateTime.Now - value).TotalHours > 1)  //如果超过当前时间1小时，使用当前时间
+                if ((value - DateTime.Now).TotalHours > 1)  //如果超过当前时间1小时，使用当前时间
                     _colTime = DateTime.Now;
                 else
                     _colTime = value;
