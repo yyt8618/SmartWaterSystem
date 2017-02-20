@@ -1187,7 +1187,7 @@ namespace GCGPRSService
                 ReceiveBytes = null;
                 try
                 {
-                    if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
+                    if (handler != null && bytesRead > 0 && SocketHelper.IsSocketConnected_Poll(handler))
                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                 }
                 catch (Exception ex)
