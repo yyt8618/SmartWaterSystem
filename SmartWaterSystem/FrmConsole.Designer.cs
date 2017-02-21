@@ -47,6 +47,7 @@ namespace SmartWaterSystem
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
+            this.btnGC = new System.Windows.Forms.Button();
             this.btnDmp = new System.Windows.Forms.Button();
             this.btnSocketConnect = new System.Windows.Forms.Button();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
@@ -176,6 +177,7 @@ namespace SmartWaterSystem
             this.panel1.Controls.Add(this.btnDisconnect);
             this.panel1.Controls.Add(this.btnCopy);
             this.panel1.Controls.Add(this.btnPause);
+            this.panel1.Controls.Add(this.btnGC);
             this.panel1.Controls.Add(this.btnDmp);
             this.panel1.Controls.Add(this.btnSocketConnect);
             this.panel1.Controls.Add(this.cbErrs);
@@ -313,6 +315,23 @@ namespace SmartWaterSystem
             this.btnPause.UseVisualStyleBackColor = false;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
+            // btnGC
+            // 
+            this.btnGC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnGC.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnGC.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnGC.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(30)))));
+            this.btnGC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(226)))), ((int)(((byte)(254)))));
+            this.btnGC.Location = new System.Drawing.Point(217, 3);
+            this.btnGC.Name = "btnGC";
+            this.btnGC.Size = new System.Drawing.Size(40, 23);
+            this.btnGC.TabIndex = 5;
+            this.btnGC.TabStop = false;
+            this.btnGC.Text = "GC";
+            this.btnGC.UseVisualStyleBackColor = false;
+            this.btnGC.Click += new System.EventHandler(this.btnGC_Click);
+            // 
             // btnDmp
             // 
             this.btnDmp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -436,5 +455,6 @@ namespace SmartWaterSystem
         private PictureBox picBoxLog;
         private Button btnDmp;
         private PictureBox picColor;
+        private Button btnGC;
     }
 }

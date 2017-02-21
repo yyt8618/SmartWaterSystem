@@ -61,7 +61,6 @@ namespace GCGPRSService
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("SocketService");
         public ManualResetEvent allDone = new ManualResetEvent(false);
-        //public event cmdEventHandle cmdEvent;
         Thread t_socket;
         Thread t_Interval;
         Socket listener;
@@ -78,8 +77,9 @@ namespace GCGPRSService
 
         bool SL651AllowOnLine = false;  //SL651协议终端是否在线,默认不在线
 
+        Stack<SocketAsyncEventArgs> s_lst = new Stack<SocketAsyncEventArgs>();
+
         public Service1.DumpThreadCallback Dumpcallback;
-        //private bool IsCreateDumpFile = false;  //是否正在创建Dump文件
 
         StringBuilder newmsg = new StringBuilder(1024);
         public void OnSendMsg(SocketEventArgs e)
@@ -95,7 +95,7 @@ namespace GCGPRSService
                 
                 foreach (SmartSocketEntity smartsock in lstSmartClient)
                 {
-                    if (!SocketSend(smartsock.ClientSocket, bs, false))
+                    if (!SocketSend(smartsock.ClientSocket, bs))
                     {
                         smartsock.MsgBuff.Add(msg);  //缓存发送失败的消息,在下次心跳到来的时候重发
                     }
@@ -403,7 +403,7 @@ namespace GCGPRSService
                                                         {
                                                             if (!string.IsNullOrEmpty(str))
                                                             {
-                                                                if (!SocketSend(handler, str, false))   //发送缓存的消息
+                                                                if (!SocketSend(handler, str))   //发送缓存的消息
                                                                 {
                                                                     lsttmpmsg.Add(str);
                                                                 }
@@ -440,7 +440,7 @@ namespace GCGPRSService
                                                             mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
                                                             mEntity.ShowType = ColorType.Error;
                                                             mEntity.Msg = "已达到最大连接数,拒接连接";
-                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
+                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity));
                                                         }
                                                     }
                                                     else
@@ -452,7 +452,7 @@ namespace GCGPRSService
                                                             mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
                                                             mEntity.ShowType = ColorType.Public;
                                                             mEntity.Msg = startrec;
-                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
+                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity));
                                                         }
                                                         using (var process = System.Diagnostics.Process.GetCurrentProcess())
                                                         using (var p1 = new PerformanceCounter("Process", "Working Set - Private", process.ProcessName))
@@ -460,7 +460,7 @@ namespace GCGPRSService
                                                             mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
                                                             mEntity.ShowType = ColorType.Public;
                                                             mEntity.Msg = DateTime.Now.ToString() + " 服务当前专用工作集(" + p1.NextValue() / 1024 + "K),工作设置内存(" + (process.WorkingSet64 / 1024 + "K),提交大小(" + process.PrivateMemorySize64 / 1024) + "K)";
-                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity), false);
+                                                            SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity));
                                                         }
                                                     }
                                                 }
@@ -738,7 +738,8 @@ namespace GCGPRSService
                                         sendObj.DevType = pack.DevType;
                                         sendObj.DevID = pack.DevID;
 
-                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                        SocketSend(handler, bsenddata);
+                                        //handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                         #endregion
                                     }
 
@@ -762,7 +763,8 @@ namespace GCGPRSService
                                         sendObj.IsFinal = (0 == (lstCommandPack.Count - 1)) ? true : false;  //i
                                         sendObj.DevType = pack.DevType;
                                         sendObj.DevID = pack.DevID;
-                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                        SocketSend(handler, bsenddata);
+                                        //handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                     }
                                 }
                                 else if (pack.CommandType == CTRL_COMMAND_TYPE.REQUEST_BY_SLAVE) //接收到的数据帧则需要应答响应帧
@@ -788,7 +790,8 @@ namespace GCGPRSService
                                     sendObj.DevType = pack.DevType;
                                     sendObj.DevID = pack.DevID;
                                     if (handler != null && SocketHelper.IsSocketConnected_Poll(handler))
-                                        handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                                        SocketSend(handler, bsenddata);
+                                    //handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                                 }
                                 #endregion
 
@@ -1658,9 +1661,10 @@ namespace GCGPRSService
         {
             try
             {
-                SendObject sendObj = new SendObject();
-                sendObj.workSocket = socket;
-                socket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback651), sendObj);
+                //SendObject sendObj = new SendObject();
+                //sendObj.workSocket = socket;
+                SocketSend(socket, bsenddata);
+                //socket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback651), sendObj);
                 return true;
             }
             catch (Exception ex)
@@ -1873,6 +1877,14 @@ namespace GCGPRSService
                     GlobalValue.Instance.SocketMag.DelWaitSendCmd(Msg.DevId, Msg.DevType, Msg.P68Funcode);
                     GlobalValue.Instance.SocketMag.GetWaitSendCmd();
                 }
+                else if(Msg.MsgType == ConstValue.MSMQTYPE.GC)
+                {
+                    GlobalValue.Instance.GPRS_PreFrameData.Clear();
+                    GlobalValue.Instance.GPRS_WaterworkerFrameData.Clear();
+                    GlobalValue.Instance.GPRS_PreFrameData = new Queue<GPRSPreFrameDataEntity>();
+                    GlobalValue.Instance.GPRS_WaterworkerFrameData = new Queue<GPRSWaterWorkerFrameDataEntity>();
+                    GC.Collect();
+                }
                 //Other
             }
         }
@@ -1884,53 +1896,102 @@ namespace GCGPRSService
         /// <param name="entitymsg"></param>
         /// <param name="needreply">是否需要重试</param>
         /// <returns></returns>
-        public bool SocketSend(Socket sock, string entitymsg, bool needreply)
+        public bool SocketSend(Socket sock, string entitymsg)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(entitymsg))
-                    return true;
-                if (!SocketHelper.IsSocketConnected_Poll(sock))
-                {
-                    sock = null;    //释放
-                    return false;
-                }
-                StringBuilder buildmsg = new StringBuilder(entitymsg.Length+2* SocketHelper.SocketMsgSplit.Length);
-                buildmsg.Append(SocketHelper.SocketMsgSplit);
-                buildmsg.Append(entitymsg);
-                buildmsg.Append(SocketHelper.SocketMsgSplit);
-                byte[] bs = Encoding.UTF8.GetBytes(buildmsg.ToString());
+            //try
+            //{
+            //    if (string.IsNullOrEmpty(entitymsg))
+            //        return true;
+            //    if (!SocketHelper.IsSocketConnected_Poll(sock))
+            //    {
+            //        sock = null;    //释放
+            //        return false;
+            //    }
+            //    StringBuilder buildmsg = new StringBuilder(entitymsg.Length+2* SocketHelper.SocketMsgSplit.Length);
+            //    buildmsg.Append(SocketHelper.SocketMsgSplit);
+            //    buildmsg.Append(entitymsg);
+            //    buildmsg.Append(SocketHelper.SocketMsgSplit);
+            //    byte[] bs = Encoding.UTF8.GetBytes(buildmsg.ToString());
 
-                SendObject sendObj = new SendObject();
-                sendObj.workSocket = sock;
-                sock.BeginSend(bs, 0, bs.Length, 0, new AsyncCallback(SmartSendCallback), sendObj);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            //    SendObject sendObj = new SendObject();
+            //    sendObj.workSocket = sock;
+            //    sock.BeginSend(bs, 0, bs.Length, 0, new AsyncCallback(SmartSendCallback), sendObj);
+            //    return true;
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
+            StringBuilder buildmsg = new StringBuilder(entitymsg.Length + 2 * SocketHelper.SocketMsgSplit.Length);
+            buildmsg.Append(SocketHelper.SocketMsgSplit);
+            buildmsg.Append(entitymsg);
+            buildmsg.Append(SocketHelper.SocketMsgSplit);
+            byte[] bs = Encoding.UTF8.GetBytes(buildmsg.ToString());
+            return SocketSendAsync(sock, bs);
         }
 
-        public bool SocketSend(Socket sock, byte[] bs, bool needreply)
+        public bool SocketSend(Socket sock, byte[] bs)
         {
+            return SocketSendAsync(sock, bs);
+            //try
+            //{
+            //    if (!SocketHelper.IsSocketConnected_Poll(sock))
+            //    {
+            //        sock = null;    //释放
+            //        return false;
+            //    }
+
+            //    SendObject sendObj = new SendObject();
+            //    sendObj.workSocket = sock;
+            //    sock.BeginSend(bs, 0, bs.Length, 0, new AsyncCallback(SmartSendCallback), sendObj);
+            //    return true;
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
+        }
+
+        public bool SocketSendAsync(Socket sock, byte[] bs)
+        {
+            SocketAsyncEventArgs e = null;
+            lock (s_lst)
+            {
+                if (s_lst.Count > 0)
+                    e = s_lst.Pop();
+            }
+            if (e == null)
+            {
+                e = new SocketAsyncEventArgs();
+                e.Completed += (object sender, SocketAsyncEventArgs _e) =>
+                 {
+                     lock (s_lst)
+                         s_lst.Push(e);
+                 };
+            }
             try
             {
-                if (!SocketHelper.IsSocketConnected_Poll(sock))
-                {
-                    sock = null;    //释放
-                    return false;
-                }
-                
-                SendObject sendObj = new SendObject();
-                sendObj.workSocket = sock;
-                sock.BeginSend(bs, 0, bs.Length, 0, new AsyncCallback(SmartSendCallback), sendObj);
-                return true;
+                e.SetBuffer(bs, 0, bs.Length);
             }
-            catch
+            catch (Exception ex)
+            {
+                lock (s_lst)
+                    s_lst.Push(e);
+                return false;
+            }
+            try
+            {
+                if (sock.SendAsync(e))
+                    return true;
+            }
+            catch (Exception ex)
             {
                 return false;
             }
+            lock (s_lst)
+                s_lst.Push(e);
+
+            return true;
         }
 
         private void SmartSendCallback(IAsyncResult ar)

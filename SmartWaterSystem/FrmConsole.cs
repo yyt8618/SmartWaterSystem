@@ -619,6 +619,13 @@ namespace SmartWaterSystem
             GlobalValue.SocketMgr.SendMessage(socketmsg);
         }
 
+        private void btnGC_Click(object sender, EventArgs e)
+        {
+            SocketEntity socketmsg = new SocketEntity();
+            socketmsg.MsgType = Entity.ConstValue.MSMQTYPE.GC;
+            GlobalValue.SocketMgr.SendMessage(socketmsg);
+        }
+
         private void pbColor_Click(object sender, EventArgs e)
         {
             FrmColorSet colorFrm = new FrmColorSet();

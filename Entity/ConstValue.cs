@@ -56,6 +56,7 @@ namespace Entity
             P68_Cmd,           //68协议命令
             Get_P68_WaitSendCmd,        //获取68协议待发送命令列表
             Del_P68_WaitSendCmd,        //删除68协议待发送命令
+            GC,
         }
 
         /// <summary>
