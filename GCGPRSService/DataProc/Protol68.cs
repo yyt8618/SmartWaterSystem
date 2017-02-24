@@ -649,6 +649,32 @@ namespace GCGPRSService
                     #endregion
                 }
                 #endregion
+                #region 招测
+                else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pre1 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim1 
+                    || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim2 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pluse
+                    || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4852
+                    || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4853 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4854)
+                {
+                    //UniversalLog Universallog = new UniversalLog();
+                    //List<string> lstResultMsg = new List<string>();
+                    //Universallog.ReadCallData_GPRS(GlobalValue.Instance.UniversalDataConfig, pack, GlobalValue.Instance.lstAlarmType);
+
+                    //if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL)
+                    //{
+                    //    foreach (string resultmsg in lstResultMsg)
+                    //    {
+                    //        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, resultmsg));
+                    //    }
+                    //}
+                    //else if(pack.ID3 == (byte)ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
+                    //{
+                    //    foreach (string resultmsg in lstResultMsg)
+                    //    {
+                    //        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, resultmsg));
+                    //    }
+                    //}
+                }
+                #endregion
             }
             else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.PRESS_CTRL)
             {

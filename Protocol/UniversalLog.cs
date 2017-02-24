@@ -1700,12 +1700,124 @@ namespace Protocol
             return dt_485protocol;
         }
 
-        public DataTable ReadCallData(short Id,DataTable dt_config, CallDataTypeEntity calldataType, Dictionary<int, string> lstAlarmType)
+        public List<string> ReadCallData_GPRS(DataTable dt_config, Package pack, Dictionary<int, string> lstAlarmType)
         {
-            DataTable dt = new DataTable("CallDataTable");
-            dt.Columns.Add("CallDataType");
-            dt.Columns.Add("CallData");
-            dt.Columns.Add("Unit");
+            List<string> lstmsg = new List<string>();
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pre1)
+            {
+                if (!pack.IsSuccess || pack.Data == null)
+                {
+                    lstmsg.Add("获取压力失败");
+                }
+                else if (pack.Data.Length == 0)
+                {
+                    lstmsg.Add("压力无数据");
+                }
+                else
+                    AnalysisPre(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+            }
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim1)
+            {
+                if (!pack.IsSuccess || pack.Data == null)
+                {
+                    lstmsg.Add("获取模拟量1路失败");
+                }
+                else if (pack.Data.Length == 0)
+                {
+                    lstmsg.Add("模拟量1路无数据");
+                }
+                else
+                    AnalysisSim(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+            }
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim2)
+            {
+                if (!pack.IsSuccess || pack.Data == null)
+                {
+                    lstmsg.Add("获取模拟量2路失败");
+                }
+                else if (pack.Data.Length == 0)
+                {
+                    lstmsg.Add("模拟量2路无数据");
+                }
+                else
+                    AnalysisSim(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+            }
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pluse)
+            {
+                if (!pack.IsSuccess || pack.Data == null)
+                {
+                    lstmsg.Add("获取脉冲失败");
+                }
+                else if (pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测脉冲无数据");
+                }
+                else
+                    AnalysisPluse(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+            }
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851)
+            {
+                if (!pack.IsSuccess || pack.Data == null)
+                {
+                    lstmsg.Add("获取RS485 1路失败");
+                }
+                else if (pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测RS485 1路无数据");
+                }
+                else
+                {
+                    if (pack.Data.Length == 20)  //长度为20的作为流量解析
+                        AnalysisRS485Flow(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+                    else
+                        AnalysisRS485(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+                }
+            }
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4852)
+            {
+                if (!pack.IsSuccess || pack.Data == null)
+                {
+                    lstmsg.Add("获取RS485 2路失败");
+                }
+                else if (pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测RS485 2路无数据");
+                }
+                else
+                    AnalysisRS485(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+            }
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4853)
+            {
+                if (!pack.IsSuccess || pack.Data == null)
+                {
+                    lstmsg.Add("获取RS485 3路失败");
+                }
+                else if (pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测RS485 3路无数据");
+                }
+                else
+                    AnalysisRS485(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+            }
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4854)
+            {
+                if (!pack.IsSuccess || pack.Data == null)
+                {
+                    lstmsg.Add("获取RS485 4路失败");
+                }
+                else if (pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测RS485 4路无数据");
+                }
+                else
+                    AnalysisRS485(pack.DevID, pack, dt_config, ref lstmsg, lstAlarmType);
+            }
+
+            return lstmsg;
+        }
+
+        public void ReadCallData(short Id,DataTable dt_config, CallDataTypeEntity calldataType, Dictionary<int, string> lstAlarmType)
+        {
             Package package = new Package();
             List<string> lstmsg = new List<string>();
             if (calldataType.GetPre)
@@ -1714,14 +1826,20 @@ namespace Protocol
                 Package result = Read(package);
                 if (!result.IsSuccess || result.Data == null)
                 {
-                    throw new Exception("获取压力失败");
+                    lstmsg.Add("获取压力失败");
                 }
-                if (result.Data.Length == 0)
+                else if (result.Data.Length == 0)
                 {
-                    throw new Exception("压力无数据");
+                    lstmsg.Add("压力无数据");
                 }
+                else
+                    AnalysisPre(Id, result, dt_config, ref lstmsg, lstAlarmType);
 
-                AnalysisPre(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                foreach (string msg in lstmsg)
+                {
+                    serialPortUtil.AppendBufLine(msg);
+                }
+                lstmsg.Clear();
             }
             if (calldataType.GetSim1)
             {
@@ -1729,13 +1847,20 @@ namespace Protocol
                 Package result = Read(package);
                 if (!result.IsSuccess || result.Data == null)
                 {
-                    throw new Exception("获取模拟量1路失败");
+                    lstmsg.Add("获取模拟量1路失败");
                 }
-                if (result.Data.Length == 0)
+                else if (result.Data.Length == 0)
                 {
-                    throw new Exception("模拟量1路无数据");
+                    lstmsg.Add("模拟量1路无数据");
                 }
-                AnalysisSim(Id,result,dt_config, ref lstmsg, lstAlarmType);
+                else
+                    AnalysisSim(Id, result, dt_config, ref lstmsg, lstAlarmType);
+
+                foreach (string msg in lstmsg)
+                {
+                    serialPortUtil.AppendBufLine(msg);
+                }
+                lstmsg.Clear();
             }
             if (calldataType.GetSim2)
             {
@@ -1743,13 +1868,20 @@ namespace Protocol
                 Package result = Read(package);
                 if (!result.IsSuccess || result.Data == null)
                 {
-                    throw new Exception("获取模拟量2路失败");
+                    lstmsg.Add("获取模拟量2路失败");
                 }
-                if (result.Data.Length == 0)
+                else if (result.Data.Length == 0)
                 {
-                    throw new Exception("模拟量2路无数据");
+                    lstmsg.Add("模拟量2路无数据");
                 }
-                AnalysisSim(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                else
+                    AnalysisSim(Id, result, dt_config, ref lstmsg, lstAlarmType);
+
+                foreach (string msg in lstmsg)
+                {
+                    serialPortUtil.AppendBufLine(msg);
+                }
+                lstmsg.Clear();
             } 
             if (calldataType.GetPluse)
             {
@@ -1757,13 +1889,20 @@ namespace Protocol
                 Package result = Read(package);
                 if (!result.IsSuccess || result.Data == null)
                 {
-                    throw new Exception("获取脉冲失败");
+                    lstmsg.Add("获取脉冲失败");
                 }
-                if (result.Data.Length == 0)
+                else if (result.Data.Length == 0)
                 {
-                    throw new Exception("招测脉冲无数据");
+                    lstmsg.Add("招测脉冲无数据");
                 }
-                AnalysisPluse(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                else
+                    AnalysisPluse(Id, result, dt_config, ref lstmsg, lstAlarmType);
+
+                foreach (string msg in lstmsg)
+                {
+                    serialPortUtil.AppendBufLine(msg);
+                }
+                lstmsg.Clear();
             }
             if(calldataType.GetRS4851)
             {
@@ -1771,13 +1910,25 @@ namespace Protocol
                 Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
-                    throw new Exception("获取RS485 1路失败");
+                    lstmsg.Add("获取RS485 1路失败");
                 }
-                if (result.Data.Length == 0)
+                else if (result.Data.Length == 0)
                 {
-                    throw new Exception("招测RS485 1路无数据");
+                    lstmsg.Add("招测RS485 1路无数据");
                 }
-                AnalysisRS4851(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                else
+                {
+                    if (result.Data.Length == 20)  //长度为20的作为流量解析
+                        AnalysisRS485Flow(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                    else
+                        AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                }
+
+                foreach (string msg in lstmsg)
+                {
+                    serialPortUtil.AppendBufLine(msg);
+                }
+                lstmsg.Clear();
             }
             if (calldataType.GetRS4852)
             {
@@ -1785,13 +1936,20 @@ namespace Protocol
                 Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
-                    throw new Exception("获取RS485 2路失败");
+                    lstmsg.Add("获取RS485 2路失败");
                 }
-                if (result.Data.Length == 0)
+                else if (result.Data.Length == 0)
                 {
-                    throw new Exception("招测RS485 2路无数据");
+                    lstmsg.Add("招测RS485 2路无数据");
                 }
-                AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                else
+                    AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
+
+                foreach (string msg in lstmsg)
+                {
+                    serialPortUtil.AppendBufLine(msg);
+                }
+                lstmsg.Clear();
             }
             if (calldataType.GetRS4853)
             {
@@ -1799,13 +1957,20 @@ namespace Protocol
                 Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
-                    throw new Exception("获取RS485 3路失败");
+                    lstmsg.Add("获取RS485 3路失败");
                 }
-                if (result.Data.Length == 0)
+                else if (result.Data.Length == 0)
                 {
-                    throw new Exception("招测RS485 3路无数据");
+                    lstmsg.Add("招测RS485 3路无数据");
                 }
-                AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                else
+                    AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
+
+                foreach (string msg in lstmsg)
+                {
+                    serialPortUtil.AppendBufLine(msg);
+                }
+                lstmsg.Clear();
             }
             if (calldataType.GetRS4854)
             {
@@ -1813,23 +1978,32 @@ namespace Protocol
                 Package result = Read(package, 15, 1);
                 if (!result.IsSuccess || result.Data == null)
                 {
-                    throw new Exception("获取RS485 4路失败");
+                    lstmsg.Add("获取RS485 4路失败");
                 }
-                if (result.Data.Length == 0)
+                else if (result.Data.Length == 0)
                 {
-                    throw new Exception("招测RS485 4路无数据");
+                    lstmsg.Add("招测RS485 4路无数据");
                 }
-                AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
+                else
+                    AnalysisRS485(Id, result, dt_config, ref lstmsg, lstAlarmType);
             }
 
-            return dt;
+            foreach (string msg in lstmsg)
+            {
+                serialPortUtil.AppendBufLine(msg);
+            }
+            lstmsg.Clear();
+            //return dt;
         }
 
         private void AnalysisPre(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
         {
             //招测数据由报警标志(2byte)+招测时间(6byte)+压力1(2byte)=10byte组成
-            if (pack.DataLength != 6 + 1 + 16)
-                throw new Exception("压力帧数据长度[" + pack.DataLength + "]不符合[2+6+2]规则");
+            if (pack.DataLength != 2 + 6 + 2)
+            {
+                lstMsg.Add("压力帧数据长度[" + pack.DataLength + "]不符合[报警标志(2byte)+招测时间(6byte)+压力1(2byte)]规则");
+                return;
+            }
             Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
             if (dictalarms != null && dictalarms.Count > 0)
             {
@@ -1848,12 +2022,17 @@ namespace Protocol
             sec = Convert.ToInt16(pack.Data[7]);
             
             double value = BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8] }, 0);
-            lstMsg.Add("招测到压力1值:" + value.ToString("F2"));
+            lstMsg.Add("招测到压力值:" + value.ToString("F2")+"Mpa,时间:"+year+"-"+month+"-"+day+" "+hour+":"+minute+":"+sec);
         }
 
         private void AnalysisSim(short Id, Package pack,DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
         {
-            string name = "";
+            //招测数据由报警标志(2byte)+招测时间(6byte)+量程(4byte)+校准(2byte)+模拟值(2byte)=16byte组成
+            if (pack.DataLength != 2 + 6 + 4 + 2 + 2)
+            {
+                lstMsg.Add("模拟帧数据长度[" + pack.DataLength + "]不符合[报警标志(2byte)+招测时间(6byte)+量程(4byte)+校准(2byte)+模拟值(2byte)]规则");
+                return;
+            }
             string sequence = "";
             if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim1)
             {
@@ -1875,7 +2054,8 @@ namespace Protocol
                 //float MaxMeasureRangeFlag = dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"] != DBNull.Value ? Convert.ToSingle(dr_TerminalDataConfig[0]["MaxMeasureRangeFlag"]) : 0;
                 //int datawidth = dr_TerminalDataConfig[0]["FrameWidth"] != DBNull.Value ? Convert.ToInt16(dr_TerminalDataConfig[0]["FrameWidth"]) : 0;
                 //int precision = dr_TerminalDataConfig[0]["precision"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[0]["precision"]) : 0;
-                name = dr_TerminalDataConfig[0]["Name"] != DBNull.Value ? dr_TerminalDataConfig[0]["Name"].ToString().Trim() : "";
+                string name = dr_TerminalDataConfig[0]["Name"] != DBNull.Value ? dr_TerminalDataConfig[0]["Name"].ToString().Trim() : "";
+                string unit = dr_TerminalDataConfig[0]["Unit"] != DBNull.Value ? dr_TerminalDataConfig[0]["Unit"].ToString().Trim() : "";
                 //if (MaxMeasureRangeFlag > 0 && datawidth > 0)
                 //{
                 //int loopdatalen = 2 + 6 + 4 + 2 + 2;  //循环部分数据宽度 = 时间(6)+配置长度
@@ -1910,7 +2090,9 @@ namespace Protocol
                 range += ((double)BitConverter.ToInt16(new byte[] { pack.Data[11], pack.Data[10] }, 0)) / 1000;    //小数部分
                 //(模拟数据-校准值)*量程/系数
                 double value= ((double)(BitConverter.ToInt16(new byte[] { pack.Data[15], pack.Data[14] }, 0)- BitConverter.ToInt16(new byte[] { pack.Data[13], pack.Data[12] }, 0))) * range / (ConstValue.UniversalSimRatio);
-                lstMsg.Add("招测到模拟量"+sequence+"值:"+value.ToString("F2"));
+                if (value < 0)
+                    value = 0;
+                lstMsg.Add("招测到模拟量"+sequence+"值:"+value.ToString("F2")+unit+", 时间: "+year+" - "+month+" - "+day+" "+hour+":"+minute+":"+sec);
 
                 //if (datawidth == 2)
                 //datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0);
@@ -1936,15 +2118,18 @@ namespace Protocol
             }
             else
             {
-                throw new Exception("通用终端[" + Id + "]未配置数据帧解析规则,数据未能解析！");
+                lstMsg.Add("终端[" + Id + "]招测模拟数据未配置数据帧解析规则,数据未能解析！");
             }
         }
 
         private void AnalysisPluse(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
         {
-            //float datavalue = 0;
+            //时间(6byte)+脉冲单位(1byte)+数据(16byte)
             if (pack.DataLength != 6 + 1 + 16)
-                throw new Exception("脉冲帧数据长度[" + pack.DataLength + "]不符合[6+1+4*4]规则");
+            {
+                lstMsg.Add("脉冲帧数据长度[" + pack.DataLength + "]不符合[报警标志时间(6byte)+脉冲单位(1byte)+数据(16byte)]规则");
+                return;
+            }
             DataRow[] dr_TerminalDataConfig = null;
             dr_TerminalDataConfig = dt_config.Select("TerminalID='" + Id + "' AND Sequence IN ('4','5','6','7')", "Sequence"); //WayType
             if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
@@ -1980,6 +2165,13 @@ namespace Protocol
                         break;
                 }
 
+                int year, month, day, hour, minute, sec;
+                year = 2000 + Convert.ToInt16(pack.Data[0]);
+                month = Convert.ToInt16(pack.Data[1]);
+                day = Convert.ToInt16(pack.Data[2]);
+                hour = Convert.ToInt16(pack.Data[3]);
+                minute = Convert.ToInt16(pack.Data[4]);
+                sec = Convert.ToInt16(pack.Data[5]);
                 for (int i = 0; i < waycount; i++)
                 {
                     Names[i] = dr_TerminalDataConfig[i]["Name"] != DBNull.Value ? dr_TerminalDataConfig[i]["Name"].ToString().Trim() : "";
@@ -1988,7 +2180,7 @@ namespace Protocol
                 }
                 //时间（6byte）+脉冲单位（1byte）+4路脉冲个数（16byte）脉冲数据＝脉冲个数* 脉冲单位代表的数值 脉冲单位0代表0.01、1代表0.1、2代表0.2    3代表0.5、4代表1、5代表10、6代表100
 
-                string strmsg = string.Format("招测到脉冲数据,脉冲单位:{0},{1}:{2}{3},{4:{5}{6},{7}:{8}{9},{10}:{11}{12}",
+                string strmsg = string.Format("招测到脉冲数据,脉冲单位:{0},{1}:{2}{3},{4}:{5}{6},{7}:{8}{9},{10}:{11}{12},时间:{13}-{14}-{15} {16}:{17}:{18}",
                 PluseUnits,
                 waycount > 0 ? Names[0] : "第一路脉冲数据",
                 BitConverter.ToInt32(new byte[] { pack.Data[10], pack.Data[9], pack.Data[8], pack.Data[7] }, 0) * PluseUnits,
@@ -2004,21 +2196,26 @@ namespace Protocol
 
                 waycount > 3 ? Names[3] : "第四路脉冲数据",
                 BitConverter.ToInt32(new byte[] { pack.Data[22], pack.Data[21], pack.Data[20], pack.Data[19] }, 0) * PluseUnits,
-                waycount > 3 ? Units[3] : ""
-
+                waycount > 3 ? Units[3] : "",
+                year,month,day,hour,minute,sec
                 );
                 lstMsg.Add(strmsg);
 
             }
             else
             {
-                throw new Exception("通用终端[" + Id + "]未配置数据帧解析规则,数据未能解析！");
+                lstMsg.Add("终端[" + Id + "]招测脉冲数据未配置数据帧解析规则,数据未能解析！");
             }
         }
-
-        private void AnalysisRS4851(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
+        //485流量
+        private void AnalysisRS485Flow(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
         {
             //报警标志(2byte)+时间（6byte）+瞬时流量(4byte)+正向累积流量(4byte)+反向累积流量(4byte)
+            if (pack.DataLength != 2 + 6 + 4 + 4 + 4)
+            {
+                lstMsg.Add("485帧数据长度[" + pack.DataLength + "]不符合[报警标志(2byte)+时间(6byte)+瞬时流量(4byte)+正向累积流量(4byte)+反向累积流量(4byte)]规则");
+                return;
+            }
             Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
             if (dictalarms != null && dictalarms.Count > 0)
             {
@@ -2039,11 +2236,22 @@ namespace Protocol
             float instantflow = BitConverter.ToSingle(new byte[] { pack.Data[11], pack.Data[10], pack.Data[9], pack.Data[8] }, 0);  //瞬时流量
             float forwardflow = BitConverter.ToSingle(new byte[] { pack.Data[15], pack.Data[14], pack.Data[13], pack.Data[12] }, 0);    //正向流量
             float reverseflow = BitConverter.ToSingle(new byte[] { pack.Data[19], pack.Data[18], pack.Data[17], pack.Data[16] }, 0);    //反向流量
-            lstMsg.Add("招测到RS485 1路瞬时流量:" + instantflow + ",正向流量:" + forwardflow + ",反向流量:" + reverseflow);
+            lstMsg.Add("招测到RS485 1路瞬时流量:" + instantflow + ",正向流量:" + forwardflow + ",反向流量:" + reverseflow+ ",时间:" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec);
         }
 
         private void AnalysisRS485(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
         {
+            //报警标志(2byte)+时间（6byte）+ 数据(?byte)
+            if (pack.DataLength < 2 + 6)
+            {
+                lstMsg.Add("485帧数据长度[" + pack.DataLength + "]不符合[报警标志(2byte)+时间(6byte)+数据]规则");
+                return;
+            }
+            else if(pack.DataLength == 8)
+            {
+                lstMsg.Add("485帧数据为空");
+                return;
+            }
             string sequence = "";
             string name = "";
             if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851)
@@ -2075,6 +2283,19 @@ namespace Protocol
             }
 
             int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+            year = 2000 + Convert.ToInt16(pack.Data[2]);
+            month = Convert.ToInt16(pack.Data[3]);
+            day = Convert.ToInt16(pack.Data[4]);
+            hour = Convert.ToInt16(pack.Data[5]);
+            minute = Convert.ToInt16(pack.Data[6]);
+            sec = Convert.ToInt16(pack.Data[7]);
+
+            byte[] datas = new byte[pack.DataLength - 8];
+            Array.Copy(pack.Data, 8, datas, 0, datas.Length);
+            string str_datas=ConvertHelper.ByteToString(datas,datas.Length);
+
+            lstMsg.Add("招测到"+name+"数据:" + str_datas + ",时间:" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec);
+            /*
             float datavalue = 0;
 
             DataRow[] dr_TerminalDataConfig = null;
@@ -2153,13 +2374,14 @@ namespace Protocol
                 }
                 else
                 {
-                    throw new Exception("通用终端[" + Id + "]数据帧解析规则配置错误,数据未能解析！");
+                    lstMsg.Add("通用终端[" + Id + "]数据帧解析规则配置错误,数据未能解析！");
                 }
             }
             else
             {
-                throw new Exception("通用终端[" + Id + "]未配置数据帧解析规则,数据未能解析！");
+                lstMsg.Add("通用终端[" + Id + "]未配置数据帧解析规则,数据未能解析！");
             }
+            */
         }
 
         private Package GetCallDataPackage(short Id,UNIVERSAL_COMMAND commandtype)

@@ -80,7 +80,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NoiseSerialPortOptEntity.cs" />
     <Compile Include="SerialInfoEntity.cs" />
-    <Compile Include="SocketAsyncEventArgsPool.cs" />
     <Compile Include="SyncIdsEntity.cs" />
     <Compile Include="TerminalConfigEntity.cs" />
     <Compile Include="Universal651SerialPortEntity.cs" />

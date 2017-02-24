@@ -5,6 +5,7 @@ using System.Data;
 using System.Collections;
 using Entity;
 using Common;
+using System.Collections.Concurrent;
 
 namespace DAL
 {
@@ -27,7 +28,7 @@ namespace DAL
         }
 
         #region GPRS数据操作
-        public int InsertGPRSPreData(Queue<GPRSPreFrameDataEntity> datas)
+        public int InsertGPRSPreData(ConcurrentQueue<GPRSPreFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
             {
@@ -74,27 +75,26 @@ namespace DAL
                                 GPRSPreFrameDataEntity entity = null;
                                 try
                                 {
-                                    entity = datas.Dequeue();
-                                    if (entity == null)
+                                    if (datas.TryDequeue(out entity))
                                     {
-                                        break;
-                                    }
-                                    parms_frame[0].Value = 1;
-                                    parms_frame[1].Value = entity.Frame;
-                                    parms_frame[2].Value = entity.ModifyTime;
+                                        parms_frame[0].Value = 1;
+                                        parms_frame[1].Value = entity.Frame;
+                                        parms_frame[2].Value = entity.ModifyTime;
 
-                                    command_frame.ExecuteNonQuery();
+                                        command_frame.ExecuteNonQuery();
 
-                                    for (int i = 0; i < entity.lstPreData.Count; i++)
-                                    {
-                                        parms_predata[0].Value = entity.TerId;
-                                        parms_predata[1].Value = entity.lstPreData[i].PreValue;
-                                        parms_predata[2].Value = entity.lstPreData[i].ColTime;
-                                        parms_predata[3].Value = entity.ModifyTime;
-                                        parms_predata[4].Value = entity.lstPreData[i].Voltage;
-                                        parms_predata[5].Value = entity.lstPreData[i].FieldStrength;
+                                        for (int i = 0; i < entity.lstPreData.Count; i++)
+                                        {
+                                            parms_predata[0].Value = entity.TerId;
+                                            parms_predata[1].Value = entity.lstPreData[i].PreValue;
+                                            parms_predata[2].Value = entity.lstPreData[i].ColTime;
+                                            parms_predata[3].Value = entity.ModifyTime;
+                                            parms_predata[4].Value = entity.lstPreData[i].Voltage;
+                                            parms_predata[5].Value = entity.lstPreData[i].FieldStrength;
 
-                                        command_predata.ExecuteNonQuery();
+                                            command_predata.ExecuteNonQuery();
+                                        }
+                                        entity = null;
                                     }
                                 }
                                 catch (SqlException sqlex)
@@ -123,7 +123,7 @@ namespace DAL
             }
         }
 
-        public int InsertGPRSFlowData(Queue<GPRSFlowFrameDataEntity> datas)
+        public int InsertGPRSFlowData(ConcurrentQueue<GPRSFlowFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
             {
@@ -172,28 +172,31 @@ namespace DAL
                                 GPRSFlowFrameDataEntity entity = null;
                                 try
                                 {
-                                    entity = datas.Dequeue();
-                                    if (!string.IsNullOrEmpty(entity.Frame))
+                                    if (datas.TryDequeue(out entity))
                                     {
-                                        parms_frame[0].Value = 1;
-                                        parms_frame[1].Value = entity.Frame;
-                                        parms_frame[2].Value = entity.ModifyTime;
+                                        if (!string.IsNullOrEmpty(entity.Frame))
+                                        {
+                                            parms_frame[0].Value = 1;
+                                            parms_frame[1].Value = entity.Frame;
+                                            parms_frame[2].Value = entity.ModifyTime;
 
-                                        command_frame.ExecuteNonQuery();
-                                    }
+                                            command_frame.ExecuteNonQuery();
+                                        }
 
-                                    for (int i = 0; i < entity.lstFlowData.Count; i++)
-                                    {
-                                        parms_predata[0].Value = entity.TerId;
-                                        parms_predata[1].Value = entity.lstFlowData[i].Forward_FlowValue;
-                                        parms_predata[2].Value = entity.lstFlowData[i].Reverse_FlowValue;
-                                        parms_predata[3].Value = entity.lstFlowData[i].Instant_FlowValue;
-                                        parms_predata[4].Value = entity.lstFlowData[i].ColTime;
-                                        parms_predata[5].Value = entity.ModifyTime;
-                                        parms_predata[6].Value = entity.lstFlowData[i].Voltage;
-                                        parms_predata[7].Value = entity.lstFlowData[i].FieldStrength;
+                                        for (int i = 0; i < entity.lstFlowData.Count; i++)
+                                        {
+                                            parms_predata[0].Value = entity.TerId;
+                                            parms_predata[1].Value = entity.lstFlowData[i].Forward_FlowValue;
+                                            parms_predata[2].Value = entity.lstFlowData[i].Reverse_FlowValue;
+                                            parms_predata[3].Value = entity.lstFlowData[i].Instant_FlowValue;
+                                            parms_predata[4].Value = entity.lstFlowData[i].ColTime;
+                                            parms_predata[5].Value = entity.ModifyTime;
+                                            parms_predata[6].Value = entity.lstFlowData[i].Voltage;
+                                            parms_predata[7].Value = entity.lstFlowData[i].FieldStrength;
 
-                                        command_predata.ExecuteNonQuery();
+                                            command_predata.ExecuteNonQuery();
+                                        }
+                                        entity = null;
                                     }
                                 }
                                 catch (Exception iex)
@@ -217,7 +220,7 @@ namespace DAL
             }
         }
 
-        public int InsertGPRSPrectrlData(Queue<GPRSPrectrlFrameDataEntity> datas)
+        public int InsertGPRSPrectrlData(ConcurrentQueue<GPRSPrectrlFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
             {
@@ -271,36 +274,39 @@ namespace DAL
                                 GPRSPrectrlFrameDataEntity entity = null;
                                 try
                                 {
-                                    entity = datas.Dequeue();
-                                    if (!string.IsNullOrEmpty(entity.Frame))
+                                    if (datas.TryDequeue(out entity))
                                     {
-                                        parms_frame[0].Value = 1;
-                                        parms_frame[1].Value = entity.Frame;
-                                        parms_frame[2].Value = entity.ModifyTime;
+                                        if (!string.IsNullOrEmpty(entity.Frame))
+                                        {
+                                            parms_frame[0].Value = 1;
+                                            parms_frame[1].Value = entity.Frame;
+                                            parms_frame[2].Value = entity.ModifyTime;
 
-                                        command_frame.ExecuteNonQuery();
-                                    }
+                                            command_frame.ExecuteNonQuery();
+                                        }
 
-                                    for (int i = 0; i < entity.lstPrectrlData.Count; i++)
-                                    {
-                                        parms_predata[0].Value = entity.TerId;
-                                        parms_predata[1].Value = entity.lstPrectrlData[i].Entrance_preValue;
-                                        parms_predata[2].Value = entity.lstPrectrlData[i].Outlet_preValue;
-                                        parms_predata[3].Value = entity.lstPrectrlData[i].Forward_FlowValue;
-                                        parms_predata[4].Value = entity.lstPrectrlData[i].Reverse_FlowValue;
+                                        for (int i = 0; i < entity.lstPrectrlData.Count; i++)
+                                        {
+                                            parms_predata[0].Value = entity.TerId;
+                                            parms_predata[1].Value = entity.lstPrectrlData[i].Entrance_preValue;
+                                            parms_predata[2].Value = entity.lstPrectrlData[i].Outlet_preValue;
+                                            parms_predata[3].Value = entity.lstPrectrlData[i].Forward_FlowValue;
+                                            parms_predata[4].Value = entity.lstPrectrlData[i].Reverse_FlowValue;
 
-                                        parms_predata[5].Value = entity.lstPrectrlData[i].Instant_FlowValue;
-                                        parms_predata[6].Value = entity.lstPrectrlData[i].AlarmCode;
-                                        parms_predata[7].Value = entity.lstPrectrlData[i].AlarmDesc;
-                                        parms_predata[8].Value = entity.lstPrectrlData[i].ColTime;
-                                        parms_predata[9].Value = DateTime.Now;
+                                            parms_predata[5].Value = entity.lstPrectrlData[i].Instant_FlowValue;
+                                            parms_predata[6].Value = entity.lstPrectrlData[i].AlarmCode;
+                                            parms_predata[7].Value = entity.lstPrectrlData[i].AlarmDesc;
+                                            parms_predata[8].Value = entity.lstPrectrlData[i].ColTime;
+                                            parms_predata[9].Value = DateTime.Now;
 
-                                        if (entity.lstPrectrlData[i].Voltage == -1)
-                                            parms_predata[10].Value = DBNull.Value;
-                                        else
-                                            parms_predata[10].Value = entity.lstPrectrlData[i].Voltage;
+                                            if (entity.lstPrectrlData[i].Voltage == -1)
+                                                parms_predata[10].Value = DBNull.Value;
+                                            else
+                                                parms_predata[10].Value = entity.lstPrectrlData[i].Voltage;
 
-                                        command_predata.ExecuteNonQuery();
+                                            command_predata.ExecuteNonQuery();
+                                        }
+                                        entity = null;
                                     }
                                 }
                                 catch (Exception iex)
@@ -324,7 +330,7 @@ namespace DAL
             }
         }
 
-        public int InsertGPRSUniversalData(Queue<GPRSUniversalFrameDataEntity> datas)
+        public int InsertGPRSUniversalData(ConcurrentQueue<GPRSUniversalFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
             {
@@ -374,25 +380,28 @@ namespace DAL
                                 GPRSUniversalFrameDataEntity entity = null;
                                 try
                                 {
-                                    entity = datas.Dequeue();
-                                    parms_frame[0].Value = 1;
-                                    parms_frame[1].Value = entity.Frame;
-                                    parms_frame[2].Value = entity.ModifyTime;
-
-                                    command_frame.ExecuteNonQuery();
-
-                                    for (int i = 0; i < entity.lstData.Count; i++)
+                                    if (datas.TryDequeue(out entity))
                                     {
-                                        parms_data[0].Value = entity.TerId;
-                                        parms_data[1].Value = entity.lstData[i].DataValue;
-                                        parms_data[2].Value = entity.lstData[i].Sim1Zero;
-                                        parms_data[3].Value = entity.lstData[i].Sim2Zero;
-                                        parms_data[4].Value = entity.lstData[i].ColTime;
+                                        parms_frame[0].Value = 1;
+                                        parms_frame[1].Value = entity.Frame;
+                                        parms_frame[2].Value = entity.ModifyTime;
 
-                                        parms_data[5].Value = entity.ModifyTime;
-                                        parms_data[6].Value = entity.lstData[i].TypeTableID;
+                                        command_frame.ExecuteNonQuery();
 
-                                        command_predata.ExecuteNonQuery();
+                                        for (int i = 0; i < entity.lstData.Count; i++)
+                                        {
+                                            parms_data[0].Value = entity.TerId;
+                                            parms_data[1].Value = entity.lstData[i].DataValue;
+                                            parms_data[2].Value = entity.lstData[i].Sim1Zero;
+                                            parms_data[3].Value = entity.lstData[i].Sim2Zero;
+                                            parms_data[4].Value = entity.lstData[i].ColTime;
+
+                                            parms_data[5].Value = entity.ModifyTime;
+                                            parms_data[6].Value = entity.lstData[i].TypeTableID;
+
+                                            command_predata.ExecuteNonQuery();
+                                        }
+                                        entity = null;
                                     }
                                 }
                                 catch (Exception iex)
@@ -416,7 +425,7 @@ namespace DAL
             }
         }
 
-        public int InsertGPRSOLWQData(Queue<GPRSOLWQFrameDataEntity> datas)
+        public int InsertGPRSOLWQData(ConcurrentQueue<GPRSOLWQFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
             {
@@ -468,28 +477,31 @@ namespace DAL
                                 GPRSOLWQFrameDataEntity entity = null;
                                 try
                                 {
-                                    entity = datas.Dequeue();
-                                    parms_frame[0].Value = 1;
-                                    parms_frame[1].Value = entity.Frame;
-                                    parms_frame[2].Value = entity.ModifyTime;
-
-                                    command_frame.ExecuteNonQuery();
-
-                                    for (int i = 0; i < entity.lstOLWQData.Count; i++)
+                                    if (datas.TryDequeue(out entity))
                                     {
-                                        parms_predata[0].Value = entity.TerId;
-                                        parms_predata[1].Value = entity.lstOLWQData[i].Turbidity;
-                                        parms_predata[2].Value = entity.lstOLWQData[i].ResidualCl;
-                                        parms_predata[3].Value = entity.lstOLWQData[i].PH;
-                                        parms_predata[4].Value = entity.lstOLWQData[i].Conductivity;
+                                        parms_frame[0].Value = 1;
+                                        parms_frame[1].Value = entity.Frame;
+                                        parms_frame[2].Value = entity.ModifyTime;
 
-                                        parms_predata[5].Value = entity.lstOLWQData[i].Temperature;
-                                        parms_predata[6].Value = entity.lstOLWQData[i].ColTime;
-                                        parms_predata[7].Value = entity.ModifyTime;
-                                        parms_predata[8].Value = entity.lstOLWQData[i].ValueColumnName;
-                                        parms_predata[9].Value = entity.lstOLWQData[i].Voltage;
+                                        command_frame.ExecuteNonQuery();
 
-                                        command_data.ExecuteNonQuery();
+                                        for (int i = 0; i < entity.lstOLWQData.Count; i++)
+                                        {
+                                            parms_predata[0].Value = entity.TerId;
+                                            parms_predata[1].Value = entity.lstOLWQData[i].Turbidity;
+                                            parms_predata[2].Value = entity.lstOLWQData[i].ResidualCl;
+                                            parms_predata[3].Value = entity.lstOLWQData[i].PH;
+                                            parms_predata[4].Value = entity.lstOLWQData[i].Conductivity;
+
+                                            parms_predata[5].Value = entity.lstOLWQData[i].Temperature;
+                                            parms_predata[6].Value = entity.lstOLWQData[i].ColTime;
+                                            parms_predata[7].Value = entity.ModifyTime;
+                                            parms_predata[8].Value = entity.lstOLWQData[i].ValueColumnName;
+                                            parms_predata[9].Value = entity.lstOLWQData[i].Voltage;
+
+                                            command_data.ExecuteNonQuery();
+                                        }
+                                        entity = null;
                                     }
                                 }
                                 catch (Exception iex)
@@ -513,7 +525,7 @@ namespace DAL
             }
         }
 
-        public int InsertGPRSHydrantData(Queue<GPRSHydrantFrameDataEntity> datas)
+        public int InsertGPRSHydrantData(ConcurrentQueue<GPRSHydrantFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
             {
@@ -560,23 +572,26 @@ namespace DAL
                                 GPRSHydrantFrameDataEntity entity = null;
                                 try
                                 {
-                                    entity = datas.Dequeue();
-                                    parms_frame[0].Value = 1;
-                                    parms_frame[1].Value = entity.Frame;
-                                    parms_frame[2].Value = entity.ModifyTime;
-
-                                    command_frame.ExecuteNonQuery();
-
-                                    for (int i = 0; i < entity.lstHydrantData.Count; i++)
+                                    if (datas.TryDequeue(out entity))
                                     {
-                                        parms_data[0].Value = entity.TerId;
-                                        parms_data[1].Value = entity.lstHydrantData[i].Operate;
-                                        parms_data[2].Value = entity.lstHydrantData[i].PreValue;
-                                        parms_data[3].Value = entity.lstHydrantData[i].OpenAngle;
-                                        parms_data[4].Value = entity.lstHydrantData[i].ColTime;
-                                        parms_data[5].Value = entity.ModifyTime;
+                                        parms_frame[0].Value = 1;
+                                        parms_frame[1].Value = entity.Frame;
+                                        parms_frame[2].Value = entity.ModifyTime;
 
-                                        command_predata.ExecuteNonQuery();
+                                        command_frame.ExecuteNonQuery();
+
+                                        for (int i = 0; i < entity.lstHydrantData.Count; i++)
+                                        {
+                                            parms_data[0].Value = entity.TerId;
+                                            parms_data[1].Value = entity.lstHydrantData[i].Operate;
+                                            parms_data[2].Value = entity.lstHydrantData[i].PreValue;
+                                            parms_data[3].Value = entity.lstHydrantData[i].OpenAngle;
+                                            parms_data[4].Value = entity.lstHydrantData[i].ColTime;
+                                            parms_data[5].Value = entity.ModifyTime;
+
+                                            command_predata.ExecuteNonQuery();
+                                        }
+                                        entity = null;
                                     }
                                 }
                                 catch (Exception iex)
@@ -600,7 +615,7 @@ namespace DAL
             }
         }
 
-        public int InsertWaterworkerData(Queue<GPRSWaterWorkerFrameDataEntity> datas)
+        public int InsertWaterworkerData(ConcurrentQueue<GPRSWaterWorkerFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
             {
@@ -664,43 +679,46 @@ namespace DAL
                                 GPRSWaterWorkerFrameDataEntity entity = null;
                                 try
                                 {
-                                    entity = datas.Dequeue();
-                                    parms_frame[0].Value = 1;
-                                    parms_frame[1].Value = entity.Frame;
-                                    parms_frame[2].Value = entity.ModifyTime;
+                                    if (datas.TryDequeue(out entity))
+                                    {
+                                        parms_frame[0].Value = 1;
+                                        parms_frame[1].Value = entity.Frame;
+                                        parms_frame[2].Value = entity.ModifyTime;
 
-                                    command_frame.ExecuteNonQuery();
+                                        command_frame.ExecuteNonQuery();
 
-                                    parms_data[0].Value = entity.TerId;
-                                    parms_data[1].Value = "";
-                                    if (entity.TerId == "1")  //名称写死 16-8-31
-                                        parms_data[1].Value = "一水厂一泵房";
-                                    else if (entity.TerId == "2")
-                                        parms_data[1].Value = "一水厂二泵房";
-                                    else if (entity.TerId == "3")
-                                        parms_data[1].Value = "二水厂一泵房";
-                                    else if (entity.TerId == "4")
-                                        parms_data[1].Value = "二水厂二泵房";
-                                    parms_data[2].Value = entity.Activenerge1;
-                                    parms_data[3].Value = entity.Rectivenerge1;
-                                    parms_data[4].Value = entity.Activenerge2;
-                                    parms_data[5].Value = entity.Rectivenerge2;
-                                    parms_data[6].Value = entity.Activenerge3;
-                                    parms_data[7].Value = entity.Rectivenerge3;
-                                    parms_data[8].Value = entity.Activenerge4;
-                                    parms_data[9].Value = entity.Rectivenerge4;
-                                    parms_data[10].Value = entity.Pressure;
-                                    parms_data[11].Value = entity.LiquidLevel;
-                                    parms_data[12].Value = entity.Flow1;
-                                    parms_data[13].Value = entity.Flow2;
-                                    parms_data[14].Value = entity.Switch1 ? 1 : 0;
-                                    parms_data[15].Value = entity.Switch2 ? 1 : 0;
-                                    parms_data[16].Value = entity.Switch3 ? 1 : 0;
-                                    parms_data[17].Value = entity.Switch4 ? 1 : 0;
-                                    parms_data[18].Value = entity.ModifyTime;
-                                    parms_data[19].Value = entity.ModifyTime;
+                                        parms_data[0].Value = entity.TerId;
+                                        parms_data[1].Value = "";
+                                        if (entity.TerId == "1")  //名称写死 16-8-31
+                                            parms_data[1].Value = "一水厂一泵房";
+                                        else if (entity.TerId == "2")
+                                            parms_data[1].Value = "一水厂二泵房";
+                                        else if (entity.TerId == "3")
+                                            parms_data[1].Value = "二水厂一泵房";
+                                        else if (entity.TerId == "4")
+                                            parms_data[1].Value = "二水厂二泵房";
+                                        parms_data[2].Value = entity.Activenerge1;
+                                        parms_data[3].Value = entity.Rectivenerge1;
+                                        parms_data[4].Value = entity.Activenerge2;
+                                        parms_data[5].Value = entity.Rectivenerge2;
+                                        parms_data[6].Value = entity.Activenerge3;
+                                        parms_data[7].Value = entity.Rectivenerge3;
+                                        parms_data[8].Value = entity.Activenerge4;
+                                        parms_data[9].Value = entity.Rectivenerge4;
+                                        parms_data[10].Value = entity.Pressure;
+                                        parms_data[11].Value = entity.LiquidLevel;
+                                        parms_data[12].Value = entity.Flow1;
+                                        parms_data[13].Value = entity.Flow2;
+                                        parms_data[14].Value = entity.Switch1 ? 1 : 0;
+                                        parms_data[15].Value = entity.Switch2 ? 1 : 0;
+                                        parms_data[16].Value = entity.Switch3 ? 1 : 0;
+                                        parms_data[17].Value = entity.Switch4 ? 1 : 0;
+                                        parms_data[18].Value = entity.ModifyTime;
+                                        parms_data[19].Value = entity.ModifyTime;
 
-                                    command_predata.ExecuteNonQuery();
+                                        command_predata.ExecuteNonQuery();
+                                        entity = null;
+                                    }
                                 }
                                 catch (Exception iex)
                                 {
@@ -724,7 +742,7 @@ namespace DAL
             }
         }
 
-        public int InsertAlarmData(Queue<GPRSAlarmFrameDataEntity> datas)
+        public int InsertAlarmData(ConcurrentQueue<GPRSAlarmFrameDataEntity> datas)
         {
             lock (ConstValue.obj)
             {
@@ -770,23 +788,26 @@ namespace DAL
                                 GPRSAlarmFrameDataEntity entity = null;
                                 try
                                 {
-                                    entity = datas.Dequeue();
-                                    parms_frame[0].Value = 1;
-                                    parms_frame[1].Value = entity.Frame;
-                                    parms_frame[2].Value = entity.ModifyTime;
-
-                                    command_frame.ExecuteNonQuery();
-
-                                    for (int i = 0; i < entity.AlarmId.Count; i++)
+                                    if (datas.TryDequeue(out entity))
                                     {
-                                        parms_data[0].Value = entity.TerId;
-                                        parms_data[1].Value = (int)(entity.TerminalType);
-                                        parms_data[2].Value = entity.AlarmId[i];
-                                        parms_data[3].Value = entity.ModifyTime;
-                                        parms_data[4].Value = entity.Voltage;
-                                        parms_data[5].Value = entity.FieldStrength;
+                                        parms_frame[0].Value = 1;
+                                        parms_frame[1].Value = entity.Frame;
+                                        parms_frame[2].Value = entity.ModifyTime;
 
-                                        command_predata.ExecuteNonQuery();
+                                        command_frame.ExecuteNonQuery();
+
+                                        for (int i = 0; i < entity.AlarmId.Count; i++)
+                                        {
+                                            parms_data[0].Value = entity.TerId;
+                                            parms_data[1].Value = (int)(entity.TerminalType);
+                                            parms_data[2].Value = entity.AlarmId[i];
+                                            parms_data[3].Value = entity.ModifyTime;
+                                            parms_data[4].Value = entity.Voltage;
+                                            parms_data[5].Value = entity.FieldStrength;
+
+                                            command_predata.ExecuteNonQuery();
+                                        }
+                                        entity = null;
                                     }
                                 }
                                 catch (Exception iex)

@@ -597,7 +597,7 @@
       <Name>Common.2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\DBUtility\Utility.2015.csproj">
-      <Project>{3BB68F7C-6C07-4890-9851-C73CE00C17F5}</Project>
+      <Project>{3bb68f7c-6c07-4890-9851-c73ce00c17f5}</Project>
       <Name>Utility.2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.2015.csproj">
@@ -693,7 +693,7 @@
       <Name>PreTerStoppage.2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\Protocol\Protocol.2015.csproj">
-      <Project>{CBDF6FF1-FDC4-42BE-A21A-A5559DC20F6F}</Project>
+      <Project>{cbdf6ff1-fdc4-42be-a21a-a5559dc20f6f}</Project>
       <Name>Protocol.2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\UniversalTerMgr\UniversalTerMgr.2015.csproj">

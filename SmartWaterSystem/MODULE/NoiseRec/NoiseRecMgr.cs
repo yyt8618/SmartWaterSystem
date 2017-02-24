@@ -2239,6 +2239,9 @@ namespace SmartWaterSystem
             spinEditInterval.Enabled = true;
         }
 
-
+        private void ceTimeAuto_CheckedChanged(object sender, EventArgs e)
+        {
+            timer1.Enabled = ceTimeAuto.Checked;
+        }
     }
 }

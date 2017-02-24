@@ -1301,7 +1301,7 @@ namespace SmartWaterSystem
                                     if (dt_config != null && dt_config.Rows.Count > 0)
                                     {
                                         Dictionary<int, string> lstAlarmType = new BLL.TerminalDataBLL().GetAlarmType();
-                                        obj = GlobalValue.Universallog.ReadCallData(GlobalValue.UniSerialPortOptData.ID, dt_config, GlobalValue.SerialPortCallDataType, lstAlarmType);
+                                        GlobalValue.Universallog.ReadCallData(GlobalValue.UniSerialPortOptData.ID, dt_config, GlobalValue.SerialPortCallDataType, lstAlarmType);
                                         result = true;
                                     }
                                     else

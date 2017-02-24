@@ -233,7 +233,7 @@ namespace SmartWaterSystem
             dttree.Rows.Add(dr);
             dr = dttree.NewRow();
             dr["ID"] = 41;
-            dr["Name"] = "第1路485";
+            dr["Name"] = "第1路485/流量";
             dr["ParentID"] = tmpparent;
             dttree.Rows.Add(dr);
             dr = dttree.NewRow();
@@ -260,13 +260,13 @@ namespace SmartWaterSystem
             treeSocketType.Properties.TreeList.ParentFieldName = "ParentID";
             treeSocketType.Properties.TreeList.KeyFieldName = "ID";
 
-            if (treeSocketType.Properties.TreeList.Nodes != null)
-            {
-                foreach (TreeListNode node in treeSocketType.Properties.TreeList.GetNodeList())
-                {
-                    node.Checked = true;
-                }
-            }
+            //if (treeSocketType.Properties.TreeList.Nodes != null)
+            //{
+            //    foreach (TreeListNode node in treeSocketType.Properties.TreeList.GetNodeList())
+            //    {
+            //        node.Checked = false;
+            //    }
+            //}
 
             treeSocketType.Properties.TreeList.AfterCheckNode += (s, a) =>
             {
@@ -1738,11 +1738,11 @@ namespace SmartWaterSystem
                 GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
                 if (e.TransactStatus == TransStatus.Success)
                 {
-                    XtraMessageBox.Show("招测成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show("招测完成,请在监控界面查看结果!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    XtraMessageBox.Show("招测失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show("招测完成,请在监控界面查看结果!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             if (e.TransactStatus != TransStatus.Start && (e.OptType == SerialPortType.UniversalEnableAlarm))
@@ -2259,7 +2259,7 @@ namespace SmartWaterSystem
                                     GlobalValue.SerialPortCallDataType.GetSim2 = true;
                                     haveset = true;
                                     break;
-                                case "第1路485":
+                                case "第1路485/流量":
                                     GlobalValue.SerialPortCallDataType.GetRS4851 = true;
                                     haveset = true;
                                     break;

@@ -5,6 +5,7 @@ using DAL;
 using System.Data;
 using System.Data.SqlClient;
 using Common;
+using System.Collections.Concurrent;
 
 namespace BLL
 {
@@ -27,7 +28,7 @@ namespace BLL
         }
 
         #region GPRS数据操作
-        public int InsertGPRSPreData(Queue<GPRSPreFrameDataEntity> datas, out string msg)
+        public int InsertGPRSPreData(ConcurrentQueue<GPRSPreFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -44,7 +45,7 @@ namespace BLL
             }
         }
 
-        public int InsertGPRSFlowData(Queue<GPRSFlowFrameDataEntity> datas, out string msg)
+        public int InsertGPRSFlowData(ConcurrentQueue<GPRSFlowFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -61,7 +62,7 @@ namespace BLL
             }
         }
 
-        public int InsertGPRSPrectrlData(Queue<GPRSPrectrlFrameDataEntity> datas ,out string msg)
+        public int InsertGPRSPrectrlData(ConcurrentQueue<GPRSPrectrlFrameDataEntity> datas ,out string msg)
         {
             msg = "";
             try
@@ -78,7 +79,7 @@ namespace BLL
             }
         }
 
-        public int InsertGPRSUniversalData(Queue<GPRSUniversalFrameDataEntity> datas, out string msg)
+        public int InsertGPRSUniversalData(ConcurrentQueue<GPRSUniversalFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -95,7 +96,7 @@ namespace BLL
             }
         }
 
-        public int InsertGPRSOLWQData(Queue<GPRSOLWQFrameDataEntity> datas, out string msg)
+        public int InsertGPRSOLWQData(ConcurrentQueue<GPRSOLWQFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -112,7 +113,7 @@ namespace BLL
             }
         }
 
-        public int InsertGPRSHydrantData(Queue<GPRSHydrantFrameDataEntity> datas, out string msg)
+        public int InsertGPRSHydrantData(ConcurrentQueue<GPRSHydrantFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -129,7 +130,7 @@ namespace BLL
             }
         }
 
-        public int InsertWaterworkerData(Queue<GPRSWaterWorkerFrameDataEntity> datas, out string msg)
+        public int InsertWaterworkerData(ConcurrentQueue<GPRSWaterWorkerFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -146,7 +147,7 @@ namespace BLL
             }
         }
 
-        public int InsertAlarmData(Queue<GPRSAlarmFrameDataEntity> datas, out string msg)
+        public int InsertAlarmData(ConcurrentQueue<GPRSAlarmFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -163,7 +164,7 @@ namespace BLL
             }
         }
 
-        public int InsertGPRSNoiseData(Queue<GPRSNoiseFrameDataEntity> datas, out string msg)
+        public int InsertGPRSNoiseData(ConcurrentQueue<GPRSNoiseFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -190,13 +191,16 @@ namespace BLL
                         GPRSNoiseFrameDataEntity entity = null;
                         try
                         {
-                            entity = datas.Dequeue();
-                            parms_frame[0].Value = 1;
-                            parms_frame[1].Value = entity.Frame;
-                            parms_frame[2].Value = entity.ModifyTime;
-                            if (entity.NoiseData != null)
-                                lstNoiseData.Add(entity.NoiseData);
-                            command_frame.ExecuteNonQuery();
+                            if (datas.TryDequeue(out entity))
+                            {
+                                parms_frame[0].Value = 1;
+                                parms_frame[1].Value = entity.Frame;
+                                parms_frame[2].Value = entity.ModifyTime;
+                                if (entity.NoiseData != null)
+                                    lstNoiseData.Add(entity.NoiseData);
+                                command_frame.ExecuteNonQuery();
+                                entity = null;
+                            }
                         }
                         catch (Exception iex)
                         {

@@ -58,11 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.2015.csproj">
-      <Project>{BB39153E-4B1E-48B3-8790-F4461D4B238B}</Project>
+      <Project>{bb39153e-4b1e-48b3-8790-f4461d4b238b}</Project>
       <Name>Common.2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\DBUtility\Utility.2015.csproj">
-      <Project>{3BB68F7C-6C07-4890-9851-C73CE00C17F5}</Project>
+      <Project>{3bb68f7c-6c07-4890-9851-c73ce00c17f5}</Project>
       <Name>Utility.2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.2015.csproj">

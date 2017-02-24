@@ -100,6 +100,7 @@
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.ceTimeAuto = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNote.Properties)).BeginInit();
@@ -138,6 +139,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTimeAuto.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
@@ -310,7 +312,7 @@
             this.lblRecState.Location = new System.Drawing.Point(37, 181);
             this.lblRecState.Name = "lblRecState";
             this.lblRecState.Size = new System.Drawing.Size(87, 14);
-            this.lblRecState.TabIndex = 13;
+            this.lblRecState.TabIndex = 14;
             this.lblRecState.Text = "运行状态  未知";
             // 
             // btnStop
@@ -319,7 +321,7 @@
             this.btnStop.Location = new System.Drawing.Point(86, 204);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(80, 23);
-            this.btnStop.TabIndex = 15;
+            this.btnStop.TabIndex = 16;
             this.btnStop.Text = "停止";
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
@@ -329,7 +331,7 @@
             this.btnStart.Location = new System.Drawing.Point(3, 204);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(80, 23);
-            this.btnStart.TabIndex = 14;
+            this.btnStart.TabIndex = 15;
             this.btnStart.Text = "启动";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
@@ -351,23 +353,23 @@
             // 
             // ceInterval
             // 
-            this.ceInterval.Location = new System.Drawing.Point(8, 104);
+            this.ceInterval.Location = new System.Drawing.Point(5, 104);
             this.ceInterval.Name = "ceInterval";
             this.ceInterval.Properties.Caption = "采集间隔";
             this.ceInterval.Size = new System.Drawing.Size(92, 19);
-            this.ceInterval.TabIndex = 8;
+            this.ceInterval.TabIndex = 9;
             // 
             // ceColTime
             // 
-            this.ceColTime.Location = new System.Drawing.Point(8, 70);
+            this.ceColTime.Location = new System.Drawing.Point(5, 70);
             this.ceColTime.Name = "ceColTime";
             this.ceColTime.Properties.Caption = "采集时间";
             this.ceColTime.Size = new System.Drawing.Size(92, 19);
-            this.ceColTime.TabIndex = 3;
+            this.ceColTime.TabIndex = 4;
             // 
             // ceDTRec
             // 
-            this.ceDTRec.Location = new System.Drawing.Point(8, 37);
+            this.ceDTRec.Location = new System.Drawing.Point(5, 37);
             this.ceDTRec.Name = "ceDTRec";
             this.ceDTRec.Properties.Caption = "记录仪时间";
             this.ceDTRec.Size = new System.Drawing.Size(92, 19);
@@ -376,10 +378,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 140);
+            this.label1.Location = new System.Drawing.Point(20, 140);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 14);
-            this.label1.TabIndex = 11;
+            this.label1.TabIndex = 12;
             this.label1.Text = "记录数量";
             // 
             // spinEditInterval
@@ -389,7 +391,7 @@
             0,
             0,
             0});
-            this.spinEditInterval.Location = new System.Drawing.Point(106, 103);
+            this.spinEditInterval.Location = new System.Drawing.Point(88, 103);
             this.spinEditInterval.Name = "spinEditInterval";
             this.spinEditInterval.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -405,7 +407,7 @@
             0});
             this.spinEditInterval.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.spinEditInterval.Size = new System.Drawing.Size(61, 20);
-            this.spinEditInterval.TabIndex = 9;
+            this.spinEditInterval.TabIndex = 10;
             this.spinEditInterval.ValueChanged += new System.EventHandler(this.spinEdit1_ValueChanged);
             // 
             // btnApplySet
@@ -414,7 +416,7 @@
             this.btnApplySet.Location = new System.Drawing.Point(169, 231);
             this.btnApplySet.Name = "btnApplySet";
             this.btnApplySet.Size = new System.Drawing.Size(80, 23);
-            this.btnApplySet.TabIndex = 19;
+            this.btnApplySet.TabIndex = 20;
             this.btnApplySet.Text = "应用当前设置";
             this.btnApplySet.Click += new System.EventHandler(this.btnApplySet_Click);
             // 
@@ -424,7 +426,7 @@
             this.btnReadSet.Location = new System.Drawing.Point(86, 231);
             this.btnReadSet.Name = "btnReadSet";
             this.btnReadSet.Size = new System.Drawing.Size(80, 23);
-            this.btnReadSet.TabIndex = 18;
+            this.btnReadSet.TabIndex = 19;
             this.btnReadSet.Text = "读取设备参数";
             this.btnReadSet.Click += new System.EventHandler(this.btnReadSet_Click);
             // 
@@ -433,7 +435,7 @@
             this.btnReadT.Location = new System.Drawing.Point(3, 231);
             this.btnReadT.Name = "btnReadT";
             this.btnReadT.Size = new System.Drawing.Size(80, 23);
-            this.btnReadT.TabIndex = 17;
+            this.btnReadT.TabIndex = 18;
             this.btnReadT.Text = "读取模板参数";
             this.btnReadT.Click += new System.EventHandler(this.btnReadT_Click);
             // 
@@ -443,7 +445,7 @@
             this.btnCleanFlash.Location = new System.Drawing.Point(169, 204);
             this.btnCleanFlash.Name = "btnCleanFlash";
             this.btnCleanFlash.Size = new System.Drawing.Size(80, 23);
-            this.btnCleanFlash.TabIndex = 16;
+            this.btnCleanFlash.TabIndex = 17;
             this.btnCleanFlash.Text = "清除数据";
             this.btnCleanFlash.Visible = false;
             this.btnCleanFlash.Click += new System.EventHandler(this.btnCleanFlash_Click);
@@ -665,9 +667,9 @@
             // btnNowRec
             // 
             this.btnNowRec.Enabled = false;
-            this.btnNowRec.Location = new System.Drawing.Point(195, 35);
+            this.btnNowRec.Location = new System.Drawing.Point(171, 35);
             this.btnNowRec.Name = "btnNowRec";
-            this.btnNowRec.Size = new System.Drawing.Size(42, 23);
+            this.btnNowRec.Size = new System.Drawing.Size(38, 23);
             this.btnNowRec.TabIndex = 2;
             this.btnNowRec.Text = "同步";
             this.btnNowRec.Click += new System.EventHandler(this.btnNowRec_Click);
@@ -676,67 +678,67 @@
             // 
             this.dateTimePickerRec.CustomFormat = "HH:mm:ss";
             this.dateTimePickerRec.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerRec.Location = new System.Drawing.Point(106, 35);
+            this.dateTimePickerRec.Location = new System.Drawing.Point(88, 35);
             this.dateTimePickerRec.MinDate = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerRec.Name = "dateTimePickerRec";
             this.dateTimePickerRec.ShowUpDown = true;
-            this.dateTimePickerRec.Size = new System.Drawing.Size(86, 22);
+            this.dateTimePickerRec.Size = new System.Drawing.Size(83, 22);
             this.dateTimePickerRec.TabIndex = 1;
             this.dateTimePickerRec.Value = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(140, 72);
+            this.label16.Location = new System.Drawing.Point(122, 72);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(35, 14);
-            this.label16.TabIndex = 5;
+            this.label16.TabIndex = 6;
             this.label16.Text = "点 至";
             // 
             // txtColTimeEnd
             // 
-            this.txtColTimeEnd.Location = new System.Drawing.Point(183, 69);
+            this.txtColTimeEnd.Location = new System.Drawing.Point(165, 69);
             this.txtColTimeEnd.Name = "txtColTimeEnd";
             this.txtColTimeEnd.Properties.ReadOnly = true;
             this.txtColTimeEnd.Size = new System.Drawing.Size(28, 20);
-            this.txtColTimeEnd.TabIndex = 6;
+            this.txtColTimeEnd.TabIndex = 7;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(218, 72);
+            this.label15.Location = new System.Drawing.Point(200, 72);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(19, 14);
-            this.label15.TabIndex = 7;
+            this.label15.TabIndex = 8;
             this.label15.Text = "点";
             // 
             // txtColTimeStart
             // 
-            this.txtColTimeStart.Location = new System.Drawing.Point(106, 69);
+            this.txtColTimeStart.Location = new System.Drawing.Point(88, 69);
             this.txtColTimeStart.Name = "txtColTimeStart";
             this.txtColTimeStart.Properties.Mask.EditMask = "f0";
             this.txtColTimeStart.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtColTimeStart.Size = new System.Drawing.Size(28, 20);
-            this.txtColTimeStart.TabIndex = 4;
+            this.txtColTimeStart.TabIndex = 5;
             this.txtColTimeStart.EditValueChanged += new System.EventHandler(this.txtRecTime_EditValueChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(173, 106);
+            this.label11.Location = new System.Drawing.Point(155, 106);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(48, 14);
-            this.label11.TabIndex = 10;
+            this.label11.TabIndex = 11;
             this.label11.Text = "分钟/次";
             // 
             // txtRecNum
             // 
             this.txtRecNum.EditValue = "30";
-            this.txtRecNum.Location = new System.Drawing.Point(106, 137);
+            this.txtRecNum.Location = new System.Drawing.Point(88, 137);
             this.txtRecNum.Name = "txtRecNum";
             this.txtRecNum.Properties.ReadOnly = true;
             this.txtRecNum.Size = new System.Drawing.Size(61, 20);
-            this.txtRecNum.TabIndex = 12;
+            this.txtRecNum.TabIndex = 13;
             // 
             // groupControl3
             // 
@@ -874,6 +876,8 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.txtColTimeStart);
+            this.panelControl1.Controls.Add(this.spinEditInterval);
             this.panelControl1.Controls.Add(this.dateTimePickerRec);
             this.panelControl1.Controls.Add(this.groupControl4);
             this.panelControl1.Controls.Add(this.btnApplySet);
@@ -886,19 +890,27 @@
             this.panelControl1.Controls.Add(this.btnStart);
             this.panelControl1.Controls.Add(this.ceInterval);
             this.panelControl1.Controls.Add(this.ceColTime);
-            this.panelControl1.Controls.Add(this.txtColTimeStart);
             this.panelControl1.Controls.Add(this.ceDTRec);
             this.panelControl1.Controls.Add(this.label15);
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Controls.Add(this.txtColTimeEnd);
-            this.panelControl1.Controls.Add(this.spinEditInterval);
             this.panelControl1.Controls.Add(this.label16);
             this.panelControl1.Controls.Add(this.lblRecState);
             this.panelControl1.Controls.Add(this.btnNowRec);
+            this.panelControl1.Controls.Add(this.ceTimeAuto);
             this.panelControl1.Location = new System.Drawing.Point(260, 3);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(532, 260);
             this.panelControl1.TabIndex = 30;
+            // 
+            // ceTimeAuto
+            // 
+            this.ceTimeAuto.Location = new System.Drawing.Point(209, 37);
+            this.ceTimeAuto.Name = "ceTimeAuto";
+            this.ceTimeAuto.Properties.Caption = "自动";
+            this.ceTimeAuto.Size = new System.Drawing.Size(52, 19);
+            this.ceTimeAuto.TabIndex = 3;
+            this.ceTimeAuto.CheckedChanged += new System.EventHandler(this.ceTimeAuto_CheckedChanged);
             // 
             // NoiseRecMgr
             // 
@@ -951,6 +963,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ceTimeAuto.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1028,5 +1041,6 @@
         private DevExpress.XtraEditors.CheckEdit ceDTCon;
         private DevExpress.XtraEditors.SimpleButton btnNowCon;
         private DevExpress.XtraEditors.ToggleSwitch SwitchComunication;
+        private DevExpress.XtraEditors.CheckEdit ceTimeAuto;
     }
 }

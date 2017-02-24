@@ -7,6 +7,7 @@ using Entity;
 using System.Data;
 using SmartWaterSystem;
 using System.IO;
+using System.Collections.Concurrent;
 
 namespace GCGPRSService
 {
@@ -221,91 +222,91 @@ namespace GCGPRSService
         /// </summary>
         public SocketManager SocketMag = new SocketManager();
 
-        private Queue<GPRSPreFrameDataEntity> _GPRS_PreFrameData = new Queue<GPRSPreFrameDataEntity>(300);
+        private ConcurrentQueue<GPRSPreFrameDataEntity> _GPRS_PreFrameData = new ConcurrentQueue<GPRSPreFrameDataEntity>();
         /// <summary>
         /// GPRS压力帧队列
         /// </summary>
-        public Queue<GPRSPreFrameDataEntity> GPRS_PreFrameData
+        public ConcurrentQueue<GPRSPreFrameDataEntity> GPRS_PreFrameData
         {
             get { return _GPRS_PreFrameData; }
             set { _GPRS_PreFrameData = value; }
         }
 
-        private Queue<GPRSFlowFrameDataEntity> _GPRS_FlowFrameData = new Queue<GPRSFlowFrameDataEntity>(100);
+        private ConcurrentQueue<GPRSFlowFrameDataEntity> _GPRS_FlowFrameData = new ConcurrentQueue<GPRSFlowFrameDataEntity>();
         /// <summary>
         /// GPRS流量帧数据
         /// </summary>
-        public Queue<GPRSFlowFrameDataEntity> GPRS_FlowFrameData
+        public ConcurrentQueue<GPRSFlowFrameDataEntity> GPRS_FlowFrameData
         {
             get { return _GPRS_FlowFrameData; }
             set { _GPRS_FlowFrameData = value; }
         }
 
-        private Queue<GPRSUniversalFrameDataEntity> _GPRS_UniversalFrameData = new Queue<GPRSUniversalFrameDataEntity>(300);
+        private ConcurrentQueue<GPRSUniversalFrameDataEntity> _GPRS_UniversalFrameData = new ConcurrentQueue<GPRSUniversalFrameDataEntity>();
         /// <summary>
         /// GPRS通用终端帧数据
         /// </summary>
-        public Queue<GPRSUniversalFrameDataEntity> GPRS_UniversalFrameData
+        public ConcurrentQueue<GPRSUniversalFrameDataEntity> GPRS_UniversalFrameData
         {
             get { return _GPRS_UniversalFrameData; }
             set { _GPRS_UniversalFrameData = value; }
         }
 
-        private Queue<GPRSOLWQFrameDataEntity> _GPRS_OLWQFrameData = new Queue<GPRSOLWQFrameDataEntity>(100);
+        private ConcurrentQueue<GPRSOLWQFrameDataEntity> _GPRS_OLWQFrameData = new ConcurrentQueue<GPRSOLWQFrameDataEntity>();
         /// <summary>
         /// GPRS水质终端帧队列
         /// </summary>
-        public Queue<GPRSOLWQFrameDataEntity> GPRS_OLWQFrameData
+        public ConcurrentQueue<GPRSOLWQFrameDataEntity> GPRS_OLWQFrameData
         {
             get { return _GPRS_OLWQFrameData; }
             set { _GPRS_OLWQFrameData = value; }
         }
 
-        private Queue<GPRSHydrantFrameDataEntity> _GPRS_HydrantFrameData = new Queue<GPRSHydrantFrameDataEntity>(100);
+        private ConcurrentQueue<GPRSHydrantFrameDataEntity> _GPRS_HydrantFrameData = new ConcurrentQueue<GPRSHydrantFrameDataEntity>();
         /// <summary>
         /// 消防栓帧队列
         /// </summary>
-        public Queue<GPRSHydrantFrameDataEntity> GPRS_HydrantFrameData
+        public ConcurrentQueue<GPRSHydrantFrameDataEntity> GPRS_HydrantFrameData
         {
             get { return _GPRS_HydrantFrameData; }
             set { _GPRS_HydrantFrameData = value; }
         }
 
-        private Queue<GPRSPrectrlFrameDataEntity> _GPRS_PrectrlFrameData = new Queue<GPRSPrectrlFrameDataEntity>(50);
+        private ConcurrentQueue<GPRSPrectrlFrameDataEntity> _GPRS_PrectrlFrameData = new ConcurrentQueue<GPRSPrectrlFrameDataEntity>();
         /// <summary>
         /// 压力控制器帧队列
         /// </summary>
-        public Queue<GPRSPrectrlFrameDataEntity> GPRS_PrectrlFrameData
+        public ConcurrentQueue<GPRSPrectrlFrameDataEntity> GPRS_PrectrlFrameData
         {
             get { return _GPRS_PrectrlFrameData; }
             set { _GPRS_PrectrlFrameData = value; }
         }
 
-        private Queue<GPRSNoiseFrameDataEntity> _GPRS_NoiseFrameData = new Queue<GPRSNoiseFrameDataEntity>(50);
+        private ConcurrentQueue<GPRSNoiseFrameDataEntity> _GPRS_NoiseFrameData = new ConcurrentQueue<GPRSNoiseFrameDataEntity>();
         /// <summary>
         /// 噪声远传控制器帧队列
         /// </summary>
-        public Queue<GPRSNoiseFrameDataEntity> GPRS_NoiseFrameData
+        public ConcurrentQueue<GPRSNoiseFrameDataEntity> GPRS_NoiseFrameData
         {
             get { return _GPRS_NoiseFrameData; }
             set { _GPRS_NoiseFrameData = value; }
         }
 
-        private Queue<GPRSWaterWorkerFrameDataEntity> _GPRS_WaterworkerFrameData = new Queue<GPRSWaterWorkerFrameDataEntity>(100);
+        private ConcurrentQueue<GPRSWaterWorkerFrameDataEntity> _GPRS_WaterworkerFrameData = new ConcurrentQueue<GPRSWaterWorkerFrameDataEntity>();
         /// <summary>
         /// GPRS水厂帧队列
         /// </summary>
-        public Queue<GPRSWaterWorkerFrameDataEntity> GPRS_WaterworkerFrameData
+        public ConcurrentQueue<GPRSWaterWorkerFrameDataEntity> GPRS_WaterworkerFrameData
         {
             get { return _GPRS_WaterworkerFrameData; }
             set { _GPRS_WaterworkerFrameData = value; }
         }
 
-        private Queue<GPRSAlarmFrameDataEntity> _GPRS_AlarmFrameData = new Queue<GPRSAlarmFrameDataEntity>(100);
+        private ConcurrentQueue<GPRSAlarmFrameDataEntity> _GPRS_AlarmFrameData = new ConcurrentQueue<GPRSAlarmFrameDataEntity>();
         /// <summary>
         /// GPRS报警帧队列
         /// </summary>
-        public Queue<GPRSAlarmFrameDataEntity> GPRS_AlarmFrameData
+        public ConcurrentQueue<GPRSAlarmFrameDataEntity> GPRS_AlarmFrameData
         {
             get { return _GPRS_AlarmFrameData; }
             set { _GPRS_AlarmFrameData = value; }

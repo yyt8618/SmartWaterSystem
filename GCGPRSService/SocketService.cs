@@ -74,6 +74,7 @@ namespace GCGPRSService
 
         int OnLineState_Interval = 5 * 60; //终端在线状态更新时间间隔(second)
         int CheckThread_Interval = 2 * 60; //检查线程状态间隔(second)
+        int CheckSend_Interval = 5;        //检查发送状态,WaitForMultipleObjects问题
 
         bool SL651AllowOnLine = false;  //SL651协议终端是否在线,默认不在线
 
@@ -126,6 +127,39 @@ namespace GCGPRSService
             while (true)
             {
                 Thread.Sleep(1000);
+                if(CheckSend_Interval-- == 0)
+                {
+                    CheckSend_Interval = 5;
+
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_PreFrameData.Count:" + GlobalValue.Instance.GPRS_PreFrameData.Count);
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_FlowFrameData.Count:" + GlobalValue.Instance.GPRS_FlowFrameData.Count);
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_UniversalFrameData.Count:" + GlobalValue.Instance.GPRS_UniversalFrameData.Count);
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_OLWQFrameData.Count:" + GlobalValue.Instance.GPRS_OLWQFrameData.Count);
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_HydrantFrameData.Count:" + GlobalValue.Instance.GPRS_HydrantFrameData.Count);
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_PrectrlFrameData.Count:" + GlobalValue.Instance.GPRS_PrectrlFrameData.Count);
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_NoiseFrameData.Count:" + GlobalValue.Instance.GPRS_NoiseFrameData.Count);
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_WaterworkerFrameData.Count:" + GlobalValue.Instance.GPRS_WaterworkerFrameData.Count);
+                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_AlarmFrameData.Count:" + GlobalValue.Instance.GPRS_AlarmFrameData.Count);
+
+                    if (GlobalValue.Instance.GPRS_AlarmFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertAlarm);
+                    if (GlobalValue.Instance.GPRS_PreFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertPreValue);
+                    if (GlobalValue.Instance.GPRS_FlowFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
+                    if (GlobalValue.Instance.GPRS_PrectrlFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertPrectrlValue);
+                    if (GlobalValue.Instance.GPRS_UniversalFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertUniversalValue);
+                    if (GlobalValue.Instance.GPRS_OLWQFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertOLWQValue);
+                    if (GlobalValue.Instance.GPRS_HydrantFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertHydrantValue);
+                    if (GlobalValue.Instance.GPRS_NoiseFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertNoiseValue);
+                    if (GlobalValue.Instance.GPRS_WaterworkerFrameData.Count > 0)
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertWaterworkerValue);
+                }
                 if (SQL_Interval-- == 0)
                 {
                     TimeSpan ts = DateTime.Now - SQLSync_Time;
@@ -459,7 +493,7 @@ namespace GCGPRSService
                                                         {
                                                             mEntity.MsgType = ConstValue.MSMQTYPE.Msg_Socket;
                                                             mEntity.ShowType = ColorType.Public;
-                                                            mEntity.Msg = DateTime.Now.ToString() + " 服务当前专用工作集(" + p1.NextValue() / 1024 + "K),工作设置内存(" + (process.WorkingSet64 / 1024 + "K),提交大小(" + process.PrivateMemorySize64 / 1024) + "K)";
+                                                            mEntity.Msg = DateTime.Now.ToString() + " 服务当前专用工作集(" + p1.NextValue() / 1024 + "K),工作设置内存(" + (process.WorkingSet64 / 1024 + "K),提交大小(" + process.PrivateMemorySize64 / 1024) + "K),GC内存(" + GC.GetTotalMemory(true) / 1024 + "K)";
                                                             SocketSend(handler, JSONSerialize.JsonSerialize_Newtonsoft(mEntity));
                                                         }
                                                     }
@@ -1704,7 +1738,8 @@ namespace GCGPRSService
                         byte[] bsenddata = sock.lstWaitSendCmd[0].SendPackage.ToArray();
                         SendObject sendObj = new SendObject();
                         sendObj.workSocket = sock.ClientSocket;
-                        sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+                        SocketSend(sock.ClientSocket, bsenddata);
+                        //sock.ClientSocket.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
                         OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  发送命令帧:" + ConvertHelper.ByteToString(bsenddata, bsenddata.Length) + "  " + (new GPRSCmdMSg()).GetPackageDesc(sock.lstWaitSendCmd[0].SendPackage)));
                         //OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  " + (new GPRSCmdMSg()).GetPackageDesc(sock.lstWaitSendCmd[0].SendPackage)));
                     }
@@ -1789,7 +1824,8 @@ namespace GCGPRSService
             sendObj.IsFinal = pack.IsFinal;
             sendObj.DevType = pack.DevType;
             sendObj.DevID = pack.DevID;
-            handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
+            SocketSend(handler, bsenddata);
+            //handler.BeginSend(bsenddata, 0, bsenddata.Length, 0, new AsyncCallback(SendCallback), sendObj);
         }
 
         public void GetSL651AllowOnLineFlag()
@@ -1879,10 +1915,6 @@ namespace GCGPRSService
                 }
                 else if(Msg.MsgType == ConstValue.MSMQTYPE.GC)
                 {
-                    GlobalValue.Instance.GPRS_PreFrameData.Clear();
-                    GlobalValue.Instance.GPRS_WaterworkerFrameData.Clear();
-                    GlobalValue.Instance.GPRS_PreFrameData = new Queue<GPRSPreFrameDataEntity>();
-                    GlobalValue.Instance.GPRS_WaterworkerFrameData = new Queue<GPRSWaterWorkerFrameDataEntity>();
                     GC.Collect();
                 }
                 //Other
