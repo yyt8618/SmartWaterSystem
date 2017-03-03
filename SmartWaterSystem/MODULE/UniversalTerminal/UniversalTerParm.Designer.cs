@@ -1825,7 +1825,7 @@ namespace SmartWaterSystem
             this.treeList1.OptionsView.ShowIndentAsRowStyle = true;
             this.treeList1.OptionsView.ShowIndicator = false;
             this.treeList1.OptionsView.ShowRoot = false;
-            this.treeList1.Size = new System.Drawing.Size(237, 200);
+            this.treeList1.Size = new System.Drawing.Size(100, 160);
             this.treeList1.TabIndex = 0;
             this.treeList1.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Light;
             // 

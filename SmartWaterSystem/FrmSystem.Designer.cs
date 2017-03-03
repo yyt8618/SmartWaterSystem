@@ -253,7 +253,7 @@
             // 
             // barBtnMSMQSetting
             // 
-            this.barBtnMSMQSetting.Caption = "Socket";
+            this.barBtnMSMQSetting.Caption = "连接配置";
             this.barBtnMSMQSetting.Id = 33;
             this.barBtnMSMQSetting.LargeGlyph = global::SmartWaterSystem.Properties.Resources.Socket;
             this.barBtnMSMQSetting.Name = "barBtnMSMQSetting";

@@ -692,6 +692,21 @@ namespace SmartWaterSystem
                 return false;
             }
 
+            if(cePreRange.Checked && !Regex.IsMatch(txtPreRange.Text, @"^\d{1,3}(\.\d{1,2})?$"))
+            {
+                XtraMessageBox.Show("请输入量程!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtPreRange.Focus();
+                return false;
+            }
+
+            if(ceOffset.Checked && string.IsNullOrEmpty(txtOffset.Text))
+            {
+                XtraMessageBox.Show("请输入偏移量!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtOffset.Focus();
+                return false;
+            }
+
+
             return true;
         }
         #endregion

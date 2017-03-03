@@ -1778,6 +1778,9 @@ namespace SmartWaterSystem
             SwitchComunication.Enabled = enable;
             btnFieldStrength.Enabled = enable;
             btnVer.Enabled = enable;
+            btnCallOpen.Enabled = enable;
+            btnCallClose.Enabled = enable;
+            btnCallData.Enabled = enable;
         }
 
         private new bool Validate()
@@ -2071,6 +2074,9 @@ namespace SmartWaterSystem
             btnFieldStrength.Enabled = GlobalValue.portUtil.IsOpen;
             btnVer.Enabled = GlobalValue.portUtil.IsOpen;
             btnEnableAlarm.Enabled = GlobalValue.portUtil.IsOpen;
+            btnCallOpen.Enabled = GlobalValue.portUtil.IsOpen;
+            btnCallClose.Enabled = GlobalValue.portUtil.IsOpen;
+            btnCallData.Enabled = GlobalValue.portUtil.IsOpen;
 
             timer_GetWaitCmd.Enabled = false;  //停用查询GPRS待发送命令定时器 10s
             GlobalValue.SocketMgr.SockMsgEvent -= new SocketHandler(MSMQMgr_MSMQEvent);
@@ -2110,6 +2116,9 @@ namespace SmartWaterSystem
             btnFieldStrength.Enabled = false;
             btnVer.Enabled = true;
             btnEnableAlarm.Enabled = true;
+            btnCallOpen.Enabled = true;
+            btnCallClose.Enabled = true;
+            btnCallData.Enabled = true;
 
             timer_GetWaitCmd.Enabled = true;  //启用查询GPRS待发送命令定时器 10s
             GlobalValue.SocketMgr.SendMessage(new SocketEntity(ConstValue.MSMQTYPE.Get_P68_WaitSendCmd, ""));

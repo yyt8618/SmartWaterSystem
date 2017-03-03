@@ -575,6 +575,17 @@ namespace GCGPRSService
                                     OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + " 收到响应帧:" + str_source + "  " + (new GPRSCmdMSg()).GetPackageDesc(pack)));
                                     //OnSendMsg(new SocketEventArgs(ColorType.DataFrame, DateTime.Now.ToString() + "  " + (new GPRSCmdMSg()).GetPackageDesc(pack)));
 
+                                    #region 招测
+                                    if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pre1 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim1
+                                        || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim2 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pluse
+                                        || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4852
+                                        || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4853 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4854)
+                                    {
+
+                                        new Protol68().UniversalTerCallData(pack);
+                                    }
+                                    #endregion
+
                                     lock (GlobalValue.Instance.lstClientLock)
                                     {
                                         if (GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd != null)

@@ -1290,31 +1290,216 @@ namespace SmartWaterSystem
                         {
                             try
                             {
-                                if (GlobalValue.UniSerialPortOptData == null || GlobalValue.SerialPortCallDataType == null)
+                                BLL.TerminalDataBLL dataBll = new BLL.TerminalDataBLL();
+                                DataTable dt_config = null; Dictionary<int, string> lstAlarmType = null;
+                                if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
                                 {
-                                    result = false;
-                                    msg = "终端没有配置采集类型,请先配置!";
-                                }
-                                else
-                                {
-                                    DataTable dt_config = (new BLL.TerminalDataBLL()).GetUniversalDataConfig(Entity.TerType.UniversalTer);
-                                    if (dt_config != null && dt_config.Rows.Count > 0)
-                                    {
-                                        Dictionary<int, string> lstAlarmType = new BLL.TerminalDataBLL().GetAlarmType();
-                                        GlobalValue.Universallog.ReadCallData(GlobalValue.UniSerialPortOptData.ID, dt_config, GlobalValue.SerialPortCallDataType, lstAlarmType);
-                                        result = true;
-                                    }
-                                    else
+                                    dt_config = dataBll.GetUniversalDataConfig((GlobalValue.UniSerialPortOptData.DevType == ConstValue.DEV_TYPE.Data_CTRL) ? TerType.PreTer : TerType.UniversalTer);
+                                    if (dt_config == null || dt_config.Rows.Count == 0)
                                     {
                                         result = false;
-                                        msg = "终端没有配置采集参数";
+                                        msg = "终端没有配置采集参数,请先配置!";
+                                        break;
+                                    }
+                                    lstAlarmType = dataBll.GetAlarmType();
+                                }
+                                Package package = new Package();
+                                List<string> lstmsg = new List<string>();
+                                if (GlobalValue.SerialPortCallDataType.GetPre)
+                                {
+                                    package = GlobalValue.Universallog.GetCallDataPackage(GlobalValue.UniSerialPortOptData.ID, UNIVERSAL_COMMAND.CallData_Pre1);
+                                    if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
+                                    {
+                                        if (!package.IsSuccess || package.Data == null)
+                                        {
+                                            lstmsg.Add("获取压力失败");
+                                        }
+                                        else if (package.Data.Length == 0)
+                                        {
+                                            lstmsg.Add("压力无数据");
+                                        }
+                                        else
+                                            dataBll.AnalysisPre(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+
+                                        foreach (string msgresult in lstmsg)
+                                        {
+                                            serialPortUtil.AppendBufLine(msgresult);
+                                        }
+                                        lstmsg.Clear();
                                     }
                                 }
-                                //msg = SocketSend();
-                                //if (!string.IsNullOrEmpty(msg))
-                                //    result = false;
-                                //else
-                                //    result = true;
+                                if (GlobalValue.SerialPortCallDataType.GetSim1)
+                                {
+                                    package = GlobalValue.Universallog.GetCallDataPackage(GlobalValue.UniSerialPortOptData.ID, UNIVERSAL_COMMAND.CallData_Sim1);
+                                    if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
+                                    {
+                                        if (!package.IsSuccess || package.Data == null)
+                                        {
+                                            lstmsg.Add("获取模拟量1路失败");
+                                        }
+                                        else if (package.Data.Length == 0)
+                                        {
+                                            lstmsg.Add("模拟量1路无数据");
+                                        }
+                                        else
+                                            dataBll.AnalysisSim(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+
+                                        foreach (string msgresult in lstmsg)
+                                        {
+                                            serialPortUtil.AppendBufLine(msgresult);
+                                        }
+                                        lstmsg.Clear();
+                                    }
+                                }
+                                if (GlobalValue.SerialPortCallDataType.GetSim2)
+                                {
+                                    package = GlobalValue.Universallog.GetCallDataPackage(GlobalValue.UniSerialPortOptData.ID, UNIVERSAL_COMMAND.CallData_Sim2);
+                                    if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
+                                    {
+                                        if (!package.IsSuccess || package.Data == null)
+                                        {
+                                            lstmsg.Add("获取模拟量2路失败");
+                                        }
+                                        else if (package.Data.Length == 0)
+                                        {
+                                            lstmsg.Add("模拟量2路无数据");
+                                        }
+                                        else
+                                            dataBll.AnalysisSim(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+
+                                        foreach (string msgresult in lstmsg)
+                                        {
+                                            serialPortUtil.AppendBufLine(msgresult);
+                                        }
+                                        lstmsg.Clear();
+                                    }
+                                }
+                                if (GlobalValue.SerialPortCallDataType.GetPluse)
+                                {
+                                    package = GlobalValue.Universallog.GetCallDataPackage(GlobalValue.UniSerialPortOptData.ID, UNIVERSAL_COMMAND.CallData_Pluse);
+                                    if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
+                                    {
+                                        if (!package.IsSuccess || package.Data == null)
+                                        {
+                                            lstmsg.Add("获取脉冲失败");
+                                        }
+                                        else if (package.Data.Length == 0)
+                                        {
+                                            lstmsg.Add("招测脉冲无数据");
+                                        }
+                                        else
+                                            dataBll.AnalysisPluse(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+
+                                        foreach (string msgresult in lstmsg)
+                                        {
+                                            serialPortUtil.AppendBufLine(msgresult);
+                                        }
+                                        lstmsg.Clear();
+                                    }
+                                }
+                                if (GlobalValue.SerialPortCallDataType.GetRS4851)
+                                {
+                                    package = GlobalValue.Universallog.GetCallDataPackage(GlobalValue.UniSerialPortOptData.ID, UNIVERSAL_COMMAND.CallData_RS4851, 15, 1);
+                                    if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
+                                    {
+                                        if (!package.IsSuccess || package.Data == null)
+                                        {
+                                            lstmsg.Add("获取RS485 1路失败");
+                                        }
+                                        else if (package.Data.Length == 0)
+                                        {
+                                            lstmsg.Add("招测RS485 1路无数据");
+                                        }
+                                        else
+                                        {
+                                            if (package.Data.Length == 20)  //长度为20的作为流量解析
+                                                dataBll.AnalysisRS485Flow(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+                                            else
+                                                dataBll.AnalysisRS485(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+                                        }
+
+                                        foreach (string msgresult in lstmsg)
+                                        {
+                                            serialPortUtil.AppendBufLine(msgresult);
+                                        }
+                                        lstmsg.Clear();
+                                    }
+                                }
+                                if (GlobalValue.SerialPortCallDataType.GetRS4852)
+                                {
+                                    package = GlobalValue.Universallog.GetCallDataPackage(GlobalValue.UniSerialPortOptData.ID, UNIVERSAL_COMMAND.CallData_RS4852, 15, 1);
+                                    if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
+                                    {
+                                        if (!package.IsSuccess || package.Data == null)
+                                        {
+                                            lstmsg.Add("获取RS485 2路失败");
+                                        }
+                                        else if (package.Data.Length == 0)
+                                        {
+                                            lstmsg.Add("招测RS485 2路无数据");
+                                        }
+                                        else
+                                            dataBll.AnalysisRS485(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+
+                                        foreach (string msgresult in lstmsg)
+                                        {
+                                            serialPortUtil.AppendBufLine(msgresult);
+                                        }
+                                        lstmsg.Clear();
+                                    }
+                                }
+                                if (GlobalValue.SerialPortCallDataType.GetRS4853)
+                                {
+                                    package = GlobalValue.Universallog.GetCallDataPackage(GlobalValue.UniSerialPortOptData.ID, UNIVERSAL_COMMAND.CallData_RS4853, 15, 1);
+                                    if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
+                                    {
+                                        if (!package.IsSuccess || package.Data == null)
+                                        {
+                                            lstmsg.Add("获取RS485 3路失败");
+                                        }
+                                        else if (package.Data.Length == 0)
+                                        {
+                                            lstmsg.Add("招测RS485 3路无数据");
+                                        }
+                                        else
+                                            dataBll.AnalysisRS485(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+
+                                        foreach (string msgresult in lstmsg)
+                                        {
+                                            serialPortUtil.AppendBufLine(msgresult);
+                                        }
+                                        lstmsg.Clear();
+                                    }
+                                }
+                                if (GlobalValue.SerialPortCallDataType.GetRS4854)
+                                {
+                                    package = GlobalValue.Universallog.GetCallDataPackage(GlobalValue.UniSerialPortOptData.ID, UNIVERSAL_COMMAND.CallData_RS4854, 15, 1);
+                                    if (GlobalValue.Universallog.RWType == RWFunType.SerialPort)
+                                    {
+                                        if (!package.IsSuccess || package.Data == null)
+                                        {
+                                            lstmsg.Add("获取RS485 4路失败");
+                                        }
+                                        else if (package.Data.Length == 0)
+                                        {
+                                            lstmsg.Add("招测RS485 4路无数据");
+                                        }
+                                        else
+                                            dataBll.AnalysisRS485(GlobalValue.UniSerialPortOptData.ID, package, dt_config, ref lstmsg, lstAlarmType);
+
+                                        foreach (string msgresult in lstmsg)
+                                        {
+                                            serialPortUtil.AppendBufLine(msgresult);
+                                        }
+                                        lstmsg.Clear();
+                                    }
+                                }
+                                
+                                msg = SocketSend();
+                                if (!string.IsNullOrEmpty(msg))
+                                    result = false;
+                                else
+                                    result = true;
                             }
                             catch (Exception ex)
                             {

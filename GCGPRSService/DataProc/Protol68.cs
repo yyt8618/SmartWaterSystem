@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using BLL;
+using Common;
 using Entity;
 using System;
 using System.Collections.Generic;
@@ -649,32 +650,7 @@ namespace GCGPRSService
                     #endregion
                 }
                 #endregion
-                #region 招测
-                else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pre1 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim1 
-                    || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim2 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pluse
-                    || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4852
-                    || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4853 || pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4854)
-                {
-                    //UniversalLog Universallog = new UniversalLog();
-                    //List<string> lstResultMsg = new List<string>();
-                    //Universallog.ReadCallData_GPRS(GlobalValue.Instance.UniversalDataConfig, pack, GlobalValue.Instance.lstAlarmType);
-
-                    //if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL)
-                    //{
-                    //    foreach (string resultmsg in lstResultMsg)
-                    //    {
-                    //        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, resultmsg));
-                    //    }
-                    //}
-                    //else if(pack.ID3 == (byte)ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
-                    //{
-                    //    foreach (string resultmsg in lstResultMsg)
-                    //    {
-                    //        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, resultmsg));
-                    //    }
-                    //}
-                }
-                #endregion
+                
             }
             else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.PRESS_CTRL)
             {
@@ -1342,6 +1318,143 @@ namespace GCGPRSService
             {
                 ;
             }
+        }
+
+        /// <summary>
+        /// 通用终端招测
+        /// </summary>
+        /// <param name="pack"></param>
+        public void UniversalTerCallData(Package pack)
+        {
+            TerminalDataBLL dataBll = new TerminalDataBLL();
+            List<string> lstmsg = new List<string>();
+            ColorType colortype = (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL) ? ColorType.PreTer : ColorType.UniversalTer;
+            if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pre1)
+            {
+                if (pack.Data == null || pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测压力无数据");
+                }
+                else
+                    dataBll.AnalysisPre(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+
+                foreach (string msgresult in lstmsg)
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(colortype, msgresult));
+                }
+                lstmsg.Clear();
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim1)
+            {
+                if (pack.Data == null || pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测模拟量1路无数据");
+                }
+                else
+                    dataBll.AnalysisSim(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+
+                foreach (string msgresult in lstmsg)
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(colortype, msgresult));
+                }
+                lstmsg.Clear();
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Sim2)
+            {
+                if (pack.Data == null || pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测模拟量2路无数据");
+                }
+                else
+                    dataBll.AnalysisSim(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+
+                foreach (string msgresult in lstmsg)
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(colortype, msgresult));
+                }
+                lstmsg.Clear();
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_Pluse)
+            {
+                if (pack.Data == null || pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测脉冲无数据");
+                }
+                else
+                    dataBll.AnalysisPluse(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+
+                foreach (string msgresult in lstmsg)
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(colortype, msgresult));
+                }
+                lstmsg.Clear();
+            }
+            else if(pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851)
+            {
+                if (pack.Data == null || pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测RS485 1路无数据");
+                }
+                else
+                {
+                    if (pack.Data.Length == 20)  //长度为20的作为流量解析
+                        dataBll.AnalysisRS485Flow(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+                    else
+                        dataBll.AnalysisRS485(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+                }
+
+                foreach (string msgresult in lstmsg)
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(colortype, msgresult));
+                }
+                lstmsg.Clear();
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4852)
+            {
+                if (pack.Data == null || pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测RS485 2路无数据");
+                }
+                else
+                    dataBll.AnalysisRS485(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+
+                foreach (string msgresult in lstmsg)
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(colortype, msgresult));
+                }
+                lstmsg.Clear();
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4853)
+            {
+                if (pack.Data == null || pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测RS485 3路无数据");
+                }
+                else
+                    dataBll.AnalysisRS485(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+
+                foreach (string msgresult in lstmsg)
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(colortype, msgresult));
+                }
+                lstmsg.Clear();
+            }
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4854)
+            {
+                if (pack.Data == null||pack.Data.Length == 0)
+                {
+                    lstmsg.Add("招测RS485 4路无数据");
+                }
+                else
+                    dataBll.AnalysisRS485(pack.DevID, pack, GlobalValue.Instance.UniversalDataConfig, ref lstmsg, GlobalValue.Instance.lstAlarmType);
+            }
+
+            foreach (string msgresult in lstmsg)
+            {
+                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(colortype, msgresult));
+            }
+            lstmsg.Clear();
+
         }
     }
 }
