@@ -194,7 +194,87 @@ namespace Entity
             get { return _switch4; }
             set { _switch4 = value; }
         }
-        
+
+        private float _Current1 = -1;
+        /// <summary>
+        /// 1#电流
+        /// </summary>
+        public float Current1
+        {
+            get { return _Current1; }
+            set { _Current1 = value; }
+        }
+
+        private float _Current2 = -1;
+        /// <summary>
+        /// 2#电流
+        /// </summary>
+        public float Current2
+        {
+            get { return _Current2; }
+            set { _Current2 = value; }
+        }
+
+        private float _Current3 = -1;
+        /// <summary>
+        /// 3#电流
+        /// </summary>
+        public float Current3
+        {
+            get { return _Current3; }
+            set { _Current3 = value; }
+        }
+
+        private float _Current4 = -1;
+        /// <summary>
+        /// 4#电流
+        /// </summary>
+        public float Current4
+        {
+            get { return _Current4; }
+            set { _Current4 = value; }
+        }
+
+        private int _Freq1 = -1;
+        /// <summary>
+        /// 1#频率
+        /// </summary>
+        public int Freq1
+        {
+            get { return _Freq1; }
+            set { _Freq1 = value; }
+        }
+
+        private int _Freq2 = -1;
+        /// <summary>
+        /// 2#频率
+        /// </summary>
+        public int Freq2
+        {
+            get { return _Freq2; }
+            set { _Freq2 = value; }
+        }
+
+        private int _Freq3 = -1;
+        /// <summary>
+        /// 3#频率
+        /// </summary>
+        public int Freq3
+        {
+            get { return _Freq3; }
+            set { _Freq3 = value; }
+        }
+
+        private int _Freq4 = -1;
+        /// <summary>
+        /// 4#频率
+        /// </summary>
+        public int Freq4
+        {
+            get { return _Freq4; }
+            set { _Freq4 = value; }
+        }
+
 
     }
 }

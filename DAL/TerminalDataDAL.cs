@@ -245,7 +245,7 @@ namespace DAL
 
                         using (SqlCommand command_predata = new SqlCommand())
                         {
-                            string SQL_PrectrlData = "INSERT INTO PreCtrl_Real(TerminalID,Entrance_pre,Outlet_pre,FlowValue,FlowInverted,FlowInstant,AlarmCode,AlarmDesc,CollTime,UnloadTime,Voltage) VALUES(@TerId,@enprevalue,@outletprevalue,@flowvalue,@flowreverse,@flowinstant,@alarmcode,@alarmdesc,@coltime,@UploadTime,@Voltage)";
+                            string SQL_PrectrlData = "INSERT INTO PreCtrl_Real(TerminalID,Entrance_pre,Outlet_pre,FlowValue,FlowInverted,FlowInstant,AlarmCode,AlarmDesc,CollTime,UnloadTime,Voltage,FieldStrength) VALUES(@TerId,@enprevalue,@outletprevalue,@flowvalue,@flowreverse,@flowinstant,@alarmcode,@alarmdesc,@coltime,@UploadTime,@Voltage,@fieldstrength)";
                             SqlParameter[] parms_predata = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.Int),
                     new SqlParameter("@enprevalue",SqlDbType.Decimal),
@@ -259,7 +259,8 @@ namespace DAL
                     new SqlParameter("@coltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
 
-                    new SqlParameter("@Voltage",SqlDbType.Decimal)
+                    new SqlParameter("@Voltage",SqlDbType.Decimal),
+                    new SqlParameter("@fieldstrength",SqlDbType.SmallInt)
                 };
                             //SqlCommand command_predata = new SqlCommand();
                             command_predata.CommandText = SQL_PrectrlData;
@@ -303,6 +304,7 @@ namespace DAL
                                                 parms_predata[10].Value = DBNull.Value;
                                             else
                                                 parms_predata[10].Value = entity.lstPrectrlData[i].Voltage;
+                                            parms_predata[11].Value = entity.lstPrectrlData[i].FieldStrength;
 
                                             command_predata.ExecuteNonQuery();
                                         }
@@ -335,7 +337,6 @@ namespace DAL
             lock (ConstValue.obj)
             {
                 //SqlTransaction trans = null;
-                
                 try
                 {
                     //trans = SQLHelper.GetTransaction();
@@ -360,14 +361,15 @@ namespace DAL
                                             VALUES(@terId,@datavalue,@sim1zero,@sim2zero,@coltime,@UploadTime,@tableid)";
                             SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@terId",SqlDbType.Int),
-                    new SqlParameter("@datavalue",SqlDbType.Decimal),
-                    new SqlParameter("@sim1zero",SqlDbType.Decimal),
-                    new SqlParameter("@sim2zero",SqlDbType.Decimal),
+                    new SqlParameter("@datavalue",SqlDbType.Float),
+                    new SqlParameter("@sim1zero",SqlDbType.Float),
+                    new SqlParameter("@sim2zero",SqlDbType.Float),
                     new SqlParameter("@coltime",SqlDbType.DateTime),
 
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
                     new SqlParameter("@tableid",SqlDbType.Int)
                 };
+                            parms_data[1].Scale = 3;  //设置精度3位
                             //SqlCommand command_predata = new SqlCommand();
                             command_predata.CommandText = SQL_Data;
                             command_predata.Parameters.AddRange(parms_data);
@@ -640,8 +642,8 @@ namespace DAL
                         //command_frame.Transaction = trans;
                         using (SqlCommand command_predata = new SqlCommand())
                         {
-                            string SQL_Data = @"INSERT INTO Waterworker_Real([TrmlID],[TrmlName],[ActivePower_No1],[ReActivePower_No1],[ActivePower_No2],[ReActivePower_No2],[ActivePower_No3],[ReActivePower_No3],[ActivePower_No4],[ReActivePower_No4],[OutPressure],[LevelMeter],[FlowMeter_No1],[FlowMeter_No2],[SwitchStatu_No1],[SwitchStatu_No2],[SwitchStatu_No3],[SwitchStatu_No4],[CollTime],[UnloadTime]) 
-                                VALUES(@TerId,@TerName,@activepower1,@reactivepower1,@activepower2,@reactivepower2,@activepower3,@reactivepower3,@activepower4,@reactivepower4,@prevalue,@liquidlevel,@flowvalue1,@flowvalue2,@switch1,@switch2,@switch3,@switch4,@colltime,@UploadTime)";
+                            string SQL_Data = @"INSERT INTO Waterworker_Real([TrmlID],[TrmlName],[ActivePower_No1],[ReActivePower_No1],[ActivePower_No2],[ReActivePower_No2],[ActivePower_No3],[ReActivePower_No3],[ActivePower_No4],[ReActivePower_No4],[OutPressure],[LevelMeter],[FlowMeter_No1],[FlowMeter_No2],[SwitchStatu_No1],[SwitchStatu_No2],[SwitchStatu_No3],[SwitchStatu_No4],[Current1],[Current2],[Current3],[Current4],[Freq1],[Freq2],[Freq3],[Freq4],[CollTime],[UnloadTime]) 
+                                VALUES(@TerId,@TerName,@activepower1,@reactivepower1,@activepower2,@reactivepower2,@activepower3,@reactivepower3,@activepower4,@reactivepower4,@prevalue,@liquidlevel,@flowvalue1,@flowvalue2,@switch1,@switch2,@switch3,@switch4,@current1,@current2,@current3,@current4,@freq1,@freq2,@freq3,@freq4,@colltime,@UploadTime)";
                             SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@TerId",SqlDbType.VarChar,50),
                     new SqlParameter("@TerName",SqlDbType.VarChar,50),
@@ -664,6 +666,16 @@ namespace DAL
                     new SqlParameter("@switch2",SqlDbType.Bit),
                     new SqlParameter("@switch3",SqlDbType.Bit),
                     new SqlParameter("@switch4",SqlDbType.Bit),
+                    new SqlParameter("@current1",SqlDbType.Decimal),
+                    new SqlParameter("@current2",SqlDbType.Decimal),
+
+                    new SqlParameter("@current3",SqlDbType.Decimal),
+                    new SqlParameter("@current4",SqlDbType.Decimal),
+                    new SqlParameter("@freq1",SqlDbType.SmallInt),
+                    new SqlParameter("@freq2",SqlDbType.SmallInt),
+                    new SqlParameter("@freq3",SqlDbType.SmallInt),
+
+                    new SqlParameter("@freq4",SqlDbType.SmallInt),
                     new SqlParameter("@colltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime)
                 };
@@ -713,8 +725,43 @@ namespace DAL
                                         parms_data[15].Value = entity.Switch2 ? 1 : 0;
                                         parms_data[16].Value = entity.Switch3 ? 1 : 0;
                                         parms_data[17].Value = entity.Switch4 ? 1 : 0;
-                                        parms_data[18].Value = entity.ModifyTime;
-                                        parms_data[19].Value = entity.ModifyTime;
+
+                                        if (entity.Current1 > -1)  //-1是无效值
+                                            parms_data[18].Value = entity.Current1;
+                                        else
+                                            parms_data[18].Value = DBNull.Value;
+                                        if (entity.Current2 > -1)
+                                            parms_data[19].Value = entity.Current2;
+                                        else
+                                            parms_data[19].Value = DBNull.Value;
+                                        if (entity.Current3 > -1)
+                                            parms_data[20].Value = entity.Current3;
+                                        else
+                                            parms_data[20].Value = DBNull.Value;
+                                        if (entity.Current4 > -1)
+                                            parms_data[21].Value = entity.Current4;
+                                        else
+                                            parms_data[21].Value = DBNull.Value;
+
+                                        if (entity.Freq1 > -1)   //-1是无效值
+                                            parms_data[22].Value = entity.Freq1;
+                                        else
+                                            parms_data[22].Value = DBNull.Value;
+                                        if (entity.Freq2 > -1)
+                                            parms_data[23].Value = entity.Freq2;
+                                        else
+                                            parms_data[23].Value = DBNull.Value;
+                                        if (entity.Freq3 > -1)
+                                            parms_data[24].Value = entity.Freq3;
+                                        else
+                                            parms_data[24].Value = DBNull.Value;
+                                        if (entity.Freq4 > -1)
+                                            parms_data[25].Value = entity.Freq4;
+                                        else
+                                            parms_data[25].Value = DBNull.Value;
+
+                                        parms_data[26].Value = entity.ModifyTime;
+                                        parms_data[27].Value = entity.ModifyTime;
 
                                         command_predata.ExecuteNonQuery();
                                         entity = null;

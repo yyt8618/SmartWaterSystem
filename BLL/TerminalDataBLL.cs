@@ -557,11 +557,11 @@ namespace BLL
             minute = Convert.ToInt16(pack.Data[6]);
             sec = Convert.ToInt16(pack.Data[7]);
 
-            double value = BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8] }, 0);
+            double value = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8] }, 0)))/1000;
             if (addtion_strength)
-                lstMsg.Add("招测到压力值:" + value.ToString("F2") + "Mpa,电压值:" + volvalue + "V,信号强度:" + field_strength + ", 时间:" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec);
+                lstMsg.Add("招测到压力值:" + value.ToString("F3") + "Mpa,电压值:" + volvalue + "V,信号强度:" + field_strength + ", 时间:" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec);
             else
-                lstMsg.Add("招测到压力值:" + value.ToString("F2") + "Mpa,时间:" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec);
+                lstMsg.Add("招测到压力值:" + value.ToString("F3") + "Mpa,时间:" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec);
         }
 
         public void AnalysisSim(short Id, Package pack, DataTable dt_config, ref List<string> lstMsg, Dictionary<int, string> lstAlarmType)
@@ -641,9 +641,9 @@ namespace BLL
                 if (value < 0)
                     value = 0;
                 if (addtion_strength)
-                    lstMsg.Add("招测到模拟量" + sequence + "值:" + value.ToString("F2") + unit + ",电压值:" + volvalue + "V,信号强度:" + field_strength + ", 时间: " + year + " - " + month + " - " + day + " " + hour + ":" + minute + ":" + sec);
+                    lstMsg.Add("招测到模拟量" + sequence + "值:" + value.ToString("F3") + unit + ",电压值:" + volvalue + "V,信号强度:" + field_strength + ", 时间: " + year + " - " + month + " - " + day + " " + hour + ":" + minute + ":" + sec);
                 else
-                    lstMsg.Add("招测到模拟量" + sequence + "值:" + value.ToString("F2") + unit + ", 时间: " + year + " - " + month + " - " + day + " " + hour + ":" + minute + ":" + sec);
+                    lstMsg.Add("招测到模拟量" + sequence + "值:" + value.ToString("F3") + unit + ", 时间: " + year + " - " + month + " - " + day + " " + hour + ":" + minute + ":" + sec);
 
                 //if (datawidth == 2)
                 //datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 9], pack.Data[i * 8 + 8] }, 0);

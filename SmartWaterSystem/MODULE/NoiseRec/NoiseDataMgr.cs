@@ -216,17 +216,17 @@ namespace SmartWaterSystem
             //simpleButtonAny.Enabled = false;
         }
 
-        int isLeak = 0;
+        //int isLeak = 0;
         private void gridViewResultList_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
             if (e.Column.Caption == "记录仪编号")
             {
                 int tempId = Convert.ToInt32(e.CellValue);
-                NoiseResult temp = (from item in GlobalValue.recorderList
-                                    where item.ID == tempId
-                                    select item).ToList()[0].Result;
-                if (temp != null)
-                    isLeak = temp.IsLeak;
+                //NoiseResult temp = (from item in GlobalValue.recorderList
+                //                    where item.ID == tempId
+                //                    select item).ToList()[0].Result;
+                //if (temp != null)
+                //    isLeak = temp.IsLeak;
             }
             else if (e.Column.Caption == "幅度")
             {
@@ -238,19 +238,19 @@ namespace SmartWaterSystem
             }
             else if (e.Column.Caption == "漏水状态")
             {
-                if (isLeak == 0)
+                if (e.CellValue.ToString().Trim() == "不漏水")
                 {
-                    e.DisplayText = "不漏水";
+                    //e.DisplayText = "不漏水";
                     e.Appearance.BackColor = Color.SpringGreen;
                 }
-                else if(isLeak == -1)
+                else if(e.CellValue.ToString().Trim() == "漏水")
                 {
-                    e.DisplayText = "漏水";
+                    //e.DisplayText = "漏水";
                     e.Appearance.BackColor = Color.Red;
                 }
                 else
                 {
-                    e.DisplayText = "漏水";
+                    //e.DisplayText = "漏水";
                     e.Appearance.BackColor = Color.Red;
                 }
             }

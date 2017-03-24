@@ -43,6 +43,7 @@ namespace SmartWaterSystem
             cb_sim_coltime1.Items.Add(240);
             cb_sim_coltime1.Items.Add(300);
             cb_sim_coltime1.Items.Add(900);
+            cb_sim_coltime1.Items.Add(1800);
 
             //cb_sim_coltime2.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             cb_sim_coltime2.Items.Add(20);
@@ -52,6 +53,7 @@ namespace SmartWaterSystem
             cb_sim_coltime2.Items.Add(240);
             cb_sim_coltime2.Items.Add(300);
             cb_sim_coltime2.Items.Add(900);
+            cb_sim_coltime2.Items.Add(1800);
 
             cb_sim_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             cb_sim_sendtime.Items.Add(2);
@@ -79,6 +81,7 @@ namespace SmartWaterSystem
             cb_pluse_coltime.Items.Add(240);
             cb_pluse_coltime.Items.Add(300);
             cb_pluse_coltime.Items.Add(900);
+            cb_pluse_coltime.Items.Add(1800);
 
             //cb_pre_coltime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             cb_pre_coltime.Items.Add(20);
@@ -88,6 +91,7 @@ namespace SmartWaterSystem
             cb_pre_coltime.Items.Add(240);
             cb_pre_coltime.Items.Add(300);
             cb_pre_coltime.Items.Add(900);
+            cb_pre_coltime.Items.Add(1800);
 
             cb_pluse_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             cb_pluse_sendtime.Items.Add(2);
@@ -115,6 +119,7 @@ namespace SmartWaterSystem
             cb_RS485_coltime.Items.Add(240);
             cb_RS485_coltime.Items.Add(300);
             cb_RS485_coltime.Items.Add(900);
+            cb_RS485_coltime.Items.Add(1800);
 
             cb_RS485_sendtime.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             cb_RS485_sendtime.Items.Add(2);

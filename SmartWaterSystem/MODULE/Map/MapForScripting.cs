@@ -112,7 +112,7 @@ namespace SmartWaterSystem
                 str = "[";
                 for (int i = 0; i < GlobalValue.recorderList.Count; i++)
                 {
-                    if (!string.IsNullOrEmpty(GlobalValue.recorderList[i].Longtitude))
+                    if (!string.IsNullOrEmpty(GlobalValue.recorderList[i].Longtitude) && Convert.ToSingle(GlobalValue.recorderList[i].Longtitude) > 0)
                     {
                         string pers = "none"; //"none"不显示  百分比
                         string state = "none";

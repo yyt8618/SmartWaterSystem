@@ -589,7 +589,7 @@ namespace SmartWaterSystem
                     {
                         for (int i = 0; i < lstCtrlMsg.Count; i++)
                         {
-                            sw.Write(lstCtrlMsg[i]);
+                            sw.Write(lstCtrlMsg[i].Msg);
                         }
                     }
                     sw.Flush();

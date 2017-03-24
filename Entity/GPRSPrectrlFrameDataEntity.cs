@@ -132,7 +132,7 @@ namespace Entity
             set { _alarmdesc = value; }
         }
 
-        private float _Voltage = 0f;
+        private float _Voltage = -1f;
         /// <summary>
         /// 电压值
         /// </summary>
@@ -140,6 +140,16 @@ namespace Entity
         {
             get { return _Voltage; }
             set { _Voltage = value; }
+        }
+
+        private Int16 _FieldStrength = -1;
+        /// <summary>
+        /// 信号强度
+        /// </summary>
+        public Int16 FieldStrength
+        {
+            get { return _FieldStrength; }
+            set { _FieldStrength = value; }
         }
     }
 }
