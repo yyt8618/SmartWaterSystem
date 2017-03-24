@@ -96,6 +96,5 @@ namespace SmartWaterSystem
             }
         }
 
-
     }
 }
