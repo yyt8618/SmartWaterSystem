@@ -369,7 +369,6 @@ namespace DAL
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
                     new SqlParameter("@tableid",SqlDbType.Int)
                 };
-                            parms_data[1].Scale = 3;  //设置精度3位
                             //SqlCommand command_predata = new SqlCommand();
                             command_predata.CommandText = SQL_Data;
                             command_predata.Parameters.AddRange(parms_data);
@@ -393,7 +392,7 @@ namespace DAL
                                         for (int i = 0; i < entity.lstData.Count; i++)
                                         {
                                             parms_data[0].Value = entity.TerId;
-                                            parms_data[1].Value = entity.lstData[i].DataValue;
+                                            parms_data[1].Value = entity.lstData[i].DataValue.ToString("f3");
                                             parms_data[2].Value = entity.lstData[i].Sim1Zero;
                                             parms_data[3].Value = entity.lstData[i].Sim2Zero;
                                             parms_data[4].Value = entity.lstData[i].ColTime;
