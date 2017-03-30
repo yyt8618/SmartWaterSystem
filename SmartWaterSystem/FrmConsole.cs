@@ -602,7 +602,12 @@ namespace SmartWaterSystem
             }
             finally
             {
-                sw.Close(); 
+                try
+                {
+                    if (sw != null)
+                        sw.Close();
+                }
+                catch { }
             }
         }
 

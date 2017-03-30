@@ -235,41 +235,41 @@ namespace Entity
             set { _Current4 = value; }
         }
 
-        private int _Freq1 = -1;
+        private float _Freq1 = -1;
         /// <summary>
         /// 1#频率
         /// </summary>
-        public int Freq1
+        public float Freq1
         {
             get { return _Freq1; }
             set { _Freq1 = value; }
         }
 
-        private int _Freq2 = -1;
+        private float _Freq2 = -1;
         /// <summary>
         /// 2#频率
         /// </summary>
-        public int Freq2
+        public float Freq2
         {
             get { return _Freq2; }
             set { _Freq2 = value; }
         }
 
-        private int _Freq3 = -1;
+        private float _Freq3 = -1;
         /// <summary>
         /// 3#频率
         /// </summary>
-        public int Freq3
+        public float Freq3
         {
             get { return _Freq3; }
             set { _Freq3 = value; }
         }
 
-        private int _Freq4 = -1;
+        private float _Freq4 = -1;
         /// <summary>
         /// 4#频率
         /// </summary>
-        public int Freq4
+        public float Freq4
         {
             get { return _Freq4; }
             set { _Freq4 = value; }

@@ -670,11 +670,11 @@ namespace DAL
 
                     new SqlParameter("@current3",SqlDbType.Decimal),
                     new SqlParameter("@current4",SqlDbType.Decimal),
-                    new SqlParameter("@freq1",SqlDbType.SmallInt),
-                    new SqlParameter("@freq2",SqlDbType.SmallInt),
-                    new SqlParameter("@freq3",SqlDbType.SmallInt),
+                    new SqlParameter("@freq1",SqlDbType.Decimal),
+                    new SqlParameter("@freq2",SqlDbType.Decimal),
+                    new SqlParameter("@freq3",SqlDbType.Decimal),
 
-                    new SqlParameter("@freq4",SqlDbType.SmallInt),
+                    new SqlParameter("@freq4",SqlDbType.Decimal),
                     new SqlParameter("@colltime",SqlDbType.DateTime),
                     new SqlParameter("@UploadTime",SqlDbType.DateTime)
                 };

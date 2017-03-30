@@ -337,7 +337,8 @@ namespace GCGPRSService
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Alarm, string.Format("{0}[{1}]{2}|时间({3})|电压值:{4}V|信号强度:{5}",
                          TerName, pack.ID, str_alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue, field_strength)));
                     }
-                    else {
+                    else
+                    {
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("{0}[{1}]{2}|时间({3})|电压值:{4}V|信号强度:{5}",
                              TerName, pack.ID, str_alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue, field_strength)));
                     }
@@ -428,11 +429,11 @@ namespace GCGPRSService
                             datavalue = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 16], pack.Data[i * loopdatalen + 15] }, 0) - calibration)) * range / (ConstValue.UniversalSimRatio);
                             if (datavalue < 0)
                                 datavalue = 0;
-                            else
-                            {
-                                if (pack.DevID == 15)
-                                    datavalue += 18;  //星沙调整水位数据
-                            }
+                            //else
+                            //{
+                            //    if (pack.DevID == 15)
+                            //        datavalue += 18;  //星沙调整水位数据
+                            //}
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}|电压值:{8}V|信号强度:{9}",
                                 i, pack.DevID, pack.Data[2], calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec,
                                 dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString().Trim(), volvalue, field_strength)));
@@ -655,7 +656,7 @@ namespace GCGPRSService
                     #endregion
                 }
                 #endregion
-                
+
             }
             else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.PRESS_CTRL)
             {
@@ -747,7 +748,7 @@ namespace GCGPRSService
 
                         if (!string.IsNullOrEmpty(parmalarm) || !string.IsNullOrEmpty(alarm))
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Alarm, string.Format("index({0})|压力控制器[{1}]|参数报警({2})|设备报警({3})|采集时间({4})|进口压力:{5}MPa|出口压力:{6}MPa|正向流量值:{7}|反向流量值:{8}|瞬时流量值:{9}|电压值:{10}V|信号强度:{11}",
-                                    i, pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue,volvalue,field_strength)));
+                                    i, pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue, field_strength)));
                         else
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreCTL, string.Format("index({0})|压力控制器[{1}]|参数报警({2})|设备报警({3})|采集时间({4})|进口压力:{5}MPa|出口压力:{6}MPa|正向流量值:{7}|反向流量值:{8}|瞬时流量值:{9}|电压值:{10}V|信号强度:{11}",
                                     i, pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue, field_strength)));
@@ -1225,9 +1226,9 @@ namespace GCGPRSService
                 #region 水厂数据
                 if (pack.C1 == (byte)GPRS_READ.READ_WATERWORKSDATA)  //水厂PLC采集数据
                 {
-                    if (pack.DataLength != 50 && pack.DataLength != (50 + 4 * 2 + 4 * 2))  //电流4*4(byte)+频率4*2(byte)
+                    if (pack.DataLength != 50 && pack.DataLength != (50 + 4 * 4 + 4 * 2))  //电流4*4(byte)+频率4*2(byte)
                     {
-                        throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合固定长度(50/118byte)规则");
+                        throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合固定长度(50/74byte)规则");
                     }
 
                     GPRSWaterWorkerFrameDataEntity framedata = new GPRSWaterWorkerFrameDataEntity();
@@ -1257,23 +1258,28 @@ namespace GCGPRSService
                     framedata.LiquidLevel = BitConverter.ToSingle(new byte[] { pack.Data[i + 37], pack.Data[i + 36], pack.Data[i + 35], pack.Data[i + 34] }, 0);         //液位
                     framedata.Flow1 = BitConverter.ToInt32(new byte[] { pack.Data[i + 41], pack.Data[i + 40], pack.Data[i + 39], pack.Data[i + 38] }, 0);         //流量1
                     framedata.Flow2 = BitConverter.ToInt32(new byte[] { pack.Data[i + 45], pack.Data[i + 44], pack.Data[i + 43], pack.Data[i + 42] }, 0);         //流量2
-                                                                                                                                                               //2个字节表示一个开关状态,第一个字节没有用  0x00 0x01表示开  0x00 0x00表示关
+                                                                                                                                                                  //2个字节表示一个开关状态,第一个字节没有用  0x00 0x01表示开  0x00 0x00表示关
                     framedata.Switch1 = pack.Data[i + 46] > 0 ? true : false;            //开关状态1
                     framedata.Switch2 = pack.Data[i + 47] > 0 ? true : false;            //开关状态2
                     framedata.Switch3 = pack.Data[i + 48] > 0 ? true : false;            //开关状态3
                     framedata.Switch4 = pack.Data[i + 49] > 0 ? true : false;            //开关状态4
-        
-                    if(pack.DataLength == 50 + 4 * 2 + 4 * 2)
-                    {
-                        framedata.Current1 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 50]) + String.Format("{0:X2}", pack.Data[i + 51])) / 100;
-                        framedata.Current2 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 52]) + String.Format("{0:X2}", pack.Data[i + 53])) / 100;
-                        framedata.Current3 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 54]) + String.Format("{0:X2}", pack.Data[i + 55])) / 100;
-                        framedata.Current4 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 56]) + String.Format("{0:X2}", pack.Data[i + 57])) / 100;
 
-                        framedata.Freq1 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 59], pack.Data[i + 58] }, 0);   //1-4#频率
-                        framedata.Freq2 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 61], pack.Data[i + 60] }, 0);
-                        framedata.Freq3 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 63], pack.Data[i + 62] }, 0);
-                        framedata.Freq4 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 65], pack.Data[i + 64] }, 0);
+                    if (pack.DataLength == 50 + 4 * 4 + 4 * 2)
+                    {
+                        framedata.Current1 = BitConverter.ToSingle(new byte[] { pack.Data[i + 53], pack.Data[i + 52], pack.Data[i + 51], pack.Data[i + 50] }, 0);
+                        framedata.Current2 = BitConverter.ToSingle(new byte[] { pack.Data[i + 57], pack.Data[i + 56], pack.Data[i + 55], pack.Data[i + 54] }, 0);
+                        framedata.Current3 = BitConverter.ToSingle(new byte[] { pack.Data[i + 61], pack.Data[i + 60], pack.Data[i + 59], pack.Data[i + 58] }, 0);
+                        framedata.Current4 = BitConverter.ToSingle(new byte[] { pack.Data[i + 65], pack.Data[i + 64], pack.Data[i + 63], pack.Data[i + 62] }, 0);
+
+                        //framedata.Current1 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 50]) + String.Format("{0:X2}", pack.Data[i + 51])) / 100;
+                        //framedata.Current2 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 52]) + String.Format("{0:X2}", pack.Data[i + 53])) / 100;
+                        //framedata.Current3 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 54]) + String.Format("{0:X2}", pack.Data[i + 55])) / 100;
+                        //framedata.Current4 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 56]) + String.Format("{0:X2}", pack.Data[i + 57])) / 100;
+
+                        framedata.Freq1 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 67], pack.Data[i + 66] }, 0) / 100;   //1-4#频率
+                        framedata.Freq2 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 69], pack.Data[i + 68] }, 0) / 100;
+                        framedata.Freq3 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 71], pack.Data[i + 70] }, 0) / 100;
+                        framedata.Freq4 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 73], pack.Data[i + 72] }, 0) / 100;
                     }
 
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.WaterWork, string.Format("水厂数据[{0}]|1#有功电量:{1}|1#无功电量:{2}|2#有功电量:{3}|2#无功电量:{4}|3#有功电量:{5}|3#无功电量:{6}|4#有功电量:{7}|4#无功电量:{8}|出口压力:{9}|液位:{10}|流量1:{11}|流量2:{12}|开关状态1:{13}|开关状态2:{14}|开关状态3:{15}|开关状态4:{16}|1#电流:{17}|2#电流:{18}|3#电流:{19}|4#电流:{20}|1#频率:{21}|2#频率:{22}|3#频率:{23}|4#频率:{24}",
@@ -1407,7 +1413,7 @@ namespace GCGPRSService
                 }
                 lstmsg.Clear();
             }
-            else if(pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851)
+            else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4851)
             {
                 if (pack.Data == null || pack.Data.Length == 0)
                 {
@@ -1459,7 +1465,7 @@ namespace GCGPRSService
             }
             else if (pack.C1 == (byte)UNIVERSAL_COMMAND.CallData_RS4854)
             {
-                if (pack.Data == null||pack.Data.Length == 0)
+                if (pack.Data == null || pack.Data.Length == 0)
                 {
                     lstmsg.Add("招测RS485 4路无数据");
                 }
