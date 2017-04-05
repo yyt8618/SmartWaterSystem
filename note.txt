@@ -1,0 +1,37 @@
+tlp:谭丽萍 pg:彭工
+
+2014-12-25 build
+2014-12-25 去掉NoiseRecMgr.cs中备注作为必录项
+2014-12-25 增加噪声终端“清除数据”按钮
+2014-12-25 调整等待窗体显示顺序(原顺序覆盖了提示对话框)
+2014-12-25 画压力终端界面基本图形
+2014-12-25 与tlp讨论噪声终端软件测试:
+		1)漏点算法1数据需要呈现
+		2)界面实时更新数据问题需要注意(收到数据需要更新到UI)
+		3)"启动"按钮显示不正常
+
+2015-1-23  修改本地数据库为SQLITE，增加欢迎等待界面
+2015-1-26  增加卸载功能，调整安装包程序-重新打包
+2015-1-28  增加读取数据超时重复读取逻辑，超时读取四次，每次超时5秒
+2016-7-27  数据库表DL_Noise_Real将OriginalData字段长度改为5000
+2016-8-11  数据库表ST_Noise_StandData将data字段改为int数据类型
+2016-8-30  新建表Waterworker_Real,版本号8-30
+2016-9-2   表En_NoiseRecorder增加列longitude、latitude用于保存坐标
+2016-9-12  表ParamToDev增加列SendedCount用于记录下送命令发送次数
+2016-9-20  表DL_Noise_Real中列OriginalData将长度由5000改为5500
+2016-9-22  增加C#通讯工具箱
+2016-10-14 增加压力终端纠偏(写死在代码中)
+2016-10-18 修改消防栓串口界面
+2016-10-26 增加FrmConsole.cs界面的树控件
+2016-11-3  检查占用内存增多的问题，并修改部分函数,效果待观察
+2016-11-23 增加dump文件的生成
+2016-11-25 增加终端报警处理，增加表AlarmTable，AlarmType
+2016-11-29 娄底终端问题，报警帧校验和错误，去掉检验和检查
+2016-12-2  增加信号强度,表(Pressure_Real、AlarmTable、Flow_Real)增加字段FieldStrength
+2016-12-14 基本完成压力终端和通用终端的串口读写数据已经GPRS下送数据(部分)
+2016-12-27 UniversalTerWayType去除部分不需要列()
+2017-03-14 表Waterworker_Real增加电流和频率字段[Current1],[Current2],[Current3],[Current4],[Freq1],[Freq2],[Freq3],[Freq4]
+2017-03-21 表Prectrl_Real增加FieldStrength字段
+2017-03-29 修改表Waterworker_Real字段[Freq1],[Freq2],[Freq3],[Freq4]属性为numeric(18,3)
+
+ctrl+k,ctrl+d 自动排版

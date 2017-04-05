@@ -1,0 +1,12 @@
+待办:
+1、纠偏
+2、SocketService.cs代码修改结构	ok
+3、占用内存问题处理		ok
+4、增加压力终端串口设置
+5、FrmConsole消息分类
+6、事物错误处理			--
+7、增加发生错误发送短信功能
+8、需要修改保存压力流量数据的函数(事物有问题时重复)	ok
+9、socket连接时，FrmConsole界面获取的信息有时候不完整
+10、GlobalValue.SocketMgr.SendMessage->GlobalValue.SocketMgr.SendMessage2
+11、WaitForMultipleObjects超过64

@@ -14,6 +14,8 @@ namespace SmartWaterSystem
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public class MapForScripting
     {
+        public delegate void UpdateBindHandle();
+        public UpdateBindHandle UpdateBindEvent;
         public WebBrowser webBrow;
         #region 消防栓
         public void getHydrantMarkers()
@@ -154,7 +156,8 @@ namespace SmartWaterSystem
                 NoiseRecorder newRec = new NoiseRecorder();
                 newRec.ID = Convert.ToInt32(id);
                 newRec.AddDate = DateTime.Now;
-                newRec.LeakValue = Convert.ToInt32(leakvalue);
+                if (!string.IsNullOrEmpty(leakvalue))
+                    newRec.LeakValue = Convert.ToInt32(leakvalue);
                 newRec.Remark = remark;
                 newRec.Longtitude = lng;
                 newRec.Latitude = lat;
@@ -173,12 +176,18 @@ namespace SmartWaterSystem
                 }
                 int query = -1;
                 if (exist)
-                    query =NoiseDataBaseHelper.UpdateRecorder(newRec);
+                {
+                    if (string.IsNullOrEmpty(leakvalue) && string.IsNullOrEmpty(standvalue))    //如果leakvalue和standvalue为空时，是更新坐标的操作
+                        query = NoiseDataBaseHelper.UpdateLngLat(newRec.ID.ToString(), newRec.Longtitude, newRec.Latitude);
+                    else
+                        query = NoiseDataBaseHelper.UpdateRecorder(newRec);
+                }
                 else
                     query = NoiseDataBaseHelper.AddRecorder(newRec);
                 if (query != -1)
                 {
                     GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+                    GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
                 }
                 else
                     throw new Exception("数据入库时发生错误。");
@@ -191,6 +200,7 @@ namespace SmartWaterSystem
                         XtraMessageBox.Show("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                updatebind();
             }
             catch (Exception ex)
             {
@@ -225,12 +235,27 @@ namespace SmartWaterSystem
 
         public void modifyNoiseCoordinate(string id, string lng, string lat)
         {
+            NoiseDataBaseHelper.UpdateLngLat(id, lng, lat);
+            GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
+            GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
         }
 
         public void showNoiseDetail(string id)
         {
         }
+
+        public void setcusoricon(int id,bool seticon)
+        {
+            webBrow.Document.InvokeScript("setcursoricon", new object[] { id, seticon });
+        }
         #endregion
 
+        public void updatebind()
+        {
+            if (UpdateBindEvent != null)
+            {
+                UpdateBindEvent();
+            }
+        }
     }
 }

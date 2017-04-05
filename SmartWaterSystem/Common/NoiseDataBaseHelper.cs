@@ -287,6 +287,23 @@ namespace SmartWaterSystem
             }
         }
 
+        public static int UpdateLngLat(string ID,string Lng,string Lat)
+        {
+            try
+            {
+                string sql = string.Empty;
+                int query = 0;
+                sql = string.Format(@"UPDATE EN_NoiseRecorder SET Longitude='{0}',Latitude='{1}' WHERE RecorderId = {2}", Lng, Lat, ID);
+                query = SQLHelper.ExecuteNonQuery(sql);
+
+                return query;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
         public static int DeleteStandData(int GroupID, int RecorderID)
         {
             try

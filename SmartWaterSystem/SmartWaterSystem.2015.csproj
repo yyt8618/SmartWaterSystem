@@ -536,6 +536,7 @@
     <EmbeddedResource Include="MODULE\PreCTL\PrectrlMonitor.resx">
       <DependentUpon>PrectrlMonitor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

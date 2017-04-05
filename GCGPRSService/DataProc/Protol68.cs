@@ -1276,10 +1276,10 @@ namespace GCGPRSService
                         //framedata.Current3 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 54]) + String.Format("{0:X2}", pack.Data[i + 55])) / 100;
                         //framedata.Current4 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 56]) + String.Format("{0:X2}", pack.Data[i + 57])) / 100;
 
-                        framedata.Freq1 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 67], pack.Data[i + 66] }, 0) / 100;   //1-4#频率
-                        framedata.Freq2 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 69], pack.Data[i + 68] }, 0) / 100;
-                        framedata.Freq3 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 71], pack.Data[i + 70] }, 0) / 100;
-                        framedata.Freq4 = BitConverter.ToUInt16(new byte[] { pack.Data[i + 73], pack.Data[i + 72] }, 0) / 100;
+                        framedata.Freq1 = Convert.ToSingle(String.Format("{0:X2}",pack.Data[i + 66])+ String.Format("{0:X2}",pack.Data[i + 67])) / 100;   //1-4#频率
+                        framedata.Freq2 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 68]) + String.Format("{0:X2}", pack.Data[i + 69])) / 100;
+                        framedata.Freq3 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 70]) + String.Format("{0:X2}", pack.Data[i + 71])) / 100;
+                        framedata.Freq4 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 72]) + String.Format("{0:X2}", pack.Data[i + 73])) / 100;
                     }
 
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.WaterWork, string.Format("水厂数据[{0}]|1#有功电量:{1}|1#无功电量:{2}|2#有功电量:{3}|2#无功电量:{4}|3#有功电量:{5}|3#无功电量:{6}|4#有功电量:{7}|4#无功电量:{8}|出口压力:{9}|液位:{10}|流量1:{11}|流量2:{12}|开关状态1:{13}|开关状态2:{14}|开关状态3:{15}|开关状态4:{16}|1#电流:{17}|2#电流:{18}|3#电流:{19}|4#电流:{20}|1#频率:{21}|2#频率:{22}|3#频率:{23}|4#频率:{24}",
