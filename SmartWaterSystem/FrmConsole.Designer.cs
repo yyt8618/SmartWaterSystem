@@ -235,6 +235,7 @@ namespace SmartWaterSystem
             this.comboSocketServer.Properties.Appearance.Options.UseForeColor = true;
             this.comboSocketServer.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comboSocketServer.Properties.DropDownRows = 10;
             this.comboSocketServer.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboSocketServer.Size = new System.Drawing.Size(123, 20);
             this.comboSocketServer.TabIndex = 4;

@@ -554,13 +554,7 @@ namespace GCGPRSService
                             byte[] arr = packageBytes.ToArray();
                             int len = BitConverter.ToInt16(new byte[] { arr[9], arr[8] }, 0);  //数据域长度
                             Package pack;
-
-                            //if (ReceiveBytes[4] == 0x19)   //娄底19号终端程序有问题，需要强制回复响应帧
-                            //{
-                            //    handler.Send(new byte[] { 0x68, 0x00, 0x00, 0x00, 0x19, 0x68, 0x48, 0xA0, 0x00, 0x00, 0xD1, 0x16 });
-                            //    return;
-                            //}
-
+                            
                             if ((PackageDefine.MinLenth + len == arr.Length) && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
                                 bool bNeedCheckTime = false;  //是否需要校时
@@ -595,7 +589,6 @@ namespace GCGPRSService
                                                 if (GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.C1 == pack.C1 &&
                                                     GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd[j].SendPackage.Data == pack.Data)
                                                 {
-
                                                     GlobalValue.Instance.lstClient[lstClientIndex].lstWaitSendCmd.RemoveAt(j);      //移除收到的帧
                                                 }
                                             }

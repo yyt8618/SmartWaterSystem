@@ -715,6 +715,12 @@ namespace SmartWaterSystem
             msmqSet.ShowDialog();
         }
 
+        private void barBtnOffset_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            FrmOffset frmoffset = new FrmOffset();
+            frmoffset.ShowDialog();
+        }
+
         private void ClearLogAndDb()
         {
             try
@@ -733,57 +739,6 @@ namespace SmartWaterSystem
                 logger.ErrorException("ClearLogAndDb()", ex);
             }
         }
-
-        /// <summary>
-        /// 显示等待窗口
-        /// </summary>
-        //public void ShowWaitForm(string title, string prompt)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(title))
-        //            title = "请稍候...";
-        //        this.BeginInvoke(new Action(() =>
-        //            {
-        //                if (!splashScreenmanager.IsSplashFormVisible)
-        //                {
-        //                    splashScreenmanager.ShowWaitForm();
-        //                    splashScreenmanager.SetWaitFormCaption(title);
-        //                    splashScreenmanager.SetWaitFormDescription(prompt);
-        //                }
-        //                else
-        //                {
-        //                    splashScreenmanager.SetWaitFormCaption(title);
-        //                    splashScreenmanager.SetWaitFormDescription(prompt);
-        //                }
-        //            }));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        logger.ErrorException("ShowWaitForm", ex);
-        //    }
-        //}
-
-        //public void HideWaitForm()
-        //{
-        //    try
-        //    {
-        //        this.BeginInvoke(new Action(() =>
-        //        {
-        //            try
-        //            {
-        //                if (splashScreenmanager.IsSplashFormVisible)
-        //                    splashScreenmanager.CloseWaitForm();
-        //            }
-        //            catch { }
-        //        }));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        logger.ErrorException("HideWaitForm", ex);
-        //    }
-        //}
-
         private delegate void showwaitformHandle(string title,string prompt);
         private WaitForm1 progressDlg = new WaitForm1();
         public void ShowWaitForm(string title, string prompt)
@@ -995,6 +950,6 @@ namespace SmartWaterSystem
 
         }
 
-        
+
     }
 }

@@ -46,6 +46,7 @@
             this.barBtnSetDBConnect = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnGPRSConsole = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnMSMQSetting = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnOffset = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageSys = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -144,9 +145,10 @@
             this.ribbonGalleryBarItem1,
             this.barBtnSetDBConnect,
             this.barBtnGPRSConsole,
-            this.barBtnMSMQSetting});
+            this.barBtnMSMQSetting,
+            this.barBtnOffset});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 34;
+            this.ribbonControl1.MaxItemId = 35;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageSys});
@@ -259,6 +261,14 @@
             this.barBtnMSMQSetting.Name = "barBtnMSMQSetting";
             this.barBtnMSMQSetting.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnMSMQSetting_ItemClick);
             // 
+            // barBtnOffset
+            // 
+            this.barBtnOffset.Caption = "纠偏";
+            this.barBtnOffset.Id = 34;
+            this.barBtnOffset.LargeGlyph = global::SmartWaterSystem.Properties.Resources.offset;
+            this.barBtnOffset.Name = "barBtnOffset";
+            this.barBtnOffset.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnOffset_ItemClick);
+            // 
             // ribbonPageSys
             // 
             this.ribbonPageSys.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -285,6 +295,7 @@
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnSetDBConnect);
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnGPRSConsole);
             this.ribbonPageGroup2.ItemLinks.Add(this.barBtnMSMQSetting);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnOffset);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.ShowCaptionButton = false;
             this.ribbonPageGroup2.Text = "设置";
@@ -803,5 +814,6 @@
         private DevExpress.XtraBars.BarButtonItem barBtnMSMQSetting;
         private DevExpress.XtraNavBar.NavBarItem navBarUniversalParm651;
         private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenmanager;
+        private DevExpress.XtraBars.BarButtonItem barBtnOffset;
     }
 }

@@ -162,6 +162,12 @@
     <Compile Include="FrmColorSet.Designer.cs">
       <DependentUpon>FrmColorSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmOffset.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmOffset.Designer.cs">
+      <DependentUpon>FrmOffset.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\Map\MapForScripting.cs" />
     <Compile Include="MODULE\Map\HydrantMap.cs">
       <SubType>UserControl</SubType>
@@ -440,6 +446,12 @@
     <EmbeddedResource Include="FrmColorSet.resx">
       <DependentUpon>FrmColorSet.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmOffset.resx">
+      <DependentUpon>FrmOffset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\Map\HydrantMap.resx">
+      <DependentUpon>HydrantMap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MODULE\Map\MapFullScreen.resx">
       <DependentUpon>MapFullScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -712,6 +724,8 @@
   <ItemGroup>
     <Content Include="gc.ico" />
     <None Include="Resources\palette.ico" />
+    <None Include="Resources\offset.ico" />
+    <None Include="Resources\offset.png" />
     <Content Include="Resources\SockConnect.ico" />
     <Content Include="Resources\SockNotConnect.ico" />
     <None Include="Resources\WriteLog.ico" />
