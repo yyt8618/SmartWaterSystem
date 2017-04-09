@@ -1867,9 +1867,9 @@ namespace SmartWaterSystem
                 cbPluseUnit.Focus();
                 return false;
             }
-            if (ceAlarmLen.Checked && !Regex.IsMatch(txtAlarmLen.Text, @"^\d{1,4}$"))
+            if (ceAlarmLen.Checked && !Regex.IsMatch(txtAlarmLen.Text, @"^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"))
             {
-                XtraMessageBox.Show("请输入取消报警时间长度!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                XtraMessageBox.Show("请输入报警次数(<256)!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtAlarmLen.Focus();
                 return false;
             }

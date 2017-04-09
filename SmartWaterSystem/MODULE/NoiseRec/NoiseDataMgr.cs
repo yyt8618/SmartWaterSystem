@@ -732,7 +732,7 @@ namespace SmartWaterSystem
                         if(result.ReadTime.ToString() == readtime)
                         {
                             FrmDataAnalysis fda = new FrmDataAnalysis();
-                            fda.Recorder = rec;rec.Data
+                            fda.Recorder = rec;
                             fda.ShowDialog();
                             return;
                         }

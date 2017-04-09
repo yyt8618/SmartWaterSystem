@@ -438,10 +438,10 @@ namespace Common
         [Description("设置脉冲计数单位")]
         SET_PLUSEUNIT = 0x2A,
         /// <summary>
-        /// 设置取消报警时间长度
+        /// 设置报警次数
         /// </summary>
-        [Description("设置取消报警时间长度")]
-        SET_ALARMLEN = 0x2F,
+        [Description("设置报警次数")]
+        SET_ALARMLEN = 0x27,
         /// <summary>
         /// 设置招测使能
         /// </summary>
@@ -641,8 +641,8 @@ namespace Common
         /// <summary>
         /// 读取取消报警时间长度
         /// </summary>
-        [Description("读取取消报警时间长度")]
-        READ_ALARMLEN = 0x6F,
+        [Description("读取报警次数")]
+        READ_ALARMLEN = 0x57,
         #endregion
 
         #region 控制命令

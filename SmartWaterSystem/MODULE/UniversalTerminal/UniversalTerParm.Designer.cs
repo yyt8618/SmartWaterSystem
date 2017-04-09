@@ -35,7 +35,6 @@ namespace SmartWaterSystem
             this.cb_sim_coltime2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.cb_sim_sendtime = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
@@ -354,7 +353,6 @@ namespace SmartWaterSystem
             // 
             // groupControl1
             // 
-            this.groupControl1.Controls.Add(this.labelControl5);
             this.groupControl1.Controls.Add(this.labelControl3);
             this.groupControl1.Controls.Add(this.labelControl2);
             this.groupControl1.Controls.Add(this.labelControl4);
@@ -394,14 +392,6 @@ namespace SmartWaterSystem
             this.groupControl1.Size = new System.Drawing.Size(791, 105);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "基本信息参数";
-            // 
-            // labelControl5
-            // 
-            this.labelControl5.Location = new System.Drawing.Point(778, 78);
-            this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(7, 14);
-            this.labelControl5.TabIndex = 34;
-            this.labelControl5.Text = "h";
             // 
             // labelControl3
             // 
@@ -481,9 +471,9 @@ namespace SmartWaterSystem
             // 
             // txtAlarmLen
             // 
-            this.txtAlarmLen.Location = new System.Drawing.Point(730, 75);
+            this.txtAlarmLen.Location = new System.Drawing.Point(717, 75);
             this.txtAlarmLen.Name = "txtAlarmLen";
-            this.txtAlarmLen.Size = new System.Drawing.Size(46, 20);
+            this.txtAlarmLen.Size = new System.Drawing.Size(68, 20);
             this.txtAlarmLen.TabIndex = 33;
             // 
             // txtSMSInterval
@@ -607,9 +597,9 @@ namespace SmartWaterSystem
             // 
             // ceAlarmLen
             // 
-            this.ceAlarmLen.Location = new System.Drawing.Point(636, 76);
+            this.ceAlarmLen.Location = new System.Drawing.Point(648, 76);
             this.ceAlarmLen.Name = "ceAlarmLen";
-            this.ceAlarmLen.Properties.Caption = "取消报警时长";
+            this.ceAlarmLen.Properties.Caption = "报警次数";
             this.ceAlarmLen.Size = new System.Drawing.Size(94, 19);
             this.ceAlarmLen.TabIndex = 32;
             this.ceAlarmLen.CheckedChanged += new System.EventHandler(this.cePort_CheckedChanged);
@@ -2353,7 +2343,6 @@ namespace SmartWaterSystem
         private System.Windows.Forms.Timer timer_GetWaitCmd;
         private DevExpress.XtraEditors.CheckEdit ceAlarmLen;
         private DevExpress.XtraEditors.TextEdit txtAlarmLen;
-        private DevExpress.XtraEditors.LabelControl labelControl5;
         private DevExpress.XtraEditors.GroupControl groupControl14;
         private DevExpress.XtraEditors.SimpleButton btnDel;
         private DevExpress.XtraGrid.GridControl gridControl_WaitCmd;

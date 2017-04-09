@@ -1485,7 +1485,7 @@ namespace Protocol
             package.DevID = Id;
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.READ_ALARMLEN;
-            package.DataLength = 2;
+            package.DataLength = 1;
             byte[] data = new byte[package.DataLength];
             package.Data = data;
             package.CS = package.CreateCS();
@@ -1502,11 +1502,11 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if (result.Data.Length != 2)
+            if (result.Data.Length != 1)
             {
                 throw new Exception("数据损坏");
             }
-            return BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0);
+            return Convert.ToInt16(result.Data[0]);
         }
 
         public DataTable ReadSimualteInterval(ConstValue.DEV_TYPE devtype, short Id)

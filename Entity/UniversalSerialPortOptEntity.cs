@@ -796,7 +796,7 @@ namespace Entity
         }
 
         /// <summary>
-        /// 是否读取/设置报警时长
+        /// 是否读取/设置报警次数
         /// </summary>
         public bool IsOpt_AlarmLen = false;
         private int _AlarmLen;
