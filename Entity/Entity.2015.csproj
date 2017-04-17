@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComunicateEntity\LacationRepairApp\RepairTerInfoEntity.cs" />
+    <Compile Include="ComunicateEntity\LacationRepairApp\RepairTerInfoResqEntity.cs" />
     <Compile Include="GPRSAlarmFrameDataEntity.cs" />
     <Compile Include="CallDataTypeEntity.cs" />
     <Compile Include="ComunicateEntity\DelHydrantReqEntity.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="OLWQDetailDataEntity.cs" />
     <Compile Include="GPRSHydrantFrameDataEntity.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

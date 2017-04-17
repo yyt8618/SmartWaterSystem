@@ -272,6 +272,24 @@ namespace GCGPRSService
                                             str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<GetHydrantDetailRespEntity>(HydrantDetailResp);
                                             break;
                                         #endregion
+                                        
+                                        #region 定位维修APP
+                                        case "getallrepairter":       //获取所有的安装终端信息
+                                            str_resp_err = "";
+                                            //RepairTerInfoEntity gethydrantrespentity = bll.GetHydrants();
+                                            //str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<RepairTerInfoEntity>(gethydrantrespentity);
+                                            break;
+                                        case "addrepairter":        //新增安装终端
+                                            break;
+                                        case "delrepairter":        //删除安装终端
+                                            break;
+                                        case "modifyrepairterinfo": //修改安装终端信息
+                                            break;
+                                        case "123":
+                                            break;
+                                        case "":
+                                            break;
+                                            #endregion
                                     }
                                 }
                                 catch (Exception ex)

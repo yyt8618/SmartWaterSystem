@@ -1140,11 +1140,11 @@ namespace GCGPRSService
                 #region 噪声数据远传控制器
                 if (pack.C1 == (byte)GPRS_READ.READ_NOISEDATA)  //从站向主站发送噪声采集数据
                 {
-                    int dataindex = (pack.DataLength) % 2;
+                    int dataindex = (pack.DataLength -3) % 2;
                     if (dataindex != 0)
-                        throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2*n)规则");  //GPRS远程压力终端在数据段最后增加两个字节的电压数据
+                        throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2*n+3)规则");  //GPRS远程压力终端在数据段最后增加两个字节的电压数据
                     else
-                        dataindex = (pack.DataLength) / 2;
+                        dataindex = (pack.DataLength -3) / 2;
                     GPRSNoiseFrameDataEntity framedata = new GPRSNoiseFrameDataEntity();
                     framedata.TerId = pack.ID.ToString();
                     framedata.ModifyTime = DateTime.Now;
@@ -1152,8 +1152,9 @@ namespace GCGPRSService
 
                     GPRSHydrantDataEntity data = new GPRSHydrantDataEntity();
                     bNeedCheckTime = false;
-                    volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
-
+                    volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 2], pack.Data[pack.DataLength - 3] }, 0)) / 1000;
+                    field_strength = (Int16)pack.Data[pack.DataLength - 1];
+                    
                     //记录仪ID（4byte）＋启动值（2byte）＋总帧数（1byte）＋帧号（1byte）＋ 数据（128byte）＋ 电压（2byte）
                     int logId = BitConverter.ToInt32(new byte[] { pack.Data[3], pack.Data[2], pack.Data[1], 0x00 }, 0);  //记录仪ID
                     int standvalue = BitConverter.ToInt16(new byte[] { pack.Data[5], pack.Data[4] }, 0);      //启动值
@@ -1212,8 +1213,8 @@ namespace GCGPRSService
                         }
                         if (strcurnoisedata.EndsWith(","))
                             strcurnoisedata = strcurnoisedata.Substring(0, strcurnoisedata.Length - 1);
-                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.NoiseTer, string.Format("噪声远传控制器[{0}]|记录仪[{1}]|启动值[{2}]|总包数:{3}、当前第{4}包|噪声数据:{5}|电压值:{6}V",
-                               pack.DevID, logId, standvalue, sumpackcount, curpackindex, strcurnoisedata, volvalue)));
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.NoiseTer, string.Format("噪声远传控制器[{0}]|记录仪[{1}]|启动值[{2}]|总包数:{3}、当前第{4}包|噪声数据:{5}|电压值:{6}V|信号强度:{7}",
+                               pack.DevID, logId, standvalue, sumpackcount, curpackindex, strcurnoisedata, volvalue, field_strength)));
 
                         GlobalValue.Instance.GPRS_NoiseFrameData.Enqueue(framedata);  //通知存储线程处理
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertNoiseValue);

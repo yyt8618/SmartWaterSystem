@@ -54,9 +54,6 @@ namespace GCGPRSService
         public Entity.ConstValue.DEV_TYPE DevType;
         public short DevID;
     }
-
-    //public delegate void cmdEventHandle(object sender, SocketEventArgs e);
-
     public class SocketManager
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("SocketService");
@@ -298,7 +295,6 @@ namespace GCGPRSService
             listener.SendTimeout = 30 * 1000;
             try
             {
-                //OnSendMsg(new SocketEventArgs("监听时的线程:" + Thread.CurrentThread.ManagedThreadId.ToString()));
                 listener.Bind(localEndPoint);
                 listener.Listen(100);
 
