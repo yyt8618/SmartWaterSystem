@@ -10,4 +10,3 @@
 9、socket连接时，FrmConsole界面获取的信息有时候不完整
 10、GlobalValue.SocketMgr.SendMessage->GlobalValue.SocketMgr.SendMessage2
 11、WaitForMultipleObjects超过64
-12、NoiseParmSetting参数设置有问题，数据库和配置文件来源不一致  Recorder.Data 和Result问题

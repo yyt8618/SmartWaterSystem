@@ -51,65 +51,9 @@ namespace BLL
 					rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
                     rec.LeakValue = Convert.ToInt32(recSet.Rows[0]["LeakValue"]);
 
-                    sql = "SELECT GroupId,RecorderId,leakValue,FrequencyValue,OriginalData,CollTime,UnloadTime,HistoryFlag FROM DL_Noise_Real WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
-                    //DataTable dt_test = SQLiteHelper.ExecuteDataTable(sql, null);
-                    using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
-                    {
-                        if (reader.Read())
-                        {
-                            rec.Data = new NoiseData();
-                            rec.Data.GroupID = Convert.ToInt32(reader["GroupId"]);
-                            rec.Data.ReadTime = Convert.ToDateTime(reader["CollTime"]);
-                            rec.Data.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
-                            rec.Data.UploadFlag = Convert.ToInt32(reader["HistoryFlag"]);
+                    rec.Data = GetNoiseData(rec.ID);
 
-                            string[] strAmp = reader["LeakValue"].ToString().Split(',');
-                            double[] amp = new double[strAmp.Length];
-                            for (int j = 0; j < strAmp.Length && strAmp.Length > 1; j++)
-                            {
-                                if (!string.IsNullOrEmpty(strAmp[j]))
-                                    amp[j] = Convert.ToDouble(strAmp[j]);
-                            }
-                            rec.Data.Amplitude = amp;
-
-                            string[] strFrq = reader["FrequencyValue"].ToString().Split(',');
-                            double[] frq = new double[strFrq.Length];
-                            for (int j = 0; j < strFrq.Length && strFrq.Length > 1; j++)
-                            {
-                                if (!string.IsNullOrEmpty(strFrq[j]))
-                                    frq[j] = Convert.ToDouble(strFrq[j]);
-                            }
-                            rec.Data.Frequency = frq;
-
-                            string[] strDa = reader["OriginalData"].ToString().Split(',');
-                            short[] da = new short[strDa.Length];
-                            for (int j = 0; j < strDa.Length; j++)
-                            {
-                                if (strDa[j] != "")
-                                    da[j] = Convert.ToInt16(strDa[j]);
-                            }
-                            rec.Data.OriginalData = da;
-                        }
-                    }
-
-                    sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + rec.ID + " ORDER BY CollTime DESC";
-                    using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
-                    {
-                        if (reader.Read())
-                        {
-                            rec.Result = new NoiseResult();
-                            rec.Result.GroupID = Convert.ToInt32(reader["GroupId"]);
-                            rec.Result.RecorderID = rec.ID;
-                            rec.Result.IsLeak = Convert.ToInt32(reader["IsLeak"]);
-                            rec.Result.ReadTime = Convert.ToDateTime(reader["CollTime"]);
-                            rec.Result.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
-                            rec.Result.LeakAmplitude = Convert.ToDouble(reader["MinLeakValue"]);
-                            rec.Result.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
-                            rec.Result.EnergyValue = Convert.ToDouble(reader["EnergyValue"]);
-                            rec.Result.LeakProbability = Convert.ToDouble(reader["LeakProbability"]);
-                            //rec.Result.UploadFlag = (int)reSet.Rows[0]["HistoryFlag"];
-                        }
-                    }
+                    rec.Result = GetNoiseResult(rec.ID);
                     
                     sql = @"SELECT GroupId FROM MP_GroupRecorder WHERE RecorderId = " + rec.ID.ToString();
                     object gID = SQLHelper.ExecuteScalar(sql);
@@ -129,6 +73,76 @@ namespace BLL
             }
         }
 
+        public static NoiseData GetNoiseData(int id)
+        {
+            string sql = "SELECT GroupId,RecorderId,leakValue,FrequencyValue,OriginalData,CollTime,UnloadTime,HistoryFlag FROM DL_Noise_Real WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            //DataTable dt_test = SQLiteHelper.ExecuteDataTable(sql, null);
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
+            {
+                if (reader.Read())
+                {
+                    NoiseData recData = new NoiseData();
+                    recData.GroupID = Convert.ToInt32(reader["GroupId"]);
+                    recData.ReadTime = Convert.ToDateTime(reader["CollTime"]);
+                    recData.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
+                    recData.UploadFlag = Convert.ToInt32(reader["HistoryFlag"]);
+
+                    string[] strAmp = reader["LeakValue"].ToString().Split(',');
+                    double[] amp = new double[strAmp.Length];
+                    for (int j = 0; j < strAmp.Length && strAmp.Length > 1; j++)
+                    {
+                        if (!string.IsNullOrEmpty(strAmp[j]))
+                            amp[j] = Convert.ToDouble(strAmp[j]);
+                    }
+                    recData.Amplitude = amp;
+
+                    string[] strFrq = reader["FrequencyValue"].ToString().Split(',');
+                    double[] frq = new double[strFrq.Length];
+                    for (int j = 0; j < strFrq.Length && strFrq.Length > 1; j++)
+                    {
+                        if (!string.IsNullOrEmpty(strFrq[j]))
+                            frq[j] = Convert.ToDouble(strFrq[j]);
+                    }
+                    recData.Frequency = frq;
+
+                    string[] strDa = reader["OriginalData"].ToString().Split(',');
+                    short[] da = new short[strDa.Length];
+                    for (int j = 0; j < strDa.Length; j++)
+                    {
+                        if (strDa[j] != "")
+                            da[j] = Convert.ToInt16(strDa[j]);
+                    }
+                    recData.OriginalData = da;
+
+                    return recData;
+                }
+            }
+            return null;
+        }
+
+        public static NoiseResult GetNoiseResult(int id)
+        {
+            string sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
+            {
+                if (reader.Read())
+                {
+                    NoiseResult recResult = new NoiseResult();
+                    recResult.GroupID = Convert.ToInt32(reader["GroupId"]);
+                    recResult.RecorderID = id;
+                    recResult.IsLeak = Convert.ToInt32(reader["IsLeak"]);
+                    recResult.ReadTime = Convert.ToDateTime(reader["CollTime"]);
+                    recResult.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
+                    recResult.LeakAmplitude = Convert.ToDouble(reader["MinLeakValue"]);
+                    recResult.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
+                    recResult.EnergyValue = Convert.ToDouble(reader["EnergyValue"]);
+                    recResult.LeakProbability = Convert.ToDouble(reader["LeakProbability"]);
+
+                    return recResult;
+                }
+            }
+            return null;
+        }
 
         public static int GetGroupIdByRec(string RecorderId)
         {
@@ -139,6 +153,8 @@ namespace BLL
             else
                 return Convert.ToInt32(gID);
         }
+
+
 
         /// <summary>
         /// 从数据库中获取记录仪分组列表

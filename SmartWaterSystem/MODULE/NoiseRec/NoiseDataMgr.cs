@@ -222,11 +222,6 @@ namespace SmartWaterSystem
             if (e.Column.Caption == "记录仪编号")
             {
                 int tempId = Convert.ToInt32(e.CellValue);
-                //NoiseResult temp = (from item in GlobalValue.recorderList
-                //                    where item.ID == tempId
-                //                    select item).ToList()[0].Result;
-                //if (temp != null)
-                //    isLeak = temp.IsLeak;
             }
             else if (e.Column.Caption == "幅度")
             {
@@ -343,31 +338,7 @@ namespace SmartWaterSystem
                     }
                     finally
                     {
-                        //isReading = false;
-                        //SetStaticItem("数据读取完成");
-                        //simpleButtonRead.Enabled = true;
-                        //simpleButtonSelectAll.Enabled = true;
-                        //simpleButtonUnSelect.Enabled = true;
-                        //HideWaitForm();
-                        //EnableRibbonBar();
-                        //EnableNavigateBar();
-
-                        //if (dataList.Count != 0)
-                        //{
-                        //    DialogResult dr = XtraMessageBox.Show("已成功读取" + dataList.Count + "条数据，是否保存到数据库？", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        //    if (dr == System.Windows.Forms.DialogResult.Yes)
-                        //    {
-                        //        for (int i = 0; i < dataList.Count; i++)
-                        //        {
-                        //            NoiseDataBaseHelper.AddNoiseData(dataList[i]);
-                        //            NoiseDataBaseHelper.AddNoiseResult(resultList[i]);
-                        //            GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
-                        //            GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
-                        //        }
-                        //    }
-                        //}
                     }
-                    //}).BeginInvoke(null, null);
                 }
                 else
                 {
@@ -412,20 +383,6 @@ namespace SmartWaterSystem
                 GlobalValue.NoiseSerialPortOptData.ID = id;
                 BeginSerialPortDelegate();
                 GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseReadData);
-                //Dictionary<short, short[]> result = new Dictionary<short, short[]>();
-                //short[] arr = GlobalValue.Noiselog.Read((short)id);
-                //result.Add((short)id, arr);
-                //CallbackReaded(result, selectList);
-                //GlobalValue.reReadIdList.Remove(id);
-
-                //NoiseRecorder gpRec = (from item in GlobalValue.recorderList.AsEnumerable()
-                //                       where item.ID == id
-                //                       select item).ToList()[0];
-
-                //dataList.Add(gpRec.Data);
-                //resultList.Add(gpRec.Result);
-
-                //BindResult(gpRec);
             }
             catch (TimeoutException)
             {
@@ -438,8 +395,6 @@ namespace SmartWaterSystem
                 if (!GlobalValue.reReadIdList.Contains(id))
                     GlobalValue.reReadIdList.Add(id);
                 ShowDialog("记录仪" + id + "读取超时！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //isError = true;
-
             }
         }
 
@@ -695,18 +650,15 @@ namespace SmartWaterSystem
                 NoiseRecorder rec = (from item in GlobalValue.recorderList
                                      where item.ID == id
                                      select item).ToList()[0];
-                
-                List<NoiseResult> lstResult = NoiseDataBaseHelper.GetRecordHistoryResult(rec.ID);
-                if (lstResult != null)
-                    foreach (NoiseResult result in lstResult)
-                    {
-                        if (result.ReadTime.ToString("yyyy-MM-dd HH:mm:ss") == readtime)
-                        {
-                            FrmDataAnalysis fda = new FrmDataAnalysis();
-                            fda.Recorder = rec;
-                            fda.ShowDialog();
-                        }
-                    }
+
+                NoiseData noisedata = NoiseDataBaseHelper.GetNoiseData(rec.ID,readtime);
+                if (noisedata != null)
+                {
+                    FrmDataAnalysis fda = new FrmDataAnalysis();
+                    fda.Recorder = rec;
+                    fda.data = noisedata;
+                    fda.ShowDialog();
+                }
             }
             else
             {
@@ -734,18 +686,14 @@ namespace SmartWaterSystem
                                      where item.ID == id
                                      select item).ToList()[0];
 
-                List<NoiseResult> lstResult = NoiseDataBaseHelper.GetRecordHistoryResult(rec.ID);
-                if (lstResult != null)
-                    foreach(NoiseResult result  in lstResult)
-                    {
-                        if(result.ReadTime.ToString("yyyy-MM-dd HH:mm:ss") == readtime)
-                        {
-                            FrmDataAnalysis fda = new FrmDataAnalysis();
-                            fda.Recorder = rec;
-                            fda.ShowDialog();
-                            return;
-                        }
-                    }
+                NoiseData noisedata = NoiseDataBaseHelper.GetNoiseData(rec.ID, readtime);
+                if (noisedata != null)
+                {
+                    FrmDataAnalysis fda = new FrmDataAnalysis();
+                    fda.Recorder = rec;
+                    fda.data = noisedata;
+                    fda.ShowDialog();
+                }
             }
             else
             {
