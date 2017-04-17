@@ -689,15 +689,24 @@ namespace SmartWaterSystem
         private void simpleButtonAny_Click(object sender, EventArgs e)
         {
             int id = Convert.ToInt32(gridViewResultList.GetFocusedRowCellValue("记录仪编号"));
+            string readtime = gridViewResultList.GetFocusedRowCellValue("读取时间").ToString();
             if (id != 0)
             {
                 NoiseRecorder rec = (from item in GlobalValue.recorderList
                                      where item.ID == id
                                      select item).ToList()[0];
-
-                FrmDataAnalysis fda = new FrmDataAnalysis();
-                fda.Recorder = rec;
-                fda.ShowDialog();
+                
+                List<NoiseResult> lstResult = NoiseDataBaseHelper.GetRecordHistoryResult(rec.ID);
+                if (lstResult != null)
+                    foreach (NoiseResult result in lstResult)
+                    {
+                        if (result.ReadTime.ToString("yyyy-MM-dd HH:mm:ss") == readtime)
+                        {
+                            FrmDataAnalysis fda = new FrmDataAnalysis();
+                            fda.Recorder = rec;
+                            fda.ShowDialog();
+                        }
+                    }
             }
             else
             {
@@ -729,7 +738,7 @@ namespace SmartWaterSystem
                 if (lstResult != null)
                     foreach(NoiseResult result  in lstResult)
                     {
-                        if(result.ReadTime.ToString() == readtime)
+                        if(result.ReadTime.ToString("yyyy-MM-dd HH:mm:ss") == readtime)
                         {
                             FrmDataAnalysis fda = new FrmDataAnalysis();
                             fda.Recorder = rec;

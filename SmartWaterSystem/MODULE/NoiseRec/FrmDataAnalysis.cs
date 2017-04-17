@@ -16,7 +16,7 @@ namespace SmartWaterSystem
     public partial class FrmDataAnalysis : DevExpress.XtraEditors.XtraForm
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("FrmDataAnalysis");
-        NoiseData data;
+        internal NoiseData data;
 		internal NoiseRecorder Recorder { get; set; }
         Color[] colors = new Color[3];  //颜色条使用渐变颜色
         Image[] images = new Image[7];
@@ -45,7 +45,7 @@ namespace SmartWaterSystem
             images[5] = Properties.Resources.leak6;
             images[6] = Properties.Resources.leak7;
 
-            data = Recorder.Data;
+            //data = Recorder.Data;
             DataBinding();
             InitChart();
         }
@@ -131,11 +131,6 @@ namespace SmartWaterSystem
             double max_amp, max_frq, min_amp, min_frq, leak_amp, leak_frq;
             NoiseDataHandler.IsLeak3(data.Amplitude, data.Frequency, Recorder.LeakValue, out max_amp, out max_frq, out min_amp, out min_frq, out leak_amp, out leak_frq);
 
-            //double maxAmp = data.Amplitude.ToList().Max();
-            //double minAmp = data.Amplitude.ToList().Min();
-            //double maxHz = data.Frequency.ToList().Max();
-            //double minHz = data.Frequency.ToList().Min();
-
             txtMaxNoise.Text = max_amp.ToString();
             txtMinNoise.Text = min_amp.ToString();
             txtMaxHz.Text = max_frq.ToString();
@@ -148,8 +143,6 @@ namespace SmartWaterSystem
 
             if (Recorder.Result.IsLeak == 1)
             {
-                //errorProvider.SetError(txtLeakNoise, "漏水！");
-                //errorProvider.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
 
                 PicBox.Visible = true;
                 if (Settings.Instance.GetString(SettingKeys.LeakVoice) != string.Empty)
