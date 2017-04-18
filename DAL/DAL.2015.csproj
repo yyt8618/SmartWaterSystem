@@ -43,6 +43,7 @@
     <Compile Include="HttpDataDAL.cs" />
     <Compile Include="HydrantDAL.cs" />
     <Compile Include="NoiseParmDAL.cs" />
+    <Compile Include="OffsetValueDAL.cs" />
     <Compile Include="OLWQConfigDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TerminalConfigDAL.cs" />

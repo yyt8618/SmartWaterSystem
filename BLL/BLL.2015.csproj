@@ -49,6 +49,7 @@
     <Compile Include="NoiseDataBaseHelper.cs" />
     <Compile Include="NoiseDataHandler.cs" />
     <Compile Include="NoiseParmBLL.cs" />
+    <Compile Include="OffsetValueBLL.cs" />
     <Compile Include="OLWQConfigBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TerminalConfigBLL.cs" />

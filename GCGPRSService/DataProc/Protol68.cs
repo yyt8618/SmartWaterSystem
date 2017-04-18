@@ -1173,7 +1173,7 @@ namespace GCGPRSService
                         state.NoisePackIndex = curpackindex;   //记录当前收到包的序号
                         if (sumpackcount != curpackindex && !pack.IsFinal)
                         {
-                            for (int i = 8; i < pack.DataLength - 2; i++)  //多包时，当前不是最后一包时缓存数据至state.lstBuffer中
+                            for (int i = 8; i < pack.DataLength - 3; i++)  //多包时，当前不是最后一包时缓存数据至state.lstBuffer中
                             {
                                 state.lstBuffer.Add(pack.Data[i]);
                             }
@@ -1186,17 +1186,17 @@ namespace GCGPRSService
                                 lstbytes.AddRange(state.lstBuffer);
                                 state.lstBuffer.Clear();
                             }
-                            for (int i = 8; i < pack.DataLength - 2; i++)  //添加当前包数据
+                            for (int i = 8; i < pack.DataLength - 3; i++)  //添加当前包数据
                             {
                                 lstbytes.Add(pack.Data[i]);
                             }
                             UpLoadNoiseDataEntity noisedataentity = new UpLoadNoiseDataEntity();
-                            noisedataentity.TerId = logId.ToString();  // pack.DevID.ToString();
+                            noisedataentity.TerId = logId.ToString(); 
                             noisedataentity.GroupId = "";
                             //启动值
                             noisedataentity.cali = standvalue;
                             noisedataentity.ColTime = DateTime.Now.ToString();
-                            for (int i = 2; i + 1 < lstbytes.Count; i += 2)
+                            for (int i = 0; i + 1 < lstbytes.Count; i += 2)
                             {
                                 noisedataentity.Data += BitConverter.ToInt16(new byte[] { lstbytes[i + 1], lstbytes[i] }, 0) + ",";
                             }
@@ -1207,7 +1207,7 @@ namespace GCGPRSService
                             bNeedCheckTime = true;  //每天传一次,一天校时一次,不适用NeedCheckTime方法校时
                         }
                         string strcurnoisedata = "";  //当前包的数据,用于显示
-                        for (int i = 8; i + 1 < pack.DataLength - 2; i += 2)
+                        for (int i = 8; i + 1 < pack.DataLength - 3; i += 2)
                         {
                             strcurnoisedata += BitConverter.ToInt16(new byte[] { pack.Data[i + 1], pack.Data[i] }, 0) + ",";
                         }

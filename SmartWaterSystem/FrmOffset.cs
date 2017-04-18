@@ -1,43 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Media;
-using System.IO;
 using Common;
 using DevExpress.XtraEditors;
 using Entity;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Collections.Generic;
 
 namespace SmartWaterSystem
 {
     public partial class FrmOffset : DevExpress.XtraEditors.XtraForm
     {
-        DataTable dt = new DataTable("OffsetTable");
+        BLL.OffsetValueBLL offsetBll = new BLL.OffsetValueBLL();
+        Dictionary<string, ConstValue.DEV_TYPE> DevTypeDic = new Dictionary<string, ConstValue.DEV_TYPE>();  //设备类型字典
 
         public FrmOffset()
         {
             InitializeComponent();
+            GetAllDevTypeMap();
         }
 
         private void FrmOffset_Load(object sender, EventArgs e)
         {
-            dt.Columns.Add("Id");
-            dt.Columns.Add("TerType");
-            dt.Columns.Add("FunCode");
-            dt.Columns.Add("OffsetValue");
-
-            try {
-                
+            try
+            {
+                DataTable dt = offsetBll.GetAllOffsetValue();
+                dt.Columns.Add("TerminalTypeName", typeof(string));
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    EnumHelper enumhelp = new EnumHelper();
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        dr["TerminalTypeName"] = enumhelp.GetEnumDescription((ConstValue.DEV_TYPE)(Convert.ToInt32(dr["TerminalType"])));  //将数值类型的转换成名称,设备名称放前面，方便检索
+                    }
+                }
                 gridControl1.DataSource = dt;
-
                 InitGridView();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 XtraMessageBox.Show("初始化失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -46,13 +47,27 @@ namespace SmartWaterSystem
         private void InitGridView()
         {
             cb_tertype.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            EnumHelper enumhelp = new EnumHelper();
-            foreach(int dev in Enum.GetValues(typeof(ConstValue.DEV_TYPE)))
+
+            //EnumHelper enumhelp = new EnumHelper();
+            //foreach (int dev in Enum.GetValues(typeof(ConstValue.DEV_TYPE)))
+            //{
+            //    cb_tertype.Items.Add(enumhelp.GetEnumDescription((ConstValue.DEV_TYPE)dev));
+            //}
+            foreach(string devtypename in DevTypeDic.Keys)
             {
-                cb_tertype.Items.Add(enumhelp.GetEnumDescription((ConstValue.DEV_TYPE)dev));
+                cb_tertype.Items.Add(devtypename);
             }
             txt_id.KeyPress += new KeyPressEventHandler(txt_threebyte_KeyPress);
             txt_funcode.KeyPress += new KeyPressEventHandler(txt_onebyte_KeyPress);
+        }
+
+        private void GetAllDevTypeMap()
+        {
+            EnumHelper enumhelp = new EnumHelper();
+            foreach (int dev in Enum.GetValues(typeof(ConstValue.DEV_TYPE)))
+            {
+                DevTypeDic.Add(enumhelp.GetEnumDescription((ConstValue.DEV_TYPE)dev), (ConstValue.DEV_TYPE)dev);
+            }
         }
 
         /// <summary>
@@ -144,6 +159,11 @@ namespace SmartWaterSystem
                     return;
                 }
 
+                for(int i = 0; i < dt.Rows.Count; i++)
+                {
+                    dt.Rows[i]["TerminalType"] = DevTypeDic[dt.Rows[i]["TerminalTypeName"].ToString().Trim()];
+                }
+                offsetBll.SaveOffsetValue(dt);
                 XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch(Exception ex)

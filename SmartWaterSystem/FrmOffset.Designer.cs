@@ -40,6 +40,7 @@
             this.txt_funcode = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.txt_offsetvalue = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_id)).BeginInit();
@@ -80,7 +81,8 @@
             this.gridColumn3,
             this.gridColumn1,
             this.gridColumn2,
-            this.gridColumn4});
+            this.gridColumn4,
+            this.gridColumn5});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.IndicatorWidth = 10;
             this.gridView1.Name = "gridView1";
@@ -96,9 +98,9 @@
             // 
             // gridColumn3
             // 
-            this.gridColumn3.Caption = "编号";
+            this.gridColumn3.Caption = "终端编号";
             this.gridColumn3.ColumnEdit = this.txt_id;
-            this.gridColumn3.FieldName = "Id";
+            this.gridColumn3.FieldName = "TerminalID";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.gridColumn3.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
@@ -109,7 +111,7 @@
             this.gridColumn3.OptionsFilter.AllowFilter = false;
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 0;
-            this.gridColumn3.Width = 84;
+            this.gridColumn3.Width = 73;
             // 
             // txt_id
             // 
@@ -122,7 +124,7 @@
             // 
             this.gridColumn1.Caption = "设备类型";
             this.gridColumn1.ColumnEdit = this.cb_tertype;
-            this.gridColumn1.FieldName = "TerType";
+            this.gridColumn1.FieldName = "TerminalTypeName";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.gridColumn1.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
@@ -133,7 +135,7 @@
             this.gridColumn1.OptionsFilter.AllowFilter = false;
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 1;
-            this.gridColumn1.Width = 150;
+            this.gridColumn1.Width = 131;
             // 
             // cb_tertype
             // 
@@ -158,11 +160,11 @@
             this.gridColumn2.OptionsFilter.AllowFilter = false;
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 2;
-            this.gridColumn2.Width = 150;
+            this.gridColumn2.Width = 131;
             // 
             // txt_funcode
             // 
-            this.txt_funcode.AutoHeight = false;
+            this.txt_funcode.MaxLength = 3;
             this.txt_funcode.Name = "txt_funcode";
             // 
             // gridColumn4
@@ -173,13 +175,24 @@
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 3;
-            this.gridColumn4.Width = 155;
+            this.gridColumn4.Width = 107;
             // 
             // txt_offsetvalue
             // 
             this.txt_offsetvalue.AutoHeight = false;
             this.txt_offsetvalue.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txt_offsetvalue.Name = "txt_offsetvalue";
+            // 
+            // gridColumn5
+            // 
+            this.gridColumn5.Caption = "修改时间";
+            this.gridColumn5.FieldName = "ModifyTime";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.OptionsColumn.AllowEdit = false;
+            this.gridColumn5.OptionsColumn.ReadOnly = true;
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 4;
+            this.gridColumn5.Width = 97;
             // 
             // FrmOffset
             // 
@@ -221,5 +234,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_funcode;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_tertype;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_id;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
     }
 }
