@@ -40,7 +40,6 @@
             this.txt_funcode = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.txt_offsetvalue = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_id)).BeginInit();
@@ -81,8 +80,7 @@
             this.gridColumn3,
             this.gridColumn1,
             this.gridColumn2,
-            this.gridColumn4,
-            this.gridColumn5});
+            this.gridColumn4});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.IndicatorWidth = 10;
             this.gridView1.Name = "gridView1";
@@ -164,7 +162,7 @@
             // 
             // txt_funcode
             // 
-            this.txt_funcode.MaxLength = 3;
+            this.txt_funcode.MaxLength = 4;
             this.txt_funcode.Name = "txt_funcode";
             // 
             // gridColumn4
@@ -182,17 +180,6 @@
             this.txt_offsetvalue.AutoHeight = false;
             this.txt_offsetvalue.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txt_offsetvalue.Name = "txt_offsetvalue";
-            // 
-            // gridColumn5
-            // 
-            this.gridColumn5.Caption = "修改时间";
-            this.gridColumn5.FieldName = "ModifyTime";
-            this.gridColumn5.Name = "gridColumn5";
-            this.gridColumn5.OptionsColumn.AllowEdit = false;
-            this.gridColumn5.OptionsColumn.ReadOnly = true;
-            this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 4;
-            this.gridColumn5.Width = 97;
             // 
             // FrmOffset
             // 
@@ -234,6 +221,5 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_funcode;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_tertype;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_id;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
     }
 }

@@ -2,12 +2,16 @@
 
 namespace Entity
 {
-    public class RepairTerInfoEntity
+    public class TerMagInfoEntity
     {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public int Id { get; set; }
         /// <summary>
         /// 设备编号
         /// </summary>
-        public int Id { get; set; }
+        public int DevId { get; set; }
         /// <summary>
         /// 设备类型
         /// </summary>

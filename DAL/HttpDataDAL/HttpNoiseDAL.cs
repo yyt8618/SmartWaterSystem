@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-    public class HttpDataDAL
+    public class HttpNoiseDAL
     {
         public void GetGroupsInfo(out List<GroupsData> lstgroup,out List<TersData> lstter)
         {
@@ -81,6 +81,8 @@ namespace DAL
                 throw ex;
             }
         }
+
+
         
     }
 }

@@ -40,7 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpDataDAL.cs" />
+    <Compile Include="HttpDataDAL\HttpNoiseDAL.cs" />
+    <Compile Include="HttpDataDAL\HttpTerMagDAL.cs" />
     <Compile Include="HydrantDAL.cs" />
     <Compile Include="NoiseParmDAL.cs" />
     <Compile Include="OffsetValueDAL.cs" />

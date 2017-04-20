@@ -212,7 +212,7 @@ namespace BLL
 
                     if (lstNoiseData != null && lstNoiseData.Count > 0)
                     {
-                        HttpDataBLL httpdata = new HttpDataBLL();
+                        HttpNoiseBLL httpdata = new HttpNoiseBLL();
                         HTTPRespEntity resp = httpdata.UploadGroups(lstNoiseData);   //处理噪声数据
                         if (resp.code == 1)
                             return 1;

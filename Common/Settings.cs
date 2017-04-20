@@ -74,6 +74,22 @@ namespace Common
         /// FrmConsole界面字体大小
         /// </summary>
         public const string ConsoleFontSize = "ConsoleFontSize";
+        /// <summary>
+        /// 本地临时存放图片路径
+        /// </summary>
+        public const string PicLocalTmpDir = "";
+        /// <summary>
+        /// 本地正式存放图片路径
+        /// </summary>
+        public const string PicLocalDir = "";
+        /// <summary>
+        /// 临时网络图片地址头
+        /// </summary>
+        public const string PicNetTmpDirHead = "";
+        /// <summary>
+        /// 正式网络图片地址头
+        /// </summary>
+        public const string PicNetDirHead = "";
     }
 
     /// <summary>
@@ -97,7 +113,11 @@ namespace Common
             {SettingKeys.HTTPServiceURL,""},
             {SettingKeys.HTTPReqSuviceTime, "30"},
             {SettingKeys.ConsoleFont,"宋体" },
-            {SettingKeys.ConsoleFontSize,"10.5" }
+            {SettingKeys.ConsoleFontSize,"10.5" },
+            {SettingKeys.PicLocalTmpDir,"" },
+            {SettingKeys.PicLocalDir,"" },
+            {SettingKeys.PicNetTmpDirHead,"" },
+            {SettingKeys.PicNetDirHead,"" }
         };
     }
 

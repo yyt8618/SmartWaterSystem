@@ -128,16 +128,8 @@ namespace GCGPRSService
                 {
                     CheckSend_Interval = 5;
 
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_PreFrameData.Count:" + GlobalValue.Instance.GPRS_PreFrameData.Count);
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_FlowFrameData.Count:" + GlobalValue.Instance.GPRS_FlowFrameData.Count);
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_UniversalFrameData.Count:" + GlobalValue.Instance.GPRS_UniversalFrameData.Count);
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_OLWQFrameData.Count:" + GlobalValue.Instance.GPRS_OLWQFrameData.Count);
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_HydrantFrameData.Count:" + GlobalValue.Instance.GPRS_HydrantFrameData.Count);
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_PrectrlFrameData.Count:" + GlobalValue.Instance.GPRS_PrectrlFrameData.Count);
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_NoiseFrameData.Count:" + GlobalValue.Instance.GPRS_NoiseFrameData.Count);
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_WaterworkerFrameData.Count:" + GlobalValue.Instance.GPRS_WaterworkerFrameData.Count);
-                    System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_AlarmFrameData.Count:" + GlobalValue.Instance.GPRS_AlarmFrameData.Count);
-
+                    //System.Diagnostics.Debug.WriteLine("GlobalValue.Instance.GPRS_PreFrameData.Count:" + GlobalValue.Instance.GPRS_PreFrameData.Count);
+                    
                     if (GlobalValue.Instance.GPRS_AlarmFrameData.Count > 0)
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertAlarm);
                     if (GlobalValue.Instance.GPRS_PreFrameData.Count > 0)
