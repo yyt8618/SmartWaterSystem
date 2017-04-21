@@ -21,7 +21,7 @@ namespace SmartWaterSystem
             //string fullpath = "";
             string newFullPath = "";
             Savepath = Path.GetDirectoryName(Savepath);
-            Savepath = Path.Combine(Savepath, DateTime.Now.ToString("yyyyMMdd"));
+            //Savepath = Path.Combine(Savepath, DateTime.Now.ToString("yyyyMMdd"));
             if (!Directory.Exists(Savepath))
             {
                 Directory.CreateDirectory(Savepath);

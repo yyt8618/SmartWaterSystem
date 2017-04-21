@@ -15,15 +15,16 @@ namespace BLL
         /// <summary>
         /// 获取所有的安装终端信息
         /// </summary>
+        /// <param name="netpathhead">网络地址头</param>
         /// <returns></returns>
-        public TerMagInfoResqEntity GetAllTer()
+        public TerMagInfoResqEntity GetAllTer(string netpathhead)
         {
             TerMagInfoResqEntity resp = new TerMagInfoResqEntity();
             resp.code = 1;
             resp.msg = "";
             try
             {
-                resp.lstTer = dal.GetAllTer();
+                resp.lstTer = dal.GetAllTer(netpathhead);
             }
             catch (Exception ex)
             {
@@ -33,6 +34,8 @@ namespace BLL
             }
             return resp;
         }
+
+
 
         /// <summary>
         /// 安装表Id删除终端

@@ -272,29 +272,33 @@ namespace GCGPRSService
 
                                     #region 定位维修APP
                                     case "getalltermaginfo":       //获取所有的安装终端信息
-                                        TerMagInfoResqEntity gettermaginforespentity = termagbll.GetAllTer();
+                                        TerMagInfoResqEntity gettermaginforespentity = termagbll.GetAllTer(PicNetDirHead);
                                         str_resp = JSONSerialize.JsonSerialize<TerMagInfoResqEntity>(gettermaginforespentity);
                                         break;
                                     case "addtermaginfo":        //新增安装终端
-                                                                 /*
-                                                                 //手持照
-                                                                 string handsourceFile = "", handdestFile = "", handnewnetpath = "";
-                                                                 PicHelper.GetNetPic2LocalFileName(data.UserId, data.PichandAddr, nettmppathhead, netpathhead,localtmphead, localhead, out handsourceFile, out handdestFile, out handnewnetpath);
-                                                                 data.PichandAddr = handnewnetpath;
+                                        AddTerMagInfoReqEntity addtermaginfo = JSONSerialize.JsonDeserialize_Newtonsoft<AddTerMagInfoReqEntity>(httpentity.Params);
 
-                                                                 string msg = "";
-                                                                 int result = dal.IndividualIdentifyMaterial(data, out msg);
-                                                                 if (result != 1)
-                                                                 {
-                                                                     resp.ErrCode = RespResult.ParameteErr;
-                                                                     resp.ErrMsg = msg;
-                                                                 }
-                                                                 else
-                                                                 {
-                                                                     resp.ErrCode = RespResult.Success;
-                                                                     resp.ErrMsg = "";
-                                                                     (new PicHelper()).MoveFile(frontsourceFile, frontdestFile);  //将图片文件从临时文件夹移动到正式目录
-                                                                 */
+                                        //uploadrespentity = noisebll.UploadGroups(parmentity.TerData);
+                                        //str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
+                                        /*
+                                        //手持照
+                                        string handsourceFile = "", handdestFile = "", handnewnetpath = "";
+                                        PicHelper.GetNetPic2LocalFileName(data.UserId, data.PichandAddr, nettmppathhead, netpathhead,localtmphead, localhead, out handsourceFile, out handdestFile, out handnewnetpath);
+                                        data.PichandAddr = handnewnetpath;
+
+                                        string msg = "";
+                                        int result = dal.IndividualIdentifyMaterial(data, out msg);
+                                        if (result != 1)
+                                        {
+                                            resp.ErrCode = RespResult.ParameteErr;
+                                            resp.ErrMsg = msg;
+                                        }
+                                        else
+                                        {
+                                            resp.ErrCode = RespResult.Success;
+                                            resp.ErrMsg = "";
+                                            (new PicHelper()).MoveFile(frontsourceFile, frontdestFile);  //将图片文件从临时文件夹移动到正式目录
+                                        */
                                         break;
                                     case "deltermaginfo":        //删除安装终端
                                         DelTerMagInfoReqEntity deltermagparmentity = JSONSerialize.JsonDeserialize_Newtonsoft<DelTerMagInfoReqEntity>(httpentity.Params);
