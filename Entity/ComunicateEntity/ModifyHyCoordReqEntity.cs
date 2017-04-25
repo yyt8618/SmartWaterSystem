@@ -7,7 +7,7 @@ namespace Entity
 {
     public class ModifyHyCoordReqEntity
     {
-        public string action = "modifyhydrantcoord";
+        public string action = "";
 
         private string _hydrantId;
         /// <summary>

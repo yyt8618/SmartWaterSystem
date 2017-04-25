@@ -241,7 +241,7 @@ namespace GCGPRSService
 
                                         uploadrespentity = new HTTPRespEntity();
                                         uploadrespentity.code = 1;
-                                        str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
+                                        str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                         break;
                                     #region 消防栓
                                     case "gethydrants":         //获取所有消防栓
@@ -277,28 +277,8 @@ namespace GCGPRSService
                                         break;
                                     case "addtermaginfo":        //新增安装终端
                                         AddTerMagInfoReqEntity addtermaginfo = JSONSerialize.JsonDeserialize_Newtonsoft<AddTerMagInfoReqEntity>(httpentity.Params);
-
-                                        //uploadrespentity = noisebll.UploadGroups(parmentity.TerData);
-                                        //str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
-                                        /*
-                                        //手持照
-                                        string handsourceFile = "", handdestFile = "", handnewnetpath = "";
-                                        PicHelper.GetNetPic2LocalFileName(data.UserId, data.PichandAddr, nettmppathhead, netpathhead,localtmphead, localhead, out handsourceFile, out handdestFile, out handnewnetpath);
-                                        data.PichandAddr = handnewnetpath;
-
-                                        string msg = "";
-                                        int result = dal.IndividualIdentifyMaterial(data, out msg);
-                                        if (result != 1)
-                                        {
-                                            resp.ErrCode = RespResult.ParameteErr;
-                                            resp.ErrMsg = msg;
-                                        }
-                                        else
-                                        {
-                                            resp.ErrCode = RespResult.Success;
-                                            resp.ErrMsg = "";
-                                            (new PicHelper()).MoveFile(frontsourceFile, frontdestFile);  //将图片文件从临时文件夹移动到正式目录
-                                        */
+                                        uploadrespentity = termagbll.AddTerMagInfo(addtermaginfo.TerMagInfo, PicLocalTmpDir, PicLocalDir);
+                                        str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                         break;
                                     case "deltermaginfo":        //删除安装终端
                                         DelTerMagInfoReqEntity deltermagparmentity = JSONSerialize.JsonDeserialize_Newtonsoft<DelTerMagInfoReqEntity>(httpentity.Params);
@@ -306,6 +286,7 @@ namespace GCGPRSService
                                         str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(delrespentity);
                                         break;
                                     case "modifytermaginfo":    //修改安装终端信息
+
                                         break;
                                     case "gettermagpic":        //获取图片
                                                                 //if(string.IsNullOrEmpty(Settings.Instance.GetString(SettingKeys.PicPath)))

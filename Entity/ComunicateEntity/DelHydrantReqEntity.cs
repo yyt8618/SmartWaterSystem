@@ -7,7 +7,7 @@ namespace Entity
 {
     public class DelHydrantReqEntity
     {
-        public string action = "delhydrant";
+        public string action = "";
 
         private string _hydrantId;
         /// <summary>

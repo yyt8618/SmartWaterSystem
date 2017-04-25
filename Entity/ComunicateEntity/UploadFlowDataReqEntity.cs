@@ -7,7 +7,7 @@ namespace Entity
 {
     public class UploadFlowDataReqEntity
     {
-        public string action = "uploadflowdata";
+        public string action = "";
         public List<UpLoadFlowDataEntity> TerData = new List<UpLoadFlowDataEntity>();
     }
     public class UpLoadFlowDataEntity

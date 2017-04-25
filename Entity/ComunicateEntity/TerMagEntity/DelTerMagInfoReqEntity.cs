@@ -2,7 +2,7 @@
 {
     public class DelTerMagInfoReqEntity
     {
-        public string action = "deltermaginfo";
+        public string action = "";
         public int id;
     }
 }

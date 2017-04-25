@@ -4,7 +4,7 @@ namespace Entity
 {
     public class AddTerMagInfoReqEntity
     {
-        public string action = "addtermaginfo";
-        List<TerMagInfoEntity> lstTerMagInfo;
+        public string action = "";
+        public TerMagInfoEntity TerMagInfo;
     }
 }

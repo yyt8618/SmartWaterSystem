@@ -5,7 +5,7 @@ namespace Entity
 {
     public class UploadNoiseDataReqEntity
     {
-        public string action = "uploadnoisedata";
+        public string action = "";
         public List<UpLoadNoiseDataEntity> TerData = new List<UpLoadNoiseDataEntity>();
     }
     public class UpLoadNoiseDataEntity

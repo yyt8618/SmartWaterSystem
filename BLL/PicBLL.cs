@@ -30,7 +30,7 @@ namespace BLL
                 if (string.IsNullOrEmpty(database64))
                 {
                     resp.code = -1;
-                    resp.msg= "图片不能为空";
+                    resp.msg = "图片不能为空";
                     return resp;
                 }
                 byte[] bs = Convert.FromBase64String(database64);
@@ -40,8 +40,7 @@ namespace BLL
                 //将本地路径地址替换为网络地址
                 //picfullpath = picfullpath.Replace(savelocaltmppath, netpathhead);
                 //picfullpath = picfullpath.Replace("\\", "/");
-
-                resp.data = filename;// picfullpath;
+                resp.data = database64;
                 resp.code = 1;
             }
             catch (Exception ex)

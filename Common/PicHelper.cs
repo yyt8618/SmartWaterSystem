@@ -101,7 +101,7 @@ namespace SmartWaterSystem
         /// <param name="localtmppath">本地临时路径</param>
         /// <param name="localpath">本地正式路径</param>
         /// <param name="newnetfullpath">返回本地正式地址对应的网络地址</param>
-        public static void GetNetPic2LocalFileName(long UserId, string netfullpath, string nettmppathhead, string netpathhead, string localtmphead, string localhead,
+        public static void GetNetPic2LocalFileName(string netfullpath, string nettmppathhead, string netpathhead, string localtmphead, string localhead,
             out string localtmppath, out string localpath, out string newnetfullpath)
         {
             localtmppath = localpath = newnetfullpath = "";
@@ -122,7 +122,7 @@ namespace SmartWaterSystem
             string dir = Path.GetDirectoryName(newFullPath); //路径
             while (System.IO.File.Exists(newFullPath))
             {
-                string filename = UserId + "_" + DateTime.Now.ToString("yyyyMMddHHmmssffff") + rd.Next(10000) + filetype;
+                string filename = DateTime.Now.ToString("yyyyMMddHHmmssffff") + rd.Next(10000) + filetype;
                 newFullPath = Path.Combine(dir, filename);
             }
             localtmppath = tempath;
