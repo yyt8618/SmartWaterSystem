@@ -1,4 +1,6 @@
 ﻿using Common;
+using System
+>>>>>>> github/testprocdatamem
 using System.Data;
 using System.Data.SqlClient;
 
@@ -12,7 +14,7 @@ namespace DAL
         /// <returns></returns>
         public DataTable GetAllOffsetValue()
         {
-            string SQL = "SELECT [TerminalID],[TerminalType],[Funcode],[OffsetValue],[ModifyTime] FROM OffsetValue Order by ModifyTime DESC";
+            string SQL = "SELECT [TerminalID],[TerminalType],[FunCode],[OffsetValue],[ModifyTime] FROM OffsetValue Order by ModifyTime DESC";
             return SQLHelper.ExecuteDataTable(SQL, null);
         }
 
@@ -33,7 +35,7 @@ namespace DAL
             {
                 new SqlParameter("@id",SqlDbType.Int),
                 new SqlParameter("@type",SqlDbType.Int),
-                new SqlParameter("@funcode",SqlDbType.TinyInt),
+                new SqlParameter("@funcode",SqlDbType.Int),
                 new SqlParameter("@offsetvalue",SqlDbType.Float),
                 new SqlParameter("@modifytime",SqlDbType.DateTime)
             };
@@ -44,12 +46,18 @@ namespace DAL
                 parms[2].Value = dr["Funcode"];
                 parms[3].Value = dr["OffsetValue"];
                 parms[4].Value = dr["ModifyTime"];
+                parms[4].Value = DateTime.Now;
+>>>>>>> github/testprocdatamem
 
                 SQLHelper.ExecuteNonQuery(SQL, parms);
             }
             return true;
         }
 
+        /// <summary>
+        /// 删除所有的偏移值
+        /// </summary>
+        /// <returns></returns>
         private bool DelAllValue()
         {
             string SQL = "DELETE FROM OffsetValue";

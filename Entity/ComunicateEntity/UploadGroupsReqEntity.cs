@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Entity
 {
     public class UploadNoiseDataReqEntity
     {
-        public string action = "uploadnoisedata";
+        public string action = "";
         public List<UpLoadNoiseDataEntity> TerData = new List<UpLoadNoiseDataEntity>();
     }
     public class UpLoadNoiseDataEntity

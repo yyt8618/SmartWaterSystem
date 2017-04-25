@@ -9,6 +9,9 @@ namespace BLL
         OffsetValueDAL dal = new OffsetValueDAL();
         NLog.Logger logger = NLog.LogManager.GetLogger("OffsetValueBLL");
 
+        /// <summary>
+        /// 获取全部的偏移值
+        /// </summary>
         public DataTable GetAllOffsetValue()
         {
             try
@@ -22,6 +25,9 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// 保存所有的偏移量
+        /// </summary>
         public bool SaveOffsetValue(DataTable dt)
         {
             try

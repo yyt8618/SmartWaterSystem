@@ -115,7 +115,7 @@ namespace Protocol
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_ID;
             byte[] data = BitConverter.GetBytes((int)Id);
             Array.Reverse(data);
-            data[0] = (byte)(ConstValue.DEV_TYPE.UNIVERSAL_CTRL);
+            data[0] = (byte)(devtype);
             package.DataLength = data.Length;
             package.Data = data;
             package.CS = package.CreateCS();

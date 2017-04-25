@@ -10,3 +10,7 @@
 9、socket连接时，FrmConsole界面获取的信息有时候不完整
 10、GlobalValue.SocketMgr.SendMessage->GlobalValue.SocketMgr.SendMessage2
 11、WaitForMultipleObjects超过64
+12、code返回状态定义枚举
+13、需要修改socket通讯json;
+14、完成纠偏
+15、上传数据错误一定次数后，保存错误数据，不在重试

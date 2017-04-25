@@ -44,12 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpDataBLL.cs" />
+    <Compile Include="HttpDataBLL\HttpNoiseBLL.cs" />
+    <Compile Include="HttpDataBLL\HttpTerMagBLL.cs" />
     <Compile Include="HydrantBLL.cs" />
     <Compile Include="NoiseDataBaseHelper.cs" />
     <Compile Include="NoiseDataHandler.cs" />
     <Compile Include="NoiseParmBLL.cs" />
+    <Compile Include="OffsetValueBLL.cs" />
     <Compile Include="OLWQConfigBLL.cs" />
+    <Compile Include="PicBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TerminalConfigBLL.cs" />
     <Compile Include="TerminalDataBLL.cs" />

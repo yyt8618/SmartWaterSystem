@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 
 namespace BLL
 {
-    public class HttpDataBLL
+    public class HttpNoiseBLL
     {
-        NLog.Logger logger = NLog.LogManager.GetLogger("HttpDataBLL");
-        HttpDataDAL dal = new HttpDataDAL();
+        NLog.Logger logger = NLog.LogManager.GetLogger("HttpDataNoiseBLL");
+        HttpNoiseDAL dal = new HttpNoiseDAL();
         HydrantBLL Hybll = new HydrantBLL();
 
         public GetGroupsRespEntity GetGroupsInfo()

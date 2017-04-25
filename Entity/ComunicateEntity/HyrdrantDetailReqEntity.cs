@@ -7,7 +7,7 @@ namespace Entity
 {
     public class HyrdrantDetailReqEntity
     {
-        public string action = "gethydrantdetail";
+        public string action = "";
         /// <summary>
         /// 消防栓Id
         /// </summary>

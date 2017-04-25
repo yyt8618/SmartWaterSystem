@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Entity.ComunicateEntity.LacationRepairApp
+namespace Entity
 {
-    public class RepairTerInfoResqEntity
+    public class TerMagInfoResqEntity
     {
         /// <summary>
         /// 调用结果编码,-1:失败,1:成功
@@ -18,6 +18,6 @@ namespace Entity.ComunicateEntity.LacationRepairApp
         /// <summary>
         /// 终端安装列表
         /// </summary>
-        public List<RepairTerInfoEntity> lstTer = new List<RepairTerInfoEntity>();
+        public List<TerMagInfoEntity> lstTer = new List<TerMagInfoEntity>();
     }
 }
