@@ -635,11 +635,6 @@ namespace SmartWaterSystem
                 XtraMessageBox.Show("导出成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        //查看详细
-        private void barButtonItem4_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-        }
-
 
         private void simpleButtonAny_Click(object sender, EventArgs e)
         {
@@ -690,6 +685,7 @@ namespace SmartWaterSystem
                 if (noisedata != null)
                 {
                     FrmDataAnalysis fda = new FrmDataAnalysis();
+                    rec.Result = NoiseDataBaseHelper.GetNoiseResult(rec.ID, readtime);
                     fda.Recorder = rec;
                     fda.data = noisedata;
                     fda.ShowDialog();

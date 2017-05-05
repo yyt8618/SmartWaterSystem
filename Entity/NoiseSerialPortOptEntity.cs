@@ -204,6 +204,15 @@ namespace Entity
             set { _StandValue = value; }
         }
 
+        private string _FieldStrength = "";
+        /// <summary>
+        /// 场强\电压
+        /// </summary>
+        public string FieldStrength
+        {
+            get { return _FieldStrength; }
+            set { _FieldStrength = value; }
+        }
 
         public NoiseSerialPortOptEntity()
         {

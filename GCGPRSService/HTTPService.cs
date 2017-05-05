@@ -71,6 +71,7 @@ namespace GCGPRSService
             listener.BeginGetContext(new AsyncCallback(GetContextCallback), listener);
             //t.Start();
             GlobalValue.Instance.lstStartRecord.Add(DateTime.Now.ToString() + " 开启HTTP接收服务完成!");
+            
         }
 
         public void Stop()
@@ -102,27 +103,26 @@ namespace GCGPRSService
                 byte[] buffer = new byte[1024];
 
                 #region test
-                //UploadFlowDataReqEntity testentity = new UploadFlowDataReqEntity();
-                //testentity.action = "uploadflowdata";
-                //testentity.TerData = new List<UpLoadFlowDataEntity>();
-                //UpLoadFlowDataEntity testdata1 = new UpLoadFlowDataEntity();
-                //testdata1.terid = "1";
-                //testdata1.flowvalue = "100.123";
-                //testdata1.flowinverted = "2344.0";
-                //testdata1.flowinstant = "233.23";
-                //testdata1.collTime = DateTime.Now.ToString();
-                //testentity.TerData.Add(testdata1);
-                //string strttt = SmartWaterSystem.JSONSerialize.JsonSerialize<UploadFlowDataReqEntity>(testentity);
-                //long timestamp = 0;
-                //TimeSpan tsp = (TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)));
-                //timestamp = (long)tsp.TotalMilliseconds;
-                //string md51 = MD5Encrypt.MD5(System.Web.HttpUtility.UrlEncode(strttt + timestamp + Settings.Instance.GetString(SettingKeys.HTTPMD5Key)).ToLower());
-                //HTTPEntity ttpentity = new HTTPEntity();
-                //ttpentity.timestamp = timestamp.ToString();
-                //ttpentity.Params = strttt;
-                //ttpentity.digest = md51;
-                //string reqtemp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPEntity>(ttpentity);
-                //string urltemp = System.Web.HttpUtility.UrlEncode(reqtemp, Encoding.UTF8);
+                AddTerMagInfoReqEntity addterentity = new AddTerMagInfoReqEntity();
+                addterentity.action = "addtermaginfo";
+                addterentity.termaginfo = new TerMagInfoEntity();
+                addterentity.termaginfo.PicId = new List<string>();
+                addterentity.termaginfo.PicId.Add("2017042710272816539276.jpg");
+                addterentity.termaginfo.Addr = "中国湖南省长沙市岳麓区平川路";
+                addterentity.termaginfo.DevId = 18;
+                addterentity.termaginfo.Lng = 112.892943;
+                addterentity.termaginfo.Lat = 28.213629;
+                string strttt = JSONSerialize.JsonSerialize<AddTerMagInfoReqEntity>(addterentity);
+                long timestamp = 0;
+                TimeSpan tsp = (TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now) - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)));
+                timestamp = (long)tsp.TotalMilliseconds;
+                string md51 = MD5Encrypt.MD5(System.Web.HttpUtility.UrlEncode(strttt + timestamp + Settings.Instance.GetString(SettingKeys.HTTPMD5Key)).ToLower());
+                HTTPEntity ttpentity = new HTTPEntity();
+                ttpentity.timestamp = timestamp.ToString();
+                ttpentity.Params = strttt;
+                ttpentity.digest = md51;
+                string reqtemp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPEntity>(ttpentity);
+                string urltemp = System.Web.HttpUtility.UrlEncode(reqtemp, Encoding.UTF8);
 
                 #endregion
 
@@ -277,7 +277,7 @@ namespace GCGPRSService
                                         break;
                                     case "addtermaginfo":        //新增安装终端
                                         AddTerMagInfoReqEntity addtermaginfo = JSONSerialize.JsonDeserialize_Newtonsoft<AddTerMagInfoReqEntity>(httpentity.Params);
-                                        uploadrespentity = termagbll.AddTerMagInfo(addtermaginfo.TerMagInfo, PicLocalTmpDir, PicLocalDir);
+                                        uploadrespentity = termagbll.AddTerMagInfo(addtermaginfo.termaginfo, PicLocalTmpDir, PicLocalDir);
                                         str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                         break;
                                     case "deltermaginfo":        //删除安装终端

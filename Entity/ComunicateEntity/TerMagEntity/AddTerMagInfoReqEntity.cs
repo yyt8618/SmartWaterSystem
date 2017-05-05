@@ -5,6 +5,6 @@ namespace Entity
     public class AddTerMagInfoReqEntity
     {
         public string action = "";
-        public TerMagInfoEntity TerMagInfo;
+        public TerMagInfoEntity termaginfo;
     }
 }

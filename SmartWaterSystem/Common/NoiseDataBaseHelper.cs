@@ -126,9 +126,13 @@ namespace SmartWaterSystem
             return null;
         }
 
-        public static NoiseResult GetNoiseResult(int id)
+        public static NoiseResult GetNoiseResult(int id,string colltime="")
         {
-            string sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            string sql = "";
+            if (string.IsNullOrEmpty(colltime))
+                sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability,LeakValue FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            else
+                sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability,LeakValue FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " AND CollTime ='" + colltime + "'";
             using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
             {
                 if (reader.Read())
@@ -143,6 +147,7 @@ namespace SmartWaterSystem
                     recResult.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
                     recResult.EnergyValue = Convert.ToDouble(reader["EnergyValue"]);
                     recResult.LeakProbability = Convert.ToDouble(reader["LeakProbability"]);
+                    recResult.LeakValue = Convert.ToInt32(reader["LeakValue"]);
 
                     return recResult;
                 }
@@ -631,9 +636,9 @@ namespace SmartWaterSystem
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime, EnergyValue, LeakProbability) 
-                    VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}',{9}, {10})",
-                    result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.EnergyValue.ToString("f4"), result.LeakProbability.ToString("f4"));
+                sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime, EnergyValue, LeakProbability, LeakValue) 
+                    VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}',{9}, {10}, {11})",
+                    result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.EnergyValue.ToString("f4"), result.LeakProbability.ToString("f4"), result.LeakValue);
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
