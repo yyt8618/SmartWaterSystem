@@ -61,7 +61,9 @@
             this.btnCleanFlash = new DevExpress.XtraEditors.SimpleButton();
             this.comboBoxDist = new DevExpress.XtraEditors.ComboBoxEdit();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
+            this.cbComType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnResetCtrlSet = new DevExpress.XtraEditors.SimpleButton();
+            this.ceComType = new DevExpress.XtraEditors.CheckEdit();
             this.SwitchComunication = new DevExpress.XtraEditors.ToggleSwitch();
             this.dateTimePickerCon = new System.Windows.Forms.DateTimePicker();
             this.CombRemotingID = new DevExpress.XtraEditors.CheckedComboBoxEdit();
@@ -78,6 +80,7 @@
             this.ceDTCon = new DevExpress.XtraEditors.CheckEdit();
             this.ceConId = new DevExpress.XtraEditors.CheckEdit();
             this.ceConPort = new DevExpress.XtraEditors.CheckEdit();
+            this.ceConTimeAuto = new DevExpress.XtraEditors.CheckEdit();
             this.txtComTime = new DevExpress.XtraEditors.TextEdit();
             this.label8 = new System.Windows.Forms.Label();
             this.btnNowCon = new DevExpress.XtraEditors.SimpleButton();
@@ -103,7 +106,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.ceRecTimeAuto = new DevExpress.XtraEditors.CheckEdit();
-            this.ceConTimeAuto = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRecNote.Properties)).BeginInit();
@@ -119,6 +121,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxDist.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CombRemotingID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCurConId.Properties)).BeginInit();
@@ -130,6 +134,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ceDTCon.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConPort.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceConTimeAuto.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtColTimeEnd.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtColTimeStart.Properties)).BeginInit();
@@ -143,7 +148,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ceRecTimeAuto.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceConTimeAuto.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl1
@@ -341,7 +345,7 @@
             // 
             // ceRemoteSwitch
             // 
-            this.ceRemoteSwitch.Location = new System.Drawing.Point(2, 124);
+            this.ceRemoteSwitch.Location = new System.Drawing.Point(2, 120);
             this.ceRemoteSwitch.Name = "ceRemoteSwitch";
             this.ceRemoteSwitch.Properties.Caption = "远传功能";
             this.ceRemoteSwitch.Size = new System.Drawing.Size(68, 19);
@@ -349,11 +353,11 @@
             // 
             // ceComTime
             // 
-            this.ceComTime.Location = new System.Drawing.Point(131, 124);
+            this.ceComTime.Location = new System.Drawing.Point(2, 168);
             this.ceComTime.Name = "ceComTime";
             this.ceComTime.Properties.Caption = "通讯时间";
             this.ceComTime.Size = new System.Drawing.Size(68, 19);
-            this.ceComTime.TabIndex = 12;
+            this.ceComTime.TabIndex = 18;
             // 
             // ceInterval
             // 
@@ -456,21 +460,23 @@
             // 
             // comboBoxDist
             // 
-            this.comboBoxDist.Location = new System.Drawing.Point(71, 123);
+            this.comboBoxDist.Location = new System.Drawing.Point(72, 119);
             this.comboBoxDist.Name = "comboBoxDist";
             this.comboBoxDist.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.comboBoxDist.Properties.Items.AddRange(new object[] {
-            "关闭",
-            "开启"});
+            "关",
+            "开"});
             this.comboBoxDist.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboBoxDist.Size = new System.Drawing.Size(57, 20);
+            this.comboBoxDist.Size = new System.Drawing.Size(47, 20);
             this.comboBoxDist.TabIndex = 11;
             this.comboBoxDist.SelectedIndexChanged += new System.EventHandler(this.comboBoxDist_SelectedIndexChanged);
             // 
             // groupControl4
             // 
+            this.groupControl4.Controls.Add(this.cbComType);
             this.groupControl4.Controls.Add(this.btnResetCtrlSet);
+            this.groupControl4.Controls.Add(this.ceComType);
             this.groupControl4.Controls.Add(this.SwitchComunication);
             this.groupControl4.Controls.Add(this.dateTimePickerCon);
             this.groupControl4.Controls.Add(this.CombRemotingID);
@@ -489,43 +495,66 @@
             this.groupControl4.Controls.Add(this.ceDTCon);
             this.groupControl4.Controls.Add(this.ceConId);
             this.groupControl4.Controls.Add(this.ceConPort);
-            this.groupControl4.Controls.Add(this.txtComTime);
-            this.groupControl4.Controls.Add(this.label8);
             this.groupControl4.Controls.Add(this.ceConTimeAuto);
             this.groupControl4.Controls.Add(this.comboBoxDist);
+            this.groupControl4.Controls.Add(this.txtComTime);
+            this.groupControl4.Controls.Add(this.label8);
             this.groupControl4.Controls.Add(this.btnNowCon);
             this.groupControl4.Location = new System.Drawing.Point(252, 5);
             this.groupControl4.Name = "groupControl4";
             this.groupControl4.Size = new System.Drawing.Size(275, 250);
-            this.groupControl4.TabIndex = 20;
+            this.groupControl4.TabIndex = 21;
             this.groupControl4.Text = "远程控制器";
+            // 
+            // cbComType
+            // 
+            this.cbComType.Location = new System.Drawing.Point(189, 119);
+            this.cbComType.Name = "cbComType";
+            this.cbComType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbComType.Properties.Items.AddRange(new object[] {
+            "移动GSM",
+            "GPRS方式",
+            "CDMA方式",
+            "电信GSM"});
+            this.cbComType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbComType.Size = new System.Drawing.Size(83, 20);
+            this.cbComType.TabIndex = 13;
             // 
             // btnResetCtrlSet
             // 
             this.btnResetCtrlSet.Enabled = false;
-            this.btnResetCtrlSet.Location = new System.Drawing.Point(103, 186);
+            this.btnResetCtrlSet.Location = new System.Drawing.Point(107, 193);
             this.btnResetCtrlSet.Name = "btnResetCtrlSet";
-            this.btnResetCtrlSet.Size = new System.Drawing.Size(85, 25);
-            this.btnResetCtrlSet.TabIndex = 20;
+            this.btnResetCtrlSet.Size = new System.Drawing.Size(80, 25);
+            this.btnResetCtrlSet.TabIndex = 21;
             this.btnResetCtrlSet.Text = "复位";
             this.btnResetCtrlSet.Click += new System.EventHandler(this.btnResetCtrlSet_Click);
+            // 
+            // ceComType
+            // 
+            this.ceComType.Location = new System.Drawing.Point(120, 120);
+            this.ceComType.Name = "ceComType";
+            this.ceComType.Properties.Caption = "通讯方式";
+            this.ceComType.Size = new System.Drawing.Size(74, 19);
+            this.ceComType.TabIndex = 12;
             // 
             // SwitchComunication
             // 
             this.SwitchComunication.EditValue = true;
-            this.SwitchComunication.Location = new System.Drawing.Point(3, 186);
+            this.SwitchComunication.Location = new System.Drawing.Point(5, 207);
             this.SwitchComunication.Name = "SwitchComunication";
             this.SwitchComunication.Properties.OffText = "GPRS";
             this.SwitchComunication.Properties.OnText = "串口";
             this.SwitchComunication.Size = new System.Drawing.Size(99, 25);
-            this.SwitchComunication.TabIndex = 19;
+            this.SwitchComunication.TabIndex = 25;
             this.SwitchComunication.Click += new System.EventHandler(this.SwitchComunication_Click);
             // 
             // dateTimePickerCon
             // 
             this.dateTimePickerCon.CustomFormat = "HH:mm:ss";
             this.dateTimePickerCon.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerCon.Location = new System.Drawing.Point(81, 72);
+            this.dateTimePickerCon.Location = new System.Drawing.Point(81, 70);
             this.dateTimePickerCon.MinDate = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerCon.Name = "dateTimePickerCon";
             this.dateTimePickerCon.ShowUpDown = true;
@@ -536,7 +565,7 @@
             // CombRemotingID
             // 
             this.CombRemotingID.EditValue = "";
-            this.CombRemotingID.Location = new System.Drawing.Point(81, 98);
+            this.CombRemotingID.Location = new System.Drawing.Point(81, 95);
             this.CombRemotingID.Name = "CombRemotingID";
             this.CombRemotingID.Properties.AllowMultiSelect = true;
             this.CombRemotingID.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -547,10 +576,10 @@
             // btnApplyCtrlSet
             // 
             this.btnApplyCtrlSet.Enabled = false;
-            this.btnApplyCtrlSet.Location = new System.Drawing.Point(189, 218);
+            this.btnApplyCtrlSet.Location = new System.Drawing.Point(189, 221);
             this.btnApplyCtrlSet.Name = "btnApplyCtrlSet";
-            this.btnApplyCtrlSet.Size = new System.Drawing.Size(85, 25);
-            this.btnApplyCtrlSet.TabIndex = 23;
+            this.btnApplyCtrlSet.Size = new System.Drawing.Size(80, 25);
+            this.btnApplyCtrlSet.TabIndex = 24;
             this.btnApplyCtrlSet.Text = "应用当前设置";
             this.btnApplyCtrlSet.Click += new System.EventHandler(this.btnApplyCtrlSet_Click);
             // 
@@ -566,26 +595,26 @@
             // btnFieldStrength
             // 
             this.btnFieldStrength.Enabled = false;
-            this.btnFieldStrength.Location = new System.Drawing.Point(189, 186);
+            this.btnFieldStrength.Location = new System.Drawing.Point(189, 193);
             this.btnFieldStrength.Name = "btnFieldStrength";
-            this.btnFieldStrength.Size = new System.Drawing.Size(85, 25);
-            this.btnFieldStrength.TabIndex = 21;
+            this.btnFieldStrength.Size = new System.Drawing.Size(80, 25);
+            this.btnFieldStrength.TabIndex = 22;
             this.btnFieldStrength.Text = "场强\\电压";
             this.btnFieldStrength.Click += new System.EventHandler(this.btnFieldStrength_Click);
             // 
             // btnReadCtrlSet
             // 
             this.btnReadCtrlSet.Enabled = false;
-            this.btnReadCtrlSet.Location = new System.Drawing.Point(103, 218);
+            this.btnReadCtrlSet.Location = new System.Drawing.Point(107, 221);
             this.btnReadCtrlSet.Name = "btnReadCtrlSet";
-            this.btnReadCtrlSet.Size = new System.Drawing.Size(85, 25);
-            this.btnReadCtrlSet.TabIndex = 22;
+            this.btnReadCtrlSet.Size = new System.Drawing.Size(80, 25);
+            this.btnReadCtrlSet.TabIndex = 23;
             this.btnReadCtrlSet.Text = "读取设备参数";
             this.btnReadCtrlSet.Click += new System.EventHandler(this.btnReadCtrlSet_Click);
             // 
             // txtConId
             // 
-            this.txtConId.Location = new System.Drawing.Point(81, 48);
+            this.txtConId.Location = new System.Drawing.Point(81, 47);
             this.txtConId.Name = "txtConId";
             this.txtConId.Properties.Mask.EditMask = "f0";
             this.txtConId.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
@@ -604,29 +633,29 @@
             // txtConPort
             // 
             this.txtConPort.EditValue = "";
-            this.txtConPort.Location = new System.Drawing.Point(225, 148);
+            this.txtConPort.Location = new System.Drawing.Point(225, 143);
             this.txtConPort.Name = "txtConPort";
             this.txtConPort.Properties.Mask.EditMask = "f0";
             this.txtConPort.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtConPort.Properties.MaxLength = 4;
             this.txtConPort.Size = new System.Drawing.Size(45, 20);
-            this.txtConPort.TabIndex = 18;
+            this.txtConPort.TabIndex = 17;
             // 
             // txtConIP
             // 
             this.txtConIP.EditValue = "";
-            this.txtConIP.Location = new System.Drawing.Point(72, 148);
+            this.txtConIP.Location = new System.Drawing.Point(72, 143);
             this.txtConIP.Name = "txtConIP";
             this.txtConIP.Properties.Mask.EditMask = "(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[" +
     "1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]" +
     "|1[0-9][0-9]|[1-9]?[0-9])";
             this.txtConIP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtConIP.Size = new System.Drawing.Size(104, 20);
-            this.txtConIP.TabIndex = 16;
+            this.txtConIP.TabIndex = 15;
             // 
             // ceRemotingID
             // 
-            this.ceRemotingID.Location = new System.Drawing.Point(2, 99);
+            this.ceRemotingID.Location = new System.Drawing.Point(2, 96);
             this.ceRemotingID.Name = "ceRemotingID";
             this.ceRemotingID.Properties.Caption = "记录仪ID";
             this.ceRemotingID.Size = new System.Drawing.Size(92, 19);
@@ -634,15 +663,15 @@
             // 
             // ceConIP
             // 
-            this.ceConIP.Location = new System.Drawing.Point(2, 149);
+            this.ceConIP.Location = new System.Drawing.Point(2, 144);
             this.ceConIP.Name = "ceConIP";
             this.ceConIP.Properties.Caption = "远传地址";
             this.ceConIP.Size = new System.Drawing.Size(92, 19);
-            this.ceConIP.TabIndex = 15;
+            this.ceConIP.TabIndex = 14;
             // 
             // ceDTCon
             // 
-            this.ceDTCon.Location = new System.Drawing.Point(2, 74);
+            this.ceDTCon.Location = new System.Drawing.Point(2, 72);
             this.ceDTCon.Name = "ceDTCon";
             this.ceDTCon.Properties.Caption = "控制器时间";
             this.ceDTCon.Size = new System.Drawing.Size(92, 19);
@@ -650,41 +679,50 @@
             // 
             // ceConId
             // 
-            this.ceConId.Location = new System.Drawing.Point(2, 49);
+            this.ceConId.Location = new System.Drawing.Point(2, 48);
             this.ceConId.Name = "ceConId";
-            this.ceConId.Properties.Caption = "设置ID";
+            this.ceConId.Properties.Caption = "编号";
             this.ceConId.Size = new System.Drawing.Size(92, 19);
             this.ceConId.TabIndex = 2;
             // 
             // ceConPort
             // 
-            this.ceConPort.Location = new System.Drawing.Point(182, 149);
+            this.ceConPort.Location = new System.Drawing.Point(182, 144);
             this.ceConPort.Name = "ceConPort";
             this.ceConPort.Properties.Caption = "端口";
             this.ceConPort.Size = new System.Drawing.Size(52, 19);
-            this.ceConPort.TabIndex = 17;
+            this.ceConPort.TabIndex = 16;
+            // 
+            // ceConTimeAuto
+            // 
+            this.ceConTimeAuto.Location = new System.Drawing.Point(209, 72);
+            this.ceConTimeAuto.Name = "ceConTimeAuto";
+            this.ceConTimeAuto.Properties.Caption = "自动";
+            this.ceConTimeAuto.Size = new System.Drawing.Size(52, 19);
+            this.ceConTimeAuto.TabIndex = 7;
+            this.ceConTimeAuto.CheckedChanged += new System.EventHandler(this.ceTimeAuto_CheckedChanged);
             // 
             // txtComTime
             // 
-            this.txtComTime.Location = new System.Drawing.Point(199, 123);
+            this.txtComTime.Location = new System.Drawing.Point(72, 167);
             this.txtComTime.Name = "txtComTime";
             this.txtComTime.Properties.Mask.EditMask = "f0";
             this.txtComTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtComTime.Size = new System.Drawing.Size(57, 20);
-            this.txtComTime.TabIndex = 13;
+            this.txtComTime.TabIndex = 19;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(254, 126);
+            this.label8.Location = new System.Drawing.Point(129, 170);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 14);
-            this.label8.TabIndex = 14;
+            this.label8.TabIndex = 20;
             this.label8.Text = "点";
             // 
             // btnNowCon
             // 
-            this.btnNowCon.Location = new System.Drawing.Point(167, 72);
+            this.btnNowCon.Location = new System.Drawing.Point(167, 70);
             this.btnNowCon.Name = "btnNowCon";
             this.btnNowCon.Size = new System.Drawing.Size(38, 23);
             this.btnNowCon.TabIndex = 6;
@@ -928,7 +966,7 @@
             this.panelControl1.Location = new System.Drawing.Point(260, 3);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(532, 260);
-            this.panelControl1.TabIndex = 30;
+            this.panelControl1.TabIndex = 1;
             // 
             // ceRecTimeAuto
             // 
@@ -938,15 +976,6 @@
             this.ceRecTimeAuto.Size = new System.Drawing.Size(52, 19);
             this.ceRecTimeAuto.TabIndex = 3;
             this.ceRecTimeAuto.CheckedChanged += new System.EventHandler(this.ceTimeAuto_CheckedChanged);
-            // 
-            // ceConTimeAuto
-            // 
-            this.ceConTimeAuto.Location = new System.Drawing.Point(209, 74);
-            this.ceConTimeAuto.Name = "ceConTimeAuto";
-            this.ceConTimeAuto.Properties.Caption = "自动";
-            this.ceConTimeAuto.Size = new System.Drawing.Size(52, 19);
-            this.ceConTimeAuto.TabIndex = 7;
-            this.ceConTimeAuto.CheckedChanged += new System.EventHandler(this.ceTimeAuto_CheckedChanged);
             // 
             // NoiseRecMgr
             // 
@@ -975,6 +1004,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
             this.groupControl4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cbComType.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceComType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SwitchComunication.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CombRemotingID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCurConId.Properties)).EndInit();
@@ -986,6 +1017,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ceDTCon.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceConPort.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceConTimeAuto.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtComTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtColTimeEnd.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtColTimeStart.Properties)).EndInit();
@@ -1000,7 +1032,6 @@
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ceRecTimeAuto.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceConTimeAuto.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1082,5 +1113,7 @@
         private DevExpress.XtraEditors.SimpleButton btnFieldStrength;
         private DevExpress.XtraEditors.SimpleButton btnResetCtrlSet;
         private DevExpress.XtraEditors.CheckEdit ceConTimeAuto;
+        private DevExpress.XtraEditors.ComboBoxEdit cbComType;
+        private DevExpress.XtraEditors.CheckEdit ceComType;
     }
 }

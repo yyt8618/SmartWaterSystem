@@ -26,14 +26,19 @@ namespace SmartWaterSystem
             try
             {
                 DataTable dt = offsetBll.GetAllOffsetValue();
-                dt.Columns.Add("TerminalTypeName", typeof(string));
-                if (dt != null && dt.Rows.Count > 0)
+                if (dt == null || dt.Rows.Count == 0)
                 {
-                    EnumHelper enumhelp = new EnumHelper();
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        dr["TerminalTypeName"] = enumhelp.GetEnumDescription((ConstValue.DEV_TYPE)(Convert.ToInt32(dr["TerminalType"])));  //将数值类型的转换成名称,设备名称放前面，方便检索
-                    }
+                    dt = new DataTable();
+                    dt.Columns.Add("TerminalID", typeof(int));
+                    dt.Columns.Add("TerminalType", typeof(int));
+                    dt.Columns.Add("FunCode", typeof(short));
+                    dt.Columns.Add("OffsetValue", typeof(float));
+                }
+                dt.Columns.Add("TerminalTypeName", typeof(string));
+                EnumHelper enumhelp = new EnumHelper();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["TerminalTypeName"] = enumhelp.GetEnumDescription((ConstValue.DEV_TYPE)(Convert.ToInt32(dr["TerminalType"])));  //将数值类型的转换成名称,设备名称放前面，方便检索
                 }
                 gridControl1.DataSource = dt;
                 InitGridView();

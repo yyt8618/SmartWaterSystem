@@ -1,6 +1,5 @@
 ﻿using Common;
-using System
->>>>>>> github/testprocdatamem
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -45,9 +44,7 @@ namespace DAL
                 parms[1].Value = dr["TerminalType"];
                 parms[2].Value = dr["Funcode"];
                 parms[3].Value = dr["OffsetValue"];
-                parms[4].Value = dr["ModifyTime"];
                 parms[4].Value = DateTime.Now;
->>>>>>> github/testprocdatamem
 
                 SQLHelper.ExecuteNonQuery(SQL, parms);
             }
