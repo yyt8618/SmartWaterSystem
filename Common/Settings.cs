@@ -77,19 +77,19 @@ namespace Common
         /// <summary>
         /// 本地临时存放图片路径
         /// </summary>
-        public const string PicLocalTmpDir = "";
+        public const string PicLocalTmpDir = "PicLocalTmpDir";
         /// <summary>
         /// 本地正式存放图片路径
         /// </summary>
-        public const string PicLocalDir = "";
+        public const string PicLocalDir = "PicLocalDir";
         /// <summary>
         /// 临时网络图片地址头
         /// </summary>
-        public const string PicNetTmpDirHead = "";
+        public const string PicNetTmpDirHead = "PicNetTmpDirHead";
         /// <summary>
         /// 正式网络图片地址头
         /// </summary>
-        public const string PicNetDirHead = "";
+        public const string PicNetDirHead = "PicNetDirHead";
     }
 
     /// <summary>

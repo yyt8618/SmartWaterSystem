@@ -115,7 +115,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                logger.ErrorException("DelTer", ex);
+                logger.ErrorException("AddTerMagInfo", ex);
                 resp.code = -1;
                 resp.msg = "服务器异常";
             }

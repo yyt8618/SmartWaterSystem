@@ -214,38 +214,6 @@ namespace SmartWaterSystem
                     GlobalValue.NoiseSerialPortOptData.Enable = true;
                     BeginSerialPortDelegate();
                     GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseEnable);
-                    //if (Originaldata == null || (Originaldata != null && (NoiseDataHandler.GetAverage(Originaldata) < 450)))  //没有读到标准值，重试2次
-                    //{
-                    //    string startvalue = "";
-                    //    if(Originaldata!=null)
-                    //        foreach (double d in Originaldata)
-                    //        {
-                    //            startvalue+=d.ToString()+" ";
-                    //        }
-                    //    ShowDialog("启动失败,请重试["+startvalue+"]!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //    isError = true;
-                    //}
-
-                    //string path = string.Format(Application.StartupPath + @"\Data\记录仪{0}\", id);
-                    //StreamWriter sw = new StreamWriter(string.Format("{0}启动值.txt", path));
-                    //for (int i = 0; i < Originaldata.Length; i++)
-                    //{
-                    //    sw.WriteLine(Originaldata[i]);
-                    //}
-                    //sw.Flush();
-                    //sw.Close();
-
-                    //NoiseRecorder rec = (from item in GlobalValue.recorderList.AsEnumerable()
-                    //                     where item.ID == id
-                    //                     select item).ToList()[0];
-                    //rec.Power = 1;
-
-                    //NoiseDataBaseHelper.UpdateRecorder(rec);
-                    //if (NoiseDataBaseHelper.SaveStandData(rec.GroupID, rec.ID, Originaldata) < 0)
-                    //{
-                    //    ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //    isError = true;
-                    //}
                 }
                 catch (TimeoutException)
                 {
@@ -279,25 +247,6 @@ namespace SmartWaterSystem
                 }
                 finally
                 {
-                    //EnableControls(true);
-                    //EnableRibbonBar();
-                    //EnableNavigateBar();
-                    //HideWaitForm();
-                    //btnStart.Enabled = true;
-                    //if (!isError)
-                    //{
-                    //    lblRecState.Text = "运行状态  已启动";
-                    //    btnStart.Enabled = false;
-                    //    btnStop.Enabled = true;
-                    //}
-                    //else
-                    //{
-                    //    lblRecState.Text = "运行状态  未知";
-                    //    btnStart.Enabled = true;
-                    //    btnStop.Enabled = false;
-                    //}
-
-                    //this.Refresh();
                 }
             }
             //}).BeginInvoke(null, null);
@@ -368,21 +317,6 @@ namespace SmartWaterSystem
                     HideWaitForm();
                     btnStop.Enabled = true;
                 }
-                finally
-                {
-                    //EnableControls(true);
-                    //EnableRibbonBar();
-                    //EnableNavigateBar();
-                    //HideWaitForm();
-                    //btnStop.Enabled = true;
-                    //if (!isError)
-                    //{
-                    //    lblRecState.Text = "运行状态  已停止";
-                    //    btnStart.Enabled = true;
-                    //    btnStop.Enabled = false;
-                    //}
-                    //this.Refresh();
-                }
             }
             //}).BeginInvoke(null, null);
         }
@@ -430,14 +364,6 @@ namespace SmartWaterSystem
                 NoiseRecorder newRec = new NoiseRecorder();
                 newRec.ID = Convert.ToInt32(txtRecID.Text);
                 newRec.AddDate = DateTime.Now;
-                //newRec.CommunicationTime = Convert.ToInt32(txtComTime.Text);
-                //if (comboBoxDist.SelectedIndex == 1)
-                //    newRec.ControlerPower = 1;
-                //else if (comboBoxDist.SelectedIndex == 0)
-                //    newRec.ControlerPower = 0;
-                //else
-                //    throw new Exception("未选择远传功能！");
-
                 newRec.LeakValue = Convert.ToInt32(txtLeakValue.Text);
                 newRec.Remark = txtRecNote.Text;
                 newRec.PickSpan = Convert.ToInt32(spinEditInterval.Value);
@@ -455,11 +381,6 @@ namespace SmartWaterSystem
                 if (!string.IsNullOrEmpty(txtStartStandValue.Text))
                 {
                     int singledata=  Convert.ToInt32(txtStartStandValue.Text);
-                    //short[] Originaldata = new short[32];
-                    //for (int i = 0; i < 32; i++)
-                    //{
-                    //    Originaldata[i] = singledata;  //将录入值复制成32个数
-                    //}
                     if (NoiseDataBaseHelper.SaveStandData(newRec.ID, singledata) < 0)
                     {
                         ShowDialog("保存记录仪数据失败!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -524,17 +445,6 @@ namespace SmartWaterSystem
             txtLeakValue.Text = (new BLL.NoiseParmBLL()).GetParm(ConstValue.LeakValue_Template);
 
             int power = Settings.Instance.GetInt(SettingKeys.Power_Template);
-            //comboBoxEditPower.SelectedIndex = power;
-
-            //int conPower = Settings.Instance.GetInt(SettingKeys.ControlPower_Template);
-            //if (conPower == 1)
-            //{
-                //comboBoxDist.SelectedIndex = conPower;
-            //    txtConPort.Text = Settings.Instance.GetString(SettingKeys.Port_Template);
-            //    txtConIP.Text = Settings.Instance.GetString(SettingKeys.Adress_Template);
-            //}
-            //else
-            //    comboBoxDist.SelectedIndex = conPower;
         }
 
         private void EnableControls(bool enable)
@@ -555,6 +465,8 @@ namespace SmartWaterSystem
             btnApplySet.Enabled = enable;
             btnReadCtrlSet.Enabled = enable;
             btnApplyCtrlSet.Enabled = enable;
+            btnResetCtrlSet.Enabled = enable;
+            btnFieldStrength.Enabled = enable;
 
             gridControlRec.Enabled = enable;
         }
@@ -627,14 +539,6 @@ namespace SmartWaterSystem
                 EnableNavigateBar();
                 HideWaitForm();
             }
-            finally
-            {
-                //EnableRibbonBar();
-                //EnableNavigateBar();
-                //EnableControls(true);
-                //HideWaitForm();
-            }
-            //}).BeginInvoke(null, null);
         }
 
         // 读取控制器设备参数
@@ -717,17 +621,87 @@ namespace SmartWaterSystem
                 EnableNavigateBar();
                 HideWaitForm();
             }
+        }
+
+
+        // 复位控制器设备
+        private void btnResetCtrlSet_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!Regex.IsMatch(txtCurConId.Text, @"^\d{1,3}$"))
+                {
+                    XtraMessageBox.Show("请输入控制器ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtCurConId.Focus();
+                    return;
+                }
+                GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
+                GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(txtCurConId.Text);
+
+                EnableControls(false);
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", "正在复位远传控制器...");
+                BeginSerialPortDelegate();
+                GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                Application.DoEvents();
+                SetStaticItem("正在复位远传控制器...");
+                GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseCtrlReset);
+            }
+            catch (Exception ex)
+            {
+                ShowDialog("读取失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetStaticItem("读取失败");
+                EnableControls(true);
+                EnableRibbonBar();
+                EnableNavigateBar();
+                HideWaitForm();
+            }
             finally
             {
-                //EnableRibbonBar();
-                //EnableNavigateBar();
-                //EnableControls(true);
-                //HideWaitForm();
+            }
+        }
+
+        private void btnFieldStrength_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!Regex.IsMatch(txtCurConId.Text, @"^\d{1,3}$"))
+                {
+                    XtraMessageBox.Show("请输入控制器ID", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtCurConId.Focus();
+                    return;
+                }
+                GlobalValue.NoiseSerialPortOptData = new NoiseSerialPortOptEntity();
+                GlobalValue.NoiseSerialPortOptData.ID = Convert.ToInt16(txtCurConId.Text);
+
+                EnableControls(false);
+                DisableRibbonBar();
+                DisableNavigateBar();
+                ShowWaitForm("", "正在读取场强\\电压...");
+                BeginSerialPortDelegate();
+                GlobalValue.SerialPortMgr.SerialPortScheduleEvent -= new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                GlobalValue.SerialPortMgr.SerialPortScheduleEvent += new SerialPortScheduleHandle(SerialPortParm_SerialPortScheduleEvent);
+                Application.DoEvents();
+                SetStaticItem("正在读取场强\\电压...");
+                GlobalValue.SerialPortMgr.Send(SerialPortType.NoiseCtrlReadFiledStrength);
+            }
+            catch (Exception ex)
+            {
+                ShowDialog("读取失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetStaticItem("读取失败");
+                EnableControls(true);
+                EnableRibbonBar();
+                EnableNavigateBar();
+                HideWaitForm();
+            }
+            finally
+            {
             }
         }
 
         // 设置控制器设备参数
-
         DistanceController alterCtrl = null;
         private void btnApplyCtrlSet_Click(object sender, EventArgs e)
         {
@@ -1089,17 +1063,6 @@ namespace SmartWaterSystem
                         //采集间隔
                         if (GlobalValue.NoiseSerialPortOptData.IsOptInterval)
                             spinEditInterval.Value = read_result.Interval;
-                        //if (GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch)
-                        //{
-                        //    if (read_result.RemoteSwitch)
-                        //    {
-                        //        comboBoxDist.SelectedIndex = 1;
-                        //    }
-                        //    else
-                        //    {
-                        //        comboBoxDist.SelectedIndex = 0;
-                        //    }
-                        //}
                     }
                     ShowDialog("读取记录仪参数成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -1140,11 +1103,6 @@ namespace SmartWaterSystem
                     }
                     else
                         throw new Exception("数据入库发生错误。");
-
-                    //ShowDialog("设置成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
-                    //GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
-                    //BindRecord();
                 }
                 else
                 {
@@ -1268,10 +1226,7 @@ namespace SmartWaterSystem
                     HideWaitForm();
                     btnApplyCtrlSet.Enabled = true;
                     isSetting = false;
-
-                    //if (alterCtrl != null)
-                    //    NoiseDataBaseHelper.UpdateControler(alterCtrl);
-
+                    
                     ShowDialog("设置远传控制器参数成功！", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GlobalValue.recorderList = NoiseDataBaseHelper.GetRecorders();
                     GlobalValue.groupList = NoiseDataBaseHelper.GetGroups();
@@ -1430,6 +1385,55 @@ namespace SmartWaterSystem
                     ShowDialog("设置启动值失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseCtrlReset)
+            {
+                string message = string.Empty;
+                if (e.Tag != null)
+                    message = e.Tag.ToString();
+
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+
+                EnableControls(true);
+                EnableRibbonBar();
+                EnableNavigateBar();
+                HideWaitForm();
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    ShowDialog("复位噪声远传控制器成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    ShowDialog("复位噪声远传控制器失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else if (e.TransactStatus != TransStatus.Start && e.OptType == SerialPortType.NoiseCtrlReadFiledStrength)
+            {
+                this.Enabled = true;
+                HideWaitForm();
+
+                GlobalValue.SerialPortMgr.SerialPortEvent -= new SerialPortHandle(SerialPortNotify);
+                if (e.TransactStatus == TransStatus.Success)
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+
+                    NoiseSerialPortOptEntity read_result = (NoiseSerialPortOptEntity)e.Tag;
+                    XtraMessageBox.Show(read_result.FieldStrength, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    EnableControls(true);
+                    EnableRibbonBar();
+                    EnableNavigateBar();
+                    HideWaitForm();
+                    XtraMessageBox.Show("读取场强\\电压失败!" + e.Msg, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
 
         }
 
@@ -1544,23 +1548,27 @@ namespace SmartWaterSystem
 
         private void UcRecMgr_Load(object sender, EventArgs e)
         {
-            //BindRecord();
             this.timer1.Interval = 1000;   //1s
             this.timer1.Tick += new EventHandler(timer1_Tick);
-            //this.timer1.Enabled = true;
         }
 
         void timer1_Tick(object sender, EventArgs e)
         {
             try
             {
-                DateTime datenow = this.dateTimePickerRec.Value;
-                if (datenow.CompareTo(DateTime.Now.AddDays(-1)) > -1)
-                    this.dateTimePickerRec.Value = datenow.AddSeconds(1);
-
-                datenow = this.dateTimePickerCon.Value;
-                if (datenow.CompareTo(DateTime.Now.AddDays(-1)) > -1)
-                    this.dateTimePickerCon.Value = datenow.AddSeconds(1);
+                DateTime datenow = DateTime.Now;
+                if (ceRecTimeAuto.Checked)
+                {
+                    datenow = this.dateTimePickerRec.Value;
+                    if (datenow.CompareTo(DateTime.Now.AddDays(-1)) > -1)
+                        this.dateTimePickerRec.Value = datenow.AddSeconds(1);
+                }
+                if (ceConTimeAuto.Checked)
+                {
+                    datenow = this.dateTimePickerCon.Value;
+                    if (datenow.CompareTo(DateTime.Now.AddDays(-1)) > -1)
+                        this.dateTimePickerCon.Value = datenow.AddSeconds(1);
+                }
             }
             catch (Exception ex)
             {
@@ -1583,17 +1591,7 @@ namespace SmartWaterSystem
                 //txtComTime.Text = rec.CommunicationTime.ToString();
                 txtColTimeStart.Text = rec.RecordTime.ToString();
                 int standvalue = NoiseDataBaseHelper.GetStandData(rec.GroupID, rec.ID);
-                //if (standvalue != null && standvalue.Length > 0)
-                //{
-                //    int sumstandvalue = 0;
-                //    for (int i = 0; i < standvalue.Length; i++)
-                //    {
-                //        sumstandvalue += standvalue[i];
-                //    }
-                //    txtStartStandValue.Text = (sumstandvalue / standvalue.Length).ToString();
-                //}
-                //else
-                    txtStartStandValue.Text = standvalue.ToString();
+                txtStartStandValue.Text = standvalue.ToString();
 
                 spinEditInterval.Value = rec.PickSpan;
                 txtRecNum.Text = (GlobalValue.Time * 60 / rec.PickSpan).ToString();
@@ -1626,25 +1624,7 @@ namespace SmartWaterSystem
                     txtConPort.Text = dc.Port.ToString();
                     txtConIP.Text = dc.IPAdress.ToString();
                 }
-                //comboBoxDist.SelectedIndex = rec.ControlerPower;
-
                 btnDeleteRec.Enabled = true;
-
-                //if (GlobalValue.portUtil.IsOpen)
-                //{
-                //    btnStart.Enabled = true;
-                //    btnStop.Enabled = true;
-                //    btnApplySet.Enabled = true;
-                //    btnNow.Enabled = true;
-                //}
-                //else
-                //{
-                //    btnStart.Enabled = false;
-                //    btnStop.Enabled = false;
-                //    btnApplySet.Enabled = false;
-                //    btnNow.Enabled = false;
-                //}
-
                 SerialPortEvent(GlobalValue.portUtil.IsOpen);
 
                 btnDeleteRec.Enabled = true;
@@ -1657,18 +1637,6 @@ namespace SmartWaterSystem
 
         private void comboBoxDist_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (comboBoxDist.SelectedIndex == 1)
-            //{
-            //    txtConId.Enabled = true;
-            //    txtConPort.Enabled = true;
-            //    txtConIP.Enabled = true;
-            //}
-            //else
-            //{
-            //    txtConId.Enabled = false;
-            //    txtConPort.Enabled = false;
-            //    txtConIP.Enabled = false;
-            //}
         }
 
         private void gridViewRecordList_CellValueChanging(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
@@ -1854,6 +1822,8 @@ namespace SmartWaterSystem
                 btnGetStandValue.Enabled = Enabled;
                 btnSetStandValue.Enabled = Enabled;
                 //btnCleanFlash.Enabled = Enabled;
+                btnResetCtrlSet.Enabled = Enabled;
+                btnFieldStrength.Enabled = Enabled;
             }
         }
 
@@ -2205,6 +2175,8 @@ namespace SmartWaterSystem
             txtColTimeStart.Enabled = true;
             ceInterval.Enabled = true;
             spinEditInterval.Enabled = true;
+            btnResetCtrlSet.Enabled = GlobalValue.portUtil.IsOpen;
+            btnFieldStrength.Enabled = GlobalValue.portUtil.IsOpen;
         }
 
         private void SetGprsCtrlStatus()
@@ -2237,11 +2209,14 @@ namespace SmartWaterSystem
             txtColTimeStart.Enabled = true;
             ceInterval.Enabled = true;
             spinEditInterval.Enabled = true;
+            btnResetCtrlSet.Enabled = false;
+            btnFieldStrength.Enabled = true;
         }
 
         private void ceTimeAuto_CheckedChanged(object sender, EventArgs e)
         {
-            timer1.Enabled = ceTimeAuto.Checked;
+            timer1.Enabled = ceRecTimeAuto.Checked || ceConTimeAuto.Checked;
         }
+        
     }
 }

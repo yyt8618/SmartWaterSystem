@@ -14,6 +14,48 @@ namespace Protocol
         #region 设置
 
         /// <summary>
+        /// 复位
+        /// </summary>
+        public bool Reset(short id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+            package.DevID = id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.RESET;
+            package.DataLength = 0;
+            package.Data = new byte[package.DataLength];
+            package.CS = package.CreateCS();
+            return Write(package);
+        }
+        public string ReadFieldStrength(short Id)
+        {
+            Package package = new Package();
+            package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
+            package.DevID = Id;
+            package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
+            package.C1 = (byte)NOISE_CTRL_COMMAND.READ_FIELDSTRENGTH;
+            package.DataLength = 0;
+            byte[] data = new byte[package.DataLength];
+            package.Data = data;
+            package.CS = package.CreateCS();
+
+            Package result = Read(package, 35, 1);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                throw new Exception("获取失败");
+            }
+            if (result.Data.Length == 0)
+            {
+                throw new Exception("无数据");
+            }
+            if (result.Data.Length != 3)
+            {
+                throw new Exception("数据损坏");
+            }
+            return "场强:" + result.Data[0] + ",电压:" + ((float)BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0)) / 1000;
+        }
+        /// <summary>
         /// 设置时间
         /// </summary>
         /// <param name="id"></param>

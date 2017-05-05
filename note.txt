@@ -34,6 +34,7 @@ tlp:谭丽萍 pg:彭工
 2017-03-21 表Prectrl_Real增加FieldStrength字段
 2017-03-29 修改表Waterworker_Real字段[Freq1],[Freq2],[Freq3],[Freq4]属性为numeric(18,3)
 2017-04-17 增加表OffsetValue用于纠偏
+2017-05-05 表DL_NoiseAnalyse增加幅度警戒值LeakValue
 
 ctrl+k,ctrl+d 自动排版
 

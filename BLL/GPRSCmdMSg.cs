@@ -116,7 +116,7 @@ namespace BLL
                         break;
                     case UNIVERSAL_COMMAND.READ_ALARMLEN:
                     case UNIVERSAL_COMMAND.SET_ALARMLEN:
-                        DataDesc = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0).ToString()+"h";
+                        DataDesc = BitConverter.ToInt16(new byte[] { pack.Data[1], pack.Data[0] }, 0).ToString()+"次";
                         break;
                     case UNIVERSAL_COMMAND.READ_COLLECTCONFIG:
                     case UNIVERSAL_COMMAND.SET_COLLECTCONFIG:

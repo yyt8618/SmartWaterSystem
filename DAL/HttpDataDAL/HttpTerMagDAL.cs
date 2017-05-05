@@ -161,6 +161,7 @@ namespace DAL
                 trans = conn.BeginTransaction();
                 SqlCommand command = new SqlCommand();
                 command.Connection = conn;
+                command.Transaction = trans;
                 command.CommandText = "INSERT TerManagerInfo(TerId,TerType,Addr,Remark,longitude,latitude,ModifyTime) VALUES(@terid,@tertype,@addr,@remark,@lng,@lat,@modifytime);select @identify=SCOPE_IDENTITY()";
                 command.Parameters.Clear();
                 command.Parameters.AddRange(parmsinfo);
@@ -174,7 +175,7 @@ namespace DAL
                     new SqlParameter("modifytime",SqlDbType.DateTime)
                 };
                 parmspic[0].Value = id;
-                command.CommandText = "ISNERT TerMagPic(TerMagId,PicName,Userfor,ModifyTime) VALUES(@magid,@picname,1,@modiftytime";
+                command.CommandText = "INSERT TerMagPic(TerMagId,PicName,Usefor,ModifyTime) VALUES(@magid,@picname,1,@modifytime)";
                 command.Parameters.Clear();
                 command.Parameters.AddRange(parmspic);
 

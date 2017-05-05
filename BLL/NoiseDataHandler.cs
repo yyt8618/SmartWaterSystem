@@ -1467,6 +1467,7 @@ namespace BLL
                     re.ReadTime = recorder.Data.ReadTime;
                     re.EnergyValue = energyvalue;
                     re.LeakProbability = leakprobability;
+                    re.LeakValue = recorder.LeakValue;
                     recorder.Result = re;
 
                     for (int i = 0; i < recorderList.Count; i++)

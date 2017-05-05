@@ -161,6 +161,10 @@ namespace Common
         /// 远传控制器设备与记录仪设备对应的ID
         /// </summary>
         WRITE_CTRL_NOISE_LOG_ID = 0x1c,
+        /// <summary>
+        /// 复位
+        /// </summary>
+        RESET=0x20,
         #endregion
 
         #region 读取
@@ -199,7 +203,11 @@ namespace Common
         /// <summary>
         /// 串口读取远程控制器的ID
         /// </summary>
-        READ_NOISE_CTRL_ID = 0x4f
+        READ_NOISE_CTRL_ID = 0x4f,
+        /// <summary>
+        /// 串口读取远传控制器场强、电压
+        /// </summary>
+        READ_FIELDSTRENGTH= 0x50,
         #endregion
     }
 

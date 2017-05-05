@@ -64,5 +64,10 @@ namespace Entity
         /// 漏水概率
         /// </summary>
         public double LeakProbability { get; set; }
+
+        /// <summary>
+        /// 计算结果时使用的幅度警戒值
+        /// </summary>
+        public int LeakValue { get; set; }
     }
 }

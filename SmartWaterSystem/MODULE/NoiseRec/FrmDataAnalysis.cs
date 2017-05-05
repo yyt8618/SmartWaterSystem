@@ -97,7 +97,7 @@ namespace SmartWaterSystem
                 else
                     axisX.Max = 15;
 
-                c1Chart1.ChartArea.AxisY.ValueLabels.Add(Recorder.LeakValue, "");
+                c1Chart1.ChartArea.AxisY.ValueLabels.Add(Recorder.Result.LeakValue, "");
                 c1Chart1.ChartArea.AxisY.ValueLabels[0].Appearance = ValueLabelAppearanceEnum.TriangleMarker;
                 c1Chart1.ChartArea.AxisY.ValueLabels[0].GridLine = false;
                 c1Chart1.ChartArea.AxisY.ValueLabels[0].Color = Color.Red;
@@ -129,7 +129,7 @@ namespace SmartWaterSystem
 			txtRemark.Text = Recorder.Remark;
 
             double max_amp, max_frq, min_amp, min_frq, leak_amp, leak_frq;
-            NoiseDataHandler.IsLeak3(data.Amplitude, data.Frequency, Recorder.LeakValue, out max_amp, out max_frq, out min_amp, out min_frq, out leak_amp, out leak_frq);
+            NoiseDataHandler.IsLeak3(data.Amplitude, data.Frequency, Recorder.Result.LeakValue, out max_amp, out max_frq, out min_amp, out min_frq, out leak_amp, out leak_frq);
 
             txtMaxNoise.Text = max_amp.ToString();
             txtMinNoise.Text = min_amp.ToString();

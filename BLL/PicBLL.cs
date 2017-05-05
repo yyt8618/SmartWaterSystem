@@ -33,6 +33,7 @@ namespace BLL
                     resp.msg = "图片不能为空";
                     return resp;
                 }
+                //string picbase64=System.Web.HttpUtility.UrlDecode(database64);
                 byte[] bs = Convert.FromBase64String(database64);
                 if (!suffix.StartsWith("."))
                     suffix = "." + suffix;
@@ -40,7 +41,7 @@ namespace BLL
                 //将本地路径地址替换为网络地址
                 //picfullpath = picfullpath.Replace(savelocaltmppath, netpathhead);
                 //picfullpath = picfullpath.Replace("\\", "/");
-                resp.data = database64;
+                resp.data = filename;
                 resp.code = 1;
             }
             catch (Exception ex)
