@@ -165,6 +165,10 @@ namespace Common
         /// 复位
         /// </summary>
         RESET=0x20,
+        /// <summary>
+        /// 远传通讯方式
+        /// </summary>
+        WRITE_COMTYPE=0x22,
         #endregion
 
         #region 读取
@@ -208,6 +212,10 @@ namespace Common
         /// 串口读取远传控制器场强、电压
         /// </summary>
         READ_FIELDSTRENGTH= 0x50,
+        /// <summary>
+        /// 串口读取远传控制器通讯方式
+        /// </summary>
+        READ_COMTYPE = 0x52,
         #endregion
     }
 

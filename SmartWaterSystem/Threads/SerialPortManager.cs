@@ -313,6 +313,11 @@ namespace SmartWaterSystem
                                     OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器远传开关状态..."));
                                     result_data.RemoteSwitch = ctrl.ReadRemote(GlobalValue.NoiseSerialPortOptData.ID);
                                 }
+                                if(GlobalValue.NoiseSerialPortOptData.IsOptComType)
+                                {
+                                    OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在读取远传控制器远传通讯方式..."));
+                                    result_data.ComType = ctrl.ReadComType(GlobalValue.NoiseSerialPortOptData.ID);
+                                }
                                 // 读取远传通讯时间
                                 if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
                                 {
@@ -379,6 +384,13 @@ namespace SmartWaterSystem
                                     {
                                         OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置远传开关状态..."));
                                         result = ctrl.WriteRemoteSwitch(GlobalValue.NoiseSerialPortOptData.ID, GlobalValue.NoiseSerialPortOptData.RemoteSwitch);
+                                        if (!result)
+                                            break;
+                                    }
+                                    if(GlobalValue.NoiseSerialPortOptData.IsOptComType)
+                                    {
+                                        OnSerialPortScheduleEvent(new SerialPortScheduleEventArgs(SerialPortType.NoiseReadParm, "正在设置通讯方式..."));
+                                        result = ctrl.WriteComType(GlobalValue.NoiseSerialPortOptData.ID, (byte)GlobalValue.NoiseSerialPortOptData.ComType);
                                         if (!result)
                                             break;
                                     }

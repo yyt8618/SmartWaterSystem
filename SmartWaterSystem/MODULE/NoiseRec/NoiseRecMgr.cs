@@ -579,7 +579,12 @@ namespace SmartWaterSystem
                         GlobalValue.NoiseSerialPortOptData.IsOptRemoteSwitch = ceRemoteSwitch.Checked;
                         haveread = true;
                     }
-                    if(ceComTime.Checked)
+                    if (ceComType.Checked)
+                    {
+                        GlobalValue.NoiseSerialPortOptData.IsOptComType = ceComType.Checked;
+                        haveread = true;
+                    }
+                    if (ceComTime.Checked)
                     {
                         GlobalValue.NoiseSerialPortOptData.IsOptComTime = ceComTime.Checked;
                         haveread = true;
@@ -796,26 +801,6 @@ namespace SmartWaterSystem
                         lstPack.Add(package);
                         haveset = true;
                     }
-                    //if (ceDTCon.Checked)
-                    //{
-                    //    Package package = new Package();
-                    //    package.DevType = Entity.ConstValue.DEV_TYPE.NOISE_CTRL;
-                    //    package.DevID = Convert.ToInt16(txtCurConId.Text);
-                    //    package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
-                    //    package.C1 = (byte)NOISE_CTRL_COMMAND.SET_NOISE_GPRSTIME;
-                    //    byte[] data = new byte[6];
-                    //    data[0] = (byte)(dateTimePickerCon.Value.Year - 2000);
-                    //    data[1] = (byte)dateTimePickerCon.Value.Month;
-                    //    data[2] = (byte)dateTimePickerCon.Value.Day;
-                    //    data[3] = (byte)dateTimePickerCon.Value.Hour;
-                    //    data[4] = (byte)dateTimePickerCon.Value.Minute;
-                    //    data[5] = (byte)dateTimePickerCon.Value.Second;
-                    //    package.DataLength = data.Length;
-                    //    package.Data = data;
-                    //    package.CS = package.CreateCS();
-                    //    lstPack.Add(package);
-                    //    haveset = true;
-                    //}
                     if (ceComTime.Checked)
                     {
                         if (!Regex.IsMatch(txtComTime.Text, @"^\d{1,2}$"))
@@ -925,7 +910,12 @@ namespace SmartWaterSystem
                             GlobalValue.NoiseSerialPortOptData.RemoteSwitch = comboBoxDist.SelectedIndex == 1 ? true : false;
                             haveset = true;
                         }
-
+                        if (ceComType.Checked)
+                        {
+                            GlobalValue.NoiseSerialPortOptData.IsOptComType = ceComType.Checked;
+                            GlobalValue.NoiseSerialPortOptData.ComType = cbComType.SelectedIndex;
+                            haveset = true;
+                        }
                         if (ceComTime.Checked)
                         {
                             if (!Regex.IsMatch(txtComTime.Text, @"^\d{1,2}$"))
@@ -1011,9 +1001,6 @@ namespace SmartWaterSystem
                 SetErrorFlag(error_flag);
                 ShowDialog("设置失败：" + ex.Message, GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SetStaticItem("设置失败");
-            }
-            finally
-            {
             }
         }
 
@@ -1190,6 +1177,8 @@ namespace SmartWaterSystem
                                 comboBoxDist.SelectedIndex = 0;
                             }
                         }
+                        if (GlobalValue.NoiseSerialPortOptData.IsOptComType)
+                            cbComType.SelectedIndex = GlobalValue.NoiseSerialPortOptData.ComType;
                         // 读取远传通讯时间
                         if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
                             this.txtComTime.Text = read_result.ComTime.ToString();
