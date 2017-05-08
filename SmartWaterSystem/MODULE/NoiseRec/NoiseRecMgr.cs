@@ -1178,7 +1178,7 @@ namespace SmartWaterSystem
                             }
                         }
                         if (GlobalValue.NoiseSerialPortOptData.IsOptComType)
-                            cbComType.SelectedIndex = GlobalValue.NoiseSerialPortOptData.ComType;
+                            cbComType.SelectedIndex = read_result.ComType;
                         // 读取远传通讯时间
                         if (GlobalValue.NoiseSerialPortOptData.IsOptComTime)
                             this.txtComTime.Text = read_result.ComTime.ToString();
