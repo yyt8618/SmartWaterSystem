@@ -11,7 +11,7 @@ using System.Threading;
 using Microsoft.Data.ConnectionUI;
 using Common;
 using Entity;
-using System.Messaging;
+using BLL;
 
 namespace SmartWaterSystem
 {
