@@ -90,6 +90,20 @@ namespace Entity
             set { _RemoteSwitch = value; }
         }
 
+        /// <summary>
+        /// 是否读取/设置通讯方式
+        /// </summary>
+        public bool IsOptComType = false;
+        private int _comType;
+        /// <summary>
+        /// 通信方式(1:GSM,2:GPRS)
+        /// </summary>
+        public int ComType
+        {
+            get { return _comType; }
+            set { _comType = value; }
+        }
+
         private List<int> _remoteId;
         /// <summary>
         /// 读取远传控制器设备与记录仪设备对应的ID号

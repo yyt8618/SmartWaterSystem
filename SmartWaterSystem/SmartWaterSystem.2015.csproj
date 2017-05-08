@@ -199,7 +199,6 @@
     <Compile Include="MODULE\NoiseRec\FrmDataAnalysis.Designer.cs">
       <DependentUpon>FrmDataAnalysis.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\NoiseDataBaseHelper.cs" />
     <Compile Include="FrmSerialComSet.cs">
       <SubType>Form</SubType>
     </Compile>

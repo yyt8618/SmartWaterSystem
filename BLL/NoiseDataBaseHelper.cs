@@ -13,7 +13,7 @@ namespace BLL
     /// <summary>
     /// 提供对噪声系统的数据访问
     /// </summary>
-    internal class NoiseDataBaseHelper
+    public class NoiseDataBaseHelper
     {
         /// <summary>
         /// 从数据库中获取记录仪列表
@@ -30,7 +30,7 @@ namespace BLL
 
                 if (dtRecorder.Rows.Count == 0)
                 {
-					return recList;//throw new Exception("记录仪数据为空。");
+                    return recList;//throw new Exception("记录仪数据为空。");
                 }
 
                 for (int i = 0; i < dtRecorder.Rows.Count; i++)
@@ -40,6 +40,8 @@ namespace BLL
                     rec.Remark = dtRecorder.Rows[i]["Remark"].ToString();
                     rec.AddDate = Convert.ToDateTime(dtRecorder.Rows[i]["AddDate"]);
                     rec.GroupState = Convert.ToInt32(dtRecorder.Rows[i]["GroupState"]);
+                    rec.Longtitude = dtRecorder.Rows[i]["longitude"] != DBNull.Value ? dtRecorder.Rows[i]["longitude"].ToString() : "";
+                    rec.Latitude = dtRecorder.Rows[i]["latitude"] != DBNull.Value ? dtRecorder.Rows[i]["latitude"].ToString() : "";
 
                     sql = "SELECT * FROM MT_RecorderSet WHERE RecorderId = " + rec.ID.ToString();
                     DataTable recSet = SQLHelper.ExecuteDataTable(sql);
@@ -48,13 +50,13 @@ namespace BLL
                     rec.PickSpan = Convert.ToInt32(recSet.Rows[0]["PickSpan"]);
                     rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
                     rec.ControlerPower = Convert.ToInt32(recSet.Rows[0]["Controler_Power"]);
-					rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
+                    rec.Power = Convert.ToInt32(recSet.Rows[0]["StartEnd_Power"]);
                     rec.LeakValue = Convert.ToInt32(recSet.Rows[0]["LeakValue"]);
 
                     rec.Data = GetNoiseData(rec.ID);
 
                     rec.Result = GetNoiseResult(rec.ID);
-                    
+
                     sql = @"SELECT GroupId FROM MP_GroupRecorder WHERE RecorderId = " + rec.ID.ToString();
                     object gID = SQLHelper.ExecuteScalar(sql);
                     if (gID == null)
@@ -73,15 +75,19 @@ namespace BLL
             }
         }
 
-        public static NoiseData GetNoiseData(int id)
+        public static NoiseData GetNoiseData(int id, string readtime = "")
         {
-            string sql = "SELECT GroupId,RecorderId,leakValue,FrequencyValue,OriginalData,CollTime,UnloadTime,HistoryFlag FROM DL_Noise_Real WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
-            //DataTable dt_test = SQLiteHelper.ExecuteDataTable(sql, null);
+            string sql = "";
+            if (string.IsNullOrEmpty(readtime))
+                sql = "SELECT GroupId,RecorderId,leakValue,FrequencyValue,OriginalData,CollTime,UnloadTime,HistoryFlag FROM DL_Noise_Real WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            else
+                sql = "SELECT GroupId,RecorderId,leakValue,FrequencyValue,OriginalData,CollTime,UnloadTime,HistoryFlag FROM DL_Noise_Real WHERE RecorderId = " + id + " and CollTime ='" + readtime + "' ORDER BY CollTime DESC";
             using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
             {
                 if (reader.Read())
                 {
                     NoiseData recData = new NoiseData();
+                    recData.RecorderID = id;
                     recData.GroupID = Convert.ToInt32(reader["GroupId"]);
                     recData.ReadTime = Convert.ToDateTime(reader["CollTime"]);
                     recData.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
@@ -89,7 +95,7 @@ namespace BLL
 
                     string[] strAmp = reader["LeakValue"].ToString().Split(',');
                     double[] amp = new double[strAmp.Length];
-                    for (int j = 0; j < strAmp.Length && strAmp.Length > 1; j++)
+                    for (int j = 0; j < strAmp.Length; j++)
                     {
                         if (!string.IsNullOrEmpty(strAmp[j]))
                             amp[j] = Convert.ToDouble(strAmp[j]);
@@ -120,9 +126,13 @@ namespace BLL
             return null;
         }
 
-        public static NoiseResult GetNoiseResult(int id)
+        public static NoiseResult GetNoiseResult(int id, string colltime = "")
         {
-            string sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            string sql = "";
+            if (string.IsNullOrEmpty(colltime))
+                sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability,LeakValue FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            else
+                sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability,LeakValue FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " AND CollTime ='" + colltime + "'";
             using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
             {
                 if (reader.Read())
@@ -137,9 +147,11 @@ namespace BLL
                     recResult.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
                     recResult.EnergyValue = Convert.ToDouble(reader["EnergyValue"]);
                     recResult.LeakProbability = Convert.ToDouble(reader["LeakProbability"]);
+                    recResult.LeakValue = Convert.ToInt32(reader["LeakValue"]);
 
                     return recResult;
                 }
+
             }
             return null;
         }
@@ -154,7 +166,30 @@ namespace BLL
                 return Convert.ToInt32(gID);
         }
 
-
+        public static List<NoiseResult> GetRecordHistoryResult(int id)
+        {
+            List<NoiseResult> lstResult = null;
+            string sql = "SELECT GroupId,RecorderId,MinLeakValue,MinFrequencyValue,IsLeak,ESA,CollTime,UnloadTime,HistoryFlag,EnergyValue,LeakProbability FROM DL_NoiseAnalyse WHERE RecorderId = " + id + " ORDER BY CollTime DESC";
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(sql, null))
+            {
+                lstResult = new List<NoiseResult>();
+                while (reader.Read())
+                {
+                    NoiseResult Result = new NoiseResult();
+                    Result.GroupID = Convert.ToInt32(reader["GroupId"]);
+                    Result.RecorderID = id;
+                    Result.IsLeak = Convert.ToInt32(reader["IsLeak"]);
+                    Result.ReadTime = Convert.ToDateTime(reader["CollTime"]);
+                    Result.UploadTime = Convert.ToDateTime(reader["UnloadTime"]);
+                    Result.LeakAmplitude = Convert.ToDouble(reader["MinLeakValue"]);
+                    Result.LeakFrequency = Convert.ToDouble(reader["MinFrequencyValue"]);
+                    Result.EnergyValue = Convert.ToDouble(reader["EnergyValue"]);
+                    Result.LeakProbability = Convert.ToDouble(reader["LeakProbability"]);
+                    lstResult.Add(Result);
+                }
+            }
+            return lstResult;
+        }
 
         /// <summary>
         /// 从数据库中获取记录仪分组列表
@@ -172,7 +207,7 @@ namespace BLL
 
                 if (dtGroup.Rows.Count == 0)
                 {
-					return recGroupList;//throw new Exception("分组数据为空。");
+                    return recGroupList;//throw new Exception("分组数据为空。");
                 }
 
                 for (int i = 0; i < dtGroup.Rows.Count; i++)
@@ -183,10 +218,21 @@ namespace BLL
                     gp.Name = dtGroup.Rows[i]["Name"].ToString();
                     gp.Remark = dtGroup.Rows[i]["Remark"].ToString();
 
-					gp.RecorderList = (from item in recList.AsEnumerable()
-							   where item.GroupID == gp.ID
-							   select item).ToList();
-                    
+                    gp.RecorderList = (from item in recList.AsEnumerable()
+                                       where item.GroupID == gp.ID
+                                       select item).ToList();
+
+                    //sql = "SELECT RecorderId FROM MP_GroupRecorder WHERE GroupId = " + group.ID.ToString();
+                    //DataTable dtGroupRecorder = DbForAccess.GetDataTable(sql);
+                    //for (int j = 0; j < recList.Count; j++)
+                    //{
+                    //    for (int k = 0; k < dtGroupRecorder.Rows.Count; k++)
+                    //    {
+                    //        int recID = (int)dtGroupRecorder.Rows[k]["RecorderId"];
+                    //        if (recID == recList[j].ID)
+                    //            gp.RecorderList.Add(recList[j]);
+                    //    }
+                    //}
                     recGroupList.Add(gp);
                 }
 
@@ -210,17 +256,17 @@ namespace BLL
                 List<NoiseRecorder> recAllList = GetRecorders();
                 string sql = string.Empty;
 
-				recGroupList = (from item in recAllList.AsEnumerable()
-								where item.GroupID == groupID
-								   select item).ToList();
+                recGroupList = (from item in recAllList.AsEnumerable()
+                                where item.GroupID == groupID
+                                select item).ToList();
 
                 return recGroupList;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -258,7 +304,7 @@ namespace BLL
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"UPDATE EN_NoiseRecorder SET Remark = '{0}',GroupState = {1} WHERE RecorderId = {2}", rec.Remark, rec.GroupState, rec.ID);
+                sql = string.Format(@"UPDATE EN_NoiseRecorder SET Remark = '{0}',GroupState = {1},Longitude='{2}',Latitude='{3}' WHERE RecorderId = {4}", rec.Remark, rec.GroupState, rec.Longtitude, rec.Latitude, rec.ID);
                 query = SQLHelper.ExecuteNonQuery(sql);
 
                 sql = string.Format(
@@ -269,7 +315,39 @@ namespace BLL
 
                 return query;
             }
-            catch (Exception)
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+        public static int UpdateLngLat(string ID, string Lng, string Lat)
+        {
+            try
+            {
+                string sql = string.Empty;
+                int query = 0;
+                sql = string.Format(@"UPDATE EN_NoiseRecorder SET Longitude='{0}',Latitude='{1}' WHERE RecorderId = {2}", Lng, Lat, ID);
+                query = SQLHelper.ExecuteNonQuery(sql);
+
+                return query;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+        public static int DeleteStandData(int GroupID, int RecorderID)
+        {
+            try
+            {
+                string SQL = string.Empty;
+                SQL = string.Format(@"DELETE FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
+                SQLHelper.ExecuteNonQuery(SQL);
+                return 1;
+            }
+            catch (Exception ex)
             {
                 return -1;
             }
@@ -290,34 +368,99 @@ namespace BLL
             }
         }
 
+        public static int DeleteStandData(int RecorderID)
+        {
+            try
+            {
+                string SQL = string.Empty;
+                SQL = string.Format(@"DELETE FROM ST_Noise_StandData WHERE RecorderID='{0}'", RecorderID);
+                SQLHelper.ExecuteNonQuery(SQL);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
         /// <summary>
         /// 保存启动时获取的32个数据(用于漏点确定)
         /// </summary>
         /// <param name="rec"></param>
         /// <returns></returns>
-        public static int SaveStandData(string GroupID,string RecorderID,int StandValue)
+        public static int SaveStandData(int GroupID, int RecorderID, int StandValue)
         {
             try
             {
-                    if (DeleteStandData(GroupID, RecorderID) == -1)
-                    {
-                        return -1;
-                    }
+                if (DeleteStandData(GroupID, RecorderID) == -1)
+                {
+                    return -1;
+                }
+                string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
+                      GroupID, RecorderID, StandValue);
+                SQLHelper.ExecuteNonQuery(SQL);
 
-                    //string strDa = string.Empty;
-                    //for (int i = 0; i < OriginalData.Length; i++)
-                    //{
-                    //    if (i == OriginalData.Length - 1)
-                    //        strDa += OriginalData[i];
-                    //    else
-                    //        strDa += OriginalData[i] + ",";
-                    //}
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
 
-                    string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
-                          GroupID, RecorderID, StandValue);
-                    SQLHelper.ExecuteNonQuery(SQL);
+        /// <summary>
+        /// 保存启动时获取的32个数据(用于漏点确定)
+        /// </summary>
+        /// <param name="rec"></param>
+        /// <returns></returns>
+        public static int SaveStandData(int RecorderID, int StandValue)
+        {
+            try
+            {
+                if (DeleteStandData(RecorderID) == -1)
+                {
+                    return -1;
+                }
+                string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) SELECT TOP 1 GroupId,RecorderId,{0} FROM MP_GroupRecorder WHERE RecorderId={1}",
+                      StandValue, RecorderID);
+                SQLHelper.ExecuteNonQuery(SQL);
 
-                    return 1;
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// 保存启动时获取的32个数据(用于漏点确定)
+        /// </summary>
+        /// <param name="rec"></param>
+        /// <returns></returns>
+        public static int SaveStandData(string GroupID, string RecorderID, int StandValue)
+        {
+            try
+            {
+                if (DeleteStandData(GroupID, RecorderID) == -1)
+                {
+                    return -1;
+                }
+
+                //string strDa = string.Empty;
+                //for (int i = 0; i < OriginalData.Length; i++)
+                //{
+                //    if (i == OriginalData.Length - 1)
+                //        strDa += OriginalData[i];
+                //    else
+                //        strDa += OriginalData[i] + ",";
+                //}
+
+                string SQL = string.Format(@"INSERT INTO ST_Noise_StandData(GroupID,RecorderID,Data) VALUES('{0}','{1}','{2}')",
+                      GroupID, RecorderID, StandValue);
+                SQLHelper.ExecuteNonQuery(SQL);
+
+                return 1;
             }
             catch (Exception ex)
             {
@@ -337,34 +480,11 @@ namespace BLL
             {
                 string SQL = string.Format("SELECT Data FROM ST_Noise_StandData WHERE GroupID='{0}' AND RecorderID='{1}'", GroupID, RecorderID);
 
-                //string str_data = string.Empty;
-                //DataTable dt = SQLHelper.ExecuteDataTable(SQL);
-                //if (dt != null && dt.Rows != null && dt.Rows.Count > 0)
-                //{
-                //    str_data = dt.Rows[0]["Data"] != DBNull.Value ? dt.Rows[0]["Data"].ToString() : "";
-                //}
-                using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL,null))
+                DataTable dt = SQLHelper.ExecuteDataTable(SQL);
+                if (dt != null && dt.Rows != null && dt.Rows.Count > 0)
                 {
-                    if (reader.Read())
-                    {
-                        return reader["Data"] != DBNull.Value ? Convert.ToInt32(reader["Data"]) : 0;
-                    }
+                    return dt.Rows[0]["Data"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["Data"]) : 0;
                 }
-
-                //if (!string.IsNullOrEmpty(str_data))
-                //{
-                //    List<short> lstData = new List<short>();
-                //    string[] str_datas = str_data.Split(',');
-                //    if (str_datas != null && str_datas.Length == 32)
-                //    {
-                //        foreach (string tmp in str_datas)
-                //        {
-                //            if (Regex.IsMatch(tmp, @"^\d+$"))
-                //                lstData.Add(Convert.ToInt16(tmp));
-                //        }
-                //    }
-                //    return lstData.ToArray();
-                //}
 
                 return 0;
             }
@@ -437,29 +557,40 @@ namespace BLL
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"INSERT INTO EN_NoiseRecorder(RecorderId,AddDate,Remark,GroupState) VALUES(@RecorderId,@AddDate,@Remark,@GroupState)",
+                sql = string.Format(@"INSERT INTO EN_NoiseRecorder(RecorderId,AddDate,Remark,GroupState,longitude,latitude) VALUES(@RecorderId,@AddDate,@Remark,@GroupState,@lng,@lat)",
                     rec.ID, rec.AddDate, rec.Remark, rec.GroupState);
                 SqlParameter[] parms = new SqlParameter[]{
                     new SqlParameter("@RecorderId",DbType.String),
                     new SqlParameter("@AddDate",DbType.DateTime),
                     new SqlParameter("@Remark",DbType.String),
-                    new SqlParameter("@GroupState",DbType.Int32) };
+                    new SqlParameter("@GroupState",DbType.Int32),
+                    new SqlParameter("@lng",SqlDbType.Float),
+                    new SqlParameter("@lat",SqlDbType.Float)
+                };
                 parms[0].Value = rec.ID;
                 parms[1].Value = rec.AddDate;
                 parms[2].Value = rec.Remark;
                 parms[3].Value = rec.GroupState;
+                if (rec.Longtitude == null)
+                    parms[4].Value = DBNull.Value;
+                else
+                    parms[4].Value = rec.Longtitude;
+                if (rec.Latitude == null)
+                    parms[5].Value = DBNull.Value;
+                else
+                    parms[5].Value = rec.Latitude;
 
                 query = SQLHelper.ExecuteNonQuery(sql, parms);
 
                 sql = string.Format(@"INSERT INTO MT_RecorderSet(RecorderId, RecordTime, PickSpan, Controler_Power, StartEnd_Power, LeakValue) 
-                VALUES({0},{1},{2},{3},{4},{5},{6})",
+                VALUES({0},{1},{2},{3},{4},{5})",
                     rec.ID, rec.RecordTime, rec.PickSpan, rec.ControlerPower, rec.Power, rec.LeakValue);
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
             catch (Exception ex)
             {
-				throw ex;
+                throw ex;
                 //return -1;
             }
         }
@@ -475,16 +606,16 @@ namespace BLL
                 string sql = string.Empty;
                 int query = 0;
                 sql = string.Format(@"INSERT INTO EN_Group(GroupId,Name, Remark) VALUES('{0}','{1}','{2}')",
-                    group.ID,group.Name, group.Remark);
+                    group.ID, group.Name, group.Remark);
                 query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -494,12 +625,12 @@ namespace BLL
         public static int GetGroupID()
         {
             Random rd = new Random();
-            int rdint=rd.Next(50000, int.MaxValue - 1);
+            int rdint = rd.Next(50000, int.MaxValue - 1);
             if (IsExistGroupID(rdint))
             {
                 return GetGroupID();
             }
-            else 
+            else
                 return rdint;
         }
 
@@ -526,11 +657,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -565,17 +696,17 @@ namespace BLL
             {
                 string sql = string.Empty;
                 int query = 0;
-                sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime, EnergyValue, LeakProbability) 
-                    VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}',{9}, {10})",
-                    result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.EnergyValue.ToString("f4"), result.LeakProbability.ToString("f4"));
+                sql = string.Format(@"INSERT INTO DL_NoiseAnalyse(GroupId, RecorderId, MinLeakValue, MinFrequencyValue, UnloadTime, IsLeak, ESA, HistoryFlag, CollTime, EnergyValue, LeakProbability, LeakValue) 
+                    VALUES({0},{1},{2},{3},'{4}',{5},{6},{7},'{8}',{9}, {10}, {11})",
+                    result.GroupID, result.RecorderID, result.LeakAmplitude, result.LeakFrequency, result.UploadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.IsLeak.ToString(), result.ESA, result.UploadFlag, result.ReadTime.ToString("yyyy/MM/dd HH:mm:ss").Replace('-', '/'), result.EnergyValue.ToString("f4"), result.LeakProbability.ToString("f4"), result.LeakValue);
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -592,7 +723,7 @@ namespace BLL
                 string strAmp = string.Empty;
                 for (int i = 0; i < data.Amplitude.Length; i++)
                 {
-                    if (i == data.Amplitude.Length -1)
+                    if (i == data.Amplitude.Length - 1)
                         strAmp += data.Amplitude[i];
                     else
                         strAmp += data.Amplitude[i] + ",";
@@ -621,11 +752,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -645,19 +776,19 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
 
                 DeleteRelationByRecoderId(recID);
-				DeleteDataByRecorderId(recID);
-				DeleteResultByRecorderId(recID);
+                DeleteDataByRecorderId(recID);
+                DeleteResultByRecorderId(recID);
 
                 sql = string.Format(@"DELETE FROM EN_NoiseRecorder WHERE RecorderId = {0}", recID);
                 query = SQLHelper.ExecuteNonQuery(sql);
 
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -676,8 +807,8 @@ namespace BLL
                 }
 
                 DeleteRelationByGroupId(groupID);
-				DeleteDataByGroupId(groupID);
-				DeleteResultByGroupId(groupID);
+                DeleteDataByGroupId(groupID);
+                DeleteResultByGroupId(groupID);
 
                 string sql = string.Empty;
                 int query = 0;
@@ -686,11 +817,11 @@ namespace BLL
 
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -708,11 +839,11 @@ namespace BLL
 
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -729,11 +860,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -750,11 +881,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -772,11 +903,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -793,11 +924,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -814,11 +945,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -835,11 +966,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
         /// <summary>
@@ -856,11 +987,11 @@ namespace BLL
                 query = SQLHelper.ExecuteNonQuery(sql);
                 return query;
             }
-			catch (Exception ex)
-			{
-				throw ex;
-				//return -1;
-			}
+            catch (Exception ex)
+            {
+                throw ex;
+                //return -1;
+            }
         }
 
     }

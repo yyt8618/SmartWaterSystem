@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using Common;
 using Entity;
+using BLL;
 
 namespace SmartWaterSystem
 {
