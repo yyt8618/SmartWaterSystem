@@ -315,6 +315,24 @@
     <Compile Include="MODULE\PreTerminal\PreTerChartForm.Designer.cs">
       <DependentUpon>PreTerChartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MODULE\EmptyPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\EmptyPage.Designer.cs">
+      <DependentUpon>EmptyPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\TerMag\RepairLog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\TerMag\RepairLog.Designer.cs">
+      <DependentUpon>RepairLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MODULE\TerMag\RepairStatistics.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MODULE\TerMag\RepairStatistics.Designer.cs">
+      <DependentUpon>RepairStatistics.cs</DependentUpon>
+    </Compile>
     <Compile Include="MODULE\UniversalTerminal\CancleAlarmForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -520,6 +538,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\PreTerminal\PreTerChartForm.resx">
       <DependentUpon>PreTerChartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\EmptyPage.resx">
+      <DependentUpon>EmptyPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\TerMag\RepairLog.resx">
+      <DependentUpon>RepairLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MODULE\TerMag\RepairStatistics.resx">
+      <DependentUpon>RepairStatistics.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULE\UniversalTerminal\CancleAlarmForm.resx">
       <DependentUpon>CancleAlarmForm.cs</DependentUpon>

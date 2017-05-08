@@ -122,6 +122,16 @@ namespace BLL
             return resp;
         }
 
+        /// <summary>
+        /// 修改终端信息
+        /// </summary>
+        /// <param name="terinfo"></param>
+        /// <returns></returns>
+        public HTTPRespEntity UpdateTerMagInfo(TerMagInfoEntity terinfo)
+        {
+
+        }
+
 
     }
 }

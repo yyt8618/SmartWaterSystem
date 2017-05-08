@@ -84,9 +84,9 @@ namespace DAL
         public TerMagInfoEntity QueryTerMagInfo(ConstValue.DEV_TYPE devtype,int DevId,string netpathhead ="")
         {
             string SQL = string.Format("select info.*,pic.PicName from TerManagerInfo info left join TerMagPic pic on info.Id = pic.TerMagId and Usefor = 1 where info.TerType='{0}' AND info.TerId='{1}'", (int)devtype, DevId);
+            TerMagInfoEntity terinfo = null;
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
-                TerMagInfoEntity terinfo = null;
                 while (reader.Read())
                 {
                     if(terinfo == null)
@@ -108,9 +108,8 @@ namespace DAL
                         terinfo.PicId.Add(GetNetaddrByName(netpathhead, reader["PicName"].ToString().Trim()));
                     }
                 }
-                    
             }
-            return null; 
+            return terinfo;
         }
 
         public bool CheckPicExist(List<string> picIds)
@@ -206,6 +205,25 @@ namespace DAL
             }
         }
         
+        public bool UpdateTerMagInfo(TerMagInfoEntity terinfo)
+        {
+            string SQL = "UPDATE TerManagerInfo SET TerId = {0},TerType={1},Addr='{2}',Remark='{3}',Longitude={4},Latitude={5}";
+        }
 
+        /// <summary>
+        /// 根据表ID确定是否存在
+        /// </summary>
+        /// <param name="tableId"></param>
+        /// <returns></returns>
+        public bool IsExistID(Int64 tableId)
+        {
+            string SQL = "SELECT COUNT(1) FROM TerManagerInfo WHERE id=" + tableId;
+            object objcount=SQLHelper.ExecuteScalar(SQL, null);
+            if(objcount!=DBNull.Value && objcount !=null)
+            {
+                return Convert.ToInt32(objcount) > 0 ? true : false;
+            }
+            return false;
+        }
     }
 }
