@@ -84,7 +84,7 @@ namespace GCGPRSService
                         float TmpRectifyValue = 0;
                         if (pack.ID > 0 && pack.ID <= 30)
                         {
-                            //TmpRectifyValue = (float)RectifyValue[pack.ID - 1];
+                            TmpRectifyValue = GetOffsetValue(pack);  //获取纠偏值
                             pressuevalue += TmpRectifyValue;
                             if (pressuevalue < 0)
                                 pressuevalue = 0;
@@ -1480,6 +1480,14 @@ namespace GCGPRSService
             }
             lstmsg.Clear();
 
+        }
+
+        public float GetOffsetValue(Package pack)
+        {
+            if (GlobalValue.Instance.lstOffsetValue.ContainsKey((pack.DevID + pack.DevType + pack.C1).ToString()))
+                return GlobalValue.Instance.lstOffsetValue[(pack.DevID + pack.DevType + pack.C1).ToString()];
+            else
+                return 0;
         }
     }
 }

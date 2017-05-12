@@ -336,5 +336,15 @@ namespace GCGPRSService
             get { return _lstAlarmType; }
             set { _lstAlarmType = value; }
         }
+
+        private Dictionary<string,float> _lstOffsetValue = new Dictionary<string, float>();
+        /// <summary>
+        /// 偏移值表,对应数据库中OffsetValue表,key按照TerminalID+TerminalType+Funcode拼接
+        /// </summary>
+        public Dictionary<string, float> lstOffsetValue
+        {
+            get { return _lstOffsetValue; }
+            set { _lstOffsetValue = value; }
+        }
     }
 }

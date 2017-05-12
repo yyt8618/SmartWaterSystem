@@ -12,9 +12,11 @@ namespace GCGPRSService
     public enum SQLType : uint
     {
         None,
+
         GetSendParm,
         GetAlarmType,
         GetUniversalConfig,
+        GetOffsetValue,
         UpdateSendParmFlag,
 
         InsertPreValue,
@@ -75,7 +77,7 @@ namespace GCGPRSService
         private NLog.Logger logger = NLog.LogManager.GetLogger("SocketSQLThread");
         TerminalDataBLL dataBll = new TerminalDataBLL();
 
-        private const int eventcount = 14;
+        private const int eventcount = 15;
         private IntPtr[] hEvent = new IntPtr[eventcount];
         public event SQLHandle SQLEvent;
 
@@ -162,6 +164,13 @@ namespace GCGPRSService
                         {
                             #region 获取报警类型
                             GlobalValue.Instance.lstAlarmType = dataBll.GetAlarmType();
+                            #endregion
+                        }
+                        break;
+                    case (uint)SQLType.GetOffsetValue:
+                        {
+                            #region 获取偏移值
+                            GlobalValue.Instance.lstOffsetValue = dataBll.GetOffsetValue();
                             #endregion
                         }
                         break;

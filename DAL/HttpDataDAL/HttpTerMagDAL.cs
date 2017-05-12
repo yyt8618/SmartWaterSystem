@@ -208,6 +208,7 @@ namespace DAL
         public bool UpdateTerMagInfo(TerMagInfoEntity terinfo)
         {
             string SQL = "UPDATE TerManagerInfo SET TerId = {0},TerType={1},Addr='{2}',Remark='{3}',Longitude={4},Latitude={5}";
+            return false;
         }
 
         /// <summary>

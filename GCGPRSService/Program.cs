@@ -15,7 +15,6 @@ namespace GCGPRSService
             //                new Service1()
             //   };
             //ServiceBase.Run(ServicesToRun);
-
             Service1 service = new Service1();
             service.OnStart(null);
         }

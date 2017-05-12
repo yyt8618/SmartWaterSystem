@@ -103,8 +103,8 @@ namespace DAL
                                 }
                                 catch (Exception iex)
                                 {
-                                    if (entity != null)
-                                        datas.Enqueue(entity);  //将移除队列的数据放回
+                                    //if (entity != null)
+                                    //    datas.Enqueue(entity);  //将移除队列的数据放回
                                     throw iex;
                                 }
                             }
@@ -201,8 +201,8 @@ namespace DAL
                                 }
                                 catch (Exception iex)
                                 {
-                                    if (entity != null)
-                                        datas.Enqueue(entity);
+                                    //if (entity != null)
+                                    //    datas.Enqueue(entity);
                                     throw iex;
                                 }
                             }
@@ -313,8 +313,8 @@ namespace DAL
                                 }
                                 catch (Exception iex)
                                 {
-                                    if (entity != null)
-                                        datas.Enqueue(entity);
+                                    //if (entity != null)
+                                    //    datas.Enqueue(entity);
                                     throw iex;
                                 }
                             }
@@ -407,8 +407,8 @@ namespace DAL
                                 }
                                 catch (Exception iex)
                                 {
-                                    if (entity != null)
-                                        datas.Enqueue(entity);
+                                    //if (entity != null)
+                                    //    datas.Enqueue(entity);
                                     throw iex;
                                 }
                             }
@@ -507,8 +507,8 @@ namespace DAL
                                 }
                                 catch (Exception iex)
                                 {
-                                    if (entity != null)
-                                        datas.Enqueue(entity);
+                                    //if (entity != null)
+                                    //    datas.Enqueue(entity);
                                     throw iex;
                                 }
                             }
@@ -597,8 +597,8 @@ namespace DAL
                                 }
                                 catch (Exception iex)
                                 {
-                                    if (entity != null)
-                                        datas.Enqueue(entity);
+                                    //if (entity != null)
+                                    //    datas.Enqueue(entity);
                                     throw iex;
                                 }
                             }
@@ -768,8 +768,8 @@ namespace DAL
                                 }
                                 catch (Exception iex)
                                 {
-                                    if (entity != null)
-                                        datas.Enqueue(entity);
+                                    //if (entity != null)
+                                    //    datas.Enqueue(entity);
                                     throw iex;
                                 }
                             }
@@ -858,8 +858,8 @@ namespace DAL
                                 }
                                 catch (Exception iex)
                                 {
-                                    if (entity != null)
-                                        datas.Enqueue(entity);
+                                    //if (entity != null)
+                                    //    datas.Enqueue(entity);
                                     throw iex;
                                 }
                             }
@@ -943,6 +943,20 @@ namespace DAL
                 }
                 return lstAlarm;
             }
+        }
+
+        public Dictionary<string, float> GetOffsetValue()
+        {
+            string SQL = "SELECT * FROM OffsetValue";
+            Dictionary<string, float> lstOffset = new Dictionary<string, float>();
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
+            {
+                while (reader.Read())
+                {
+                    lstOffset.Add(reader["TerminalID"].ToString().Trim() + reader["TerminalType"].ToString().Trim() + reader["Funcode"].ToString().Trim(), Convert.ToSingle(reader["OffsetValue"]));
+                }
+            }
+            return lstOffset;
         }
 
         public int UpdateGPRSParmFlag(List<GPRSCmdFlag> ids)

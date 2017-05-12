@@ -43,6 +43,7 @@ namespace GCGPRSService
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
             GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetAlarmType);  //获取报警类型列表
+            GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetOffsetValue); //获取偏移值
 
             GlobalValue.Instance.SocketMag.Dumpcallback = DumpSet;
             GlobalValue.Instance.SocketMag.T_Listening();

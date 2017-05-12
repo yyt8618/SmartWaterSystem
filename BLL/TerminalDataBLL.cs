@@ -263,6 +263,22 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// 获取所有的偏移值
+        /// </summary>
+        public Dictionary<string, float> GetOffsetValue()
+        {
+            try
+            {
+                return dal.GetOffsetValue();
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetOffsetValue()", ex);
+                return null;
+            }
+        }
+
         public int UpdateGPRSParmFlag(List<GPRSCmdFlag> ids)
         {
             try

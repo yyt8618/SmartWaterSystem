@@ -129,7 +129,7 @@ namespace BLL
         /// <returns></returns>
         public HTTPRespEntity UpdateTerMagInfo(TerMagInfoEntity terinfo)
         {
-
+            return null;
         }
 
 

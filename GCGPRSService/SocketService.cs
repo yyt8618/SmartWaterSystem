@@ -154,9 +154,10 @@ namespace GCGPRSService
                     TimeSpan ts = DateTime.Now - SQLSync_Time;
                     if (Math.Abs(ts.TotalSeconds) > 15)
                     {
-                        SQL_Interval = 1 * 63;
+                        SQL_Interval = 2 * 63;
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetOffsetValue); //获取偏移值
                     }
                     else
                     {
