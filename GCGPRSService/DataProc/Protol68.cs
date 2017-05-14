@@ -15,6 +15,7 @@ namespace GCGPRSService
             bNeedCheckTime = false;
             float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
             Int16 field_strength = -1; //场强(0-31,99表示没信号)
+            float TmpRectifyValue = GetOffsetValue(pack);  //获取纠偏值
             if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL || pack.ID3 == (byte)ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
             {
                 string TerName = pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL ? "压力流量终端" : "通用终端";
@@ -81,14 +82,9 @@ namespace GCGPRSService
                         sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
 
                         pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0)) / 1000;
-                        float TmpRectifyValue = 0;
-                        if (pack.ID > 0 && pack.ID <= 30)
-                        {
-                            TmpRectifyValue = GetOffsetValue(pack);  //获取纠偏值
-                            pressuevalue += TmpRectifyValue;
-                            if (pressuevalue < 0)
-                                pressuevalue = 0;
-                        }
+                        pressuevalue += TmpRectifyValue;
+                        if (pressuevalue < 0)
+                            pressuevalue = 0;
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("index({0})|{1}[{2}]|压力标志({3})|采集时间({4})|压力值:{5}MPa(纠偏值{6})|电压值:{7}V|信号强度:{8}",
                             i, TerName, pack.ID, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, TmpRectifyValue, volvalue, field_strength)));
 
@@ -427,6 +423,7 @@ namespace GCGPRSService
                             //(模拟数据-校准值)*量程/系数
                             short calibration = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 14], pack.Data[i * loopdatalen + 13] }, 0);
                             datavalue = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 16], pack.Data[i * loopdatalen + 15] }, 0) - calibration)) * range / (ConstValue.UniversalSimRatio);
+                            datavalue += TmpRectifyValue;
                             if (datavalue < 0)
                                 datavalue = 0;
                             //else
@@ -434,9 +431,9 @@ namespace GCGPRSService
                             //    if (pack.DevID == 15)
                             //        datavalue += 18;  //星沙调整水位数据
                             //}
-                            GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}|电压值:{8}V|信号强度:{9}",
+                            GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}(纠偏值{8})|电压值:{9}V|信号强度:{10}",
                                 i, pack.DevID, pack.Data[2], calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec,
-                                dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString().Trim(), volvalue, field_strength)));
+                                dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString().Trim(), TmpRectifyValue, volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;
@@ -543,8 +540,9 @@ namespace GCGPRSService
                                 freindex += 4;
 
                                 datavalue = PluseUnit * datavalue;  //脉冲计数*单位脉冲值
-                                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]脉冲{2}路|采集时间({3})|{4}:{5}{6}|电压值:{7}V|信号强度:{8}",
-                                    i, pack.DevID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j], volvalue, field_strength)));
+                                datavalue += TmpRectifyValue;
+                                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]脉冲{2}路|采集时间({3})|{4}:{5}{6}(纠偏值{7})|电压值:{8}V|信号强度:{9}",
+                                    i, pack.DevID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j], TmpRectifyValue, volvalue, field_strength)));
 
                                 GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                                 data.DataValue = datavalue;
@@ -627,9 +625,9 @@ namespace GCGPRSService
                                 datavalue = BitConverter.ToInt16(new byte[] { pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
                             else if (partlen == 4)
                                 datavalue = BitConverter.ToInt32(new byte[] { pack.Data[partindex + 9], pack.Data[partindex + 8], pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
-
-                            GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("通用终端[{0}]RS485 {1}路|采集时间({2})|{3}:{4}{5}|电压值:{6}V|信号强度:{7}",
-                                        pack.DevID, (pack.Data[2] - 1), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, volvalue, field_strength)));
+                            datavalue += TmpRectifyValue;
+                            GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("通用终端[{0}]RS485 {1}路|采集时间({2})|{3}:{4}{5}(纠偏值{6})|电压值:{7}V|信号强度:{8}",
+                                        pack.DevID, (pack.Data[2] - 1), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, TmpRectifyValue, volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;
@@ -1061,8 +1059,11 @@ namespace GCGPRSService
                 {
                     int openangle = Convert.ToInt16(pack.Data[6]);
                     float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0) / 1000;
-                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}MPa",
-                            pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"))));
+                    prevalue += TmpRectifyValue;
+                    if (prevalue <= 0)
+                        prevalue = 0;
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}MPa(纠偏值{4})",
+                            pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"), TmpRectifyValue)));
                     data.Operate = HydrantOptType.Open;
                     data.PreValue = prevalue;
                     data.OpenAngle = openangle;
@@ -1140,11 +1141,11 @@ namespace GCGPRSService
                 #region 噪声数据远传控制器
                 if (pack.C1 == (byte)GPRS_READ.READ_NOISEDATA)  //从站向主站发送噪声采集数据
                 {
-                    int dataindex = (pack.DataLength -3) % 2;
+                    int dataindex = (pack.DataLength - 3) % 2;
                     if (dataindex != 0)
                         throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2*n+3)规则");  //GPRS远程压力终端在数据段最后增加两个字节的电压数据
                     else
-                        dataindex = (pack.DataLength -3) / 2;
+                        dataindex = (pack.DataLength - 3) / 2;
                     GPRSNoiseFrameDataEntity framedata = new GPRSNoiseFrameDataEntity();
                     framedata.TerId = pack.ID.ToString();
                     framedata.ModifyTime = DateTime.Now;
@@ -1154,7 +1155,7 @@ namespace GCGPRSService
                     bNeedCheckTime = false;
                     volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 2], pack.Data[pack.DataLength - 3] }, 0)) / 1000;
                     field_strength = (Int16)pack.Data[pack.DataLength - 1];
-                    
+
                     //记录仪ID（4byte）＋启动值（2byte）＋总帧数（1byte）＋帧号（1byte）＋ 数据（128byte）＋ 电压（2byte）
                     int logId = BitConverter.ToInt32(new byte[] { pack.Data[3], pack.Data[2], pack.Data[1], 0x00 }, 0);  //记录仪ID
                     int standvalue = BitConverter.ToInt16(new byte[] { pack.Data[5], pack.Data[4] }, 0);      //启动值
@@ -1191,7 +1192,7 @@ namespace GCGPRSService
                                 lstbytes.Add(pack.Data[i]);
                             }
                             UpLoadNoiseDataEntity noisedataentity = new UpLoadNoiseDataEntity();
-                            noisedataentity.TerId = logId.ToString(); 
+                            noisedataentity.TerId = logId.ToString();
                             noisedataentity.GroupId = "";
                             //启动值
                             noisedataentity.cali = standvalue;
@@ -1277,7 +1278,7 @@ namespace GCGPRSService
                         //framedata.Current3 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 54]) + String.Format("{0:X2}", pack.Data[i + 55])) / 100;
                         //framedata.Current4 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 56]) + String.Format("{0:X2}", pack.Data[i + 57])) / 100;
 
-                        framedata.Freq1 = Convert.ToSingle(String.Format("{0:X2}",pack.Data[i + 66])+ String.Format("{0:X2}",pack.Data[i + 67])) / 100;   //1-4#频率
+                        framedata.Freq1 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 66]) + String.Format("{0:X2}", pack.Data[i + 67])) / 100;   //1-4#频率
                         framedata.Freq2 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 68]) + String.Format("{0:X2}", pack.Data[i + 69])) / 100;
                         framedata.Freq3 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 70]) + String.Format("{0:X2}", pack.Data[i + 71])) / 100;
                         framedata.Freq4 = Convert.ToSingle(String.Format("{0:X2}", pack.Data[i + 72]) + String.Format("{0:X2}", pack.Data[i + 73])) / 100;
