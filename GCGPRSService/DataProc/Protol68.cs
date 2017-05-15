@@ -1485,8 +1485,8 @@ namespace GCGPRSService
 
         public float GetOffsetValue(Package pack)
         {
-            if (GlobalValue.Instance.lstOffsetValue.ContainsKey((pack.DevID + pack.DevType + pack.C1).ToString()))
-                return GlobalValue.Instance.lstOffsetValue[(pack.DevID + pack.DevType + pack.C1).ToString()];
+            if (GlobalValue.Instance.lstOffsetValue.ContainsKey((pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2,'0') + pack.C1.ToString().PadLeft(2, '0')))
+                return GlobalValue.Instance.lstOffsetValue[(pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2, '0') + pack.C1.ToString().PadLeft(2, '0')];
             else
                 return 0;
         }

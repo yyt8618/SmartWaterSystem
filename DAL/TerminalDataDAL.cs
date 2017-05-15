@@ -953,7 +953,7 @@ namespace DAL
             {
                 while (reader.Read())
                 {
-                    lstOffset.Add(reader["TerminalID"].ToString().Trim() + reader["TerminalType"].ToString().Trim() + reader["Funcode"].ToString().Trim(), Convert.ToSingle(reader["OffsetValue"]));
+                    lstOffset.Add(reader["TerminalID"].ToString().Trim() + reader["TerminalType"].ToString().PadLeft(2, '0').Trim() + reader["Funcode"].ToString().PadLeft(2, '0').Trim(), Convert.ToSingle(reader["OffsetValue"]));
                 }
             }
             return lstOffset;

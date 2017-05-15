@@ -13,7 +13,7 @@ namespace DAL
         /// <returns></returns>
         public DataTable GetAllOffsetValue()
         {
-            string SQL = "SELECT [TerminalID],[TerminalType],[FunCode],[OffsetValue],[ModifyTime] FROM OffsetValue Order by ModifyTime DESC";
+            string SQL = "SELECT [TerminalID],[TerminalType],[FunCode],[OffsetValue],[ModifyTime] FROM OffsetValue Order by TerminalID";
             return SQLHelper.ExecuteDataTable(SQL, null);
         }
 
