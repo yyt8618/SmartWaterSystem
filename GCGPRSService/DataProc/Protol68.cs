@@ -15,7 +15,7 @@ namespace GCGPRSService
             bNeedCheckTime = false;
             float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
             Int16 field_strength = -1; //场强(0-31,99表示没信号)
-            float TmpRectifyValue = GetOffsetValue(pack);  //获取纠偏值
+            float TmpRectifyValue = GetRectifyValue(pack);  //获取纠偏值
             if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL || pack.ID3 == (byte)ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
             {
                 string TerName = pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL ? "压力流量终端" : "通用终端";
@@ -1483,10 +1483,10 @@ namespace GCGPRSService
 
         }
 
-        public float GetOffsetValue(Package pack)
+        public float GetRectifyValue(Package pack)
         {
-            if (GlobalValue.Instance.lstOffsetValue.ContainsKey((pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2,'0') + pack.C1.ToString().PadLeft(2, '0')))
-                return GlobalValue.Instance.lstOffsetValue[(pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2, '0') + pack.C1.ToString().PadLeft(2, '0')];
+            if (GlobalValue.Instance.lstRectifyValue.ContainsKey((pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2,'0') + pack.C1.ToString().PadLeft(2, '0')))
+                return GlobalValue.Instance.lstRectifyValue[(pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2, '0') + pack.C1.ToString().PadLeft(2, '0')];
             else
                 return 0;
         }

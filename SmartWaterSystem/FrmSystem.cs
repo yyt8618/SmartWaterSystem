@@ -717,7 +717,7 @@ namespace SmartWaterSystem
 
         private void barBtnOffset_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            FrmOffset frmoffset = new FrmOffset();
+            FrmRectify frmoffset = new FrmRectify();
             frmoffset.ShowDialog();
         }
 

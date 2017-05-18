@@ -16,7 +16,7 @@ namespace GCGPRSService
         GetSendParm,
         GetAlarmType,
         GetUniversalConfig,
-        GetOffsetValue,
+        GetRectifyValue,
         UpdateSendParmFlag,
 
         InsertPreValue,
@@ -29,6 +29,8 @@ namespace GCGPRSService
         InsertNoiseValue,
         InsertWaterworkerValue,
         InsertAlarm,
+
+        ClearHistoryData,
     }
 
     public class SQLNotifyEventArgs : EventArgs
@@ -167,10 +169,10 @@ namespace GCGPRSService
                             #endregion
                         }
                         break;
-                    case (uint)SQLType.GetOffsetValue:
+                    case (uint)SQLType.GetRectifyValue:
                         {
                             #region 获取偏移值
-                            GlobalValue.Instance.lstOffsetValue = dataBll.GetOffsetValue();
+                            GlobalValue.Instance.lstRectifyValue = dataBll.GetRectifyValue();
                             #endregion
                         }
                         break;
@@ -267,6 +269,13 @@ namespace GCGPRSService
                         {
                             #region 保存水厂数据帧至数据库
                             result = dataBll.InsertWaterworkerData(GlobalValue.Instance.GPRS_WaterworkerFrameData, out msg);
+                            #endregion
+                        }
+                        break;
+                    case (uint)SQLType.ClearHistoryData:
+                        {
+                            #region 清除历史数据
+
                             #endregion
                         }
                         break;

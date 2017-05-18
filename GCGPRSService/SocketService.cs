@@ -71,6 +71,7 @@ namespace GCGPRSService
 
         int OnLineState_Interval = 5 * 60; //终端在线状态更新时间间隔(second)
         int CheckThread_Interval = 2 * 60; //检查线程状态间隔(second)
+        int ClearHistoryData_Interval = 1*60;  //清除历史数据时间间隔,程序启动后1分钟开始清理一次
         int CheckSend_Interval = 5;        //检查发送状态,WaitForMultipleObjects问题
 
         bool SL651AllowOnLine = false;  //SL651协议终端是否在线,默认不在线
@@ -157,7 +158,7 @@ namespace GCGPRSService
                         SQL_Interval = 2 * 63;
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetSendParm); //获得上传参数
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetUniversalConfig); //获取解析帧的配置数据
-                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetOffsetValue); //获取偏移值
+                        GlobalValue.Instance.SocketSQLMag.Send(SQLType.GetRectifyValue); //获取偏移值
                     }
                     else
                     {
@@ -232,6 +233,13 @@ namespace GCGPRSService
                         t_socket.IsBackground = true;
                         t_socket.Start();
                     }
+                }
+                if(ClearHistoryData_Interval -- == 0)
+                {
+                    ClearHistoryData_Interval = 3* 24 * 60 * 60;  //3天清理一次
+                    TerminalDataBLL dataBll = new TerminalDataBLL();
+                    int clearcount = dataBll.ClearHistoryData(DateTime.Now.AddYears(-1));  //清除一年之前的数据
+                    OnSendMsg(new SocketEventArgs(ColorType.Public, DateTime.Now.ToString() + " 清除历史数据完成,清理数量:" + clearcount));
                 }
             }
         }

@@ -5,15 +5,15 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-    public class OffsetValueDAL
+    public class RectifyValueDAL
     {
         /// <summary>
         /// 获取全部的偏移值
         /// </summary>
         /// <returns></returns>
-        public DataTable GetAllOffsetValue()
+        public DataTable GetAllRectifyValue()
         {
-            string SQL = "SELECT [TerminalID],[TerminalType],[FunCode],[OffsetValue],[ModifyTime] FROM OffsetValue Order by TerminalID";
+            string SQL = "SELECT [TerminalID],[TerminalType],[FunCode],[OffsetValue],[ModifyTime] FROM RectifyValue Order by TerminalID";
             return SQLHelper.ExecuteDataTable(SQL, null);
         }
 
@@ -22,14 +22,14 @@ namespace DAL
         /// </summary>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public bool SaveOffsetValue(DataTable dt)
+        public bool SaveRectifyValue(DataTable dt)
         {
             if (dt == null || dt.Rows.Count == 0)
                 return true;
 
             DelAllValue();
 
-            string SQL = "INSERT INTO OffsetValue(TerminalID,TerminalType,Funcode,OffsetValue,ModifyTime) VALUES(@id,@type,@funcode,@offsetvalue,@modifytime)";
+            string SQL = "INSERT INTO RectifyValue(TerminalID,TerminalType,Funcode,OffsetValue,ModifyTime) VALUES(@id,@type,@funcode,@offsetvalue,@modifytime)";
             SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@id",SqlDbType.Int),
@@ -57,7 +57,7 @@ namespace DAL
         /// <returns></returns>
         private bool DelAllValue()
         {
-            string SQL = "DELETE FROM OffsetValue";
+            string SQL = "DELETE FROM RectifyValue";
             SQLHelper.ExecuteNonQuery(SQL, null);
             return true;
         }

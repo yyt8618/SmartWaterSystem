@@ -62,7 +62,7 @@ namespace BLL
             }
         }
 
-        public int InsertGPRSPrectrlData(ConcurrentQueue<GPRSPrectrlFrameDataEntity> datas ,out string msg)
+        public int InsertGPRSPrectrlData(ConcurrentQueue<GPRSPrectrlFrameDataEntity> datas, out string msg)
         {
             msg = "";
             try
@@ -256,7 +256,7 @@ namespace BLL
             {
                 return dal.GetAlarmType();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.ErrorException("GetAlarmType()", ex);
                 return null;
@@ -266,15 +266,15 @@ namespace BLL
         /// <summary>
         /// 获取所有的偏移值
         /// </summary>
-        public Dictionary<string, float> GetOffsetValue()
+        public Dictionary<string, float> GetRectifyValue()
         {
             try
             {
-                return dal.GetOffsetValue();
+                return dal.GetRectifyValue();
             }
             catch (Exception ex)
             {
-                logger.ErrorException("GetOffsetValue()", ex);
+                logger.ErrorException("GetRectifyValue()", ex);
                 return null;
             }
         }
@@ -300,7 +300,7 @@ namespace BLL
         {
             try
             {
-                return dal.SaveTerInfo(terminalid, name, addr, remark,terType, lstPointID);
+                return dal.SaveTerInfo(terminalid, name, addr, remark, terType, lstPointID);
             }
             catch (Exception ex)
             {
@@ -323,7 +323,7 @@ namespace BLL
             }
         }
 
-        public int DeleteUniversalWayTypeConfig_TerID(int TerminalID,TerType terType)
+        public int DeleteUniversalWayTypeConfig_TerID(int TerminalID, TerType terType)
         {
             try
             {
@@ -573,7 +573,7 @@ namespace BLL
             minute = Convert.ToInt16(pack.Data[6]);
             sec = Convert.ToInt16(pack.Data[7]);
 
-            double value = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8] }, 0)))/1000;
+            double value = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[9], pack.Data[8] }, 0))) / 1000;
             if (addtion_strength)
                 lstMsg.Add("招测到压力值:" + value.ToString("F3") + "Mpa,电压值:" + volvalue + "V,信号强度:" + field_strength + ", 时间:" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec);
             else
@@ -694,7 +694,7 @@ namespace BLL
             float volvalue = -1;
             Int16 field_strength = -1;
             //时间(6byte)+脉冲单位(1byte)+数据(16byte)
-            if (pack.DataLength != 6 + 1 + 16 && pack.DataLength!= 6 + 1 + 16+3)
+            if (pack.DataLength != 6 + 1 + 16 && pack.DataLength != 6 + 1 + 16 + 3)
             {
                 lstMsg.Add("脉冲帧数据长度[" + pack.DataLength + "]不符合[报警标志时间(6byte)+脉冲单位(1byte)+数据(16byte)]规则");
                 return;
@@ -771,7 +771,7 @@ namespace BLL
                 waycount > 3 ? Names[3] : "第四路脉冲数据",
                 BitConverter.ToInt32(new byte[] { pack.Data[22], pack.Data[21], pack.Data[20], pack.Data[19] }, 0) * PluseUnits,
                 waycount > 3 ? Units[3] : "",
-                volvalue,field_strength,
+                volvalue, field_strength,
                 year, month, day, hour, minute, sec
                 );
                 lstMsg.Add(strmsg);
@@ -789,12 +789,12 @@ namespace BLL
             float volvalue = 0;
             Int16 field_strength = 0;
             //报警标志(2byte)+时间（6byte）+瞬时流量(4byte)+正向累积流量(4byte)+反向累积流量(4byte)
-            if (pack.DataLength != 2 + 6 + 4 + 4 + 4 && pack.DataLength != 2 + 6 + 4 + 4 + 4 +3)
+            if (pack.DataLength != 2 + 6 + 4 + 4 + 4 && pack.DataLength != 2 + 6 + 4 + 4 + 4 + 3)
             {
                 lstMsg.Add("485帧数据长度[" + pack.DataLength + "]不符合[报警标志(2byte)+时间(6byte)+瞬时流量(4byte)+正向累积流量(4byte)+反向累积流量(4byte)]规则");
                 return;
             }
-            if (pack.DataLength == 2 + 6 + 4 + 4 + 4 +3)
+            if (pack.DataLength == 2 + 6 + 4 + 4 + 4 + 3)
             {
                 volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 2], pack.Data[pack.DataLength - 3] }, 0)) / 1000;
                 field_strength = (Int16)pack.Data[pack.DataLength - 1];
@@ -831,12 +831,12 @@ namespace BLL
             float volvalue = 0;
             Int16 field_strength = 0;
             //报警标志(2byte)+时间（6byte）+ 数据(?byte)
-            if (pack.DataLength < 2 + 6 +3)
+            if (pack.DataLength < 2 + 6 + 3)
             {
                 lstMsg.Add("485帧数据长度[" + pack.DataLength + "]不符合[报警标志(2byte)+时间(6byte)+数据]规则");
                 return;
             }
-            else if (pack.DataLength == 2+6)
+            else if (pack.DataLength == 2 + 6)
             {
                 lstMsg.Add("485帧数据为空");
                 return;
@@ -884,7 +884,7 @@ namespace BLL
 
             byte[] datas = new byte[pack.DataLength - 8];
             Array.Copy(pack.Data, 8, datas, 0, datas.Length);
-            string str_datas = ConvertHelper.ByteToString(datas, datas.Length -3);
+            string str_datas = ConvertHelper.ByteToString(datas, datas.Length - 3);
 
             lstMsg.Add("招测到" + name + "数据:" + str_datas + ", 电压值: " + volvalue + "V, 信号强度: " + field_strength + ",时间:" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec);
             /*
@@ -974,6 +974,22 @@ namespace BLL
                 lstMsg.Add("通用终端[" + Id + "]未配置数据帧解析规则,数据未能解析！");
             }
             */
+        }
+        #endregion
+
+        #region 清理数据库中数据
+        //清除数据库中历史数据       
+        public int ClearHistoryData(DateTime dt)
+        {
+            try
+            {
+                return dal.ClearHistoryData(dt);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("ClearHistoryData", ex);
+                return -1;
+            }
         }
         #endregion
 

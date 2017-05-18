@@ -337,14 +337,14 @@ namespace GCGPRSService
             set { _lstAlarmType = value; }
         }
 
-        private Dictionary<string,float> _lstOffsetValue = new Dictionary<string, float>();
+        private Dictionary<string,float> _lstRectifyValue = new Dictionary<string, float>();
         /// <summary>
-        /// 偏移值表,对应数据库中OffsetValue表,key按照TerminalID+TerminalType+Funcode拼接
+        /// 偏移值表,对应数据库中RectifyValue表,key按照TerminalID+TerminalType+Funcode拼接
         /// </summary>
-        public Dictionary<string, float> lstOffsetValue
+        public Dictionary<string, float> lstRectifyValue
         {
-            get { return _lstOffsetValue; }
-            set { _lstOffsetValue = value; }
+            get { return _lstRectifyValue; }
+            set { _lstRectifyValue = value; }
         }
     }
 }

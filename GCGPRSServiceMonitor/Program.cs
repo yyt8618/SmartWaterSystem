@@ -28,10 +28,10 @@ namespace GCGPRSServiceMonitor
                         {
                             using (var p1 = new PerformanceCounter("Process", "Working Set - Private", proc.ProcessName))
                             {
-                                if (p1.NextValue() / 1024 / 1024 > 400) //>500MB ,GCGPRSService内存问题未解决,运行时间长后，内存会一直增加
+                                if (p1.NextValue() / 1024 / 1024 > 400) //>400MB ,GCGPRSService内存问题未解决,运行时间长后，内存会一直增加
                                 {
                                     proc.Kill();
-                                    Thread.Sleep(3 * 1000);
+                                    Thread.Sleep(2 * 1000);
                                     StartService();
                                 }
                             }

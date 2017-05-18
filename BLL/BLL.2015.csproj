@@ -51,7 +51,7 @@
     <Compile Include="NoiseDataBaseHelper.cs" />
     <Compile Include="NoiseDataHandler.cs" />
     <Compile Include="NoiseParmBLL.cs" />
-    <Compile Include="OffsetValueBLL.cs" />
+    <Compile Include="RectifyValueBLL.cs" />
     <Compile Include="OLWQConfigBLL.cs" />
     <Compile Include="PicBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

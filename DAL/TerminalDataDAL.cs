@@ -945,9 +945,9 @@ namespace DAL
             }
         }
 
-        public Dictionary<string, float> GetOffsetValue()
+        public Dictionary<string, float> GetRectifyValue()
         {
-            string SQL = "SELECT * FROM OffsetValue";
+            string SQL = "SELECT * FROM RectifyValue";
             Dictionary<string, float> lstOffset = new Dictionary<string, float>();
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
@@ -1751,6 +1751,46 @@ namespace DAL
 
             return dt_res;
         }
+
+        #region 清除历史数据
+        //清除数据库中历史数据       
+        public int ClearHistoryData(DateTime dt)
+        {
+            int clearcount = 0;  //清除数量
+            clearcount += ClearHistoryData("AlarmTable", "ModifyTime", dt);           //报警数据
+            clearcount += ClearHistoryData("DL_Noise_Real", "UnloadTime", dt);        //噪声数据
+            clearcount += ClearHistoryData("DL_NoiseAnalyse", "UnloadTime", dt);      //噪声分析数据
+            clearcount += ClearHistoryData("Flow_Real", "UnloadTime", dt);            //流量数据
+            clearcount += ClearHistoryData("Frame", "LogTime", dt);                   //帧数据
+            clearcount += ClearHistoryData("Hydrant_Real", "UnloadTime", dt);         //消防栓数据
+            clearcount += ClearHistoryData("OLWQ_Real", "UnloadTime", dt);            //水质数据
+            clearcount += ClearHistoryData("ParamToDev", "SetDate", dt);              //下送参数数据
+            clearcount += ClearHistoryData("PreCtrl_Real", "UnloadTime", dt);         //压力控制器数据
+            clearcount += ClearHistoryData("Pressure_Real", "UnloadTime", dt);        //压力数据
+            clearcount += ClearHistoryData("UniversalTerData", "UnloadTime", dt);     //通用终端数据
+            clearcount += ClearHistoryData("Waterworker_Real", "UnloadTime", dt);     //水厂数据
+
+            return clearcount;
+        }
+        
+        /// <summary>
+        /// tablename
+        /// </summary>
+        /// <param name="tablename">表名</param>
+        /// <param name="dtcolname">时间字段名</param>
+        /// <param name="dt">时间点</param>
+        int ClearHistoryData(string tablename,string dtcolname,DateTime dt)  //DL_Noise_Real  DL_NoiseAnalyse
+        {
+            string SQL = "DELETE FROM " + tablename + " WHERE " + dtcolname + "<@mtime";
+            SqlParameter[] parms = new SqlParameter[]
+                {
+                new SqlParameter("@mtime", SqlDbType.DateTime)
+                };
+            parms[0].Value = dt;
+
+            return SQLHelper.ExecuteNonQuery(SQL, parms);
+        }
+        #endregion
 
     }
 }

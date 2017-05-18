@@ -10,22 +10,22 @@ using System.Collections.Generic;
 
 namespace SmartWaterSystem
 {
-    public partial class FrmOffset : DevExpress.XtraEditors.XtraForm
+    public partial class FrmRectify : DevExpress.XtraEditors.XtraForm
     {
-        BLL.OffsetValueBLL offsetBll = new BLL.OffsetValueBLL();
+        BLL.RectifyValueBLL offsetBll = new BLL.RectifyValueBLL();
         Dictionary<string, ConstValue.DEV_TYPE> DevTypeDic = new Dictionary<string, ConstValue.DEV_TYPE>();  //设备类型字典
 
-        public FrmOffset()
+        public FrmRectify()
         {
             InitializeComponent();
             GetAllDevTypeMap();
         }
 
-        private void FrmOffset_Load(object sender, EventArgs e)
+        private void FrmRectify_Load(object sender, EventArgs e)
         {
             try
             {
-                DataTable dt = offsetBll.GetAllOffsetValue();
+                DataTable dt = offsetBll.GetAllRectifyValue();
                 if (dt == null || dt.Rows.Count == 0)
                 {
                     dt = new DataTable();
@@ -168,7 +168,7 @@ namespace SmartWaterSystem
                 {
                     dt.Rows[i]["TerminalType"] = DevTypeDic[dt.Rows[i]["TerminalTypeName"].ToString().Trim()];
                 }
-                offsetBll.SaveOffsetValue(dt);
+                offsetBll.SaveRectifyValue(dt);
                 XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch(Exception ex)
