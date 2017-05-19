@@ -40,13 +40,16 @@ namespace DAL
             };
             foreach(DataRow dr in dt.Rows)
             {
-                parms[0].Value = dr["TerminalID"];
-                parms[1].Value = dr["TerminalType"];
-                parms[2].Value = dr["Funcode"];
-                parms[3].Value = dr["OffsetValue"];
-                parms[4].Value = DateTime.Now;
+                if (dr.RowState != DataRowState.Deleted)
+                {
+                    parms[0].Value = dr["TerminalID"];
+                    parms[1].Value = dr["TerminalType"];
+                    parms[2].Value = dr["Funcode"];
+                    parms[3].Value = dr["OffsetValue"];
+                    parms[4].Value = DateTime.Now;
 
-                SQLHelper.ExecuteNonQuery(SQL, parms);
+                    SQLHelper.ExecuteNonQuery(SQL, parms);
+                }
             }
             return true;
         }

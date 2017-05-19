@@ -158,15 +158,10 @@ namespace SmartWaterSystem
         {
             try {
                 DataTable dt = gridControl1.DataSource as DataTable;
-                if (dt == null || dt.Rows.Count == 0)
-                {
-                    XtraMessageBox.Show("请输入至少一条数据!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 for(int i = 0; i < dt.Rows.Count; i++)
                 {
-                    dt.Rows[i]["TerminalType"] = DevTypeDic[dt.Rows[i]["TerminalTypeName"].ToString().Trim()];
+                    if (dt.Rows[i].RowState != DataRowState.Deleted)
+                        dt.Rows[i]["TerminalType"] = DevTypeDic[dt.Rows[i]["TerminalTypeName"].ToString().Trim()];
                 }
                 offsetBll.SaveRectifyValue(dt);
                 XtraMessageBox.Show("设置成功!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -181,13 +176,13 @@ namespace SmartWaterSystem
         {
             if(e.KeyCode == Keys.Delete)
             {
-                int hRowHandle = this.gridView1.FocusedRowHandle;
-                if (hRowHandle < 0)
+                int hRowHandle = this.gridView1.SelectedRowsCount;
+                if (hRowHandle <= 0)
                     return;
 
                 if (DialogResult.Yes == XtraMessageBox.Show("是否删除?", GlobalValue.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk))
                 {
-                    gridView1.DeleteRow(hRowHandle);
+                    gridView1.DeleteSelectedRows();
                     e.Handled = true;
                 }
             }
