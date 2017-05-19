@@ -87,7 +87,7 @@ namespace Entity
     }
 
     /// <summary>
-    /// 通用终端报警标志类型
+    /// 通用终端标志类型
     /// </summary>
     public enum UniversalFlagType
     {
@@ -111,6 +111,10 @@ namespace Entity
         /// 流量
         /// </summary>
         Flow=4,
+        /// <summary>
+        /// 分体式液位
+        /// </summary>
+        Level=5,
     }
 
     public enum UniversalAlarmType

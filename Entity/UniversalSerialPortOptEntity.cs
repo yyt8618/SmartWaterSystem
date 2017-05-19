@@ -702,15 +702,15 @@ namespace Entity
             set { _Range = value; }
         }
 
-        public bool IsOpt_PreOffset = false;
-        private double _PreOffset = 0;
+        public bool IsOpt_PreOffsetBase = false;
+        private double _PreOffsetBase = 0;
         /// <summary>
-        /// 压力值量程
+        /// 压力值量程|基值
         /// </summary>
-        public double PreOffset
+        public double PreOffsetBase
         {
-            get { return _PreOffset; }
-            set { _PreOffset = value; }
+            get { return _PreOffsetBase; }
+            set { _PreOffsetBase = value; }
         }
 
         public bool IsOpt_RealTimeData = false;

@@ -254,7 +254,7 @@ namespace SmartWaterSystem
                 }
                 if(ceOffset.Checked)
                 {
-                    GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
+                    GlobalValue.UniSerialPortOptData.IsOpt_PreOffsetBase = ceOffset.Checked;
                     haveread = true;
                 }
                 if (cePreConfig.Checked)
@@ -350,8 +350,8 @@ namespace SmartWaterSystem
                     }
                     if(ceOffset.Checked)
                     {
-                        GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
-                        GlobalValue.UniSerialPortOptData.PreOffset = Convert.ToDouble(txtOffset.Text);
+                        GlobalValue.UniSerialPortOptData.IsOpt_PreOffsetBase = ceOffset.Checked;
+                        GlobalValue.UniSerialPortOptData.PreOffsetBase = Convert.ToDouble(txtOffset.Text);
                         haveset = true;
                     }
                     if (cePreConfig.Checked)
@@ -569,9 +569,9 @@ namespace SmartWaterSystem
                     {
                         txtPreRange.Text = GlobalValue.UniSerialPortOptData.Range.ToString();
                     }
-                    if(GlobalValue.UniSerialPortOptData.IsOpt_PreOffset)
+                    if(GlobalValue.UniSerialPortOptData.IsOpt_PreOffsetBase)
                     {
-                        txtOffset.Text = GlobalValue.UniSerialPortOptData.PreOffset.ToString();
+                        txtOffset.Text = GlobalValue.UniSerialPortOptData.PreOffsetBase.ToString();
                     }
                     if (GlobalValue.UniSerialPortOptData.IsOpt_PreConfig)
                     {

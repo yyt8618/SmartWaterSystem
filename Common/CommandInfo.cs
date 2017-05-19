@@ -463,6 +463,26 @@ namespace Common
         /// </summary>
         [Description("设置招测使能")]
         SET_CALLENABLE = 0x70,
+        /// <summary>
+        /// 设置分体式液位量程
+        /// </summary>
+        [Description("设置分体式液位量程")]
+        SET_LEVELRANGE = 0xC0,
+        /// <summary>
+        /// 分体式液位基值
+        /// </summary>
+        [Description("分体式液位基值")]
+        SET_LEVELBASE = 0xC1,
+        /// <summary>
+        /// 分体式液位上限值
+        /// </summary>
+        [Description("分体式液位上限值")]
+        SET_LEVELUPLIMIT = 0xC2,
+        /// <summary>
+        /// 分体式液位下限值
+        /// </summary>
+        [Description("分体式液位下限值")]
+        SET_LEVELLOWLIMIT = 0xC3,
         #endregion
 
         #region 读取
@@ -600,12 +620,12 @@ namespace Common
         [Description("读取流量斜率报警下限值")]
         READ_FLOWSLOPLOWLIMIT = 0x64,
         /// <summary>
-        /// 读取压力、模拟量、流量报警上限投退
+        /// 读取压力、模拟量、流量、分体式液位报警上限投退
         /// </summary>
         [Description("读取压力、模拟量、流量报警上限投退")]
         READ_UPENABLE = 0x52,
         /// <summary>
-        /// 读取压力、模拟量、流量报警下限投退
+        /// 读取压力、模拟量、流量、分体式液位报警下限投退
         /// </summary>
         [Description("读取压力、模拟量、流量报警下限投退")]
         READ_LOWENABLE = 0x53,
@@ -659,6 +679,27 @@ namespace Common
         /// </summary>
         [Description("读取报警次数")]
         READ_ALARMLEN = 0x57,
+        /// <summary>
+        /// 读取分体式液位量程
+        /// </summary>
+        [Description("读取分体式液位量程")]
+        READ_LEVELRANGE = 0xE0,
+        /// <summary>
+        /// 读取分体式液位基值
+        /// </summary>
+        [Description("读取分体式液位基值")]
+        READ_LEVELBASE = 0xE1,
+        /// <summary>
+        /// 读取分体式液位上限值
+        /// </summary>
+        [Description("读取分体式液位上限值")]
+        READ_LEVELUPLIMIT = 0xE2,
+        /// <summary>
+        /// 读取分体式液位下限值
+        /// </summary>
+        [Description("读取分体式液位下限值")]
+        READ_LEVELLOWLIMIT = 0xE3,
+
         #endregion
 
         #region 控制命令

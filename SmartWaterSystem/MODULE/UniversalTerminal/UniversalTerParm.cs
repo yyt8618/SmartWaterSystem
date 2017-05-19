@@ -887,9 +887,9 @@ namespace SmartWaterSystem
                     GlobalValue.UniSerialPortOptData.IsOpt_Range = cePreRange.Checked;
                     haveread = true;
                 }
-                if (ceOffset.Checked)
+                if (ceOffsetBaseV.Checked)
                 {
-                    GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
+                    GlobalValue.UniSerialPortOptData.IsOpt_PreOffsetBase = ceOffsetBaseV.Checked;
                     haveread = true;
                 }
                 if (cePreUpLimit.Checked)
@@ -1162,10 +1162,10 @@ namespace SmartWaterSystem
                             haveset = true;
                         }
 
-                        if(ceOffset.Checked)
+                        if(ceOffsetBaseV.Checked)
                         {
-                            GlobalValue.UniSerialPortOptData.IsOpt_PreOffset = ceOffset.Checked;
-                            GlobalValue.UniSerialPortOptData.PreOffset = Convert.ToDouble(txtOffset.Text);
+                            GlobalValue.UniSerialPortOptData.IsOpt_PreOffsetBase = ceOffsetBaseV.Checked;
+                            GlobalValue.UniSerialPortOptData.PreOffsetBase = Convert.ToDouble(txtOffsetBaseV.Text);
                             haveset = true;
                         }
 
@@ -1573,8 +1573,8 @@ namespace SmartWaterSystem
                             cbSlopLowLimitEnable.SelectedIndex = GlobalValue.UniSerialPortOptData.SlopLowLimitEnable ? 1 : 0;
                         if (GlobalValue.UniSerialPortOptData.IsOpt_Range)
                             txtPreRange.Text = GlobalValue.UniSerialPortOptData.Range.ToString("f3");
-                        if (GlobalValue.UniSerialPortOptData.IsOpt_PreOffset)
-                            txtOffset.Text = GlobalValue.UniSerialPortOptData.PreOffset.ToString("f3");
+                        if (GlobalValue.UniSerialPortOptData.IsOpt_PreOffsetBase)
+                            txtOffsetBaseV.Text = GlobalValue.UniSerialPortOptData.PreOffsetBase.ToString("f3");
 
                         if (GlobalValue.UniSerialPortOptData.IsOpt_CollectConfig)
                         {
@@ -1880,10 +1880,10 @@ namespace SmartWaterSystem
                 txtPreRange.Focus();
                 return false;
             }
-            if (ceOffset.Checked && !Regex.IsMatch(txtOffset.Text, @"^[0-9]{1,3}(\.[0-9]{1,3})?$"))
+            if (ceOffsetBaseV.Checked && !Regex.IsMatch(txtOffsetBaseV.Text, @"^[0-9]{1,3}(\.[0-9]{1,3})?$"))
             {
                 XtraMessageBox.Show("请输入偏移量!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtOffset.Focus();
+                txtOffsetBaseV.Focus();
                 return false;
             }
             if (cePreUpLimit.Checked && !Regex.IsMatch(txtPreUpLimit.Text, @"^[0-9]{1,5}(\.[0-9]{1,3})?$"))
@@ -2190,46 +2190,71 @@ namespace SmartWaterSystem
         private void cbPreFlag_SelectedIndexChanged(object sender, EventArgs e)
         {
             /*
-            压力1-01，压力2-02，模拟量1-03，模拟量2-04，流量-05
+            压力1-01，压力2-02，模拟量1-03，模拟量2-04，流量-05, 分体式液位-06
             */
-            if(cbPreFlag.SelectedIndex == 0)   //量程只有压力和模拟量有；偏移量只有压力有
+            if(cbPreFlag.SelectedIndex == 0)   //量程只有压力和模拟量有；偏移量只有压力有； 无斜率下限
             {
                 cePreRange.Enabled = true;
                 txtPreRange.Enabled = true;
-                ceOffset.Enabled = true;
-                txtOffset.Enabled = true;
+                ceOffsetBaseV.Enabled = true;
+                txtOffsetBaseV.Enabled = true;
+                ceOffsetBaseV.Text = "偏移量:";
+                ceSlopLowLimit.Enabled = false;
+                ceSlopLowLimitEnable.Enabled = false;
             }
             else if (cbPreFlag.SelectedIndex == 1)
             {
                 cePreRange.Enabled = true;
                 txtPreRange.Enabled = true;
-                ceOffset.Enabled = true;
-                txtOffset.Enabled = true;
+                ceOffsetBaseV.Enabled = true;
+                txtOffsetBaseV.Enabled = true;
+                ceOffsetBaseV.Text = "偏移量:";
+                ceSlopLowLimit.Enabled = false;
+                ceSlopLowLimitEnable.Enabled = false;
             }
             else if (cbPreFlag.SelectedIndex == 2)
             {
                 cePreRange.Enabled = true;
                 txtPreRange.Enabled = true;
-                ceOffset.Enabled = false;
-                ceOffset.Checked = false;
-                txtOffset.Enabled = false;
+                ceOffsetBaseV.Enabled = false;
+                ceOffsetBaseV.Checked = false;
+                txtOffsetBaseV.Enabled = false;
+                ceOffsetBaseV.Text = "偏移量:";
+                ceSlopLowLimit.Enabled = false;
+                ceSlopLowLimitEnable.Enabled = false;
             }
             else if (cbPreFlag.SelectedIndex == 3)
             {
                 cePreRange.Enabled = true;
                 txtPreRange.Enabled = true;
-                ceOffset.Enabled = false;
-                ceOffset.Checked = false;
-                txtOffset.Enabled = false;
+                ceOffsetBaseV.Enabled = false;
+                ceOffsetBaseV.Checked = false;
+                txtOffsetBaseV.Enabled = false;
+                ceOffsetBaseV.Text = "偏移量:";
+                ceSlopLowLimit.Enabled = false;
+                ceSlopLowLimitEnable.Enabled = false;
             }
             else if (cbPreFlag.SelectedIndex == 4)
             {
                 cePreRange.Enabled = false;
                 cePreRange.Checked = false;
                 txtPreRange.Enabled = false;
-                ceOffset.Enabled = false;
-                ceOffset.Checked = false;
-                txtOffset.Enabled = false;
+                ceOffsetBaseV.Enabled = false;
+                ceOffsetBaseV.Checked = false;
+                txtOffsetBaseV.Enabled = false;
+                ceOffsetBaseV.Text = "偏移量:";
+                ceSlopLowLimit.Enabled = false;
+                ceSlopLowLimitEnable.Enabled = false;
+            }
+            else if(cbPreFlag.SelectedIndex == 5)       //分体式液位计
+            {
+                cePreRange.Enabled = true;
+                txtPreRange.Enabled = true;
+                ceOffsetBaseV.Enabled = true;
+                txtOffsetBaseV.Enabled = true;
+                ceOffsetBaseV.Text = "基值:";
+                ceSlopLowLimit.Enabled = false;
+                ceSlopLowLimitEnable.Enabled = false;
             }
         }
 

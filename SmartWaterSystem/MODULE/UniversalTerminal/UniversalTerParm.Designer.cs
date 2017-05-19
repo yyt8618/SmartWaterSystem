@@ -137,9 +137,9 @@ namespace SmartWaterSystem
             this.cePreRange = new DevExpress.XtraEditors.CheckEdit();
             this.cbPreUpLimitEnable = new DevExpress.XtraEditors.ComboBoxEdit();
             this.txtSlopLowLimit = new DevExpress.XtraEditors.TextEdit();
-            this.txtOffset = new DevExpress.XtraEditors.TextEdit();
+            this.txtOffsetBaseV = new DevExpress.XtraEditors.TextEdit();
             this.cbPreFlag = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.ceOffset = new DevExpress.XtraEditors.CheckEdit();
+            this.ceOffsetBaseV = new DevExpress.XtraEditors.CheckEdit();
             this.txtSlopUpLimit = new DevExpress.XtraEditors.TextEdit();
             this.ceSlopLowLimitEnable = new DevExpress.XtraEditors.CheckEdit();
             this.txtPreRange = new DevExpress.XtraEditors.TextEdit();
@@ -284,9 +284,9 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreUpLimitEnable.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSlopLowLimit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOffsetBaseV.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreFlag.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceOffset.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceOffsetBaseV.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSlopUpLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimitEnable.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).BeginInit();
@@ -1418,9 +1418,9 @@ namespace SmartWaterSystem
             this.groupControl8.Controls.Add(this.cePreRange);
             this.groupControl8.Controls.Add(this.cbPreUpLimitEnable);
             this.groupControl8.Controls.Add(this.txtSlopLowLimit);
-            this.groupControl8.Controls.Add(this.txtOffset);
+            this.groupControl8.Controls.Add(this.txtOffsetBaseV);
             this.groupControl8.Controls.Add(this.cbPreFlag);
-            this.groupControl8.Controls.Add(this.ceOffset);
+            this.groupControl8.Controls.Add(this.ceOffsetBaseV);
             this.groupControl8.Controls.Add(this.txtSlopUpLimit);
             this.groupControl8.Controls.Add(this.ceSlopLowLimitEnable);
             this.groupControl8.Controls.Add(this.txtPreRange);
@@ -1511,12 +1511,12 @@ namespace SmartWaterSystem
             this.txtSlopLowLimit.Size = new System.Drawing.Size(56, 20);
             this.txtSlopLowLimit.TabIndex = 17;
             // 
-            // txtOffset
+            // txtOffsetBaseV
             // 
-            this.txtOffset.Location = new System.Drawing.Point(84, 51);
-            this.txtOffset.Name = "txtOffset";
-            this.txtOffset.Size = new System.Drawing.Size(56, 20);
-            this.txtOffset.TabIndex = 3;
+            this.txtOffsetBaseV.Location = new System.Drawing.Point(84, 51);
+            this.txtOffsetBaseV.Name = "txtOffsetBaseV";
+            this.txtOffsetBaseV.Size = new System.Drawing.Size(56, 20);
+            this.txtOffsetBaseV.TabIndex = 3;
             // 
             // cbPreFlag
             // 
@@ -1529,19 +1529,20 @@ namespace SmartWaterSystem
             "压力2-02",
             "模拟量1-03",
             "模拟量2-04",
-            "流量-05"});
+            "流量-05",
+            "分体式液位-06"});
             this.cbPreFlag.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cbPreFlag.Size = new System.Drawing.Size(94, 20);
+            this.cbPreFlag.Size = new System.Drawing.Size(108, 20);
             this.cbPreFlag.TabIndex = 20;
             this.cbPreFlag.SelectedIndexChanged += new System.EventHandler(this.cbPreFlag_SelectedIndexChanged);
             // 
-            // ceOffset
+            // ceOffsetBaseV
             // 
-            this.ceOffset.Location = new System.Drawing.Point(17, 52);
-            this.ceOffset.Name = "ceOffset";
-            this.ceOffset.Properties.Caption = "偏移量:";
-            this.ceOffset.Size = new System.Drawing.Size(70, 19);
-            this.ceOffset.TabIndex = 2;
+            this.ceOffsetBaseV.Location = new System.Drawing.Point(17, 52);
+            this.ceOffsetBaseV.Name = "ceOffsetBaseV";
+            this.ceOffsetBaseV.Properties.Caption = "偏移量:";
+            this.ceOffsetBaseV.Size = new System.Drawing.Size(70, 19);
+            this.ceOffsetBaseV.TabIndex = 2;
             // 
             // txtSlopUpLimit
             // 
@@ -2158,9 +2159,9 @@ namespace SmartWaterSystem
             ((System.ComponentModel.ISupportInitialize)(this.cePreRange.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreUpLimitEnable.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSlopLowLimit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtOffset.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOffsetBaseV.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cbPreFlag.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ceOffset.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceOffsetBaseV.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSlopUpLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ceSlopLowLimitEnable.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPreRange.Properties)).EndInit();
@@ -2254,11 +2255,11 @@ namespace SmartWaterSystem
         private DevExpress.XtraEditors.ComboBoxEdit cbSlopUpLimitEnable;
         private DevExpress.XtraEditors.ComboBoxEdit cbPreLowLimitEnable;
         private DevExpress.XtraEditors.ComboBoxEdit cbPreUpLimitEnable;
-        private DevExpress.XtraEditors.TextEdit txtOffset;
+        private DevExpress.XtraEditors.TextEdit txtOffsetBaseV;
         private DevExpress.XtraEditors.TextEdit txtPreRange;
         private DevExpress.XtraEditors.TextEdit txtSlopLowLimit;
         private DevExpress.XtraEditors.TextEdit txtSlopUpLimit;
-        private DevExpress.XtraEditors.CheckEdit ceOffset;
+        private DevExpress.XtraEditors.CheckEdit ceOffsetBaseV;
         private DevExpress.XtraEditors.CheckEdit ceSlopLowLimitEnable;
         private DevExpress.XtraEditors.TextEdit txtPreLowLimit;
         private DevExpress.XtraEditors.CheckEdit ceSlopUpLimitEnable;

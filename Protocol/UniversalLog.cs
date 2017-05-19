@@ -288,6 +288,21 @@ namespace Protocol
                     Array.Reverse(data);
                     data[0] = flag;
                     break;
+                case UniversalFlagType.Level:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_LEVELUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.SET_LEVELLOWLIMIT;
+                    //else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                    //    package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPUPLIMIT;
+                    //else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                    //    package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPLOWLIMIT;
+                    flag = 0x01;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)(limit * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
             }
             package.DataLength = data.Length;
 
@@ -327,6 +342,9 @@ namespace Protocol
                     break;
                 case UniversalFlagType.Flow:
                     flag = 0x05;
+                    break;
+                case UniversalFlagType.Level:
+                    flag = 0x06;
                     break;
             }
             byte[] data = new byte[2];
@@ -387,6 +405,14 @@ namespace Protocol
                     Array.Reverse(data);
                     data[0] = flag;
                     break;
+                case UniversalFlagType.Level:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_LEVELRANGE;
+                    flag = 0x01;
+                    data = new byte[3];
+                    Array.Copy(BitConverter.GetBytes((short)(range * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
+                    break;
                     //case UniversalFlagType.Flow:  //无流量
                     //    flag = 0x01;
                     //    break;
@@ -398,7 +424,7 @@ namespace Protocol
             return Write(package);
         }
 
-        public bool SetPreOffset(ConstValue.DEV_TYPE devtype, short Id, double offset, UniversalFlagType flagtype)
+        public bool SetPreOffsetBase(ConstValue.DEV_TYPE devtype, short Id, double offset, UniversalFlagType flagtype)
         {
             Package package = new Package();
             package.DevType = devtype;
@@ -406,13 +432,17 @@ namespace Protocol
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREOFFSET;
             byte flag = 0x00;
-            switch (flagtype)       //偏移值只有压力有，模拟量和流量没有
+            switch (flagtype)       //偏移值只有压力和分体式液位有，模拟量和流量没有
             {
                 case UniversalFlagType.Pressure1:
                     flag = 0x01;
                     break;
                 case UniversalFlagType.Pressure2:
                     flag = 0x02;
+                    break;
+                case UniversalFlagType.Level:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.SET_LEVELBASE;  //分体式液位基值
+                    flag = 0x01;
                     break;
             }
             byte[] data = new byte[3];
@@ -967,6 +997,17 @@ namespace Protocol
                         package.C1 = (byte)UNIVERSAL_COMMAND.READ_FLOWSLOPLOWLIMIT;
                     flag = 0x01;
                     break;
+                case UniversalFlagType.Level:
+                    if (alarmtype == UniversalAlarmType.UpAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_LEVELUPLIMIT;
+                    else if (alarmtype == UniversalAlarmType.LowAlarm)
+                        package.C1 = (byte)UNIVERSAL_COMMAND.READ_LEVELLOWLIMIT;
+                    //else if (alarmtype == UniversalAlarmType.SlopUpAlarm)
+                    //    package.C1 = (byte)UNIVERSAL_COMMAND.READ_LEVELSLOPUPLIMIT;
+                    //else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
+                    //    package.C1 = (byte)UNIVERSAL_COMMAND.READ_LEVELSLOPLOWLIMIT;
+                    flag = 0x01;
+                    break;
             }
             package.DataLength = 1;
             byte[] data = new byte[package.DataLength];
@@ -989,6 +1030,7 @@ namespace Protocol
             {
                 case UniversalFlagType.Pressure1:
                 case UniversalFlagType.Pressure2:
+                case UniversalFlagType.Level:
                     if (result.Data.Length != 3)
                     {
                         throw new Exception("数据损坏");
@@ -1047,6 +1089,9 @@ namespace Protocol
                 case UniversalFlagType.Flow:
                     flag = 0x05;
                     break;
+                case UniversalFlagType.Level:
+                    flag = 0x06;
+                    break;
             }
             package.DataLength = 1;
             byte[] data = new byte[package.DataLength];
@@ -1098,9 +1143,13 @@ namespace Protocol
                     package.C1 = (byte)UNIVERSAL_COMMAND.READ_SIMRANGE;
                     flag = 0x02;
                     break;
-                //case UniversalFlagType.Flow:  //无流量
-                //    flag = 0x01;
-                //    break;
+                case UniversalFlagType.Level:
+                    package.C1 = (byte)UNIVERSAL_COMMAND.READ_LEVELRANGE;
+                    flag = 0x06;
+                    break;
+                    //case UniversalFlagType.Flow:  //无流量
+                    //    flag = 0x01;
+                    //    break;
             }
             package.DataLength = 1;
             byte[] data = new byte[package.DataLength];
@@ -1119,7 +1168,7 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if (flagtype == UniversalFlagType.Pressure1 || flagtype == UniversalFlagType.Pressure2)   //压力
+            if (flagtype == UniversalFlagType.Pressure1 || flagtype == UniversalFlagType.Pressure2 || flagtype == UniversalFlagType.Level)   //压力、分体式液位
             {
                 if (result.Data.Length != 3)
                 {
@@ -1140,7 +1189,7 @@ namespace Protocol
             }
         }
 
-        public double ReadPreOffset(ConstValue.DEV_TYPE devtype, short Id, UniversalFlagType flagtype)
+        public double ReadPreOffsetBase(ConstValue.DEV_TYPE devtype, short Id, UniversalFlagType flagtype)
         {
             Package package = new Package();
             package.DevType = devtype;
@@ -1154,6 +1203,11 @@ namespace Protocol
                 flag = 0x01;
             else if (flagtype == UniversalFlagType.Pressure2)
                 flag = 0x02;
+            else if (flagtype == UniversalFlagType.Level)
+            {
+                flag = 0x05;
+                package.C1 = (byte)UNIVERSAL_COMMAND.READ_LEVELBASE;  //读取分体式液位基值
+            }
             data[0] = flag;
             package.Data = data;
             package.CS = package.CreateCS();
