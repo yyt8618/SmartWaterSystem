@@ -37,6 +37,7 @@
     <Reference Include="DevExpress.Sparkline.v15.2.Core, Version=15.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v15.2, Version=15.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.JScript" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\DLL\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -89,6 +90,7 @@
     <Compile Include="EnumHelper.cs" />
     <Compile Include="FormatHelper.cs" />
     <Compile Include="JSONSerialize.cs" />
+    <Compile Include="Math.cs" />
     <Compile Include="MD5Encrypt.cs" />
     <Compile Include="MetarnetRegex.cs" />
     <Compile Include="MiniDump.cs" />

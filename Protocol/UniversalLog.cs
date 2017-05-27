@@ -298,10 +298,10 @@ namespace Protocol
                     //else if (alarmtype == UniversalAlarmType.SlopLowAlarm)
                     //    package.C1 = (byte)UNIVERSAL_COMMAND.SET_FLOWSLOPLOWLIMIT;
                     flag = 0x01;
-                    data = new byte[3];
+                    data = new byte[2];
                     Array.Copy(BitConverter.GetBytes((short)(limit * 1000)), data, 2);
                     Array.Reverse(data);
-                    data[0] = flag;
+                    //data[0] = flag;   //分体式液位没有flag
                     break;
             }
             package.DataLength = data.Length;
@@ -408,10 +408,10 @@ namespace Protocol
                 case UniversalFlagType.Level:
                     package.C1 = (byte)UNIVERSAL_COMMAND.SET_LEVELRANGE;
                     flag = 0x01;
-                    data = new byte[3];
+                    data = new byte[2];
                     Array.Copy(BitConverter.GetBytes((short)(range * 1000)), data, 2);
                     Array.Reverse(data);
-                    data[0] = flag;
+                    //data[0] = flag;   //分体式液位没有flag
                     break;
                     //case UniversalFlagType.Flow:  //无流量
                     //    flag = 0x01;
@@ -432,23 +432,29 @@ namespace Protocol
             package.CommandType = CTRL_COMMAND_TYPE.REQUEST_BY_MASTER;
             package.C1 = (byte)UNIVERSAL_COMMAND.SET_PREOFFSET;
             byte flag = 0x00;
+            byte[] data = new byte[3];
             switch (flagtype)       //偏移值只有压力和分体式液位有，模拟量和流量没有
             {
                 case UniversalFlagType.Pressure1:
                     flag = 0x01;
+                    Array.Copy(BitConverter.GetBytes((short)(offset * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
                     break;
                 case UniversalFlagType.Pressure2:
                     flag = 0x02;
+                    Array.Copy(BitConverter.GetBytes((short)(offset * 1000)), data, 2);
+                    Array.Reverse(data);
+                    data[0] = flag;
                     break;
                 case UniversalFlagType.Level:
                     package.C1 = (byte)UNIVERSAL_COMMAND.SET_LEVELBASE;  //分体式液位基值
-                    flag = 0x01;
+                    data = new byte[2];
+                    Array.Copy(BitConverter.GetBytes((short)(offset * 1000)), data, 2);
+                    Array.Reverse(data);
+                    //flag = 0x01;   //分体式液位没有flag
                     break;
             }
-            byte[] data = new byte[3];
-            Array.Copy(BitConverter.GetBytes((short)(offset * 1000)), data, 2);
-            Array.Reverse(data);
-            data[0] = flag;
             package.DataLength = data.Length;
             package.Data = data;
             package.CS = package.CreateCS();
@@ -1030,7 +1036,6 @@ namespace Protocol
             {
                 case UniversalFlagType.Pressure1:
                 case UniversalFlagType.Pressure2:
-                case UniversalFlagType.Level:
                     if (result.Data.Length != 3)
                     {
                         throw new Exception("数据损坏");
@@ -1052,6 +1057,12 @@ namespace Protocol
                         throw new Exception("数据损坏");
                     }
                     return ((double)BitConverter.ToInt32(new byte[] { result.Data[4], result.Data[3], result.Data[2], result.Data[1] }, 0))/1000;
+                case UniversalFlagType.Level:
+                    if (result.Data.Length != 2)
+                    {
+                        throw new Exception("数据损坏");
+                    }
+                    return ((double)BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0)) / 1000;
                 default:
                     return 0;
             }
@@ -1145,7 +1156,7 @@ namespace Protocol
                     break;
                 case UniversalFlagType.Level:
                     package.C1 = (byte)UNIVERSAL_COMMAND.READ_LEVELRANGE;
-                    flag = 0x06;
+                    flag = 0x01;        //分体式液位不需要这个，有也不影响
                     break;
                     //case UniversalFlagType.Flow:  //无流量
                     //    flag = 0x01;
@@ -1168,13 +1179,21 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if (flagtype == UniversalFlagType.Pressure1 || flagtype == UniversalFlagType.Pressure2 || flagtype == UniversalFlagType.Level)   //压力、分体式液位
+            if (flagtype == UniversalFlagType.Pressure1 || flagtype == UniversalFlagType.Pressure2)   //压力、分体式液位
             {
                 if (result.Data.Length != 3)
                 {
                     throw new Exception("数据损坏");
                 }
                 return ((double)(BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0))) /1000;
+            }
+            else if (flagtype == UniversalFlagType.Level)   //分体式液位
+            {
+                if (result.Data.Length != 2)
+                {
+                    throw new Exception("数据损坏");
+                }
+                return ((double)(BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0))) / 1000;
             }
             else     //模拟量
             {
@@ -1205,7 +1224,7 @@ namespace Protocol
                 flag = 0x02;
             else if (flagtype == UniversalFlagType.Level)
             {
-                flag = 0x05;
+                //flag = 0x01;   //分体式液位没有flag
                 package.C1 = (byte)UNIVERSAL_COMMAND.READ_LEVELBASE;  //读取分体式液位基值
             }
             data[0] = flag;
@@ -1224,11 +1243,23 @@ namespace Protocol
             {
                 throw new Exception("无数据");
             }
-            if (result.Data.Length != 3)
+            if (flagtype != UniversalFlagType.Level)
             {
-                throw new Exception("数据损坏");
+                if (result.Data.Length != 3)
+                {
+                    throw new Exception("数据损坏");
+                }
+                return ((double)BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0)) / 1000;
             }
-            return ((double)BitConverter.ToInt16(new byte[] { result.Data[2], result.Data[1] }, 0))/1000;
+            else
+            {
+                if (result.Data.Length != 2)
+                {
+                    throw new Exception("数据损坏");
+                }
+                return ((double)BitConverter.ToInt16(new byte[] { result.Data[1], result.Data[0] }, 0)) / 1000;
+            }
+            
         }
 
         public int ReadComType(ConstValue.DEV_TYPE devtype, short Id)
