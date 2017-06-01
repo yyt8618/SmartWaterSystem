@@ -38,20 +38,21 @@
             this.cb_tertype = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.txt_funcode = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.txt_offsetvalue = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.txt_rectifyfun = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_id)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_tertype)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_funcode)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt_offsetvalue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_rectifyfun)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConfirm
             // 
             this.btnConfirm.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnConfirm.Location = new System.Drawing.Point(243, 318);
+            this.btnConfirm.Location = new System.Drawing.Point(268, 346);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(72, 33);
             this.btnConfirm.TabIndex = 2;
@@ -71,8 +72,8 @@
             this.txt_id,
             this.cb_tertype,
             this.txt_funcode,
-            this.txt_offsetvalue});
-            this.gridControl1.Size = new System.Drawing.Size(557, 302);
+            this.txt_rectifyfun});
+            this.gridControl1.Size = new System.Drawing.Size(606, 330);
             this.gridControl1.TabIndex = 7;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -83,6 +84,7 @@
             this.gridColumn3,
             this.gridColumn1,
             this.gridColumn2,
+            this.gridColumn5,
             this.gridColumn4});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.IndicatorWidth = 10;
@@ -111,7 +113,7 @@
             this.gridColumn3.OptionsFilter.AllowFilter = false;
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 0;
-            this.gridColumn3.Width = 73;
+            this.gridColumn3.Width = 64;
             // 
             // txt_id
             // 
@@ -134,7 +136,7 @@
             this.gridColumn1.OptionsFilter.AllowFilter = false;
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 1;
-            this.gridColumn1.Width = 131;
+            this.gridColumn1.Width = 144;
             // 
             // cb_tertype
             // 
@@ -159,18 +161,35 @@
             this.gridColumn2.OptionsFilter.AllowFilter = false;
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 2;
-            this.gridColumn2.Width = 131;
+            this.gridColumn2.Width = 69;
             // 
             // txt_funcode
             // 
             this.txt_funcode.MaxLength = 4;
             this.txt_funcode.Name = "txt_funcode";
             // 
+            // gridColumn5
+            // 
+            this.gridColumn5.Caption = "第几路数据";
+            this.gridColumn5.ColumnEdit = this.txt_funcode;
+            this.gridColumn5.FieldName = "WayType";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn5.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn5.OptionsColumn.AllowMove = false;
+            this.gridColumn5.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn5.OptionsColumn.Printable = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn5.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn5.OptionsFilter.AllowFilter = false;
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 4;
+            this.gridColumn5.Width = 89;
+            // 
             // gridColumn4
             // 
-            this.gridColumn4.Caption = "纠偏值";
-            this.gridColumn4.ColumnEdit = this.txt_offsetvalue;
-            this.gridColumn4.FieldName = "OffsetValue";
+            this.gridColumn4.Caption = "纠偏函数";
+            this.gridColumn4.ColumnEdit = this.txt_rectifyfun;
+            this.gridColumn4.FieldName = "RectifyFun";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.gridColumn4.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
@@ -178,26 +197,26 @@
             this.gridColumn4.OptionsFilter.AllowFilter = false;
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 3;
-            this.gridColumn4.Width = 107;
+            this.gridColumn4.Width = 222;
             // 
-            // txt_offsetvalue
+            // txt_rectifyfun
             // 
-            this.txt_offsetvalue.AutoHeight = false;
-            this.txt_offsetvalue.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            this.txt_offsetvalue.Name = "txt_offsetvalue";
+            this.txt_rectifyfun.AutoHeight = false;
+            this.txt_rectifyfun.MaxLength = 200;
+            this.txt_rectifyfun.Name = "txt_rectifyfun";
             // 
-            // FrmOffset
+            // FrmRectify
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(557, 363);
+            this.ClientSize = new System.Drawing.Size(606, 391);
             this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.btnConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "FrmOffset";
+            this.Name = "FrmRectify";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -209,7 +228,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_id)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_tertype)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_funcode)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt_offsetvalue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_rectifyfun)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -222,9 +241,10 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_offsetvalue;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_rectifyfun;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_funcode;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_tertype;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_id;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
     }
 }

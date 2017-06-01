@@ -15,8 +15,9 @@ namespace GCGPRSService
             bNeedCheckTime = false;
             float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
             Int16 field_strength = -1; //场强(0-31,99表示没信号)
-            float TmpRectifyValue = GetRectifyValue(pack);  //获取纠偏值
-            if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL || pack.ID3 == (byte)ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
+            object RectifyResult = null;//纠偏结果,null表示运算失败或者异常
+            string CalcExpress = "";    //运算表达式
+            if (pack.ID3 == (byte)ConstValue.DEV_TYPE.Data_CTRL || pack.ID3 == (byte)ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
             {
                 string TerName = pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL ? "压力流量终端" : "通用终端";
                 #region 压力终端
@@ -81,12 +82,20 @@ namespace GCGPRSService
                         minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
                         sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
 
-                        pressuevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0)) / 1000;
-                        pressuevalue += TmpRectifyValue;
-                        if (pressuevalue < 0)
-                            pressuevalue = 0;
-                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("index({0})|{1}[{2}]|压力标志({3})|采集时间({4})|压力值:{5}MPa(纠偏值{6})|电压值:{7}V|信号强度:{8}",
-                            i, TerName, pack.ID, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, TmpRectifyValue, volvalue, field_strength)));
+                        pressuevalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
+                        RectifyResult = RectifyCalc(pack, out CalcExpress, pressuevalue.ToString());
+                        if (RectifyResult != null)  //运算失败
+                        {
+                            CalcExpress = "(计算式:" + CalcExpress + ")";
+                            pressuevalue = Convert.ToSingle(RectifyResult);
+                        }
+                        else
+                        {
+                            CalcExpress = "";
+                            pressuevalue = pressuevalue / 1000;
+                        }
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("index({0})|{1}[{2}]|压力标志({3})|采集时间({4})|压力值:{5}MPa{6}|电压值:{7}V|信号强度:{8}",
+                            i, TerName, pack.ID, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, CalcExpress, volvalue, field_strength)));
 
                         GPRSPreDataEntity data = new GPRSPreDataEntity();
                         data.PreValue = pressuevalue;
@@ -420,20 +429,24 @@ namespace GCGPRSService
                             double range = 0;   //量程
                             range += BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 10], pack.Data[i * loopdatalen + 9] }, 0);    //整数部分
                             range += ((double)BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 12], pack.Data[i * loopdatalen + 11] }, 0)) / 1000;    //小数部分
-                            //(模拟数据-校准值)*量程/系数
                             short calibration = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 14], pack.Data[i * loopdatalen + 13] }, 0);
-                            datavalue = ((double)(BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 16], pack.Data[i * loopdatalen + 15] }, 0) - calibration)) * range / (ConstValue.UniversalSimRatio);
-                            datavalue += TmpRectifyValue;
-                            if (datavalue < 0)
-                                datavalue = 0;
-                            //else
-                            //{
-                            //    if (pack.DevID == 15)
-                            //        datavalue += 18;  //星沙调整水位数据
-                            //}
-                            GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}(纠偏值{8})|电压值:{9}V|信号强度:{10}",
+                            datavalue = BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 16], pack.Data[i * loopdatalen + 15] }, 0);
+
+                            RectifyResult = RectifyCalc(pack, pack.Data[2], out CalcExpress, range, calibration, datavalue);
+                            if (RectifyResult != null)  //运算失败
+                            {
+                                CalcExpress = "(计算式:" + CalcExpress + ")";
+                                datavalue = Convert.ToSingle(RectifyResult);
+                            }
+                            else
+                            {
+                                //(模拟数据-校准值)*量程/系数
+                                CalcExpress = "";
+                                datavalue = ((double)(datavalue - calibration)) * range / (ConstValue.UniversalSimRatio);
+                            }
+                            GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}{8}|电压值:{9}V|信号强度:{10}",
                                 i, pack.DevID, pack.Data[2], calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec,
-                                dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString().Trim(), TmpRectifyValue, volvalue, field_strength)));
+                                dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString().Trim(), CalcExpress, volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;
@@ -507,42 +520,50 @@ namespace GCGPRSService
                             hour = Convert.ToInt16(pack.Data[i * loopdatalen + 6]);
                             minute = Convert.ToInt16(pack.Data[i * loopdatalen + 7]);
                             sec = Convert.ToInt16(pack.Data[i * loopdatalen + 8]);
-
-                            switch (pack.Data[i * loopdatalen + 9])       //脉冲单位0代表0.01、1代表0.1、2代表0.2    3代表0.5、4代表1、5代表10、6代表100
-                            {
-                                case 0:
-                                    PluseUnit = 0.01f;
-                                    break;
-                                case 1:
-                                    PluseUnit = 0.1f;
-                                    break;
-                                case 2:
-                                    PluseUnit = 0.2f;
-                                    break;
-                                case 3:
-                                    PluseUnit = 0.5f;
-                                    break;
-                                case 4:
-                                    PluseUnit = 1f;
-                                    break;
-                                case 5:
-                                    PluseUnit = 10f;
-                                    break;
-                                case 6:
-                                    PluseUnit = 100f;
-                                    break;
-                            }
-
+                            
                             int freindex = 0;
                             for (int j = 0; j < waycount; j++)
                             {
                                 datavalue = BitConverter.ToInt32(new byte[] { pack.Data[i * loopdatalen + 13 + freindex], pack.Data[i * loopdatalen + 12 + freindex], pack.Data[i * loopdatalen + 11 + freindex], pack.Data[i * loopdatalen + 10 + freindex] }, 0);
                                 freindex += 4;
-
-                                datavalue = PluseUnit * datavalue;  //脉冲计数*单位脉冲值
-                                datavalue += TmpRectifyValue;
-                                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]脉冲{2}路|采集时间({3})|{4}:{5}{6}(纠偏值{7})|电压值:{8}V|信号强度:{9}",
-                                    i, pack.DevID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j], TmpRectifyValue, volvalue, field_strength)));
+                                
+                                RectifyResult = RectifyCalc(pack, pack.Data[2] - 1, out CalcExpress, pack.Data[i * loopdatalen + 9], datavalue);
+                                if (RectifyResult != null)  //运算失败
+                                {
+                                    CalcExpress = "(计算式:" + CalcExpress + ")";
+                                    datavalue = Convert.ToSingle(RectifyResult);
+                                }
+                                else
+                                {
+                                    CalcExpress = "";
+                                    switch (pack.Data[i * loopdatalen + 9])       //脉冲单位0代表0.01、1代表0.1、2代表0.2    3代表0.5、4代表1、5代表10、6代表100
+                                    {
+                                        case 0:
+                                            PluseUnit = 0.01f;
+                                            break;
+                                        case 1:
+                                            PluseUnit = 0.1f;
+                                            break;
+                                        case 2:
+                                            PluseUnit = 0.2f;
+                                            break;
+                                        case 3:
+                                            PluseUnit = 0.5f;
+                                            break;
+                                        case 4:
+                                            PluseUnit = 1f;
+                                            break;
+                                        case 5:
+                                            PluseUnit = 10f;
+                                            break;
+                                        case 6:
+                                            PluseUnit = 100f;
+                                            break;
+                                    }
+                                    datavalue = PluseUnit * datavalue;  //脉冲计数*单位脉冲值
+                                }
+                                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]脉冲{2}路|采集时间({3})|{4}:{5}{6}{7}|电压值:{8}V|信号强度:{9}",
+                                    i, pack.DevID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j], CalcExpress, volvalue, field_strength)));
 
                                 GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                                 data.DataValue = datavalue;
@@ -625,9 +646,18 @@ namespace GCGPRSService
                                 datavalue = BitConverter.ToInt16(new byte[] { pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
                             else if (partlen == 4)
                                 datavalue = BitConverter.ToInt32(new byte[] { pack.Data[partindex + 9], pack.Data[partindex + 8], pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
-                            datavalue += TmpRectifyValue;
-                            GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("通用终端[{0}]RS485 {1}路|采集时间({2})|{3}:{4}{5}(纠偏值{6})|电压值:{7}V|信号强度:{8}",
-                                        pack.DevID, (pack.Data[2] - 1), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, TmpRectifyValue, volvalue, field_strength)));
+
+                            RectifyResult = RectifyCalc(pack, pack.Data[2] - 1, out CalcExpress, datavalue.ToString());
+                            if (RectifyResult != null)  //运算失败
+                            {
+                                CalcExpress = "(计算式:" + CalcExpress + ")";
+                                datavalue = Convert.ToSingle(RectifyResult);
+                            }
+                            else
+                                CalcExpress = "";
+                            
+                            GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("通用终端[{0}]RS485 {1}路|采集时间({2})|{3}:{4}{5}{6}|电压值:{7}V|信号强度:{8}",
+                                        pack.DevID, (pack.Data[2] - 1), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, CalcExpress, volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;
@@ -1058,12 +1088,19 @@ namespace GCGPRSService
                 if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPEN)
                 {
                     int openangle = Convert.ToInt16(pack.Data[6]);
-                    float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0) / 1000;
-                    prevalue += TmpRectifyValue;
-                    if (prevalue <= 0)
-                        prevalue = 0;
-                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}MPa(纠偏值{4})",
-                            pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"), TmpRectifyValue)));
+                    float prevalue = (float)BitConverter.ToInt16(new byte[] { pack.Data[8], pack.Data[7] }, 0);
+                    RectifyResult = RectifyCalc(pack,out CalcExpress, prevalue.ToString());
+                    if (RectifyResult != null)  //运算失败
+                    {
+                        CalcExpress = "(计算式:" + CalcExpress + ")";
+                        prevalue = Convert.ToSingle(RectifyResult);
+                    }
+                    else {
+                        CalcExpress = "";
+                        prevalue = prevalue / 1000;
+                    }
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}MPa{4}",
+                            pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"), CalcExpress)));
                     data.Operate = HydrantOptType.Open;
                     data.PreValue = prevalue;
                     data.OpenAngle = openangle;
@@ -1483,12 +1520,108 @@ namespace GCGPRSService
 
         }
 
-        public float GetRectifyValue(Package pack)
+        #region 运算函数
+        /// <summary>
+        /// 获取纠偏函数
+        /// </summary>
+        /// <param name="pack"></param>
+        /// <returns></returns>
+        public string GetRectifyFun(Package pack)
         {
-            if (GlobalValue.Instance.lstRectifyValue.ContainsKey((pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2,'0') + pack.C1.ToString().PadLeft(2, '0')))
-                return GlobalValue.Instance.lstRectifyValue[(pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2, '0') + pack.C1.ToString().PadLeft(2, '0')];
-            else
-                return 0;
+            if (GlobalValue.Instance.lstRectifyFun.ContainsKey((pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2, '0') + pack.C1.ToString().PadLeft(2, '0')))
+            {
+                return GlobalValue.Instance.lstRectifyFun[(pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2, '0') + pack.C1.ToString().PadLeft(2, '0')];
+            }
+            return "";
         }
+        /// <summary>
+        /// 获取纠偏函数
+        /// </summary>
+        /// <param name="pack"></param>
+        /// <param name="waytype">第几路</param>
+        /// <returns></returns>
+        public string GetRectifyFun(Package pack,int waytype)
+        {
+            if (GlobalValue.Instance.lstRectifyFun.ContainsKey((pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2, '0') + pack.C1.ToString().PadLeft(2, '0') + waytype.ToString().PadLeft(2, '0')))
+            {
+                return GlobalValue.Instance.lstRectifyFun[(pack.DevID).ToString() + ((int)pack.DevType).ToString().PadLeft(2, '0') + pack.C1.ToString().PadLeft(2, '0')+waytype.ToString().PadLeft(2,'0')];
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 纠偏运算,失败返回null
+        /// </summary>
+        /// <returns></returns>
+        public object RectifyCalc(Package pack, out string CalcExpress, params object[] parms)
+        {
+            string TmpRectifyValue = "";
+            CalcExpress = "";
+            try
+            {
+                TmpRectifyValue = GetRectifyFun(pack);
+                if (!string.IsNullOrEmpty(TmpRectifyValue))
+                {
+                    CalcExpress = string.Format(TmpRectifyValue, parms);
+                    return SmartWaterSystem.JScriptMath.EvalExpress(CalcExpress);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                string strparm = "";
+                for (int i = 0; i < parms.Length; i++)
+                {
+                    if (i == parms.Length - 1)
+                        strparm += parms[i].ToString();
+                    else
+                        strparm += parms[i].ToString() + ",";
+                }
+                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Error, string.Format("纠偏运算错误,纠偏函数:{0},参数列表:{1}", TmpRectifyValue, strparm)));
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 纠偏运算,失败返回null
+        /// </summary>
+        /// <param name="Waytype">第几路</param>
+        /// <returns></returns>
+        public object RectifyCalc(Package pack,int Waytype,out string CalcExpress, params object[] parms)
+        {
+            string TmpRectifyValue = "";
+            CalcExpress = "";
+            try
+            {
+                TmpRectifyValue = GetRectifyFun(pack, Waytype);
+                if (!string.IsNullOrEmpty(TmpRectifyValue))
+                {
+                    CalcExpress = string.Format(TmpRectifyValue, parms);
+                    return SmartWaterSystem.JScriptMath.EvalExpress(CalcExpress);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                string strparm = "";
+                for(int i=0;i<parms.Length;i++)
+                {
+                    if (i == parms.Length - 1)
+                        strparm += parms[i].ToString();
+                    else
+                        strparm += parms[i].ToString() + ",";
+                }
+                GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Error, string.Format("纠偏运算错误,纠偏函数:{0},第{1}路,参数列表:{2}", TmpRectifyValue, Waytype, strparm)));
+                return null;
+            }
+        }
+        #endregion
+
     }
 }

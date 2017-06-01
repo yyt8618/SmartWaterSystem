@@ -13,7 +13,7 @@ namespace DAL
         /// <returns></returns>
         public DataTable GetAllRectifyValue()
         {
-            string SQL = "SELECT [TerminalID],[TerminalType],[FunCode],[OffsetValue],[ModifyTime] FROM RectifyValue Order by TerminalID";
+            string SQL = "SELECT [TerminalID],[TerminalType],[FunCode],WayType,[RectifyFun],[ModifyTime] FROM RectifyValue Order by TerminalID";
             return SQLHelper.ExecuteDataTable(SQL, null);
         }
 
@@ -29,13 +29,14 @@ namespace DAL
 
             DelAllValue();
 
-            string SQL = "INSERT INTO RectifyValue(TerminalID,TerminalType,Funcode,OffsetValue,ModifyTime) VALUES(@id,@type,@funcode,@offsetvalue,@modifytime)";
+            string SQL = "INSERT INTO RectifyValue(TerminalID,TerminalType,Funcode,WayType,RectifyFun,ModifyTime) VALUES(@id,@type,@funcode,@waytype,@rectifyfun,@modifytime)";
             SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@id",SqlDbType.Int),
                 new SqlParameter("@type",SqlDbType.Int),
                 new SqlParameter("@funcode",SqlDbType.Int),
-                new SqlParameter("@offsetvalue",SqlDbType.Float),
+                new SqlParameter("@waytype",SqlDbType.Int),
+                new SqlParameter("@rectifyfun",SqlDbType.NVarChar,200),
                 new SqlParameter("@modifytime",SqlDbType.DateTime)
             };
             foreach(DataRow dr in dt.Rows)
@@ -45,8 +46,9 @@ namespace DAL
                     parms[0].Value = dr["TerminalID"];
                     parms[1].Value = dr["TerminalType"];
                     parms[2].Value = dr["Funcode"];
-                    parms[3].Value = dr["OffsetValue"];
-                    parms[4].Value = DateTime.Now;
+                    parms[3].Value = dr["WayType"];
+                    parms[4].Value = dr["RectifyFun"];
+                    parms[5].Value = DateTime.Now;
 
                     SQLHelper.ExecuteNonQuery(SQL, parms);
                 }

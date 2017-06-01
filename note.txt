@@ -36,6 +36,7 @@ tlp:谭丽萍 pg:彭工
 2017-04-17 增加表RectifyValue用于纠偏
 2017-05-05 表DL_NoiseAnalyse增加幅度警戒值LeakValue
 2017-05-17 完成纠偏
+2017-06-01 表RectifyValue修改字段,支持字符串表达式运算
 
 ctrl+k,ctrl+d 自动排版
 

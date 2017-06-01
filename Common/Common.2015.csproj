@@ -90,7 +90,7 @@
     <Compile Include="EnumHelper.cs" />
     <Compile Include="FormatHelper.cs" />
     <Compile Include="JSONSerialize.cs" />
-    <Compile Include="Math.cs" />
+    <Compile Include="JScriptMath.cs" />
     <Compile Include="MD5Encrypt.cs" />
     <Compile Include="MetarnetRegex.cs" />
     <Compile Include="MiniDump.cs" />

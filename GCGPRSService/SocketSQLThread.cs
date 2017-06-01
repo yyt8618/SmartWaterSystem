@@ -172,7 +172,7 @@ namespace GCGPRSService
                     case (uint)SQLType.GetRectifyValue:
                         {
                             #region 获取偏移值
-                            GlobalValue.Instance.lstRectifyValue = dataBll.GetRectifyValue();
+                            GlobalValue.Instance.lstRectifyFun = dataBll.GetRectifyValue();
                             #endregion
                         }
                         break;

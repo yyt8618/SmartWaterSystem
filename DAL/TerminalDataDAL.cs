@@ -945,15 +945,18 @@ namespace DAL
             }
         }
 
-        public Dictionary<string, float> GetRectifyValue()
+        public Dictionary<string, string> GetRectifyValue()
         {
             string SQL = "SELECT * FROM RectifyValue";
-            Dictionary<string, float> lstOffset = new Dictionary<string, float>();
+            Dictionary<string, string> lstOffset = new Dictionary<string, string>();
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
                 while (reader.Read())
                 {
-                    lstOffset.Add(reader["TerminalID"].ToString().Trim() + reader["TerminalType"].ToString().PadLeft(2, '0').Trim() + reader["Funcode"].ToString().PadLeft(2, '0').Trim(), Convert.ToSingle(reader["OffsetValue"]));
+                    if (string.IsNullOrEmpty(reader["WayType"].ToString()))  //目前只有通用终端才有Waytype字段有效,当Waytype为空时,不能补0
+                        lstOffset.Add(reader["TerminalID"].ToString().Trim() + reader["TerminalType"].ToString().PadLeft(2, '0').Trim() + reader["Funcode"].ToString().PadLeft(2, '0').Trim(), reader["RectifyFun"].ToString());
+                    else
+                        lstOffset.Add(reader["TerminalID"].ToString().Trim() + reader["TerminalType"].ToString().PadLeft(2, '0').Trim() + reader["Funcode"].ToString().PadLeft(2, '0').Trim() + reader["WayType"].ToString().PadLeft(2, '0').Trim(), reader["RectifyFun"].ToString());
                 }
             }
             return lstOffset;

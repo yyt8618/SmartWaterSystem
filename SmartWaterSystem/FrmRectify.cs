@@ -32,7 +32,8 @@ namespace SmartWaterSystem
                     dt.Columns.Add("TerminalID", typeof(int));
                     dt.Columns.Add("TerminalType", typeof(int));
                     dt.Columns.Add("FunCode", typeof(short));
-                    dt.Columns.Add("OffsetValue", typeof(float));
+                    dt.Columns.Add("WayType", typeof(short));
+                    dt.Columns.Add("RectifyFun", typeof(string));
                 }
                 dt.Columns.Add("TerminalTypeName", typeof(string));
                 EnumHelper enumhelp = new EnumHelper();
