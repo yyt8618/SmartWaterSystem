@@ -53,12 +53,7 @@ namespace SmartWaterSystem
         private void InitGridView()
         {
             cb_tertype.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-
-            //EnumHelper enumhelp = new EnumHelper();
-            //foreach (int dev in Enum.GetValues(typeof(ConstValue.DEV_TYPE)))
-            //{
-            //    cb_tertype.Items.Add(enumhelp.GetEnumDescription((ConstValue.DEV_TYPE)dev));
-            //}
+            
             foreach(string devtypename in DevTypeDic.Keys)
             {
                 cb_tertype.Items.Add(devtypename);

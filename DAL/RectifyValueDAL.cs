@@ -36,7 +36,7 @@ namespace DAL
                 new SqlParameter("@type",SqlDbType.Int),
                 new SqlParameter("@funcode",SqlDbType.Int),
                 new SqlParameter("@waytype",SqlDbType.Int),
-                new SqlParameter("@rectifyfun",SqlDbType.NVarChar,200),
+                new SqlParameter("@rectifyfun",SqlDbType.NVarChar,2000),
                 new SqlParameter("@modifytime",SqlDbType.DateTime)
             };
             foreach(DataRow dr in dt.Rows)

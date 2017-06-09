@@ -38,14 +38,16 @@
             this.cb_tertype = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.txt_funcode = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.txt_rectifyfun1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.txt_rectifyfun = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_id)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_tertype)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_funcode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_rectifyfun1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_rectifyfun)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,7 +74,8 @@
             this.txt_id,
             this.cb_tertype,
             this.txt_funcode,
-            this.txt_rectifyfun});
+            this.txt_rectifyfun,
+            this.txt_rectifyfun1});
             this.gridControl1.Size = new System.Drawing.Size(606, 330);
             this.gridControl1.TabIndex = 7;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -84,8 +87,8 @@
             this.gridColumn3,
             this.gridColumn1,
             this.gridColumn2,
-            this.gridColumn5,
-            this.gridColumn4});
+            this.gridColumn4,
+            this.gridColumn5});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.IndicatorWidth = 10;
             this.gridView1.Name = "gridView1";
@@ -168,6 +171,29 @@
             this.txt_funcode.MaxLength = 4;
             this.txt_funcode.Name = "txt_funcode";
             // 
+            // gridColumn4
+            // 
+            this.gridColumn4.Caption = "纠偏函数";
+            this.gridColumn4.ColumnEdit = this.txt_rectifyfun1;
+            this.gridColumn4.FieldName = "RectifyFun";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsFilter.AllowFilter = false;
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 3;
+            this.gridColumn4.Width = 242;
+            // 
+            // txt_rectifyfun1
+            // 
+            this.txt_rectifyfun1.AutoHeight = false;
+            this.txt_rectifyfun1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txt_rectifyfun1.MaxLength = 2000;
+            this.txt_rectifyfun1.Name = "txt_rectifyfun1";
+            this.txt_rectifyfun1.ShowIcon = false;
+            // 
             // gridColumn5
             // 
             this.gridColumn5.Caption = "第几路数据";
@@ -183,21 +209,7 @@
             this.gridColumn5.OptionsFilter.AllowFilter = false;
             this.gridColumn5.Visible = true;
             this.gridColumn5.VisibleIndex = 4;
-            this.gridColumn5.Width = 89;
-            // 
-            // gridColumn4
-            // 
-            this.gridColumn4.Caption = "纠偏函数";
-            this.gridColumn4.ColumnEdit = this.txt_rectifyfun;
-            this.gridColumn4.FieldName = "RectifyFun";
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn4.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn4.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn4.OptionsFilter.AllowFilter = false;
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 3;
-            this.gridColumn4.Width = 222;
+            this.gridColumn5.Width = 69;
             // 
             // txt_rectifyfun
             // 
@@ -228,6 +240,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_id)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cb_tertype)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_funcode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_rectifyfun1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_rectifyfun)).EndInit();
             this.ResumeLayout(false);
 
@@ -246,5 +259,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cb_tertype;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txt_id;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
+        private DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit txt_rectifyfun1;
     }
 }
