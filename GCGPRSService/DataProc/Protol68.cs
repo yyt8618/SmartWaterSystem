@@ -403,7 +403,7 @@ namespace GCGPRSService
                     DataRow[] dr_TerminalDataConfig = null;
                     if (GlobalValue.Instance.UniversalDataConfig != null && GlobalValue.Instance.UniversalDataConfig.Rows.Count > 0)
                     {
-                        dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + pack.DevID + "' AND Sequence='" + pack.Data[2] + "'"); //WayType
+                        dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + pack.DevID + "' AND Sequence='" + pack.Data[2] + "' AND WayType='"+(int)UniversalCollectType.Simulate+"'"); //WayType
                     }
                     if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
                     {
@@ -451,6 +451,8 @@ namespace GCGPRSService
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;
                             data.Sim1Zero = calibration;
+                            data.Sequence = pack.Data[2];
+                            data.WayType = UniversalCollectType.Simulate;
                             data.TypeTableID = Convert.ToInt32(dr_TerminalDataConfig[0]["ID"]);
                             try
                             {
@@ -486,7 +488,7 @@ namespace GCGPRSService
                     DataRow[] dr_TerminalDataConfig = null;
                     if (GlobalValue.Instance.UniversalDataConfig != null && GlobalValue.Instance.UniversalDataConfig.Rows.Count > 0)
                     {
-                        dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + pack.DevID + "' AND Sequence IN ('4','5','6','7')", "Sequence"); //WayType
+                        dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + pack.DevID + "' AND Sequence IN ('4','5','6','7') AND WayType='" + (int)UniversalCollectType.Pluse + "'", "Sequence"); //WayType
                     }
                     if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
                     {
@@ -568,6 +570,8 @@ namespace GCGPRSService
                                 GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                                 data.DataValue = datavalue;
                                 data.TypeTableID = Convert.ToInt32(config_ids[j]);
+                                data.Sequence = pack.Data[2];
+                                data.WayType = UniversalCollectType.Pluse;
                                 try
                                 {
                                     data.ColTime = new DateTime(year, month, day, hour, minute, sec);
@@ -612,7 +616,7 @@ namespace GCGPRSService
 
                     if (GlobalValue.Instance.UniversalDataConfig != null && GlobalValue.Instance.UniversalDataConfig.Rows.Count > 0)
                     {
-                        dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + pack.DevID + "' AND Sequence='" + (pack.Data[2] - 1) + "'"); //WayType
+                        dr_TerminalDataConfig = GlobalValue.Instance.UniversalDataConfig.Select("TerminalID='" + pack.DevID + "' AND Sequence='" + pack.Data[2] + "' AND WayType='" + (int)UniversalCollectType.RS485 + "'"); //WayType
                         if (dr_TerminalDataConfig != null && dr_TerminalDataConfig.Length > 0)
                         {
                             dr_DataConfig_Child = GlobalValue.Instance.UniversalDataConfig.Select("ParentID='" + dr_TerminalDataConfig[0]["ID"].ToString().Trim() + "'", "Sequence");
@@ -631,7 +635,7 @@ namespace GCGPRSService
                         Units = dr_TerminalDataConfig[0]["Unit"] != DBNull.Value ? dr_TerminalDataConfig[0]["Unit"].ToString().Trim() : "";
                         config_ids = dr_TerminalDataConfig[0]["ID"] != DBNull.Value ? Convert.ToInt32(dr_TerminalDataConfig[0]["ID"]) : 0;
 
-                        int partindex = 3;
+                        int partindex = 4;
                         int partlen = pack.Data[3]; //部分数据长度
                         do
                         {
@@ -642,26 +646,39 @@ namespace GCGPRSService
                             minute = Convert.ToInt16(pack.Data[partindex + 4]);
                             sec = Convert.ToInt16(pack.Data[partindex + 5]);
 
-                            if (partlen == 2)
+                            if (partlen == 6 + 2)
                                 datavalue = BitConverter.ToInt16(new byte[] { pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
-                            else if (partlen == 4)
+                            else if (partlen == 6 + 4)
                                 datavalue = BitConverter.ToInt32(new byte[] { pack.Data[partindex + 9], pack.Data[partindex + 8], pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
+                            else if (partlen == 6 + 6)
+                            {  
+                                double range = BitConverter.ToInt16(new byte[] { pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);    //量程
+                                short calibration = BitConverter.ToInt16(new byte[] { pack.Data[partindex + 9], pack.Data[partindex + 8] }, 0);
+                                datavalue = BitConverter.ToInt16(new byte[] { pack.Data[partindex + 11], pack.Data[partindex + 10] }, 0);
 
-                            RectifyResult = RectifyCalc(pack, pack.Data[2] - 1, out CalcExpress, datavalue.ToString());
-                            if (RectifyResult != null)  //运算失败
-                            {
-                                CalcExpress = "(计算式:" + CalcExpress + ")";
-                                datavalue = Convert.ToSingle(RectifyResult);
+                                RectifyResult = RectifyCalc(pack, pack.Data[2], out CalcExpress, range, calibration, datavalue);
+                                if (RectifyResult != null)  //运算失败
+                                {
+                                    CalcExpress = "(计算式:" + CalcExpress + ")";
+                                    datavalue = Convert.ToSingle(RectifyResult);
+                                }
+                                else
+                                {
+                                    //量程-数据+基值
+                                    CalcExpress = "";
+                                    datavalue = (range - datavalue + calibration)/1000;
+                                }
                             }
-                            else
-                                CalcExpress = "";
+                            
                             
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("通用终端[{0}]RS485 {1}路|采集时间({2})|{3}:{4}{5}{6}|电压值:{7}V|信号强度:{8}",
-                                        pack.DevID, (pack.Data[2] - 1), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, CalcExpress, volvalue, field_strength)));
+                                        pack.DevID, (pack.Data[2]), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, CalcExpress, volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;
                             data.TypeTableID = Convert.ToInt32(config_ids);
+                            data.Sequence = pack.Data[2];
+                            data.WayType = UniversalCollectType.RS485;
                             try
                             {
                                 data.ColTime = new DateTime(year, month, day, hour, minute, sec);
@@ -670,9 +687,9 @@ namespace GCGPRSService
                             bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                             framedata.lstData.Add(data);
 
-                            partindex += 1 + 6 + partlen;
-                            partlen = pack.Data[partindex];
-                        } while ((partindex + 1 + 6 + partlen) <= pack.DataLength);
+                            partindex += partlen;
+                            //partlen = pack.Data[partindex];
+                        } while ((partindex + partlen) <= pack.DataLength);
                         GlobalValue.Instance.GPRS_UniversalFrameData.Enqueue(framedata);  //通知存储线程处理
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertUniversalValue);
 

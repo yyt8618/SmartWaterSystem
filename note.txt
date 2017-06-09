@@ -38,6 +38,9 @@ tlp:谭丽萍 pg:彭工
 2017-05-17 完成纠偏
 2017-06-01 表RectifyValue修改字段,支持字符串表达式运算
 2017-06-09 表RectifyValue修改RectifyFun字段长度至2000
+2017-06-09 表UniversalTerWayType删除Sequence列
+2017-06-09 表UniversalTerData增加Sequence、WayType字段
+2017-06-09 修改UniversalCollectType枚举类型,从1开始(以前从0开始)
 
 ctrl+k,ctrl+d 自动排版
 

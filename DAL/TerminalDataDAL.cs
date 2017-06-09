@@ -357,8 +357,8 @@ namespace DAL
 
                         using (SqlCommand command_predata = new SqlCommand())
                         {
-                            string SQL_Data = @"INSERT INTO UniversalTerData([TerminalID],[DataValue],[Simulate1Zero],[Simulate2Zero],[CollTime],[UnloadTime],TypeTableID) 
-                                            VALUES(@terId,@datavalue,@sim1zero,@sim2zero,@coltime,@UploadTime,@tableid)";
+                            string SQL_Data = @"INSERT INTO UniversalTerData([TerminalID],[DataValue],[Simulate1Zero],[Simulate2Zero],[CollTime],[UnloadTime],TypeTableID,Sequence,WayType) 
+                                            VALUES(@terId,@datavalue,@sim1zero,@sim2zero,@coltime,@UploadTime,@tableid,@seq,@waytype)";
                             SqlParameter[] parms_data = new SqlParameter[]{
                     new SqlParameter("@terId",SqlDbType.Int),
                     new SqlParameter("@datavalue",SqlDbType.Float),
@@ -367,7 +367,9 @@ namespace DAL
                     new SqlParameter("@coltime",SqlDbType.DateTime),
 
                     new SqlParameter("@UploadTime",SqlDbType.DateTime),
-                    new SqlParameter("@tableid",SqlDbType.Int)
+                    new SqlParameter("@tableid",SqlDbType.Int),
+                    new SqlParameter("@seq",SqlDbType.Int),
+                    new SqlParameter("@waytype",SqlDbType.Int)
                 };
                             //SqlCommand command_predata = new SqlCommand();
                             command_predata.CommandText = SQL_Data;
@@ -399,6 +401,8 @@ namespace DAL
 
                                             parms_data[5].Value = entity.ModifyTime;
                                             parms_data[6].Value = entity.lstData[i].TypeTableID;
+                                            parms_data[7].Value = entity.lstData[i].Sequence;
+                                            parms_data[8].Value = entity.lstData[i].WayType;
 
                                             command_predata.ExecuteNonQuery();
                                         }

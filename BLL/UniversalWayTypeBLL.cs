@@ -25,18 +25,18 @@ namespace BLL
         }
 
         //获取最大Sequence
-        public int GetMaxSequence(int parentId, TerType terType)
-        {
-            try
-            {
-                return dal.GetMaxSequence(parentId,terType);
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException("GetMaxSequence", ex);
-                return -1;
-            }
-        }
+        //public int GetMaxSequence(int parentId, TerType terType)
+        //{
+        //    try
+        //    {
+        //        return dal.GetMaxSequence(parentId,terType);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.ErrorException("GetMaxSequence", ex);
+        //        return -1;
+        //    }
+        //}
 
         public int TypeExist(UniversalCollectType type, string name, TerType terType)
         {

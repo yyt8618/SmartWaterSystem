@@ -52,15 +52,15 @@ namespace Entity
         //    set { _FrameWidth = value; }
         //}
 
-        private int _Sequence;
+        //private int _Sequence;
         /// <summary>
         /// 帧中顺序(序号从1开始)
         /// </summary>
-        public int Sequence
-        {
-            get { return _Sequence; }
-            set { _Sequence = value; }
-        }
+        //public int Sequence
+        //{
+        //    get { return _Sequence; }
+        //    set { _Sequence = value; }
+        //}
 
         //private float _MaxMeasureRange;
         //public float MaxMeasureRange

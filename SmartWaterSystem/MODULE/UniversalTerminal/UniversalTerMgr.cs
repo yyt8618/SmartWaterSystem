@@ -108,7 +108,7 @@ namespace SmartWaterSystem
         #region TreeList
         private void LoadTreeList()
         {
-            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,Sequence");
+            List<UniversalWayTypeEntity> lstNodedata = WayTypebll.Select("WHERE TerminalType='" + ((int)TerType.UniversalTer).ToString() + "' ORDER BY WayType,ModifyTime");
             if (lstNodedata != null && lstNodedata.Count > 0)
             {
                 treeCollectType.BeginUnboundLoad();
@@ -279,21 +279,21 @@ namespace SmartWaterSystem
             }
 
             //save to sqlite
-            if (nodeentity.ParentID == -1)
-                nodeentity.Sequence = 0;
-            else
-            {
-                int sequence =WayTypebll.GetMaxSequence(nodeentity.ParentID,TerType.UniversalTer);
-                if (sequence == -1)
-                {
-                    XtraMessageBox.Show("读取数据库最大Sequence失败,请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    treeCollectType.DeleteNode(currentNode);
-                    currentNode = null;
-                    treeCollectType.EndUnboundLoad();
-                    return;
-                }
-                nodeentity.Sequence = sequence + 1;
-            }
+            //if (nodeentity.ParentID == -1)
+            //    nodeentity.Sequence = 0;
+            //else
+            //{
+            //    int sequence =WayTypebll.GetMaxSequence(nodeentity.ParentID,TerType.UniversalTer);
+            //    if (sequence == -1)
+            //    {
+            //        XtraMessageBox.Show("读取数据库最大Sequence失败,请联系管理员!", GlobalValue.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        treeCollectType.DeleteNode(currentNode);
+            //        currentNode = null;
+            //        treeCollectType.EndUnboundLoad();
+            //        return;
+            //    }
+            //    nodeentity.Sequence = sequence + 1;
+            //}
             //nodeentity.SyncState = 1;
             int saveresult = WayTypebll.Insert(nodeentity,TerType.UniversalTer);
             if (-1 == saveresult)
@@ -619,7 +619,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbPluse1.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(4, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(1, pointid));
                     }
                     else
                     {
@@ -643,7 +643,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbPluse2.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(5, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(2, pointid));
                     }
                     else
                     {
@@ -667,7 +667,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbPluse3.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(6, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(3, pointid));
                     }
                     else
                     {
@@ -691,7 +691,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbPluse4.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(7, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(4, pointid));
                     }
                     else
                     {
@@ -715,7 +715,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbPluse5.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(8, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(5, pointid));
                     }
                     else
                     {
@@ -739,7 +739,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbRS485_1.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(9, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(1, pointid));
                     }
                     else
                     {
@@ -763,7 +763,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbRS485_2.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(10, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(2, pointid));
                     }
                     else
                     {
@@ -787,7 +787,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbRS485_3.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(11, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(3, pointid));
                     }
                     else
                     {
@@ -811,7 +811,7 @@ namespace SmartWaterSystem
                     int pointid = GetWayTypeId(cbRS485_4.Text);
                     if (null == lstPointID.Find(a => a.PointID == (pointid)))
                     {
-                        lstPointID.Add(new UniversalWayTypeConfigEntity(12, pointid));
+                        lstPointID.Add(new UniversalWayTypeConfigEntity(4, pointid));
                     }
                     else
                     {

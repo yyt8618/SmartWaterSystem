@@ -238,7 +238,7 @@ namespace GCGPRSService
                 {
                     ClearHistoryData_Interval = 3* 24 * 60 * 60;  //3天清理一次
                     TerminalDataBLL dataBll = new TerminalDataBLL();
-                    int clearcount = dataBll.ClearHistoryData(DateTime.Now.AddYears(-1));  //清除一年之前的数据
+                    int clearcount = dataBll.ClearHistoryData(DateTime.Now.AddMonths(-6));  //清除6个月之前的数据
                     OnSendMsg(new SocketEventArgs(ColorType.Public, DateTime.Now.ToString() + " 清除历史数据完成,清理数量:" + clearcount));
                 }
             }

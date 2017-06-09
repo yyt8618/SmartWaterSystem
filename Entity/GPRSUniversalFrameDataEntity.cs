@@ -94,5 +94,25 @@ namespace Entity
             set { _TypeTableID = value; }
         }
 
+        private int _Sequence;
+        /// <summary>
+        /// 第几路
+        /// </summary>
+        public int Sequence
+        {
+            get { return _Sequence; }
+            set { _Sequence = value; }
+        }
+
+        private UniversalCollectType _WayType;
+        /// <summary>
+        /// 终端数据类型(模拟、脉冲、RS485)
+        /// </summary>
+        public UniversalCollectType WayType
+        {
+            get { return _WayType; }
+            set { _WayType = value; }
+        }
+
     }
 }

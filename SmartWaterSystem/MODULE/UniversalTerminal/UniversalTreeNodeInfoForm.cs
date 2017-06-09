@@ -107,7 +107,7 @@ namespace SmartWaterSystem
             entity.Name = txtName.Text;
             //entity.Precision = Convert.ToInt32(cbPrecision.Text);
             entity.Unit = txtUnit.Text;
-            entity.WayType = (UniversalCollectType)cbType.SelectedIndex;
+            entity.WayType = (UniversalCollectType)(cbType.SelectedIndex+1);
 
             this.DialogResult = DialogResult.OK;
             this.Close();

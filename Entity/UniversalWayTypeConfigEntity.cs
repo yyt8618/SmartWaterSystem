@@ -10,15 +10,8 @@ namespace Entity
         public UniversalWayTypeConfigEntity()
         {
         }
-
-        public UniversalWayTypeConfigEntity(int TerminalID, int Sequence, int PointID)
-        {
-            this._TerminalID = TerminalID;
-            this._sequence = Sequence;
-            this._PointID = PointID;
-        }
-
-        public UniversalWayTypeConfigEntity(int Sequence, int PointID)
+        
+        public UniversalWayTypeConfigEntity( int Sequence, int PointID)
         {
             this._sequence = Sequence;
             this._PointID = PointID;
@@ -37,6 +30,13 @@ namespace Entity
             get { return _sequence; }
             set { _sequence = value; }
         }
+
+        //private UniversalCollectType _waytype;
+        //public UniversalCollectType WayType
+        //{
+        //    get { return _waytype; }
+        //    set { _waytype = value; }
+        //}
 
         private int _PointID;
         public int PointID
