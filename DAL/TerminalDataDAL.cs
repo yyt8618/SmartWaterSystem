@@ -970,7 +970,7 @@ namespace DAL
         {
             lock (ConstValue.obj)
             {
-                SqlTransaction trans = null;
+                //SqlTransaction trans = null;
                 try
                 {
                     if ((ids == null) || (ids.Count == 0))
@@ -978,7 +978,7 @@ namespace DAL
                         return 0;
                     }
 
-                    trans = SQLHelper.GetTransaction();
+                    //trans = SQLHelper.GetTransaction();
 
                     string SQL = "UPDATE ParamToDev SET SendedFlag=@flag, SendedCount=@sendcount WHERE ID=@id";
                     SqlParameter[] parms = new SqlParameter[]
@@ -993,7 +993,7 @@ namespace DAL
                     command.Parameters.AddRange(parms);
                     command.CommandType = CommandType.Text;
                     command.Connection = SQLHelper.Conn;
-                    command.Transaction = trans;
+                    //command.Transaction = trans;
 
                     for (int i = 0; i < ids.Count; i++)
                     {
@@ -1002,14 +1002,14 @@ namespace DAL
                         parms[2].Value = ids[i].TableId;
                         command.ExecuteNonQuery();
                     }
-                    trans.Commit();
+                    //trans.Commit();
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    if (trans != null)
-                        trans.Rollback();
+                    //if (trans != null)
+                    //    trans.Rollback();
                     throw ex;
                 }
             }
