@@ -1181,6 +1181,7 @@ namespace GCGPRSService
 #endif
                 }
                 logger.ErrorException("ReadCallback", argex);
+                logger.Error(argex.StackTrace);
                 try
                 {
                     handler.Shutdown(SocketShutdown.Both);
@@ -1211,6 +1212,7 @@ namespace GCGPRSService
             catch (Exception ex)
             {
                 logger.ErrorException("ReadCallback", ex);
+                logger.Error(ex.StackTrace);
                 try
                 {
                     //handler.Shutdown(SocketShutdown.Both);

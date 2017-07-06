@@ -1420,7 +1420,7 @@ namespace SmartWaterSystem
             btnReset.Enabled = false;
             btnCheckingTime.Enabled = false;
             btnEnableCollect.Enabled = false;
-            btnReadParm.Enabled = false;
+            btnReadParm.Enabled = true;
             btnSetParm.Enabled = true;
 
             ceTime.Enabled = false;
@@ -1446,7 +1446,7 @@ namespace SmartWaterSystem
             cbPowersupplyType.Enabled = false;
             cbPowersupplyType.SelectedIndex = -1;
 
-            ceColConfig.Enabled = false;
+            ceColConfig.Enabled = true;
             ceColConfig.Checked = false;
 
             ceClearInterval.Enabled = false;

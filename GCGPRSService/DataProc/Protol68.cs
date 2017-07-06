@@ -909,11 +909,13 @@ namespace GCGPRSService
                         }
                         else if (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL)
                         {
-                            data.ResidualCl = value / 1000;
+                            value = value / 100;
+                            data.ResidualCl = value;
                         }
                         else if (pack.C1 == (byte)GPRS_READ.READ_PH)
                         {
-                            data.PH = value / 100;
+                            value = value / 100;
+                            data.PH = value;
                         }
                         else if (pack.C1 == (byte)GPRS_READ.READ_TEMP)
                         {
