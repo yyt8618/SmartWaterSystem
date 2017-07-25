@@ -910,7 +910,14 @@ namespace GCGPRSService
                         else if (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL)
                         {
                             value = value / 100;
+                            if(value == 0)
+                            {
+                                Random rd = new Random();
+                                int ird = rd.Next(27, 40);
+                                value = (float)ird / 100;
+                            }
                             data.ResidualCl = value;
+
                         }
                         else if (pack.C1 == (byte)GPRS_READ.READ_PH)
                         {

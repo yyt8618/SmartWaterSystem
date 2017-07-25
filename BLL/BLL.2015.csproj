@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="HttpDataBLL\HttpNoiseBLL.cs" />
     <Compile Include="HttpDataBLL\HttpTerMagBLL.cs" />
+    <Compile Include="HttpDataBLL\LoginBLL.cs" />
     <Compile Include="HydrantBLL.cs" />
     <Compile Include="NoiseDataBaseHelper.cs" />
     <Compile Include="NoiseDataHandler.cs" />

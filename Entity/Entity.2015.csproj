@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComunicateEntity\TerMagEntity\LoginInfoReqEntity.cs" />
     <Compile Include="ComunicateEntity\TerMagEntity\AddTerMagInfoReqEntity.cs" />
     <Compile Include="ComunicateEntity\TerMagEntity\DelTerMagInfoReqEntity.cs" />
     <Compile Include="ComunicateEntity\TerMagEntity\TerMagInfoEntity.cs" />
