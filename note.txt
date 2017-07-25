@@ -41,6 +41,8 @@ tlp:谭丽萍 pg:彭工
 2017-06-09 表UniversalTerWayType删除Sequence列
 2017-06-09 表UniversalTerData增加Sequence、WayType字段
 2017-06-09 修改UniversalCollectType枚举类型,从1开始(以前从0开始)
+2017-07-20 增加余氯随机(值为0的时候)
+2017-07-25 Http请求增加登录,增加表EN_User
 
 ctrl+k,ctrl+d 自动排版
 

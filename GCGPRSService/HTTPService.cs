@@ -310,6 +310,11 @@ namespace GCGPRSService
                                         HTTPRespEntity uploadpicrespentity = new PicBLL().UpLoadPic(picreqentity.picdata, PicLocalTmpDir, PicNetTmpDirHead, "jpg");
                                         str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadpicrespentity);
                                         break;
+                                    case "login":                    //登录
+                                        LoginInfoReqEntity logininfo = JSONSerialize.JsonDeserialize_Newtonsoft<LoginInfoReqEntity>(httpentity.Params);
+                                        uploadrespentity = (new LoginBLL()).Login(logininfo.userid, logininfo.pwd);
+                                        str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
+                                        break;
                                     case "":                    //查看维修历史
                                         break;
                                         #endregion

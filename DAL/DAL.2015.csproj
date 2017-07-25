@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="HttpDataDAL\HttpNoiseDAL.cs" />
     <Compile Include="HttpDataDAL\HttpTerMagDAL.cs" />
+    <Compile Include="HttpDataDAL\LoginDAL.cs" />
     <Compile Include="HydrantDAL.cs" />
     <Compile Include="NoiseParmDAL.cs" />
     <Compile Include="RectifyValueDAL.cs" />
