@@ -17,6 +17,7 @@ namespace GCGPRSService
             Int16 field_strength = -1; //场强(0-31,99表示没信号)
             object RectifyResult = null;//纠偏结果,null表示运算失败或者异常
             string CalcExpress = "";    //运算表达式
+            DateTime terdt;  //终端时间
             if (pack.ID3 == (byte)ConstValue.DEV_TYPE.Data_CTRL || pack.ID3 == (byte)ConstValue.DEV_TYPE.UNIVERSAL_CTRL)
             {
                 string TerName = pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL ? "压力流量终端" : "通用终端";
@@ -63,7 +64,7 @@ namespace GCGPRSService
                     framedata.ModifyTime = DateTime.Now;
                     framedata.Frame = str_frame;
 
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                    //int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
                     float pressuevalue = 0;
 
                     if (addtion_voldata)
@@ -75,12 +76,7 @@ namespace GCGPRSService
                     }
                     for (int i = 0; i < dataindex; i++)
                     {
-                        year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
-                        month = Convert.ToInt16(pack.Data[i * 8 + 4]);
-                        day = Convert.ToInt16(pack.Data[i * 8 + 5]);
-                        hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
-                        minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
-                        sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
+                        terdt = DealTime(pack.Data, i * 8 + 3);
 
                         pressuevalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
                         RectifyResult = RectifyCalc(pack, out CalcExpress, pressuevalue.ToString());
@@ -95,17 +91,13 @@ namespace GCGPRSService
                             pressuevalue = pressuevalue / 1000;
                         }
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("index({0})|{1}[{2}]|压力标志({3})|采集时间({4})|压力值:{5}MPa{6}|电压值:{7}V|信号强度:{8}",
-                            i, TerName, pack.ID, preFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, pressuevalue, CalcExpress, volvalue, field_strength)));
+                            i, TerName, pack.ID, preFlag, terdt.ToString(), pressuevalue, CalcExpress, volvalue, field_strength)));
 
                         GPRSPreDataEntity data = new GPRSPreDataEntity();
                         data.PreValue = pressuevalue;
                         data.Voltage = volvalue;
                         data.FieldStrength = field_strength;
-                        try
-                        {
-                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                        }
-                        catch { data.ColTime = ConstValue.MinDateTime; }
+                        data.ColTime = terdt;
                         bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                         framedata.lstPreData.Add(data);
                     }
@@ -215,17 +207,11 @@ namespace GCGPRSService
                     framedata.TerId = pack.ID.ToString();
                     framedata.ModifyTime = DateTime.Now;
                     framedata.Frame = str_frame;
-
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                    
                     double forward_flowvalue = 0, reverse_flowvalue = 0, instant_flowvalue = 0;
                     for (int i = 0; i < dataindex; i++)
                     {
-                        year = 2000 + Convert.ToInt16(pack.Data[i * 18 + 3]);
-                        month = Convert.ToInt16(pack.Data[i * 18 + 4]);
-                        day = Convert.ToInt16(pack.Data[i * 18 + 5]);
-                        hour = Convert.ToInt16(pack.Data[i * 18 + 6]);
-                        minute = Convert.ToInt16(pack.Data[i * 18 + 7]);
-                        sec = Convert.ToInt16(pack.Data[i * 18 + 8]);
+                        terdt = DealTime(pack.Data, i * 18 + 3);
 
                         if (!isBCD)
                         {
@@ -237,14 +223,14 @@ namespace GCGPRSService
                             instant_flowvalue = BitConverter.ToSingle(new byte[] { pack.Data[i * 18 + 20], pack.Data[i * 18 + 19], pack.Data[i * 18 + 18], pack.Data[i * 18 + 17] }, 0);
 
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("index({0})|{1}[{2}]|报警标志({3})|流量标志({4})|采集时间({5})|正向流量值:{6}|反向流量值:{7}|瞬时流量值:{8}|电压值:{9}V|信号强度:{10}",
-                                i, TerName, pack.ID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue, field_strength)));
+                                i, TerName, pack.ID, alarmflag, flowFlag, terdt.ToString(), forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue, field_strength)));
                         }
                         else
                         {
                             string flowvalue = String.Format("{0:X2}", pack.Data[i * 18 + 12]) + String.Format("{0:X2}", pack.Data[i * 18 + 11]) + String.Format("{0:X2}", pack.Data[i * 18 + 10]) + String.Format("{0:X2}", pack.Data[i * 18 + 9]);
                             forward_flowvalue = Convert.ToDouble(flowvalue) / 100;
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("index({0})|{1}[{2}]|报警标志({3})|流量标志({4})|采集时间({5})|日累计流量值:{6}|电压值:{7}V|信号强度:{8}",
-                                i, TerName, pack.ID, alarmflag, flowFlag, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, forward_flowvalue, volvalue, field_strength)));
+                                i, TerName, pack.ID, alarmflag, flowFlag, terdt.ToString(), forward_flowvalue, volvalue, field_strength)));
                         }
 
                         GPRSFlowDataEntity data = new GPRSFlowDataEntity();
@@ -253,11 +239,7 @@ namespace GCGPRSService
                         data.Instant_FlowValue = instant_flowvalue;
                         data.Voltage = volvalue;
                         data.FieldStrength = field_strength;
-                        try
-                        {
-                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                        }
-                        catch { data.ColTime = ConstValue.MinDateTime; }
+                        data.ColTime = terdt;
                         bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                         framedata.lstFlowData.Add(data);
                     }
@@ -282,51 +264,28 @@ namespace GCGPRSService
                         volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 2], pack.Data[pack.DataLength - 3] }, 0)) / 1000;
                         field_strength = (Int16)pack.Data[pack.DataLength - 1];
                     }
-
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                    year = 2000 + Convert.ToInt16(pack.Data[1]);
-                    month = Convert.ToInt16(pack.Data[2]);
-                    day = Convert.ToInt16(pack.Data[3]);
-                    hour = Convert.ToInt16(pack.Data[4]);
-                    minute = Convert.ToInt16(pack.Data[5]);
-                    sec = Convert.ToInt16(pack.Data[6]);
-
-
+                    terdt = DealTime(pack.Data, 1);
+                    
                     Dictionary<int, string> dictalarms = null;
                     if (pack.DataLength == 11)      //pack.DataLength == 11 报警标志为2个字节(旧的为1个字节)
                     {
                         dictalarms = AlarmProc.GetAlarmName(GlobalValue.Instance.lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
-
-                        year = 2000 + Convert.ToInt16(pack.Data[2]);
-                        month = Convert.ToInt16(pack.Data[3]);
-                        day = Convert.ToInt16(pack.Data[4]);
-                        hour = Convert.ToInt16(pack.Data[5]);
-                        minute = Convert.ToInt16(pack.Data[6]);
-                        sec = Convert.ToInt16(pack.Data[7]);
+                        
+                        terdt = DealTime(pack.Data, 2);
                     }
                     else
                     {
                         dictalarms = AlarmProc.GetAlarmName(GlobalValue.Instance.lstAlarmType, pack.ID3, pack.C1, pack.Data[0]);
-
-                        year = 2000 + Convert.ToInt16(pack.Data[1]);
-                        month = Convert.ToInt16(pack.Data[2]);
-                        day = Convert.ToInt16(pack.Data[3]);
-                        hour = Convert.ToInt16(pack.Data[4]);
-                        minute = Convert.ToInt16(pack.Data[5]);
-                        sec = Convert.ToInt16(pack.Data[6]);
+                        
+                        terdt = DealTime(pack.Data, 1);
                     }
-                    if (month == 0)
-                        month = 1;
-                    if (day == 0)
-                        day = 1;
-
                     if (dictalarms != null && dictalarms.Count > 0)
                     {
                         GPRSAlarmFrameDataEntity alarmframedata = new GPRSAlarmFrameDataEntity();
                         alarmframedata.Frame = str_frame;
                         alarmframedata.TerId = pack.DevID.ToString();
                         alarmframedata.TerminalType = TerType.PreTer;
-                        alarmframedata.ModifyTime = new DateTime(year, month, day, hour, minute, sec);
+                        alarmframedata.ModifyTime = terdt;
                         alarmframedata.AlarmId = new List<int>();
                         foreach (var de in dictalarms)
                         {
@@ -340,14 +299,14 @@ namespace GCGPRSService
                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertAlarm);
 
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Alarm, string.Format("{0}[{1}]{2}|时间({3})|电压值:{4}V|信号强度:{5}",
-                         TerName, pack.ID, str_alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue, field_strength)));
+                         TerName, pack.ID, str_alarm, terdt.ToString(), volvalue, field_strength)));
                     }
                     else
                     {
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("{0}[{1}]{2}|时间({3})|电压值:{4}V|信号强度:{5}",
-                             TerName, pack.ID, str_alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue, field_strength)));
+                             TerName, pack.ID, str_alarm, terdt.ToString(), volvalue, field_strength)));
                     }
-                    bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
+                    bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(terdt);
                 }
                 else if (pack.ID3 == (byte)Entity.ConstValue.DEV_TYPE.Data_CTRL && pack.C1 == (byte)GPRS_READ.READ_PREFLOWDATA) //从站向主站发送流量采集数据(压力流量终端)
                 {
@@ -393,8 +352,7 @@ namespace GCGPRSService
                     framedata.TerId = pack.DevID.ToString();
                     framedata.ModifyTime = DateTime.Now;
                     framedata.Frame = str_frame;
-
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                    
                     double datavalue = 0;
 
                     //报警
@@ -419,12 +377,7 @@ namespace GCGPRSService
                         dataindex = (pack.DataLength - 2 - 1) / loopdatalen;
                         for (int i = 0; i < dataindex; i++)
                         {
-                            year = 2000 + Convert.ToInt16(pack.Data[i * loopdatalen + 3]);
-                            month = Convert.ToInt16(pack.Data[i * loopdatalen + 4]);
-                            day = Convert.ToInt16(pack.Data[i * loopdatalen + 5]);
-                            hour = Convert.ToInt16(pack.Data[i * loopdatalen + 6]);
-                            minute = Convert.ToInt16(pack.Data[i * loopdatalen + 7]);
-                            sec = Convert.ToInt16(pack.Data[i * loopdatalen + 8]);
+                            terdt = DealTime(pack.Data, i * loopdatalen + 3);
 
                             double range = 0;   //量程
                             range += BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 10], pack.Data[i * loopdatalen + 9] }, 0);    //整数部分
@@ -445,7 +398,7 @@ namespace GCGPRSService
                                 datavalue = ((double)(datavalue - calibration)) * range / (ConstValue.UniversalSimRatio);
                             }
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]模拟{2}路|校准值({3})|采集时间({4})|{5}:{6}{7}{8}|电压值:{9}V|信号强度:{10}",
-                                i, pack.DevID, pack.Data[2], calibration, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec,
+                                i, pack.DevID, pack.Data[2], calibration, terdt.ToString(),
                                 dr_TerminalDataConfig[0]["Name"].ToString().Trim(), datavalue, dr_TerminalDataConfig[0]["Unit"].ToString().Trim(), CalcExpress, volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
@@ -454,11 +407,7 @@ namespace GCGPRSService
                             data.Sequence = pack.Data[2];
                             data.WayType = UniversalCollectType.Simulate;
                             data.TypeTableID = Convert.ToInt32(dr_TerminalDataConfig[0]["ID"]);
-                            try
-                            {
-                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                            }
-                            catch { data.ColTime = ConstValue.MinDateTime; }
+                            data.ColTime = terdt;
                             bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                             framedata.lstData.Add(data);
                         }
@@ -478,8 +427,7 @@ namespace GCGPRSService
                     framedata.TerId = pack.DevID.ToString();
                     framedata.ModifyTime = DateTime.Now;
                     framedata.Frame = str_frame;
-
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                    
                     double datavalue = 0;
 
                     //报警
@@ -516,13 +464,8 @@ namespace GCGPRSService
                         dataindex = (pack.DataLength - 2 - 1) / loopdatalen;
                         for (int i = 0; i < dataindex; i++)
                         {
-                            year = 2000 + Convert.ToInt16(pack.Data[i * loopdatalen + 3]);
-                            month = Convert.ToInt16(pack.Data[i * loopdatalen + 4]);
-                            day = Convert.ToInt16(pack.Data[i * loopdatalen + 5]);
-                            hour = Convert.ToInt16(pack.Data[i * loopdatalen + 6]);
-                            minute = Convert.ToInt16(pack.Data[i * loopdatalen + 7]);
-                            sec = Convert.ToInt16(pack.Data[i * loopdatalen + 8]);
-                            
+                            terdt = DealTime(pack.Data, i * loopdatalen + 3);
+
                             int freindex = 0;
                             for (int j = 0; j < waycount; j++)
                             {
@@ -565,18 +508,14 @@ namespace GCGPRSService
                                     datavalue = PluseUnit * datavalue;  //脉冲计数*单位脉冲值
                                 }
                                 GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("index({0})|通用终端[{1}]脉冲{2}路|采集时间({3})|{4}:{5}{6}{7}|电压值:{8}V|信号强度:{9}",
-                                    i, pack.DevID, j + 1, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names[j], datavalue, Units[j], CalcExpress, volvalue, field_strength)));
+                                    i, pack.DevID, j + 1, terdt.ToString(), Names[j], datavalue, Units[j], CalcExpress, volvalue, field_strength)));
 
                                 GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                                 data.DataValue = datavalue;
                                 data.TypeTableID = Convert.ToInt32(config_ids[j]);
                                 data.Sequence = pack.Data[2];
                                 data.WayType = UniversalCollectType.Pluse;
-                                try
-                                {
-                                    data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                                }
-                                catch { data.ColTime = ConstValue.MinDateTime; }
+                                data.ColTime = terdt;
                                 bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                                 framedata.lstData.Add(data);
                             }
@@ -600,8 +539,7 @@ namespace GCGPRSService
                     framedata.TerId = pack.DevID.ToString();
                     framedata.ModifyTime = DateTime.Now;
                     framedata.Frame = str_frame;
-
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                    
                     double datavalue = 0;
 
                     //报警
@@ -639,12 +577,7 @@ namespace GCGPRSService
                         int partlen = pack.Data[3]; //部分数据长度
                         do
                         {
-                            year = 2000 + Convert.ToInt16(pack.Data[partindex]);
-                            month = Convert.ToInt16(pack.Data[partindex + 1]);
-                            day = Convert.ToInt16(pack.Data[partindex + 2]);
-                            hour = Convert.ToInt16(pack.Data[partindex + 3]);
-                            minute = Convert.ToInt16(pack.Data[partindex + 4]);
-                            sec = Convert.ToInt16(pack.Data[partindex + 5]);
+                            terdt = DealTime(pack.Data, partindex);
 
                             if (partlen == 6 + 2)
                                 datavalue = BitConverter.ToInt16(new byte[] { pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
@@ -672,18 +605,14 @@ namespace GCGPRSService
                             
                             
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UniversalTer, string.Format("通用终端[{0}]RS485 {1}路|采集时间({2})|{3}:{4}{5}{6}|电压值:{7}V|信号强度:{8}",
-                                        pack.DevID, (pack.Data[2]), year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Names, datavalue, Units, CalcExpress, volvalue, field_strength)));
+                                        pack.DevID, (pack.Data[2]), terdt.ToString(), Names, datavalue, Units, CalcExpress, volvalue, field_strength)));
 
                             GPRSUniversalDataEntity data = new GPRSUniversalDataEntity();
                             data.DataValue = datavalue;
                             data.TypeTableID = Convert.ToInt32(config_ids);
                             data.Sequence = pack.Data[2];
                             data.WayType = UniversalCollectType.RS485;
-                            try
-                            {
-                                data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                            }
-                            catch { data.ColTime = ConstValue.MinDateTime; }
+                            data.ColTime = terdt;
                             bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                             framedata.lstData.Add(data);
 
@@ -772,13 +701,7 @@ namespace GCGPRSService
                             alarm += "流量器报警";
 
                         //发送时间(6bytes)+进口压力(2bytes)+出口压力(2bytes)+正向累积流量 (4bytes)+反向累积流量(4bytes)+瞬时流量(4bytes)+参数报警标识(1byte)+设备报警标识(1byte)
-                        int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                        year = 2000 + Convert.ToInt16(pack.Data[i * 24]);
-                        month = Convert.ToInt16(pack.Data[i * 24 + 1]);
-                        day = Convert.ToInt16(pack.Data[i * 24 + 2]);
-                        hour = Convert.ToInt16(pack.Data[i * 24 + 3]);
-                        minute = Convert.ToInt16(pack.Data[i * 24 + 4]);
-                        sec = Convert.ToInt16(pack.Data[i * 24 + 5]);
+                        terdt = DealTime(pack.Data, i*24);
 
                         //进口压力
                         float entrance_prevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 24 + 7], pack.Data[i * 24 + 6] }, 0)) / 1000;
@@ -793,10 +716,10 @@ namespace GCGPRSService
 
                         if (!string.IsNullOrEmpty(parmalarm) || !string.IsNullOrEmpty(alarm))
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Alarm, string.Format("index({0})|压力控制器[{1}]|参数报警({2})|设备报警({3})|采集时间({4})|进口压力:{5}MPa|出口压力:{6}MPa|正向流量值:{7}|反向流量值:{8}|瞬时流量值:{9}|电压值:{10}V|信号强度:{11}",
-                                    i, pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue, field_strength)));
+                                    i, pack.DevID, parmalarm, alarm, terdt.ToString(), entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue, field_strength)));
                         else
                             GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreCTL, string.Format("index({0})|压力控制器[{1}]|参数报警({2})|设备报警({3})|采集时间({4})|进口压力:{5}MPa|出口压力:{6}MPa|正向流量值:{7}|反向流量值:{8}|瞬时流量值:{9}|电压值:{10}V|信号强度:{11}",
-                                    i, pack.DevID, parmalarm, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue, field_strength)));
+                                    i, pack.DevID, parmalarm, alarm, terdt.ToString(), entrance_prevalue, outlet_prevalue, forward_flowvalue, reverse_flowvalue, instant_flowvalue, volvalue, field_strength)));
 
                         GPRSPrectrlDataEntity data = new GPRSPrectrlDataEntity();
                         data.Entrance_preValue = entrance_prevalue;
@@ -815,11 +738,7 @@ namespace GCGPRSService
                         data.AlarmDesc += alarm;   //存放两个报警信息
                         data.Voltage = volvalue;
                         data.FieldStrength = field_strength;
-                        try
-                        {
-                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                        }
-                        catch { data.ColTime = ConstValue.MinDateTime; }
+                        data.ColTime = terdt;
                         bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                         framedata.lstPrectrlData.Add(data);
                     }
@@ -857,7 +776,6 @@ namespace GCGPRSService
                     framedata.ModifyTime = DateTime.Now;
                     framedata.Frame = str_frame;
 
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
                     float value = 0;
                     string name = "";
                     string unit = "";
@@ -892,12 +810,7 @@ namespace GCGPRSService
 
                     for (int i = 0; i < dataindex; i++)
                     {
-                        year = 2000 + Convert.ToInt16(pack.Data[i * 8 + 3]);
-                        month = Convert.ToInt16(pack.Data[i * 8 + 4]);
-                        day = Convert.ToInt16(pack.Data[i * 8 + 5]);
-                        hour = Convert.ToInt16(pack.Data[i * 8 + 6]);
-                        minute = Convert.ToInt16(pack.Data[i * 8 + 7]);
-                        sec = Convert.ToInt16(pack.Data[i * 8 + 8]);
+                        terdt = DealTime(pack.Data, i * 8 + 3);
 
                         value = (float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
                         GPRSOLWQDataEntity data = new GPRSOLWQDataEntity();
@@ -930,13 +843,9 @@ namespace GCGPRSService
                         }
 
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.OLWQ, string.Format("index({0})|水质终端[{1}]|采集时间({2})|{3}值:{4}{5}|电压值:{6}V",
-                            dataindex, pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, name, value, unit, volvalue)));
+                            dataindex, pack.ID, terdt.ToString(), name, value, unit, volvalue)));
                         data.Voltage = volvalue;
-                        try
-                        {
-                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                        }
-                        catch { data.ColTime = ConstValue.MinDateTime; }
+                        data.ColTime = terdt;
                         bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                         framedata.lstOLWQData.Add(data);
                     }
@@ -966,8 +875,7 @@ namespace GCGPRSService
                     framedata.TerId = pack.ID.ToString();
                     framedata.ModifyTime = DateTime.Now;
                     framedata.Frame = str_frame;
-
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
+                    
                     float Condvalue = 0;
                     float Tempvalue = 0;
 
@@ -976,29 +884,20 @@ namespace GCGPRSService
 
                     for (int i = 0; i < dataindex; i++)
                     {
-                        year = 2000 + Convert.ToInt16(pack.Data[i * 12 + 3]);
-                        month = Convert.ToInt16(pack.Data[i * 12 + 4]);
-                        day = Convert.ToInt16(pack.Data[i * 12 + 5]);
-                        hour = Convert.ToInt16(pack.Data[i * 12 + 6]);
-                        minute = Convert.ToInt16(pack.Data[i * 12 + 7]);
-                        sec = Convert.ToInt16(pack.Data[i * 12 + 8]);
+                        terdt = DealTime(pack.Data, i * 12 + 3);
 
                         Condvalue = ((float)BitConverter.ToInt32(new byte[] { pack.Data[i * 12 + 12], pack.Data[i * 12 + 11], pack.Data[i * 12 + 10], pack.Data[i * 12 + 9] }, 0)) / 100;
                         Tempvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 12 + 14], pack.Data[i * 12 + 13] }, 0)) / 10;
 
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.OLWQ, string.Format("index({0})|水质终端[{1}]|采集时间({2})|电导率值:{3}us/cm,温度:{4}℃|电压值:{5}V",
-                            i, pack.ID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, Condvalue.ToString("f2"), Tempvalue.ToString("f1"), volvalue)));
+                            i, pack.ID, terdt.ToString(), Condvalue.ToString("f2"), Tempvalue.ToString("f1"), volvalue)));
 
                         GPRSOLWQDataEntity data = new GPRSOLWQDataEntity();
                         data.Conductivity = Condvalue;
                         data.Temperature = Tempvalue;
                         data.ValueColumnName = "Conductivity";
                         data.Voltage = volvalue;
-                        try
-                        {
-                            data.ColTime = new DateTime(year, month, day, hour, minute, sec);
-                        }
-                        catch { data.ColTime = ConstValue.MinDateTime; }
+                        data.ColTime = terdt;
                         bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
                         framedata.lstOLWQData.Add(data);
                     }
@@ -1060,30 +959,20 @@ namespace GCGPRSService
                         alarm += "PH报警";
                     else if (((pack.Data[0] & 0x20) >> 5) == 1)  //电导率报警
                         alarm += "电导率报警";
-
-                    int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                    year = 2000 + Convert.ToInt16(pack.Data[1]);
-                    month = Convert.ToInt16(pack.Data[2]);
-                    day = Convert.ToInt16(pack.Data[3]);
-                    hour = Convert.ToInt16(pack.Data[4]);
-                    minute = Convert.ToInt16(pack.Data[5]);
-                    sec = Convert.ToInt16(pack.Data[6]);
+                    
+                    terdt = DealTime(pack.Data, 1);
 
                     if (pack.DataLength == 9)   //pack.DataLength == 9 带电压值
                     {
                         volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 1], pack.Data[pack.DataLength - 2] }, 0)) / 1000;
                     }
-                    if (month == 0)
-                        month = 1;
-                    if (day == 0)
-                        day = 1;
-                    bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(new DateTime(year, month, day, hour, minute, sec));
+                    bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(terdt);
                     if (!string.IsNullOrEmpty(alarm))
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Alarm, string.Format("水质终端[{0}]{1}|时间({2})|电压值:{3}V",
-                             pack.ID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
+                             pack.ID, alarm,terdt.ToString(), volvalue)));
                     else
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.OLWQ, string.Format("水质终端[{0}]{1}|时间({2})|电压值:{3}V",
-                             pack.ID, alarm, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, volvalue)));
+                             pack.ID, alarm, terdt.ToString(), volvalue)));
                 }
                 #endregion
             }
@@ -1094,19 +983,13 @@ namespace GCGPRSService
                 framedata.TerId = pack.DevID.ToString();
                 framedata.ModifyTime = DateTime.Now;
                 framedata.Frame = str_frame;
-
-                int year = 0, month = 0, day = 0, hour = 0, minute = 0, sec = 0;
-                year = 2000 + Convert.ToInt16(pack.Data[0]);
-                month = Convert.ToInt16(pack.Data[1]);
-                day = Convert.ToInt16(pack.Data[2]);
-                hour = Convert.ToInt16(pack.Data[3]);
-                minute = Convert.ToInt16(pack.Data[4]);
-                sec = Convert.ToInt16(pack.Data[5]);
+                
+                terdt = DealTime(pack.Data, 0);
 
                 GPRSHydrantDataEntity data = new GPRSHydrantDataEntity();
                 try
                 {
-                    data.ColTime = new DateTime(year, month, day, hour, minute, sec);
+                    data.ColTime = terdt;
                 }
                 catch { data.ColTime = ConstValue.MinDateTime; }
                 bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
@@ -1126,7 +1009,7 @@ namespace GCGPRSService
                         prevalue = prevalue / 1000;
                     }
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]被打开|时间({1})|开度:{2},压力:{3}MPa{4}",
-                            pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle, prevalue.ToString("f3"), CalcExpress)));
+                            pack.DevID, terdt.ToString(), openangle, prevalue.ToString("f3"), CalcExpress)));
                     data.Operate = HydrantOptType.Open;
                     data.PreValue = prevalue;
                     data.OpenAngle = openangle;
@@ -1134,27 +1017,27 @@ namespace GCGPRSService
                 else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_CLOSE)
                 {
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]被关闭|时间({1})",
-                               pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                               pack.DevID, terdt.ToString())));
                     data.Operate = HydrantOptType.Close;
                 }
                 else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_OPENANGLE)
                 {
                     int openangle = Convert.ToInt16(pack.Data[6]);
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]开度|时间({1})|开度:{2}",
-                            pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, openangle)));
+                            pack.DevID, terdt.ToString(), openangle)));
                     data.OpenAngle = openangle;
                     data.Operate = HydrantOptType.OpenAngle;
                 }
                 else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_IMPACT)
                 {
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]被撞击|时间({1})",
-                               pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                               pack.DevID, terdt.ToString())));
                     data.Operate = HydrantOptType.Impact;
                 }
                 else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_KNOCKOVER)
                 {
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]被撞倒|时间({1})",
-                               pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec)));
+                               pack.DevID, terdt.ToString())));
                     data.Operate = HydrantOptType.KnockOver;
                 }
                 else if (pack.C1 == (byte)GPRS_READ.READ_HYDRANT_TIMEGPRS)       //定时远传
@@ -1191,7 +1074,7 @@ namespace GCGPRSService
                         strprevalue = prevalue.ToString() + "MPa";
                     }
                     GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Hydrant, string.Format("消防栓[{0}]定时报|时间({1})|状态:{2}|开度:{3}|压力:{4}",
-                            pack.DevID, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + sec, strstate, stropenangle, strprevalue)));
+                            pack.DevID, terdt.ToString(), strstate, stropenangle, strprevalue)));
                 }
 
                 framedata.lstHydrantData.Add(data);
@@ -1357,6 +1240,50 @@ namespace GCGPRSService
                     GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertWaterworkerValue);
                 }
                 #endregion
+            }
+        }
+
+        /// <summary>
+        /// 处理时间,如果6个字节的时间中，最后2个字节都是0xff，则认为是时间戳格式
+        /// </summary>
+        /// <param name="bData"></param>
+        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        private DateTime DealTime(byte[] bData, int startIndex)
+        {
+            try
+            {
+                if (bData[startIndex + 4] == 0xff && bData[startIndex + 5] == 0xff)
+                {
+                    byte[] bs = new byte[4];
+                    Array.Copy(bData, startIndex, bs, 0, 4);
+                    Array.Reverse(bs);
+                    long timeticks = BitConverter.ToUInt32(bs, 0);
+                    DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                    return startTime.AddSeconds(Convert.ToDouble(timeticks));
+                }
+                else {
+                    int year, month, day, hour, minute, sec;
+                    year = 2000 + Convert.ToInt16(bData[startIndex]);
+                    month = Convert.ToInt16(bData[startIndex + 1]);
+                    day = Convert.ToInt16(bData[startIndex + 2]);
+                    hour = Convert.ToInt16(bData[startIndex + 3]);
+                    minute = Convert.ToInt16(bData[startIndex + 4]);
+                    sec = Convert.ToInt16(bData[startIndex + 5]);
+
+                    return new DateTime(year, month, day, hour, minute, sec);
+                }
+            }
+            catch
+            {
+                if (bData.Length < startIndex + 6)  //长度不够
+                {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Alarm, "时间转换错误,源数据长度不够:" + ConvertHelper.ByteToString(bData, bData.Length)));
+                }
+                else {
+                    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Alarm, "时间转换错误,源数据:" + ConvertHelper.ByteToString(bData, 6)));
+                }
+                return ConstValue.MinDateTime;
             }
         }
 
