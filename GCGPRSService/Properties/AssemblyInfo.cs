@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GCGPRSService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("上海敢闯科技有限公司")]
+[assembly: AssemblyCompany("上海敢创科技有限公司")]
 [assembly: AssemblyProduct("GCGPRSService")]
 [assembly: AssemblyCopyright("Copyright © 上海敢闯科技有限公司 2017")]
 [assembly: AssemblyTrademark("")]
