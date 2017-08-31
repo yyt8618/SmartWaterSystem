@@ -1280,11 +1280,11 @@ namespace GCGPRSService
         /// <returns></returns>
         public bool NeedCheckTime(DateTime devTime)
         {
-            TimeSpan ts = DateTime.Now - (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));   //0点校时
-            if (Math.Abs(ts.TotalMinutes) <4)
-                return true;
+            //TimeSpan ts = DateTime.Now - (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));   //0点校时
+            //if (Math.Abs(ts.TotalMinutes) <4)
+            //    return true;
 
-            ts = DateTime.Now - devTime;   //设备时间与服务器时间相差3min校时
+            TimeSpan ts = DateTime.Now - devTime;   //设备时间与服务器时间相差3min校时
             if (Math.Abs(ts.TotalMinutes) > 3)
                 return true;
 

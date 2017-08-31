@@ -226,5 +226,52 @@ namespace DAL
             }
             return false;
         }
+        
+        public void UploadRepairRec(RepairInfoEntity repairRec)
+        {
+            if (repairRec == null)
+                return;
+            string SQL = "INSERT INTO TerRepairRec(TerMagId,TerId,BreakdownId,[Desc],UserId,ModifyTime) VALUES(@id,@terid,@breakid,@desc,@userid,@modifytime)";
+            SqlParameter[] parms = new SqlParameter[]
+                {
+                    new SqlParameter("@id",SqlDbType.Int),
+                    new SqlParameter("@terid",SqlDbType.Int),
+                    new SqlParameter("@breakid",SqlDbType.Int),
+                    new SqlParameter("@desc",SqlDbType.NVarChar,300),
+                    new SqlParameter("@userid",SqlDbType.Int),
+                    new SqlParameter("modifytime",SqlDbType.DateTime)
+                };
+            parms[0].Value = repairRec.Id;
+            parms[1].Value = repairRec.DevId;
+            parms[2].Value = repairRec.BreakdownId;
+            parms[3].Value = repairRec.Desc;
+            parms[4].Value = repairRec.UserId;
+            parms[5].Value = repairRec.RepairTime;
+
+            SQLHelper.ExecuteNonQuery(SQL, parms);
+        }
+
+        public List<RepairInfoEntity> QueryRepairRec(long TerMagId)
+        {
+            string SQL = "SELECT TerMagId,TerId,BreakdownId,[Desc],UserId,ModifyTime FROM TerRepairRec WHERE TerMagId='" + TerMagId + "' ORDER BY ModifyTime";
+
+            List<RepairInfoEntity> lstRec = new List<RepairInfoEntity>();
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL))
+            {
+                while(reader.Read())
+                {
+                    RepairInfoEntity rec = new RepairInfoEntity();
+                    rec.Id = Convert.ToInt32(reader["TerMagId"]);
+                    rec.DevId = Convert.ToInt32(reader["TerId"]);
+                    rec.BreakdownId = Convert.ToInt32(reader["BreakdownId"]);
+                    rec.Desc = reader["Desc"] != DBNull.Value ? reader["Desc"].ToString() : "";
+                    rec.RepairTime = reader["ModifyTime"].ToString();
+
+                    lstRec.Add(rec);
+                }
+            }
+            return lstRec;
+        }
+
     }
 }

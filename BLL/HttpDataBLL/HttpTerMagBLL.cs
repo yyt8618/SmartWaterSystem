@@ -132,6 +132,52 @@ namespace BLL
             return null;
         }
 
+        /// <summary>
+        /// 上传维修记录
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public HTTPRespEntity UploadRepairRec(RepairInfoEntity repairRec)
+        {
+            HTTPRespEntity resp = new HTTPRespEntity();
+            resp.code = 1;
+            resp.msg = "";
+            try
+            {
+                dal.UploadRepairRec(repairRec);
+                resp.msg = "上传成功";
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("UploadRepairRec", ex);
+                resp.code = -1;
+                resp.msg = "服务器异常";
+            }
+            return resp;
+        }
+
+        /// <summary>
+        /// 通过id获取维修记录
+        /// </summary>
+        /// <param name="TerMagId"></param>
+        /// <returns></returns>
+        public QueryRepairRecRespEntity QueryRepairRec(long TerMagId)
+        {
+            QueryRepairRecRespEntity resp = new QueryRepairRecRespEntity();
+            resp.code = 1;
+            resp.msg = "";
+            try
+            {
+                resp.lstRec = dal.QueryRepairRec(TerMagId);
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("QueryRepairRec", ex);
+                resp.code = -1;
+                resp.msg = "服务器异常";
+            }
+            return resp;
+        }
 
     }
 }

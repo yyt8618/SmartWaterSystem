@@ -315,7 +315,15 @@ namespace GCGPRSService
                                         uploadrespentity = (new LoginBLL()).Login(logininfo.username, logininfo.pwd);
                                         str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                         break;
-                                    case "":                    //查看维修历史
+                                    case "queryrepairrec":                    //查看维修历史
+                                        QueryRepairRecReqEntity queryrepairinfo = JSONSerialize.JsonDeserialize_Newtonsoft<QueryRepairRecReqEntity>(httpentity.Params);
+                                        QueryRepairRecRespEntity queryrepairresp= termagbll.QueryRepairRec(queryrepairinfo.id);
+                                        str_resp = JSONSerialize.JsonSerialize<QueryRepairRecRespEntity>(queryrepairresp);
+                                        break;
+                                    case "uploadrepairrec":                    //上传维修记录
+                                        UploadRepairRecReqEntity repairrecentity = JSONSerialize.JsonDeserialize_Newtonsoft<UploadRepairRecReqEntity>(httpentity.Params);
+                                        HTTPRespEntity uploadrepairrespentity = termagbll.UploadRepairRec(repairrecentity.repairdata);
+                                        str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrepairrespentity);
                                         break;
                                         #endregion
                                 }

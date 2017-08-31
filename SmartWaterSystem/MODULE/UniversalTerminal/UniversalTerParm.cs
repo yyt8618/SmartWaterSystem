@@ -2134,13 +2134,13 @@ namespace SmartWaterSystem
             ceID.Checked = false;
             ceComType.Enabled = false;
             ceComType.Checked = false;
-            ceIP.Enabled = false;
+            ceIP.Enabled = true;
             ceIP.Checked = false;
-            txtIP.Enabled = false;
+            txtIP.Enabled = true;
             txtIP.Text = "";
-            cePort.Enabled = false;
+            cePort.Enabled = true;
             cePort.Checked = false;
-            txtPort.Enabled = false;
+            txtPort.Enabled = true;
             txtPort.Text = "";
             gridControl_WaitCmd.Enabled = true;
             btnDel.Enabled = true;
