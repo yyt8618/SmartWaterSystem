@@ -1,4 +1,5 @@
-﻿using Entity;
+﻿using Common;
+using Entity;
 using SmartWaterSystem;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,45 @@ namespace BLL
                 resp.msg = "服务器异常";
             }
             return resp;
+        }
+
+        /// <summary>
+        /// 检查临时图片目录中是否存在
+        /// </summary>
+        /// <param name="PicIds"></param>
+        public string CheckTmpPicExist(string PicLocalTmpDir,List<string> PicIds)
+        {
+            foreach (string picname in PicIds)
+            {
+                string picfullpath = Path.Combine(PicLocalTmpDir, picname);
+                if (!File.Exists(picfullpath))
+                {
+                    return "临时图片不存在[" + picname + "]";
+                }
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 检查图片数据库表中是否已经存在
+        /// </summary>
+        /// <param name="picIds"></param>
+        /// <returns></returns>
+        public bool CheckPicExist(List<string> picIds)
+        {
+            string str_pic = "";
+            foreach (string picid in picIds)
+            {
+                str_pic += "'" + picid + "',";
+            }
+            str_pic = str_pic.Substring(0, str_pic.Length - 1);
+            string SQL = "SELECT COUNT(1) FROM TerMagPic WHERE PicName IN (" + str_pic + ")";
+            object obj_exist = SQLHelper.ExecuteScalar(SQL, null);
+            if (obj_exist != null && obj_exist != DBNull.Value)
+            {
+                return Convert.ToInt32(obj_exist) > 0 ? true : false;
+            }
+            return false;
         }
 
 

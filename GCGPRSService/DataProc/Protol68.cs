@@ -1253,14 +1253,15 @@ namespace GCGPRSService
         {
             try
             {
-                if (bData[startIndex + 4] == 0xff && bData[startIndex + 5] == 0xff)
+                if (bData[startIndex + 4] == 0xff && bData[startIndex + 5] == 0xff)//时间戳格式
                 {
                     byte[] bs = new byte[4];
                     Array.Copy(bData, startIndex, bs, 0, 4);
                     Array.Reverse(bs);
                     long timeticks = BitConverter.ToUInt32(bs, 0);
                     DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                    return startTime.AddSeconds(Convert.ToDouble(timeticks));
+                    DateTime dt= startTime.AddSeconds(Convert.ToDouble(timeticks));
+                    return dt.AddSeconds(-1 * dt.Second);   //为了平台查下方便,秒不使用
                 }
                 else {
                     int year, month, day, hour, minute, sec;
@@ -1271,7 +1272,7 @@ namespace GCGPRSService
                     minute = Convert.ToInt16(bData[startIndex + 4]);
                     sec = Convert.ToInt16(bData[startIndex + 5]);
 
-                    return new DateTime(year, month, day, hour, minute, sec);
+                    return new DateTime(year, month, day, hour, minute, 0);  //为了平台查下方便,秒不使用
                 }
             }
             catch

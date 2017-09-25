@@ -317,14 +317,18 @@ namespace GCGPRSService
                                         break;
                                     case "queryrepairrec":                    //查看维修历史
                                         QueryRepairRecReqEntity queryrepairinfo = JSONSerialize.JsonDeserialize_Newtonsoft<QueryRepairRecReqEntity>(httpentity.Params);
-                                        QueryRepairRecRespEntity queryrepairresp= termagbll.QueryRepairRec(queryrepairinfo.id);
+                                        QueryRepairRecRespEntity queryrepairresp= termagbll.QueryRepairRec(queryrepairinfo.id, PicNetDirHead);
                                         str_resp = JSONSerialize.JsonSerialize<QueryRepairRecRespEntity>(queryrepairresp);
                                         break;
                                     case "uploadrepairrec":                    //上传维修记录
                                         UploadRepairRecReqEntity repairrecentity = JSONSerialize.JsonDeserialize_Newtonsoft<UploadRepairRecReqEntity>(httpentity.Params);
-                                        HTTPRespEntity uploadrepairrespentity = termagbll.UploadRepairRec(repairrecentity.repairdata);
+                                        HTTPRespEntity uploadrepairrespentity = termagbll.UploadRepairRec(repairrecentity.repairdata, PicLocalTmpDir, PicLocalDir);
                                         str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrepairrespentity);
                                         break;
+                                    case "getbasedata":
+
+                                        break;
+
                                         #endregion
                                 }
                             }

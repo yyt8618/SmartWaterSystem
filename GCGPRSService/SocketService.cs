@@ -83,6 +83,7 @@ namespace GCGPRSService
         StringBuilder newmsg = new StringBuilder(1024);
         public void OnSendMsg(SocketEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine(e.JsonMsg); //输出
             lock (obj_smartsocket)
             {
                 string msg = JSONSerialize.JsonSerialize_Newtonsoft(e.JsonMsg);

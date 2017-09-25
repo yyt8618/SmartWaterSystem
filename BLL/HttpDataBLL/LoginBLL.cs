@@ -31,9 +31,9 @@ namespace BLL
                 }
                 else
                 {
-                    resp.code = -1;
+                    resp.code = 1;
                     resp.msg = "登录失败";
-                    resp.data = userid.ToString();
+                    resp.data = "";
                 }
             }
             catch (Exception ex)

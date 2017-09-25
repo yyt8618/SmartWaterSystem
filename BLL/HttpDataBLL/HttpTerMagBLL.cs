@@ -59,54 +59,52 @@ namespace BLL
             return resp;
         }
         
-        public HTTPRespEntity AddTerMagInfo(TerMagInfoEntity terinfo,string localtmppath,string localhead)
+        public HTTPRespEntity AddTerMagInfo(TerMagInfoEntity TerInfo,string PicLocalTmpDir, string PicLocalDir)
         {
             HTTPRespEntity resp = new HTTPRespEntity();
             resp.code = 1;
             resp.msg = "";
             try
             {
-                if (terinfo.DevId <= 0)
+                if (TerInfo.DevId <= 0)
                 {
                     resp.code = -1;
                     resp.msg = "终端编号不合法！";
                     return resp;
                 }
                 //检查终端是否已经存在
-                TerMagInfoEntity checkTerMagInfo =dal.QueryTerMagInfo(terinfo.DevType, terinfo.DevId, "");
+                TerMagInfoEntity checkTerMagInfo =dal.QueryTerMagInfo(TerInfo.DevType, TerInfo.DevId, "");
                 if (checkTerMagInfo != null)
                 {
                     resp.code = -1;
                     resp.msg = "添加的终端已存在！";
                     return resp;
                 }
-                if (terinfo.PicId == null || terinfo.PicId.Count == 0)
+                if (TerInfo.PicId == null || TerInfo.PicId.Count == 0)
                 {
                     resp.code = -1;
                     resp.msg = "请先上传图片！";
                     return resp;
                 }
+                PicBLL picbll = new PicBLL();
                 //检查临时图片文件是否存在
-                foreach (string picname in terinfo.PicId)
+                string piccheckres = picbll.CheckTmpPicExist(PicLocalTmpDir, TerInfo.PicId);
+                if(!string.IsNullOrEmpty(piccheckres))
                 {
-                    string picfullpath=Path.Combine(localtmppath, picname);
-                    if(!File.Exists(picfullpath))
-                    {
-                        resp.code = -1;
-                        resp.msg = "临时图片不存在["+picname+"]";
-                        return resp;
-                    }
+                    resp.code = -1;
+                    resp.msg = piccheckres;
+                    return resp;
                 }
 
-                //检查图片是否已经存在
-                if (dal.CheckPicExist(terinfo.PicId))
+                //检查图片数据库表中是否已经存在
+                if (picbll.CheckPicExist(TerInfo.PicId))
                 {
                     resp.code = -1;
                     resp.msg = "上传的图片已经存在！";
                     return resp;
                 }
                 //保存数据到数据库
-                if (!dal.InsertTerMagInfo(terinfo, localtmppath, localhead))
+                if (!dal.InsertTerMagInfo(TerInfo, PicLocalTmpDir, PicLocalDir))
                 {
                     resp.code = -1;
                     return resp;
@@ -137,14 +135,48 @@ namespace BLL
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public HTTPRespEntity UploadRepairRec(RepairInfoEntity repairRec)
+        public HTTPRespEntity UploadRepairRec(RepairInfoEntity repairRec,string PicLocalTmpDir, string PicLocalDir)
         {
             HTTPRespEntity resp = new HTTPRespEntity();
             resp.code = 1;
             resp.msg = "";
             try
             {
-                dal.UploadRepairRec(repairRec);
+                if (repairRec.Id <= 0)
+                {
+                    resp.code = -1;
+                    resp.msg = "终端编号不合法！";
+                    return resp;
+                }
+                if (!dal.IsExistID(repairRec.Id))
+                {
+                    resp.code = -1;
+                    resp.msg = "终端不存在！";
+                    return resp;
+                }
+                //检查图片
+                if (repairRec.PicsPath != null && repairRec.PicsPath.Count > 0)
+                {
+                    PicBLL picbll = new PicBLL();
+                    //检查临时图片文件是否存在
+                    string piccheckres = picbll.CheckTmpPicExist(PicLocalTmpDir, repairRec.PicsPath);
+                    if (!string.IsNullOrEmpty(piccheckres))
+                    {
+                        resp.code = -1;
+                        resp.msg = piccheckres;
+                        return resp;
+                    }
+
+                    //检查图片数据库表中是否已经存在
+                    if (picbll.CheckPicExist(repairRec.PicsPath))
+                    {
+                        resp.code = -1;
+                        resp.msg = "上传的图片已经存在！";
+                        return resp;
+                    }
+                }
+
+                dal.UploadRepairRec(repairRec,PicLocalTmpDir,PicLocalDir);
                 resp.msg = "上传成功";
             }
             catch (Exception ex)
@@ -160,15 +192,16 @@ namespace BLL
         /// 通过id获取维修记录
         /// </summary>
         /// <param name="TerMagId"></param>
+        /// <param name="netpathhead">网络地址头</param>
         /// <returns></returns>
-        public QueryRepairRecRespEntity QueryRepairRec(long TerMagId)
+        public QueryRepairRecRespEntity QueryRepairRec(long TerMagId, string netpathhead)
         {
             QueryRepairRecRespEntity resp = new QueryRepairRecRespEntity();
             resp.code = 1;
             resp.msg = "";
             try
             {
-                resp.lstRec = dal.QueryRepairRec(TerMagId);
+                resp.lstRec = dal.QueryRepairRec(TerMagId, netpathhead);
             }
             catch (Exception ex)
             {

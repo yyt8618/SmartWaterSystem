@@ -72,10 +72,10 @@ namespace DAL
         public void DelTer(int Id)
         {
             //需要删除图片
-
-
             string SQL = "DELETE FROM [TerManagerInfo] WHERE Id='"+Id+"'";
             SQLHelper.ExecuteNonQuery(SQL, null);
+
+
         }
 
         /// <summary>
@@ -112,24 +112,8 @@ namespace DAL
             return terinfo;
         }
 
-        public bool CheckPicExist(List<string> picIds)
-        {
-            string str_pic = "";
-            foreach(string picid in picIds)
-            {
-                str_pic += "'" + picid + "',";
-            }
-            str_pic = str_pic.Substring(0, str_pic.Length - 1);
-            string SQL = "SELECT COUNT(1) FROM TerMagPic WHERE PicName IN (" + str_pic + ")";
-            object obj_exist = SQLHelper.ExecuteScalar(SQL, null);
-            if(obj_exist!=null && obj_exist!=DBNull.Value)
-            {
-                return Convert.ToInt32(obj_exist) > 0 ? true : false;
-            }
-            return false;
-        }
 
-        public  bool InsertTerMagInfo(TerMagInfoEntity terinfo,string localtmppath, string localhead)
+        public  bool InsertTerMagInfo(TerMagInfoEntity terinfo,string PicLocalTmpDir, string PicLocalDir)
         {
             SqlTransaction trans = null;
             try
@@ -189,7 +173,7 @@ namespace DAL
                 PicHelper pichelper = new PicHelper();
                 foreach(string picname in terinfo.PicId)
                 {
-                    pichelper.MoveFile(Path.Combine(localtmppath, picname), Path.Combine(localhead, picname));
+                    pichelper.MoveFile(Path.Combine(PicLocalTmpDir, picname), Path.Combine(PicLocalDir, picname));
                 }
 
                 trans.Commit();
@@ -227,48 +211,121 @@ namespace DAL
             return false;
         }
         
-        public void UploadRepairRec(RepairInfoEntity repairRec)
+        public void UploadRepairRec(RepairInfoEntity repairRec, string PicLocalTmpDir, string PicLocalDir)
         {
-            if (repairRec == null)
-                return;
-            string SQL = "INSERT INTO TerRepairRec(TerMagId,TerId,BreakdownId,[Desc],UserId,ModifyTime) VALUES(@id,@terid,@breakid,@desc,@userid,@modifytime)";
-            SqlParameter[] parms = new SqlParameter[]
+            SqlTransaction trans = null;
+            try
+            {
+                if (repairRec == null)
+                    return;
+                SqlParameter[] parms = new SqlParameter[]
                 {
                     new SqlParameter("@id",SqlDbType.Int),
                     new SqlParameter("@terid",SqlDbType.Int),
                     new SqlParameter("@breakid",SqlDbType.Int),
                     new SqlParameter("@desc",SqlDbType.NVarChar,300),
                     new SqlParameter("@userid",SqlDbType.Int),
+                    new SqlParameter("modifytime",SqlDbType.DateTime),
+                    new SqlParameter("@identify",SqlDbType.Int)
+                };
+                parms[0].Value = repairRec.Id;
+                parms[1].Value = repairRec.DevId;
+                parms[2].Value = repairRec.BreakdownId;
+                parms[3].Value = repairRec.Desc;
+                parms[4].Value = repairRec.UserId;
+                parms[5].Value = repairRec.RepairTime;
+                parms[6].Direction = ParameterDirection.Output;
+
+                SqlConnection conn = SQLHelper.Conn;
+                SQLHelper.OpenConnection();
+                trans = conn.BeginTransaction();
+                SqlCommand command = new SqlCommand();
+                command.Connection = conn;
+                command.Transaction = trans;
+                command.CommandText = "INSERT INTO TerRepairRec(TerMagId,TerId,BreakdownId,[Desc],UserId,ModifyTime) VALUES(@id,@terid,@breakid,@desc,@userid,@modifytime);select @identify=SCOPE_IDENTITY()";
+                command.Parameters.Clear();
+                command.Parameters.AddRange(parms);
+                command.ExecuteNonQuery();
+                long id = Convert.ToInt64(parms[6].Value);
+
+                SqlParameter[] parmspic = new SqlParameter[]
+                {
+                    new SqlParameter("@magid",SqlDbType.Int),
+                    new SqlParameter("@picname",SqlDbType.NVarChar,40),
                     new SqlParameter("modifytime",SqlDbType.DateTime)
                 };
-            parms[0].Value = repairRec.Id;
-            parms[1].Value = repairRec.DevId;
-            parms[2].Value = repairRec.BreakdownId;
-            parms[3].Value = repairRec.Desc;
-            parms[4].Value = repairRec.UserId;
-            parms[5].Value = repairRec.RepairTime;
+                parmspic[0].Value = id;
+                command.CommandText = "INSERT TerMagPic(TerMagId,PicName,Usefor,ModifyTime) VALUES(@magid,@picname,2,@modifytime)";
+                command.Parameters.Clear();
+                command.Parameters.AddRange(parmspic);
 
-            SQLHelper.ExecuteNonQuery(SQL, parms);
+                foreach (string picname in repairRec.PicsPath)
+                {
+                    parmspic[1].Value = picname;
+                    parmspic[2].Value = DateTime.Now;
+
+                    command.ExecuteNonQuery();
+                }
+
+                PicHelper pichelper = new PicHelper();
+                foreach (string picname in repairRec.PicsPath)
+                {
+                    pichelper.MoveFile(Path.Combine(PicLocalTmpDir, picname), Path.Combine(PicLocalDir, picname));
+                }
+
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                if (trans != null)
+                {
+                    trans.Rollback();
+                }
+                throw ex;
+            }
         }
 
-        public List<RepairInfoEntity> QueryRepairRec(long TerMagId)
+        public List<RepairInfoEntity> QueryRepairRec(long TerMagId, string netpathhead)
         {
-            string SQL = "SELECT TerMagId,TerId,BreakdownId,[Desc],UserId,ModifyTime FROM TerRepairRec WHERE TerMagId='" + TerMagId + "' ORDER BY ModifyTime";
-
-            List<RepairInfoEntity> lstRec = new List<RepairInfoEntity>();
-            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL))
+            List<RepairInfoEntity> lstRec = null;
+            string SQL = "select rec.*,pic.PicName from TerRepairRec rec left join TerMagPic pic on rec.Id = pic.TerMagId and Usefor = 2 where rec.TerMagId='" + TerMagId+"'";
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
-                while(reader.Read())
+                lstRec = new List<RepairInfoEntity>();
+                while (reader.Read())
                 {
-                    RepairInfoEntity rec = new RepairInfoEntity();
-                    rec.Id = Convert.ToInt32(reader["TerMagId"]);
-                    rec.DevId = Convert.ToInt32(reader["TerId"]);
-                    rec.BreakdownId = Convert.ToInt32(reader["BreakdownId"]);
-                    rec.Desc = reader["Desc"] != DBNull.Value ? reader["Desc"].ToString() : "";
-                    rec.RepairTime = reader["ModifyTime"].ToString();
-
-                    lstRec.Add(rec);
+                    bool isExist = false;
+                    int index = 0;
+                    int id = Convert.ToInt32(reader["Id"]);
+                    for (index = 0; index < lstRec.Count; index++)
+                    {
+                        if (lstRec[index].Id == id)
+                        {
+                            isExist = true;
+                            break;
+                        }
+                    }
+                    /* 如果不存在就新增TerMagInfoEntity，如果存在就添加图片 */
+                    if (!isExist)
+                    {
+                        RepairInfoEntity terinfo = new RepairInfoEntity();
+                        terinfo.Id = Convert.ToInt32(reader["TerMagId"]);
+                        terinfo.DevId = Convert.ToInt32(reader["TerId"]);
+                        terinfo.BreakdownId = Convert.ToInt32(reader["BreakdownId"]);
+                        terinfo.Desc = reader["Desc"] != DBNull.Value ? reader["Desc"].ToString() : "";
+                        terinfo.RepairTime = reader["ModifyTime"].ToString();
+                        terinfo.UserId = Convert.ToInt64(reader["UserId"]);
+                        
+                        terinfo.PicsPath = new List<string>();
+                        terinfo.PicsPath.Add(GetNetaddrByName(netpathhead, reader["PicName"].ToString().Trim()));
+                        lstRec.Add(terinfo);
+                    }
+                    else
+                    {
+                        lstRec[index].PicsPath.Add(GetNetaddrByName(netpathhead, reader["PicName"].ToString().Trim()));
+                    }
                 }
+
             }
             return lstRec;
         }
