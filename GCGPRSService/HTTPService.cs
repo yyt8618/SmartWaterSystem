@@ -240,7 +240,7 @@ namespace GCGPRSService
                                         GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertFlowValue);
 
                                         uploadrespentity = new HTTPRespEntity();
-                                        uploadrespentity.code = 1;
+                                        uploadrespentity.code = HttpRespCode.Success;
                                         str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
                                         break;
                                     #region 消防栓
@@ -325,8 +325,9 @@ namespace GCGPRSService
                                         HTTPRespEntity uploadrepairrespentity = termagbll.UploadRepairRec(repairrecentity.repairdata, PicLocalTmpDir, PicLocalDir);
                                         str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrepairrespentity);
                                         break;
-                                    case "getbasedata":
-
+                                    case "gettertypeinfo":                     //获取设备类型信息
+                                        TerTypeInfoResqEntity tertyperesqentity = termagbll.GetAllTerTypeInfo();
+                                        str_resp = JSONSerialize.JsonSerialize<TerTypeInfoResqEntity>(tertyperesqentity);
                                         break;
 
                                         #endregion
@@ -348,12 +349,12 @@ namespace GCGPRSService
                 if (!string.IsNullOrEmpty(str_resp_err) || string.IsNullOrEmpty(str_resp))
                 {
                     HTTPRespEntity respent = new HTTPRespEntity();
-                    respent.code = -1;
+                    respent.code = HttpRespCode.Excp;
                     if (!string.IsNullOrEmpty(str_resp_err))
                         respent.msg = str_resp_err;
                     respent.data = "";
 
-                    str_resp = SmartWaterSystem.JSONSerialize.JsonSerialize<HTTPRespEntity>(respent);
+                    str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(respent);
                 }
                 OnReceiveMsg(DateTime.Now.ToString() + " 响应内容:" + str_resp);
                 str_resp = System.Web.HttpUtility.UrlEncode(str_resp);

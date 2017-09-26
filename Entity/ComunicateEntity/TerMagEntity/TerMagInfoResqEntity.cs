@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Entity
 {
     public class TerMagInfoResqEntity
     {
         /// <summary>
-        /// 调用结果编码,-1:失败,1:成功
+        /// 调用结果编码
         /// </summary>
-        public int code = -1;
+        public HttpRespCode code =  HttpRespCode.Fail;
         /// <summary>
         /// 调用结果编码为-1时，返回详细信息
         /// </summary>

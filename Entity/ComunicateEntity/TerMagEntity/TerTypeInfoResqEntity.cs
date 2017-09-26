@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Entity
 {
-    public class GetHydrantRespEntity
+    public class TerTypeInfoResqEntity
     {
         /// <summary>
         /// 调用结果编码
@@ -16,8 +13,8 @@ namespace Entity
         /// </summary>
         public string msg = "";
         /// <summary>
-        /// 消防栓列表
+        /// 终端类型列表
         /// </summary>
-        public List<HydrantEntity> lstHydrant = new List<HydrantEntity>();
+        public List<TerTypeInfoEntity> lsttype = new List<TerTypeInfoEntity>();
     }
 }

@@ -149,31 +149,35 @@ namespace DAL
                 command.Parameters.Clear();
                 command.Parameters.AddRange(parmsinfo);
                 command.ExecuteNonQuery();
-                long id = Convert.ToInt64(parmsinfo[7].Value);
 
-                SqlParameter[] parmspic = new SqlParameter[]
+                if (terinfo.PicId != null && terinfo.PicId.Count > 0)
                 {
+                    long id = Convert.ToInt64(parmsinfo[7].Value);
+
+                    SqlParameter[] parmspic = new SqlParameter[]
+                    {
                     new SqlParameter("@magid",SqlDbType.Int),
                     new SqlParameter("@picname",SqlDbType.NVarChar,40),
                     new SqlParameter("modifytime",SqlDbType.DateTime)
-                };
-                parmspic[0].Value = id;
-                command.CommandText = "INSERT TerMagPic(TerMagId,PicName,Usefor,ModifyTime) VALUES(@magid,@picname,1,@modifytime)";
-                command.Parameters.Clear();
-                command.Parameters.AddRange(parmspic);
+                    };
+                    parmspic[0].Value = id;
+                    command.CommandText = "INSERT TerMagPic(TerMagId,PicName,Usefor,ModifyTime) VALUES(@magid,@picname,1,@modifytime)";
+                    command.Parameters.Clear();
+                    command.Parameters.AddRange(parmspic);
 
-                foreach (string picname in terinfo.PicId)
-                {
-                    parmspic[1].Value = picname;
-                    parmspic[2].Value = DateTime.Now;
+                    foreach (string picname in terinfo.PicId)
+                    {
+                        parmspic[1].Value = picname;
+                        parmspic[2].Value = DateTime.Now;
 
-                    command.ExecuteNonQuery();
-                }
+                        command.ExecuteNonQuery();
+                    }
 
-                PicHelper pichelper = new PicHelper();
-                foreach(string picname in terinfo.PicId)
-                {
-                    pichelper.MoveFile(Path.Combine(PicLocalTmpDir, picname), Path.Combine(PicLocalDir, picname));
+                    PicHelper pichelper = new PicHelper();
+                    foreach (string picname in terinfo.PicId)
+                    {
+                        pichelper.MoveFile(Path.Combine(PicLocalTmpDir, picname), Path.Combine(PicLocalDir, picname));
+                    }
                 }
 
                 trans.Commit();
@@ -328,6 +332,25 @@ namespace DAL
 
             }
             return lstRec;
+        }
+
+        public List<TerTypeInfoEntity> GetAllTerTypeInfo()
+        {
+            string SQL = "select id,TerTypeId,TerTypeName from TerTypeInfo";
+            List<TerTypeInfoEntity> lstType = null;
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
+            {
+                lstType = new List<TerTypeInfoEntity>();
+                while (reader.Read())
+                {
+                    TerTypeInfoEntity tertype = new TerTypeInfoEntity();
+                    tertype.Id = Convert.ToInt32(reader["id"]);
+                    tertype.TerTypeId = reader["TerTypeId"].ToString();
+                    tertype.TerTypeName = reader["TerTypeName"] != DBNull.Value ? reader["TerTypeName"].ToString() : "";
+                    lstType.Add(tertype);
+                }
+            }
+            return lstType;
         }
 
     }

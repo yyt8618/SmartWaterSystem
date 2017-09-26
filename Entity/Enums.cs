@@ -261,4 +261,23 @@ namespace Entity
         P68SendCmd = -2,
         SL651 = -99,
     }
+
+    /// <summary>
+    /// Http请求
+    /// </summary>
+    public enum HttpRespCode
+    {
+        /// <summary>
+        /// 执行成功
+        /// </summary>
+        Success =1,
+        /// <summary>
+        /// 执行失败(逻辑失败)
+        /// </summary>
+        Fail = 2,
+        /// <summary>
+        /// 服务异常
+        /// </summary>
+        Excp= -1
+    }
 }

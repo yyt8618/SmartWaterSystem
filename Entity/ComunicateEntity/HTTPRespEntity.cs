@@ -7,7 +7,7 @@ namespace Entity
 {
     public class HTTPRespEntity
     {
-        public int code = -1;
+        public HttpRespCode code = HttpRespCode.Fail;
         public string msg = "";
         public string data = "";
     }

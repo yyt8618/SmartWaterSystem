@@ -17,7 +17,7 @@ namespace BLL
         public GetGroupsRespEntity GetGroupsInfo()
         {
             GetGroupsRespEntity resp = new GetGroupsRespEntity();
-            resp.code = 1;
+            resp.code = HttpRespCode.Success;
             resp.msg = "";
             try
             {
@@ -26,7 +26,7 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("GetGroupsInfo", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
                 resp.groupsdata = null;
                 resp.tersdata = null;
@@ -37,7 +37,7 @@ namespace BLL
         public HTTPRespEntity UploadGroups(List<UpLoadNoiseDataEntity> lstNoiseData)
         {
             HTTPRespEntity resp = new HTTPRespEntity();
-            resp.code = 1;
+            resp.code = HttpRespCode.Success;
             resp.msg = "";
             try
             {
@@ -100,7 +100,7 @@ namespace BLL
                         }
                         else
                         {
-                            resp.code = -1;
+                            resp.code = HttpRespCode.Fail;
                             resp.msg = errmsg;
                         }
                     }
@@ -109,7 +109,7 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("UploadGroups", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
             }
             return resp;
@@ -119,7 +119,7 @@ namespace BLL
         public GetHydrantRespEntity GetHydrants()
         {
             GetHydrantRespEntity resp = new GetHydrantRespEntity();
-            resp.code = 1;
+            resp.code = HttpRespCode.Success;
             resp.msg = "";
             try
             {
@@ -128,7 +128,7 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("GetHydrants", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
                 resp.lstHydrant = null;
             }
@@ -138,25 +138,25 @@ namespace BLL
         public HTTPRespEntity SaveHydrantInfo(SaveHydrantReqEntity data)
         {
             HTTPRespEntity resp = new HTTPRespEntity();
-            resp.code = 1;
+            resp.code = HttpRespCode.Success;
             resp.msg = "";
             try
             {
                 if(string.IsNullOrEmpty(data.HydrantID))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "终端ID不能为空";
                 }
                 if (Regex.IsMatch(data.HydrantID,"^\\d{1,8$"))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "终端ID不合法";
                 }
                 if (Hybll.HydrantExist(data.HydrantID))  //update
                 {
                      if(!Hybll.Update(data.HydrantID, data.Addr, data.Longtitude, data.Latitude, data.Remark))
                     {
-                        resp.code = -1;
+                        resp.code = HttpRespCode.Fail;
                         resp.msg = "保存发生异常!";
                     }
                 }
@@ -164,7 +164,7 @@ namespace BLL
                 {
                     if(!Hybll.Insert(data.HydrantID, data.Addr, data.Longtitude, data.Latitude, data.Remark))
                     {
-                        resp.code = -1;
+                        resp.code = HttpRespCode.Fail;
                         resp.msg = "保存发生异常!";
                     }
                 }
@@ -172,7 +172,7 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("SaveHydrantInfo", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
             }
             return resp;
@@ -181,30 +181,30 @@ namespace BLL
         public HTTPRespEntity DelHydrant(string id)
         {
             HTTPRespEntity resp = new HTTPRespEntity();
-            resp.code = 1;
+            resp.code = HttpRespCode.Success;
             resp.msg = "";
             try
             {
                 if (string.IsNullOrEmpty(id))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "终端ID不能为空";
                 }
                 if (Regex.IsMatch(id, "^\\d{1,8$"))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "终端ID不合法";
                 }
                 if (!Hybll.Delete(id))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "删除失败,服务器异常";
                 }
             }
             catch (Exception ex)
             {
                 logger.ErrorException("SaveHydrantInfo", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
             }
             return resp;
@@ -213,30 +213,30 @@ namespace BLL
         public HTTPRespEntity ModifyHydrantCoordinate(ModifyHyCoordReqEntity data)
         {
             HTTPRespEntity resp = new HTTPRespEntity();
-            resp.code = 1;
+            resp.code = HttpRespCode.Success;
             resp.msg = "";
             try
             {
                 if (string.IsNullOrEmpty(data.HydrantID))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "终端ID不能为空";
                 }
                 if (Regex.IsMatch(data.HydrantID, "^\\d{1,8$"))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "终端ID不合法";
                 }
                 if (!Hybll.modifyCoordinate(data.HydrantID,data.Longtitude,data.Latitude))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "修改失败,服务器异常";
                 }
             }
             catch (Exception ex)
             {
                 logger.ErrorException("ModifyHydrantCoordinate", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
             }
             return resp;
@@ -245,23 +245,23 @@ namespace BLL
         public GetHydrantDetailRespEntity GetHydrantDetail(HyrdrantDetailReqEntity data)
         {
             GetHydrantDetailRespEntity resp = new GetHydrantDetailRespEntity();
-            resp.code = 1;
+            resp.code = HttpRespCode.Success;
             resp.msg = "";
             try
             {
                 if (string.IsNullOrEmpty(data.id))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "终端ID不能为空";
                 }
                 if (Regex.IsMatch(data.id, "^\\d{1,8$"))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "终端ID不合法";
                 }
                 if(string.IsNullOrEmpty(data.mintime))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "请输入起始时间";
                 }
                 DateTime minTime = Convert.ToDateTime(data.mintime);
@@ -272,7 +272,7 @@ namespace BLL
                 }
                 if(((maxTime - minTime)).TotalDays >30)
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "查询区间不能超过30天";
                 }
                 resp.lstData= Hybll.GetHydrantDetail(data.id, data.opt, minTime, maxTime, data.interval);
@@ -280,7 +280,7 @@ namespace BLL
             catch (Exception ex)
             {
                 logger.ErrorException("GetHydrantDetail", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
             }
             return resp;

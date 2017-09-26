@@ -30,7 +30,7 @@ namespace BLL
             {
                 if (string.IsNullOrEmpty(database64))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "图片不能为空";
                     return resp;
                 }
@@ -43,12 +43,12 @@ namespace BLL
                 //picfullpath = picfullpath.Replace(savelocaltmppath, netpathhead);
                 //picfullpath = picfullpath.Replace("\\", "/");
                 resp.data = filename;
-                resp.code = 1;
+                resp.code = HttpRespCode.Success;
             }
             catch (Exception ex)
             {
                 logger.ErrorException("UploadPic", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
             }
             return resp;
@@ -67,23 +67,23 @@ namespace BLL
             {
                 if (string.IsNullOrEmpty(filepath))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "路径不能为空";
                     return resp;
                 }
                 if (!File.Exists(filepath))
                 {
-                    resp.code = -1;
+                    resp.code = HttpRespCode.Fail;
                     resp.msg = "文件不存在";
                     return resp;
                 }
                 resp.data = (new PicHelper()).GetPicData(filepath);
-                resp.code = 1;
+                resp.code = HttpRespCode.Success;
             }
             catch (Exception ex)
             {
                 logger.ErrorException("GetPicData", ex);
-                resp.code = -1;
+                resp.code = HttpRespCode.Excp;
                 resp.msg = "服务器异常";
             }
             return resp;

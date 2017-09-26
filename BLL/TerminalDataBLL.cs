@@ -214,12 +214,12 @@ namespace BLL
                     {
                         HttpNoiseBLL httpdata = new HttpNoiseBLL();
                         HTTPRespEntity resp = httpdata.UploadGroups(lstNoiseData);   //处理噪声数据
-                        if (resp.code == 1)
+                        if (resp.code == HttpRespCode.Success)
                             return 1;
                         else
                         {
                             msg = resp.msg;
-                            return resp.code;
+                            return (int)resp.code;
                         }
                     }
                     else
