@@ -292,7 +292,10 @@ namespace DAL
         public List<RepairInfoEntity> QueryRepairRec(long TerMagId, string netpathhead)
         {
             List<RepairInfoEntity> lstRec = null;
-            string SQL = "select rec.*,pic.PicName from TerRepairRec rec left join TerMagPic pic on rec.Id = pic.TerMagId and Usefor = 2 where rec.TerMagId='" + TerMagId+"'";
+            string SQL = "select rec.*,pic.PicName,euser.EN_User_Name as UserName from TerRepairRec rec " +
+                "left join TerMagPic pic on rec.Id = pic.TerMagId and Usefor = 2 " +
+                "left join EN_User euser on euser.EN_User_ID = rec.UserId " +                                                         
+                "where rec.TerMagId='" + TerMagId+"'";
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
                 lstRec = new List<RepairInfoEntity>();
@@ -319,6 +322,7 @@ namespace DAL
                         terinfo.Desc = reader["Desc"] != DBNull.Value ? reader["Desc"].ToString() : "";
                         terinfo.RepairTime = reader["ModifyTime"].ToString();
                         terinfo.UserId = Convert.ToInt64(reader["UserId"]);
+                        terinfo.UserName = reader["UserName"].ToString();
                         
                         terinfo.PicsPath = new List<string>();
                         terinfo.PicsPath.Add(GetNetaddrByName(netpathhead, reader["PicName"].ToString().Trim()));
@@ -336,7 +340,7 @@ namespace DAL
 
         public List<TerTypeInfoEntity> GetAllTerTypeInfo()
         {
-            string SQL = "select id,TerTypeId,TerTypeName from TerTypeInfo";
+            string SQL = "select id,TerTypeId,TerTypeName,ModifyTime from TerTypeInfo";
             List<TerTypeInfoEntity> lstType = null;
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
@@ -347,11 +351,59 @@ namespace DAL
                     tertype.Id = Convert.ToInt32(reader["id"]);
                     tertype.TerTypeId = reader["TerTypeId"].ToString();
                     tertype.TerTypeName = reader["TerTypeName"] != DBNull.Value ? reader["TerTypeName"].ToString() : "";
+                    tertype.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]).ToString(ConstValue.DateTimeFormat) : "";
                     lstType.Add(tertype);
                 }
             }
             return lstType;
         }
+        
+        public List<TerBreakdownInfoEntity> GetAllBreakdownInfo()
+        {
+            string SQL = "select id,BreakdownId,BreakdownName,ModifyTime from TerBreakdownInfo";
+            List<TerBreakdownInfoEntity> lstType = null;
+            using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
+            {
+                lstType = new List<TerBreakdownInfoEntity>();
+                while (reader.Read())
+                {
+                    TerBreakdownInfoEntity tertype = new TerBreakdownInfoEntity();
+                    tertype.Id = Convert.ToInt32(reader["id"]);
+                    tertype.BreakdownId = reader["BreakdownId"].ToString();
+                    tertype.BreakdownName = reader["BreakdownName"] != DBNull.Value ? reader["BreakdownName"].ToString() : "";
+                    tertype.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]).ToString(ConstValue.DateTimeFormat) : "";
+                    lstType.Add(tertype);
+                }
+            }
+            return lstType;
+        }
+
+        public DateTime GetMaxTerTypeModifytime()
+        {
+            string SQL = "select MAX(ModifyTime) from TerTypeInfo";
+
+            object obj_max=SQLHelper.ExecuteScalar(SQL, null);
+            if (obj_max != null)
+            {
+                return Convert.ToDateTime(obj_max);
+            }
+            else
+                return ConstValue.MinDateTime;
+        }
+
+        public DateTime GetMaxBreakdownInfoModifytime()
+        {
+            string SQL = "select MAX(ModifyTime) from TerBreakdownInfo";
+
+            object obj_max = SQLHelper.ExecuteScalar(SQL, null);
+            if (obj_max != null)
+            {
+                return Convert.ToDateTime(obj_max);
+            }
+            else
+                return ConstValue.MinDateTime;
+        }
+
 
     }
 }

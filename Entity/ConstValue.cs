@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace Entity
 {
@@ -23,6 +20,8 @@ namespace Entity
         public static double UniversalSimRatio = 3275;  //模拟量1、2报警值计算系数
 
         public static DateTime MinDateTime = new DateTime(2015, 1, 1, 0, 0, 0);
+
+        public static string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";   //时间格式化参数
 
         public static object obj = new object();
 

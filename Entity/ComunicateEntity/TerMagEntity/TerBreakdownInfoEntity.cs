@@ -1,19 +1,19 @@
 ﻿namespace Entity
 {
-    public class TerTypeInfoEntity
+    public class TerBreakdownInfoEntity
     {
         /// <summary>
         /// 表id
         /// </summary>
         public int Id ;
         /// <summary>
-        /// 终端类型id,使用16进制格式,如00,01
+        /// 故障类型id,
         /// </summary>
-        public string TerTypeId;
+        public string BreakdownId;
         /// <summary>
-        /// 终端类型名称
+        /// 故障名称
         /// </summary>
-        public string TerTypeName;
+        public string BreakdownName;
 
         /// <summary>
         /// 修改时间

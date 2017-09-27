@@ -8,6 +8,7 @@ namespace BLL
     {
         NLog.Logger logger = NLog.LogManager.GetLogger("LoginBLL");
         LoginDAL dal = new LoginDAL();
+        HttpTerMagBLL termagbll = new HttpTerMagBLL();
         
         /// <summary>
         /// 登录验证
@@ -15,9 +16,9 @@ namespace BLL
         /// <param name="userid">用户名</param>
         /// <param name="pwd">密码-base64</param>
         /// <returns></returns>
-        public HTTPRespEntity Login(string username, string pwd)
+        public LoginRespEntity Login(string username, string pwd)
         {
-            HTTPRespEntity resp = new HTTPRespEntity();
+            LoginRespEntity resp = new LoginRespEntity();
             resp.code = HttpRespCode.Success;
             resp.msg = "";
             try
@@ -27,13 +28,17 @@ namespace BLL
                 {
                     resp.code = HttpRespCode.Success;
                     resp.msg = "登录成功";
-                    resp.data = userid.ToString();
+                    resp.userid = userid.ToString();
+                    resp.maxtertypetime=termagbll.GetMaxTerTypeModifytime().ToString(ConstValue.DateTimeFormat);
+                    resp.maxbreakdowntime = termagbll.GetMaxBreakdownInfoModifytime().ToString(ConstValue.DateTimeFormat);
                 }
                 else
                 {
                     resp.code = HttpRespCode.Fail;
                     resp.msg = "登录失败";
-                    resp.data = "";
+                    resp.userid = "";
+                    resp.maxtertypetime = "";
+                    resp.maxbreakdowntime = "";
                 }
             }
             catch (Exception ex)

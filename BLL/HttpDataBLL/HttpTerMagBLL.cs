@@ -236,6 +236,62 @@ namespace BLL
             return resp;
         }
 
+        /// <summary>
+        /// 获取所有的故障类型
+        /// </summary>
+        /// <returns></returns>
+        public TerBreakdownInfoResqEntity GetAllBreakdownInfo()
+        {
+            TerBreakdownInfoResqEntity resp = new TerBreakdownInfoResqEntity();
+            resp.code = HttpRespCode.Success;
+            resp.msg = "";
+            try
+            {
+                resp.lsttype = dal.GetAllBreakdownInfo();
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetAllBreakdownInfo", ex);
+                resp.code = HttpRespCode.Excp;
+                resp.msg = "服务器异常";
+            }
+            return resp;
+        }
+
+        /// <summary>
+        /// 获取最大终端类型基础数据修改时间
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetMaxTerTypeModifytime()
+        {
+            try
+            {
+                return dal.GetMaxTerTypeModifytime();
+            }
+            catch(Exception ex)
+            {
+                logger.ErrorException("GetMaxTerTypeModifytime", ex);
+                return ConstValue.MinDateTime;
+            }
+        }
+
+        /// <summary>
+        /// 获取最大故障类型基础数据修改时间
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetMaxBreakdownInfoModifytime()
+        {
+            try
+            {
+                return dal.GetMaxBreakdownInfoModifytime();
+            }
+            catch (Exception ex)
+            {
+                logger.ErrorException("GetMaxBreakdownInfoModifytime", ex);
+                return ConstValue.MinDateTime;
+            }
+        }
+
 
     }
 }

@@ -312,8 +312,8 @@ namespace GCGPRSService
                                         break;
                                     case "login":                    //登录
                                         LoginInfoReqEntity logininfo = JSONSerialize.JsonDeserialize_Newtonsoft<LoginInfoReqEntity>(httpentity.Params);
-                                        uploadrespentity = (new LoginBLL()).Login(logininfo.username, logininfo.pwd);
-                                        str_resp = JSONSerialize.JsonSerialize<HTTPRespEntity>(uploadrespentity);
+                                        LoginRespEntity loginrespentity = (new LoginBLL()).Login(logininfo.username, logininfo.pwd);
+                                        str_resp = JSONSerialize.JsonSerialize<LoginRespEntity>(loginrespentity);
                                         break;
                                     case "queryrepairrec":                    //查看维修历史
                                         QueryRepairRecReqEntity queryrepairinfo = JSONSerialize.JsonDeserialize_Newtonsoft<QueryRepairRecReqEntity>(httpentity.Params);
@@ -329,7 +329,10 @@ namespace GCGPRSService
                                         TerTypeInfoResqEntity tertyperesqentity = termagbll.GetAllTerTypeInfo();
                                         str_resp = JSONSerialize.JsonSerialize<TerTypeInfoResqEntity>(tertyperesqentity);
                                         break;
-
+                                    case "getbreakdowntypeinfo":               //获取故障类型信息
+                                        TerBreakdownInfoResqEntity breakdownresqentity = termagbll.GetAllBreakdownInfo();
+                                        str_resp = JSONSerialize.JsonSerialize<TerBreakdownInfoResqEntity>(breakdownresqentity);
+                                        break;
                                         #endregion
                                 }
                             }

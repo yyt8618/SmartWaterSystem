@@ -37,6 +37,11 @@ namespace Entity
         public long UserId { get; set; }
 
         /// <summary>
+        /// 维修人员名称
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
         /// 维修时间
         /// </summary>
         public string RepairTime { get; set; }
