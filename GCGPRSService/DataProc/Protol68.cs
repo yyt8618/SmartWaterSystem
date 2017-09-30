@@ -818,6 +818,13 @@ namespace GCGPRSService
                         if (pack.C1 == (byte)GPRS_READ.READ_TURBIDITY)
                         {
                             value = value / 100;
+                            if(value>1 )  //调整值，临时
+                            {
+                                if (value <= 10)
+                                    value = value / 10f;
+                                else
+                                    value = value / 100f;
+                            }
                             data.Turbidity = value;
                         }
                         else if (pack.C1 == (byte)GPRS_READ.READ_RESIDUALCL)

@@ -66,7 +66,10 @@ namespace DAL
         /// <returns></returns>
         string GetNetaddrByName(string netpathhead,string picname)
         {
-            return Path.Combine(netpathhead, picname);
+            if (string.IsNullOrEmpty(picname))
+                return "";
+            else
+                return Path.Combine(netpathhead, picname);
         }
 
         public void DelTer(int Id)
