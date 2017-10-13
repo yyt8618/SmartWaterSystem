@@ -273,7 +273,7 @@ namespace GCGPRSService
                                     #region 定位维修APP
                                     case "getalltermaginfo":       //获取所有的安装终端信息
                                         TerMagInfoResqEntity gettermaginforespentity = termagbll.GetAllTer(PicNetDirHead);
-                                        str_resp = JSONSerialize.JsonSerialize<TerMagInfoResqEntity>(gettermaginforespentity);
+                                        str_resp = JSONSerialize.JsonSerialize_Newtonsoft(gettermaginforespentity);  //使用JsonSerialize<TerMagInfoResqEntity>中文有乱码
                                         break;
                                     case "addtermaginfo":        //新增安装终端
                                         AddTerMagInfoReqEntity addtermaginfo = JSONSerialize.JsonDeserialize_Newtonsoft<AddTerMagInfoReqEntity>(httpentity.Params);

@@ -16,7 +16,8 @@ namespace DAL
         public List<TerMagInfoEntity> GetAllTer(string netpathhead)
         {
             List<TerMagInfoEntity> lstTerInfo = null;
-            string SQL = "select info.*,pic.PicName from TerManagerInfo info left join TerMagPic pic on info.Id = pic.TerMagId and Usefor = 1";
+            string SQL = "select info.*,pic.PicName,tertype.TerTypeName from TerManagerInfo info left join TerMagPic pic on info.Id = pic.TerMagId  and pic.Usefor = 1" +
+                                                                           " left join TerTypeInfo tertype on info.TerType=tertype.TerTypeId";
             using (SqlDataReader reader = SQLHelper.ExecuteReader(SQL, null))
             {
                 lstTerInfo = new List<TerMagInfoEntity>();
@@ -39,7 +40,9 @@ namespace DAL
                         TerMagInfoEntity terinfo = new TerMagInfoEntity();
                         terinfo.Id = id;
                         terinfo.DevId = Convert.ToInt32(reader["TerId"]);
+                        terinfo.DevName = reader["TerName"].ToString().Trim();
                         terinfo.DevType = (ConstValue.DEV_TYPE)Convert.ToInt32(reader["TerType"]);
+                        terinfo.DevTypeName = reader["TerTypeName"] != DBNull.Value ? reader["TerTypeName"].ToString().Trim() : "";
                         terinfo.Addr = reader["Addr"] != DBNull.Value ? reader["Addr"].ToString().Trim() : "";
                         terinfo.Remark = reader["Remark"] != DBNull.Value ? reader["Remark"].ToString().Trim() : "";
                         terinfo.Lng = Convert.ToDouble(reader["longitude"]);
@@ -124,11 +127,12 @@ namespace DAL
                 SqlParameter[] parmsinfo = new SqlParameter[]
                 {
                     new SqlParameter("@terid",SqlDbType.Int),
-                    new SqlParameter("@tertype",SqlDbType.SmallInt),
+                    new SqlParameter("@tertype",SqlDbType.Int),
+                    new SqlParameter("@tername",SqlDbType.NVarChar),
                     new SqlParameter("@addr",SqlDbType.NVarChar,200),
                     new SqlParameter("@remark",SqlDbType.NVarChar,300),
-                    new SqlParameter("@lng",SqlDbType.Float),
 
+                    new SqlParameter("@lng",SqlDbType.Float),
                     new SqlParameter("@lat",SqlDbType.Float),
                     new SqlParameter("@modifytime",SqlDbType.DateTime),
                     new SqlParameter("@identify",SqlDbType.Int)
@@ -136,11 +140,12 @@ namespace DAL
                 parmsinfo[7].Direction = ParameterDirection.Output;
                 parmsinfo[0].Value = terinfo.DevId;
                 parmsinfo[1].Value = terinfo.DevType;
-                parmsinfo[2].Value = terinfo.Addr;
-                parmsinfo[3].Value = terinfo.Remark;
-                parmsinfo[4].Value = terinfo.Lng;
-                parmsinfo[5].Value = terinfo.Lat;
-                parmsinfo[6].Value = DateTime.Now;
+                parmsinfo[2].Value = terinfo.DevName;
+                parmsinfo[3].Value = terinfo.Addr;
+                parmsinfo[4].Value = terinfo.Remark;
+                parmsinfo[5].Value = terinfo.Lng;
+                parmsinfo[6].Value = terinfo.Lat;
+                parmsinfo[7].Value = DateTime.Now;
 
                 SqlConnection conn = SQLHelper.Conn;
                 SQLHelper.OpenConnection();
@@ -148,7 +153,7 @@ namespace DAL
                 SqlCommand command = new SqlCommand();
                 command.Connection = conn;
                 command.Transaction = trans;
-                command.CommandText = "INSERT TerManagerInfo(TerId,TerType,Addr,Remark,longitude,latitude,ModifyTime) VALUES(@terid,@tertype,@addr,@remark,@lng,@lat,@modifytime);select @identify=SCOPE_IDENTITY()";
+                command.CommandText = "INSERT TerManagerInfo(TerId,TerType,TerName,Addr,Remark,longitude,latitude,ModifyTime) VALUES(@terid,@tertype,@tername,@addr,@remark,@lng,@lat,@modifytime);select @identify=SCOPE_IDENTITY()";
                 command.Parameters.Clear();
                 command.Parameters.AddRange(parmsinfo);
                 command.ExecuteNonQuery();
@@ -352,7 +357,7 @@ namespace DAL
                 {
                     TerTypeInfoEntity tertype = new TerTypeInfoEntity();
                     tertype.Id = Convert.ToInt32(reader["id"]);
-                    tertype.TerTypeId = reader["TerTypeId"].ToString();
+                    tertype.TerTypeId = reader["TerTypeId"] != DBNull.Value ? Convert.ToInt32(reader["TerTypeId"]) : 0;
                     tertype.TerTypeName = reader["TerTypeName"] != DBNull.Value ? reader["TerTypeName"].ToString() : "";
                     tertype.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]).ToString(ConstValue.DateTimeFormat) : "";
                     lstType.Add(tertype);

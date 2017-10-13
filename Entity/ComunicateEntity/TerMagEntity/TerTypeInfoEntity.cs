@@ -7,9 +7,9 @@
         /// </summary>
         public int Id ;
         /// <summary>
-        /// 终端类型id,使用16进制格式,如00,01
+        /// 终端类型id
         /// </summary>
-        public string TerTypeId;
+        public int TerTypeId;
         /// <summary>
         /// 终端类型名称
         /// </summary>

@@ -13,9 +13,17 @@ namespace Entity
         /// </summary>
         public int DevId { get; set; }
         /// <summary>
-        /// 设备类型
+        /// 设备名称
+        /// </summary>
+        public string DevName { get; set; }
+        /// <summary>
+        /// 设备类型ID
         /// </summary>
         public ConstValue.DEV_TYPE DevType { get; set; }
+        /// <summary>
+        /// 设备类型名称
+        /// </summary>
+        public string DevTypeName { get; set; }
         /// <summary>
         /// 地址
         /// </summary>
