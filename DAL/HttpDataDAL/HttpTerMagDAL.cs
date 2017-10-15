@@ -137,7 +137,7 @@ namespace DAL
                     new SqlParameter("@modifytime",SqlDbType.DateTime),
                     new SqlParameter("@identify",SqlDbType.Int)
                 };
-                parmsinfo[7].Direction = ParameterDirection.Output;
+                parmsinfo[8].Direction = ParameterDirection.Output;
                 parmsinfo[0].Value = terinfo.DevId;
                 parmsinfo[1].Value = terinfo.DevType;
                 parmsinfo[2].Value = terinfo.DevName;
@@ -160,7 +160,7 @@ namespace DAL
 
                 if (terinfo.PicId != null && terinfo.PicId.Count > 0)
                 {
-                    long id = Convert.ToInt64(parmsinfo[7].Value);
+                    long id = Convert.ToInt64(parmsinfo[8].Value);
 
                     SqlParameter[] parmspic = new SqlParameter[]
                     {
@@ -328,7 +328,7 @@ namespace DAL
                         terinfo.DevId = Convert.ToInt32(reader["TerId"]);
                         terinfo.BreakdownId = Convert.ToInt32(reader["BreakdownId"]);
                         terinfo.Desc = reader["Desc"] != DBNull.Value ? reader["Desc"].ToString() : "";
-                        terinfo.RepairTime = reader["ModifyTime"].ToString();
+                        terinfo.RepairTime = reader["ModifyTime"]!=DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]).ToString(ConstValue.DateTImeFormatM) : "";
                         terinfo.UserId = Convert.ToInt64(reader["UserId"]);
                         terinfo.UserName = reader["UserName"].ToString();
                         
@@ -359,7 +359,7 @@ namespace DAL
                     tertype.Id = Convert.ToInt32(reader["id"]);
                     tertype.TerTypeId = reader["TerTypeId"] != DBNull.Value ? Convert.ToInt32(reader["TerTypeId"]) : 0;
                     tertype.TerTypeName = reader["TerTypeName"] != DBNull.Value ? reader["TerTypeName"].ToString() : "";
-                    tertype.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]).ToString(ConstValue.DateTimeFormat) : "";
+                    tertype.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]).ToString(ConstValue.DateTimeFormatS) : "";
                     lstType.Add(tertype);
                 }
             }
@@ -379,7 +379,7 @@ namespace DAL
                     tertype.Id = Convert.ToInt32(reader["id"]);
                     tertype.BreakdownId = reader["BreakdownId"].ToString();
                     tertype.BreakdownName = reader["BreakdownName"] != DBNull.Value ? reader["BreakdownName"].ToString() : "";
-                    tertype.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]).ToString(ConstValue.DateTimeFormat) : "";
+                    tertype.ModifyTime = reader["ModifyTime"] != DBNull.Value ? Convert.ToDateTime(reader["ModifyTime"]).ToString(ConstValue.DateTimeFormatS) : "";
                     lstType.Add(tertype);
                 }
             }

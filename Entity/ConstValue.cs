@@ -21,7 +21,8 @@ namespace Entity
 
         public static DateTime MinDateTime = new DateTime(2015, 1, 1, 0, 0, 0);
 
-        public static string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";   //时间格式化参数
+        public static string DateTimeFormatS = "yyyy-MM-dd HH:mm:ss";   //时间格式化参数(秒)
+        public static string DateTImeFormatM = "yyyy-MM-dd HH:mm";      //时间格式化参数(分)
 
         public static object obj = new object();
 

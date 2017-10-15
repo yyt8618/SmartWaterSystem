@@ -29,8 +29,8 @@ namespace BLL
                     resp.code = HttpRespCode.Success;
                     resp.msg = "登录成功";
                     resp.userid = userid.ToString();
-                    resp.maxtertypetime=termagbll.GetMaxTerTypeModifytime().ToString(ConstValue.DateTimeFormat);
-                    resp.maxbreakdowntime = termagbll.GetMaxBreakdownInfoModifytime().ToString(ConstValue.DateTimeFormat);
+                    resp.maxtertypetime=termagbll.GetMaxTerTypeModifytime().ToString(ConstValue.DateTimeFormatS);
+                    resp.maxbreakdowntime = termagbll.GetMaxBreakdownInfoModifytime().ToString(ConstValue.DateTimeFormatS);
                 }
                 else
                 {
