@@ -556,6 +556,7 @@ namespace GCGPRSService
                             if ((PackageDefine.MinLenth + len == arr.Length) && Package.TryParse(arr, out pack))//找到结束字符并且是完整一帧
                             {
                                 bool bNeedCheckTime = false;  //是否需要校时
+                                bool isUnixTicks = false;     //是否使用Unix时间戳格式
                                 List<Package> lstCommandPack = new List<Package>();
                                 Package response = new Package();
 
@@ -652,7 +653,7 @@ namespace GCGPRSService
                                     OnSendMsg(new SocketEventArgs(DateTime.Now.ToString() + " 收到帧数据"));
 #endif
                                     #region 解析数据
-                                    new Protol68().ProcData(state, pack, str_frame, out bNeedCheckTime);
+                                    new Protol68().ProcData(state, pack, str_frame, out bNeedCheckTime, out isUnixTicks);
                                     #endregion
 
                                     response.DevID = pack.DevID;
@@ -730,12 +731,21 @@ namespace GCGPRSService
                                         else
                                         {
                                             data = new byte[6];
-                                            data[0] = (byte)(DateTime.Now.Year - 2000);
-                                            data[1] = (byte)DateTime.Now.Month;
-                                            data[2] = (byte)DateTime.Now.Day;
-                                            data[3] = (byte)DateTime.Now.Hour;
-                                            data[4] = (byte)DateTime.Now.Minute;
-                                            data[5] = (byte)DateTime.Now.Second;
+                                            if (isUnixTicks)
+                                            {
+                                                Array.Copy(GetTimeTicks(), 0, data, 0, 4);
+                                                data[4] = 0xFF;
+                                                data[5] = 0xFF;
+                                            }
+                                            else
+                                            {
+                                                data[0] = (byte)(DateTime.Now.Year - 2000);
+                                                data[1] = (byte)DateTime.Now.Month;
+                                                data[2] = (byte)DateTime.Now.Day;
+                                                data[3] = (byte)DateTime.Now.Hour;
+                                                data[4] = (byte)DateTime.Now.Minute;
+                                                data[5] = (byte)DateTime.Now.Second;
+                                            }
                                             pack_time.DataLength = data.Length;
                                             pack_time.Data = data;
                                         }
@@ -2041,7 +2051,20 @@ namespace GCGPRSService
             {
             }
         }
+        
+        /// <summary>
+        /// 获取当前时间的Unix时间戳 byte[4]
+        /// </summary>
+        /// <returns></returns>
+        private byte[] GetTimeTicks()
+        {
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+            UInt32 secs = (UInt32)((DateTime.Now - startTime).TotalSeconds);
+            byte[] bs = BitConverter.GetBytes(secs);
+            Array.Reverse(bs);
 
+            return bs;
+        }
         void sqlmanager_SQLEvent(object sender, SQLNotifyEventArgs e)
         {
             if (e.SQLType == SQLType.InsertPreValue)

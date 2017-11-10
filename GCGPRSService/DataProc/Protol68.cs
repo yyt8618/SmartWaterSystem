@@ -10,9 +10,9 @@ namespace GCGPRSService
 {
     public class Protol68
     {
-        public void ProcData(StateObject state, Package pack, string str_frame, out bool bNeedCheckTime)
+        public void ProcData(StateObject state, Package pack, string str_frame, out bool bNeedCheckTime,out bool isUnixTicks)
         {
-            bNeedCheckTime = false;
+            bNeedCheckTime = false; isUnixTicks =false;
             float volvalue = -1;  //电压,如果是没有这个电压值的,赋值为-1，保存至数据库时根据-1保存空
             Int16 field_strength = -1; //场强(0-31,99表示没信号)
             object RectifyResult = null;//纠偏结果,null表示运算失败或者异常
@@ -76,7 +76,7 @@ namespace GCGPRSService
                     }
                     for (int i = 0; i < dataindex; i++)
                     {
-                        terdt = DealTime(pack.Data, i * 8 + 3);
+                        terdt = DealTime(pack.Data, i * 8 + 3, out isUnixTicks);
 
                         pressuevalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
                         RectifyResult = RectifyCalc(pack, out CalcExpress, pressuevalue.ToString());
@@ -211,7 +211,7 @@ namespace GCGPRSService
                     double forward_flowvalue = 0, reverse_flowvalue = 0, instant_flowvalue = 0;
                     for (int i = 0; i < dataindex; i++)
                     {
-                        terdt = DealTime(pack.Data, i * 18 + 3);
+                        terdt = DealTime(pack.Data, i * 18 + 3, out isUnixTicks);
 
                         if (!isBCD)
                         {
@@ -264,20 +264,20 @@ namespace GCGPRSService
                         volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 2], pack.Data[pack.DataLength - 3] }, 0)) / 1000;
                         field_strength = (Int16)pack.Data[pack.DataLength - 1];
                     }
-                    terdt = DealTime(pack.Data, 1);
+                    terdt = DealTime(pack.Data, 1, out isUnixTicks);
                     
                     Dictionary<int, string> dictalarms = null;
                     if (pack.DataLength == 11)      //pack.DataLength == 11 报警标志为2个字节(旧的为1个字节)
                     {
                         dictalarms = AlarmProc.GetAlarmName(GlobalValue.Instance.lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
                         
-                        terdt = DealTime(pack.Data, 2);
+                        terdt = DealTime(pack.Data, 2, out isUnixTicks);
                     }
                     else
                     {
                         dictalarms = AlarmProc.GetAlarmName(GlobalValue.Instance.lstAlarmType, pack.ID3, pack.C1, pack.Data[0]);
                         
-                        terdt = DealTime(pack.Data, 1);
+                        terdt = DealTime(pack.Data, 1, out isUnixTicks);
                     }
                     if (dictalarms != null && dictalarms.Count > 0)
                     {
@@ -377,7 +377,7 @@ namespace GCGPRSService
                         dataindex = (pack.DataLength - 2 - 1) / loopdatalen;
                         for (int i = 0; i < dataindex; i++)
                         {
-                            terdt = DealTime(pack.Data, i * loopdatalen + 3);
+                            terdt = DealTime(pack.Data, i * loopdatalen + 3, out isUnixTicks);
 
                             double range = 0;   //量程
                             range += BitConverter.ToInt16(new byte[] { pack.Data[i * loopdatalen + 10], pack.Data[i * loopdatalen + 9] }, 0);    //整数部分
@@ -464,7 +464,7 @@ namespace GCGPRSService
                         dataindex = (pack.DataLength - 2 - 1) / loopdatalen;
                         for (int i = 0; i < dataindex; i++)
                         {
-                            terdt = DealTime(pack.Data, i * loopdatalen + 3);
+                            terdt = DealTime(pack.Data, i * loopdatalen + 3, out isUnixTicks);
 
                             int freindex = 0;
                             for (int j = 0; j < waycount; j++)
@@ -577,7 +577,7 @@ namespace GCGPRSService
                         int partlen = pack.Data[3]; //部分数据长度
                         do
                         {
-                            terdt = DealTime(pack.Data, partindex);
+                            terdt = DealTime(pack.Data, partindex, out isUnixTicks);
 
                             if (partlen == 6 + 2)
                                 datavalue = BitConverter.ToInt16(new byte[] { pack.Data[partindex + 7], pack.Data[partindex + 6] }, 0);
@@ -627,6 +627,88 @@ namespace GCGPRSService
                     {
                         GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.UnResolve, "通用终端[" + pack.DevID + "]未配置数据帧解析规则,数据未能解析！"));
                     }
+                    #endregion
+                }
+                else if (pack.C1 == (byte)GPRS_READ.READ_RAINFALL)    //雨量数据
+                {
+                    #region 雨量
+                    int dataindex = (pack.DataLength - 3) % 8;
+                    if (dataindex != 0)
+                    {
+                        throw new ArgumentException(DateTime.Now.ToString() + " 帧数据长度[" + pack.DataLength + "]不符合(2+8*n+3)规则");
+                    }
+                    else
+                        dataindex = (pack.DataLength - 3) / 8;
+
+                    StringBuilder str_alarm = new StringBuilder();
+                    int preFlag = 0;
+                    
+                    GPRSPreFrameDataEntity framedata = new GPRSPreFrameDataEntity();
+                    framedata.TerId = pack.ID.ToString();
+                    framedata.ModifyTime = DateTime.Now;
+                    framedata.Frame = str_frame;
+                    
+                    float rainfallvalue = 0;
+                    volvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[pack.DataLength - 2], pack.Data[pack.DataLength - 3] }, 0)) / 1000;
+                    field_strength = (Int16)pack.Data[pack.DataLength - 1];
+
+                    for (int i = 0; i < dataindex; i++)
+                    {
+                        terdt = DealTime(pack.Data, i * 8,out isUnixTicks);
+
+                        rainfallvalue = BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 6], 0x00 }, 0);
+                        RectifyResult = RectifyCalc(pack, out CalcExpress, rainfallvalue.ToString());
+                        if (RectifyResult != null)  //运算失败
+                        {
+                            CalcExpress = "(计算式:" + CalcExpress + ")";
+                            rainfallvalue = Convert.ToSingle(RectifyResult);
+                        }
+                        else
+                        {
+                            CalcExpress = "";
+                        }
+                        GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.PreTer, string.Format("index({0})|{1}[{2}]|压力标志({3})|采集时间({4})|雨量值:{5}{6}|电压值:{7}V|信号强度:{8}",
+                            i, TerName, pack.ID, preFlag, terdt.ToString(), rainfallvalue, CalcExpress, volvalue, field_strength)));
+
+                        //GPRSPreDataEntity data = new GPRSPreDataEntity();
+                        //data.PreValue = rainfallvalue;
+                        //data.Voltage = volvalue;
+                        //data.FieldStrength = field_strength;
+                        //data.ColTime = terdt;
+                        bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(terdt);
+                        //framedata.lstPreData.Add(data);
+                    }
+
+                    //Dictionary<int, string> dictalarms = AlarmProc.GetAlarmName(GlobalValue.Instance.lstAlarmType, pack.ID3, pack.C1, pack.Data[1], pack.Data[0]);
+                    //if (dictalarms != null && dictalarms.Count > 0)
+                    //{
+                    //    GPRSAlarmFrameDataEntity alarmframedata = new GPRSAlarmFrameDataEntity();
+                    //    alarmframedata.Frame = str_frame;
+                    //    alarmframedata.TerId = pack.DevID.ToString();
+                    //    alarmframedata.TerminalType = TerType.PreTer;
+                    //    try
+                    //    {
+                    //        alarmframedata.ModifyTime = framedata.ModifyTime;  //报警时间使用统一时间,以便确定最后一次是正常还是报警的判断// new DateTime(year, month, day, hour, minute, sec);
+                    //    }
+                    //    catch { alarmframedata.ModifyTime = ConstValue.MinDateTime; }
+
+                    //    alarmframedata.AlarmId = new List<int>();
+                    //    foreach (var de in dictalarms)
+                    //    {
+                    //        alarmframedata.AlarmId.Add(de.Key);
+                    //        str_alarm.Append(de.Value + " ");
+
+                    //    }
+                    //    GlobalValue.Instance.SocketMag.OnSendMsg(new SocketEventArgs(ColorType.Alarm, string.Format("{0}[{1}] {2}",
+                    //        TerName, pack.ID, str_alarm)));
+
+                    //    GlobalValue.Instance.GPRS_AlarmFrameData.Enqueue(alarmframedata);
+                    //    GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertAlarm);
+                    //}
+
+                    GlobalValue.Instance.GPRS_PreFrameData.Enqueue(framedata);  //通知存储线程处理
+                    GlobalValue.Instance.SocketSQLMag.Send(SQLType.InsertPreValue);
+
                     #endregion
                 }
                 #endregion
@@ -701,7 +783,7 @@ namespace GCGPRSService
                             alarm += "流量器报警";
 
                         //发送时间(6bytes)+进口压力(2bytes)+出口压力(2bytes)+正向累积流量 (4bytes)+反向累积流量(4bytes)+瞬时流量(4bytes)+参数报警标识(1byte)+设备报警标识(1byte)
-                        terdt = DealTime(pack.Data, i*24);
+                        terdt = DealTime(pack.Data, i*24, out isUnixTicks);
 
                         //进口压力
                         float entrance_prevalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 24 + 7], pack.Data[i * 24 + 6] }, 0)) / 1000;
@@ -810,7 +892,7 @@ namespace GCGPRSService
 
                     for (int i = 0; i < dataindex; i++)
                     {
-                        terdt = DealTime(pack.Data, i * 8 + 3);
+                        terdt = DealTime(pack.Data, i * 8 + 3, out isUnixTicks);
 
                         value = (float)BitConverter.ToInt16(new byte[] { pack.Data[i * 8 + 10], pack.Data[i * 8 + 9] }, 0);
                         GPRSOLWQDataEntity data = new GPRSOLWQDataEntity();
@@ -891,7 +973,7 @@ namespace GCGPRSService
 
                     for (int i = 0; i < dataindex; i++)
                     {
-                        terdt = DealTime(pack.Data, i * 12 + 3);
+                        terdt = DealTime(pack.Data, i * 12 + 3, out isUnixTicks);
 
                         Condvalue = ((float)BitConverter.ToInt32(new byte[] { pack.Data[i * 12 + 12], pack.Data[i * 12 + 11], pack.Data[i * 12 + 10], pack.Data[i * 12 + 9] }, 0)) / 100;
                         Tempvalue = ((float)BitConverter.ToInt16(new byte[] { pack.Data[i * 12 + 14], pack.Data[i * 12 + 13] }, 0)) / 10;
@@ -967,7 +1049,7 @@ namespace GCGPRSService
                     else if (((pack.Data[0] & 0x20) >> 5) == 1)  //电导率报警
                         alarm += "电导率报警";
                     
-                    terdt = DealTime(pack.Data, 1);
+                    terdt = DealTime(pack.Data, 1, out isUnixTicks);
 
                     if (pack.DataLength == 9)   //pack.DataLength == 9 带电压值
                     {
@@ -991,7 +1073,7 @@ namespace GCGPRSService
                 framedata.ModifyTime = DateTime.Now;
                 framedata.Frame = str_frame;
                 
-                terdt = DealTime(pack.Data, 0);
+                terdt = DealTime(pack.Data, 0, out isUnixTicks);
 
                 GPRSHydrantDataEntity data = new GPRSHydrantDataEntity();
                 try
@@ -1248,6 +1330,7 @@ namespace GCGPRSService
                 }
                 #endregion
             }
+            
         }
 
         /// <summary>
@@ -1256,8 +1339,9 @@ namespace GCGPRSService
         /// <param name="bData"></param>
         /// <param name="startIndex"></param>
         /// <returns></returns>
-        private DateTime DealTime(byte[] bData, int startIndex)
+        private DateTime DealTime(byte[] bData, int startIndex,out bool isUnixTicks)
         {
+            isUnixTicks = false;
             try
             {
                 if (bData[startIndex + 4] == 0xff && bData[startIndex + 5] == 0xff)//时间戳格式
@@ -1268,6 +1352,9 @@ namespace GCGPRSService
                     long timeticks = BitConverter.ToUInt32(bs, 0);
                     DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                     DateTime dt= startTime.AddSeconds(Convert.ToDouble(timeticks));
+
+                    isUnixTicks = true;
+
                     return dt.AddSeconds(-1 * dt.Second);   //为了平台查下方便,秒不使用
                 }
                 else {
@@ -1282,7 +1369,7 @@ namespace GCGPRSService
                     return new DateTime(year, month, day, hour, minute, 0);  //为了平台查下方便,秒不使用
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 if (bData.Length < startIndex + 6)  //长度不够
                 {

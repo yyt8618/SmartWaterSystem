@@ -1632,6 +1632,10 @@ namespace Common
         /// 水厂PLC采集数据
         /// </summary>
         READ_WATERWORKSDATA = 0xA0,
+        /// <summary>
+        /// 雨量
+        /// </summary>
+        READ_RAINFALL= 0xB0,
     }
 
     public enum PRECTRL_COMMAND
