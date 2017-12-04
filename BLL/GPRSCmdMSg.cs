@@ -33,8 +33,15 @@ namespace BLL
                         break;
                     case UNIVERSAL_COMMAND.READ_TIME:
                     case UNIVERSAL_COMMAND.SET_TIME:
-                        DataDesc =(Convert.ToInt32(pack.Data[0]) + 2000) +"/"+ Convert.ToInt32(pack.Data[1])+"/"+Convert.ToInt32(pack.Data[2])+" "+
-                Convert.ToInt32(pack.Data[3]) + ":" + Convert.ToInt32(pack.Data[4]) + ":" + Convert.ToInt32(pack.Data[5]);
+                        if (pack.Data[4] == 0xFF && pack.Data[5] == 0xFF)
+                        {
+                            DataDesc = "时间戳格式时间";
+                        }
+                        else
+                        {
+                            DataDesc = (Convert.ToInt32(pack.Data[0]) + 2000) + "/" + Convert.ToInt32(pack.Data[1]) + "/" + Convert.ToInt32(pack.Data[2]) + " " +
+                    Convert.ToInt32(pack.Data[3]) + ":" + Convert.ToInt32(pack.Data[4]) + ":" + Convert.ToInt32(pack.Data[5]);
+                        }
                         break;
                     case UNIVERSAL_COMMAND.READ_CELLPHONE:
                     case UNIVERSAL_COMMAND.SET_CELLPHONE:

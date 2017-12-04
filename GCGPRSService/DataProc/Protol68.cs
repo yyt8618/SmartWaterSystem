@@ -98,7 +98,7 @@ namespace GCGPRSService
                         data.Voltage = volvalue;
                         data.FieldStrength = field_strength;
                         data.ColTime = terdt;
-                        bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(data.ColTime);
+                        bNeedCheckTime = GlobalValue.Instance.SocketMag.NeedCheckTime(terdt);  //不能使用data.ColTime,这是修正过的时间
                         framedata.lstPreData.Add(data);
                     }
 
